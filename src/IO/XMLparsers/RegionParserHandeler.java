@@ -8,10 +8,12 @@ import model.Region;
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -26,7 +28,7 @@ import java.util.List;
  * at this point this is being blindly developed from :
  * http://docs.oracle.com/javase/tutorial/jaxp/sax/parsing.html
  */
-public class RegionParser extends DefaultHandler
+public class RegionParserHandeler extends DefaultHandler
 {
   private List<Region> regionList;
   private Region tmpRegion;
@@ -46,7 +48,7 @@ public class RegionParser extends DefaultHandler
     if (qName.equals("area"))
     {
       tmpRegion = new Region();
-      System.out.println("starting area tag");
+      System.out.println("Starting area tag");
     }
     else if (qName.equals("name"))
     {
@@ -56,6 +58,8 @@ public class RegionParser extends DefaultHandler
     else if (qName.equals("vertex"))
     {
       System.out.println("encoutering Vertextag");
+      System.out.println("lat: " + atts.getValue("lat"));
+      System.out.println("lon: " + atts.getValue("lon"));
       vertexTag = true;
     }
   }
@@ -71,8 +75,29 @@ public class RegionParser extends DefaultHandler
 
   }
 
+  @Override
+  public void endElement(String uri, String localName, String qName) throws SAXException
+  {
+    super.endElement(uri, localName, qName);
+  }
 
-  //todo implemnt main and start testing....
+  //******//
+  // MAIN //
+  //******//
+  public static void main(String[] args)
+  {
+    String fileName = "assets/XML/regions/newMexicoTest.xml";
+    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+    try
+    {
+      SAXParser saxParser = saxParserFactory.newSAXParser();
+      RegionParserHandeler handler = new RegionParserHandeler();
+      saxParser.parse(new File(fileName), handler);
+    } catch (ParserConfigurationException | SAXException | IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
   private static String convertToFileURL(String filename)
   {
     String path = new File(filename).getAbsolutePath();
