@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="470c53f0-44c7-4528-b373-d0efbaf05129" name="Default" comment="adds benalillo to test XML data&#10;">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/areas/employTest.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IO/XMLparsers/RegionParserHandeler.java" afterPath="$PROJECT_DIR$/src/IO/XMLparsers/RegionParserHandeler.java" />
-    </list>
+    <list default="true" id="470c53f0-44c7-4528-b373-d0efbaf05129" name="Default" comment="adds benalillo to test XML data&#10;" />
     <ignored path="Phase_01.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
