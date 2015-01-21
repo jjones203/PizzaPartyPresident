@@ -30,10 +30,11 @@ public class RegionParserHandler extends DefaultHandler
   private List<Region> regionList = new ArrayList<>();
 
   private Region tmpRegion;
-  private List<MapPoint> tmpPerimeter;
+  private List<MapPoint> tmpPerimeterSet;
 
-  private boolean nameTag,
-      vertexTag;
+  private boolean nameTag;
+
+
 
 
   public List<Region> getRegionList()
@@ -56,28 +57,26 @@ public class RegionParserHandler extends DefaultHandler
     if (qName.equals("area"))
     {
       tmpRegion = new Region();
-      tmpPerimeter = new ArrayList<>();
+      tmpPerimeterSet = new ArrayList<>();
     }
     /*
      * sets flag to extract content of the same tag.
      */
-    else if (qName.equals("name"))
-    {
-      nameTag = true;
-    }
+    else if (qName.equals("name")) nameTag = true;
+
     /*
      * because the vertex tag only has atts and no content, we do not need
      * to set a flag as we did above.
      */
     else if (qName.equals("vertex"))
     {
-
       // TODO add error checking around these two attributes.
       double lat = Double.parseDouble(atts.getValue("lat"));
       double lon = Double.parseDouble(atts.getValue("lon"));
       MapPoint mapPoint = new MapPoint(lat, lon);
-      tmpPerimeter.add(mapPoint);
+      tmpPerimeterSet.add(mapPoint);
     }
+
   }
 
   @Override
@@ -97,7 +96,7 @@ public class RegionParserHandler extends DefaultHandler
     if (qName.equals("area"))
     {
       // save and reset....
-      tmpRegion.setPerimeter(tmpPerimeter);
+      tmpRegion.setPerimeter(tmpPerimeterSet);
       regionList.add(tmpRegion);
     }
   }
@@ -169,7 +168,7 @@ public class RegionParserHandler extends DefaultHandler
       System.out.println(region);
       for (MapPoint mp : region.getPerimeter())
       {
-        System.out.println(mp);
+        System.out.println("\t" + mp);
       }
     }
   }
