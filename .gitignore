@@ -12,4 +12,9 @@
 hs_err_pid*
 
 # IDE stuff
-.idea/*
+.idea/
+*.iml
+*.iws
+
+#mac stuff
+.DS_Store
