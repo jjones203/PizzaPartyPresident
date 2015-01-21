@@ -178,3 +178,8 @@ public class RegionParserHandler extends DefaultHandler
 
 //TODO make this more general so that it can be adapted to other attribut classes
 //todo researhc and add error checking.
+
+/* RESOURCES:
+http://www.saxproject.org/quickstart.html
+
+ */
