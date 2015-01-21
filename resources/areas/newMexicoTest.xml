@@ -30,4 +30,9 @@
         <vertex lat="35.687075" lon="-105.969077"></vertex>
     </area>
 
+    <area>
+        <name>abother person House</name>
+        <vertex lat="35.687075" lon="-105.969077"></vertex>
+    </area>
+
 </region>

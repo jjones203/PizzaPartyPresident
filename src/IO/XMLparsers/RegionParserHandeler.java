@@ -7,9 +7,7 @@ package IO.XMLparsers;
 import model.MapPoint;
 import model.Region;
 import org.xml.sax.Attributes;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,10 +15,11 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//todo clean up and add comments...
 
 /**
  * at this point this is being blindly developed from :
@@ -34,8 +33,7 @@ public class RegionParserHandeler extends DefaultHandler
   private List<MapPoint> tmpPreemeterSet;
 
   private boolean nameTag,
-                  vertexTag;
-
+      vertexTag;
 
 
   public List<Region> getRegionList()
@@ -48,23 +46,35 @@ public class RegionParserHandeler extends DefaultHandler
                            String localName,
                            String qName,
                            Attributes atts)
-          throws SAXException
+  throws SAXException
   {
 
+    /*
+     * entering a new area tag.
+     * re-init tmp objects:
+     *    1) tmpRegion
+     *    2) peremterSet
+     */
     if (qName.equals("area"))
     {
       tmpRegion = new Region();
       tmpPreemeterSet = new ArrayList<>();
-
-//      System.out.println("Starting area tag");
     }
+    /*
+     * sets flag to extract content of the same tag.
+     */
     else if (qName.equals("name"))
     {
-//      System.out.println("encoutering nameTage");
       nameTag = true;
     }
+    /*
+     * because the vertex tag only usese atts, we do not need
+     * to set a tag as we did above.
+     */
     else if (qName.equals("vertex"))
     {
+
+      // TODO add error checking around these two attributes.
       double lat = Double.parseDouble(atts.getValue("lat"));
       double lon = Double.parseDouble(atts.getValue("lon"));
       MapPoint mapPoint = new MapPoint(lat, lon);
@@ -83,15 +93,60 @@ public class RegionParserHandeler extends DefaultHandler
   }
 
   @Override
-  public void endElement(String uri, String localName, String qName) throws SAXException
+  public void endElement(String uri, String localName, String qName)
+  throws SAXException
   {
     if (qName.equals("area"))
     {
-//      System.out.println("add region to array and clean up");
+      // save and reset....
       tmpRegion.setPermineter(tmpPreemeterSet);
       regionList.add(tmpRegion);
     }
   }
+
+
+//  private static class MyErrorHandler implements ErrorHandler
+//  {
+//    private PrintStream out;
+//
+//    public MyErrorHandler(PrintStream out)
+//    {
+//      this.out = out;
+//    }
+//
+//    private String getParseExceptionInfo(SAXParseException spe)
+//    {
+//      String systemId = spe.getSystemId();
+//
+//      if (systemId == null)
+//      {
+//        systemId = "null";
+//      }
+//
+//      String info = "URI=" + systemId + " Line="
+//              + spe.getLineNumber() + ": " + spe.getMessage();
+//
+//      return info;
+//    }
+//
+//    public void warning(SAXParseException spe) throws SAXException
+//    {
+//      out.println("Warning: " + getParseExceptionInfo(spe));
+//    }
+//
+//    public void error(SAXParseException spe) throws SAXException
+//    {
+//      String message = "Error: " + getParseExceptionInfo(spe);
+//      throw new SAXException(message);
+//    }
+//
+//    public void fatalError(SAXParseException spe) throws SAXException
+//    {
+//      String message = "Fatal Error: " + getParseExceptionInfo(spe);
+//      throw new SAXException(message);
+//    }
+//  }
+
 
   //******//
   // MAIN //
@@ -120,49 +175,6 @@ public class RegionParserHandeler extends DefaultHandler
       }
     }
   }
-  private static class MyErrorHandler implements ErrorHandler
-  {
-    private PrintStream out;
-
-    public MyErrorHandler(PrintStream out)
-    {
-      this.out = out;
-    }
-
-    private String getParseExceptionInfo(SAXParseException spe)
-    {
-      String systemId = spe.getSystemId();
-
-      if (systemId == null)
-      {
-        systemId = "null";
-      }
-
-      String info = "URI=" + systemId + " Line="
-              + spe.getLineNumber() + ": " + spe.getMessage();
-
-      return info;
-    }
-
-    public void warning(SAXParseException spe) throws SAXException
-    {
-      out.println("Warning: " + getParseExceptionInfo(spe));
-    }
-
-    public void error(SAXParseException spe) throws SAXException
-    {
-      String message = "Error: " + getParseExceptionInfo(spe);
-      throw new SAXException(message);
-    }
-
-    public void fatalError(SAXParseException spe) throws SAXException
-    {
-      String message = "Fatal Error: " + getParseExceptionInfo(spe);
-      throw new SAXException(message);
-    }
-  }
-
-
 }
 
 
