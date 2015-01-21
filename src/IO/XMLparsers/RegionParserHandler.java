@@ -25,7 +25,7 @@ import java.util.List;
  * at this point this is being blindly developed from :
  * http://docs.oracle.com/javase/tutorial/jaxp/sax/parsing.html
  */
-public class RegionParserHandeler extends DefaultHandler
+public class RegionParserHandler extends DefaultHandler
 {
   private List<Region> regionList = new ArrayList<>();
 
@@ -42,10 +42,8 @@ public class RegionParserHandeler extends DefaultHandler
   }
 
   @Override
-  public void startElement(String namespaceURI,
-                           String localName,
-                           String qName,
-                           Attributes atts)
+  public void startElement(String namespaceURI, String localName,
+                           String qName, Attributes atts)
   throws SAXException
   {
 
@@ -155,7 +153,7 @@ public class RegionParserHandeler extends DefaultHandler
   {
     String fileName = "resources/areas/newMexicoTest.xml";
     SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-    RegionParserHandeler handler = new RegionParserHandeler();
+    RegionParserHandler handler = new RegionParserHandler();
     try
     {
       SAXParser saxParser = saxParserFactory.newSAXParser();
