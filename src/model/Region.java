@@ -1,16 +1,16 @@
 package model;
 
-import java.awt.*;
-import java.util.ArrayList;
+
+import java.util.List;
+
 
 /**
  * Created by winston on 1/20/15.
  */
 public class Region
 {
-  private ArrayList<Point> permineter;
+  private List<MapPoint> permineter;
   private String name;
-
 
   public String getName()
   {
@@ -22,13 +22,21 @@ public class Region
     this.name = name;
   }
 
-  public ArrayList<Point> getPermineter()
+  public List<MapPoint> getPermineter()
   {
     return permineter;
   }
 
-  public void setPermineter(ArrayList<Point> permineter)
+  public void setPermineter(List<MapPoint> permineter)
   {
     this.permineter = permineter;
+  }
+
+  @Override
+  public String toString()
+  {
+    return "Region{" +
+            "name='" + name + '\'' +
+            '}';
   }
 }

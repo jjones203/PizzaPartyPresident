@@ -4,6 +4,7 @@ package IO.XMLparsers;
  * Created by winston on 1/20/15.
  */
 
+import model.MapPoint;
 import model.Region;
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
@@ -19,6 +20,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
@@ -30,12 +32,18 @@ import java.util.List;
  */
 public class RegionParserHandeler extends DefaultHandler
 {
-  private List<Region> regionList;
+  private List<Region> regionList = new ArrayList<>();
+
   private Region tmpRegion;
-  private List<Point> tmpPreemeterSet;
+  private List<MapPoint> tmpPreemeterSet;
 
   private boolean nameTag,
           vertexTag;
+
+  public List<Region> getRegionList()
+  {
+    return regionList;
+  }
 
   @Override
   public void startElement(String namespaceURI,
@@ -48,6 +56,8 @@ public class RegionParserHandeler extends DefaultHandler
     if (qName.equals("area"))
     {
       tmpRegion = new Region();
+      tmpPreemeterSet = new ArrayList<>();
+
       System.out.println("Starting area tag");
     }
     else if (qName.equals("name"))
@@ -57,10 +67,10 @@ public class RegionParserHandeler extends DefaultHandler
     }
     else if (qName.equals("vertex"))
     {
-      System.out.println("encoutering Vertextag");
-      System.out.println("lat: " + atts.getValue("lat"));
-      System.out.println("lon: " + atts.getValue("lon"));
-      vertexTag = true;
+      double lat = Double.parseDouble(atts.getValue("lat"));
+      double lon = Double.parseDouble(atts.getValue("lon"));
+      MapPoint mapPoint = new MapPoint(lat, lon);
+      tmpPreemeterSet.add(mapPoint);
     }
   }
 
@@ -68,17 +78,22 @@ public class RegionParserHandeler extends DefaultHandler
   @Override
   public void characters(char[] ch, int start, int length) throws SAXException
   {
-    if (nameTag || vertexTag)
+    if (nameTag)
     {
-      System.out.println(new String(ch, start, length));
+      nameTag = false;
+      tmpRegion.setName(new String(ch, start, length));
     }
-
   }
 
   @Override
   public void endElement(String uri, String localName, String qName) throws SAXException
   {
-    super.endElement(uri, localName, qName);
+    if (qName.equals("area"))
+    {
+      System.out.println("add region to array and clean up");
+      tmpRegion.setPermineter(tmpPreemeterSet);
+      regionList.add(tmpRegion);
+    }
   }
 
   //******//
@@ -88,30 +103,40 @@ public class RegionParserHandeler extends DefaultHandler
   {
     String fileName = "assets/XML/regions/newMexicoTest.xml";
     SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+    RegionParserHandeler handler = new RegionParserHandeler();
     try
     {
       SAXParser saxParser = saxParserFactory.newSAXParser();
-      RegionParserHandeler handler = new RegionParserHandeler();
       saxParser.parse(new File(fileName), handler);
     } catch (ParserConfigurationException | SAXException | IOException e)
     {
       e.printStackTrace();
     }
-  }
-  private static String convertToFileURL(String filename)
-  {
-    String path = new File(filename).getAbsolutePath();
-    if (File.separatorChar != '/')
-    {
-      path = path.replace(File.separatorChar, '/');
-    }
 
-    if (!path.startsWith("/"))
+
+    for (Region region : handler.getRegionList())
     {
-      path = "/" + path;
+      System.out.println(region);
+      for (MapPoint mp : region.getPermineter())
+      {
+        System.out.println(mp);
+      }
     }
-    return "file:" + path;
   }
+//  private static String convertToFileURL(String filename)
+//  {
+//    String path = new File(filename).getAbsolutePath();
+//    if (File.separatorChar != '/')
+//    {
+//      path = path.replace(File.separatorChar, '/');
+//    }
+//
+//    if (!path.startsWith("/"))
+//    {
+//      path = "/" + path;
+//    }
+//    return "file:" + path;
+//  }
 
 
   private static class MyErrorHandler implements ErrorHandler
