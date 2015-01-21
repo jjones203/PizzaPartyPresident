@@ -6,23 +6,19 @@ package IO.XMLparsers;
 
 import model.MapPoint;
 import model.Region;
-import org.xml.sax.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.List;
 
 
@@ -38,7 +34,9 @@ public class RegionParserHandeler extends DefaultHandler
   private List<MapPoint> tmpPreemeterSet;
 
   private boolean nameTag,
-          vertexTag;
+                  vertexTag;
+
+
 
   public List<Region> getRegionList()
   {
@@ -58,11 +56,11 @@ public class RegionParserHandeler extends DefaultHandler
       tmpRegion = new Region();
       tmpPreemeterSet = new ArrayList<>();
 
-      System.out.println("Starting area tag");
+//      System.out.println("Starting area tag");
     }
     else if (qName.equals("name"))
     {
-      System.out.println("encoutering nameTage");
+//      System.out.println("encoutering nameTage");
       nameTag = true;
     }
     else if (qName.equals("vertex"))
@@ -73,7 +71,6 @@ public class RegionParserHandeler extends DefaultHandler
       tmpPreemeterSet.add(mapPoint);
     }
   }
-
 
   @Override
   public void characters(char[] ch, int start, int length) throws SAXException
@@ -90,7 +87,7 @@ public class RegionParserHandeler extends DefaultHandler
   {
     if (qName.equals("area"))
     {
-      System.out.println("add region to array and clean up");
+//      System.out.println("add region to array and clean up");
       tmpRegion.setPermineter(tmpPreemeterSet);
       regionList.add(tmpRegion);
     }
@@ -123,22 +120,6 @@ public class RegionParserHandeler extends DefaultHandler
       }
     }
   }
-//  private static String convertToFileURL(String filename)
-//  {
-//    String path = new File(filename).getAbsolutePath();
-//    if (File.separatorChar != '/')
-//    {
-//      path = path.replace(File.separatorChar, '/');
-//    }
-//
-//    if (!path.startsWith("/"))
-//    {
-//      path = "/" + path;
-//    }
-//    return "file:" + path;
-//  }
-
-
   private static class MyErrorHandler implements ErrorHandler
   {
     private PrintStream out;
