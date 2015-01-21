@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Region
 {
-  private List<MapPoint> permineter;
+  private List<MapPoint> perimeter;
   private String name;
 
   public String getName()
@@ -22,14 +22,14 @@ public class Region
     this.name = name;
   }
 
-  public List<MapPoint> getPermineter()
+  public List<MapPoint> getPerimeter()
   {
-    return permineter;
+    return perimeter;
   }
 
-  public void setPermineter(List<MapPoint> permineter)
+  public void setPerimeter(List<MapPoint> perimeter)
   {
-    this.permineter = permineter;
+    this.perimeter = perimeter;
   }
 
   @Override
