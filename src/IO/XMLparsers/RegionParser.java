@@ -4,11 +4,13 @@ package IO.XMLparsers;
  * Created by winston on 1/20/15.
  */
 
+import model.Region;
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.awt.*;
 import java.io.File;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
@@ -17,15 +19,21 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 
 
 /**
  * at this point this is being blindly developed from :
  * http://docs.oracle.com/javase/tutorial/jaxp/sax/parsing.html
  */
-public class XMLParser extends DefaultHandler
+public class RegionParser extends DefaultHandler
 {
-  private Hashtable tags;
+  private List<Region> regionList;
+  private Region tmpRegion;
+  private List<Point> tmpPreemeterSet;
+
+  private boolean nameTag,
+          vertexTag;
 
   @Override
   public void startElement(String namespaceURI,
@@ -35,34 +43,36 @@ public class XMLParser extends DefaultHandler
           throws SAXException
   {
 
-    String key = localName;
-    Object value = tags.get(key);
-
-    if (value == null)
+    if (qName.equals("area"))
     {
-      tags.put(key, new Integer(1));
+      tmpRegion = new Region();
+      System.out.println("starting area tag");
     }
-    else
+    else if (qName.equals("name"))
     {
-      int count = ((Integer) value).intValue();
-      count++;
-      tags.put(key, new Integer(count));
+      System.out.println("encoutering nameTage");
+      nameTag = true;
+    }
+    else if (qName.equals("vertex"))
+    {
+      System.out.println("encoutering Vertextag");
+      vertexTag = true;
     }
   }
+
 
   @Override
-  public void endDocument() throws SAXException
+  public void characters(char[] ch, int start, int length) throws SAXException
   {
-    Enumeration e = tags.keys();
-    while (e.hasMoreElements())
+    if (nameTag || vertexTag)
     {
-      String tag = (String) e.nextElement();
-      int count = ((Integer) tags.get(tag)).intValue();
-      System.out.println("Local Name \"" + tag + "\" occurs "
-              + count + " times");
+      System.out.println(new String(ch, start, length));
     }
+
   }
 
+
+  //todo implemnt main and start testing....
   private static String convertToFileURL(String filename)
   {
     String path = new File(filename).getAbsolutePath();
@@ -121,33 +131,6 @@ public class XMLParser extends DefaultHandler
     }
   }
 
-  public static void main(String[] args)
-          throws Exception
-  {
-    System.out.println("from XMLparser:");
-    String testingFile = "assets/XML/regions/employTest.xml";
 
-    XMLParser parser = new XMLParser();
-
-    SAXParserFactory spf = SAXParserFactory.newInstance();
-    spf.setNamespaceAware(true);
-    SAXParser saxParser = spf.newSAXParser();
-    XMLReader xmlReader = saxParser.getXMLReader();
-    xmlReader.setContentHandler(new XMLParser());
-    xmlReader.setErrorHandler(new MyErrorHandler(System.err));
-
-
-    String url = convertToFileURL(testingFile);
-
-    Path path = Paths.get(testingFile);
-
-    System.out.println(Files.readAllLines(path, Charset.defaultCharset()));
-
-//    String url = convertToFileURL(testingFile);
-
-    xmlReader.parse(testingFile);
-
-
-  }
 }
 

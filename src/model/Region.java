@@ -9,7 +9,18 @@ import java.util.ArrayList;
 public class Region
 {
   private ArrayList<Point> permineter;
+  private String name;
 
+
+  public String getName()
+  {
+    return name;
+  }
+
+  public void setName(String name)
+  {
+    this.name = name;
+  }
 
   public ArrayList<Point> getPermineter()
   {
