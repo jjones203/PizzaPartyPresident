@@ -98,7 +98,7 @@ public class RegionParserHandeler extends DefaultHandler
   //******//
   public static void main(String[] args)
   {
-    String fileName = "assets/XML/regions/newMexicoTest.xml";
+    String fileName = "resources/areas/newMexicoTest.xml";
     SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
     RegionParserHandeler handler = new RegionParserHandeler();
     try
