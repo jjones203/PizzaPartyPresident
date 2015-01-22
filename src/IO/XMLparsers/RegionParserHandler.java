@@ -9,6 +9,7 @@ import model.Region;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static IO.IOhelpers.convertToFileURL;
 
 
 //todo clean up and add comments...
@@ -101,6 +104,11 @@ public class RegionParserHandler extends DefaultHandler
   }
 
 
+
+
+
+
+
 //  private static class MyErrorHandler implements ErrorHandler
 //  {
 //    private PrintStream out;
@@ -147,40 +155,77 @@ public class RegionParserHandler extends DefaultHandler
   //******//
   // MAIN //
   //******//
+
+
   public static void main(String[] args)
   {
     String fileName = "resources/areas/newMexicoTest.xml";
-    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-    RegionParserHandler handler = new RegionParserHandler();
+
+    SAXParserFactory spf = SAXParserFactory.newInstance();
+    spf.setNamespaceAware(true);
+
+    RegionParserHandler handeler = new RegionParserHandler();
+
+    SAXParser saxParser = null;
+    XMLReader xmlReader = null;
     try
     {
-      SAXParser saxParser = saxParserFactory.newSAXParser();
-      saxParser.parse(new File(fileName), handler);
-    }
-    catch (org.xml.sax.SAXParseException e) // this seems to handle at least some basic formatting problems
-    {
-      System.out.println("Error for mistyped tag");
-      System.out.println(e.getLocalizedMessage());
-      System.out.println("look for mistake at line: " + e.getLineNumber());
-      System.out.println(e.getSystemId());
-      System.out.println();
+      saxParser = spf.newSAXParser();
+      xmlReader = saxParser.getXMLReader();
+
+      xmlReader.setContentHandler(handeler);
+      xmlReader.parse(convertToFileURL(fileName));
     }
     catch (ParserConfigurationException | SAXException | IOException e)
     {
       e.printStackTrace();
-      e.getCause();
     }
+    
 
 
-    for (Region region : handler.getRegionList())
+    List<Region> regions = handeler.getRegionList();
+
+    for (Region r : regions)
     {
-      System.out.println(region);
-      for (MapPoint mp : region.getPerimeter())
-      {
-        System.out.println("\t" + mp);
-      }
+      System.out.println(r);
     }
+
   }
+
+//  public static void main(String[] args)
+//  {
+//    String fileName = "resources/areas/newMexicoTest.xml";
+//    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+//    RegionParserHandler handler = new RegionParserHandler();
+//    try
+//    {
+//      SAXParser saxParser = saxParserFactory.newSAXParser();
+//      saxParser.parse(new File(fileName), handler);
+//    }
+//    catch (org.xml.sax.SAXParseException e) // this seems to handle at least some basic formatting problems
+//    {
+//      System.out.println("Error for mistyped tag");
+//      System.out.println(e.getLocalizedMessage());
+//      System.out.println("look for mistake at line: " + e.getLineNumber());
+//      System.out.println(e.getSystemId());
+//      System.out.println();
+//    }
+//    catch (ParserConfigurationException | SAXException | IOException e)
+//    {
+//      e.printStackTrace();
+//      e.getCause();
+//    }
+//
+//
+//    for (Region region : handler.getRegionList())
+//    {
+//      System.out.println(region);
+//      for (MapPoint mp : region.getPerimeter())
+//      {
+//        System.out.println("\t" + mp);
+//      }
+//    }
+//  }
 }
 
 
