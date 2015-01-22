@@ -156,9 +156,19 @@ public class RegionParserHandler extends DefaultHandler
     {
       SAXParser saxParser = saxParserFactory.newSAXParser();
       saxParser.parse(new File(fileName), handler);
-    } catch (ParserConfigurationException | SAXException | IOException e)
+    }
+    catch (org.xml.sax.SAXParseException e) // this seems to handle at least some basic formatting problems
+    {
+      System.out.println("Error for mistyped tag");
+      System.out.println(e.getLocalizedMessage());
+      System.out.println("look for mistake at line: " + e.getLineNumber());
+      System.out.println(e.getSystemId());
+      System.out.println();
+    }
+    catch (ParserConfigurationException | SAXException | IOException e)
     {
       e.printStackTrace();
+      e.getCause();
     }
 
 
