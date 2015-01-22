@@ -2,11 +2,12 @@ package IO.XMLparsers;
 
 /**
  * Created by winston on 1/20/15.
+ * ${PROJECT_NAME}
+ * CS 351 spring 2015
  */
 
 import model.MapPoint;
 import model.Region;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -15,20 +16,12 @@ import org.xml.sax.helpers.DefaultHandler;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static IO.IOhelpers.convertToFileURL;
 
-
-//todo clean up and add comments...
-
-/**
- * at this point this is being blindly developed from :
- * http://docs.oracle.com/javase/tutorial/jaxp/sax/parsing.html
- */
 public class RegionParserHandler extends DefaultHandler
 {
   private List<Region> regionList = new ArrayList<>();
@@ -56,27 +49,30 @@ public class RegionParserHandler extends DefaultHandler
      *    1) tmpRegion
      *    2) peremterSet
      */
-    if (qName.equals("area"))
+    switch (qName)
     {
-      tmpRegion = new Region();
-      tmpPerimeterSet = new ArrayList<>();
-    }
+      case "area":
+        tmpRegion = new Region();
+        tmpPerimeterSet = new ArrayList<>();
+        break;
     /*
      * sets flag to extract content of the same tag.
      */
-    else if (qName.equals("name")) nameTag = true;
+      case "name":
+        nameTag = true;
+        break;
 
     /*
      * because the vertex tag only has atts and no content, we do not need
      * to set a flag as we did above.
      */
-    else if (qName.equals("vertex"))
-    {
-      // TODO add error checking around these two attributes.
-      double lat = Double.parseDouble(atts.getValue("lat"));
-      double lon = Double.parseDouble(atts.getValue("lon"));
-      MapPoint mapPoint = new MapPoint(lat, lon);
-      tmpPerimeterSet.add(mapPoint);
+      case "vertex":
+        // TODO add error checking around these two attributes.
+        double lat = Double.parseDouble(atts.getValue("lat"));
+        double lon = Double.parseDouble(atts.getValue("lon"));
+        MapPoint mapPoint = new MapPoint(lat, lon);
+        tmpPerimeterSet.add(mapPoint);
+        break;
     }
 
   }
@@ -103,55 +99,6 @@ public class RegionParserHandler extends DefaultHandler
     }
   }
 
-
-
-
-
-
-
-//  private static class MyErrorHandler implements ErrorHandler
-//  {
-//    private PrintStream out;
-//
-//    public MyErrorHandler(PrintStream out)
-//    {
-//      this.out = out;
-//    }
-//
-//    private String getParseExceptionInfo(SAXParseException spe)
-//    {
-//      String systemId = spe.getSystemId();
-//
-//      if (systemId == null)
-//      {
-//        systemId = "null";
-//      }
-//
-//      String info = "URI=" + systemId + " Line="
-//              + spe.getLineNumber() + ": " + spe.getMessage();
-//
-//      return info;
-//    }
-//
-//    public void warning(SAXParseException spe) throws SAXException
-//    {
-//      out.println("Warning: " + getParseExceptionInfo(spe));
-//    }
-//
-//    public void error(SAXParseException spe) throws SAXException
-//    {
-//      String message = "Error: " + getParseExceptionInfo(spe);
-//      throw new SAXException(message);
-//    }
-//
-//    public void fatalError(SAXParseException spe) throws SAXException
-//    {
-//      String message = "Fatal Error: " + getParseExceptionInfo(spe);
-//      throw new SAXException(message);
-//    }
-//  }
-
-
   //******//
   // MAIN //
   //******//
@@ -164,7 +111,7 @@ public class RegionParserHandler extends DefaultHandler
     SAXParserFactory spf = SAXParserFactory.newInstance();
     spf.setNamespaceAware(true);
 
-    RegionParserHandler handeler = new RegionParserHandler();
+    RegionParserHandler handler = new RegionParserHandler();
 
     SAXParser saxParser = null;
     XMLReader xmlReader = null;
@@ -173,17 +120,16 @@ public class RegionParserHandler extends DefaultHandler
       saxParser = spf.newSAXParser();
       xmlReader = saxParser.getXMLReader();
 
-      xmlReader.setContentHandler(handeler);
+      xmlReader.setContentHandler(handler);
+      xmlReader.setErrorHandler(new RegionParserErrorHandeler());
       xmlReader.parse(convertToFileURL(fileName));
-    }
-    catch (ParserConfigurationException | SAXException | IOException e)
+    } catch (ParserConfigurationException | SAXException | IOException e)
     {
       e.printStackTrace();
     }
-    
 
 
-    List<Region> regions = handeler.getRegionList();
+    List<Region> regions = handler.getRegionList();
 
     for (Region r : regions)
     {
@@ -192,40 +138,6 @@ public class RegionParserHandler extends DefaultHandler
 
   }
 
-//  public static void main(String[] args)
-//  {
-//    String fileName = "resources/areas/newMexicoTest.xml";
-//    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-//    RegionParserHandler handler = new RegionParserHandler();
-//    try
-//    {
-//      SAXParser saxParser = saxParserFactory.newSAXParser();
-//      saxParser.parse(new File(fileName), handler);
-//    }
-//    catch (org.xml.sax.SAXParseException e) // this seems to handle at least some basic formatting problems
-//    {
-//      System.out.println("Error for mistyped tag");
-//      System.out.println(e.getLocalizedMessage());
-//      System.out.println("look for mistake at line: " + e.getLineNumber());
-//      System.out.println(e.getSystemId());
-//      System.out.println();
-//    }
-//    catch (ParserConfigurationException | SAXException | IOException e)
-//    {
-//      e.printStackTrace();
-//      e.getCause();
-//    }
-//
-//
-//    for (Region region : handler.getRegionList())
-//    {
-//      System.out.println(region);
-//      for (MapPoint mp : region.getPerimeter())
-//      {
-//        System.out.println("\t" + mp);
-//      }
-//    }
-//  }
 }
 
 
