@@ -6,6 +6,7 @@ package IO.XMLparsers;
 
 import model.MapPoint;
 import model.Region;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -33,8 +34,6 @@ public class RegionParserHandler extends DefaultHandler
   private List<MapPoint> tmpPerimeterSet;
 
   private boolean nameTag;
-
-
 
 
   public List<Region> getRegionList()
