@@ -1,4 +1,4 @@
-package gui.views;
+package gui;
 
 import model.MapPoint;
 import model.Region;
@@ -16,7 +16,7 @@ import java.util.Map;
 public abstract class MapConverter
 {
 
-  public Area regionToArea(Region r)
+  public Polygon regionToPolygon(Region r)
   {
     Polygon polygon = new Polygon();
     for (MapPoint mp : r.getPerimeter())
@@ -24,7 +24,7 @@ public abstract class MapConverter
       Point p = new Point(mapPointToPoint(mp));
       polygon.addPoint(p.x, p.y);
     }
-    return new Area(polygon);
+    return polygon;
   }
 
 
