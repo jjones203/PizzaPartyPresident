@@ -13,7 +13,7 @@ public class RegionAttributes
 
   public enum ATTS{
     PLANTING_ZONE,
-//    PERCENTAGE_CROPS,
+//    PERCENTAGE_CROPS, // this is a complex value?
     ANNUAL_RAINFALL,
     MONTHLY_RAINFALL,
     AVE_MONTH_TEMP_HI,
