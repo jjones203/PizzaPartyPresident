@@ -27,7 +27,8 @@ public class XMLeditor extends JFrame
   private boolean isEdited;
   private String currentFile;
   private RSyntaxTextArea textArea = new RSyntaxTextArea();
-  // this is probably unnessisary..
+
+  // this is probably unnessisary...
   private DocumentListener docListener = new DocumentListener()
   {
     @Override
@@ -67,14 +68,7 @@ public class XMLeditor extends JFrame
     setDefaultCloseOperation(EXIT_ON_CLOSE);
   }
 
-  public static void main(String[] args)
-  {
-    //to do, add thread safe stuff
-    XMLeditor editor = new XMLeditor();
-    editor.loadFile("resources/areas/newMexicoTest.xml");
-    editor.highlightLine(13);
-    editor.setVisible(true);
-  }
+
 
   private JPanel getControllPanel()
   {
@@ -154,6 +148,16 @@ public class XMLeditor extends JFrame
     {
       e.printStackTrace();
     }
+  }
+
+  
+  public static void main(String[] args)
+  {
+    //to do, add thread safe stuff
+    XMLeditor editor = new XMLeditor();
+    editor.loadFile("resources/areas/newMexicoTest.xml");
+    editor.highlightLine(13);
+    editor.setVisible(true);
   }
 }
 
