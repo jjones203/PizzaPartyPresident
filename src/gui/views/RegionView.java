@@ -12,8 +12,9 @@ import java.awt.geom.Area;
 public class RegionView
 {
   private Region region;
-  private MapPointerConverter converter = new MapPointerConverter();
+  private MapConverter converter; //set at class def.
   private Area area;
+
 
   public RegionView(Region region)
   {

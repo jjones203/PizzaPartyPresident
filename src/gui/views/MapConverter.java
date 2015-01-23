@@ -5,22 +5,20 @@ import model.Region;
 
 import java.awt.*;
 import java.awt.geom.Area;
+import java.util.Map;
 
 /**
  * Created by winston on 1/23/15.
  * Phase_01
- * CS 351 spring 2015
+ * class is used to convert between the model and the GUI
+ * for converting between lat lon =>  x, y and back
  */
-public class MapPointerConverter implements MapProjections
+public abstract class MapConverter
 {
-  /*
-   * defining a draft for an API of sorts...
-   */
 
   public Area regionToArea(Region r)
   {
     Polygon polygon = new Polygon();
-
     for (MapPoint mp : r.getPerimeter())
     {
       Point p = new Point(mapPointToPoint(mp));
@@ -29,8 +27,10 @@ public class MapPointerConverter implements MapProjections
     return new Area(polygon);
   }
 
-  private Point mapPointToPoint(MapPoint mp)
-  {
-    return null;
-  }
+
+  public abstract Point mapPointToPoint(MapPoint mp);
+
+
+  public abstract MapPoint pointToMapPoint(Point p);
+
 }
