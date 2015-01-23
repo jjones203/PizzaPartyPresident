@@ -9,6 +9,7 @@ import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 
@@ -21,13 +22,15 @@ import java.io.IOException;
  */
 public class XMLeditor extends JFrame
 {
+  private String currentFile;
   private RSyntaxTextArea textArea = new RSyntaxTextArea();
   private final static Color HILIGHT_ERROR = new Color(255, 141, 45, 140);
+  private final static Font EDITOR_FONT = new Font("Helvetica", Font.PLAIN, 16);
 
   public XMLeditor()
   {
 
-    textArea.setFont(new Font("Helvetica", Font.PLAIN, 16));
+    textArea.setFont(EDITOR_FONT);
     textArea.setAntiAliasingEnabled(true);
 
     textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
@@ -36,9 +39,28 @@ public class XMLeditor extends JFrame
     setTitle("XML editor");
     setLayout(new BorderLayout());
     add(scrollPane, BorderLayout.CENTER);
+    add(getControllPanel(), BorderLayout.SOUTH);
+
     setSize(500, 500);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
   }
+
+  private JPanel getControllPanel()
+  {
+    JPanel controlP = new JPanel();
+
+    JButton save = new JButton("Save");
+    JButton saveAs = new JButton("Save As");
+    JButton exit = new JButton("Exit");
+
+    controlP.add(save);
+    controlP.add(saveAs);
+    controlP.add(exit);
+
+    return controlP;
+  }
+
+
 
   public void highlightLine(int lnum)
   {
@@ -52,16 +74,31 @@ public class XMLeditor extends JFrame
     }
   }
 
-  public void loadFile(String file)
+  public void loadFile(String filename)
   {
     try
     {
-      FileReader reader = new FileReader(file);
+      FileReader reader = new FileReader(filename);
       textArea.read(reader, null);
-      reader.close();
-    } catch (FileNotFoundException e)
+      currentFile = filename;
+    }
+    catch (FileNotFoundException e)
     {
       e.printStackTrace();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  private void writeTo(String filename)
+  {
+    try
+    {
+      FileWriter writer = new FileWriter(filename);
+      textArea.write(writer);
+      writer.close();
     } catch (IOException e)
     {
       e.printStackTrace();
