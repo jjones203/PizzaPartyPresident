@@ -1,5 +1,6 @@
 package gui.xmleditor;
 
+import gui.ColorSchemes;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -22,7 +23,7 @@ import java.io.IOException;
  */
 public class XMLeditor extends JFrame
 {
-  private final static Color HILIGHT_ERROR = new Color(255, 141, 45, 140);
+  private final static Color HILIGHT_ERROR = ColorSchemes.XML_ERROR;
   private final static Font EDITOR_FONT = new Font("Helvetica", Font.PLAIN, 16);
   private boolean isEdited;
   private String currentFile;

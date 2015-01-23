@@ -1,7 +1,6 @@
 package gui.views;
 
-import gui.ColorScheme;
-import model.Region;
+import gui.ColorSchemes;
 
 import java.awt.*;
 
@@ -17,10 +16,10 @@ public class PassiveRegion implements RegionView
   {
     Polygon poly = gRegion.getPoly();
 
-    g.setColor(ColorScheme.PASSIVE_REGION);
+    g.setColor(ColorSchemes.PASSIVE_REGION);
     g.fillPolygon(poly);
 
-    g.setColor(ColorScheme.PASSIVE_REGION_OUTLINE);
+    g.setColor(ColorSchemes.PASSIVE_REGION_OUTLINE);
     g.drawPolygon(poly);
   }
 }

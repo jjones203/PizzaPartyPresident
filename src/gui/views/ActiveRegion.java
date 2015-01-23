@@ -1,6 +1,6 @@
 package gui.views;
 
-import gui.ColorScheme;
+import gui.ColorSchemes;
 
 import java.awt.*;
 
@@ -16,10 +16,10 @@ public class ActiveRegion implements RegionView
   public void draw(Graphics g, GUIRegion gRegion)
   {
     Polygon poly = gRegion.getPoly();
-    g.setColor(ColorScheme.ACTIVE_REGION);
+    g.setColor(ColorSchemes.ACTIVE_REGION);
     g.fillPolygon(poly);
 
-    g.setColor(ColorScheme.ACTIVE_REGION_OUTLINE);
+    g.setColor(ColorSchemes.ACTIVE_REGION_OUTLINE);
     g.drawPolygon(poly);
   }
 }
