@@ -5,10 +5,11 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,11 +22,33 @@ import java.io.IOException;
  */
 public class XMLeditor extends JFrame
 {
+  private final static Color HILIGHT_ERROR = new Color(255, 141, 45, 140);
+  private final static Font EDITOR_FONT = new Font("Helvetica", Font.PLAIN, 16);
   private boolean isEdited;
   private String currentFile;
   private RSyntaxTextArea textArea = new RSyntaxTextArea();
-  private final static Color HILIGHT_ERROR = new Color(255, 141, 45, 140);
-  private final static Font EDITOR_FONT = new Font("Helvetica", Font.PLAIN, 16);
+  // this is probably unnessisary..
+  private DocumentListener docListener = new DocumentListener()
+  {
+    @Override
+    public void insertUpdate(DocumentEvent e)
+    {
+
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e)
+    {
+
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e)
+    {
+      isEdited = true;
+      textArea.getDocument().removeDocumentListener(docListener);
+    }
+  };
 
   public XMLeditor()
   {
@@ -40,8 +63,17 @@ public class XMLeditor extends JFrame
     add(scrollPane, BorderLayout.CENTER);
     add(getControllPanel(), BorderLayout.SOUTH);
 
-    setSize(500, 500);
+    setSize(800, 700);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
+  }
+
+  public static void main(String[] args)
+  {
+    //to do, add thread safe stuff
+    XMLeditor editor = new XMLeditor();
+    editor.loadFile("resources/areas/newMexicoTest.xml");
+    editor.highlightLine(13);
+    editor.setVisible(true);
   }
 
   private JPanel getControllPanel()
@@ -58,19 +90,30 @@ public class XMLeditor extends JFrame
         /*remove highlight*/
       }
     });
+
     controlP.add(save);
 
     JButton saveAs = new JButton("Save As");
     controlP.add(saveAs);
 
     JButton exit = new JButton("Exit");
+    exit.addActionListener(new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        /*
+        if not isEdited -> dialogue: "are you sure you want to exit, file is not saved?"
+         */
+        dispose();
+        System.exit(0); // this is for testing only.
+      }
+    });
     controlP.add(exit);
 
 
     return controlP;
   }
-
-//todo add discard changes or revert text area has a discard metho.
 
   public void highlightLine(int lnum)
   {
@@ -90,9 +133,8 @@ public class XMLeditor extends JFrame
       FileReader reader = new FileReader(filename);
       textArea.read(reader, null);
       currentFile = filename;
-    } catch (FileNotFoundException e)
-    {
-      e.printStackTrace();
+      isEdited = false;
+      textArea.getDocument().addDocumentListener(docListener);
     } catch (IOException e)
     {
       e.printStackTrace();
@@ -106,19 +148,12 @@ public class XMLeditor extends JFrame
       FileWriter writer = new FileWriter(filename);
       textArea.write(writer);
       writer.close();
+      currentFile = filename;
+      isEdited = false;
     } catch (IOException e)
     {
       e.printStackTrace();
     }
-  }
-
-  public static void main(String[] args)
-  {
-    //to do, add thread safe stuff
-    XMLeditor editor = new XMLeditor();
-    editor.loadFile("resources/areas/newMexicoTest.xml");
-    editor.highlightLine(13);
-    editor.setVisible(true);
   }
 }
 
