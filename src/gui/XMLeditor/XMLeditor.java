@@ -7,12 +7,11 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-
 
 
 /**
@@ -22,6 +21,7 @@ import java.io.IOException;
  */
 public class XMLeditor extends JFrame
 {
+  private boolean isEdited;
   private String currentFile;
   private RSyntaxTextArea textArea = new RSyntaxTextArea();
   private final static Color HILIGHT_ERROR = new Color(255, 141, 45, 140);
@@ -29,7 +29,6 @@ public class XMLeditor extends JFrame
 
   public XMLeditor()
   {
-
     textArea.setFont(EDITOR_FONT);
     textArea.setAntiAliasingEnabled(true);
 
@@ -50,25 +49,35 @@ public class XMLeditor extends JFrame
     JPanel controlP = new JPanel();
 
     JButton save = new JButton("Save");
-    JButton saveAs = new JButton("Save As");
-    JButton exit = new JButton("Exit");
-
+    save.addActionListener(new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        writeTo(currentFile);
+        /*remove highlight*/
+      }
+    });
     controlP.add(save);
+
+    JButton saveAs = new JButton("Save As");
     controlP.add(saveAs);
+
+    JButton exit = new JButton("Exit");
     controlP.add(exit);
+
 
     return controlP;
   }
 
-
+//todo add discard changes or revert text area has a discard metho.
 
   public void highlightLine(int lnum)
   {
     try
     {
       textArea.addLineHighlight(lnum, HILIGHT_ERROR);
-    }
-    catch (BadLocationException e)
+    } catch (BadLocationException e)
     {
       e.printStackTrace();
     }
@@ -81,12 +90,10 @@ public class XMLeditor extends JFrame
       FileReader reader = new FileReader(filename);
       textArea.read(reader, null);
       currentFile = filename;
-    }
-    catch (FileNotFoundException e)
+    } catch (FileNotFoundException e)
     {
       e.printStackTrace();
-    }
-    catch (IOException e)
+    } catch (IOException e)
     {
       e.printStackTrace();
     }
@@ -114,3 +121,9 @@ public class XMLeditor extends JFrame
     editor.setVisible(true);
   }
 }
+
+
+/* TODO maybe implement the editor in such a way if there are a number of
+mistakes add the lines will be  highlighted. one file at a time.
+
+ */
