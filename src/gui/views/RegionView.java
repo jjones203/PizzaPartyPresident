@@ -1,7 +1,5 @@
 package gui.views;
 
-import model.Region;
-
 import java.awt.*;
 
 /**

@@ -6,6 +6,7 @@ package IO.XMLparsers;
  * CS 351 spring 2015
  */
 
+import model.AtomicRegion;
 import model.MapPoint;
 import model.Region;
 import org.xml.sax.Attributes;
@@ -52,7 +53,7 @@ public class RegionParserHandler extends DefaultHandler
     switch (qName)
     {
       case "area":
-        tmpRegion = new Region();
+        tmpRegion = new AtomicRegion();
         tmpPerimeterSet = new ArrayList<>();
         break;
     /*
