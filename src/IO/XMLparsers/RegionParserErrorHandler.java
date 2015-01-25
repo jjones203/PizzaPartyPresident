@@ -15,12 +15,6 @@ import javax.swing.*;
 public class RegionParserErrorHandler implements ErrorHandler
 {
   private XMLeditor editor;
-//  private RegionParserHandler handler;
-//
-//  public RegionParserErrorHandler(RegionParserHandler handler)
-//  {
-//    this.handler = handler;
-//  }
 
   @Override
   public void warning(SAXParseException exception) throws SAXException
@@ -43,19 +37,14 @@ public class RegionParserErrorHandler implements ErrorHandler
       editor.setSize(500, 700);
     }
 
-    System.out.println("fatal error generated");
     String fileName = exception.getSystemId();
     int lineNumber = exception.getLineNumber() - 1;
     String msg = exception.getLocalizedMessage();
 
     JOptionPane.showMessageDialog(null, msg);
 
-    System.out.println("linenumber: " + lineNumber);
-
     editor.loadFile(fileName.substring(5));
     editor.highlightLine(lineNumber);
     editor.setVisible(true);
-
-    System.out.println(msg);
   }
 }

@@ -10,12 +10,12 @@
     </area>
     <area>
         <name>Winston's House</name>
-        <vetex lat="35.687075" lon="-105.969077"></vertex>
+        <vetex lat="35.687075" lon="-105.969077" />
     </area>
 
     <area>
         <name>another persons House</name>
         <vertex lat="35.687075" lon="-105.969077"></vertex>
-    </rea>
+    </area>
 
 </region>

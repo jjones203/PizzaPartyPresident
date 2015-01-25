@@ -11,6 +11,7 @@ import model.MapPoint;
 import model.Region;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -81,8 +82,17 @@ public class RegionParserHandler extends DefaultHandler
      */
       case "vertex":
         // TODO add error checking around these two attributes.
-        double lat = Double.parseDouble(atts.getValue("lat"));
-        double lon = Double.parseDouble(atts.getValue("lon"));
+        double lat = 0;
+        double lon = 0;
+        try
+        {
+          lat = Double.parseDouble(atts.getValue("lat"));
+          lon = Double.parseDouble(atts.getValue("lon"));
+        } catch (NumberFormatException e)
+        {
+          // maybe do something here? dont know.
+          throw e;
+        }
         MapPoint mapPoint = new MapPoint(lat, lon);
         tmpPerimeterSet.add(mapPoint);
         break;
