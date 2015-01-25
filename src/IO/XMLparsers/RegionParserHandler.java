@@ -120,53 +120,7 @@ public class RegionParserHandler extends DefaultHandler
       regionList.add(tmpRegion);
     }
   }
-
-  //******//
-  // MAIN //
-  //******//
-
-
-  public static void main(String[] args)
-  {
-    String fileName = "resources/areas/newMexicoTest.xml";
-
-    SAXParserFactory spf = SAXParserFactory.newInstance();
-    spf.setNamespaceAware(true);
-
-    RegionParserHandler handler = new RegionParserHandler();
-
-    SAXParser saxParser = null;
-    XMLReader xmlReader = null;
-    try
-    {
-      saxParser = spf.newSAXParser();
-      xmlReader = saxParser.getXMLReader();
-
-      xmlReader.setContentHandler(handler);
-      xmlReader.setErrorHandler(new RegionParserErrorHandler());
-      xmlReader.parse(convertToFileURL(fileName));
-    } catch (ParserConfigurationException | SAXException | IOException e)
-    {
-      e.printStackTrace();
-    }
-
-
-    List<Region> regions = handler.getRegionList();
-
-    for (Region r : regions)
-    {
-      System.out.println(r);
-    }
-
-  }
-
+  
 }
 
 
-//TODO make this more general so that it can be adapted to other attribut classes
-//todo researhc and add error checking.
-
-/* RESOURCES:
-http://www.saxproject.org/quickstart.html
-
- */

@@ -2,12 +2,10 @@ package IO;
 
 import IO.XMLparsers.RegionParserErrorHandler;
 import IO.XMLparsers.RegionParserHandler;
-import gui.xmleditor.XMLeditor;
 import model.Region;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -67,7 +65,7 @@ public class AreaXMLloader
 
     for (String file : getFilesInDir(dirPath))
     {
-      regionList.addAll( parseFile(file));
+      regionList.addAll(parseFile(file));
     }
     return regionList;
   }
@@ -89,3 +87,9 @@ public class AreaXMLloader
     return handler.getRegionList();
   }
 }
+
+/* TODO rethink the error handeling implementation....
+    we also need to handel logical errors, regions with log at out of bounds...
+    and complex polygons, these error need to be able to triggler editing/saving
+    offending XML file, and then reparsing it.
+ */
