@@ -12,7 +12,14 @@ import org.xml.sax.SAXParseException;
  */
 public class RegionParserErrorHandler implements ErrorHandler
 {
-  XMLeditor editor;
+  private XMLeditor editor;
+//  private RegionParserHandler handler;
+//
+//  public RegionParserErrorHandler(RegionParserHandler handler)
+//  {
+//    this.handler = handler;
+//  }
+
   @Override
   public void warning(SAXParseException exception) throws SAXException
   {

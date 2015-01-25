@@ -12,9 +12,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static IO.IOhelpers.convertToFileURL;
+import static IO.IOhelpers.getFilesInDir;
 
 /**
  * Created by winston on 1/25/15.
@@ -60,8 +63,13 @@ public class AreaXMLloader
 
   public Collection<Region> getRegions()
   {
+    List<Region> regionList = new ArrayList<>();
 
-    return null;
+    for (String file : getFilesInDir(dirPath))
+    {
+      regionList.addAll( parseFile(file));
+    }
+    return regionList;
   }
 
   public Collection<Region> parseFile(String filePath)
@@ -75,10 +83,8 @@ public class AreaXMLloader
       System.exit(1);
     } catch (SAXException e)
     {
-//      e.printStackTrace();
-      System.out.println("Parsing Exception:");
-//      JOptionPane.showMessageDialog(null, "message");
-//      System.exit(1);
+      System.err.println("Parsing Exception:");
+      return parseFile(filePath);
     }
     return handler.getRegionList();
   }

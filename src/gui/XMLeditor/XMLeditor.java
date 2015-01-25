@@ -21,7 +21,7 @@ import java.io.IOException;
  * Phase_01
  * CS 351 spring 2015
  */
-public class XMLeditor extends JFrame
+public class XMLeditor extends JDialog
 {
   private final static Color HILIGHT_ERROR = ColorSchemes.XML_ERROR;
   private final static Font EDITOR_FONT = new Font("Helvetica", Font.PLAIN, 16);
@@ -54,19 +54,16 @@ public class XMLeditor extends JFrame
 
   public XMLeditor()
   {
+    setModal(true);
     textArea.setFont(EDITOR_FONT);
     textArea.setAntiAliasingEnabled(true);
 
     textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
     RTextScrollPane scrollPane = new RTextScrollPane(textArea);
 
-    setTitle("XML editor");
     setLayout(new BorderLayout());
     add(scrollPane, BorderLayout.CENTER);
     add(getControlPanel(), BorderLayout.SOUTH);
-
-    setSize(800, 700);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
   }
 
 
@@ -101,7 +98,7 @@ public class XMLeditor extends JFrame
         if not isEdited -> dialogue: "are you sure you want to exit, file is not saved?"
          */
         dispose();
-        System.exit(0); // this is for testing only.
+//        System.exit(0); // this is for testing only.
       }
     });
     controlP.add(exit);
@@ -154,10 +151,18 @@ public class XMLeditor extends JFrame
   
   public static void main(String[] args)
   {
+
+
+
     XMLeditor editor = new XMLeditor();
     editor.loadFile("resources/areas/newMexicoTest.xml");
     editor.highlightLine(13);
+    editor.setSize(700, 500);
     editor.setVisible(true);
+    editor.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+    JOptionPane.showConfirmDialog(null, "what the fuck");
+
   }
 }
 

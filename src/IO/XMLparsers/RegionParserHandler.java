@@ -19,23 +19,35 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static IO.IOhelpers.convertToFileURL;
 
 public class RegionParserHandler extends DefaultHandler
 {
-  private List<Region> regionList = new ArrayList<>();
-
+  private final List<Region> regionList;
   private Region tmpRegion;
   private List<MapPoint> tmpPerimeterSet;
-
   private boolean nameTag;
+
+  public RegionParserHandler()
+  {
+    regionList = new LinkedList<>();
+  }
 
 
   public List<Region> getRegionList()
   {
     return regionList;
+  }
+
+
+  @Override
+  public void startDocument() throws SAXException
+  {
+//    super.startDocument();
+    regionList.clear();
   }
 
   @Override

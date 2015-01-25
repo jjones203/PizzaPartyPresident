@@ -28,8 +28,9 @@ public class AreaXMLloaderTest
     }
 
     assert loader != null;
-    for (Region r : loader.parseFile("resources/areas/newMexicoTest.xml"))
+    for (Region r : loader.getRegions())
     {
+      System.out.print("from here: \n\t");
       System.out.println(r);
     }
   }
