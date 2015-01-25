@@ -1,5 +1,6 @@
 package IO.XMLparsers;
 
+import gui.xmleditor.XMLeditor;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -11,6 +12,7 @@ import org.xml.sax.SAXParseException;
  */
 public class RegionParserErrorHandler implements ErrorHandler
 {
+  XMLeditor editor;
   @Override
   public void warning(SAXParseException exception) throws SAXException
   {
@@ -26,10 +28,16 @@ public class RegionParserErrorHandler implements ErrorHandler
   @Override
   public void fatalError(SAXParseException exception) throws SAXException
   {
+    if (editor == null) editor = new XMLeditor();
+
     System.out.println("fatal error generated");
     String fileName = exception.getSystemId();
     int lineNumber = exception.getLineNumber();
     String msg = exception.getLocalizedMessage();
+
+    editor.loadFile(fileName.substring(5));
+    editor.highlightLine(lineNumber);
+    editor.setVisible(true);
 
     System.out.println(msg);
   }

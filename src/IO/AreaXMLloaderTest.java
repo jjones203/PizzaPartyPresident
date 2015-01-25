@@ -28,6 +28,9 @@ public class AreaXMLloaderTest
     }
 
     assert loader != null;
-    Collection<Region> regions = loader.parseFile("resources/areas/newMexicoTest.xml");
+    for (Region r : loader.parseFile("resources/areas/newMexicoTest.xml"))
+    {
+      System.out.println(r);
+    }
   }
 }

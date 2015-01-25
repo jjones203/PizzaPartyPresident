@@ -29,7 +29,6 @@ public class AreaXMLloader
 
   private XMLReader xmlReader;
 
-  private XMLeditor editor;
 
   public AreaXMLloader(String areaFolder)
   throws ParserConfigurationException, SAXException
@@ -49,7 +48,6 @@ public class AreaXMLloader
     this.errorHandler = errorHandler;
     this.dirPath = dirPath;
 
-    editor = new XMLeditor();
 
     SAXParserFactory spf = SAXParserFactory.newInstance();
     spf.setNamespaceAware(true);
@@ -79,8 +77,8 @@ public class AreaXMLloader
     {
 //      e.printStackTrace();
       System.out.println("Parsing Exception:");
-      JOptionPane.showMessageDialog(null, "message");
-      System.exit(1);
+//      JOptionPane.showMessageDialog(null, "message");
+//      System.exit(1);
     }
     return handler.getRegionList();
   }
