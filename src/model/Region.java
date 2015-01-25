@@ -16,4 +16,8 @@ public interface Region
   List<MapPoint> getPerimeter();
 
   void setPerimeter(List<MapPoint> perimeter);
+
+  public RegionAttributes getAttributes();
+
+  public void setAttributes(RegionAttributes attributes);
 }

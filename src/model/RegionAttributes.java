@@ -11,7 +11,8 @@ import java.util.Map;
 public class RegionAttributes
 {
 
-  public enum ATTS{
+  public enum PLANTING_ATTRIBUTES
+  {
     PLANTING_ZONE,
 //    PERCENTAGE_CROPS, // this is a complex value?
     ANNUAL_RAINFALL,
@@ -26,15 +27,15 @@ public class RegionAttributes
     SOIL_TYPE
   }
 
-  private HashMap<ATTS, Double> attSet = new HashMap<>();
+  private HashMap<PLANTING_ATTRIBUTES, Double> attSet = new HashMap<>();
   private HashMap<String, Double> crops = new HashMap<>();
 
-  public Double getAttribute(ATTS att)
+  public Double getAttribute(PLANTING_ATTRIBUTES att)
   {
     return attSet.get(att);
   }
 
-  public void setAttribute(ATTS att, double x)
+  public void setAttribute(PLANTING_ATTRIBUTES att, double x)
   {
     attSet.put(att, x);
   }
@@ -59,10 +60,10 @@ public class RegionAttributes
   public static void main(String[] args)
   {
     RegionAttributes atts = new RegionAttributes();
-    atts.setAttribute(ATTS.ANNUAL_RAINFALL, 34);
+    atts.setAttribute(PLANTING_ATTRIBUTES.ANNUAL_RAINFALL, 34);
 
-    System.out.println(atts.getAttribute(ATTS.ANNUAL_RAINFALL));
-    System.out.println(atts.getAttribute(ATTS.COST_OF_CROPS));
+    System.out.println(atts.getAttribute(PLANTING_ATTRIBUTES.ANNUAL_RAINFALL));
+    System.out.println(atts.getAttribute(PLANTING_ATTRIBUTES.COST_OF_CROPS));
 
     atts.addCrop("corn", 45.0);
     atts.addCrop("Guinness", 55);

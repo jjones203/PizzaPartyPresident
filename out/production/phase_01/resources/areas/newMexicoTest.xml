@@ -4,7 +4,7 @@
         <!-- The area below happens to mostly follow the actual -->
         <!-- political boundaries, but my guess is that the game-->
         <!-- configuration files will be mostly rectangular.    -->
-        <ame>Bernalillo County</name>
+        <name>Bernalillo County</name>
         <vertex lat="35.214910" lon="-106.244921"/>
         <vertex lat="34.953351" lon="-106.244234"/>
         <vertex lat="34.952788" lon="-106.150850"/>
