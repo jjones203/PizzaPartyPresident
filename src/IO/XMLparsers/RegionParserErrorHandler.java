@@ -5,6 +5,8 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import javax.swing.*;
+
 /**
  * Created by winston on 1/22/15.
  * Phase_01
@@ -35,12 +37,20 @@ public class RegionParserErrorHandler implements ErrorHandler
   @Override
   public void fatalError(SAXParseException exception) throws SAXException
   {
-    if (editor == null) editor = new XMLeditor();
+    if (editor == null)
+    {
+      editor = new XMLeditor();
+      editor.setSize(500, 700);
+    }
 
     System.out.println("fatal error generated");
     String fileName = exception.getSystemId();
-    int lineNumber = exception.getLineNumber();
+    int lineNumber = exception.getLineNumber() - 1;
     String msg = exception.getLocalizedMessage();
+
+    JOptionPane.showMessageDialog(null, msg);
+
+    System.out.println("linenumber: " + lineNumber);
 
     editor.loadFile(fileName.substring(5));
     editor.highlightLine(lineNumber);

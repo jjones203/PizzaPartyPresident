@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <region>
-    <aarea>
+    <area>
         <name>Santa Fe</name>
         <vertex lat="35.725985" lon="-105.983723"/>
         <vertex lat="35.725706" lon="-105.895832"/>
@@ -10,12 +10,12 @@
     </area>
     <area>
         <name>Winston's House</name>
-        <vertex lat="35.687075" lon="-105.969077"></vertex>
+        <vetex lat="35.687075" lon="-105.969077"></vertex>
     </area>
 
     <area>
         <name>another persons House</name>
         <vertex lat="35.687075" lon="-105.969077"></vertex>
-    </area>
+    </rea>
 
 </region>
