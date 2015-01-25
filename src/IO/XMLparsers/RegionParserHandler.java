@@ -90,7 +90,6 @@ public class RegionParserHandler extends DefaultHandler
           lon = Double.parseDouble(atts.getValue("lon"));
         } catch (NumberFormatException e)
         {
-          // maybe do something here? dont know.
           throw e;
         }
         MapPoint mapPoint = new MapPoint(lat, lon);
