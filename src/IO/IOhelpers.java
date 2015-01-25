@@ -1,6 +1,8 @@
 package IO;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by winston on 1/22/15.
@@ -30,5 +32,19 @@ public class IOhelpers
       path = "/" + path;
     }
     return "file:" + path;
+  }
+
+  public static List<String> getFilesInDir(String dirName)
+  {
+    File folder = new File(dirName);
+    if (!folder.isDirectory()) return null; //
+
+    List<String> files = new LinkedList<>();
+
+    for (File f : folder.listFiles())
+    {
+      if (!f.isHidden()) files.add(f.getPath());
+    }
+    return files;
   }
 }

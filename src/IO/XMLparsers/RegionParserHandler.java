@@ -122,7 +122,7 @@ public class RegionParserHandler extends DefaultHandler
       xmlReader = saxParser.getXMLReader();
 
       xmlReader.setContentHandler(handler);
-      xmlReader.setErrorHandler(new RegionParserErrorHandeler());
+      xmlReader.setErrorHandler(new RegionParserErrorHandler());
       xmlReader.parse(convertToFileURL(fileName));
     } catch (ParserConfigurationException | SAXException | IOException e)
     {

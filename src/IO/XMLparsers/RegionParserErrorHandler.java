@@ -9,7 +9,7 @@ import org.xml.sax.SAXParseException;
  * Phase_01
  * CS 351 spring 2015
  */
-public class RegionParserErrorHandeler implements ErrorHandler
+public class RegionParserErrorHandler implements ErrorHandler
 {
   @Override
   public void warning(SAXParseException exception) throws SAXException
