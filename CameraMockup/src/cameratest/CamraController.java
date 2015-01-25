@@ -36,9 +36,9 @@ public class CamraController extends KeyAdapter implements ActionListener
       isRIGHTdepressed,
       isSHIFTdepressed;
 
-  private Camera camer;
+  private CameraMockup camer;
 
-  public CamraController(Camera camer)
+  public CamraController(CameraMockup camer)
   {
     this.camer = camer;
     Timer timer = new Timer(5, this);
@@ -148,7 +148,7 @@ public class CamraController extends KeyAdapter implements ActionListener
 //      shapes.add(polys.genRandpolygon(12));
 //    }
 
-    Camera cam = new Camera(shapes);
+    CameraMockup cam = new CameraMockup(shapes);
 
     CamraController controller = new CamraController(cam);
 

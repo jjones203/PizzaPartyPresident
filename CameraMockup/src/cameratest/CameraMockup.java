@@ -9,14 +9,14 @@ import java.util.Collection;
  * CameraTest a basic proof of concept for a GUI camera that can zoom and pan.
  * CS 351 spring 2015
  */
-public class Camera extends JPanel
+public class CameraMockup extends JPanel
 {
   private Collection<Polygon> shapes;
   private double zoomLevel = .8;
   public final static double ZOOM_STEP = .02;
 
 
-  public Camera(Collection<Polygon> shaped)
+  public CameraMockup(Collection<Polygon> shaped)
   {
     this.shapes = shaped;
   }
