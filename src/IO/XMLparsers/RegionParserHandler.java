@@ -72,7 +72,6 @@ public class RegionParserHandler extends DefaultHandler
     {
       case "area":
         tmpRegion = new AtomicRegion();
-//        tmpPerimeterSet.clear();
         break;
     /*
      * sets flag to extract content of the same tag.
@@ -97,17 +96,14 @@ public class RegionParserHandler extends DefaultHandler
         {
           registerParsingProblem();
         }
-//        MapPoint mapPoint = new MapPoint(lat, lon);
+
         tmpPerimeterSet.add(new MapPoint(lat, lon));
         break;
-
-//      case "region":break;
-//      default:
-//        registerParsingProblem();
     }
 
   }
 
+  // todo refactor this method.
   private void registerParsingProblem() throws SAXException
   {
     SAXParseException exp;
