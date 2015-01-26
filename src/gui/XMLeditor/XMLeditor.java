@@ -64,6 +64,9 @@ public class XMLeditor extends JDialog
     setLayout(new BorderLayout());
     add(scrollPane, BorderLayout.CENTER);
     add(getControlPanel(), BorderLayout.SOUTH);
+
+    setSize(700, 500);
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
   }
 
 
@@ -79,14 +82,13 @@ public class XMLeditor extends JDialog
       public void actionPerformed(ActionEvent e)
       {
         writeTo(currentFile);
-        /*remove highlight*/
       }
     });
 
     controlP.add(save);
 
-    JButton saveAs = new JButton("Save As");
-    controlP.add(saveAs);
+//    JButton saveAs = new JButton("Save As");
+//    controlP.add(saveAs);
 
     JButton exit = new JButton("Exit");
     exit.addActionListener(new AbstractAction()
@@ -94,11 +96,7 @@ public class XMLeditor extends JDialog
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        /*
-        if not isEdited -> dialogue: "are you sure you want to exit, file is not saved?"
-         */
         dispose();
-//        System.exit(0); // this is for testing only.
       }
     });
     controlP.add(exit);
@@ -148,26 +146,11 @@ public class XMLeditor extends JDialog
     }
   }
 
-  
   public static void main(String[] args)
   {
-
-
-
     XMLeditor editor = new XMLeditor();
     editor.loadFile("resources/areas/newMexicoTest.xml");
     editor.highlightLine(13);
-    editor.setSize(700, 500);
     editor.setVisible(true);
-    editor.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-    JOptionPane.showConfirmDialog(null, "what the fuck");
-
   }
 }
-
-
-/* TODO maybe implement the editor in such a way if there are a number of
-mistakes add the lines will be  highlighted. one file at a time.
-
- */

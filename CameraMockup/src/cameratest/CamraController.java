@@ -141,12 +141,12 @@ public class CamraController extends KeyAdapter implements ActionListener
     shapes.add(p2);
 
 
-//    RandoPolygonGen polys = new RandoPolygonGen(1l, new Point(-800, -800), new Point(800, 800));
-//
-//    for (int i = 0; i < 100; i++)
-//    {
-//      shapes.add(polys.genRandpolygon(12));
-//    }
+    RandoPolygonGen polys = new RandoPolygonGen(1l, new Point(-800, -800), new Point(800, 800));
+
+    for (int i = 0; i < 100; i++)
+    {
+      shapes.add(polys.genRandpolygon(12));
+    }
 
     CameraMockup cam = new CameraMockup(shapes);
 

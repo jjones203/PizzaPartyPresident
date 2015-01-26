@@ -95,7 +95,7 @@ public class RegionParserHandler extends DefaultHandler
         } catch (Exception e)
         {
           /* TODO
-              push error handeling for
+              push error handeling HERE!
               1) null pointers
               2) Doulbe PArsing errors down here,
               move this out of the area XML loder.
