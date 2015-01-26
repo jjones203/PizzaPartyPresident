@@ -92,15 +92,17 @@ public class RegionParserHandler extends DefaultHandler
         {
           lat = Double.parseDouble(atts.getValue("lat"));
           lon = Double.parseDouble(atts.getValue("lon"));
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
+          System.out.println("ERROR inside vertex branch of" + this.getClass().getCanonicalName());
           /* TODO
               push error handeling HERE!
               1) null pointers
               2) Doulbe PArsing errors down here,
               move this out of the area XML loder.
            */
-          registerParsingProblem();
+//          registerParsingProblem();
         }
 
         tmpPerimeterSet.add(new MapPoint(lat, lon));

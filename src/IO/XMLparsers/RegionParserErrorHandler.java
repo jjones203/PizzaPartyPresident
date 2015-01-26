@@ -16,8 +16,6 @@ public class RegionParserErrorHandler implements ErrorHandler
 {
   private XMLeditor editor;
 
-
-
   @Override
   public void warning(SAXParseException exception) throws SAXException
   {
@@ -33,7 +31,7 @@ public class RegionParserErrorHandler implements ErrorHandler
   @Override
   public void fatalError(SAXParseException exception) throws SAXException
   {
-    System.out.println("DOES IT GET HERE?");
+    System.out.println("(!) FATAL ERROR IN: " + getClass().getCanonicalName());
     if (editor == null)
     {
       editor = new XMLeditor();
@@ -49,5 +47,11 @@ public class RegionParserErrorHandler implements ErrorHandler
     editor.loadFile(fileName.substring(5));
     editor.highlightLine(lineNumber);
     editor.setVisible(true);
+
+
+    /*
+    TODO try only setting member variables in the error parser when there is a problem,
+    then get those val out of the class in the context in which it is used.
+     */
   }
 }

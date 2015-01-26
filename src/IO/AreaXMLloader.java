@@ -5,14 +5,11 @@ import IO.XMLparsers.RegionParserHandler;
 import gui.xmleditor.XMLeditor;
 import model.Region;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
-import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +26,7 @@ import static IO.IOhelpers.getFilesInDir;
 public class AreaXMLloader
 {
   private RegionParserHandler handler;
-  private RegionParserErrorHandler errorHandler;
+  private RegionParserErrorHandler errorHandler; // todo use this to get the error information back!
   private String dirPath;
   private XMLeditor editor;
 
@@ -66,52 +63,44 @@ public class AreaXMLloader
   public Collection<Region> getRegions()
   {
     List<Region> regionList = new ArrayList<>();
+    List<String> filesToRead = getFilesInDir(dirPath);
+//    List<String> filesToIgnore = new ArrayList<>();
 
-    for (String file : getFilesInDir(dirPath))
+
+    while (!filesToRead.isEmpty())
     {
-      regionList.addAll(parseFile(file));
+      String currentFile = filesToRead.remove(0);
+      try
+      {
+        Collection<Region> tmpRegions = parseFile(currentFile);
+        regionList.addAll(tmpRegions);
+
+      } catch (SAXException e)
+      {
+        System.out.println("SAXEception error in" + this.getClass().getCanonicalName());
+        // TODO dialoge asking if the user wants to fix the file?
+        // if yes:
+        //    load XML editor
+        //    saveFile
+        //    add file to head of filesToReadlist.
+        e.printStackTrace();
+      } catch (IOException e)
+      {
+        // could not process file will ignore
+//        filesToIgnore.add(currentFile);
+        e.printStackTrace();
+      }
     }
+
+
     return regionList;
   }
 
-  //TODO move the error handeling outof here and let the context deal with it...
+
   public Collection<Region> parseFile(String filePath)
+  throws IOException, SAXException
   {
-    try
-    {
-      xmlReader.parse(convertToFileURL(filePath));
-    } catch (IOException e)
-    {
-      e.printStackTrace();
-      System.exit(1);
-    } catch (SAXException e)
-    {
-      System.err.println("Parsing Exception:");
-
-      if (editor == null)
-      {
-        editor = new XMLeditor();
-        editor.setSize(700, 500);
-      }
-      editor.loadFile(filePath);
-
-      // very weird hack to get the line number out of the message
-      // incredibly awkward!
-
-      int numPost = e.getLocalizedMessage().lastIndexOf(':');
-      if (numPost != -1)
-      {
-        String linenum = e.getLocalizedMessage()
-            .substring(e.getLocalizedMessage().lastIndexOf(':') + 1)
-            .trim();
-
-        editor.highlightLine(Integer.parseInt(linenum) - 1);
-      }
-
-      JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
-      editor.setVisible(true);
-      return parseFile(filePath);
-    }
+    xmlReader.parse(convertToFileURL(filePath));
     return handler.getRegionList();
   }
 }
