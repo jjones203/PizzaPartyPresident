@@ -94,6 +94,12 @@ public class RegionParserHandler extends DefaultHandler
           lon = Double.parseDouble(atts.getValue("lon"));
         } catch (Exception e)
         {
+          /* TODO
+              push error handeling for
+              1) null pointers
+              2) Doulbe PArsing errors down here,
+              move this out of the area XML loder.
+           */
           registerParsingProblem();
         }
 

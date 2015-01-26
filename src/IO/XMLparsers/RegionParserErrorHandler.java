@@ -16,6 +16,8 @@ public class RegionParserErrorHandler implements ErrorHandler
 {
   private XMLeditor editor;
 
+
+
   @Override
   public void warning(SAXParseException exception) throws SAXException
   {

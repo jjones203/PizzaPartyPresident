@@ -97,13 +97,17 @@ public class AreaXMLloader
 
       // very weird hack to get the line number out of the message
       // incredibly awkward!
-      String linenum = e.getLocalizedMessage()
-          .substring(e.getLocalizedMessage().lastIndexOf(':') + 1)
-          .trim();
 
+      int numPost = e.getLocalizedMessage().lastIndexOf(':');
+      if (numPost != -1)
+      {
+        String linenum = e.getLocalizedMessage()
+            .substring(e.getLocalizedMessage().lastIndexOf(':') + 1)
+            .trim();
 
+        editor.highlightLine(Integer.parseInt(linenum) - 1);
+      }
 
-      editor.highlightLine(Integer.parseInt(linenum) - 1);
       JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
       editor.setVisible(true);
       return parseFile(filePath);
