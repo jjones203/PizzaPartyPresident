@@ -2,7 +2,7 @@ package IO.XMLparsers;
 
 /**
  * Created by winston on 1/20/15.
- * ${PROJECT_NAME}
+ * phase 1
  * CS 351 spring 2015
  */
 
@@ -10,23 +10,19 @@ import model.AtomicRegion;
 import model.MapPoint;
 import model.Region;
 import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static IO.IOhelpers.convertToFileURL;
-
 public class RegionParserHandler extends DefaultHandler
 {
+  //TODO clean up object creation locations...
+  private Locator locator;
   private final List<Region> regionList;
   private Region tmpRegion;
   private List<MapPoint> tmpPerimeterSet;
@@ -35,6 +31,8 @@ public class RegionParserHandler extends DefaultHandler
   public RegionParserHandler()
   {
     regionList = new LinkedList<>();
+    tmpPerimeterSet = new LinkedList<>();
+    tmpRegion = null;
   }
 
 
@@ -45,10 +43,17 @@ public class RegionParserHandler extends DefaultHandler
 
 
   @Override
+  public void setDocumentLocator(Locator locator)
+  {
+    this.locator = locator;
+  }
+
+  @Override
   public void startDocument() throws SAXException
   {
-//    super.startDocument();
     regionList.clear();
+    tmpPerimeterSet.clear();
+    tmpRegion = null;
   }
 
   @Override
@@ -67,7 +72,7 @@ public class RegionParserHandler extends DefaultHandler
     {
       case "area":
         tmpRegion = new AtomicRegion();
-        tmpPerimeterSet = new ArrayList<>();
+//        tmpPerimeterSet.clear();
         break;
     /*
      * sets flag to extract content of the same tag.
@@ -88,15 +93,34 @@ public class RegionParserHandler extends DefaultHandler
         {
           lat = Double.parseDouble(atts.getValue("lat"));
           lon = Double.parseDouble(atts.getValue("lon"));
-        } catch (NumberFormatException e)
+        } catch (Exception e)
         {
-          throw e;
+          registerParsingProblem();
         }
-        MapPoint mapPoint = new MapPoint(lat, lon);
-        tmpPerimeterSet.add(mapPoint);
+//        MapPoint mapPoint = new MapPoint(lat, lon);
+        tmpPerimeterSet.add(new MapPoint(lat, lon));
         break;
+
+//      case "region":break;
+//      default:
+//        registerParsingProblem();
     }
 
+  }
+
+  private void registerParsingProblem() throws SAXException
+  {
+    SAXParseException exp;
+    if (locator != null)
+    {
+      System.out.println(locator.getLineNumber() + "locator was set!!!");
+      exp = new SAXParseException("(!) problem at line: " + locator.getLineNumber(), locator);
+    }
+    else
+    {
+      exp = new SAXParseException("(!) problem with vertex attribute.", null);
+    }
+    fatalError(exp);
   }
 
   @Override
@@ -116,11 +140,11 @@ public class RegionParserHandler extends DefaultHandler
     if (qName.equals("area"))
     {
       // save and reset....
-      tmpRegion.setPerimeter(tmpPerimeterSet);
+      tmpRegion.setPerimeter(new ArrayList<MapPoint>(tmpPerimeterSet));
       regionList.add(tmpRegion);
+      tmpPerimeterSet.clear();
     }
   }
-
 }
 
 

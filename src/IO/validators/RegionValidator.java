@@ -1,6 +1,5 @@
 package IO.validators;
 
-import IO.AreaXMLloader;
 import gui.MapConverter;
 import model.MapPoint;
 import model.Region;
@@ -9,7 +8,7 @@ import java.awt.geom.Area;
 
 /**
  * Created by winston on 1/25/15.
- * Phase_01
+ * Phase_01 Utility class to validate regions at load time.
  * CS 351 spring 2015
  */
 public class RegionValidator

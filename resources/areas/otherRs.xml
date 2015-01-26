@@ -8,14 +8,17 @@
         <vertex lat="35.611909" lon="-106.067837"/>
         <vertex lat="35.670222" lon="-105.984753"/>
     </area>
+
     <area>
-        <name>Winston's House</name>
-        <vetex lat="35.687075" lon="-105.969077" />
+        <name>WINSTON's House</name>
+        <vertex lat="12" lon="-44"/>
+        <vertex lat="2" lon="44"/>
+
     </area>
 
     <area>
         <name>another persons House</name>
-        <vertex lat="35.687075" lon="-105.969077"></vertex>
+        <vertex lat="35.687075" lon="-105.969077" />
     </area>
 
 </region>

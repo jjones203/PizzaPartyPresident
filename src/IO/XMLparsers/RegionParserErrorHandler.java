@@ -31,6 +31,7 @@ public class RegionParserErrorHandler implements ErrorHandler
   @Override
   public void fatalError(SAXParseException exception) throws SAXException
   {
+    System.out.println("DOES IT GET HERE?");
     if (editor == null)
     {
       editor = new XMLeditor();

@@ -1,5 +1,6 @@
 package IO;
 
+import model.MapPoint;
 import model.Region;
 import org.xml.sax.SAXException;
 
@@ -26,8 +27,12 @@ public class AreaXMLloaderTest
     assert loader != null;
     for (Region r : loader.getRegions())
     {
-      System.out.print("from here: \n\t");
       System.out.println(r);
+      for (MapPoint mp : r.getPerimeter())
+      {
+        System.out.println("\t" + mp);
+      }
+      System.out.println();
     }
   }
 }
