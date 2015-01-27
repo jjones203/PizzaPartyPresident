@@ -1,5 +1,6 @@
 package cameratest;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,11 +37,12 @@ public class CamraController extends KeyAdapter implements ActionListener
       isRIGHTdepressed,
       isSHIFTdepressed;
 
-  private CameraMockup camer;
+  private CameraMockup mockup;
 
   public CamraController(CameraMockup camer)
   {
-    this.camer = camer;
+
+    this.mockup = camer;
     Timer timer = new Timer(5, this);
     timer.start();
   }
@@ -50,18 +52,19 @@ public class CamraController extends KeyAdapter implements ActionListener
   {
     if (isDOWNdepressed && isSHIFTdepressed)
     {
-      camer.zoomOut(ZOOM_STEP);
+      mockup.zoomOut(ZOOM_STEP);
+      mockup.zoomIn(ZOOM_STEP);
       return;
     }
     if (isUPdepressed && isSHIFTdepressed)
     {
-      camer.zoomIn(ZOOM_STEP);
+      mockup.zoomIn(ZOOM_STEP);
       return;
     }
-    if (isDOWNdepressed)  camer.moveUp(CAMERA_STEP);
-    if (isUPdepressed)    camer.moveDown(CAMERA_STEP);
-    if (isLEFTdepressed)  camer.moveRight(CAMERA_STEP);
-    if (isRIGHTdepressed) camer.moveLeft(CAMERA_STEP);
+    if (isDOWNdepressed)  mockup.moveUp(CAMERA_STEP);
+    if (isUPdepressed)    mockup.moveDown(CAMERA_STEP);
+    if (isLEFTdepressed)  mockup.moveRight(CAMERA_STEP);
+    if (isRIGHTdepressed) mockup.moveLeft(CAMERA_STEP);
 
   }
 

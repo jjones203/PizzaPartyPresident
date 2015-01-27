@@ -6,6 +6,8 @@ import model.MapPoint;
 import model.Region;
 
 import java.awt.geom.Area;
+import java.awt.geom.Line2D;
+import java.util.List;
 
 /**
  * Created by winston on 1/25/15.
@@ -30,8 +32,11 @@ public class RegionValidator
     }
 
     //TODO make sure this is an adequate test...
+    /*
+     */
     return  new Area(converter.regionToPolygon(region)).isSingular() ;
   }
+
 
   private boolean isValidMapPoint(MapPoint mapPoint)
   {

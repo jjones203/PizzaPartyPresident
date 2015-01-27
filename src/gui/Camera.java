@@ -26,6 +26,8 @@ public class Camera
   {
     height = 0;
     location = new Point(x, y);
+    viewBounds = new Rectangle2D.Double();
+    updateViewBounds();
   }
 
   public Camera(Point p)
@@ -66,7 +68,7 @@ public class Camera
 
   public void translateRelativeToHeight(int dx, int dy)
   {
-    translate(dx * 1<<height, dy * 1<<height);
+    translate(dx * (1<<height), dy * (1<<height));
   }
 
   public void zoomIn(int zoomDiff)
@@ -97,5 +99,15 @@ public class Camera
   public Rectangle2D getViewBounds()
   {
     return viewBounds;
+  }
+
+  @Override
+  public String toString()
+  {
+    return "Camera{" +
+            "location=" + location +
+            ", viewBounds=" + viewBounds +
+            ", height=" + height +
+            '}';
   }
 }
