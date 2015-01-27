@@ -12,38 +12,17 @@ import java.util.LinkedList;
 public class Map
 {
   private Collection<Region> world;
-  private Collection<Region> selectedRegions;
 
   public Map()
   {
-    this(new ArrayList<Region>(), new LinkedList<Region>());
+    this(new ArrayList<Region>());
   }
 
-  public Map(Collection<Region> world, Collection<Region> selectedRegions)
+  public Map(Collection<Region> world)
   {
     this.world = world;
-    this.selectedRegions = selectedRegions;
   }
 
-  public Collection<Region> getSelectedRegions()
-  {
-    return selectedRegions;
-  }
-
-  public void addRegionToSelected(Region r)
-  {
-    selectedRegions.add(r);
-  }
-
-  public boolean deselect(Region r)
-  {
-    return selectedRegions.remove(r);
-  }
-
-  public void setSelectedRegions(Collection<Region> selectedRegions)
-  {
-    this.selectedRegions = selectedRegions;
-  }
 
   public Collection<Region> getWorld()
   {

@@ -16,6 +16,7 @@ public class GUIRegion
   private Region region;
   private MapConverter converter; //set at class def.
   private Area area;
+  private boolean isActive;
   private RegionView look;
   private Polygon poly;
 
@@ -24,6 +25,31 @@ public class GUIRegion
     this.region = region;
     this.converter = converter;
     this.look = look;
+  }
+
+  public boolean isActive()
+  {
+    return isActive;
+  }
+
+  public void setActive(boolean isActive)
+  {
+    this.isActive = isActive;
+  }
+
+  public RegionView getLook()
+  {
+    return look;
+  }
+
+  public void setLook(RegionView look)
+  {
+    this.look = look;
+  }
+
+  public String getName()
+  {
+    return region.getName();
   }
 
   public Polygon getPoly()

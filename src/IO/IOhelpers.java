@@ -37,7 +37,8 @@ public class IOhelpers
   public static List<String> getFilesInDir(String dirName)
   {
     File folder = new File(dirName);
-    if (!folder.isDirectory()) return null; //
+
+    if (!folder.isDirectory()) return null;
 
     List<String> files = new LinkedList<>();
 

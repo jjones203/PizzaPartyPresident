@@ -71,14 +71,15 @@ public class RegionParserHandler extends DefaultHandler
                            String qName, Attributes atts)
   throws SAXException
   {
+
+    switch (qName)
+    {
     /*
      * entering a new area tag.
      * re-init tmp objects:
      *    1) tmpRegion
      *    2) peremterSet
      */
-    switch (qName)
-    {
       case "area":
         tmpRegion = new AtomicRegion();
         break;
@@ -100,7 +101,8 @@ public class RegionParserHandler extends DefaultHandler
         {
           lat = Double.parseDouble(atts.getValue("lat"));
           lon = Double.parseDouble(atts.getValue("lon"));
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
           System.out.println(locator.getLineNumber());
           fatalError(new SAXParseException("Could not parse lat or lon.", locator));
@@ -108,8 +110,9 @@ public class RegionParserHandler extends DefaultHandler
         tmpPerimeterSet.add(new MapPoint(lat, lon));
         break;
 
-      case "region":  // no nothing, this is just a place holder tag.
+      case "region":  // no nothing, this is a just a containter tag.
         break;
+
       default:
         String msg = qName + "is not a recognized tag.";
         fatalError(new SAXParseException(msg, locator));

@@ -91,6 +91,16 @@ public class Camera
     return at;
   }
 
+
+  public int getHeight()
+  {
+    return height;
+  }
+
+  public Rectangle2D getViewBounds()
+  {
+    return viewBounds;
+  }
   @Override
   public String toString()
   {

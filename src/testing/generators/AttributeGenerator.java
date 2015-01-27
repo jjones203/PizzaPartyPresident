@@ -22,7 +22,7 @@ public class AttributeGenerator
     this.rand = rand;
   }
 
-  public RegionAttributes nextAttribute()
+  public RegionAttributes nextAttributeSet()
   {
     RegionAttributes atts = new RegionAttributes();
 
@@ -36,5 +36,14 @@ public class AttributeGenerator
       atts.addCrop(crop, 1.0 / crops.length);
     }
     return atts;
+  }
+
+  public static void main(String[] args)
+  {
+    long seed = 45;
+    AttributeGenerator attGen = new AttributeGenerator(new Random(seed));
+
+    System.out.println(attGen.nextAttributeSet());
+    System.out.println(attGen.nextAttributeSet());
   }
 }
