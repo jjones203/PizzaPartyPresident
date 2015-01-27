@@ -113,6 +113,10 @@ public class XMLeditor extends JDialog
     return controlP;
   }
 
+  /**
+   * Will hilight a line as an error.
+   * @param lnum line number
+   */
   public void highlightLine(int lnum)
   {
     try
@@ -125,6 +129,10 @@ public class XMLeditor extends JDialog
     }
   }
 
+  /**
+   * Will load a file into the editor
+   * @param filename  path of file.
+   */
   public void loadFile(String filename)
   {
     try
@@ -141,6 +149,10 @@ public class XMLeditor extends JDialog
     }
   }
 
+  /**
+   * saves the content of the editing frame to a file.
+   * @param filename file to overwrite or create.
+   */
   private void writeTo(String filename)
   {
     try
@@ -155,13 +167,5 @@ public class XMLeditor extends JDialog
     {
       e.printStackTrace();
     }
-  }
-
-  public static void main(String[] args)
-  {
-    XMLeditor editor = new XMLeditor();
-    editor.loadFile("resources/areas/newMexicoTest.xml");
-    editor.highlightLine(13);
-    editor.setVisible(true);
   }
 }
