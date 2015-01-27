@@ -1,5 +1,6 @@
 package IO.validators;
 
+import gui.EquirectangularConverter;
 import gui.MapConverter;
 import model.MapPoint;
 import model.Region;
@@ -13,7 +14,13 @@ import java.awt.geom.Area;
  */
 public class RegionValidator
 {
-  private MapConverter converter; // TODO init this somewhere
+  private MapConverter converter;
+
+
+  public RegionValidator(MapConverter converter)
+  {
+    this.converter = new EquirectangularConverter();
+  }
 
   public boolean isValid(Region region)
   {

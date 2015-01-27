@@ -9,5 +9,5 @@ import java.awt.*;
  */
 public interface RegionView
 {
-  public void draw(Graphics g, GUIRegion gRegion);
+  void draw(Graphics g, GUIRegion gRegion);
 }

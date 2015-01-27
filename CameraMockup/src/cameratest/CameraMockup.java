@@ -83,6 +83,7 @@ public class CameraMockup extends JPanel
     {
       g2d.draw(polygon);
 //      g2d.fill(polygon);
+
     }
 
   }
