@@ -16,6 +16,22 @@ public class GUIRegion
   private Region region;
   private MapConverter converter; //set at class def.
   private Area area;
+
+  public RegionView getLook()
+  {
+    return look;
+  }
+
+  public String getName()
+  {
+    return region.getName();
+  }
+
+  public void setLook(RegionView look)
+  {
+    this.look = look;
+  }
+
   private RegionView look;
   private Polygon poly;
 
