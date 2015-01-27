@@ -106,6 +106,8 @@ public class AreaXMLloader
           editor = new XMLeditor();
         }
 
+        // TODO change this to either a proper Dialogue box,
+        // or some info pane inside the editor.
         editor.setTitle("(!) " + e.getMessage());
 
         editor.loadFile(currentFile);

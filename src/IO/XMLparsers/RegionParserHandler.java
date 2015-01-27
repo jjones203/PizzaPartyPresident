@@ -94,7 +94,6 @@ public class RegionParserHandler extends DefaultHandler
      * to set a flag as we did above.
      */
       case "vertex":
-        // TODO add error checking around these two attributes.
         double lat = 0;
         double lon = 0;
         try
