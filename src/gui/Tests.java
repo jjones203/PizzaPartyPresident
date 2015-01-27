@@ -1,5 +1,9 @@
 package gui;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * @author david
  *         created: 2015-01-21
@@ -10,4 +14,9 @@ package gui;
  */
 public class Tests
 {
+
+  public static void main(String[] args)
+  {}
+
+
 }

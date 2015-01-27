@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.*;
 
 /**
  * Created by winston on 1/20/15.
@@ -14,6 +13,12 @@ public class MapPoint
   {
     this.lat = lat;
     this.lon = lon;
+  }
+
+  public MapPoint(MapPoint source)
+  {
+    this.lat = source.lat;
+    this.lon = source.lon;
   }
 
   public double getLat()

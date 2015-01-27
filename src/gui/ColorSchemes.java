@@ -7,7 +7,7 @@ import java.awt.*;
  * Phase_01
  * CS 351 spring 2015
  */
-public interface ColorSchemes
+public interface  ColorSchemes
 {
   Color ACTIVE_REGION = new Color(0xDEB564);
   Color ACTIVE_REGION_OUTLINE = new Color(0xE37956);

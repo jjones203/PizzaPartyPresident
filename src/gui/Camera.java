@@ -1,77 +1,94 @@
 package gui;
 
+
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 /**
- * @author david
- *         created: 2015-01-21
- *         <p/>
- *         description:
+
  */
 
-
-public class Camera extends MouseAdapter /* for now */
+public class Camera
 {
+  private static final int MAX_HEIGHT = 10;
+  private static final double ASPECT_RATIO = 2;
 
-  private static final double ASPECT_RATIO = 2d;
-  private static final double HEIGHT_DEFAULT = 1000; /* arbitrary */
+  private static final int VIEW_W = 1000;
+  private static final int VIEW_H = (int)(VIEW_W/ASPECT_RATIO);
 
-  /* 3D location: spherical coords */
-  private double height; /* in m */
-  private double lon; /* decimal degrees */
-  private double lat; /* decimal degrees */
+  private Point location;
+  private Rectangle2D viewBounds;
+  private int height;
 
-  /* defines visible rectangle in model-space, for polling from data */
-  private Rectangle2D.Double viewBounds;
 
-  /* buffer to draw to and/or return for rendering */
-  private BufferedImage view;
-
-  public Camera()
+  public Camera(int x, int y)
   {
-    viewBounds = new Rectangle2D.Double();
-    moveTo(0,0, HEIGHT_DEFAULT);
+    height = 0;
+    location = new Point(x, y);
   }
 
-  public void moveTo(Point2D p)
+  public Camera(Point p)
   {
-    moveTo(p.getX(), p.getY(), height);
+    this(p.x, p.y);
   }
 
-  public void moveTo(double lon, double lat, double height)
+  public void setLocation(int x, int y)
   {
-    this.lon = lon;
-    this.lat = lat;
+    location.setLocation(x,y);
+    updateViewBounds();
+  }
+
+  public void setHeight(int height)
+  {
+    /* ensure height is within bounds */
+    if (height > MAX_HEIGHT) height = MAX_HEIGHT;
+    else if (height < 0) height = 0;
     this.height = height;
     updateViewBounds();
   }
 
   private void updateViewBounds()
   {
+    int scale = 1 << height;
+    int width = VIEW_W * scale;
+    int height = VIEW_H * scale;
+    int x = location.x - width/2;
+    int y = location.y - height/2;
 
+    viewBounds.setFrame(x, y, width, height);
   }
 
-  public void translate(double dLon, double dLat)
+  public void translate(int dx, int dy)
   {
-    translate(dLon, dLat, 0);
+    setLocation(location.x + dx, location.y + dy);
   }
 
-  private void translate(double dLon, double dLat, double i)
+  public void translateRelativeToHeight(int dx, int dy)
   {
-    moveTo(lon + dLon, lat + dLat, height);
+    translate(dx * 1<<height, dy * 1<<height);
   }
 
-
-  public void renderView(Graphics2D g2)
+  public void zoomIn(int zoomDiff)
   {
-    /* get regions in viewBounds */
-
-
+    setHeight(height - zoomDiff);
   }
+
+  public void zoomOut(int zoomDiff)
+  {
+    setHeight(height + zoomDiff);
+  }
+
+  public AffineTransform getTransform()
+  {
+    AffineTransform at = new AffineTransform();
+    int scale = 1<<height;
+    at.translate(viewBounds.getX(), viewBounds.getY());
+    at.scale(scale, scale);
+    return at;
+  }
+
+
 
 
 }

@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author david
@@ -13,6 +14,14 @@ public class GameCanvas extends JPanel
 {
   private Camera cam;
 
+  public GameCanvas()
+  {
+  }
 
+  public GameCanvas(Camera cam)
+  {
+    this.cam = cam;
+    setSize(1000,800);
+  }
 
 }
