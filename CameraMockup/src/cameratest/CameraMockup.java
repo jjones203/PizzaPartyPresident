@@ -12,7 +12,7 @@ import java.util.Collection;
 public class CameraMockup extends JPanel
 {
   private Collection<Polygon> shapes;
-  private double zoomLevel = .8;
+  private double zoomLevel = .2;
   public final static double ZOOM_STEP = .02;
 
 

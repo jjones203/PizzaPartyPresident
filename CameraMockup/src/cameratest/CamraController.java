@@ -148,6 +148,9 @@ public class CamraController extends KeyAdapter implements ActionListener
       shapes.add(polys.genRandpolygon(12));
     }
 
+
+
+
     CameraMockup cam = new CameraMockup(shapes);
 
     CamraController controller = new CamraController(cam);
