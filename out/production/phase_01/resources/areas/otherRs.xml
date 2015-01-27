@@ -11,7 +11,7 @@
 
     <area>
         <name>WINSTON's House</name>
-        <vertex lat="12" lon="-44"/>
+        <vertx lat="12" lon="-44"/>
         <vertex lat="2" lon="44"/>
 
     </area>

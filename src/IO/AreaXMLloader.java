@@ -112,6 +112,7 @@ public class AreaXMLloader
 
         editor.loadFile(currentFile);
         editor.highlightLine(locator.getLineNumber() - 1);
+        editor.setCaretToline(locator.getLineNumber() - 1);
         editor.setVisible(true);
         //TODO make editor track an ignore setting or something of the like....
         // so that the user can ignore a file is they so choose.

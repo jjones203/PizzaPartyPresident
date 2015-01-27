@@ -129,6 +129,25 @@ public class XMLeditor extends JDialog
     }
   }
 
+  @Override
+  public void show(boolean b)
+  {
+    super.show(b);
+  }
+
+  /**
+   * Moves the Carret to the specifed line number
+   * @param lnum line number to move to.
+   */
+  public void setCaretToline(int lnum)
+  {
+    textArea.setCaretPosition( textArea.getDocument()
+            .getDefaultRootElement()
+            .getElement(lnum)
+            .getStartOffset()
+    );
+  }
+
   /**
    * Will load a file into the editor
    * @param filename  path of file.
