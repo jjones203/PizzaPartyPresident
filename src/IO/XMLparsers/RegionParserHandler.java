@@ -20,16 +20,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by winston on 1/25/15.
- * Phase_01
- * CS 351 spring 2015
- *
  * The class handles the parsing of the region data from XML into region objects.
  */
 public class RegionParserHandler extends DefaultHandler
 {
-  private final List<Region> regionList;
-  //TODO clean up object creation locations...
+  private List<Region> regionList;
   private Locator locator;
   private Region tmpRegion;
   private List<MapPoint> tmpPerimeterSet;
@@ -37,29 +32,26 @@ public class RegionParserHandler extends DefaultHandler
 
 
   /**
-   * Constructor for class.
-   * creates storage containers that will be used in parsing.
-   */
-  public RegionParserHandler()
-  {
-    regionList = new LinkedList<>();
-    tmpPerimeterSet = new LinkedList<>();
-    tmpRegion = null;
-  }
-
-  /**
    * The method is to be called AFTER this class has been used in parsing.
-   * @return
+   * Other wise this returns null. So check for null exceptions!
+   *
+   * @return list of regions from the last file parsed.
    */
   public List<Region> getRegionList()
   {
     return regionList;
   }
 
+  /**
+   * This is used to extract the line number from a parsing error
+   *
+   * @return Locator representing a location in file.
+   */
   public Locator getLocator()
   {
     return locator;
   }
+
 
   @Override
   public void setDocumentLocator(Locator locator)
@@ -70,9 +62,8 @@ public class RegionParserHandler extends DefaultHandler
   @Override
   public void startDocument() throws SAXException
   {
-    regionList.clear();
-    tmpPerimeterSet.clear();
-    tmpRegion = null;
+    regionList = new ArrayList<>();
+    tmpPerimeterSet = new LinkedList<>();
   }
 
   @Override
@@ -80,7 +71,6 @@ public class RegionParserHandler extends DefaultHandler
                            String qName, Attributes atts)
   throws SAXException
   {
-
     /*
      * entering a new area tag.
      * re-init tmp objects:
@@ -119,14 +109,12 @@ public class RegionParserHandler extends DefaultHandler
         tmpPerimeterSet.add(new MapPoint(lat, lon));
         break;
 
-      case "region":
-        // no nothing, this is just a place holder tag.
+      case "region":  // no nothing, this is just a place holder tag.
         break;
       default:
         String msg = qName + "is not a recognized tag.";
         fatalError(new SAXParseException(msg, locator));
     }
-
   }
 
 

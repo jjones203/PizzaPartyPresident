@@ -1,5 +1,11 @@
 package gui.xmleditor;
 
+/**
+ * Created by winston on 1/22/15.
+ * Phase_01
+ * CS 351 spring 2015
+ */
+
 import gui.ColorSchemes;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -17,9 +23,7 @@ import java.io.IOException;
 
 
 /**
- * Created by winston on 1/22/15.
- * Phase_01
- * CS 351 spring 2015
+ * User Interface for Editing XML files. This is a modal dialogue box
  */
 public class XMLeditor extends JDialog
 {
@@ -71,7 +75,6 @@ public class XMLeditor extends JDialog
   }
 
 
-
   private JPanel getControlPanel()
   {
     JPanel controlP = new JPanel();
@@ -88,6 +91,7 @@ public class XMLeditor extends JDialog
 
     controlP.add(save);
 
+    // TODO implement this so that the user can make a copy!
 //    JButton saveAs = new JButton("Save As");
 //    controlP.add(saveAs);
 
@@ -102,6 +106,9 @@ public class XMLeditor extends JDialog
     });
     controlP.add(exit);
 
+    /*TODO
+      and a mark as ignore button to specify files that will simply be excluded
+     */
 
     return controlP;
   }
@@ -111,7 +118,8 @@ public class XMLeditor extends JDialog
     try
     {
       textArea.addLineHighlight(lnum, HILIGHT_ERROR);
-    } catch (BadLocationException e)
+    }
+    catch (BadLocationException e)
     {
       e.printStackTrace();
     }
@@ -126,7 +134,8 @@ public class XMLeditor extends JDialog
       currentFile = filename;
       isEdited = false;
       textArea.getDocument().addDocumentListener(docListener);
-    } catch (IOException e)
+    }
+    catch (IOException e)
     {
       e.printStackTrace();
     }
@@ -141,7 +150,8 @@ public class XMLeditor extends JDialog
       writer.close();
       currentFile = filename;
       isEdited = false;
-    } catch (IOException e)
+    }
+    catch (IOException e)
     {
       e.printStackTrace();
     }

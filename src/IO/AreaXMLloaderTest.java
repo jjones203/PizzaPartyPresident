@@ -17,15 +17,16 @@ public class AreaXMLloaderTest
     }
     catch (ParserConfigurationException e)
     {
-      System.out.println("got here");
-//      e.printStackTrace();
+      System.err.println("ERROR IN CREATING XML LOADER");
+      e.printStackTrace();
     }
     catch (SAXException e)
     {
-//      e.printStackTrace();
+      System.err.println("ERROR IN CREATING XML LOADER");
+      e.printStackTrace();
     }
 
-    assert loader != null;
+
     for (Region r : loader.getRegions())
     {
       System.out.println(r);
