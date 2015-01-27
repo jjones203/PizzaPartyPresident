@@ -93,4 +93,9 @@ public class Camera
   {
     return height;
   }
+
+  public Rectangle2D getViewBounds()
+  {
+    return viewBounds;
+  }
 }

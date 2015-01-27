@@ -5,6 +5,7 @@ import gui.MapConverter;
 import model.Map;
 import model.Region;
 
+import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -63,8 +64,8 @@ public class MapView
     }
     else
     {
-      System.err.println("(!) Region: " + region.getName() + " not in " +
-                         "active regions set!");
+      System.err.println("(!) Region: " + region.getName() + " already in " +
+          "active regions set!");
     }
   }
 
@@ -78,17 +79,37 @@ public class MapView
     else
     {
       System.err.println("(!) attemted to deselect a region  " +
-                         "(" + region.getName() + ")" +
-                         "that was not in the active regions set");
+          "(" + region.getName() + ")" +
+          "that was not in the active regions set");
     }
   }
 
   public Collection<GUIRegion> getRegionsInview()
   {
-    Collection<GUIRegion> guiRegions = new LinkedList<>();
+    Collection<GUIRegion> regionsInview = new LinkedList<>();
     distance = calcDistance(camera);
 
-    return guiRegions;
+    Rectangle2D inViewBox = camera.getViewBounds();
+
+    for (GUIRegion guir : guiRegions)
+    {
+      if (guir.getPoly().intersects(inViewBox)) regionsInview.add(guir);
+    }
+
+    //TODO work on this logic, specifically how to view might or might not link together....
+//    switch (distance)
+//    {
+//      case CLOSE_UP:
+//        for (GUIRegion r : regionsInview)
+//        {
+//          if (activeRegions.contains(r))
+//          {
+//            r.setLook();
+//          }
+//        }
+//    }
+
+    return regionsInview;
   }
 
   private CAM_DISTANCE calcDistance(Camera camera)
