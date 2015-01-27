@@ -34,6 +34,9 @@ public class MapView
   private ActiveRegion activeRegionView = new ActiveRegion();
   private PassiveRegion passiveRegionView = new PassiveRegion();
 
+  private RegionView ActiveWithName = new RegionNameView(activeRegionView);
+  private RegionView PassiveWithName = new RegionNameView(passiveRegionView);
+
 
   public MapView(Map map, Camera camera, MapConverter mpConverter)
   {
@@ -91,11 +94,11 @@ public class MapView
         {
           if (r.isActive())
           {
-            r.setLook(new RegionNameView(activeRegionView));
+            r.setLook(ActiveWithName);
           }
           else
           {
-            r.setLook(new RegionNameView(passiveRegionView));
+            r.setLook(PassiveWithName);
           }
         }
     }

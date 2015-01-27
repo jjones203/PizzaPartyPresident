@@ -75,4 +75,9 @@ public class GUIRegion
   {
     look.draw(g, this);
   }
+
+  public Region getRegion()
+  {
+    return region;
+  }
 }
