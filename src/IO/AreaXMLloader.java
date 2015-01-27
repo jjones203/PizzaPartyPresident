@@ -1,6 +1,5 @@
 package IO;
 
-import IO.XMLparsers.RegionParserErrorHandler;
 import IO.XMLparsers.RegionParserHandler;
 import gui.xmleditor.XMLeditor;
 import model.Region;
