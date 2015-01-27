@@ -84,17 +84,21 @@ public class MapView
     }
 
     //TODO work on this logic, specifically how to view might or might not link together....
-//    switch (distance)
-//    {
-//      case CLOSE_UP:
-//        for (GUIRegion r : regionsInview)
-//        {
-//          if (activeRegions.contains(r))
-//          {
-//            r.setLook();
-//          }
-//        }
-//    }
+    switch (distance)
+    {
+      case CLOSE_UP:
+        for (GUIRegion r : regionsInview)
+        {
+          if (r.isActive())
+          {
+            r.setLook(new RegionNameView(activeRegionView));
+          }
+          else
+          {
+            r.setLook(new RegionNameView(passiveRegionView));
+          }
+        }
+    }
 
     return regionsInview;
   }

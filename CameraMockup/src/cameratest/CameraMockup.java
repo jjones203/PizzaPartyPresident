@@ -76,6 +76,8 @@ public class CameraMockup extends JPanel
 //        RenderingHints.VALUE_ANTIALIAS_ON
 //    );
 
+
+
     g2d.translate(getWidth() / 2, getHeight() / 2);
     g2d.scale(zoomLevel, zoomLevel);
 
