@@ -19,15 +19,27 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Created by winston on 1/25/15.
+ * Phase_01
+ * CS 351 spring 2015
+ *
+ * The class handles the parsing of the region data from XML into region objects.
+ */
 public class RegionParserHandler extends DefaultHandler
 {
+  private final List<Region> regionList;
   //TODO clean up object creation locations...
   private Locator locator;
-  private final List<Region> regionList;
   private Region tmpRegion;
   private List<MapPoint> tmpPerimeterSet;
   private boolean nameTag;
 
+
+  /**
+   * Constructor for class.
+   * creates storage containers that will be used in parsing.
+   */
   public RegionParserHandler()
   {
     regionList = new LinkedList<>();
@@ -35,7 +47,10 @@ public class RegionParserHandler extends DefaultHandler
     tmpRegion = null;
   }
 
-
+  /**
+   * The method is to be called AFTER this class has been used in parsing.
+   * @return
+   */
   public List<Region> getRegionList()
   {
     return regionList;
@@ -45,7 +60,6 @@ public class RegionParserHandler extends DefaultHandler
   {
     return locator;
   }
-
 
   @Override
   public void setDocumentLocator(Locator locator)
@@ -97,13 +111,20 @@ public class RegionParserHandler extends DefaultHandler
         {
           lat = Double.parseDouble(atts.getValue("lat"));
           lon = Double.parseDouble(atts.getValue("lon"));
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
+          System.out.println(locator.getLineNumber());
           fatalError(new SAXParseException("Could not parse lat or lon.", locator));
         }
         tmpPerimeterSet.add(new MapPoint(lat, lon));
         break;
+
+      case "region":
+        // no nothing, this is just a place holder tag.
+        break;
+      default:
+        String msg = qName + "is not a recognized tag.";
+        fatalError(new SAXParseException(msg, locator));
     }
 
   }

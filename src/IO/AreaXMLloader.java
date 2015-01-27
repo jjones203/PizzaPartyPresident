@@ -74,6 +74,7 @@ public class AreaXMLloader
         Locator locator = handler.getLocator();
         if (locator == null) //todo this should still call the editor just with out a line number. and nust use the above current line
         {
+          System.out.println();
           e.printStackTrace();
         }
 
@@ -98,8 +99,6 @@ public class AreaXMLloader
         e.printStackTrace();
       }
     }
-
-
     return regionList;
   }
 
@@ -111,9 +110,3 @@ public class AreaXMLloader
     return handler.getRegionList();
   }
 }
-
-/* TODO rethink the error handeling implementation....
-    we also need to handel logical errors, regions with log at out of bounds...
-    and complex polygons, these error need to be able to triggler editing/saving
-    offending XML file, and then reparsing it.
- */
