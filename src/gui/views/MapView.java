@@ -13,8 +13,16 @@ import java.util.Collection;
  */
 public class MapView
 {
+
+  enum CAM_DISTANCE
+  {
+    CLOSE_UP, MEDIUM, LONG
+  }
+
   private Map map;
   private Camera camera;
+
+  private CAM_DISTANCE distance;
 
   private ActiveRegion activeRegion = new ActiveRegion();
   private PassiveRegion passiveRegion = new PassiveRegion();
@@ -27,7 +35,15 @@ public class MapView
 
   public Collection<Region> getRegionsInview()
   {
+    distance = getDistance(camera);
+  }
+
+  private CAM_DISTANCE getDistance(Camera camera)
+  {
     int height = camera.getHeight();
+    if (height < 3) return CAM_DISTANCE.CLOSE_UP;
+    else if (height < 6) return CAM_DISTANCE.MEDIUM;
+    else return CAM_DISTANCE.LONG;
   }
 
 }
