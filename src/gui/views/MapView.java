@@ -13,6 +13,8 @@ import java.util.LinkedList;
  * Created by winston on 1/27/15.
  * Phase_01
  * CS 351 spring 2015
+ *
+ * Manages how the regions are displayed and rendered.
  */
 public class MapView
 {
@@ -28,7 +30,6 @@ public class MapView
 
   private CAM_DISTANCE distance;
   private Collection<GUIRegion> guiRegions;
-  private Collection<GUIRegion> activeRegions; //Todo thinking about remving the idea of active from the model.
 
   private ActiveRegion activeRegionView = new ActiveRegion();
   private PassiveRegion passiveRegionView = new PassiveRegion();
@@ -57,31 +58,12 @@ public class MapView
 
   public void markRegionActive(GUIRegion region)
   {
-    if (!activeRegions.contains(region))
-    {
-      region.setLook(activeRegionView);
-      activeRegions.add(region);
-    }
-    else
-    {
-      System.err.println("(!) Region: " + region.getName() + " already in " +
-          "active regions set!");
-    }
+    region.setActive(true);
   }
 
   public void deselectActiveRegion(GUIRegion region)
   {
-    if (activeRegions.contains(region))
-    {
-      region.setLook(passiveRegionView);
-      activeRegions.remove(region);
-    }
-    else
-    {
-      System.err.println("(!) attemted to deselect a region  " +
-          "(" + region.getName() + ")" +
-          "that was not in the active regions set");
-    }
+    region.setActive(false);
   }
 
   public Collection<GUIRegion> getRegionsInview()
@@ -94,6 +76,11 @@ public class MapView
     for (GUIRegion guir : guiRegions)
     {
       if (guir.getPoly().intersects(inViewBox)) regionsInview.add(guir);
+    }
+
+    for (GUIRegion guir : regionsInview)
+    {
+      if (guir.isActive()) guir.setLook(activeRegionView);
     }
 
     //TODO work on this logic, specifically how to view might or might not link together....

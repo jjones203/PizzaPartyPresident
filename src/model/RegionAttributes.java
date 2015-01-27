@@ -57,6 +57,15 @@ public class RegionAttributes
   }
 
 
+  @Override
+  public String toString()
+  {
+    return "RegionAttributes{" +
+        "attSet=" + attSet +
+        ", crops=" + crops +
+        '}';
+  }
+
   public static void main(String[] args)
   {
     RegionAttributes atts = new RegionAttributes();
@@ -75,6 +84,8 @@ public class RegionAttributes
       double p = atts.getCropP(name);
       System.out.println(name + " at %" + p);
     }
+
+    System.out.println(atts);
 
   }
 
