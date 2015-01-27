@@ -89,6 +89,8 @@ public class Camera
   }
 
 
-
-
+  public int getHeight()
+  {
+    return height;
+  }
 }
