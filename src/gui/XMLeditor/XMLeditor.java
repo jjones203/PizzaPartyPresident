@@ -1,5 +1,11 @@
 package gui.xmleditor;
 
+/**
+ * Created by winston on 1/22/15.
+ * Phase_01
+ * CS 351 spring 2015
+ */
+
 import gui.ColorSchemes;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -17,11 +23,9 @@ import java.io.IOException;
 
 
 /**
- * Created by winston on 1/22/15.
- * Phase_01
- * CS 351 spring 2015
+ * User Interface for Editing XML files. This is a modal dialogue box
  */
-public class XMLeditor extends JFrame
+public class XMLeditor extends JDialog
 {
   private final static Color HILIGHT_ERROR = ColorSchemes.XML_ERROR;
   private final static Font EDITOR_FONT = new Font("Helvetica", Font.PLAIN, 16);
@@ -54,21 +58,21 @@ public class XMLeditor extends JFrame
 
   public XMLeditor()
   {
+    setModal(true);
     textArea.setFont(EDITOR_FONT);
     textArea.setAntiAliasingEnabled(true);
 
     textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
     RTextScrollPane scrollPane = new RTextScrollPane(textArea);
 
-    setTitle("XML editor");
     setLayout(new BorderLayout());
     add(scrollPane, BorderLayout.CENTER);
     add(getControlPanel(), BorderLayout.SOUTH);
 
-    setSize(800, 700);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
+    setSize(700, 500);
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    setMinimumSize(new Dimension(400, 300));
   }
-
 
 
   private JPanel getControlPanel()
@@ -82,14 +86,14 @@ public class XMLeditor extends JFrame
       public void actionPerformed(ActionEvent e)
       {
         writeTo(currentFile);
-        /*remove highlight*/
       }
     });
 
     controlP.add(save);
 
-    JButton saveAs = new JButton("Save As");
-    controlP.add(saveAs);
+    // TODO implement this so that the user can make a copy!
+//    JButton saveAs = new JButton("Save As");
+//    controlP.add(saveAs);
 
     JButton exit = new JButton("Exit");
     exit.addActionListener(new AbstractAction()
@@ -97,30 +101,57 @@ public class XMLeditor extends JFrame
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        /*
-        if not isEdited -> dialogue: "are you sure you want to exit, file is not saved?"
-         */
         dispose();
-        System.exit(0); // this is for testing only.
       }
     });
     controlP.add(exit);
 
+    /*TODO
+      and a mark as ignore button to specify files that will simply be excluded
+     */
 
     return controlP;
   }
 
+  /**
+   * Will hilight a line as an error.
+   * @param lnum line number
+   */
   public void highlightLine(int lnum)
   {
     try
     {
       textArea.addLineHighlight(lnum, HILIGHT_ERROR);
-    } catch (BadLocationException e)
+    }
+    catch (BadLocationException e)
     {
       e.printStackTrace();
     }
   }
 
+  @Override
+  public void show(boolean b)
+  {
+    super.show(b);
+  }
+
+  /**
+   * Moves the Carret to the specifed line number
+   * @param lnum line number to move to.
+   */
+  public void setCaretToline(int lnum)
+  {
+    textArea.setCaretPosition( textArea.getDocument()
+            .getDefaultRootElement()
+            .getElement(lnum)
+            .getStartOffset()
+    );
+  }
+
+  /**
+   * Will load a file into the editor
+   * @param filename  path of file.
+   */
   public void loadFile(String filename)
   {
     try
@@ -130,12 +161,17 @@ public class XMLeditor extends JFrame
       currentFile = filename;
       isEdited = false;
       textArea.getDocument().addDocumentListener(docListener);
-    } catch (IOException e)
+    }
+    catch (IOException e)
     {
       e.printStackTrace();
     }
   }
 
+  /**
+   * saves the content of the editing frame to a file.
+   * @param filename file to overwrite or create.
+   */
   private void writeTo(String filename)
   {
     try
@@ -145,24 +181,10 @@ public class XMLeditor extends JFrame
       writer.close();
       currentFile = filename;
       isEdited = false;
-    } catch (IOException e)
+    }
+    catch (IOException e)
     {
       e.printStackTrace();
     }
   }
-
-  
-  public static void main(String[] args)
-  {
-    XMLeditor editor = new XMLeditor();
-    editor.loadFile("resources/areas/newMexicoTest.xml");
-    editor.highlightLine(13);
-    editor.setVisible(true);
-  }
 }
-
-
-/* TODO maybe implement the editor in such a way if there are a number of
-mistakes add the lines will be  highlighted. one file at a time.
-
- */

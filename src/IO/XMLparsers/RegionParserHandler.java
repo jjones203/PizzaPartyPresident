@@ -2,39 +2,68 @@ package IO.XMLparsers;
 
 /**
  * Created by winston on 1/20/15.
- * ${PROJECT_NAME}
+ * phase 1
  * CS 351 spring 2015
  */
 
+import model.AtomicRegion;
 import model.MapPoint;
 import model.Region;
 import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-import static IO.IOhelpers.convertToFileURL;
-
+/**
+ * The class handles the parsing of the region data from XML into region objects.
+ */
 public class RegionParserHandler extends DefaultHandler
 {
-  private List<Region> regionList = new ArrayList<>();
-
+  private List<Region> regionList;
+  private Locator locator;
   private Region tmpRegion;
   private List<MapPoint> tmpPerimeterSet;
-
   private boolean nameTag;
 
 
+  /**
+   * The method is to be called AFTER this class has been used in parsing.
+   * Other wise this returns null. So check for null exceptions!
+   *
+   * @return list of regions from the last file parsed.
+   */
   public List<Region> getRegionList()
   {
     return regionList;
+  }
+
+  /**
+   * This is used to extract the line number from a parsing error
+   *
+   * @return Locator representing a location in file.
+   */
+  public Locator getLocator()
+  {
+    return locator;
+  }
+
+
+  @Override
+  public void setDocumentLocator(Locator locator)
+  {
+    this.locator = locator;
+  }
+
+  @Override
+  public void startDocument() throws SAXException
+  {
+    regionList = new ArrayList<>();
+    tmpPerimeterSet = new LinkedList<>();
   }
 
   @Override
@@ -42,7 +71,6 @@ public class RegionParserHandler extends DefaultHandler
                            String qName, Attributes atts)
   throws SAXException
   {
-
     /*
      * entering a new area tag.
      * re-init tmp objects:
@@ -52,8 +80,7 @@ public class RegionParserHandler extends DefaultHandler
     switch (qName)
     {
       case "area":
-        tmpRegion = new Region();
-        tmpPerimeterSet = new ArrayList<>();
+        tmpRegion = new AtomicRegion();
         break;
     /*
      * sets flag to extract content of the same tag.
@@ -67,20 +94,33 @@ public class RegionParserHandler extends DefaultHandler
      * to set a flag as we did above.
      */
       case "vertex":
-        // TODO add error checking around these two attributes.
-        double lat = Double.parseDouble(atts.getValue("lat"));
-        double lon = Double.parseDouble(atts.getValue("lon"));
-        MapPoint mapPoint = new MapPoint(lat, lon);
-        tmpPerimeterSet.add(mapPoint);
+        double lat = 0;
+        double lon = 0;
+        try
+        {
+          lat = Double.parseDouble(atts.getValue("lat"));
+          lon = Double.parseDouble(atts.getValue("lon"));
+        } catch (Exception e)
+        {
+          System.out.println(locator.getLineNumber());
+          fatalError(new SAXParseException("Could not parse lat or lon.", locator));
+        }
+        tmpPerimeterSet.add(new MapPoint(lat, lon));
         break;
-    }
 
+      case "region":  // no nothing, this is just a place holder tag.
+        break;
+      default:
+        String msg = qName + "is not a recognized tag.";
+        fatalError(new SAXParseException(msg, locator));
+    }
   }
+
 
   @Override
   public void characters(char[] ch, int start, int length) throws SAXException
   {
-    if (nameTag)
+    if (nameTag && tmpRegion != null)
     {
       nameTag = false;
       tmpRegion.setName(new String(ch, start, length));
@@ -94,57 +134,11 @@ public class RegionParserHandler extends DefaultHandler
     if (qName.equals("area"))
     {
       // save and reset....
-      tmpRegion.setPerimeter(tmpPerimeterSet);
+      tmpRegion.setPerimeter(new ArrayList<MapPoint>(tmpPerimeterSet));
       regionList.add(tmpRegion);
+      tmpPerimeterSet.clear();
     }
   }
-
-  //******//
-  // MAIN //
-  //******//
-
-
-  public static void main(String[] args)
-  {
-    String fileName = "resources/areas/newMexicoTest.xml";
-
-    SAXParserFactory spf = SAXParserFactory.newInstance();
-    spf.setNamespaceAware(true);
-
-    RegionParserHandler handler = new RegionParserHandler();
-
-    SAXParser saxParser = null;
-    XMLReader xmlReader = null;
-    try
-    {
-      saxParser = spf.newSAXParser();
-      xmlReader = saxParser.getXMLReader();
-
-      xmlReader.setContentHandler(handler);
-      xmlReader.setErrorHandler(new RegionParserErrorHandeler());
-      xmlReader.parse(convertToFileURL(fileName));
-    } catch (ParserConfigurationException | SAXException | IOException e)
-    {
-      e.printStackTrace();
-    }
-
-
-    List<Region> regions = handler.getRegionList();
-
-    for (Region r : regions)
-    {
-      System.out.println(r);
-    }
-
-  }
-
 }
 
 
-//TODO make this more general so that it can be adapted to other attribut classes
-//todo researhc and add error checking.
-
-/* RESOURCES:
-http://www.saxproject.org/quickstart.html
-
- */

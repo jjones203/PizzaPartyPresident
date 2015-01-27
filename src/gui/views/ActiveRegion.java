@@ -16,6 +16,7 @@ public class ActiveRegion implements RegionView
   public void draw(Graphics g, GUIRegion gRegion)
   {
     Polygon poly = gRegion.getPoly();
+
     g.setColor(ColorSchemes.ACTIVE_REGION);
     g.fillPolygon(poly);
 

@@ -4,8 +4,6 @@ import model.MapPoint;
 import model.Region;
 
 import java.awt.*;
-import java.awt.geom.Area;
-import java.util.Map;
 
 /**
  * Created by winston on 1/23/15.

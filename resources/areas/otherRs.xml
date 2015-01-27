@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<region>
+    <area>
+        <name>Santa Fe</name>
+        <vertex lat="35.725985" lon="-105.983723"/>
+        <vertex lat="35.725706" lon="-105.895832"/>
+        <vertex lat="35.651812" lon="-105.895832"/>
+        <vertex lat="35.611909" lon="-106.067837"/>
+        <vertex lat="35.670222" lon="-105.984753"/>
+    </area>
+
+    <area>
+        <name>WINSTON's House</name>
+        <vertex lat="12" lon="-44"/>
+        <vertex lat="2" lon="44"/>
+
+    </area>
+
+    <area>
+        <name>another persons House</name>
+        <vertex lat="35.687075" lon="-105.969077" />
+    </area>
+
+</region>

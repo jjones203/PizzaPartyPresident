@@ -1,42 +1,23 @@
 package model;
 
-
 import java.util.List;
 
-
 /**
- * Created by winston on 1/20/15.
+ * Created by winston on 1/23/15.
+ * Phase_01
+ * CS 351 spring 2015
  */
-public class Region
+public interface Region
 {
-  private List<MapPoint> perimeter;
-  private String name;
+  String getName();
 
-  public String getName()
-  {
-    return name;
-  }
+  void setName(String name);
 
-  public void setName(String name)
-  {
-    this.name = name;
-  }
+  List<MapPoint> getPerimeter();
 
-  public List<MapPoint> getPerimeter()
-  {
-    return perimeter;
-  }
+  void setPerimeter(List<MapPoint> perimeter);
 
-  public void setPerimeter(List<MapPoint> perimeter)
-  {
-    this.perimeter = perimeter;
-  }
+  public RegionAttributes getAttributes();
 
-  @Override
-  public String toString()
-  {
-    return "Region{" +
-        "name='" + name + '\'' +
-        '}';
-  }
+  public void setAttributes(RegionAttributes attributes);
 }
