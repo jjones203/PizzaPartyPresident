@@ -10,10 +10,13 @@ import java.awt.geom.Rectangle2D;
  *         created: 2015-01-26
  *         <p/>
  *         description:  Converter implementation for Equirectangular map
- *         projections
+ *         projections with a constant scaling factor
  */
 public class EquirectangularConverter extends MapConverter
 {
+
+  /* Converter scales projections using this value */
+  public static final int SCALING_FACTOR = 10000;
 
   /**
    * Convert latitude to cartesian Y
@@ -24,8 +27,9 @@ public class EquirectangularConverter extends MapConverter
    */
   public double latToY(double lat, double latRef)
   {
-    return lat; /* silly, but keeps API consistent */
+    return lat * SCALING_FACTOR; /* silly, but keeps API consistent */
   }
+
 
   /**
    * Convert longitude to cartesian X
@@ -36,18 +40,20 @@ public class EquirectangularConverter extends MapConverter
    */
   public double lonToX(double lon, MapPoint refPoint)
   {
-    return lon * Math.cos(Math.toRadians(refPoint.getLat()));
+    return lon * Math.cos(Math.toRadians(refPoint.getLat())) * SCALING_FACTOR;
   }
 
+
   /*
-   * convert a floating point shape from spherical to cartesian
+   * testing rectangle projections
    */
   public Rectangle2D convertRect(Rectangle2D rect, MapPoint refPoint)
   {
-    double newX = lonToX(rect.getX(), refPoint);
-    double newW = newX - lonToX(rect.getMaxX(), refPoint);
+    double newX = lonToX(rect.getX(), refPoint) * SCALING_FACTOR;
+    double newW = newX - lonToX(rect.getMaxX(), refPoint) * SCALING_FACTOR;
     return new Rectangle2D.Double(newX, rect.getY(), newW, rect.getHeight());
   }
+
 
   /**
    * Convert a MapPoint (lat, lon) to a cartesian point, assuming the parallel
@@ -59,11 +65,13 @@ public class EquirectangularConverter extends MapConverter
   @Override
   public Point mapPointToPoint(MapPoint mp)
   {
-    return new Point((int)mp.getLon(), (int)mp.getLat());
+    int x = (int) mp.getLon() * SCALING_FACTOR;
+    int y = (int) mp.getLat() * SCALING_FACTOR;
+    return new Point(x, y);
   }
 
   /**
-   * Convert a Point to a MapPoint assuming the parallel of no distortioin is
+   * Convert a Point to a MapPoint assuming the parallel of no distortion is
    * the equator.  This converts from a Plate-Caree projection back to lat and
    * lon
    *
@@ -73,16 +81,16 @@ public class EquirectangularConverter extends MapConverter
   @Override
   public MapPoint pointToMapPoint(Point p)
   {
-    return new MapPoint(p.x, p.y);
+    return new MapPoint(p.x/SCALING_FACTOR, p.y/SCALING_FACTOR);
   }
 
   public double yToLon(double y, MapPoint refPoint)
   {
-    return y/Math.cos(Math.toRadians(refPoint.getLat()));
+    return y/(SCALING_FACTOR * Math.cos(Math.toRadians(refPoint.getLat())));
   }
 
   public double xToLat(double x, MapPoint refPoint)
   {
-    return x;
+    return x/SCALING_FACTOR;
   }
 }
