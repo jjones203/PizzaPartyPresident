@@ -8,7 +8,6 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -28,7 +27,6 @@ import static IO.IOhelpers.getFilesInDir;
 public class AreaXMLloader
 {
   private RegionParserHandler handler;
-  private RegionParserErrorHandler errorHandler; // todo use this to get the error information back!
   private String dirPath;
   private XMLeditor editor;
 
@@ -40,17 +38,14 @@ public class AreaXMLloader
   {
     this(
         new RegionParserHandler(),
-        new RegionParserErrorHandler(),
         areaFolder
     );
   }
 
-  public AreaXMLloader(RegionParserHandler handler,
-                       RegionParserErrorHandler errorHandler, String dirPath)
+  public AreaXMLloader(RegionParserHandler handler, String dirPath)
   throws ParserConfigurationException, SAXException
   {
     this.handler = handler;
-    this.errorHandler = errorHandler;
     this.dirPath = dirPath;
 
     SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -59,7 +54,6 @@ public class AreaXMLloader
     SAXParser saxParser = spf.newSAXParser();
     xmlReader = saxParser.getXMLReader();
     xmlReader.setContentHandler(handler);
-    xmlReader.setErrorHandler(errorHandler);
   }
 
   public Collection<Region> getRegions()
