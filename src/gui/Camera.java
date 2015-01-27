@@ -63,7 +63,6 @@ public class Camera
 
   public void translate(int dx, int dy)
   {
-    System.out.println("translating: (" + dx + "," + dy + ")");
     setLocation(location.x + dx, location.y + dy);
   }
 
@@ -101,6 +100,7 @@ public class Camera
   {
     return viewBounds;
   }
+
   @Override
   public String toString()
   {
