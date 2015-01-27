@@ -17,11 +17,12 @@ public class AreaXMLloaderTest
     }
     catch (ParserConfigurationException e)
     {
-      e.printStackTrace();
+      System.out.println("got here");
+//      e.printStackTrace();
     }
     catch (SAXException e)
     {
-      e.printStackTrace();
+//      e.printStackTrace();
     }
 
     assert loader != null;

@@ -4,9 +4,11 @@ import IO.XMLparsers.RegionParserErrorHandler;
 import IO.XMLparsers.RegionParserHandler;
 import gui.xmleditor.XMLeditor;
 import model.Region;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -64,7 +66,6 @@ public class AreaXMLloader
   {
     List<Region> regionList = new ArrayList<>();
     List<String> filesToRead = getFilesInDir(dirPath);
-//    List<String> filesToIgnore = new ArrayList<>();
 
 
     while (!filesToRead.isEmpty())
@@ -77,13 +78,26 @@ public class AreaXMLloader
 
       } catch (SAXException e)
       {
-        System.out.println("SAXEception error in" + this.getClass().getCanonicalName());
-        // TODO dialoge asking if the user wants to fix the file?
-        // if yes:
-        //    load XML editor
-        //    saveFile
-        //    add file to head of filesToReadlist.
-        e.printStackTrace();
+        Locator locator = handler.getLocator();
+        if (locator == null) //todo this should still call the editor just with out a line number. and nust use the above current line
+        {
+          e.printStackTrace();
+        }
+
+        if (editor == null)
+        {
+          editor = new XMLeditor();
+        }
+
+        editor.setTitle("(!) " + e.getMessage());
+
+        editor.loadFile(currentFile);
+        editor.highlightLine(locator.getLineNumber() - 1);
+        editor.setVisible(true);
+        //TODO make editor track an ignore setting or something of the like.... so that the user can ignore a file is they choose.
+
+        filesToRead.add(0, currentFile);
+
       } catch (IOException e)
       {
         // could not process file will ignore

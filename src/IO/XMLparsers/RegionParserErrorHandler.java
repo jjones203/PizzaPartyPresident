@@ -15,6 +15,7 @@ import javax.swing.*;
 public class RegionParserErrorHandler implements ErrorHandler
 {
   private XMLeditor editor;
+  private String errorMessage;
 
   @Override
   public void warning(SAXParseException exception) throws SAXException
@@ -32,22 +33,6 @@ public class RegionParserErrorHandler implements ErrorHandler
   public void fatalError(SAXParseException exception) throws SAXException
   {
     System.out.println("(!) FATAL ERROR IN: " + getClass().getCanonicalName());
-    if (editor == null)
-    {
-      editor = new XMLeditor();
-      editor.setSize(500, 700);
-    }
-
-    String fileName = exception.getSystemId();
-    int lineNumber = exception.getLineNumber() - 1;
-    String msg = exception.getLocalizedMessage();
-
-    JOptionPane.showMessageDialog(null, msg);
-
-    editor.loadFile(fileName.substring(5));
-    editor.highlightLine(lineNumber);
-    editor.setVisible(true);
-
 
     /*
     TODO try only setting member variables in the error parser when there is a problem,

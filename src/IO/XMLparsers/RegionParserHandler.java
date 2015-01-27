@@ -41,6 +41,11 @@ public class RegionParserHandler extends DefaultHandler
     return regionList;
   }
 
+  public Locator getLocator()
+  {
+    return locator;
+  }
+
 
   @Override
   public void setDocumentLocator(Locator locator)
@@ -95,42 +100,19 @@ public class RegionParserHandler extends DefaultHandler
         }
         catch (Exception e)
         {
-          System.out.println("ERROR inside vertex branch of" + this.getClass().getCanonicalName());
-          /* TODO
-              push error handeling HERE!
-              1) null pointers
-              2) Doulbe PArsing errors down here,
-              move this out of the area XML loder.
-           */
-//          registerParsingProblem();
+          fatalError(new SAXParseException("Could not parse lat or lon.", locator));
         }
-
         tmpPerimeterSet.add(new MapPoint(lat, lon));
         break;
     }
 
   }
 
-  // todo refactor this method.
-  private void registerParsingProblem() throws SAXException
-  {
-    SAXParseException exp;
-    if (locator != null)
-    {
-      System.out.println(locator.getLineNumber() + "locator was set!!!");
-      exp = new SAXParseException("(!) problem at line: " + locator.getLineNumber(), locator);
-    }
-    else
-    {
-      exp = new SAXParseException("(!) problem with vertex attribute.", null);
-    }
-    fatalError(exp);
-  }
 
   @Override
   public void characters(char[] ch, int start, int length) throws SAXException
   {
-    if (nameTag)
+    if (nameTag && tmpRegion != null)
     {
       nameTag = false;
       tmpRegion.setName(new String(ch, start, length));

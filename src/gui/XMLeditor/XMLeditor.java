@@ -67,6 +67,7 @@ public class XMLeditor extends JDialog
 
     setSize(700, 500);
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    setMinimumSize(new Dimension(400, 300));
   }
 
 
