@@ -13,10 +13,14 @@ import IO.XMLparsers.StateParserTest;
  */
 public class MapViewTest
 {
-  Camera camera = new Camera();
-  MapConverter mapConverter = new EquirectangularConverter();
-  MapView mapView = new MapView(StateParserTest.getStateRegions(), mapConverter);
+  public static void main(String[] args)
+  {
+    Camera camera = new Camera(0, 0);
+    
+    MapConverter mapConverter = new EquirectangularConverter();
+    MapView mapView = new MapView(StateParserTest.getStateRegions(), mapConverter);
 
-
+    System.out.println(mapView.getGuiRegions().size());
+  }
 
 }
