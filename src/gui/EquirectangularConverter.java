@@ -4,7 +4,10 @@ import model.MapPoint;
 import model.Region;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author david
@@ -70,7 +73,7 @@ public class EquirectangularConverter extends MapConverter
    * @param lon decimal longitude to convert
    * @return    longitude, scaled and projected in X
    */
-  public double longToX(double lon)
+  public double lonToX(double lon)
   {
     return lonToX(lon, DEFAULT_REF);
   }
@@ -97,8 +100,8 @@ public class EquirectangularConverter extends MapConverter
   @Override
   public Point mapPointToPoint(MapPoint mp)
   {
-    int x = (int) mp.getLon() * SCALING_FACTOR;
-    int y = (int) mp.getLat() * SCALING_FACTOR;
+    int x = (int) lonToX(mp.getLon()) * SCALING_FACTOR;
+    int y = (int) latToY(mp.getLat()) * SCALING_FACTOR;
     return new Point(x, y);
   }
 
@@ -119,7 +122,7 @@ public class EquirectangularConverter extends MapConverter
 
   public double yToLon(double y, MapPoint refPoint)
   {
-    return y/(SCALING_FACTOR * Math.cos(Math.toRadians(refPoint.getLat())));
+    return -y/(SCALING_FACTOR * Math.cos(Math.toRadians(refPoint.getLat())));
   }
 
   public double xToLat(double x, MapPoint refPoint)
@@ -134,11 +137,22 @@ public class EquirectangularConverter extends MapConverter
     Polygon poly = new Polygon();
     for(MapPoint mPoint : r.getPerimeter())
     {
-      int x = (int)longToX(mPoint.getLon());
+      int x = (int) lonToX(mPoint.getLon());
       int y = (int)latToY(mPoint.getLat());
       poly.addPoint(x, y);
     }
 
     return poly;
+  }
+
+  List <? extends Line2D> getLatLonGrid()
+  {
+    List<? extends Line2D> lines = new ArrayList<>();
+    for (int lon = -180; lon < 180; lon+=5)
+    {
+
+
+    }
+    return null;
   }
 }
