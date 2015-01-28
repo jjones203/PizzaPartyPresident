@@ -14,6 +14,23 @@ public class StateParserTest
 {
   public static void main(String[] args)
   {
+    Collection<Region> regions = getRegions();
+
+    for (Region region : regions)
+    {
+      System.out.println(region);
+      for (MapPoint mp : region.getPerimeter())
+      {
+        System.out.println("\t" + mp);
+      }
+      System.out.println("\n");
+    }
+
+    System.out.println("all done!");
+  }
+
+  public static Collection<Region> getRegions()
+  {
     Collection<Region> regions = null;
     try
     {
@@ -32,18 +49,7 @@ public class StateParserTest
     {
       e.printStackTrace();
     }
-
-    for (Region region : regions)
-    {
-      System.out.println(region);
-      for (MapPoint mp : region.getPerimeter())
-      {
-        System.out.println("\t" + mp);
-      }
-      System.out.println("\n");
-    }
-
-    System.out.println("all done!");
+    return regions;
   }
 
 }
