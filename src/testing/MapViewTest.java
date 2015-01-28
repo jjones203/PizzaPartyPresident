@@ -9,7 +9,6 @@ import model.Region;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
-import javax.swing.plaf.metal.OceanTheme;
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.awt.*;
@@ -19,7 +18,6 @@ import java.util.Collection;
 import java.util.List;
 import java.awt.geom.Line2D;
 
-import java.util.List;
 
 /**
  * Created by winston on 1/28/15.
@@ -139,6 +137,7 @@ public class MapViewTest extends JPanel
       guir.draw(g);
     }
 
+    g2d.setColor(Color.WHITE);
     for(Line2D l : grid) g2d.draw(l);
 
 
