@@ -6,6 +6,7 @@ package IO;
  * CS 351 spring 2015
  */
 
+import IO.XMLparsers.RegionParser;
 import IO.XMLparsers.RegionParserHandler;
 import gui.xmleditor.XMLeditor;
 import model.Region;
@@ -30,7 +31,7 @@ import static IO.IOhelpers.getFilesInDir;
  */
 public class AreaXMLloader
 {
-  private RegionParserHandler handler;
+  private RegionParser handler;
   private String dirPath;
   private XMLeditor editor;
   private XMLReader xmlReader;
@@ -136,7 +137,7 @@ public class AreaXMLloader
    * @throws IOException
    * @throws SAXException
    */
-  private Collection<Region> parseFile(String filePath)
+  public Collection<Region> parseFile(String filePath)
       throws IOException, SAXException
   {
     xmlReader.parse(convertToFileURL(filePath));

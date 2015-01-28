@@ -1,5 +1,6 @@
 package IO;
 
+import IO.XMLparsers.StateParser;
 import model.MapPoint;
 import model.Region;
 import org.xml.sax.SAXException;
