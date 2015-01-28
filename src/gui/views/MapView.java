@@ -22,8 +22,13 @@ public class MapView
   private Collection<GUIRegion> guiRegions;
   private ActiveRegion activeRegionView = new ActiveRegion();
   private PassiveRegion passiveRegionView = new PassiveRegion();
-  private RegionView ActiveWithName = new RegionNameView(activeRegionView);
-  private RegionView PassiveWithName = new RegionNameView(passiveRegionView);
+
+  private RegionView ActiveWithName = new RegionNameView(activeRegionView, 5000);
+  private RegionView PassiveWithName = new RegionNameView(passiveRegionView, 5000);
+
+  private RegionView ActiveSmallText = new RegionNameView(activeRegionView, 3000);
+  private RegionView PasiveSmallText = new RegionNameView(passiveRegionView, 3000);
+
 
   public MapView(Collection<Region> regions, MapConverter mpConverter)
   {
@@ -85,10 +90,21 @@ public class MapView
 
     lastDistance = calcDistance(camera); // else set last to current.
 
-    switch (calcDistance(camera))
+    switch (lastDistance)
     {
       case CLOSE_UP:
         System.out.println("CLOSE UP");
+        for (GUIRegion r : getGuiRegions())
+        {
+          if (r.isActive())
+          {
+            r.setLook(ActiveSmallText);
+          }
+          else
+          {
+            r.setLook(PasiveSmallText);
+          }
+        }
         break;
       case MEDIUM:
         System.out.println("CLOSE UP/MEDIUM");
@@ -119,7 +135,7 @@ public class MapView
   private CAM_DISTANCE calcDistance(Camera camera)
   {
     int height = camera.getHeight();
-    if (height < 6)
+    if (height < 8)
     {
       return CAM_DISTANCE.CLOSE_UP;
     }
