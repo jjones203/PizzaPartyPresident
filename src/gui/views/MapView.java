@@ -135,7 +135,7 @@ public class MapView
   private CAM_DISTANCE calcDistance(Camera camera)
   {
     int height = camera.getHeight();
-    if (height < 8)
+    if (height < 5)
     {
       return CAM_DISTANCE.CLOSE_UP;
     }
