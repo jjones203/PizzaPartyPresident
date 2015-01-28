@@ -167,7 +167,7 @@ public class Camera
             viewBounds.getCenterX(), viewBounds.getCenterY());
 
 
-    g.setColor(Color.BLUE);
+    g.setColor(Color.RED);
     g.setFont(DBG_FONT);
     g.drawString("Camera Debug Info", 15,20);
     g.drawString(topleft_str, 15, 40);
