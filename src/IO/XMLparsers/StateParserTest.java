@@ -19,7 +19,7 @@ public class StateParserTest
     Collection<Region> regions = null;
     try
     {
-      AreaXMLloader loader = new AreaXMLloader(new StateParser(), "seom");
+      AreaXMLloader loader = new AreaXMLloader(new StateParser(), null);
       regions = loader.parseFile("resources/states.xml");
     }
     catch (ParserConfigurationException e)
@@ -40,9 +40,9 @@ public class StateParserTest
       System.out.println(region);
       for (MapPoint mp : region.getPerimeter())
       {
-        System.out.print("\t" + mp);
+        System.out.println("\t" + mp);
       }
-      System.out.println();
+      System.out.println("\n");
     }
 
     System.out.println("all done!");

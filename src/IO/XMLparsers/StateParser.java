@@ -32,11 +32,6 @@ public class StateParser extends RegionParserHandler implements RegionParser
     tmpPerimeter = new LinkedList<>();
   }
 
-  @Override
-  public void setDocumentLocator(Locator locator)
-  {
-    this.locator = locator;
-  }
 
   @Override
   public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException
