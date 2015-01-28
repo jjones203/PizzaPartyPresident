@@ -10,8 +10,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.Collection;
 
-import static org.junit.Assert.*;
-
 public class StateParserTest
 {
   public static void main(String[] args)

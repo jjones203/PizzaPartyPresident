@@ -58,8 +58,10 @@ public class GameCanvas extends JPanel
   {
     Graphics2D g2 = (Graphics2D) g;
     Rectangle2D r = new Rectangle2D.Double(10,10,100,100);
+    Rectangle2D border = new Rectangle2D.Double(0,0,1000,500);
     g2.setStroke(new BasicStroke(10));
     g2.draw(r);
+    g2.draw(border);
 
 
     AffineTransform transform = cam.getTransform();

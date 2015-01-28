@@ -16,7 +16,7 @@ public class Camera
 
   /*arbitrary*/
   static final double MID_HEIGHT = 10;
-  static final double MAX_HEIGHT = 20;
+  static final double MAX_HEIGHT = 30;
   static final double MIN_HEIGHT = 0;
 
   private static final double BASE_W = 1000;
@@ -95,14 +95,15 @@ public class Camera
 
   private void zoomAbsolute(double dZoom, double anchorX, double anchorY)
   {
+    double oldH = height;
     setHeight(height + dZoom);
+    double actualDZoom = height - oldH;
 
     double oldX = viewBounds.getX();
     double oldY = viewBounds.getY();
 
-
-    double newX = anchorX - scale * (anchorX - oldX);
-    double newY = anchorY - scale * (anchorY - oldY);
+    double newX = anchorX - Math.pow(2, actualDZoom) * (anchorX - oldX);
+    double newY = anchorY - Math.pow(2, actualDZoom) * (anchorY - oldY);
 
     double newH = scale * BASE_H;
     double newW = scale * BASE_W;
