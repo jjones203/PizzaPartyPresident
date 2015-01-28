@@ -60,7 +60,6 @@ public class MapViewTest extends JPanel
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setVisible(true);
 
-
   }
 
   public Camera getCam()
