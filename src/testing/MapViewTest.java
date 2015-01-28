@@ -14,6 +14,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.geom.AffineTransform;
 import java.util.Collection;
 import java.util.List;
 import java.awt.geom.Line2D;
@@ -27,7 +28,7 @@ import java.util.List;
  */
 public class MapViewTest extends JPanel
 {
-
+  private static final boolean DEBUG = true;
   private Camera cam;
   private MapView mapView;
   private List<Line2D> grid;
@@ -53,6 +54,7 @@ public class MapViewTest extends JPanel
 
     Collection<Region> worldz = StateParserTest.getStateRegions();
     worldz.addAll(areaXMLloader.getRegions());
+    MapView mapView = new MapView(worldz, mapConverter);
 
 
     Point startPoint = new Point(
@@ -126,7 +128,6 @@ public class MapViewTest extends JPanel
     Graphics2D g2d = (Graphics2D) g;
 
     g2d.setStroke(new BasicStroke(10));
-    g2d.drawImage(cam.getDBGimg(),5,5,null);
 
     g2d.setTransform(cam.getTransform());
 
@@ -139,6 +140,16 @@ public class MapViewTest extends JPanel
     }
 
     for(Line2D l : grid) g2d.draw(l);
+
+
+
+    /* do this last to ensure transform is no longer needed and dbg info
+     * overlays on top */
+    if(DEBUG)
+    {
+      g2d.setTransform(new AffineTransform());
+      g2d.drawImage(cam.getDBGimg(), 5, 5, null);
+    }
   }
 
 }
