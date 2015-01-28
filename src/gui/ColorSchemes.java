@@ -9,6 +9,9 @@ import java.awt.*;
  */
 public interface  ColorSchemes
 {
+
+  Color REGION_NAME_FONT_C = new Color(0x5A2C18);
+
   Color OCEANS = new Color(0x1A5C8B);
 
   Color ACTIVE_REGION = new Color(0xDEB564);
