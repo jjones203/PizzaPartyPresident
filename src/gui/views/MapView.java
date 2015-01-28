@@ -26,8 +26,8 @@ public class MapView
   private RegionView ActiveWithName = new RegionNameView(activeRegionView, 5000);
   private RegionView PassiveWithName = new RegionNameView(passiveRegionView, 5000);
 
-  private RegionView ActiveSmallText = new RegionNameView(activeRegionView, 3000);
-  private RegionView PasiveSmallText = new RegionNameView(passiveRegionView, 3000);
+  private RegionView ActiveSmallText = new RegionNameView(activeRegionView, 1000);
+  private RegionView PasiveSmallText = new RegionNameView(passiveRegionView, 1000);
 
 
   public MapView(Collection<Region> regions, MapConverter mpConverter)
