@@ -44,6 +44,7 @@ public class CamController extends KeyAdapter implements ActionListener
   @Override
   public void actionPerformed(ActionEvent e)
   {
+    System.out.println("ACTIVE fired from " + getClass().getName());
 
     if (isDOWNdepressed && isSHIFTdepressed)
     {
