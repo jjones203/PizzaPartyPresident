@@ -1,8 +1,6 @@
 package gui;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -24,6 +22,7 @@ public class InfoPanel extends JPanel
 
   private JPanel cropPanel;
   private JPanel attributePanel;
+  private JList  attributeList;
 
   public InfoPanel()
   {
@@ -46,7 +45,9 @@ public class InfoPanel extends JPanel
   private JPanel getCropPanel()
   {
     JPanel cropPanel = new JPanel();
+    cropPanel.setLayout(new BorderLayout());
     cropPanel.setBackground(Color.orange);
+
     return cropPanel;
   }
 
@@ -59,22 +60,22 @@ public class InfoPanel extends JPanel
     attPanel.setLayout(new BorderLayout());
     attPanel.setBackground(guiBackGround);
 
-    final JList list = new JList(PLANTING_ATTRIBUTES.values());
-    list.setBackground(guiBackGround);
-    list.setBorder(new EmptyBorder(10, 10, 10, 10));
-    list.addListSelectionListener(new ListSelectionListener()
+    attributeList = new JList(PLANTING_ATTRIBUTES.values());
+    attributeList.setBackground(guiBackGround);
+    attributeList.setBorder(new EmptyBorder(10, 10, 10, 10));
+    attributeList.addListSelectionListener(new ListSelectionListener()
     {
       @Override
       public void valueChanged(ListSelectionEvent e)
       {
-        if (list.getValueIsAdjusting())
+        if (attributeList.getValueIsAdjusting())
         {
-          System.out.println(list.getSelectedValue().toString());
+          System.out.println(attributeList.getSelectedValue().toString());
         }
       }
     });
 
-    attPanel.add(list, BorderLayout.WEST);
+    attPanel.add(attributeList, BorderLayout.WEST);
 
 
     JPanel centerInfoPanel = new JPanel();
