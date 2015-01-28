@@ -1,5 +1,6 @@
 package testing;
 
+import IO.AreaXMLloader;
 import gui.CamController;
 import gui.Camera;
 import gui.EquirectangularConverter;
@@ -7,10 +8,16 @@ import gui.MapConverter;
 import gui.views.GUIRegion;
 import gui.views.MapView;
 import IO.XMLparsers.StateParserTest;
+import model.Region;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by winston on 1/28/15.
@@ -26,12 +33,35 @@ public class MapViewTest extends JPanel
   public static void main(String[] args)
   {
     final MapViewTest canvas = new MapViewTest();
-
-    Camera camera = new Camera(0, 0);
-    CamController keyController = new CamController(camera);
-
     MapConverter mapConverter = new EquirectangularConverter();
-    MapView mapView = new MapView(StateParserTest.getStateRegions(), mapConverter);
+
+    AreaXMLloader areaXMLloader = null;
+    try
+    {
+      areaXMLloader = new AreaXMLloader("resources/areas");
+    }
+    catch (ParserConfigurationException e)
+    {
+      e.printStackTrace();
+    }
+    catch (SAXException e)
+    {
+      e.printStackTrace();
+    }
+
+    Collection<Region> worldz = StateParserTest.getStateRegions();
+    worldz.addAll(areaXMLloader.getRegions());
+
+    MapView mapView = new MapView(worldz, mapConverter);
+
+    Point startPoint = new Point(
+        mapView.getGuiRegions().iterator().next().getPoly().xpoints[0],
+        mapView.getGuiRegions().iterator().next().getPoly().ypoints[0]
+    );
+
+
+    Camera camera = new Camera(startPoint.x, startPoint.y);
+    CamController keyController = new CamController(camera);
 
     canvas.setCam(camera);
     canvas.setMapView(mapView);
