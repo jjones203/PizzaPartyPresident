@@ -12,6 +12,10 @@ import java.awt.geom.Rectangle2D;
  *         description:  Converter implementation for Equirectangular map
  *         projections with a constant scaling factor
  */
+
+/*      TODO Check if projection is flipping into graphics-land coords
+ *          y(gfx) = -y(cart)
+ */
 public class EquirectangularConverter extends MapConverter
 {
 

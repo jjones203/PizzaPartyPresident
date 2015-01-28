@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.*;
 
@@ -56,23 +57,47 @@ public class GameCanvas extends JPanel
   protected void paintComponent(Graphics g)
   {
     Graphics2D g2 = (Graphics2D) g;
-    g2.drawString("Testing", 100,100);
+    Rectangle2D r = new Rectangle2D.Double(10,10,100,100);
+    g2.setStroke(new BasicStroke(10));
+    g2.draw(r);
+
 
     AffineTransform transform = cam.getTransform();
-    Point ptSrc = new Point(100,100);
-    Point2D.Double ptDst = new Point2D.Double();
-    transform.transform(ptSrc, ptDst);
-    System.out.println(ptDst);
+
+//    testTransform(transform);
+
     g2.setTransform(transform);
-
-
+    g2.draw(r);
     for(Polygon p : polys) g2.draw(p);
+  }
+
+
+
+  private void testTransform(AffineTransform transform)
+  {
+    Point p0 = new Point(0,0);
+    Point p1 = new Point(20,20);
+    Point p2 = new Point(-10,-30);
+    Point p0n = new Point();
+    Point p1n = new Point();
+    Point p2n = new Point();
+
+    transform.transform(p0, p0n);
+    transform.transform(p1, p1n);
+    transform.transform(p2, p2n);
+
+    System.out.println("p0="+p0);
+    System.out.println("p0n="+p0n);
+    System.out.println("p1="+p1);
+    System.out.println("p1n="+p1n);
+    System.out.println("p2="+p2);
+    System.out.println("p2n="+p2n);
   }
 
   public Polygon genPoly(Random r)
   {
     int numVertices = 8;
-    int sideLenOrder = 100;
+    int sideLenOrder = 10000;
     int xRange = (int) 3.6e8;
     int yRange = (int) 1.8e8;
 
@@ -102,16 +127,18 @@ public class GameCanvas extends JPanel
 
   private void start()
   {
-    Timer t = new Timer(500, new ActionListener()
+    Timer t = new Timer(30, new ActionListener()
     {
       @Override
       public void actionPerformed(ActionEvent e)
       {
         repaint();
-        System.out.println(cam);
+        controls.actionPerformed(e);
       }
     });
     t.start();
+//    Timer controllerPoll = new Timer(30,controls);
+//    controllerPoll.start();
   }
 
 }

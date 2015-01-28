@@ -3,6 +3,7 @@ package gui;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -11,23 +12,46 @@ import java.awt.geom.Rectangle2D;
 
 public class Camera
 {
-  private static final int MAX_HEIGHT = 10;
   private static final double ASPECT_RATIO = 2;
 
-  private static final int VIEW_W = 1000;
-  private static final int VIEW_H = (int)(VIEW_W/ASPECT_RATIO);
+  /*arbitrary*/
+  static final double MID_HEIGHT = 10;
+  static final double MAX_HEIGHT = 20;
+  static final double MIN_HEIGHT = 0;
 
-  private Point location;
+  private static final double BASE_W = 1000;
+  private static final double BASE_H = BASE_W /ASPECT_RATIO;
+
   private Rectangle2D viewBounds;
-  private int height;
+  private double height;
+  private double scale;
 
-
-  public Camera(int x, int y)
+  public static void main(String[] args)
   {
-    height = 0;
-    location = new Point(x, y);
-    viewBounds = new Rectangle2D.Double();
-    updateViewBounds();
+    Camera c = new Camera(0,0);
+    System.out.println(c);
+    System.out.println(c.getCenter());
+    c.zoomOut(10);
+    System.out.println(c);
+    System.out.println(c.getCenter());
+    c.zoomIn(10);
+    System.out.println(c);
+    System.out.println(c.getCenter());
+
+  }
+
+
+  public Camera(double x, double y)
+  {
+    this(x, y, MIN_HEIGHT);
+  }
+
+  public Camera(double x, double y, double initialHeight)
+  {
+    setHeight(initialHeight);
+
+    double scale = Math.pow(2, height);
+    viewBounds = new Rectangle2D.Double(x, y, BASE_W, BASE_H);
   }
 
   public Camera(Point p)
@@ -35,65 +59,81 @@ public class Camera
     this(p.x, p.y);
   }
 
-  public void setLocation(int x, int y)
+  public Point2D getCenter()
   {
-    location.setLocation(x,y);
-    updateViewBounds();
+    return new Point2D.Double(viewBounds.getCenterX(),viewBounds.getCenterY());
   }
 
-  public void setHeight(int height)
-  {
-    /* ensure height is within bounds */
-    if (height > MAX_HEIGHT) height = MAX_HEIGHT;
-    else if (height < 0) height = 0;
-    this.height = height;
-    updateViewBounds();
-  }
 
-  private void updateViewBounds()
+  public void translateAbsolute(double dx, double dy)
   {
-    int scale = 1 << height;
-    int width = VIEW_W * scale;
-    int height = VIEW_H * scale;
-    int x = location.x - width/2;
-    int y = location.y - height/2;
-
-    viewBounds.setFrame(x, y, width, height);
-  }
-
-  public void translate(int dx, int dy)
-  {
-    setLocation(location.x + dx, location.y + dy);
+    double newX = viewBounds.getX() + dx;
+    double newY = viewBounds.getY() + dy;
+    double width = viewBounds.getWidth();
+    double height = viewBounds.getHeight();
+    viewBounds.setFrame(newX, newY, width, height);
   }
 
   public void translateRelativeToHeight(int dx, int dy)
   {
-    translate(dx * (1<<height), dy * (1<<height));
+    translateAbsolute(dx * scale, dy * scale);
   }
 
-  public void zoomIn(int zoomDiff)
+  public void zoomIn(double zoomDiff)
   {
-    setHeight(height - zoomDiff);
+    double centerY = viewBounds.getCenterY();
+    double centerX = viewBounds.getCenterX();
+    zoomAbsolute(-zoomDiff, centerX, centerY);
   }
 
-  public void zoomOut(int zoomDiff)
+  public void zoomOut(double zoomDiff)
   {
-    setHeight(height + zoomDiff);
+    double centerY = viewBounds.getCenterY();
+    double centerX = viewBounds.getCenterX();
+    zoomAbsolute(zoomDiff, centerX, centerY);
+  }
+
+  private void zoomAbsolute(double dZoom, double anchorX, double anchorY)
+  {
+    setHeight(height + dZoom);
+
+    double oldX = viewBounds.getX();
+    double oldY = viewBounds.getY();
+
+
+    double newX = anchorX - scale * (anchorX - oldX);
+    double newY = anchorY - scale * (anchorY - oldY);
+
+    double newH = scale * BASE_H;
+    double newW = scale * BASE_W;
+
+    viewBounds.setFrame(newX, newY, newW, newH);
+  }
+
+  private void zoomRelativeToView(double dZoom, double anchorX, double anchorY)
+  {
+    zoomAbsolute(dZoom, anchorX / scale, anchorY / scale);
   }
 
   public AffineTransform getTransform()
   {
     AffineTransform at = new AffineTransform();
-    int scale = 1<<height;
-    at.translate(viewBounds.getX(), viewBounds.getY());
-    at.scale(scale, scale);
+
+
+    double shiftX = -viewBounds.getX();
+    double shiftY = -viewBounds.getY();
+
+    /* viewBounds are scaled, shift is in scaled terms? */
+    at.scale(1 / scale, 1 / scale);
+    at.translate(shiftX, shiftY);
+
     return at;
   }
 
 
   public int getHeight()
   {
-    return height;
+    return (int)height; /* TODO: resolve FP v INT dilemma */
   }
 
   public Rectangle2D getViewBounds()
@@ -105,9 +145,17 @@ public class Camera
   public String toString()
   {
     return "Camera{" +
-            "location=" + location +
             ", viewBounds=" + viewBounds +
             ", height=" + height +
             '}';
+  }
+
+  public void setHeight(double height)
+  {
+    if(height < MIN_HEIGHT) height = MIN_HEIGHT;
+    else if(height > MAX_HEIGHT) height = MAX_HEIGHT;
+    this.height = height;
+
+    scale = Math.pow(2, height);
   }
 }

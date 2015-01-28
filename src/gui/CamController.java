@@ -44,10 +44,10 @@ public class CamController extends KeyAdapter implements ActionListener
   @Override
   public void actionPerformed(ActionEvent e)
   {
+
     if (isDOWNdepressed && isSHIFTdepressed)
     {
       cam.zoomOut(ZOOM_STEP);
-      cam.zoomIn(ZOOM_STEP);
       return;
     }
     if (isUPdepressed && isSHIFTdepressed)
@@ -55,17 +55,17 @@ public class CamController extends KeyAdapter implements ActionListener
       cam.zoomIn(ZOOM_STEP);
       return;
     }
-    if (isDOWNdepressed)  cam.translateRelativeToHeight(0, 1);
-    if (isUPdepressed)    cam.translateRelativeToHeight(0, -1);
-    if (isLEFTdepressed)  cam.translateRelativeToHeight(-1, 0);
-    if (isRIGHTdepressed) cam.translateRelativeToHeight(1, 0);
+    if (isDOWNdepressed)  cam.translateRelativeToHeight(0, CAMERA_STEP);
+    if (isUPdepressed)    cam.translateRelativeToHeight(0, -CAMERA_STEP);
+    if (isLEFTdepressed)  cam.translateRelativeToHeight(-CAMERA_STEP, 0);
+    if (isRIGHTdepressed) cam.translateRelativeToHeight(CAMERA_STEP, 0);
   }
 
 
   @Override
   public void keyPressed(KeyEvent e)
   {
-    System.out.println("shits happening");
+
     switch (e.getKeyCode())
     {
       case UP:
@@ -88,6 +88,11 @@ public class CamController extends KeyAdapter implements ActionListener
     }
   }
 
+  @Override
+  public void keyTyped(KeyEvent e)
+  {
+    super.keyTyped(e);
+  }
 
   @Override
   public void keyReleased(KeyEvent e)
