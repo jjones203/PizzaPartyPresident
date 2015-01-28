@@ -1,10 +1,7 @@
 package testing;
 
 import IO.AreaXMLloader;
-import gui.CamController;
-import gui.Camera;
-import gui.EquirectangularConverter;
-import gui.MapConverter;
+import gui.*;
 import gui.views.GUIRegion;
 import gui.views.MapView;
 import IO.XMLparsers.StateParserTest;
@@ -12,6 +9,7 @@ import model.Region;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.swing.plaf.metal.OceanTheme;
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.awt.*;
@@ -66,6 +64,7 @@ public class MapViewTest extends JPanel
     canvas.setCam(camera);
     canvas.setMapView(mapView);
     canvas.setSize(1000, 800);
+    canvas.setBackground(ColorSchemes.OCEANS);
 
 
     Timer timer = new Timer(30, keyController);
