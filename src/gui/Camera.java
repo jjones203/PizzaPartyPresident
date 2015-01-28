@@ -26,6 +26,10 @@ public class Camera
   private double height;
   private double scale;
 
+  public Camera()
+  {
+    this(0,0);
+  }
 
   public Camera(double x, double y)
   {
