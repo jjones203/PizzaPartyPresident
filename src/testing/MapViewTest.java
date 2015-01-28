@@ -128,7 +128,6 @@ public class MapViewTest extends JPanel
     Graphics2D g2d = (Graphics2D) g;
 
     g2d.setStroke(new BasicStroke(10));
-    g2d.drawImage(cam.getDBGimg(),5,5,null);
 
     g2d.setTransform(cam.getTransform());
 
