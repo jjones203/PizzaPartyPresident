@@ -1,16 +1,21 @@
 package testing;
 
-import gui.CamController;
-import gui.Camera;
-import gui.EquirectangularConverter;
-import gui.MapConverter;
+import IO.AreaXMLloader;
+import gui.*;
 import gui.views.GUIRegion;
 import gui.views.MapView;
 import IO.XMLparsers.StateParserTest;
+import model.Region;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.swing.plaf.metal.OceanTheme;
+import javax.xml.parsers.ParserConfigurationException;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Collection;
+import java.util.List;
 import java.awt.geom.Line2D;
 
 import java.util.List;
@@ -30,17 +35,40 @@ public class MapViewTest extends JPanel
   public static void main(String[] args)
   {
     final MapViewTest canvas = new MapViewTest();
-
-    Camera camera = new Camera(0, 0);
-    CamController keyController = new CamController(camera);
-
     MapConverter mapConverter = new EquirectangularConverter();
-    MapView mapView = new MapView(StateParserTest.getStateRegions(), mapConverter);
+
+    AreaXMLloader areaXMLloader = null;
+    try
+    {
+      areaXMLloader = new AreaXMLloader("resources/areas");
+    }
+    catch (ParserConfigurationException e)
+    {
+      e.printStackTrace();
+    }
+    catch (SAXException e)
+    {
+      e.printStackTrace();
+    }
+
+    Collection<Region> worldz = StateParserTest.getStateRegions();
+    worldz.addAll(areaXMLloader.getRegions());
+
+
+    Point startPoint = new Point(
+        mapView.getGuiRegions().iterator().next().getPoly().xpoints[0],
+        mapView.getGuiRegions().iterator().next().getPoly().ypoints[0]
+    );
+
+
+    Camera camera = new Camera(startPoint.x, startPoint.y);
+    CamController keyController = new CamController(camera);
 
     canvas.setCam(camera);
     canvas.setMapView(mapView);
     canvas.setSize(1000, 800);
     canvas.setGrid(((EquirectangularConverter)mapConverter).getLatLonGrid());
+    canvas.setBackground(ColorSchemes.OCEANS);
 
 
     Timer timer = new Timer(30, keyController);
@@ -105,7 +133,7 @@ public class MapViewTest extends JPanel
     g2d.draw(new Rectangle(0, 0, 1000, 1000));
     g2d.draw(cam.getViewBounds()); // camera view HUD
 
-    for (GUIRegion guir : mapView.getGuiRegions())
+    for (GUIRegion guir : mapView.getRegionsInview(cam))
     {
       guir.draw(g);
     }
