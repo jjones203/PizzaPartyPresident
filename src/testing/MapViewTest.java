@@ -54,6 +54,7 @@ public class MapViewTest extends JPanel
     Collection<Region> worldz = StateParserTest.getStateRegions();
     worldz.addAll(areaXMLloader.getRegions());
 
+    MapView mapView = new MapView(worldz, mapConverter);
 
     Point startPoint = new Point(
         mapView.getGuiRegions().iterator().next().getPoly().xpoints[0],
@@ -71,7 +72,7 @@ public class MapViewTest extends JPanel
     canvas.setBackground(ColorSchemes.OCEANS);
 
 
-    Timer timer = new Timer(30, keyController);
+    Timer timer = new Timer(20, keyController);
     timer.addActionListener(new AbstractAction()
     {
       @Override
@@ -126,7 +127,7 @@ public class MapViewTest extends JPanel
     Graphics2D g2d = (Graphics2D) g;
 
     g2d.setStroke(new BasicStroke(10));
-    g2d.drawImage(cam.getDBGimg(),5,5,null);
+    g2d.drawImage(cam.getDBGimg(), 5, 5, null);
 
     g2d.setTransform(cam.getTransform());
 
