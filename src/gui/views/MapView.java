@@ -24,8 +24,7 @@ public class MapView
     CLOSE_UP, MEDIUM, LONG
   }
 
-  private Map map;
-  private Camera camera;
+//  private Map map;
   private MapConverter mpConverter;
 
   private CAM_DISTANCE distance;
@@ -38,20 +37,17 @@ public class MapView
   private RegionView PassiveWithName = new RegionNameView(passiveRegionView);
 
 
-  public MapView(Map map, Camera camera, MapConverter mpConverter)
+  public MapView(Collection<Region> regions, MapConverter mpConverter)
   {
-    this.map = map;
-    this.camera = camera;
     this.mpConverter = mpConverter;
-
-    guiRegions = wrapRegions();
+    guiRegions = wrapRegions(regions);
   }
 
-  private Collection<GUIRegion> wrapRegions()
+  private Collection<GUIRegion> wrapRegions(Collection<Region> regions)
   {
     Collection<GUIRegion> guiRs = new LinkedList<>();
 
-    for (Region region : map.getWorld())
+    for (Region region : regions)
     {
       GUIRegion guir = new GUIRegion(region, mpConverter, passiveRegionView);
       guiRs.add(guir);
@@ -69,12 +65,9 @@ public class MapView
     region.setActive(false);
   }
 
-  public Collection<GUIRegion> getRegionsInview()
+  public Collection<GUIRegion> getRegionsInview(Rectangle2D inViewBox)
   {
     Collection<GUIRegion> regionsInview = new LinkedList<>();
-    distance = calcDistance(camera);
-
-    Rectangle2D inViewBox = camera.getViewBounds();
 
     for (GUIRegion guir : guiRegions)
     {
