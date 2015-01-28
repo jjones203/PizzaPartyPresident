@@ -16,7 +16,7 @@ public class Camera
 
   /*arbitrary*/
   static final double MID_HEIGHT = 10;
-  static final double MAX_HEIGHT = 30;
+  static final double MAX_HEIGHT = 20;
   static final double MIN_HEIGHT = 0;
 
   private static final double BASE_W = 1000;
@@ -25,20 +25,6 @@ public class Camera
   private Rectangle2D viewBounds;
   private double height;
   private double scale;
-
-  public static void main(String[] args)
-  {
-    Camera c = new Camera(0,0);
-    System.out.println(c);
-    System.out.println(c.getCenter());
-    c.zoomOut(10);
-    System.out.println(c);
-    System.out.println(c.getCenter());
-    c.zoomIn(10);
-    System.out.println(c);
-    System.out.println(c.getCenter());
-
-  }
 
 
   public Camera(double x, double y)

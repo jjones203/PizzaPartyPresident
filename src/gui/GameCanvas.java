@@ -63,45 +63,19 @@ public class GameCanvas extends JPanel
     g2.draw(r);
     g2.draw(border);
 
-
     AffineTransform transform = cam.getTransform();
-
-//    testTransform(transform);
 
     g2.setTransform(transform);
     g2.draw(r);
     for(Polygon p : polys) g2.draw(p);
   }
 
-
-
-  private void testTransform(AffineTransform transform)
-  {
-    Point p0 = new Point(0,0);
-    Point p1 = new Point(20,20);
-    Point p2 = new Point(-10,-30);
-    Point p0n = new Point();
-    Point p1n = new Point();
-    Point p2n = new Point();
-
-    transform.transform(p0, p0n);
-    transform.transform(p1, p1n);
-    transform.transform(p2, p2n);
-
-    System.out.println("p0="+p0);
-    System.out.println("p0n="+p0n);
-    System.out.println("p1="+p1);
-    System.out.println("p1n="+p1n);
-    System.out.println("p2="+p2);
-    System.out.println("p2n="+p2n);
-  }
-
   public Polygon genPoly(Random r)
   {
     int numVertices = 8;
     int sideLenOrder = 10000;
-    int xRange = (int) 3.6e8;
-    int yRange = (int) 1.8e8;
+    int xRange = (int) 3.6e4;
+    int yRange = (int) 1.8e4;
 
     Polygon p = new Polygon();
     int baseX = r.nextInt(xRange);
