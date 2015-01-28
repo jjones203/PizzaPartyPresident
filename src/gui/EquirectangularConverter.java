@@ -37,7 +37,7 @@ public class EquirectangularConverter extends MapConverter
    */
   public double latToY(double lat, MapPoint refPoint)
   {
-    return lat * SCALING_FACTOR; /* silly, but keeps API consistent */
+    return -lat * SCALING_FACTOR; /* silly, but keeps API consistent */
   }
 
 
@@ -138,21 +138,42 @@ public class EquirectangularConverter extends MapConverter
     for(MapPoint mPoint : r.getPerimeter())
     {
       int x = (int) lonToX(mPoint.getLon());
-      int y = (int)latToY(mPoint.getLat());
+      int y = (int) latToY(mPoint.getLat());
       poly.addPoint(x, y);
     }
 
     return poly;
   }
 
-  List <? extends Line2D> getLatLonGrid()
+
+  /**
+   * generates a projected grid of latitude and longitude lines converted to
+   * the scaled cartesian space
+   *
+   * @return
+   */
+  public List <Line2D> getLatLonGrid()
   {
-    List<? extends Line2D> lines = new ArrayList<>();
-    for (int lon = -180; lon < 180; lon+=5)
+
+    List<Line2D> lines = new ArrayList<>();
+    int maxLat = 90;
+    int maxLon = 180;
+    int inc = 5;
+
+    for (int lon = -maxLon; lon <= maxLon; lon += inc)
     {
-
-
+      double x = lonToX(lon);
+      double y = latToY(maxLat);
+      Line2D l = new Line2D.Double(x, y, x, -y);
+      lines.add(l);
     }
-    return null;
+    for (int lat = -maxLat; lat <= maxLat; lat+= inc)
+    {
+      double y = latToY(lat);
+      double x = lonToX(maxLon);
+      Line2D.Double l = new Line2D.Double(x, y, -x, y);
+      lines.add(l);
+    }
+    return lines;
   }
 }

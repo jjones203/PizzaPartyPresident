@@ -11,6 +11,9 @@ import IO.XMLparsers.StateParserTest;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.geom.Line2D;
+
+import java.util.List;
 
 /**
  * Created by winston on 1/28/15.
@@ -22,6 +25,7 @@ public class MapViewTest extends JPanel
 
   private Camera cam;
   private MapView mapView;
+  private List<Line2D> grid;
 
   public static void main(String[] args)
   {
@@ -36,6 +40,7 @@ public class MapViewTest extends JPanel
     canvas.setCam(camera);
     canvas.setMapView(mapView);
     canvas.setSize(1000, 800);
+    canvas.setGrid(((EquirectangularConverter)mapConverter).getLatLonGrid());
 
 
     Timer timer = new Timer(30, keyController);
@@ -60,6 +65,11 @@ public class MapViewTest extends JPanel
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setVisible(true);
 
+  }
+
+  public void setGrid(List<Line2D> grid)
+  {
+    this.grid = grid;
   }
 
   public Camera getCam()
@@ -88,6 +98,7 @@ public class MapViewTest extends JPanel
     Graphics2D g2d = (Graphics2D) g;
 
     g2d.setStroke(new BasicStroke(10));
+    g2d.drawImage(cam.getDBGimg(),5,5,null);
 
     g2d.setTransform(cam.getTransform());
 
@@ -98,6 +109,8 @@ public class MapViewTest extends JPanel
     {
       guir.draw(g);
     }
+
+    for(Line2D l : grid) g2d.draw(l);
   }
 
 }

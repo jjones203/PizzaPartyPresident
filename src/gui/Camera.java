@@ -2,9 +2,12 @@ package gui;
 
 
 import java.awt.*;
+import java.awt.font.LineMetrics;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.text.AttributedCharacterIterator;
 
 /**
 
@@ -16,8 +19,8 @@ public class Camera
 
   /*arbitrary*/
   static final double MID_HEIGHT = 10;
-  static final double MAX_HEIGHT = 20;
-  static final double MIN_HEIGHT = 0;
+  static final double MAX_HEIGHT = 12;
+  static final double MIN_HEIGHT = 6;
 
   private static final double BASE_W = 1000;
   private static final double BASE_H = BASE_W /ASPECT_RATIO;
@@ -25,6 +28,8 @@ public class Camera
   private Rectangle2D viewBounds;
   private double height;
   private double scale;
+
+  private static final Font DBG_FONT = new Font("Courier", Font.PLAIN, 14);
 
   public Camera()
   {
@@ -135,10 +140,41 @@ public class Camera
   @Override
   public String toString()
   {
-    return "Camera{" +
-            ", viewBounds=" + viewBounds +
-            ", height=" + height +
-            '}';
+    String s = String.format("ViewBounds:" +
+                    "%n\ttop left: (%f, %f)" +
+                    "%n\tcenter: (%f, %f)" +
+                    "%n\theight: %f" +
+                    "%n\twidth: %f" +
+                    "%nCamera height: %f",
+            viewBounds.getX(), viewBounds.getX(),
+            viewBounds.getCenterX(), viewBounds.getCenterY(),
+            viewBounds.getHeight(), viewBounds.getWidth(),
+            height);
+
+    return s;
+  }
+
+  public BufferedImage getDBGimg()
+  {
+    BufferedImage img = new BufferedImage(400, 200, BufferedImage.TYPE_4BYTE_ABGR);
+    Graphics2D g = (Graphics2D) img.getGraphics();
+
+    String topleft_str = String.format("top left: (%.4f,%.4f)",
+            viewBounds.getX(), viewBounds.getY());
+    String dimension_str = String.format("size: (%.4f,%.4f)",
+            viewBounds.getWidth(), viewBounds.getHeight());
+    String center_str = String.format("center: (%.4f,%.4f)",
+            viewBounds.getCenterX(), viewBounds.getCenterY());
+
+
+    g.setColor(Color.BLUE);
+    g.setFont(DBG_FONT);
+    g.drawString("Camera Debug Info", 15,20);
+    g.drawString(topleft_str, 15, 40);
+    g.drawString(center_str, 15, 60);
+    g.drawString(dimension_str, 15, 80);
+
+    return img;
   }
 
   public void setHeight(double height)
