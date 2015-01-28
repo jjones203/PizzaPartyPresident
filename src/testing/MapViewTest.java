@@ -123,7 +123,7 @@ public class MapViewTest extends JPanel
     g2d.draw(new Rectangle(0, 0, 1000, 1000));
     g2d.draw(cam.getViewBounds()); // camera view HUD
 
-    for (GUIRegion guir : mapView.getGuiRegions())
+    for (GUIRegion guir : mapView.getRegionsInview(cam))
     {
       guir.draw(g);
     }

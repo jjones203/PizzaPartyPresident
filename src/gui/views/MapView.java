@@ -17,6 +17,7 @@ import java.util.LinkedList;
  */
 public class MapView
 {
+  private CAM_DISTANCE lastDistance;
   private MapConverter mpConverter;
   private Collection<GUIRegion> guiRegions;
   private ActiveRegion activeRegionView = new ActiveRegion();
@@ -64,25 +65,34 @@ public class MapView
 
   public Collection<GUIRegion> getRegionsInview(Camera camera)
   {
-    Collection<GUIRegion> regionsInview = new LinkedList<>();
+//    Collection<GUIRegion> regionsInview = new LinkedList<>();
 
-    Rectangle2D inViewBox = camera.getViewBounds();
+//    Rectangle2D inViewBox = camera.getViewBounds();
 
-    for (GUIRegion guir : guiRegions)
-    {
-      if (guir.getPoly().intersects(inViewBox)) regionsInview.add(guir);
-    }
+//    for (GUIRegion guir : guiRegions)
+//    {
+//      if (guir.getPoly().intersects(inViewBox)) regionsInview.add(guir);
+//    }
+//
+//    for (GUIRegion guir : regionsInview)
+//    {
+//      if (guir.isActive()) guir.setLook(activeRegionView);
+//    }
+//
 
-    for (GUIRegion guir : regionsInview)
-    {
-      if (guir.isActive()) guir.setLook(activeRegionView);
-    }
 
-    //TODO work on this logic, specifically how to view might or might not link together....
+    if (lastDistance == calcDistance(camera)) return getGuiRegions();
+
+    lastDistance = calcDistance(camera); // else set last to current.
+
     switch (calcDistance(camera))
     {
       case CLOSE_UP:
-        for (GUIRegion r : regionsInview)
+        System.out.println("CLOSE UP");
+        break;
+      case MEDIUM:
+        System.out.println("CLOSE UP/MEDIUM");
+        for (GUIRegion r : getGuiRegions())
         {
           if (r.isActive())
           {
@@ -93,19 +103,27 @@ public class MapView
             r.setLook(PassiveWithName);
           }
         }
+        break;
+
+      case LONG:
+        for (GUIRegion r : getGuiRegions())
+        {
+          // todo change this, this is only for testing...
+          r.setLook(activeRegionView);
+        }
     }
 
-    return regionsInview;
+    return getGuiRegions();
   }
 
   private CAM_DISTANCE calcDistance(Camera camera)
   {
     int height = camera.getHeight();
-    if (height < 3)
+    if (height < 6)
     {
       return CAM_DISTANCE.CLOSE_UP;
     }
-    else if (height < 6)
+    else if (height < 10)
     {
       return CAM_DISTANCE.MEDIUM;
     }

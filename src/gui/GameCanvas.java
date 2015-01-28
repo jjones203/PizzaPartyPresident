@@ -73,7 +73,7 @@ public class GameCanvas extends JPanel
 
   private void start()
   {
-    Timer t = new Timer(30, new ActionListener()
+    Timer t = new Timer(20, new ActionListener()
     {
       @Override
       public void actionPerformed(ActionEvent e)

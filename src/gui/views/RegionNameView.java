@@ -18,15 +18,13 @@ public class RegionNameView implements RegionView
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
   {
+    view.draw(g, gRegion);
 
     Graphics2D g2d = (Graphics2D) g;
+    g2d.setFont(new Font("TimesRoman", Font.PLAIN, 5000));
     g2d.drawString(gRegion.getName(),
-        gRegion.getPoly().getBounds().x,
-        gRegion.getPoly().getBounds().y
+        (int)gRegion.getPoly().getBounds().getCenterX(),
+        (int)gRegion.getPoly().getBounds().getCenterY()
         );
-
-    //TODO this might need work.
-
-    view.draw(g, gRegion);
   }
 }
