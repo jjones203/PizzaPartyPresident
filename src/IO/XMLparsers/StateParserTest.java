@@ -14,7 +14,7 @@ public class StateParserTest
 {
   public static void main(String[] args)
   {
-    Collection<Region> regions = getRegions();
+    Collection<Region> regions = getStateRegions();
 
     for (Region region : regions)
     {
@@ -29,7 +29,7 @@ public class StateParserTest
     System.out.println("all done!");
   }
 
-  public static Collection<Region> getRegions()
+  public static Collection<Region> getStateRegions()
   {
     Collection<Region> regions = null;
     try
