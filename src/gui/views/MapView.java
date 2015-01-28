@@ -2,7 +2,6 @@ package gui.views;
 
 import gui.Camera;
 import gui.MapConverter;
-import model.Map;
 import model.Region;
 
 import java.awt.geom.Rectangle2D;
@@ -13,45 +12,39 @@ import java.util.LinkedList;
  * Created by winston on 1/27/15.
  * Phase_01
  * CS 351 spring 2015
- *
+ * <p/>
  * Manages how the regions are displayed and rendered.
  */
 public class MapView
 {
-
-  enum CAM_DISTANCE
-  {
-    CLOSE_UP, MEDIUM, LONG
-  }
-
-  private Map map;
-  private Camera camera;
   private MapConverter mpConverter;
-
-  private CAM_DISTANCE distance;
   private Collection<GUIRegion> guiRegions;
-
   private ActiveRegion activeRegionView = new ActiveRegion();
   private PassiveRegion passiveRegionView = new PassiveRegion();
-
   private RegionView ActiveWithName = new RegionNameView(activeRegionView);
   private RegionView PassiveWithName = new RegionNameView(passiveRegionView);
 
-
-  public MapView(Map map, Camera camera, MapConverter mpConverter)
+  public MapView(Collection<Region> regions, MapConverter mpConverter)
   {
-    this.map = map;
-    this.camera = camera;
     this.mpConverter = mpConverter;
-
-    guiRegions = wrapRegions();
+    guiRegions = wrapRegions(regions);
   }
 
-  private Collection<GUIRegion> wrapRegions()
+  public Collection<GUIRegion> getGuiRegions()
+  {
+    return guiRegions;
+  }
+
+  public void setGuiRegions(Collection<GUIRegion> guiRegions)
+  {
+    this.guiRegions = guiRegions;
+  }
+
+  private Collection<GUIRegion> wrapRegions(Collection<Region> regions)
   {
     Collection<GUIRegion> guiRs = new LinkedList<>();
 
-    for (Region region : map.getWorld())
+    for (Region region : regions)
     {
       GUIRegion guir = new GUIRegion(region, mpConverter, passiveRegionView);
       guiRs.add(guir);
@@ -69,10 +62,9 @@ public class MapView
     region.setActive(false);
   }
 
-  public Collection<GUIRegion> getRegionsInview()
+  public Collection<GUIRegion> getRegionsInview(Camera camera)
   {
     Collection<GUIRegion> regionsInview = new LinkedList<>();
-    distance = calcDistance(camera);
 
     Rectangle2D inViewBox = camera.getViewBounds();
 
@@ -87,7 +79,7 @@ public class MapView
     }
 
     //TODO work on this logic, specifically how to view might or might not link together....
-    switch (distance)
+    switch (calcDistance(camera))
     {
       case CLOSE_UP:
         for (GUIRegion r : regionsInview)
@@ -121,6 +113,11 @@ public class MapView
     {
       return CAM_DISTANCE.LONG;
     }
+  }
+
+  enum CAM_DISTANCE
+  {
+    CLOSE_UP, MEDIUM, LONG
   }
 
 }
