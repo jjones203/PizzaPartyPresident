@@ -72,7 +72,7 @@ public class MapViewTest extends JPanel
     canvas.setBackground(ColorSchemes.OCEANS);
 
 
-    Timer timer = new Timer(20, keyController);
+    Timer timer = new Timer(10, keyController);
     timer.addActionListener(new AbstractAction()
     {
       @Override

@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
 public class CamController extends KeyAdapter implements ActionListener
 {
   private final static int CAMERA_STEP = 4;
-  private final static int ZOOM_STEP = 1;
+  private final static double ZOOM_STEP = .05;
   private final static int
           UP = 38,
           LEFT = 37,
