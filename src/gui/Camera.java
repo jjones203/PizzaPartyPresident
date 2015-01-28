@@ -20,7 +20,7 @@ public class Camera
   /*arbitrary*/
   static final double MID_HEIGHT = 10;
   static final double MAX_HEIGHT = 12;
-  static final double MIN_HEIGHT = 6;
+  static final double MIN_HEIGHT = 4;
 
   private static final double BASE_W = 1000;
   private static final double BASE_H = BASE_W /ASPECT_RATIO;

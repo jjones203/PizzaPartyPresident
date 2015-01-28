@@ -130,14 +130,13 @@ public class MapViewTest extends JPanel
     g2d.setTransform(cam.getTransform());
 
     g2d.draw(new Rectangle(0, 0, 1000, 1000));
-    g2d.draw(cam.getViewBounds()); // camera view HUD
 
     for (GUIRegion guir : mapView.getRegionsInview(cam))
     {
       guir.draw(g);
     }
 
-    g2d.setColor(Color.WHITE);
+    g2d.setColor(new Color(255, 255, 255, 100));
     for(Line2D l : grid) g2d.draw(l);
 
 
@@ -146,6 +145,9 @@ public class MapViewTest extends JPanel
      * overlays on top */
     if(DEBUG)
     {
+      g2d.setColor(Color.CYAN);
+      g2d.setStroke(new BasicStroke(3));
+      g2d.draw(cam.getViewBounds()); // camera view HUD
       g2d.setTransform(new AffineTransform());
       g2d.drawImage(cam.getDBGimg(), 5, 5, null);
     }
