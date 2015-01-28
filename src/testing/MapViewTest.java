@@ -53,6 +53,8 @@ public class MapViewTest extends JPanel
 
     JFrame frame = new JFrame();
     frame.setContentPane(canvas);
+    frame.addKeyListener(keyController);
+    frame.pack();
 
     frame.setSize(1000, 800);
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -82,18 +84,16 @@ public class MapViewTest extends JPanel
   }
 
   @Override
-  public void paintComponents(Graphics g)
+  public void paintComponent(Graphics g)
   {
     Graphics2D g2d = (Graphics2D) g;
 
     g2d.setStroke(new BasicStroke(10));
 
-    g2d.draw(new Rectangle(0, 0, 1000, 1000));
-
-
     g2d.setTransform(cam.getTransform());
-    g2d.draw(cam.getViewBounds()); // camera view HUD
 
+    g2d.draw(new Rectangle(0, 0, 1000, 1000));
+    g2d.draw(cam.getViewBounds()); // camera view HUD
 
     for (GUIRegion guir : mapView.getGuiRegions())
     {
