@@ -57,17 +57,17 @@ public class GameCanvas extends JPanel
   protected void paintComponent(Graphics g)
   {
     Graphics2D g2 = (Graphics2D) g;
-    Rectangle2D r = new Rectangle2D.Double(10,10,100,100);
+
+    g2.drawString(cam.toString(), 10, 510);
     Rectangle2D border = new Rectangle2D.Double(0,0,1000,500);
-    g2.setStroke(new BasicStroke(10));
-    g2.draw(r);
+    g2.setStroke(new BasicStroke(2));
     g2.draw(border);
+    g2.setColor(Color.lightGray);
 
     AffineTransform transform = cam.getTransform();
 
     g2.setTransform(transform);
-    g2.draw(r);
-    for(Polygon p : polys) g2.draw(p);
+
   }
 
   public Polygon genPoly(Random r)

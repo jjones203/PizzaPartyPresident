@@ -1,6 +1,7 @@
 package gui;
 
 import model.MapPoint;
+import model.Region;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -124,5 +125,20 @@ public class EquirectangularConverter extends MapConverter
   public double xToLat(double x, MapPoint refPoint)
   {
     return x/SCALING_FACTOR;
+  }
+
+  @Override
+  public Polygon regionToPolygon(Region r)
+  {
+
+    Polygon poly = new Polygon();
+    for(MapPoint mPoint : r.getPerimeter())
+    {
+      int x = (int)longToX(mPoint.getLon());
+      int y = (int)latToY(mPoint.getLat());
+      poly.addPoint(x, y);
+    }
+
+    return poly;
   }
 }
