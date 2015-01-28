@@ -5,9 +5,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.util.Random;
 
 import gui.views.MapView;
+import model.RegionAttributes;
 import model.RegionAttributes.PLANTING_ATTRIBUTES;
+import testing.generators.AttributeGenerator;
+
 
 /**
  * Created by winston on 1/27/15.
@@ -16,6 +20,7 @@ import model.RegionAttributes.PLANTING_ATTRIBUTES;
  */
 public class InfoPanel extends JPanel
 {
+  private RegionAttributes activeAttributes;
   private MapView mapView;
   private JLabel activeRegionName;
   private JTabbedPane tabbedPane;
@@ -23,6 +28,8 @@ public class InfoPanel extends JPanel
   private JPanel cropPanel;
   private JPanel attributePanel;
   private JList  attributeList;
+
+  private DefaultListModel cropList;
 
   public InfoPanel()
   {
@@ -53,7 +60,7 @@ public class InfoPanel extends JPanel
 
   private JPanel getAttributePanel()
   {
-    //todo move this color! whats is doing here?
+    //todo move this color! whats is it doing here?
     Color guiBackGround = new Color(231, 231, 231);
 
     JPanel attPanel = new JPanel();
@@ -86,11 +93,38 @@ public class InfoPanel extends JPanel
   }
 
 
+  public void displayRegionAttributes(RegionAttributes regionAttributes)
+  {
+    setCropListModel(regionAttributes);
+    setAttributeListModel(regionAttributes);
+    this.activeAttributes = regionAttributes;
+  }
+
+  private void setAttributeListModel(RegionAttributes regionAttributes)
+  {
+
+  }
+
+  private void setCropListModel(RegionAttributes regionAttributes)
+  {
+    if (cropList == null) cropList = new DefaultListModel();
+    for (String cropName : regionAttributes.getAllCropsPercentage().keySet())
+    {
+      cropList.addElement(cropName);
+    }
+    attributeList.setModel(cropList);
+  }
+
   public static void main(String[] args)
   {
+
+    AttributeGenerator attRando = new AttributeGenerator(new Random());
     JFrame frame = new JFrame();
 
-    frame.add(new InfoPanel());
+    InfoPanel infoPanel = new InfoPanel();
+    infoPanel.displayRegionAttributes(attRando.nextAttributeSet());
+
+    frame.add(infoPanel);
     frame.setSize(1000, 300);
     frame.setResizable(false);
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
