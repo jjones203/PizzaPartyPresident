@@ -52,10 +52,10 @@ public class CamController extends KeyAdapter implements ActionListener
       cam.zoomIn(ZOOM_STEP);
       return;
     }
-    if (isDOWNdepressed)  cam.translateRelativeToHeight(0, CAMERA_STEP);
-    if (isUPdepressed)    cam.translateRelativeToHeight(0, -CAMERA_STEP);
-    if (isLEFTdepressed)  cam.translateRelativeToHeight(-CAMERA_STEP, 0);
-    if (isRIGHTdepressed) cam.translateRelativeToHeight(CAMERA_STEP, 0);
+    if (isDOWNdepressed)  cam.translateRelativeToView(0, CAMERA_STEP);
+    if (isUPdepressed)    cam.translateRelativeToView(0, -CAMERA_STEP);
+    if (isLEFTdepressed)  cam.translateRelativeToView(-CAMERA_STEP, 0);
+    if (isRIGHTdepressed) cam.translateRelativeToView(CAMERA_STEP, 0);
   }
 
 

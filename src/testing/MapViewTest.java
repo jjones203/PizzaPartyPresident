@@ -71,7 +71,7 @@ public class MapViewTest extends JPanel
     );
 
 
-    Camera camera = new Camera(startPoint.x, startPoint.y);
+    Camera camera = new Camera(startPoint.x, startPoint.y, mapConverter);
     CamController keyController = new CamController(camera);
 
     canvas.setCam(camera);
@@ -135,11 +135,13 @@ public class MapViewTest extends JPanel
   {
     Graphics2D g2d = (Graphics2D) g;
 
-    g2d.setStroke(new BasicStroke(10));
 
     g2d.setTransform(cam.getTransform());
 
-    g2d.draw(new Rectangle(0, 0, 1000, 1000));
+    g2d.setColor(Color.PINK);
+    g2d.setStroke(new BasicStroke(20));
+    g2d.draw(cam.getLims());
+    g2d.setStroke(new BasicStroke(10));
 
     for (GUIRegion guir : mapView.getRegionsInview(cam))
     {
