@@ -64,6 +64,15 @@ public class MapView
     return guiRs;
   }
 
+
+  public void clickAt(int x , int y)
+  {
+    for (GUIRegion guir : getGuiRegions())
+    {
+      if (guir.getPoly().contains(x, y)) guir.setActive(true);
+    }
+  }
+
   public void markRegionActive(GUIRegion region)
   {
     region.setActive(true);
