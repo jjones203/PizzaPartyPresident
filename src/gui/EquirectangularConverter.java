@@ -24,8 +24,7 @@ public class EquirectangularConverter extends MapConverter
 {
 
   private static final MapPoint DEFAULT_REF = new MapPoint(0,0);
-  /* Converter scales projections using this value */
-  public static final int SCALING_FACTOR = 10000;
+  private static final double SCALING_FACTOR = 10000;
 
 
   /**
@@ -48,6 +47,7 @@ public class EquirectangularConverter extends MapConverter
    * @param lat
    * @return the latitude, scaled and projected in Y
    */
+  @Override
   public double latToY(double lat){
     return latToY(lat, DEFAULT_REF);
   }
@@ -73,6 +73,7 @@ public class EquirectangularConverter extends MapConverter
    * @param lon decimal longitude to convert
    * @return    longitude, scaled and projected in X
    */
+  @Override
   public double lonToX(double lon)
   {
     return lonToX(lon, DEFAULT_REF);
@@ -100,8 +101,8 @@ public class EquirectangularConverter extends MapConverter
   @Override
   public Point mapPointToPoint(MapPoint mp)
   {
-    int x = (int) lonToX(mp.getLon()) * SCALING_FACTOR;
-    int y = (int) latToY(mp.getLat()) * SCALING_FACTOR;
+    int x = (int) (lonToX(mp.getLon()) * SCALING_FACTOR);
+    int y = (int) (latToY(mp.getLat()) * SCALING_FACTOR);
     return new Point(x, y);
   }
 
@@ -125,10 +126,12 @@ public class EquirectangularConverter extends MapConverter
     return -y/(SCALING_FACTOR * Math.cos(Math.toRadians(refPoint.getLat())));
   }
 
+  
   public double xToLat(double x, MapPoint refPoint)
   {
     return x/SCALING_FACTOR;
   }
+
 
   @Override
   public Polygon regionToPolygon(Region r)
@@ -145,6 +148,12 @@ public class EquirectangularConverter extends MapConverter
     return poly;
   }
 
+  @Override
+  public double getScale()
+  {
+    return SCALING_FACTOR;
+  }
+
 
   /**
    * generates a projected grid of latitude and longitude lines converted to
@@ -152,6 +161,7 @@ public class EquirectangularConverter extends MapConverter
    *
    * @return
    */
+  @Override
   public List <Line2D> getLatLonGrid()
   {
 

@@ -1,13 +1,13 @@
 package gui;
 
 
+import com.sun.prism.shader.DrawRoundRect_RadialGradient_PAD_Loader;
+
 import java.awt.*;
-import java.awt.font.LineMetrics;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.text.AttributedCharacterIterator;
 
 /**
 
@@ -16,48 +16,73 @@ import java.text.AttributedCharacterIterator;
 public class Camera
 {
   private static final double ASPECT_RATIO = 2;
+  private MapConverter converter;
+
+  public enum CAM_DISTANCE
+  { 
+    CLOSE_UP, MEDIUM, LONG
+  }
 
   /*arbitrary*/
   static final double MID_HEIGHT = 10;
   static final double MAX_HEIGHT = 12;
   static final double MIN_HEIGHT = 4;
+  
+  double maxHeight;
+  double minHeight;
+  
+  double baseW;
+  double baseH;
 
   private static final double BASE_W = 1000;
   private static final double BASE_H = BASE_W /ASPECT_RATIO;
 
   private Rectangle2D viewBounds;
+  private Rectangle2D limitingRect;
+  
   private double height;
   private double scale;
 
   private static final Font DBG_FONT = new Font("Courier", Font.PLAIN, 14);
 
-  public Camera()
+  public Camera(MapConverter converter)
   {
-    this(0,0);
+    this(0, 0, converter);
   }
 
-  public Camera(double x, double y)
+  public Camera(double x, double y, MapConverter converter)
   {
-    this(x, y, MIN_HEIGHT);
+    this(x, y, MIN_HEIGHT, converter);
   }
 
-  public Camera(double x, double y, double initialHeight)
+  public Camera(double x, double y, double initialHeight, MapConverter converter)
   {
     setHeight(initialHeight);
-
-    viewBounds = new Rectangle2D.Double(x, y, scale*BASE_W, scale*BASE_H);
+    setConverter(converter);
+    viewBounds = new Rectangle2D.Double();
+    setViewBounds(x, y, scale*BASE_W, scale*BASE_H);
+    System.out.println(limitingRect);
   }
 
-  public Camera(Point p)
+  private void setViewBounds(double x, double y, double w, double h)
   {
-    this(p.x, p.y);
+    if(w > limitingRect.getWidth()) w = limitingRect.getWidth();
+    if(h > limitingRect.getHeight()) h = limitingRect.getHeight();
+    
+    if(x + w > limitingRect.getMaxX()) x = limitingRect.getMaxX() - w;
+    else if(x < limitingRect.getMinX()) x = limitingRect.getMinX();
+
+    if(y + h > limitingRect.getMaxY()) y = limitingRect.getMaxY() - h;
+    else if(y < limitingRect.getMinY()) y = limitingRect.getMinY();
+    
+    viewBounds.setFrame(x, y, w, h);
   }
+
 
   public Point2D getCenter()
   {
     return new Point2D.Double(viewBounds.getCenterX(),viewBounds.getCenterY());
   }
-
 
   public void translateAbsolute(double dx, double dy)
   {
@@ -65,10 +90,11 @@ public class Camera
     double newY = viewBounds.getY() + dy;
     double width = viewBounds.getWidth();
     double height = viewBounds.getHeight();
-    viewBounds.setFrame(newX, newY, width, height);
+    setViewBounds(newX, newY, width, height);
   }
 
-  public void translateRelativeToHeight(int dx, int dy)
+
+  public void translateRelativeToView(int dx, int dy)
   {
     translateAbsolute(dx * scale, dy * scale);
   }
@@ -90,8 +116,10 @@ public class Camera
   private void zoomAbsolute(double dZoom, double anchorX, double anchorY)
   {
     double oldH = height;
+    double oldScale = scale;
     setHeight(height + dZoom);
     double actualDZoom = height - oldH;
+    double dScale = scale - oldScale;
 
     double oldX = viewBounds.getX();
     double oldY = viewBounds.getY();
@@ -102,7 +130,7 @@ public class Camera
     double newH = scale * BASE_H;
     double newW = scale * BASE_W;
 
-    viewBounds.setFrame(newX, newY, newW, newH);
+    setViewBounds(newX, newY, newW, newH);
   }
 
   private void zoomRelativeToView(double dZoom, double anchorX, double anchorY)
@@ -123,6 +151,23 @@ public class Camera
     at.translate(shiftX, shiftY);
 
     return at;
+  }
+
+  /* maybe should be private.  Can't modify converter after instantiation */
+  public void setConverter(MapConverter converter)
+  {
+    this.converter = converter;
+    double minX = converter.lonToX(-180);
+    double minY = converter.latToY(90);
+    double maxX = converter.lonToX(180);
+    double maxY = converter.latToY(-90);
+
+    double maxW = maxX - minX;
+    double maxH = maxY - minY;
+    
+    maxHeight = Math.log(converter.getScale()); /*TODO: Fix this wrongness */
+
+    limitingRect = new Rectangle2D.Double(minX, minY, maxW, maxH);
   }
 
 
@@ -183,5 +228,17 @@ public class Camera
     this.height = height;
 
     scale = Math.pow(2, height);
+  }
+
+  public CAM_DISTANCE getDistance()
+  {
+    if(height < 6) return CAM_DISTANCE.CLOSE_UP;
+    if(height < 10) return CAM_DISTANCE.MEDIUM;
+    return CAM_DISTANCE.LONG;
+  }
+  
+  public Rectangle2D getLims()
+  {
+    return limitingRect;
   }
 }

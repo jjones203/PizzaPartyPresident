@@ -1,5 +1,6 @@
 package gui.views;
 
+import static gui.Camera.*;
 import gui.Camera;
 import gui.MapConverter;
 import model.Region;
@@ -131,24 +132,8 @@ public class MapView
    */
   private CAM_DISTANCE calcDistance(Camera camera)
   {
-    int height = camera.getHeight();
-    if (height < 5)
-    {
-      return CAM_DISTANCE.CLOSE_UP;
-    }
-    else if (height < 10)
-    {
-      return CAM_DISTANCE.MEDIUM;
-    }
-    else
-    {
-      return CAM_DISTANCE.LONG;
-    }
+    return camera.getDistance();
   }
 
-  enum CAM_DISTANCE
-  {
-    CLOSE_UP, MEDIUM, LONG
-  }
 
 }

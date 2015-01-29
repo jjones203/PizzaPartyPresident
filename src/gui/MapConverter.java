@@ -4,6 +4,7 @@ import model.MapPoint;
 import model.Region;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 
 /**
  * Created by winston on 1/23/15.
@@ -25,10 +26,16 @@ public abstract class MapConverter
     return polygon;
   }
 
+  public abstract double getScale();
+
+  public abstract double latToY(double lat);
+
+  public abstract double lonToX(double lon);
 
   public abstract Point mapPointToPoint(MapPoint mp);
 
-
   public abstract MapPoint pointToMapPoint(Point p);
+
+  public abstract java.util.List<Line2D> getLatLonGrid();
 
 }
