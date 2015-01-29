@@ -109,6 +109,7 @@ public class MapView
 //    if (currentDistance == calcDistance(camera)) return getGuiRegions();
 //    else currentDistance = calcDistance(camera); //  set last to current.
 
+    currentDistance = calcDistance(camera);
     switch (currentDistance)
     {
       case CLOSE_UP:
