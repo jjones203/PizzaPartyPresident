@@ -88,7 +88,7 @@ public class MapView
 
   public Collection<GUIRegion> getRegionsInview(Camera camera)
   {
-    
+
 //    Collection<GUIRegion> regionsInview = new LinkedList<>();
 
 //    Rectangle2D inViewBox = camera.getViewBounds();
