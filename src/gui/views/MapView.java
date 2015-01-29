@@ -69,7 +69,10 @@ public class MapView
   {
     for (GUIRegion guir : getGuiRegions())
     {
-      if (guir.getPoly().contains(x, y)) guir.setActive(true);
+      if (guir.getPoly().contains(x, y))
+      {
+        guir.setActive(! guir.isActive());
+      }
     }
   }
 
@@ -85,6 +88,7 @@ public class MapView
 
   public Collection<GUIRegion> getRegionsInview(Camera camera)
   {
+    
 //    Collection<GUIRegion> regionsInview = new LinkedList<>();
 
 //    Rectangle2D inViewBox = camera.getViewBounds();
