@@ -19,6 +19,7 @@ public class MapView
   private CAM_DISTANCE currentDistance;
   private MapConverter mpConverter;
   private Collection<GUIRegion> guiRegions;
+
   private ActiveRegion activeRegionView = new ActiveRegion();
   private PassiveRegion passiveRegionView = new PassiveRegion();
 
@@ -101,7 +102,7 @@ public class MapView
         break;
 
       case LONG:
-        setRegionsActivePassiveViews(ActiveWithName, ActiveWithName);
+        setRegionsActivePassiveViews(activeRegionView, activeRegionView);
         break;
 
       default:

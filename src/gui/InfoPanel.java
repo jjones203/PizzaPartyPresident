@@ -97,7 +97,10 @@ public class InfoPanel extends JPanel
       public void valueChanged(ListSelectionEvent e)
       {
         if (activeAttributes == null) return;
-        cropLable.setText("%" + activeAttributes.getCropP((String) cropList.getSelectedValue()) * 100);
+        Double p = activeAttributes
+                   .getCropP((String) cropList.getSelectedValue());
+
+        cropLable.setText("% " + (p * 100)); // scaling the percentage value.
       }
     });
 
@@ -125,8 +128,6 @@ public class InfoPanel extends JPanel
       @Override
       public void valueChanged(ListSelectionEvent e)
       {
-        System.out.println(attributeList.getSelectedValue().toString());
-
         if (activeAttributes == null) return;
         String res = attributeList.getSelectedValue().toString();
         res += ": " + activeAttributes.getAttribute((PLANTING_ATTRIBUTES) attributeList.getSelectedValue());
