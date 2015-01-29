@@ -4,7 +4,6 @@ import gui.Camera;
 import gui.MapConverter;
 import model.Region;
 
-import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -17,7 +16,7 @@ import java.util.LinkedList;
  */
 public class MapView
 {
-  private CAM_DISTANCE lastDistance;
+  private CAM_DISTANCE currentDistance;
   private MapConverter mpConverter;
   private Collection<GUIRegion> guiRegions;
   private ActiveRegion activeRegionView = new ActiveRegion();
@@ -86,11 +85,10 @@ public class MapView
 //
 
 
-    if (lastDistance == calcDistance(camera)) return getGuiRegions();
+    if (currentDistance == calcDistance(camera)) return getGuiRegions();
+    else currentDistance = calcDistance(camera); //  set last to current.
 
-    lastDistance = calcDistance(camera); // else set last to current.
-
-    switch (lastDistance)
+    switch (currentDistance)
     {
       case CLOSE_UP:
         System.out.println("CLOSE UP");
@@ -107,7 +105,7 @@ public class MapView
         break;
 
       default:
-        System.err.println(lastDistance + "not handeled by getRegionsInview");
+        System.err.println(currentDistance + "not handeled by getRegionsInview");
     }
 
     return getGuiRegions();
