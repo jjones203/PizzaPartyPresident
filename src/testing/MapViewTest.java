@@ -155,7 +155,7 @@ public class MapViewTest extends JPanel
       guir.draw(g);
     }
 
-    g2d.setColor(new Color(255, 255, 255, 100));
+    g2d.setColor(ColorSchemes.MAP_GRID);
     for(Line2D l : grid) g2d.draw(l);
 
 

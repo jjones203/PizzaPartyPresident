@@ -24,6 +24,8 @@ public interface  ColorSchemes
 
   Color XML_ERROR = new Color(255, 129, 78, 212);
 
+  Color MAP_GRID = new Color(255, 255, 255, 100);
+
 
 
 }
