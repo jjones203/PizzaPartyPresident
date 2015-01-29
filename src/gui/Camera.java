@@ -112,7 +112,7 @@ public class Camera
     zoomAbsolute(zoomDiff, centerX, centerY);
   }
 
-  private void zoomAbsolute(double dZoom, double anchorX, double anchorY)
+  public void zoomAbsolute(double dZoom, double anchorX, double anchorY)
   {
     double oldH = height;
     double oldScale = scale;
