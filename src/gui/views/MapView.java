@@ -65,7 +65,7 @@ public class MapView
   }
 
 
-  public void clickAt(int x , int y)
+  public void clickAt(double x , double y)
   {
     for (GUIRegion guir : getGuiRegions())
     {
