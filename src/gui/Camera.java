@@ -5,6 +5,7 @@ import com.sun.prism.shader.DrawRoundRect_RadialGradient_PAD_Loader;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -15,36 +16,25 @@ import java.awt.image.BufferedImage;
 
 public class Camera
 {
-  private static final double ASPECT_RATIO = 2;
-  private MapConverter converter;
-
-  public enum CAM_DISTANCE
-  { 
-    CLOSE_UP, MEDIUM, LONG
-  }
-
-  /*arbitrary*/
   static final double MID_HEIGHT = 10;
   static final double MAX_HEIGHT = 12;
   static final double MIN_HEIGHT = 4;
-  
+  private static final double ASPECT_RATIO = 2;
+  private static final double BASE_W = 1000;
+  private static final double BASE_H = BASE_W /ASPECT_RATIO;
+  private static final Font DBG_FONT = new Font("Courier", Font.PLAIN, 14);
   double maxHeight;
   double minHeight;
   
   double baseW;
   double baseH;
-
-  private static final double BASE_W = 1000;
-  private static final double BASE_H = BASE_W /ASPECT_RATIO;
-
+  private MapConverter converter;
   private Rectangle2D viewBounds;
   private Rectangle2D limitingRect;
-  
   private double height;
   private double scale;
-
-  private static final Font DBG_FONT = new Font("Courier", Font.PLAIN, 14);
-
+  
+  
   public Camera(MapConverter converter)
   {
     this(0, 0, converter);
@@ -64,6 +54,17 @@ public class Camera
     System.out.println(limitingRect);
   }
 
+
+  public void centerAbsolute(double x, double y)
+  {
+    System.out.println("centering on (" + x + "," + y + ")");
+    double w = viewBounds.getWidth();
+    double h = viewBounds.getHeight();
+    x = x - w/2;
+    y = y - h/2;
+    setViewBounds(x, y, w, h);
+  }
+
   private void setViewBounds(double x, double y, double w, double h)
   {
     if(w > limitingRect.getWidth()) w = limitingRect.getWidth();
@@ -78,7 +79,6 @@ public class Camera
     viewBounds.setFrame(x, y, w, h);
   }
 
-
   public Point2D getCenter()
   {
     return new Point2D.Double(viewBounds.getCenterX(),viewBounds.getCenterY());
@@ -92,7 +92,6 @@ public class Camera
     double height = viewBounds.getHeight();
     setViewBounds(newX, newY, width, height);
   }
-
 
   public void translateRelativeToView(int dx, int dy)
   {
@@ -171,10 +170,18 @@ public class Camera
     limitingRect = new Rectangle2D.Double(minX, minY, maxW, maxH);
   }
 
-
   public int getHeight()
   {
     return (int)height; /* TODO: resolve FP v INT dilemma */
+  }
+
+  public void setHeight(double height)
+  {
+    if(height < MIN_HEIGHT) height = MIN_HEIGHT;
+    else if(height > maxHeight) height = maxHeight;
+    this.height = height;
+
+    scale = Math.pow(2, height);
   }
 
   public Rectangle2D getViewBounds()
@@ -227,24 +234,20 @@ public class Camera
     return img;
   }
 
-  public void setHeight(double height)
-  {
-    if(height < MIN_HEIGHT) height = MIN_HEIGHT;
-    else if(height > maxHeight) height = maxHeight;
-    this.height = height;
-
-    scale = Math.pow(2, height);
-  }
-
   public CAM_DISTANCE getDistance()
   {
     if(height < 6) return CAM_DISTANCE.CLOSE_UP;
     if(height < 10) return CAM_DISTANCE.MEDIUM;
     return CAM_DISTANCE.LONG;
   }
-  
+
   public Rectangle2D getLims()
   {
     return limitingRect;
+  }
+  
+  public enum CAM_DISTANCE
+  { 
+    CLOSE_UP, MEDIUM, LONG
   }
 }

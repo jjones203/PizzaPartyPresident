@@ -74,7 +74,7 @@ public class MapViewTest extends JPanel
 
 
     Camera camera = new Camera(startPoint.x, startPoint.y, mapConverter);
-    CamController keyController = new CamController(camera);
+    CamController keyController = new CamController(camera, mapView);
 
     canvas.setCam(camera);
     canvas.setMapView(mapView);
@@ -99,6 +99,8 @@ public class MapViewTest extends JPanel
     JFrame frame = new JFrame();
     frame.setContentPane(canvas);
     frame.addKeyListener(keyController);
+    frame.addMouseListener(keyController);
+    frame.addMouseWheelListener(keyController);
     frame.pack();
 
     frame.setSize(1000, 800);
