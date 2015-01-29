@@ -94,44 +94,41 @@ public class MapView
     {
       case CLOSE_UP:
         System.out.println("CLOSE UP");
-        for (GUIRegion r : getGuiRegions())
-        {
-          if (r.isActive())
-          {
-            r.setLook(ActiveSmallText);
-          }
-          else
-          {
-            r.setLook(PasiveSmallText);
-          }
-        }
+        setRegionsActivePassiveViews(ActiveSmallText, PasiveSmallText);
         break;
+
       case MEDIUM:
         System.out.println("CLOSE UP/MEDIUM");
-        for (GUIRegion r : getGuiRegions())
-        {
-          if (r.isActive())
-          {
-            r.setLook(ActiveWithName);
-          }
-          else
-          {
-            r.setLook(PassiveWithName);
-          }
-        }
+        setRegionsActivePassiveViews(ActiveWithName, PassiveWithName);
         break;
 
       case LONG:
-        for (GUIRegion r : getGuiRegions())
-        {
-          // todo change this, this is only for testing...
-          r.setLook(activeRegionView);
-        }
+        setRegionsActivePassiveViews(ActiveWithName, ActiveWithName);
+        break;
+
+      default:
+        System.err.println(lastDistance + "not handeled by getRegionsInview");
     }
 
     return getGuiRegions();
   }
 
+  /*
+   * sets the regions to the respective views as a
+   * function of their active state
+   */
+  private void setRegionsActivePassiveViews(RegionView active, RegionView passive)
+  {
+    for (GUIRegion region : getGuiRegions())
+    {
+      if (region.isActive()) region.setLook(active);
+      else region.setLook(passive);
+    }
+  }
+
+  /*
+   * Creates discrete view steps to handel region presentation rules.
+   */
   private CAM_DISTANCE calcDistance(Camera camera)
   {
     int height = camera.getHeight();

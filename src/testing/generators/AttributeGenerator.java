@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public class AttributeGenerator
 {
-  private String[] crops = {"corn", "wheat", "grapeNuts", "coffee"};
+  private String[] crops = {"corn", "wheat", "grapeNuts", "coffee", "bread", "pudding"};
   private Random rand;
 
   public AttributeGenerator(Random rand)
