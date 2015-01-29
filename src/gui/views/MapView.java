@@ -29,6 +29,9 @@ public class MapView
   private RegionView ActiveSmallText = new RegionNameView(activeRegionView, 1000);
   private RegionView PasiveSmallText = new RegionNameView(passiveRegionView, 1000);
 
+  private RegionView HappyActiveView = new RegionHappyView(activeRegionView);
+  private RegionView HappyWithName = new RegionNameView(HappyActiveView, 6000);
+
 
   public MapView(Collection<Region> regions, MapConverter mpConverter)
   {
@@ -98,11 +101,11 @@ public class MapView
 
       case MEDIUM:
         System.out.println("CLOSE UP/MEDIUM");
-        setRegionsActivePassiveViews(ActiveWithName, PassiveWithName);
+        setRegionsActivePassiveViews(HappyWithName, HappyWithName);
         break;
 
       case LONG:
-        setRegionsActivePassiveViews(activeRegionView, activeRegionView);
+        setRegionsActivePassiveViews(HappyWithName, HappyWithName);
         break;
 
       default:

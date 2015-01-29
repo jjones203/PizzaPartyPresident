@@ -21,18 +21,18 @@ public class RegionHappyView implements RegionView
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
   {
+    //todo this is for testing
+//    view.draw(g, gRegion); // ignores base view
     double happinessLevel = gRegion.getRegion()
-        .getAttributes()
-        .getAttribute(HAPPINESS);
+                                   .getAttributes()
+                                   .getAttribute(HAPPINESS);
 
-    Color happyCollor = new Color(
-        (float) happinessLevel,
-        (float) happinessLevel,
-        0.0f);
+    happinessLevel = happinessLevel * 12.75; // rough scaling factor testing only magic number!
+
+    Color happyCollor = new Color((int) happinessLevel, (int)happinessLevel, 0);
 
     g.setColor(happyCollor);
-    g.drawPolygon(gRegion.getPoly());
+    g.fillPolygon(gRegion.getPoly());
 
-    view.draw(g, gRegion);
   }
 }

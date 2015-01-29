@@ -7,6 +7,7 @@ import gui.views.MapView;
 import IO.XMLparsers.StateParserTest;
 import model.Region;
 import org.xml.sax.SAXException;
+import testing.generators.AttributeGenerator;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,6 +18,7 @@ import java.awt.geom.AffineTransform;
 import java.util.Collection;
 import java.util.List;
 import java.awt.geom.Line2D;
+import java.util.Random;
 
 
 /**
@@ -33,6 +35,7 @@ public class MapViewTest extends JPanel
 
   public static void main(String[] args)
   {
+    AttributeGenerator randoAtts = new AttributeGenerator(new Random());
     final MapViewTest canvas = new MapViewTest();
     MapConverter mapConverter = new EquirectangularConverter();
 
@@ -52,6 +55,13 @@ public class MapViewTest extends JPanel
 
     Collection<Region> worldz = StateParserTest.getStateRegions();
     worldz.addAll(areaXMLloader.getRegions());
+
+
+    //add random attributes for testing...
+    for (Region r : worldz)
+    {
+      r.setAttributes(randoAtts.nextAttributeSet());
+    }
 
     MapView mapView = new MapView(worldz, mapConverter);
 
