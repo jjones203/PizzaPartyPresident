@@ -1,9 +1,12 @@
 package gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import gui.views.MapView;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 
 /**
  * @author david
@@ -11,7 +14,9 @@ import java.awt.event.KeyEvent;
  *         <p/>
  *         description:
  */
-public class CamController extends KeyAdapter implements ActionListener
+public class CamController 
+        extends KeyAdapter 
+        implements ActionListener, MouseListener, MouseWheelListener
 {
   private final static int CAMERA_STEP = 10;
   private final static double ZOOM_STEP = .05;
@@ -30,11 +35,13 @@ public class CamController extends KeyAdapter implements ActionListener
           isSHIFTdepressed;
 
   private Camera cam;
+  private MapView mapView;
 
 
-  public CamController(Camera camera)
+  public CamController(Camera camera, MapView mapView)
   {
     this.cam = camera;
+    this.mapView = mapView;
   }
 
 
@@ -116,4 +123,60 @@ public class CamController extends KeyAdapter implements ActionListener
     }
   }
 
+  @Override
+  public void mouseClicked(MouseEvent e)
+  {
+    Point loc = e.getPoint();
+    System.out.println(loc);
+    Point2D mapClick = new Point2D.Double();
+    AffineTransform a = cam.getTransform();
+    
+    try
+    {
+      a.invert();
+    } catch (NoninvertibleTransformException e1)
+    {
+      /* should not happen, all transforms are simple... */
+      e1.printStackTrace();
+      System.exit(1);
+    }
+    
+    a.transform(loc, mapClick);
+
+    if(e.isControlDown())
+    {
+      cam.centerAbsolute(mapClick.getX(), mapClick.getY());
+    }
+
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e)
+  {
+
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e)
+  {
+
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e)
+  {
+
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e)
+  {
+
+  }
+
+  @Override
+  public void mouseWheelMoved(MouseWheelEvent e)
+  {
+
+  }
 }
