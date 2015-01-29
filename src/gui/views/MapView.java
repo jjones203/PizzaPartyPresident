@@ -71,6 +71,7 @@ public class MapView
     {
       if (guir.getPoly().contains(x, y))
       {
+        System.out.println("region clicked: " + guir.getName());
         guir.setActive(! guir.isActive());
       }
     }
