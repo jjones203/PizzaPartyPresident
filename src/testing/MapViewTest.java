@@ -159,10 +159,22 @@ public class MapViewTest extends JPanel
      * overlays on top */
     if(DEBUG)
     {
+
       g2d.setColor(Color.CYAN);
       g2d.setStroke(new BasicStroke(3));
+
       g2d.draw(cam.getViewBounds()); // camera view HUD
+
       g2d.setTransform(new AffineTransform());
+
+      String regCount = String.format("Regions in viewBounds: %d",
+              mapView.countIntersectingRegions(cam.getViewBounds()));
+      
+      g2d.setColor(Color.RED);
+      g2d.setFont(new Font("Courier", Font.PLAIN, 14));
+      g2d.drawString(regCount, 15, 700);
+      
+      /* debug stats on BufImg */
       g2d.drawImage(cam.getDBGimg(), 5, 5, null);
     }
   }

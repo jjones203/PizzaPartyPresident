@@ -5,6 +5,7 @@ import gui.Camera;
 import gui.MapConverter;
 import model.Region;
 
+import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -134,6 +135,17 @@ public class MapView
   private CAM_DISTANCE calcDistance(Camera camera)
   {
     return camera.getDistance();
+  }
+  
+  
+  public int countIntersectingRegions(Rectangle2D r)
+  {
+    int sum = 0;
+    for(GUIRegion g : guiRegions)
+    {
+      if(g.getArea().intersects(r)) sum++;
+    }
+    return sum;
   }
 
 
