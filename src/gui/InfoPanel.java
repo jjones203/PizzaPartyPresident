@@ -40,7 +40,7 @@ public class InfoPanel extends JPanel
     setLayout(new BorderLayout());
 
 
-    activeRegionName = new JLabel("REGION NAME");
+    activeRegionName = new JLabel();
     activeRegionName.setHorizontalAlignment(JLabel.CENTER);
     add(activeRegionName, BorderLayout.NORTH);
 
@@ -65,8 +65,6 @@ public class InfoPanel extends JPanel
     AtomicRegion testR = new AtomicRegion();
     testR.setName("TEST region");
     testR.setAttributes(attRando.nextAttributeSet());
-
-    System.out.println(testR);
 
     infoPanel.displayRegion(testR);
 

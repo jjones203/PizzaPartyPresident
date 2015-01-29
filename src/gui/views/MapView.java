@@ -111,7 +111,6 @@ public class MapView
       default:
         System.err.println(currentDistance + "not handeled by getRegionsInview");
     }
-
     return getGuiRegions();
   }
 

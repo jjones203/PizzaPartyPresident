@@ -13,18 +13,32 @@ public class RegionAttributes
 
   public enum PLANTING_ATTRIBUTES
   {
-    PLANTING_ZONE,
+    PLANTING_ZONE("Planting Zone"),
 //    PERCENTAGE_CROPS, // this is a complex value?
-    ANNUAL_RAINFALL,
-    MONTHLY_RAINFALL,
-    AVE_MONTH_TEMP_HI,
-    AVE_MONTH_TEMP_LO,
-    POPULATION,
-    COST_OF_CROPS,
-    PROFIT_FROM_CROPS,
-    ELEVATION,
-    HAPPINESS,
-    SOIL_TYPE
+    ANNUAL_RAINFALL("Annual Rainfall"),
+    MONTHLY_RAINFALL("Monthly Rainfall"),
+    AVE_MONTH_TEMP_HI("Average Month High temp"),
+    AVE_MONTH_TEMP_LO("Average Month Low Temp"),
+    POPULATION("Population"),
+    COST_OF_CROPS("Cost"),
+    PROFIT_FROM_CROPS("Profit"),
+    ELEVATION("Elevation"),
+    HAPPINESS("Happiness"),
+    SOIL_TYPE("Soil Type");
+
+
+    private String prettyPrint;
+
+    private PLANTING_ATTRIBUTES(String prettyPrint)
+    {
+      this.prettyPrint = prettyPrint;
+    }
+
+    @Override
+    public String toString()
+    {
+      return prettyPrint;
+    }
   }
 
   private HashMap<PLANTING_ATTRIBUTES, Double> attSet = new HashMap<>();
