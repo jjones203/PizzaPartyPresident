@@ -79,7 +79,7 @@ public class MapViewTest extends JPanel
     canvas.setCam(camera);
     canvas.setMapView(mapView);
     canvas.setSize(1000, 800);
-    canvas.setGrid(((EquirectangularConverter)mapConverter).getLatLonGrid());
+    canvas.setGrid(mapConverter.getLatLonGrid());
     canvas.setBackground(ColorSchemes.OCEANS);
 
 
@@ -167,8 +167,8 @@ public class MapViewTest extends JPanel
 
       g2d.setTransform(new AffineTransform());
 
-      String regCount = String.format("Regions in viewBounds: %d",
-              mapView.countIntersectingRegions(cam.getViewBounds()));
+      String regCount = String.format("Vertices in viewBounds: %d",
+              mapView.countIntersectingPoints(cam.getViewBounds()));
       
       g2d.setColor(Color.RED);
       g2d.setFont(new Font("Courier", Font.PLAIN, 14));

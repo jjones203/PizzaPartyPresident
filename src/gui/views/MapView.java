@@ -5,6 +5,7 @@ import gui.Camera;
 import gui.MapConverter;
 import model.Region;
 
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -144,6 +145,21 @@ public class MapView
     for(GUIRegion g : guiRegions)
     {
       if(g.getArea().intersects(r)) sum++;
+    }
+    return sum;
+  }
+  
+  public int countIntersectingPoints(Rectangle2D r)
+  {
+    int sum = 0;
+    for(GUIRegion g : guiRegions)
+    {
+      Polygon p = g.getPoly();
+      int n = p.npoints;
+      for (int i = 0; i < n; i++)
+      {
+        if(r.contains(p.xpoints[i], p.ypoints[i])) sum++;
+      }
     }
     return sum;
   }
