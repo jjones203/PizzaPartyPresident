@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<region>
-    <area>
-        <name>NYC</name>
-        <vertex lat="1" lon="2" />
-        <vertex lat="21" lon="22" />
-    </area>
-</region>

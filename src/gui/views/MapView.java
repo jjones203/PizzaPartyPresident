@@ -27,7 +27,7 @@ public class MapView
   private RegionView PassiveWithName = new RegionNameView(passiveRegionView, 5000);
 
   private RegionView ActiveSmallText = new RegionNameView(activeRegionView, 1000);
-  private RegionView PasiveSmallText = new RegionNameView(passiveRegionView, 1000);
+  private RegionView PassiveSmallText = new RegionNameView(passiveRegionView, 1000);
 
   private RegionView HappyActiveView = new RegionHappyView(activeRegionView);
   private RegionView HappyWithName = new RegionNameView(HappyActiveView, 6000);
@@ -96,16 +96,16 @@ public class MapView
     {
       case CLOSE_UP:
         System.out.println("CLOSE UP");
-        setRegionsActivePassiveViews(ActiveSmallText, PasiveSmallText);
+        setRegionsActivePassiveViews(ActiveSmallText, PassiveSmallText);
         break;
 
       case MEDIUM:
         System.out.println("CLOSE UP/MEDIUM");
-        setRegionsActivePassiveViews(HappyWithName, HappyWithName);
+        setRegionsActivePassiveViews(ActiveWithName, PassiveWithName);
         break;
 
       case LONG:
-        setRegionsActivePassiveViews(HappyWithName, HappyWithName);
+        setRegionsActivePassiveViews(ActiveWithName, PassiveWithName);
         break;
 
       default:
