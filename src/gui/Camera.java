@@ -42,24 +42,23 @@ public class Camera
 
   public Camera(double x, double y, MapConverter converter)
   {
-    this(x, y, MIN_HEIGHT, converter);
+    this(x, y, MAX_HEIGHT, converter);
   }
 
   public Camera(double x, double y, double initialHeight, MapConverter converter)
   {
-    setHeight(initialHeight);
     setConverter(converter);
+    setHeight(initialHeight);
     viewBounds = new Rectangle2D.Double();
-    setViewBounds(x, y, scale*BASE_W, scale*BASE_H);
-    System.out.println(limitingRect);
+    setViewBounds(x, y, scale * BASE_W, scale * BASE_H);
   }
 
 
   public void centerAbsolute(double x, double y)
   {
-    System.out.println("centering on (" + x + "," + y + ")");
     double w = viewBounds.getWidth();
     double h = viewBounds.getHeight();
+    
     x = x - w/2;
     y = y - h/2;
     setViewBounds(x, y, w, h);

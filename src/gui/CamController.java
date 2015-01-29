@@ -88,7 +88,6 @@ public class CamController
         isSHIFTdepressed = true;
         break;
       default:
-        System.out.println(e.getKeyCode());
     }
   }
 
@@ -119,7 +118,6 @@ public class CamController
         isSHIFTdepressed = false;
         break;
       default:
-        System.out.println(e.getKeyCode());
     }
   }
 

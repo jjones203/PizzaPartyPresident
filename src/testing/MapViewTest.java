@@ -29,7 +29,10 @@ import java.util.Random;
  */
 public class MapViewTest extends JPanel
 {
-  private static final boolean DEBUG = false;
+  /* boolean controlling the fate of the universe. Modify at your own risk */
+  private static final boolean DEBUG = true;
+  
+  
   private Camera cam;
   private MapView mapView;
   private List<Line2D> grid;

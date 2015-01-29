@@ -113,12 +113,10 @@ public class MapView
     switch (currentDistance)
     {
       case CLOSE_UP:
-        System.out.println("CLOSE UP");
         setRegionsActivePassiveViews(HappyActiveView, HappyWithName);
         break;
 
       case MEDIUM:
-        System.out.println("MEDIUM");
         setRegionsActivePassiveViews(ActiveWithName, PassiveWithName);
         break;
 
