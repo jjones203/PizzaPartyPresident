@@ -105,8 +105,8 @@ public class MapView
 //
 
 
-    if (currentDistance == calcDistance(camera)) return getGuiRegions();
-    else currentDistance = calcDistance(camera); //  set last to current.
+//    if (currentDistance == calcDistance(camera)) return getGuiRegions();
+//    else currentDistance = calcDistance(camera); //  set last to current.
 
     switch (currentDistance)
     {
@@ -116,7 +116,7 @@ public class MapView
         break;
 
       case MEDIUM:
-        System.out.println("CLOSE UP/MEDIUM");
+        System.out.println("MEDIUM");
         setRegionsActivePassiveViews(ActiveWithName, PassiveWithName);
         break;
 
