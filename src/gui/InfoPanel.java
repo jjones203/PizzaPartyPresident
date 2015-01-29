@@ -1,16 +1,16 @@
 package gui;
 
+import model.AtomicRegion;
+import model.RegionAttributes;
+import model.RegionAttributes.PLANTING_ATTRIBUTES;
+import testing.generators.AttributeGenerator;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.Random;
-
-import gui.views.MapView;
-import model.RegionAttributes;
-import model.RegionAttributes.PLANTING_ATTRIBUTES;
-import testing.generators.AttributeGenerator;
 
 
 /**
@@ -20,20 +20,27 @@ import testing.generators.AttributeGenerator;
  */
 public class InfoPanel extends JPanel
 {
+
+  private final static Color GUI_BACK_GROUND = new Color(231, 231, 231);
   private RegionAttributes activeAttributes;
-  private MapView mapView;
+//  private MapView mapView;
+
   private JLabel activeRegionName;
   private JTabbedPane tabbedPane;
 
   private JPanel cropPanel;
   private JPanel attributePanel;
-  private JList  attributeList;
+  private JList attributeList;
+  private JList cropList;
 
-  private DefaultListModel cropList;
+
 
   public InfoPanel()
   {
+    cropList = new JList();
+
     setLayout(new BorderLayout());
+
 
     activeRegionName = new JLabel("REGION NAME");
     activeRegionName.setHorizontalAlignment(JLabel.CENTER);
@@ -43,76 +50,10 @@ public class InfoPanel extends JPanel
     add(tabbedPane, BorderLayout.CENTER);
 
     attributePanel = getAttributePanel();
-    tabbedPane.addTab("Attributes", attributePanel);
+    tabbedPane.addTab("Attributes", attributePanel); // I might not need a reference to the attribute pane.
 
     cropPanel = getCropPanel();
     tabbedPane.add("crops", cropPanel);
-  }
-
-  private JPanel getCropPanel()
-  {
-    JPanel cropPanel = new JPanel();
-    cropPanel.setLayout(new BorderLayout());
-    cropPanel.setBackground(Color.orange);
-
-    return cropPanel;
-  }
-
-  private JPanel getAttributePanel()
-  {
-    //todo move this color! whats is it doing here?
-    Color guiBackGround = new Color(231, 231, 231);
-
-    JPanel attPanel = new JPanel();
-    attPanel.setLayout(new BorderLayout());
-    attPanel.setBackground(guiBackGround);
-
-    attributeList = new JList(PLANTING_ATTRIBUTES.values());
-    attributeList.setBackground(guiBackGround);
-    attributeList.setBorder(new EmptyBorder(10, 10, 10, 10));
-    attributeList.addListSelectionListener(new ListSelectionListener()
-    {
-      @Override
-      public void valueChanged(ListSelectionEvent e)
-      {
-        if (attributeList.getValueIsAdjusting())
-        {
-          System.out.println(attributeList.getSelectedValue().toString());
-        }
-      }
-    });
-
-    attPanel.add(attributeList, BorderLayout.WEST);
-
-
-    JPanel centerInfoPanel = new JPanel();
-    centerInfoPanel.setBackground(Color.orange);
-    attPanel.add(centerInfoPanel);
-
-    return attPanel;
-  }
-
-
-  public void displayRegionAttributes(RegionAttributes regionAttributes)
-  {
-    setCropListModel(regionAttributes);
-    setAttributeListModel(regionAttributes);
-    this.activeAttributes = regionAttributes;
-  }
-
-  private void setAttributeListModel(RegionAttributes regionAttributes)
-  {
-
-  }
-
-  private void setCropListModel(RegionAttributes regionAttributes)
-  {
-    if (cropList == null) cropList = new DefaultListModel();
-    for (String cropName : regionAttributes.getAllCropsPercentage().keySet())
-    {
-      cropList.addElement(cropName);
-    }
-    attributeList.setModel(cropList);
   }
 
   public static void main(String[] args)
@@ -122,7 +63,12 @@ public class InfoPanel extends JPanel
     JFrame frame = new JFrame();
 
     InfoPanel infoPanel = new InfoPanel();
-    infoPanel.displayRegionAttributes(attRando.nextAttributeSet());
+
+    AtomicRegion testR = new AtomicRegion();
+    testR.setName("TEST region");
+    testR.setAttributes(attRando.nextAttributeSet());
+
+    infoPanel.displayRegion(testR);
 
     frame.add(infoPanel);
     frame.setSize(1000, 300);
@@ -130,4 +76,90 @@ public class InfoPanel extends JPanel
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setVisible(true);
   }
+
+  private JPanel getCropPanel()
+  {
+    JPanel cropPanel = new JPanel();
+    cropPanel.setBackground(GUI_BACK_GROUND);
+    cropPanel.setLayout(new BorderLayout());
+
+    // todo move this!
+    final JLabel cropLable = new JLabel();
+    cropLable.setHorizontalAlignment(SwingConstants.CENTER);
+
+    cropList = new JList();
+    cropList.setBackground(GUI_BACK_GROUND);
+    cropList.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+    cropList.addListSelectionListener(new ListSelectionListener()
+    {
+      @Override
+      public void valueChanged(ListSelectionEvent e)
+      {
+        if (activeAttributes == null) return;
+        cropLable.setText("%" + activeAttributes.getCropP((String) cropList.getSelectedValue()) * 100);
+      }
+    });
+
+
+    cropPanel.add(cropLable, BorderLayout.CENTER);
+    cropPanel.add(cropList, BorderLayout.WEST);
+
+    return cropPanel;
+  }
+
+  private JPanel getAttributePanel()
+  {
+
+
+    JPanel attPanel = new JPanel();
+    attPanel.setLayout(new BorderLayout());
+    attPanel.setBackground(GUI_BACK_GROUND);
+
+    final JLabel attributeLable = new JLabel(); //todo to this up to class level
+    attributeLable.setHorizontalAlignment(SwingConstants.CENTER);
+
+    attributeList = new JList(PLANTING_ATTRIBUTES.values());
+    attributeList.setBackground(GUI_BACK_GROUND);
+    attributeList.setBorder(new EmptyBorder(10, 10, 10, 10));
+    attributeList.addListSelectionListener(new ListSelectionListener()
+    {
+      @Override
+      public void valueChanged(ListSelectionEvent e)
+      {
+        System.out.println(attributeList.getSelectedValue().toString());
+
+        if (activeAttributes == null) return;
+        String res = attributeList.getSelectedValue().toString();
+        res += ": " + activeAttributes.getAttribute((PLANTING_ATTRIBUTES) attributeList.getSelectedValue());
+        attributeLable.setText(res);
+      }
+    });
+
+    attPanel.add(attributeList, BorderLayout.WEST);
+
+    attPanel.add(attributeLable, BorderLayout.CENTER);
+
+    return attPanel;
+  }
+
+  private void displayRegion(AtomicRegion testR)
+  {
+    activeRegionName.setText(testR.getName());
+    activeAttributes = testR.getAttributes();
+
+    displayCrops(activeAttributes);
+  }
+
+  private void displayCrops(RegionAttributes attributes)
+  {
+    DefaultListModel cropModel = new DefaultListModel();
+
+    for (String crop : attributes.getAllCropsPercentage().keySet())
+    {
+      cropModel.addElement(crop);
+    }
+    cropList.setModel(cropModel);
+  }
+
 }
