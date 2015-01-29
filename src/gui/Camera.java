@@ -45,8 +45,7 @@ public class Camera
   {
     setHeight(initialHeight);
 
-    double scale = Math.pow(2, height);
-    viewBounds = new Rectangle2D.Double(x, y, BASE_W, BASE_H);
+    viewBounds = new Rectangle2D.Double(x, y, scale*BASE_W, scale*BASE_H);
   }
 
   public Camera(Point p)
