@@ -126,28 +126,16 @@ public class CamController
   @Override
   public void mouseClicked(MouseEvent e)
   {
-    Point loc = e.getPoint();
-    System.out.println(loc);
-    Point2D mapClick = new Point2D.Double();
-    AffineTransform a = cam.getTransform();
-    
-    try
-    {
-      a.invert();
-    } catch (NoninvertibleTransformException e1)
-    {
-      /* should not happen, all transforms are simple... */
-      e1.printStackTrace();
-      System.exit(1);
-    }
-    
-    a.transform(loc, mapClick);
+    Point2D mapClick = convertToMapSpace(e.getPoint());
 
     if(e.isControlDown())
     {
       cam.centerAbsolute(mapClick.getX(), mapClick.getY());
     }
-
+    else
+    {
+      mapView.clickAt(mapClick.getX(), mapClick.getY());
+    }
   }
 
   @Override
@@ -177,6 +165,26 @@ public class CamController
   @Override
   public void mouseWheelMoved(MouseWheelEvent e)
   {
+    Point2D mapClick = convertToMapSpace(e.getPoint());
+    
+    cam.zoomAbsolute(e.getPreciseWheelRotation(), mapClick.getX(), mapClick.getY());
 
+  }
+  
+  private Point2D convertToMapSpace(Point2D screenClick)
+  {
+    AffineTransform a = cam.getTransform();
+    
+    try
+    {
+      a.invert();
+    } catch (NoninvertibleTransformException e)
+    {
+      e.printStackTrace();
+      System.exit(1);
+    }
+    Point2D mapClick = new Point2D.Double();
+    a.transform(screenClick, mapClick);
+    return mapClick;
   }
 }
