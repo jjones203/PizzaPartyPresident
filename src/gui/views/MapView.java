@@ -97,16 +97,16 @@ public class MapView
     {
       case CLOSE_UP:
         System.out.println("CLOSE UP");
-        setRegionsActivePassiveViews(ActiveSmallText, PassiveSmallText);
+        setRegionsActivePassiveViews(HappyActiveView, HappyWithName);
         break;
 
       case MEDIUM:
         System.out.println("CLOSE UP/MEDIUM");
-        setRegionsActivePassiveViews(ActiveWithName, PassiveWithName);
+        setRegionsActivePassiveViews(HappyActiveView, HappyWithName);
         break;
 
       case LONG:
-        setRegionsActivePassiveViews(ActiveWithName, PassiveWithName);
+        setRegionsActivePassiveViews(HappyActiveView, HappyWithName);
         break;
 
       default:

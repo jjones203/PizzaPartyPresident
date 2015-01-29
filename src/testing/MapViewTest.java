@@ -1,6 +1,7 @@
 package testing;
 
 import IO.AreaXMLloader;
+import IO.XMLparsers.KMLParser;
 import gui.*;
 import gui.views.GUIRegion;
 import gui.views.MapView;
@@ -54,6 +55,7 @@ public class MapViewTest extends JPanel
     }
 
     Collection<Region> worldz = StateParserTest.getStateRegions();
+    worldz.addAll(KMLParser.getRegionsFromFile("resources/world.xml"));
     worldz.addAll(areaXMLloader.getRegions());
 
 

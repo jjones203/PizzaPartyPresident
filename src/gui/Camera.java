@@ -165,6 +165,7 @@ public class Camera
     double maxW = maxX - minX;
     double maxH = maxY - minY;
     
+    
     maxHeight = Math.log(converter.getScale()); /*TODO: Fix this wrongness */
 
     limitingRect = new Rectangle2D.Double(minX, minY, maxW, maxH);
