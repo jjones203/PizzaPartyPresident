@@ -5,7 +5,6 @@ import gui.Camera;
 import gui.MapConverter;
 import model.Region;
 
-import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -18,9 +17,10 @@ import java.util.LinkedList;
  */
 public class MapView
 {
-  private CAM_DISTANCE lastDistance;
+  private CAM_DISTANCE currentDistance;
   private MapConverter mpConverter;
   private Collection<GUIRegion> guiRegions;
+
   private ActiveRegion activeRegionView = new ActiveRegion();
   private PassiveRegion passiveRegionView = new PassiveRegion();
 
@@ -28,7 +28,10 @@ public class MapView
   private RegionView PassiveWithName = new RegionNameView(passiveRegionView, 5000);
 
   private RegionView ActiveSmallText = new RegionNameView(activeRegionView, 1000);
-  private RegionView PasiveSmallText = new RegionNameView(passiveRegionView, 1000);
+  private RegionView PassiveSmallText = new RegionNameView(passiveRegionView, 1000);
+
+  private RegionView HappyActiveView = new RegionHappyView(activeRegionView);
+  private RegionView HappyWithName = new RegionNameView(HappyActiveView, 6000);
 
 
   public MapView(Collection<Region> regions, MapConverter mpConverter)
@@ -87,15 +90,14 @@ public class MapView
 //
 
 
-    if (lastDistance == calcDistance(camera)) return getGuiRegions();
+    if (currentDistance == calcDistance(camera)) return getGuiRegions();
+    else currentDistance = calcDistance(camera); //  set last to current.
 
-    lastDistance = calcDistance(camera); // else set last to current.
-
-    switch (lastDistance)
+    switch (currentDistance)
     {
       case CLOSE_UP:
         System.out.println("CLOSE UP");
-        setRegionsActivePassiveViews(ActiveSmallText, PasiveSmallText);
+        setRegionsActivePassiveViews(ActiveSmallText, PassiveSmallText);
         break;
 
       case MEDIUM:
@@ -104,13 +106,12 @@ public class MapView
         break;
 
       case LONG:
-        setRegionsActivePassiveViews(ActiveWithName, ActiveWithName);
+        setRegionsActivePassiveViews(ActiveWithName, PassiveWithName);
         break;
 
       default:
-        System.err.println(lastDistance + "not handeled by getRegionsInview");
+        System.err.println(currentDistance + "not handeled by getRegionsInview");
     }
-
     return getGuiRegions();
   }
 

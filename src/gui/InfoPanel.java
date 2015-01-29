@@ -23,7 +23,6 @@ public class InfoPanel extends JPanel
 
   private final static Color GUI_BACK_GROUND = new Color(231, 231, 231);
   private RegionAttributes activeAttributes;
-//  private MapView mapView;
 
   private JLabel activeRegionName;
   private JTabbedPane tabbedPane;
@@ -34,7 +33,6 @@ public class InfoPanel extends JPanel
   private JList cropList;
 
 
-
   public InfoPanel()
   {
     cropList = new JList();
@@ -42,7 +40,7 @@ public class InfoPanel extends JPanel
     setLayout(new BorderLayout());
 
 
-    activeRegionName = new JLabel("REGION NAME");
+    activeRegionName = new JLabel();
     activeRegionName.setHorizontalAlignment(JLabel.CENTER);
     add(activeRegionName, BorderLayout.NORTH);
 
@@ -50,7 +48,7 @@ public class InfoPanel extends JPanel
     add(tabbedPane, BorderLayout.CENTER);
 
     attributePanel = getAttributePanel();
-    tabbedPane.addTab("Attributes", attributePanel); // I might not need a reference to the attribute pane.
+    tabbedPane.addTab("Attributes", getAttributePanel()); // I might not need a reference to the attribute pane.
 
     cropPanel = getCropPanel();
     tabbedPane.add("crops", cropPanel);
@@ -97,7 +95,10 @@ public class InfoPanel extends JPanel
       public void valueChanged(ListSelectionEvent e)
       {
         if (activeAttributes == null) return;
-        cropLable.setText("%" + activeAttributes.getCropP((String) cropList.getSelectedValue()) * 100);
+        Double p = activeAttributes
+                   .getCropP((String) cropList.getSelectedValue());
+
+        cropLable.setText("% " + (p * 100)); // scaling the percentage value.
       }
     });
 
@@ -110,8 +111,6 @@ public class InfoPanel extends JPanel
 
   private JPanel getAttributePanel()
   {
-
-
     JPanel attPanel = new JPanel();
     attPanel.setLayout(new BorderLayout());
     attPanel.setBackground(GUI_BACK_GROUND);
@@ -127,8 +126,6 @@ public class InfoPanel extends JPanel
       @Override
       public void valueChanged(ListSelectionEvent e)
       {
-        System.out.println(attributeList.getSelectedValue().toString());
-
         if (activeAttributes == null) return;
         String res = attributeList.getSelectedValue().toString();
         res += ": " + activeAttributes.getAttribute((PLANTING_ATTRIBUTES) attributeList.getSelectedValue());
@@ -143,22 +140,47 @@ public class InfoPanel extends JPanel
     return attPanel;
   }
 
-  private void displayRegion(AtomicRegion testR)
-  {
-    activeRegionName.setText(testR.getName());
-    activeAttributes = testR.getAttributes();
 
-    displayCrops(activeAttributes);
+  /**
+   * Convenience method. wraps the following to method calls:
+   *   1) setActiveRegionName(String)
+   *   2) displayCrops(RegionAttributes)
+   *
+   *
+   * @param testR
+   */
+  public void displayRegion(AtomicRegion testR)
+  {
+    setActiveRegionName(testR.getName());
+    displayCrops(testR.getAttributes());
   }
 
-  private void displayCrops(RegionAttributes attributes)
+  /**
+   * set the Info Pane Title to the name of the specified region.
+   * @param name of the region to display
+   */
+  public void setActiveRegionName(String name)
   {
+    activeRegionName.setText(name);
+  }
+
+
+  private void setActiveAttributes(RegionAttributes attributes)
+  {
+    activeAttributes = attributes;
+  }
+
+
+  public void displayCrops(RegionAttributes attributes)
+  {
+    setActiveAttributes(attributes);
     DefaultListModel cropModel = new DefaultListModel();
 
     for (String crop : attributes.getAllCropsPercentage().keySet())
     {
       cropModel.addElement(crop);
     }
+
     cropList.setModel(cropModel);
   }
 
