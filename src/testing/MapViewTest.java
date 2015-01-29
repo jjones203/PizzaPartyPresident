@@ -55,7 +55,7 @@ public class MapViewTest extends JPanel
     }
 
     Collection<Region> worldz = StateParserTest.getStateRegions();
-    worldz.addAll(KMLParser.getRegionsFromFile("resources/world.xml"));
+    worldz.addAll(KMLParser.getRegionsFromFile("resources/2008_cpi_large.xml"));
     worldz.addAll(areaXMLloader.getRegions());
 
 
