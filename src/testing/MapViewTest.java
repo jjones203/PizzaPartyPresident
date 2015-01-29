@@ -99,8 +99,8 @@ public class MapViewTest extends JPanel
     JFrame frame = new JFrame();
     frame.setContentPane(canvas);
     frame.addKeyListener(keyController);
-    frame.addMouseListener(keyController);
-    frame.addMouseWheelListener(keyController);
+    canvas.addMouseListener(keyController);
+    canvas.addMouseWheelListener(keyController);
     frame.pack();
 
     frame.setSize(1000, 800);
