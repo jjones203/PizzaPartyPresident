@@ -16,6 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -58,9 +59,11 @@ public class MapViewTest extends JPanel
       e.printStackTrace();
     }
 
+    Collection<Region> allPolys = new ArrayList<>();
     Collection<Region> worldz = new ArrayList<>();
+    allPolys.addAll(KMLParser.getRegionsFromFile("resources/landmass_large.kml"));
+
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/oceans.xml"));
-    worldz.addAll(KMLParser.getRegionsFromFile("resources/landmass_large.kml"));
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/2008_cpi_large.xml"));
 //    worldz.addAll(areaXMLloader.getRegions());
 
@@ -73,9 +76,6 @@ public class MapViewTest extends JPanel
 
     MapView mapView = new MapView(worldz, mapConverter);
 
-
-
-
     Camera camera = new Camera(0, 0, mapConverter);
     CamController keyController = new CamController(camera, mapView);
 
@@ -85,6 +85,11 @@ public class MapViewTest extends JPanel
     canvas.setGrid(mapConverter.getLatLonGrid());
     canvas.setBackground(ColorSchemes.OCEANS);
 
+    Area giantObject = new Area();
+    Area tmpObj;
+    for(Region r : allPolys)
+    {
+    }
 
     Timer timer = new Timer(10, keyController);
     timer.addActionListener(new AbstractAction()
@@ -149,11 +154,12 @@ public class MapViewTest extends JPanel
     g2d.setStroke(new BasicStroke(20));
     g2d.draw(cam.getLims());
     g2d.setStroke(new BasicStroke(10));
+    
 
-    for (GUIRegion guir : mapView.getRegionsInview(cam))
-    {
-      guir.draw(g);
-    }
+//    for (GUIRegion guir : mapView.getRegionsInview(cam))
+//    {
+//      guir.draw(g);
+//    }
 
     g2d.setColor(ColorSchemes.MAP_GRID);
     for(Line2D l : grid) g2d.draw(l);
