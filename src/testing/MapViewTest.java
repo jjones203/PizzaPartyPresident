@@ -16,6 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.awt.geom.Line2D;
@@ -57,8 +58,9 @@ public class MapViewTest extends JPanel
       e.printStackTrace();
     }
 
-    Collection<Region> worldz = KMLParser.getRegionsFromFile("resources/oceans.xml");
-    worldz.addAll(KMLParser.getRegionsFromFile("resources/landmass.kml"));
+    Collection<Region> worldz = new ArrayList<>();
+//    worldz.addAll(KMLParser.getRegionsFromFile("resources/oceans.xml"));
+    worldz.addAll(KMLParser.getRegionsFromFile("resources/landmass_medium.kml"));
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/2008_cpi_large.xml"));
 //    worldz.addAll(areaXMLloader.getRegions());
 
@@ -71,13 +73,10 @@ public class MapViewTest extends JPanel
 
     MapView mapView = new MapView(worldz, mapConverter);
 
-    Point startPoint = new Point(
-        mapView.getGuiRegions().iterator().next().getPoly().xpoints[0],
-        mapView.getGuiRegions().iterator().next().getPoly().ypoints[0]
-    );
 
 
-    Camera camera = new Camera(startPoint.x, startPoint.y, mapConverter);
+
+    Camera camera = new Camera(0, 0, mapConverter);
     CamController keyController = new CamController(camera, mapView);
 
     canvas.setCam(camera);
