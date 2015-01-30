@@ -113,15 +113,15 @@ public class MapView
     switch (currentDistance)
     {
       case CLOSE_UP:
-        setRegionsActivePassiveViews(HappyActiveView, HappyActiveView);
+        setRegionsActivePassiveViews(activeRegionView, passiveRegionView);
         break;
 
       case MEDIUM:
-        setRegionsActivePassiveViews(HappyActiveView, HappyActiveView);
+        setRegionsActivePassiveViews(activeRegionView, passiveRegionView);
         break;
 
       case LONG:
-        setRegionsActivePassiveViews(HappyActiveView, HappyActiveView);
+        setRegionsActivePassiveViews(activeRegionView, passiveRegionView);
         break;
 
       default:
