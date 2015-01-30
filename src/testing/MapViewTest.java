@@ -57,9 +57,10 @@ public class MapViewTest extends JPanel
       e.printStackTrace();
     }
 
-    Collection<Region> worldz = StateParserTest.getStateRegions();
-    worldz.addAll(KMLParser.getRegionsFromFile("resources/2008_cpi_large.xml"));
-    worldz.addAll(areaXMLloader.getRegions());
+    Collection<Region> worldz = KMLParser.getRegionsFromFile("resources/oceans.xml");
+    worldz.addAll(KMLParser.getRegionsFromFile("resources/landmass.kml"));
+//    worldz.addAll(KMLParser.getRegionsFromFile("resources/2008_cpi_large.xml"));
+//    worldz.addAll(areaXMLloader.getRegions());
 
 
     //add random attributes for testing...
@@ -172,15 +173,18 @@ public class MapViewTest extends JPanel
 
       g2d.setTransform(new AffineTransform());
 
-      String regCount = String.format("Vertices in viewBounds: %d",
+      String regCount = String.format("Polygons in viewBounds: %d",
+              mapView.countIntersectingRegions(cam.getViewBounds()));
+      String vertCount = String.format("Vertices in viewBounds: %d",
               mapView.countIntersectingPoints(cam.getViewBounds()));
       
       g2d.setColor(Color.RED);
       g2d.setFont(new Font("Courier", Font.PLAIN, 14));
-      g2d.drawString(regCount, 15, 700);
+      g2d.drawString(vertCount, 15, 640);
+      g2d.drawString(regCount, 15, 660);
       
       /* debug stats on BufImg */
-      g2d.drawImage(cam.getDBGimg(), 5, 5, null);
+      g2d.drawImage(cam.getDBGimg(), 0, 500, null);
     }
   }
 

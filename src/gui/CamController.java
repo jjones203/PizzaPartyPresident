@@ -165,7 +165,7 @@ public class CamController
   {
     Point2D mapClick = convertToMapSpace(e.getPoint());
     
-    cam.zoomAbsolute(e.getPreciseWheelRotation(), mapClick.getX(), mapClick.getY());
+    cam.zoomAbsolute(e.getPreciseWheelRotation()/5, mapClick.getX(), mapClick.getY());
 
   }
   
