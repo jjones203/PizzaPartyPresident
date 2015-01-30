@@ -60,7 +60,7 @@ public class MapViewTest extends JPanel
 
     Collection<Region> worldz = new ArrayList<>();
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/oceans.xml"));
-    worldz.addAll(KMLParser.getRegionsFromFile("resources/landmass_large.kml"));
+    worldz.addAll(KMLParser.getRegionsFromFile("resources/landmass_medium.kml"));
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/2008_cpi_large.xml"));
 //    worldz.addAll(areaXMLloader.getRegions());
 
