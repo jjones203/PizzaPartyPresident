@@ -1,6 +1,5 @@
 package gui.views;
 
-import static gui.Camera.*;
 import gui.Camera;
 import gui.MapConverter;
 import model.Region;
@@ -9,6 +8,9 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
+
+import static gui.Camera.CAM_DISTANCE;
 
 /**
  * Created by winston on 1/27/15.
@@ -113,15 +115,15 @@ public class MapView
     switch (currentDistance)
     {
       case CLOSE_UP:
-        setRegionsActivePassiveViews(activeRegionView, passiveRegionView);
+        setRegionsActivePassiveViews(HappyWithName, passiveRegionView);
         break;
 
       case MEDIUM:
-        setRegionsActivePassiveViews(activeRegionView, passiveRegionView);
+        setRegionsActivePassiveViews(HappyWithName, passiveRegionView);
         break;
 
       case LONG:
-        setRegionsActivePassiveViews(activeRegionView, passiveRegionView);
+        setRegionsActivePassiveViews(HappyActiveView, passiveRegionView);
         break;
 
       default:
@@ -150,16 +152,22 @@ public class MapView
   {
     return camera.getDistance();
   }
-  
-  
+
+
+  private List<GUIRegion> getIntersectingRegions(Rectangle2D r)
+  {
+    List<GUIRegion> regionsInR = new LinkedList<>();
+    for (GUIRegion g : guiRegions)
+    {
+      if (g.getPoly().intersects(r)) regionsInR.add(g);
+    }
+
+    return regionsInR;
+  }
+
   public int countIntersectingRegions(Rectangle2D r)
   {
-    int sum = 0;
-    for(GUIRegion g : guiRegions)
-    {
-      if(g.getArea().intersects(r)) sum++;
-    }
-    return sum;
+    return getIntersectingRegions(r).size();
   }
   
   public int countIntersectingPoints(Rectangle2D r)

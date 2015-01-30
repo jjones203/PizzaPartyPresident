@@ -5,22 +5,20 @@ import IO.XMLparsers.KMLParser;
 import gui.*;
 import gui.views.GUIRegion;
 import gui.views.MapView;
-import IO.XMLparsers.StateParserTest;
 import model.Region;
 import org.xml.sax.SAXException;
 import testing.generators.AttributeGenerator;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.awt.geom.Line2D;
 import java.util.Random;
 
 
@@ -85,9 +83,9 @@ public class MapViewTest extends JPanel
 
     Area giantObject = new Area();
     Area tmpObj;
-    for(Region r : allPolys)
-    {
-    }
+//    for(Region r : allPolys)
+//    {
+//    }
 
     Timer timer = new Timer(10, keyController);
     timer.addActionListener(new AbstractAction()
@@ -152,12 +150,12 @@ public class MapViewTest extends JPanel
     g2d.setStroke(new BasicStroke(20));
     g2d.draw(cam.getLims());
     g2d.setStroke(new BasicStroke(10));
-    
 
-//    for (GUIRegion guir : mapView.getRegionsInview(cam))
-//    {
-//      guir.draw(g);
-//    }
+
+    for (GUIRegion guir : mapView.getRegionsInview(cam))
+    {
+      guir.draw(g);
+    }
 
     g2d.setColor(ColorSchemes.MAP_GRID);
     for(Line2D l : grid) g2d.draw(l);
