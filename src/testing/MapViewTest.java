@@ -59,11 +59,9 @@ public class MapViewTest extends JPanel
       e.printStackTrace();
     }
 
-    Collection<Region> allPolys = new ArrayList<>();
     Collection<Region> worldz = new ArrayList<>();
-    allPolys.addAll(KMLParser.getRegionsFromFile("resources/landmass_large.kml"));
-
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/oceans.xml"));
+    worldz.addAll(KMLParser.getRegionsFromFile("resources/landmass_medium.kml"));
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/2008_cpi_large.xml"));
 //    worldz.addAll(areaXMLloader.getRegions());
 
