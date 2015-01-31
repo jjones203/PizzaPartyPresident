@@ -103,24 +103,21 @@ public class AreaXMLloader
 
         Locator locator = handler.getLocator();
 
-
-        if (locator.getLineNumber() != -1 || locator == null)
+        if (locator.getLineNumber() != -1)
         {
-          System.out.println(locator.getLineNumber());
-
           // we know the line that the error happened on
           editor.highlightLine(locator.getLineNumber() );
           editor.setCaretToline(locator.getLineNumber());
         }
 
-
-        JOptionPane.showMessageDialog(null, "(!) " + e.getMessage());
-
+        editor.setTitle("editing: " + currentFile);
+        editor.setErrorMessage(e.getMessage());
         editor.setVisible(true);
-        //TODO make editor track an ignore setting or something of the like....
-        // so that the user can ignore a file is they so choose.
 
-        filesToRead.add(0, currentFile);
+        if ( ! editor.getIgnoreFile())
+        {
+          filesToRead.add(0, currentFile);
+        }
       }
       catch (IOException e)
       {

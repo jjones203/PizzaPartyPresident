@@ -115,7 +115,7 @@ public class RegionParserHandler extends DefaultHandler implements RegionParser
         break;
 
       default:
-        String msg = qName + "is not a recognized tag.";
+        String msg = qName + " is not a recognized tag.";
         fatalError(new SAXParseException(msg, locator));
     }
   }

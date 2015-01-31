@@ -29,6 +29,8 @@ public class XMLeditor extends JDialog
   private final static Font EDITOR_FONT = new Font("Helvetica", Font.PLAIN, 16);
   private String currentFile;
   private RSyntaxTextArea textArea = new RSyntaxTextArea();
+  private JLabel errorMsg;
+  private boolean ignoreFile;
 
 
   public XMLeditor()
@@ -43,6 +45,10 @@ public class XMLeditor extends JDialog
     setLayout(new BorderLayout());
     add(scrollPane, BorderLayout.CENTER);
     add(getControlPanel(), BorderLayout.SOUTH);
+
+    errorMsg = new JLabel();
+    errorMsg.setHorizontalAlignment(SwingConstants.CENTER);
+    add(errorMsg, BorderLayout.NORTH);
 
     setSize(700, 500);
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -82,6 +88,18 @@ public class XMLeditor extends JDialog
     /*TODO
       and a mark as ignore button to specify files that will simply be excluded
      */
+
+    JButton ignoreBtn = new JButton("Ignore");
+    ignoreBtn.addActionListener(new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        ignoreFile = true;
+        exit.doClick();
+      }
+    });
+    controlP.add(ignoreBtn);
 
     return controlP;
   }
@@ -128,6 +146,7 @@ public class XMLeditor extends JDialog
       FileReader reader = new FileReader(filename);
       textArea.read(reader, null);
       currentFile = filename;
+      ignoreFile = false;
     }
     catch (IOException e)
     {
@@ -152,5 +171,15 @@ public class XMLeditor extends JDialog
     {
       e.printStackTrace();
     }
+  }
+
+  public void setErrorMessage(String message)
+  {
+    errorMsg.setText(message);
+  }
+
+  public boolean getIgnoreFile()
+  {
+    return ignoreFile;
   }
 }
