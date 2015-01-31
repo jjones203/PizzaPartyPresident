@@ -102,7 +102,7 @@ public class XMLeditor extends JDialog
   }
 
   /**
-   * Will hilight a line as an error.
+   * Will highlight a line as an error.
    * @param lnum line number
    */
   public void highlightLine(int lnum)
