@@ -129,7 +129,7 @@ public class MapView
         break;
 
       default:
-        System.err.println(calcDistance(camera) + "not handeled by getRegionsInview");
+        System.err.println(calcDistance(camera) + " (!)Not handeled by getRegionsInview");
         System.exit(1);
     }
 
