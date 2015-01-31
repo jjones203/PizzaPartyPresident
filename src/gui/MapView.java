@@ -5,6 +5,7 @@ import model.Region;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,35 +22,48 @@ import static gui.Camera.CAM_DISTANCE;
 public class MapView
 {
   private MapConverter mpConverter;
-  private Collection<GUIRegion> guiRegions;
+  private Collection<GUIRegion> modelRegions;
+  private Collection<GUIRegion> backgroundRegions;
 
   private RegionViewFactory regionViewFactory;
 
 
-  public MapView(Collection<Region> regions, MapConverter mpConverter)
+  public MapView(MapConverter mpConverter)
   {
+    modelRegions = new ArrayList<>();
+    backgroundRegions = new ArrayList<>();
     this.mpConverter = mpConverter;
     regionViewFactory = new RegionViewFactory();
-    guiRegions = wrapRegions(regions);
   }
 
-  public Collection<GUIRegion> getGuiRegions()
+  public void setBackgroundRegions(Collection<Region> regions)
   {
-    return guiRegions;
+    RegionView background = regionViewFactory.getBackgroundMapView();
+    backgroundRegions = wrapRegions(regions, background);
   }
 
+  public Collection<GUIRegion> getModelRegions()
+  {
+    return modelRegions;
+  }
+
+  public void setModelRegions(Collection<Region> regions)
+  {
+    RegionView background = regionViewFactory.getLongView();
+    modelRegions = wrapRegions(regions, background);
+  }
 
   /*
    * Initialization method only called during the constructor.
    * transforms model regions into gui regions.
    */
-  private Collection<GUIRegion> wrapRegions(Collection<Region> regions)
+  private Collection<GUIRegion> wrapRegions(Collection<Region> regions, RegionView regionView)
   {
-    Collection<GUIRegion> guiRs = new LinkedList<>();
+    Collection<GUIRegion> guiRs = new ArrayList<>();
 
     for (Region region : regions)
     {
-      GUIRegion guir = new GUIRegion(region, mpConverter, regionViewFactory.getLongView());
+      GUIRegion guir = new GUIRegion(region, mpConverter, regionView);
       guiRs.add(guir);
     }
     return guiRs;
@@ -58,7 +72,7 @@ public class MapView
 
   public void clickAt(double x, double y)
   {
-    for (GUIRegion guir : getGuiRegions())
+    for (GUIRegion guir : getModelRegions())
     {
       if (guir.getPoly().contains(x, y))
       {
@@ -85,18 +99,22 @@ public class MapView
   public Collection<GUIRegion> getRegionsInview(Camera camera)
   {
     Rectangle2D inViewBox = camera.getViewBounds();
-    Collection<GUIRegion> regionsInView = getIntersectingRegions(inViewBox);
+    Collection<GUIRegion> regionsInView = getIntersectingRegions(inViewBox, backgroundRegions);
 
 
     switch (calcDistance(camera))
     {
       case CLOSE_UP:
-        setRegionLook(regionViewFactory.getCloseUpView(), regionsInView);
+        Collection<GUIRegion> modelRegionsInView = getIntersectingRegions(inViewBox, modelRegions);
+        setRegionLook(regionViewFactory.getCloseUpView(), modelRegionsInView);
+        regionsInView.addAll(modelRegionsInView);
+        System.out.println("CLOSE UP size of modelRegionsInView: " + modelRegionsInView.size());
+        System.out.println("size of modelRegions: " + modelRegions.size());
         break;
 
       case MEDIUM:
         setRegionLook(regionViewFactory.getMediumView(), regionsInView);
-        break;
+
 
       case LONG:
         setRegionLook(regionViewFactory.getLongView(), regionsInView);
@@ -105,7 +123,7 @@ public class MapView
       default:
         System.err.println(calcDistance(camera) + "not handeled by getRegionsInview");
     }
-    return getGuiRegions();
+    return regionsInView;
   }
 
   /*
@@ -129,10 +147,10 @@ public class MapView
   }
 
 
-  private List<GUIRegion> getIntersectingRegions(Rectangle2D r)
+  private List<GUIRegion> getIntersectingRegions(Rectangle2D r, Collection<GUIRegion> regions)
   {
     List<GUIRegion> regionsInR = new LinkedList<>();
-    for (GUIRegion g : guiRegions)
+    for (GUIRegion g : regions)
     {
       if (g.getPoly().intersects(r)) regionsInR.add(g);
     }
@@ -142,13 +160,13 @@ public class MapView
 
   public int countIntersectingRegions(Rectangle2D r)
   {
-    return getIntersectingRegions(r).size();
+    return getIntersectingRegions(r, modelRegions).size();
   }
 
   public int countIntersectingPoints(Rectangle2D r)
   {
     int sum = 0;
-    for (GUIRegion g : guiRegions)
+    for (GUIRegion g : modelRegions)
     {
       Polygon p = g.getPoly();
       int n = p.npoints;
