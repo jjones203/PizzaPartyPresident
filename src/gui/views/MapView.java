@@ -16,7 +16,7 @@ import static gui.Camera.CAM_DISTANCE;
  * Created by winston on 1/27/15.
  * Phase_01
  * CS 351 spring 2015
- * <p/>
+ * <p>
  * Manages how the regions are displayed and rendered.
  */
 public class MapView
@@ -49,11 +49,17 @@ public class MapView
     return guiRegions;
   }
 
-  public void setGuiRegions(Collection<GUIRegion> guiRegions)
-  {
-    this.guiRegions = guiRegions;
-  }
 
+  // we may or may not need this...
+//  public void setGuiRegions(Collection<GUIRegion> guiRegions)
+//  {
+//    this.guiRegions = guiRegions;
+//  }
+
+  /*
+   * Initialization method only called during the constructor.
+   * transforms model regions into gui regions.
+   */
   private Collection<GUIRegion> wrapRegions(Collection<Region> regions)
   {
     Collection<GUIRegion> guiRs = new LinkedList<>();
@@ -67,26 +73,30 @@ public class MapView
   }
 
 
-  public void clickAt(double x , double y)
+  public void clickAt(double x, double y)
   {
     for (GUIRegion guir : getGuiRegions())
     {
       if (guir.getPoly().contains(x, y))
       {
+        // todo debug printing
         System.out.println("region clicked: " + guir.getName());
-        guir.setActive(! guir.isActive());
+        guir.setActive(!guir.isActive());
       }
     }
   }
 
-  public void markRegionActive(GUIRegion region)
+  /**
+   * Toggles the active/passive state of the specified region.
+   *
+   * @param region region that will be modified.
+   * @return boolean representing the active/passive state of the
+   * region after the toggle.
+   */
+  public boolean toggleRegionState(GUIRegion region)
   {
-    region.setActive(true);
-  }
-
-  public void deselectActiveRegion(GUIRegion region)
-  {
-    region.setActive(false);
+    region.setActive(!region.isActive());
+    return region.isActive();
   }
 
   public Collection<GUIRegion> getRegionsInview(Camera camera)
@@ -140,8 +150,14 @@ public class MapView
   {
     for (GUIRegion region : getGuiRegions())
     {
-      if (region.isActive()) region.setLook(active);
-      else region.setLook(passive);
+      if (region.isActive())
+      {
+        region.setLook(active);
+      }
+      else
+      {
+        region.setLook(passive);
+      }
     }
   }
 
@@ -169,17 +185,17 @@ public class MapView
   {
     return getIntersectingRegions(r).size();
   }
-  
+
   public int countIntersectingPoints(Rectangle2D r)
   {
     int sum = 0;
-    for(GUIRegion g : guiRegions)
+    for (GUIRegion g : guiRegions)
     {
       Polygon p = g.getPoly();
       int n = p.npoints;
       for (int i = 0; i < n; i++)
       {
-        if(r.contains(p.xpoints[i], p.ypoints[i])) sum++;
+        if (r.contains(p.xpoints[i], p.ypoints[i])) sum++;
       }
     }
     return sum;
