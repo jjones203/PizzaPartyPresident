@@ -8,13 +8,13 @@ package IO;
 
 import IO.XMLparsers.RegionParser;
 import IO.XMLparsers.RegionParserHandler;
-import gui.EquirectangularConverter;
 import gui.xmleditor.XMLeditor;
 import model.Region;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -82,7 +82,7 @@ public class AreaXMLloader
   {
     List<Region> regionList = new ArrayList<>();
     List<String> filesToRead = getFilesInDir(AREA_DIR_PATH);
-    RegionValidator regionValidator = new RegionValidator(new EquirectangularConverter());
+    RegionValidator regionValidator = new RegionValidator();
 
     while (!filesToRead.isEmpty())
     {
@@ -91,35 +91,27 @@ public class AreaXMLloader
       {
         Collection<Region> tmpRegions = parseFile(currentFile);
 
-        for (Region r : tmpRegions)
-        {
-          if (! regionValidator.isValid(r)) System.out.println("region is invalid!");
-        }
+        for (Region r : tmpRegions) regionValidator.validate(r);
 
         regionList.addAll(tmpRegions);
+
       }
       catch (SAXException e)
       {
         if (editor == null) editor = new XMLeditor(); // to be lazy
         Locator locator = handler.getLocator();
 
-        if (locator == null)
+
+        if (locator.getLineNumber() != -1)
         {
-          //todo this should still call the editor just with out a line number. and nust use the above current line
-          System.out.println("NO LOCATOR! (LN 96) on " + this.getClass().getName());
-          e.printStackTrace();
+          // we know the line that the error happened on
+          editor.highlightLine(locator.getLineNumber() - 1);
+          editor.setCaretToline(locator.getLineNumber() - 1);
         }
 
 
-
-
-        // TODO change this to either a proper Dialogue box,
-        // or some info pane inside the editor.
-        editor.setTitle("(!) " + e.getMessage());
-
+        JOptionPane.showMessageDialog(null, "(!) " + e.getMessage());
         editor.loadFile(currentFile);
-        editor.highlightLine(locator.getLineNumber() - 1);
-        editor.setCaretToline(locator.getLineNumber() - 1);
         editor.setVisible(true);
         //TODO make editor track an ignore setting or something of the like....
         // so that the user can ignore a file is they so choose.

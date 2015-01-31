@@ -2,6 +2,7 @@ package IO;
 
 import gui.EquirectangularConverter;
 import gui.MapConverter;
+import org.xml.sax.SAXException;
 import model.MapPoint;
 import model.Region;
 
@@ -16,25 +17,22 @@ import java.util.List;
  */
 public class RegionValidator
 {
-  private MapConverter converter;
+  private static final  MapConverter CONVERTER = new EquirectangularConverter();
 
-
-  public RegionValidator(MapConverter converter)
-  {
-    this.converter = new EquirectangularConverter();
-  }
-
-  public boolean isValid(Region region)
+  public boolean validate(Region region) throws SAXException
   {
     for (MapPoint mp : region.getPerimeter())
     {
-      if (! isValidMapPoint(mp) ) return false;
+      if (! isValidMapPoint(mp) ) throw new SAXException("Invalid Map Point.");
     }
 
     //TODO make sure this is an adequate test...
-    /*
-     */
-    return  new Area(converter.regionToPolygon(region)).isSingular() ;
+
+    boolean isSigular = new Area(CONVERTER.regionToPolygon(region)).isSingular();
+
+    if (! isSigular) throw new SAXException("Invalid Region shape");
+
+    return true;
   }
 
 

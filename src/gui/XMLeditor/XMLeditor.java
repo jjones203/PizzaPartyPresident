@@ -32,6 +32,7 @@ public class XMLeditor extends JDialog
   private boolean isEdited;
   private String currentFile;
   private RSyntaxTextArea textArea = new RSyntaxTextArea();
+  private RTextScrollPane scrollPane;
 
   // this is probably overkill...
   private DocumentListener docListener = new DocumentListener()
@@ -63,7 +64,7 @@ public class XMLeditor extends JDialog
     textArea.setAntiAliasingEnabled(true);
 
     textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
-    RTextScrollPane scrollPane = new RTextScrollPane(textArea);
+    scrollPane = new RTextScrollPane(textArea);
 
     setLayout(new BorderLayout());
     add(scrollPane, BorderLayout.CENTER);
@@ -91,9 +92,7 @@ public class XMLeditor extends JDialog
 
     controlP.add(save);
 
-    // TODO implement this so that the user can make a copy!
-//    JButton saveAs = new JButton("Save As");
-//    controlP.add(saveAs);
+    // todo implement ignore botton to flag files that should be forgotten
 
     JButton exit = new JButton("Exit");
     exit.addActionListener(new AbstractAction()
@@ -141,6 +140,7 @@ public class XMLeditor extends JDialog
    */
   public void setCaretToline(int lnum)
   {
+    //todo try To get the scroll wheel to he righ position.
     textArea.setCaretPosition( textArea.getDocument()
             .getDefaultRootElement()
             .getElement(lnum)
