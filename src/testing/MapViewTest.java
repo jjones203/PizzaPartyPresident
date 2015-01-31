@@ -2,6 +2,7 @@ package testing;
 
 import IO.AreaXMLloader;
 import IO.XMLparsers.KMLParser;
+import IO.XMLparsers.StateParser;
 import gui.*;
 import gui.GUIRegion;
 import gui.MapView;
@@ -57,14 +58,15 @@ public class MapViewTest extends JPanel
 
     Collection<Region> worldz = new ArrayList<>();
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/oceans.xml"));
-    worldz.addAll(KMLParser.getRegionsFromFile("resources/countries_world.xml"));
-//    worldz.addAll(KMLParser.getRegionsFromFile("resources/2008_cpi_large.xml"));
-    worldz.addAll(areaXMLloader.getRegions());
+//    worldz.addAll(KMLParser.getRegionsFromFile("resources/countries_world.xml"));
+    worldz.addAll(KMLParser.getRegionsFromFile("resources/ne_50m_admin_1_states_provinces_lakes.kml"));
+//    worldz.addAll(areaXMLloader.getRegions());
 
 
     //add random attributes for testing...
     for (Region r : worldz)
     {
+      System.out.println(r);
       r.setAttributes(randoAtts.nextAttributeSet());
     }
 
