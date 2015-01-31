@@ -73,7 +73,7 @@ public class XMLeditor extends JDialog
 
     controlP.add(save);
 
-    JButton exit = new JButton("Exit");
+    final JButton exit = new JButton("Exit");
     exit.addActionListener(new AbstractAction()
     {
       @Override
