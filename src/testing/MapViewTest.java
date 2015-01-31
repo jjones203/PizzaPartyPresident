@@ -56,21 +56,18 @@ public class MapViewTest extends JPanel
       e.printStackTrace();
     }
 
-    Collection<Region> worldz = new ArrayList<>();
-//    worldz.addAll(KMLParser.getRegionsFromFile("resources/oceans.xml"));
-//    worldz.addAll(KMLParser.getRegionsFromFile("resources/countries_world.xml"));
-    worldz.addAll(KMLParser.getRegionsFromFile("resources/ne_50m_admin_1_states_provinces_lakes.kml"));
-//    worldz.addAll(areaXMLloader.getRegions());
+    Collection<Region> backgroudMap = new ArrayList<>(KMLParser.getRegionsFromFile("resources/countries_world.xml"));
 
-
-    //add random attributes for testing...
-    for (Region r : worldz)
+    Collection<Region> modelMap = new ArrayList<>(KMLParser.getRegionsFromFile("resources/ne_10m_admin_1_states_provinces.kml"));
+    for (Region r : modelMap)
     {
-      System.out.println(r);
       r.setAttributes(randoAtts.nextAttributeSet());
     }
 
-    MapView mapView = new MapView(worldz, mapConverter);
+
+    MapView mapView = new MapView(mapConverter);
+    mapView.setBackgroundRegions(backgroudMap);
+    mapView.setModelRegions(modelMap);
 
     Camera camera = new Camera(0, 0, mapConverter);
     CamController keyController = new CamController(camera, mapView);
