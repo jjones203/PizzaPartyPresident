@@ -5,22 +5,20 @@ import IO.XMLparsers.KMLParser;
 import gui.*;
 import gui.views.GUIRegion;
 import gui.views.MapView;
-import IO.XMLparsers.StateParserTest;
 import model.Region;
 import org.xml.sax.SAXException;
 import testing.generators.AttributeGenerator;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.awt.geom.Line2D;
 import java.util.Random;
 
 
@@ -47,7 +45,7 @@ public class MapViewTest extends JPanel
     AreaXMLloader areaXMLloader = null;
     try
     {
-      areaXMLloader = new AreaXMLloader("resources/areas");
+      areaXMLloader = new AreaXMLloader();
     }
     catch (ParserConfigurationException e)
     {
@@ -59,10 +57,10 @@ public class MapViewTest extends JPanel
     }
 
     Collection<Region> worldz = new ArrayList<>();
-    worldz.addAll(KMLParser.getRegionsFromFile("resources/landmass_medium.kml"));
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/oceans.xml"));
+    worldz.addAll(KMLParser.getRegionsFromFile("resources/countries_world.xml"));
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/2008_cpi_large.xml"));
-//    worldz.addAll(areaXMLloader.getRegions());
+    worldz.addAll(areaXMLloader.getRegions());
 
 
     //add random attributes for testing...
@@ -147,6 +145,7 @@ public class MapViewTest extends JPanel
     g2d.draw(cam.getLims());
     g2d.setStroke(new BasicStroke(10));
     
+
 
     for (GUIRegion guir : mapView.getRegionsInview(cam))
     {

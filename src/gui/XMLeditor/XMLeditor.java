@@ -12,8 +12,6 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,32 +27,12 @@ public class XMLeditor extends JDialog
 {
   private final static Color HILIGHT_ERROR = ColorSchemes.XML_ERROR;
   private final static Font EDITOR_FONT = new Font("Helvetica", Font.PLAIN, 16);
-  private boolean isEdited;
   private String currentFile;
   private RSyntaxTextArea textArea = new RSyntaxTextArea();
+  private JLabel errorMsg;
+  private boolean ignoreFile;
+  private RTextScrollPane scrollPane; //TODO look into how to set the scroll pane to a given line number.
 
-  // this is probably overkill...
-  private DocumentListener docListener = new DocumentListener()
-  {
-    @Override
-    public void insertUpdate(DocumentEvent e)
-    {
-
-    }
-
-    @Override
-    public void removeUpdate(DocumentEvent e)
-    {
-
-    }
-
-    @Override
-    public void changedUpdate(DocumentEvent e)
-    {
-      isEdited = true;
-      textArea.getDocument().removeDocumentListener(docListener);
-    }
-  };
 
   public XMLeditor()
   {
@@ -63,11 +41,15 @@ public class XMLeditor extends JDialog
     textArea.setAntiAliasingEnabled(true);
 
     textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
-    RTextScrollPane scrollPane = new RTextScrollPane(textArea);
+    scrollPane = new RTextScrollPane(textArea);
 
     setLayout(new BorderLayout());
     add(scrollPane, BorderLayout.CENTER);
     add(getControlPanel(), BorderLayout.SOUTH);
+
+    errorMsg = new JLabel();
+    errorMsg.setHorizontalAlignment(SwingConstants.CENTER);
+    add(errorMsg, BorderLayout.NORTH);
 
     setSize(700, 500);
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -91,10 +73,6 @@ public class XMLeditor extends JDialog
 
     controlP.add(save);
 
-    // TODO implement this so that the user can make a copy!
-//    JButton saveAs = new JButton("Save As");
-//    controlP.add(saveAs);
-
     JButton exit = new JButton("Exit");
     exit.addActionListener(new AbstractAction()
     {
@@ -106,9 +84,19 @@ public class XMLeditor extends JDialog
     });
     controlP.add(exit);
 
-    /*TODO
-      and a mark as ignore button to specify files that will simply be excluded
-     */
+    JButton ignoreBtn = new JButton("Ignore");
+    ignoreBtn.createToolTip();
+    ignoreBtn.setToolTipText("mark file as DO NOT LOAD");
+    ignoreBtn.addActionListener(new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        ignoreFile = true;
+        exit.doClick();
+      }
+    });
+    controlP.add(ignoreBtn);
 
     return controlP;
   }
@@ -129,11 +117,6 @@ public class XMLeditor extends JDialog
     }
   }
 
-  @Override
-  public void show(boolean b)
-  {
-    super.show(b);
-  }
 
   /**
    * Moves the Carret to the specifed line number
@@ -141,6 +124,7 @@ public class XMLeditor extends JDialog
    */
   public void setCaretToline(int lnum)
   {
+    //todo try To get the scroll wheel to he righ position.
     textArea.setCaretPosition( textArea.getDocument()
             .getDefaultRootElement()
             .getElement(lnum)
@@ -159,8 +143,7 @@ public class XMLeditor extends JDialog
       FileReader reader = new FileReader(filename);
       textArea.read(reader, null);
       currentFile = filename;
-      isEdited = false;
-      textArea.getDocument().addDocumentListener(docListener);
+      ignoreFile = false;
     }
     catch (IOException e)
     {
@@ -180,11 +163,20 @@ public class XMLeditor extends JDialog
       textArea.write(writer);
       writer.close();
       currentFile = filename;
-      isEdited = false;
     }
     catch (IOException e)
     {
       e.printStackTrace();
     }
+  }
+
+  public void setErrorMessage(String message)
+  {
+    errorMsg.setText(message);
+  }
+
+  public boolean getIgnoreFile()
+  {
+    return ignoreFile;
   }
 }

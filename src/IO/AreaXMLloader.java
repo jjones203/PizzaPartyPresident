@@ -10,15 +10,14 @@ import IO.XMLparsers.RegionParser;
 import IO.XMLparsers.RegionParserHandler;
 import gui.xmleditor.XMLeditor;
 import model.Region;
-import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +33,7 @@ import static IO.IOhelpers.getFilesInDir;
 public class AreaXMLloader
 {
   private RegionParser handler;
-  private String dirPath;
+  private final static String AREA_DIR_PATH = "resources/areas";
   private XMLeditor editor;
   private XMLReader xmlReader;
 
@@ -42,32 +41,29 @@ public class AreaXMLloader
   /**
    * Constructor for class.
    *
-   * @param areaFolder String represeting the folder of XML files to be read in
    * @throws ParserConfigurationException
    * @throws SAXException
    */
-  public AreaXMLloader(String areaFolder)
-      throws ParserConfigurationException, SAXException
+  public AreaXMLloader()
+    throws ParserConfigurationException, SAXException
   {
-    this(new RegionParserHandler(), areaFolder);
+    this(new RegionParserHandler());
   }
 
   /**
    * Constructor for class
    *
    * @param handler RegionParsing Handler for building and containing the data
-   * @param dirPath path to folder where xml files are located.
    * @throws ParserConfigurationException
    * @throws SAXException
    */
-  public AreaXMLloader(RegionParserHandler handler, String dirPath)
-      throws ParserConfigurationException, SAXException
+  public AreaXMLloader(RegionParserHandler handler)
+    throws ParserConfigurationException, SAXException
   {
     this.handler = handler;
-    this.dirPath = dirPath;
 
     SAXParserFactory spf = SAXParserFactory.newInstance();
-    
+
     spf.setNamespaceAware(true);
 
     SAXParser saxParser = spf.newSAXParser();
@@ -79,13 +75,14 @@ public class AreaXMLloader
    * Returns a collection of all the regions parsed from the files in the
    * specified DIR.
    *
-   * @return
+   * @return Returns the set of regions expressed by the all the collection of
+   * xml files
    */
   public Collection<Region> getRegions()
   {
     List<Region> regionList = new ArrayList<>();
-    List<String> filesToRead = getFilesInDir(dirPath);
-
+    List<String> filesToRead = getFilesInDir(AREA_DIR_PATH);
+    RegionValidator regionValidator = new RegionValidator();
 
     while (!filesToRead.isEmpty())
     {
@@ -93,36 +90,34 @@ public class AreaXMLloader
       try
       {
         Collection<Region> tmpRegions = parseFile(currentFile);
+
+        for (Region r : tmpRegions) regionValidator.validate(r);
+
         regionList.addAll(tmpRegions);
+
       }
       catch (SAXException e)
       {
-        Locator locator = handler.getLocator();
-        if (locator == null)
-        {
-          //todo this should still call the editor just with out a line number. and nust use the above current line
-          System.out.println("NO LOCATOR! (LN 96) on " + this.getClass().getName());
-          e.printStackTrace();
-        }
-
-        if (editor == null)
-        {
-          editor = new XMLeditor();
-        }
-
-        // TODO change this to either a proper Dialogue box,
-        // or some info pane inside the editor.
-        editor.setTitle("(!) " + e.getMessage());
-
+        if (editor == null) editor = new XMLeditor(); // to be lazy
         editor.loadFile(currentFile);
-        editor.highlightLine(locator.getLineNumber() - 1);
-        editor.setCaretToline(locator.getLineNumber() - 1);
+
+        Locator locator = handler.getLocator();
+
+        if (locator.getLineNumber() != -1)
+        {
+          // we know the line that the error happened on
+          editor.highlightLine(locator.getLineNumber()-1);
+          editor.setCaretToline(locator.getLineNumber()-1);
+        }
+
+        editor.setTitle("editing: " + currentFile);
+        editor.setErrorMessage(e.getMessage());
         editor.setVisible(true);
-        //TODO make editor track an ignore setting or something of the like....
-        // so that the user can ignore a file is they so choose.
 
-        filesToRead.add(0, currentFile);
-
+        if ( ! editor.getIgnoreFile())
+        {
+          filesToRead.add(0, currentFile);
+        }
       }
       catch (IOException e)
       {
@@ -135,13 +130,13 @@ public class AreaXMLloader
   /**
    * Method used for parsing a given file. does no error handeling on its own.
    *
-   * @param filePath
-   * @return
+   * @param filePath file path to attemp to parse.
+   * @return The collection of regions expressed in that file.
    * @throws IOException
    * @throws SAXException
    */
   public Collection<Region> parseFile(String filePath)
-      throws IOException, SAXException
+    throws IOException, SAXException
   {
     xmlReader.parse(convertToFileURL(filePath));
     return handler.getRegionList();

@@ -1,6 +1,7 @@
-package IO.XMLparsers;
+package testing;
 
 import IO.AreaXMLloader;
+import IO.XMLparsers.StateParser;
 import model.MapPoint;
 import model.Region;
 import org.xml.sax.SAXException;
@@ -34,7 +35,7 @@ public class StateParserTest
     Collection<Region> regions = null;
     try
     {
-      AreaXMLloader loader = new AreaXMLloader(new StateParser(), null);
+      AreaXMLloader loader = new AreaXMLloader(new StateParser());
       regions = loader.parseFile("resources/states.xml");
     }
     catch (ParserConfigurationException e)
