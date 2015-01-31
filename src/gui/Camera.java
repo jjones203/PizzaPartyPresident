@@ -28,7 +28,7 @@ public class Camera
 
   double baseW;
   double baseH;
-  private MapConverter converter;
+  private MapConverter converter; // does the map view need a converter?
   private Rectangle2D viewBounds;
   private Rectangle2D limitingRect;
   private double height;
