@@ -1,4 +1,4 @@
-package gui.xmleditor;
+package gui;
 
 /**
  * Created by winston on 1/22/15.

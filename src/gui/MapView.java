@@ -1,7 +1,6 @@
-package gui.views;
+package gui;
 
-import gui.Camera;
-import gui.MapConverter;
+import gui.regionlooks.*;
 import model.Region;
 
 import java.awt.*;
@@ -21,26 +20,16 @@ import static gui.Camera.CAM_DISTANCE;
  */
 public class MapView
 {
-  private CAM_DISTANCE currentDistance;
   private MapConverter mpConverter;
   private Collection<GUIRegion> guiRegions;
 
-  private ActiveRegion activeRegionView = new ActiveRegion();
-  private PassiveRegion passiveRegionView = new PassiveRegion();
-
-  private RegionView ActiveWithName = new RegionNameView(activeRegionView, 5000);
-  private RegionView PassiveWithName = new RegionNameView(passiveRegionView, 5000);
-
-  private RegionView ActiveSmallText = new RegionNameView(activeRegionView, 1000);
-  private RegionView PassiveSmallText = new RegionNameView(passiveRegionView, 1000);
-
-  private RegionView HappyActiveView = new RegionHappyView(activeRegionView);
-  private RegionView HappyWithName = new RegionNameView(HappyActiveView, 6000);
+  private RegionViewFactory regionViewFactory;
 
 
   public MapView(Collection<Region> regions, MapConverter mpConverter)
   {
     this.mpConverter = mpConverter;
+    regionViewFactory = new RegionViewFactory();
     guiRegions = wrapRegions(regions);
   }
 
@@ -49,12 +38,6 @@ public class MapView
     return guiRegions;
   }
 
-
-  // we may or may not need this...
-//  public void setGuiRegions(Collection<GUIRegion> guiRegions)
-//  {
-//    this.guiRegions = guiRegions;
-//  }
 
   /*
    * Initialization method only called during the constructor.
@@ -66,7 +49,7 @@ public class MapView
 
     for (Region region : regions)
     {
-      GUIRegion guir = new GUIRegion(region, mpConverter, passiveRegionView);
+      GUIRegion guir = new GUIRegion(region, mpConverter, regionViewFactory.getLongView());
       guiRs.add(guir);
     }
     return guiRs;
@@ -81,7 +64,7 @@ public class MapView
       {
         // todo debug printing
         System.out.println("region clicked: " + guir.getName());
-        guir.setActive(!guir.isActive());
+        toggleRegionState(guir);
       }
     }
   }
@@ -101,43 +84,26 @@ public class MapView
 
   public Collection<GUIRegion> getRegionsInview(Camera camera)
   {
-
-//    Collection<GUIRegion> regionsInview = new LinkedList<>();
-
-//    Rectangle2D inViewBox = camera.getViewBounds();
-
-//    for (GUIRegion guir : guiRegions)
-//    {
-//      if (guir.getPoly().intersects(inViewBox)) regionsInview.add(guir);
-//    }
-//
-//    for (GUIRegion guir : regionsInview)
-//    {
-//      if (guir.isActive()) guir.setLook(activeRegionView);
-//    }
-//
+    Rectangle2D inViewBox = camera.getViewBounds();
+    Collection<GUIRegion> regionsInView = getIntersectingRegions(inViewBox);
 
 
-//    if (currentDistance == calcDistance(camera)) return getGuiRegions();
-//    else currentDistance = calcDistance(camera); //  set last to current.
-
-    currentDistance = calcDistance(camera);
-    switch (currentDistance)
+    switch (calcDistance(camera))
     {
       case CLOSE_UP:
-        setRegionsActivePassiveViews(HappyWithName, passiveRegionView);
+        setRegionLook(regionViewFactory.getCloseUpView(), regionsInView);
         break;
 
       case MEDIUM:
-        setRegionsActivePassiveViews(HappyWithName, passiveRegionView);
+        setRegionLook(regionViewFactory.getMediumView(), regionsInView);
         break;
 
       case LONG:
-        setRegionsActivePassiveViews(HappyActiveView, HappyActiveView);
+        setRegionLook(regionViewFactory.getLongView(), regionsInView);
         break;
 
       default:
-        System.err.println(currentDistance + "not handeled by getRegionsInview");
+        System.err.println(calcDistance(camera) + "not handeled by getRegionsInview");
     }
     return getGuiRegions();
   }
@@ -146,18 +112,11 @@ public class MapView
    * sets the regions to the respective views as a
    * function of their active state
    */
-  private void setRegionsActivePassiveViews(RegionView active, RegionView passive)
+  private void setRegionLook(RegionView look, Collection<GUIRegion> guiRegions)
   {
-    for (GUIRegion region : getGuiRegions())
+    for (GUIRegion region : guiRegions)
     {
-      if (region.isActive())
-      {
-        region.setLook(active);
-      }
-      else
-      {
-        region.setLook(passive);
-      }
+      region.setLook(look);
     }
   }
 

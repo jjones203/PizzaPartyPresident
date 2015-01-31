@@ -1,6 +1,7 @@
-package gui.views;
+package gui;
 
 import gui.MapConverter;
+import gui.regionlooks.RegionView;
 import model.Region;
 
 import java.awt.*;
