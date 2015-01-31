@@ -61,7 +61,7 @@ public class MapViewTest extends JPanel
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/oceans.xml"));
     worldz.addAll(KMLParser.getRegionsFromFile("resources/countries_world.xml"));
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/2008_cpi_large.xml"));
-//    worldz.addAll(areaXMLloader.getRegions());
+    worldz.addAll(areaXMLloader.getRegions());
 
 
     //add random attributes for testing...

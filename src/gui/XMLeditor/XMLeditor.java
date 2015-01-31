@@ -12,8 +12,6 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,33 +27,9 @@ public class XMLeditor extends JDialog
 {
   private final static Color HILIGHT_ERROR = ColorSchemes.XML_ERROR;
   private final static Font EDITOR_FONT = new Font("Helvetica", Font.PLAIN, 16);
-  private boolean isEdited;
   private String currentFile;
   private RSyntaxTextArea textArea = new RSyntaxTextArea();
-  private RTextScrollPane scrollPane;
 
-  // this is probably overkill...
-  private DocumentListener docListener = new DocumentListener()
-  {
-    @Override
-    public void insertUpdate(DocumentEvent e)
-    {
-
-    }
-
-    @Override
-    public void removeUpdate(DocumentEvent e)
-    {
-
-    }
-
-    @Override
-    public void changedUpdate(DocumentEvent e)
-    {
-      isEdited = true;
-      textArea.getDocument().removeDocumentListener(docListener);
-    }
-  };
 
   public XMLeditor()
   {
@@ -64,7 +38,7 @@ public class XMLeditor extends JDialog
     textArea.setAntiAliasingEnabled(true);
 
     textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
-    scrollPane = new RTextScrollPane(textArea);
+    RTextScrollPane scrollPane = new RTextScrollPane(textArea);
 
     setLayout(new BorderLayout());
     add(scrollPane, BorderLayout.CENTER);
@@ -128,11 +102,6 @@ public class XMLeditor extends JDialog
     }
   }
 
-  @Override
-  public void show(boolean b)
-  {
-    super.show(b);
-  }
 
   /**
    * Moves the Carret to the specifed line number
@@ -159,8 +128,6 @@ public class XMLeditor extends JDialog
       FileReader reader = new FileReader(filename);
       textArea.read(reader, null);
       currentFile = filename;
-      isEdited = false;
-      textArea.getDocument().addDocumentListener(docListener);
     }
     catch (IOException e)
     {
@@ -180,7 +147,6 @@ public class XMLeditor extends JDialog
       textArea.write(writer);
       writer.close();
       currentFile = filename;
-      isEdited = false;
     }
     catch (IOException e)
     {

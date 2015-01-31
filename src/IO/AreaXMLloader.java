@@ -99,19 +99,23 @@ public class AreaXMLloader
       catch (SAXException e)
       {
         if (editor == null) editor = new XMLeditor(); // to be lazy
+        editor.loadFile(currentFile);
+
         Locator locator = handler.getLocator();
 
 
-        if (locator.getLineNumber() != -1)
+        if (locator.getLineNumber() != -1 || locator == null)
         {
+          System.out.println(locator.getLineNumber());
+
           // we know the line that the error happened on
-          editor.highlightLine(locator.getLineNumber() - 1);
-          editor.setCaretToline(locator.getLineNumber() - 1);
+          editor.highlightLine(locator.getLineNumber() );
+          editor.setCaretToline(locator.getLineNumber());
         }
 
 
         JOptionPane.showMessageDialog(null, "(!) " + e.getMessage());
-        editor.loadFile(currentFile);
+
         editor.setVisible(true);
         //TODO make editor track an ignore setting or something of the like....
         // so that the user can ignore a file is they so choose.

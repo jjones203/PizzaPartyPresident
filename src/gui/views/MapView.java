@@ -123,7 +123,7 @@ public class MapView
         break;
 
       case LONG:
-        setRegionsActivePassiveViews(HappyActiveView, passiveRegionView);
+        setRegionsActivePassiveViews(HappyActiveView, HappyActiveView);
         break;
 
       default:
