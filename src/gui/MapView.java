@@ -106,9 +106,9 @@ public class MapView
     {
       case CLOSE_UP:
         // adds details region view to map only when the camera is close.
-        Collection<GUIRegion> modelRegionsInView = getIntersectingRegions(inViewBox, modelRegions);
-        setRegionLook(regionViewFactory.getCloseUpView(), modelRegionsInView);
-        regionsInView.addAll(modelRegionsInView);
+        regionsInView = getIntersectingRegions(inViewBox, modelRegions); // over write background image set
+        setRegionLook(regionViewFactory.getCloseUpView(), regionsInView);
+//        regionsInView.addAll(modelRegionsInView);
         break;
 
       case MEDIUM:
