@@ -106,8 +106,8 @@ public class AreaXMLloader
         if (locator.getLineNumber() != -1)
         {
           // we know the line that the error happened on
-          editor.highlightLine(locator.getLineNumber() );
-          editor.setCaretToline(locator.getLineNumber());
+          editor.highlightLine(locator.getLineNumber()-1);
+          editor.setCaretToline(locator.getLineNumber()-1);
         }
 
         editor.setTitle("editing: " + currentFile);

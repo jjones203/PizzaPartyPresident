@@ -72,7 +72,6 @@ public class RegionParserHandler extends DefaultHandler implements RegionParser
                            String qName, Attributes atts)
   throws SAXException
   {
-
     switch (qName)
     {
     /*
@@ -111,7 +110,7 @@ public class RegionParserHandler extends DefaultHandler implements RegionParser
         tmpPerimeterSet.add(new MapPoint(lat, lon));
         break;
 
-      case "region":  // no nothing, this is a just a containter tag.
+      case "region":  // no nothing, this is a just a container tag.
         break;
 
       default:

@@ -31,6 +31,7 @@ public class XMLeditor extends JDialog
   private RSyntaxTextArea textArea = new RSyntaxTextArea();
   private JLabel errorMsg;
   private boolean ignoreFile;
+  private RTextScrollPane scrollPane; //TODO look into how to set the scroll pane to a given line number.
 
 
   public XMLeditor()
@@ -40,7 +41,7 @@ public class XMLeditor extends JDialog
     textArea.setAntiAliasingEnabled(true);
 
     textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
-    RTextScrollPane scrollPane = new RTextScrollPane(textArea);
+    scrollPane = new RTextScrollPane(textArea);
 
     setLayout(new BorderLayout());
     add(scrollPane, BorderLayout.CENTER);
@@ -72,8 +73,6 @@ public class XMLeditor extends JDialog
 
     controlP.add(save);
 
-    // todo implement ignore botton to flag files that should be forgotten
-
     JButton exit = new JButton("Exit");
     exit.addActionListener(new AbstractAction()
     {
@@ -85,11 +84,9 @@ public class XMLeditor extends JDialog
     });
     controlP.add(exit);
 
-    /*TODO
-      and a mark as ignore button to specify files that will simply be excluded
-     */
-
     JButton ignoreBtn = new JButton("Ignore");
+    ignoreBtn.createToolTip();
+    ignoreBtn.setToolTipText("mark file as DO NOT LOAD");
     ignoreBtn.addActionListener(new AbstractAction()
     {
       @Override
