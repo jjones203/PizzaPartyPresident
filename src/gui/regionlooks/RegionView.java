@@ -1,4 +1,6 @@
-package gui.views;
+package gui.regionlooks;
+
+import gui.GUIRegion;
 
 import java.awt.*;
 

@@ -1,8 +1,5 @@
 package gui;
 
-import gui.views.MapView;
-
-import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;

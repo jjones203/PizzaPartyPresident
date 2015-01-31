@@ -1,4 +1,6 @@
-package gui.views;
+package gui.regionlooks;
+
+import gui.GUIRegion;
 
 import java.awt.*;
 
@@ -9,20 +11,11 @@ import static model.RegionAttributes.PLANTING_ATTRIBUTES.HAPPINESS;
  * Phase_01
  * CS 351 spring 2015
  */
-public class RegionHappyView implements RegionView
+class RegionHappyView implements RegionView
 {
-  RegionView view;
-
-  public RegionHappyView(RegionView view)
-  {
-    this.view = view;
-  }
-
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
   {
-    //todo this is for testing
-//    view.draw(g, gRegion); // ignores base view
     double happinessLevel = gRegion.getRegion()
                                    .getAttributes()
                                    .getAttribute(HAPPINESS);
