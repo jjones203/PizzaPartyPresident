@@ -21,6 +21,9 @@ import static gui.Camera.CAM_DISTANCE;
  */
 public class MapView
 {
+
+  private boolean DEBUG = true;
+  private CAM_DISTANCE lastDistance = CAM_DISTANCE.LONG; // (!) only for debugging.
   private MapConverter mpConverter;
   private Collection<GUIRegion> modelRegions;
   private Collection<GUIRegion> backgroundRegions;
@@ -99,8 +102,13 @@ public class MapView
   public Collection<GUIRegion> getRegionsInview(Camera camera)
   {
     Rectangle2D inViewBox = camera.getViewBounds();
-    Collection<GUIRegion> regionsInView = getIntersectingRegions(inViewBox, backgroundRegions);
+    Collection<GUIRegion> regionsInView = null;
 
+    if (DEBUG && lastDistance != calcDistance(camera))
+    {
+      lastDistance = calcDistance(camera);
+      System.out.println("currentCamer pos: " + lastDistance);
+    }
 
     switch (calcDistance(camera))
     {
@@ -108,20 +116,23 @@ public class MapView
         // adds details region view to map only when the camera is close.
         regionsInView = getIntersectingRegions(inViewBox, modelRegions); // over write background image set
         setRegionLook(regionViewFactory.getCloseUpView(), regionsInView);
-//        regionsInView.addAll(modelRegionsInView);
         break;
 
       case MEDIUM:
+        regionsInView = getIntersectingRegions(inViewBox, backgroundRegions);
         setRegionLook(regionViewFactory.getMediumView(), regionsInView);
         break;
 
       case LONG:
+        regionsInView = getIntersectingRegions(inViewBox, backgroundRegions);
         setRegionLook(regionViewFactory.getLongView(), regionsInView);
         break;
 
       default:
         System.err.println(calcDistance(camera) + "not handeled by getRegionsInview");
+        System.exit(1);
     }
+
     return regionsInView;
   }
 
