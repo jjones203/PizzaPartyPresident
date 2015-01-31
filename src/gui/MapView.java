@@ -105,16 +105,15 @@ public class MapView
     switch (calcDistance(camera))
     {
       case CLOSE_UP:
+        // adds details region view to map only when the camera is close.
         Collection<GUIRegion> modelRegionsInView = getIntersectingRegions(inViewBox, modelRegions);
         setRegionLook(regionViewFactory.getCloseUpView(), modelRegionsInView);
         regionsInView.addAll(modelRegionsInView);
-        System.out.println("CLOSE UP size of modelRegionsInView: " + modelRegionsInView.size());
-        System.out.println("size of modelRegions: " + modelRegions.size());
         break;
 
       case MEDIUM:
         setRegionLook(regionViewFactory.getMediumView(), regionsInView);
-
+        break;
 
       case LONG:
         setRegionLook(regionViewFactory.getLongView(), regionsInView);
