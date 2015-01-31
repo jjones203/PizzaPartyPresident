@@ -46,7 +46,7 @@ public class MapViewTest extends JPanel
     AreaXMLloader areaXMLloader = null;
     try
     {
-      areaXMLloader = new AreaXMLloader("resources/areas");
+      areaXMLloader = new AreaXMLloader();
     }
     catch (ParserConfigurationException e)
     {

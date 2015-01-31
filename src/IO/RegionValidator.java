@@ -1,4 +1,4 @@
-package IO.validators;
+package IO;
 
 import gui.EquirectangularConverter;
 import gui.MapConverter;

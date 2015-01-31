@@ -1,6 +1,7 @@
-package IO.XMLparsers;
+package testing;
 
 import IO.AreaXMLloader;
+import IO.XMLparsers.KMLParser;
 import model.Region;
 import org.xml.sax.SAXException;
 
@@ -23,7 +24,7 @@ public class KMLParserTest
 
     try
     {
-      AreaXMLloader loader = new AreaXMLloader(new KMLParser(), null);
+      AreaXMLloader loader = new AreaXMLloader(new KMLParser());
       l = loader.parseFile("resources/2008_cpi_large.xml");
     }
     catch (ParserConfigurationException e)

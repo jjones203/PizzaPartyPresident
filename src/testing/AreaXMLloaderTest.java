@@ -1,5 +1,6 @@
-package IO;
+package testing;
 
+import IO.AreaXMLloader;
 import IO.XMLparsers.StateParser;
 import model.MapPoint;
 import model.Region;
@@ -14,7 +15,7 @@ public class AreaXMLloaderTest
     AreaXMLloader loader = null;
     try
     {
-      loader = new AreaXMLloader("resources/areas");
+      loader = new AreaXMLloader();
     }
     catch (ParserConfigurationException e)
     {
