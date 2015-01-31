@@ -33,8 +33,7 @@ public class MapViewTest extends JPanel
 {
   /* boolean controlling the fate of the universe. Modify at your own risk */
   private static final boolean DEBUG = true;
-  
-  
+
   private Camera cam;
   private MapView mapView;
   private List<Line2D> grid;
@@ -60,8 +59,8 @@ public class MapViewTest extends JPanel
     }
 
     Collection<Region> worldz = new ArrayList<>();
-//    worldz.addAll(KMLParser.getRegionsFromFile("resources/oceans.xml"));
     worldz.addAll(KMLParser.getRegionsFromFile("resources/landmass_medium.kml"));
+//    worldz.addAll(KMLParser.getRegionsFromFile("resources/oceans.xml"));
 //    worldz.addAll(KMLParser.getRegionsFromFile("resources/2008_cpi_large.xml"));
 //    worldz.addAll(areaXMLloader.getRegions());
 
@@ -82,12 +81,6 @@ public class MapViewTest extends JPanel
     canvas.setSize(1000, 800);
     canvas.setGrid(mapConverter.getLatLonGrid());
     canvas.setBackground(ColorSchemes.OCEANS);
-
-    Area giantObject = new Area();
-    Area tmpObj;
-    for(Region r : allPolys)
-    {
-    }
 
     Timer timer = new Timer(10, keyController);
     timer.addActionListener(new AbstractAction()
@@ -114,6 +107,7 @@ public class MapViewTest extends JPanel
     frame.setVisible(true);
 
   }
+
 
   public void setGrid(List<Line2D> grid)
   {
@@ -154,10 +148,10 @@ public class MapViewTest extends JPanel
     g2d.setStroke(new BasicStroke(10));
     
 
-//    for (GUIRegion guir : mapView.getRegionsInview(cam))
-//    {
-//      guir.draw(g);
-//    }
+    for (GUIRegion guir : mapView.getRegionsInview(cam))
+    {
+      guir.draw(g);
+    }
 
     g2d.setColor(ColorSchemes.MAP_GRID);
     for(Line2D l : grid) g2d.draw(l);
