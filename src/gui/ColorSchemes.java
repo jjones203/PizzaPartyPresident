@@ -24,8 +24,11 @@ public interface  ColorSchemes
 
   Color XML_ERROR = new Color(255, 129, 78, 212);
 
-  Color MAP_GRID = new Color(255, 255, 255, 100);
+  Color MAP_GRID = new Color(255, 255, 255, 70);
 
+  Color GUI_BACKGROUND = new Color(58, 56, 56);
+  Color GUI_TEXT_COLOR = new Color(235, 235, 235);
+  Font GUI_FONT = new Font("SansSerif", Font.PLAIN, 12);
 
 
 }

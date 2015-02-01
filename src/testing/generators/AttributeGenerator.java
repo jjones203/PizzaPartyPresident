@@ -17,6 +17,11 @@ public class AttributeGenerator
   private String[] crops = {"corn", "wheat", "grapeNuts", "coffee", "bread", "pudding"};
   private Random rand;
 
+  public AttributeGenerator()
+  {
+    this(new Random());
+  }
+
   public AttributeGenerator(Random rand)
   {
     this.rand = rand;
