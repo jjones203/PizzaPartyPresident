@@ -67,6 +67,7 @@ public class StatPane extends JPanel
           pval,
           s.toUpperCase()
       );
+
       stats.addBar(bp);
     }
 
@@ -91,7 +92,6 @@ public class StatPane extends JPanel
       }
     });
     timer.start();
-
   }
 
 }

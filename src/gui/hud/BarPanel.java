@@ -18,7 +18,7 @@ public class BarPanel extends JPanel
   private double value;
   private Component barGraph;
   private String labletxt;
-  private String valueLable;
+  private String overLayText;
 
   private int animationStep = 0;
 
@@ -28,12 +28,12 @@ public class BarPanel extends JPanel
     this(color, value, labletxt, null);
   }
 
-  public BarPanel(Color color, double value, String labletxt, String valueLable)
+  public BarPanel(Color color, double value, String labletxt, String overLayText)
   {
     this.color = color;
     this.value = value;
     this.labletxt = labletxt;
-    this.valueLable = valueLable;
+    this.overLayText = overLayText;
 
 
     //init
@@ -85,7 +85,7 @@ public class BarPanel extends JPanel
         g.setColor(color);
         g.fillRect(10, 2, animationStep, 12); //todo change 12 to font metric.
 
-        if (valueLable != null)
+        if (overLayText != null)
         {
           ((Graphics2D)g).setRenderingHint(
               RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -93,7 +93,7 @@ public class BarPanel extends JPanel
 
           g.setColor(Color.black);
           g.setFont(new Font("SansSerif", Font.PLAIN, 10));
-          g.drawString(valueLable, 12, 12);
+          g.drawString(overLayText, 12, 12);
         }
 
       }
