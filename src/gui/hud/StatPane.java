@@ -45,9 +45,9 @@ public class StatPane extends JPanel
     add(bargraphs, BorderLayout.CENTER);
   }
 
-  public void addBar(String lable, double val, Color color)
+  public void addBar(BarPanel barPanel)
   {
-    bargraphs.add(new BarPanel(color, val, lable));
+    bargraphs.add(barPanel);
   }
 
   public static void main(String[] args)
@@ -58,22 +58,28 @@ public class StatPane extends JPanel
     Random random = new Random();
     RegionAttributes atts = new AttributeGenerator(random).nextAttributeSet();
 
-    for (String s : atts.getAllCropsPercentage().keySet())
+    for (String s : atts.getAllCrops())
     {
-      stats.addBar(s.toUpperCase(), random.nextDouble(), Color.cyan);
+      double pval = random.nextDouble();
+      BarPanel bp = new BarPanel(
+          random.nextBoolean()? Color.cyan : Color.red,
+          pval,
+          s.toUpperCase()
+      );
+      stats.addBar(bp);
     }
 
-    for (RegionAttributes.PLANTING_ATTRIBUTES at : RegionAttributes.PLANTING_ATTRIBUTES.values())
-    {
-      stats.addBar(at.toString().toUpperCase(), random.nextDouble(), random.nextBoolean()? Color.cyan : Color.red);
-    }
+//    for (RegionAttributes.PLANTING_ATTRIBUTES at : RegionAttributes.PLANTING_ATTRIBUTES.values())
+//    {
+//      stats.addBar(at.toString().toUpperCase(), random.nextDouble(), random.nextBoolean()? Color.cyan : Color.red);
+//    }
 
 
     frame.add(stats);
     frame.pack();
     frame.setVisible(true);
     frame.setBackground(ColorSchemes.GUI_BACKGROUND);
-    frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
   }
 
 }

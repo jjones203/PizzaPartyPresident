@@ -18,13 +18,20 @@ public class BarPanel extends JPanel
   private double value;
   private Component barGraph;
   private String labletxt;
+  private String valueLable;
 
 
   public BarPanel(Color color, double value, String labletxt)
   {
+    this(color, value, labletxt, null);
+  }
+
+  public BarPanel(Color color, double value, String labletxt, String valueLable)
+  {
     this.color = color;
     this.value = value;
     this.labletxt = labletxt;
+    this.valueLable = valueLable;
 
     //init
     setLayout(new GridLayout(1, 2));
@@ -72,6 +79,17 @@ public class BarPanel extends JPanel
         g.setColor(color);
         g.fillRect(10, 2, length, 12); //todo change 12 to font metric.
 
+        if (valueLable != null)
+        {
+          ((Graphics2D)g).setRenderingHint(
+              RenderingHints.KEY_TEXT_ANTIALIASING,
+              RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+          g.setColor(Color.black);
+          g.setFont(new Font("SansSerif", Font.PLAIN, 10));
+          g.drawString(valueLable, 12, 12);
+        }
+
       }
     };
   }
@@ -94,7 +112,6 @@ public class BarPanel extends JPanel
       BarPanel pb = new BarPanel(random.nextBoolean() ? Color.cyan : Color.red, random.nextDouble(), s.toUpperCase() + ":");
       mainPanel.add(pb);
     }
-
 
 
     JFrame frame = new JFrame();

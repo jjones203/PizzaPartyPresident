@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,6 +66,13 @@ public class RegionAttributes
     return res;
   }
 
+
+  public Collection<String> getAllCrops()
+  {
+    return crops.keySet();
+  }
+
+  @Deprecated
   public Map<String, Double> getAllCropsPercentage()
   {
     return new HashMap<>(crops); // to keep things safe?
