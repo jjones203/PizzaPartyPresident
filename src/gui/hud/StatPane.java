@@ -12,9 +12,16 @@ import java.util.Random;
 
 /**
  * Created by winston on 1/31/15.
+ * <p>
+ * UI container element. Encapsulates a collection of BarPanel objects,
+ * creates a panel that generates and plots bar graphs.
  */
 public class StatPane extends JPanel
 {
+  private final static Color BORDER_COL = ColorSchemes.GUI_TEXT_COLOR.darker();
+  private final static Font TITLE_FONT = new Font("SansSerif", Font.PLAIN, 14);
+  private final static Color GUI_BACKGROUND = ColorSchemes.GUI_BACKGROUND;
+  private final static Color FORGROUND_COL = ColorSchemes.GUI_TEXT_COLOR;
   private JPanel bargraphs;
   private JLabel title;
 
@@ -26,31 +33,47 @@ public class StatPane extends JPanel
     JPanel titlePane = new JPanel();
 
     //config
-    titlePane.setBackground(ColorSchemes.GUI_BACKGROUND);
+    titlePane.setBackground(GUI_BACKGROUND);
     titlePane.setLayout(new FlowLayout(FlowLayout.LEFT));
     titlePane.setBorder(
-        BorderFactory.createMatteBorder(0, 0, 2, 0, ColorSchemes.GUI_TEXT_COLOR.darker()));
-    titlePane.add(title);
+        BorderFactory.createMatteBorder(0, 0, 2, 0, BORDER_COL));
 
-    title.setFont(new Font("SansSerif", Font.PLAIN, 14));
-    title.setForeground(ColorSchemes.GUI_TEXT_COLOR);
+    title.setFont(TITLE_FONT);
+    title.setForeground(FORGROUND_COL);
     title.setHorizontalAlignment(SwingConstants.LEFT);
 
-    bargraphs.setBackground(ColorSchemes.GUI_BACKGROUND);
+    bargraphs.setBackground(GUI_BACKGROUND);
     bargraphs.setBorder(new EmptyBorder(5, 5, 5, 5));
     bargraphs.setLayout(new BoxLayout(bargraphs, BoxLayout.Y_AXIS));
 
     //wire
+    titlePane.add(title);
     setLayout(new BorderLayout());
     add(titlePane, BorderLayout.NORTH);
     add(bargraphs, BorderLayout.CENTER);
   }
 
+  /**
+   * Adds another barPanel to the component.
+   *
+   * @param barPanel barPanel to be displayed.
+   */
   public void addBar(BarPanel barPanel)
   {
     bargraphs.add(barPanel);
   }
 
+  /**
+   * Removes all the currently registered bar plots.
+   */
+  public void cleanBarPlots()
+  {
+    //todo test this method
+    bargraphs.removeAll();
+  }
+
+
+  // only for testing.
   public static void main(String[] args)
   {
     JFrame frame = new JFrame();
@@ -63,7 +86,7 @@ public class StatPane extends JPanel
     {
       double pval = random.nextDouble();
       BarPanel bp = new BarPanel(
-          random.nextBoolean()? Color.cyan : Color.red,
+          random.nextBoolean() ? Color.cyan : Color.red,
           pval,
           s.toUpperCase()
       );
