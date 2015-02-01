@@ -45,7 +45,7 @@
 <Folder><name>ne_50m_admin_1_states_provinces_lakes</name>
   <Placemark>
 	<name>Western Australia</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -81,7 +81,7 @@
   </Placemark>
   <Placemark>
 	<name>Northern Territory</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -117,7 +117,7 @@
   </Placemark>
   <Placemark>
 	<name>South Australia</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -153,7 +153,7 @@
   </Placemark>
   <Placemark>
 	<name>Queensland</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -189,7 +189,7 @@
   </Placemark>
   <Placemark>
 	<name>Tasmania</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -225,7 +225,7 @@
   </Placemark>
   <Placemark>
 	<name>Victoria</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -261,7 +261,7 @@
   </Placemark>
   <Placemark>
 	<name>Australian Capital Territory</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -297,7 +297,7 @@
   </Placemark>
   <Placemark>
 	<name>Jervis Bay Territory</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -333,7 +333,7 @@
   </Placemark>
   <Placemark>
 	<name>New South Wales</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -369,7 +369,7 @@
   </Placemark>
   <Placemark>
 	<name>Acre</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -407,7 +407,7 @@
   </Placemark>
   <Placemark>
 	<name>Rond?nia</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -447,7 +447,7 @@
   </Placemark>
   <Placemark>
 	<name>Roraima</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -484,7 +484,7 @@
   </Placemark>
   <Placemark>
 	<name>Amazonas</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -521,7 +521,7 @@
   </Placemark>
   <Placemark>
 	<name>Par?</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -557,7 +557,7 @@
   </Placemark>
   <Placemark>
 	<name>Mato Grosso do Sul</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -593,7 +593,7 @@
   </Placemark>
   <Placemark>
 	<name>Amap?</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -629,7 +629,7 @@
   </Placemark>
   <Placemark>
 	<name>Mato Grosso</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -666,7 +666,7 @@
   </Placemark>
   <Placemark>
 	<name>Paran?</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -702,7 +702,7 @@
   </Placemark>
   <Placemark>
 	<name>Distrito Federal</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -738,7 +738,7 @@
   </Placemark>
   <Placemark>
 	<name>Goi?s</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -775,7 +775,7 @@
   </Placemark>
   <Placemark>
 	<name>Tocantins</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -811,7 +811,7 @@
   </Placemark>
   <Placemark>
 	<name>S?o Paulo</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -847,7 +847,7 @@
   </Placemark>
   <Placemark>
 	<name>Maranh?o</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -885,7 +885,7 @@
   </Placemark>
   <Placemark>
 	<name>Rio de Janeiro</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -921,7 +921,7 @@
   </Placemark>
   <Placemark>
 	<name>Piau?</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -958,7 +958,7 @@
   </Placemark>
   <Placemark>
 	<name>Minas Gerais</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -995,7 +995,7 @@
   </Placemark>
   <Placemark>
 	<name>Esp?rito Santo</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1032,7 +1032,7 @@
   </Placemark>
   <Placemark>
 	<name>Bahia</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1069,7 +1069,7 @@
   </Placemark>
   <Placemark>
 	<name>Cear?</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1105,7 +1105,7 @@
   </Placemark>
   <Placemark>
 	<name>Sergipe</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1141,7 +1141,7 @@
   </Placemark>
   <Placemark>
 	<name>Alagoas</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1177,7 +1177,7 @@
   </Placemark>
   <Placemark>
 	<name>Rio Grande do Norte</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1213,7 +1213,7 @@
   </Placemark>
   <Placemark>
 	<name>Pernambuco</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1250,7 +1250,7 @@
   </Placemark>
   <Placemark>
 	<name>Para?ba</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1287,7 +1287,7 @@
   </Placemark>
   <Placemark>
 	<name>Santa Catarina</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1324,7 +1324,7 @@
   </Placemark>
   <Placemark>
 	<name>Rio Grande do Sul</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1360,7 +1360,7 @@
   </Placemark>
   <Placemark>
 	<name>Alberta</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1397,7 +1397,7 @@
   </Placemark>
   <Placemark>
 	<name>British Columbia</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1435,7 +1435,7 @@
   </Placemark>
   <Placemark>
 	<name>Manitoba</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1472,7 +1472,7 @@
   </Placemark>
   <Placemark>
 	<name>New Brunswick</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1510,7 +1510,7 @@
   </Placemark>
   <Placemark>
 	<name>Newfoundland and Labrador</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1548,7 +1548,7 @@
   </Placemark>
   <Placemark>
 	<name>Nova Scotia</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1586,7 +1586,7 @@
   </Placemark>
   <Placemark>
 	<name>Northwest Territories</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1624,7 +1624,7 @@
   </Placemark>
   <Placemark>
 	<name>Nunavut</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1661,7 +1661,7 @@
   </Placemark>
   <Placemark>
 	<name>Ontario</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1699,7 +1699,7 @@
   </Placemark>
   <Placemark>
 	<name>Prince Edward Island</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1737,7 +1737,7 @@
   </Placemark>
   <Placemark>
 	<name>Qu?bec</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1775,7 +1775,7 @@
   </Placemark>
   <Placemark>
 	<name>Saskatchewan</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1812,7 +1812,7 @@
   </Placemark>
   <Placemark>
 	<name>Yukon</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1850,7 +1850,7 @@
   </Placemark>
   <Placemark>
 	<name>Alaska</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1891,7 +1891,7 @@
   </Placemark>
   <Placemark>
 	<name>Alabama</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1932,7 +1932,7 @@
   </Placemark>
   <Placemark>
 	<name>Arkansas</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -1973,7 +1973,7 @@
   </Placemark>
   <Placemark>
 	<name>Arizona</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2014,7 +2014,7 @@
   </Placemark>
   <Placemark>
 	<name>California</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2055,7 +2055,7 @@
   </Placemark>
   <Placemark>
 	<name>Colorado</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2096,7 +2096,7 @@
   </Placemark>
   <Placemark>
 	<name>Connecticut</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2137,7 +2137,7 @@
   </Placemark>
   <Placemark>
 	<name>District of Columbia</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2176,7 +2176,7 @@
   </Placemark>
   <Placemark>
 	<name>Delaware</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2217,7 +2217,7 @@
   </Placemark>
   <Placemark>
 	<name>Florida</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2258,7 +2258,7 @@
   </Placemark>
   <Placemark>
 	<name>Georgia</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2299,7 +2299,7 @@
   </Placemark>
   <Placemark>
 	<name>Hawaii</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2340,7 +2340,7 @@
   </Placemark>
   <Placemark>
 	<name>Iowa</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2381,7 +2381,7 @@
   </Placemark>
   <Placemark>
 	<name>Idaho</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2422,7 +2422,7 @@
   </Placemark>
   <Placemark>
 	<name>Illinois</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2463,7 +2463,7 @@
   </Placemark>
   <Placemark>
 	<name>Indiana</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2504,7 +2504,7 @@
   </Placemark>
   <Placemark>
 	<name>Kansas</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2545,7 +2545,7 @@
   </Placemark>
   <Placemark>
 	<name>Kentucky</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2587,7 +2587,7 @@
   </Placemark>
   <Placemark>
 	<name>Louisiana</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2628,7 +2628,7 @@
   </Placemark>
   <Placemark>
 	<name>Massachusetts</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2669,7 +2669,7 @@
   </Placemark>
   <Placemark>
 	<name>Maryland</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2710,7 +2710,7 @@
   </Placemark>
   <Placemark>
 	<name>Maine</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2751,7 +2751,7 @@
   </Placemark>
   <Placemark>
 	<name>Michigan</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2792,7 +2792,7 @@
   </Placemark>
   <Placemark>
 	<name>Minnesota</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2833,7 +2833,7 @@
   </Placemark>
   <Placemark>
 	<name>Missouri</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2875,7 +2875,7 @@
   </Placemark>
   <Placemark>
 	<name>Mississippi</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2916,7 +2916,7 @@
   </Placemark>
   <Placemark>
 	<name>Montana</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2957,7 +2957,7 @@
   </Placemark>
   <Placemark>
 	<name>North Carolina</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -2998,7 +2998,7 @@
   </Placemark>
   <Placemark>
 	<name>North Dakota</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3039,7 +3039,7 @@
   </Placemark>
   <Placemark>
 	<name>Nebraska</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3080,7 +3080,7 @@
   </Placemark>
   <Placemark>
 	<name>New Hampshire</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3121,7 +3121,7 @@
   </Placemark>
   <Placemark>
 	<name>New Jersey</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3162,7 +3162,7 @@
   </Placemark>
   <Placemark>
 	<name>New Mexico</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3203,7 +3203,7 @@
   </Placemark>
   <Placemark>
 	<name>Nevada</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3244,7 +3244,7 @@
   </Placemark>
   <Placemark>
 	<name>New York</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3285,7 +3285,7 @@
   </Placemark>
   <Placemark>
 	<name>Ohio</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3326,7 +3326,7 @@
   </Placemark>
   <Placemark>
 	<name>Oklahoma</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3367,7 +3367,7 @@
   </Placemark>
   <Placemark>
 	<name>Oregon</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3408,7 +3408,7 @@
   </Placemark>
   <Placemark>
 	<name>Pennsylvania</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3449,7 +3449,7 @@
   </Placemark>
   <Placemark>
 	<name>Rhode Island</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3490,7 +3490,7 @@
   </Placemark>
   <Placemark>
 	<name>South Carolina</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3531,7 +3531,7 @@
   </Placemark>
   <Placemark>
 	<name>South Dakota</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3572,7 +3572,7 @@
   </Placemark>
   <Placemark>
 	<name>Tennessee</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3613,7 +3613,7 @@
   </Placemark>
   <Placemark>
 	<name>Texas</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3654,7 +3654,7 @@
   </Placemark>
   <Placemark>
 	<name>Utah</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3695,7 +3695,7 @@
   </Placemark>
   <Placemark>
 	<name>Virginia</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3736,7 +3736,7 @@
   </Placemark>
   <Placemark>
 	<name>Vermont</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3777,7 +3777,7 @@
   </Placemark>
   <Placemark>
 	<name>Washington</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3818,7 +3818,7 @@
   </Placemark>
   <Placemark>
 	<name>Wisconsin</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3859,7 +3859,7 @@
   </Placemark>
   <Placemark>
 	<name>West Virginia</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>
@@ -3900,7 +3900,7 @@
   </Placemark>
   <Placemark>
 	<name>Wyoming</name>
-	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<Style><LineStyle><barColor>ff0000ff</barColor></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#ne_50m_admin_1_states_provinces_lakes">
 		<SimpleData name="featurecla">Admin-1 scale rank</SimpleData>
 		<SimpleData name="scalerank">2.000000000</SimpleData>

@@ -1,12 +1,12 @@
 package gui.hud;
 
 import gui.ColorSchemes;
-import model.RegionAttributes;
-import testing.generators.AttributeGenerator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Created by winston on 1/31/15.
@@ -14,7 +14,12 @@ import java.util.Random;
  */
 public class BarPanel extends JPanel
 {
-  private Color color;
+  public static final Font GUI_FONT = ColorSchemes.GUI_FONT;
+  public static final Font OVERLAY_FONT = new Font("SansSerif", Font.PLAIN, 10);
+
+  private final Color originalBarColor;
+  private Color overLayColor;
+  private Color barColor;
   private JLabel lable;
   private double value;
   private Component barGraph;
@@ -27,28 +32,30 @@ public class BarPanel extends JPanel
 
   /**
    * Contructor for class.
-   * @param color the color of the bar to be draw
+   * @param barColor the barColor of the bar to be draw
    * @param value a double between 0 and 1, 1 being 'full'.
    * @param labletxt String that will be display labeling the bar
    */
-  public BarPanel(Color color, double value, String labletxt)
+  public BarPanel(Color barColor, double value, String labletxt)
   {
-    this(color, value, labletxt, null);
+    this(barColor, value, labletxt, null);
   }
 
   /**
    * Contructor for class.
-   * @param color the color of the bar to be draw
+   * @param barColor the barColor of the bar to be draw
    * @param value a double between 0 and 1, 1 being 'full'.
    * @param labletxt String that will be display labeling the bar
    * @param overLayText String that will be displayed on top of the bar.
    *                    (to show the value passed in for example
    */
-  public BarPanel(Color color, double value, String labletxt, String overLayText)
+  public BarPanel(Color barColor, double value, String labletxt, String overLayText)
   {
 
     //init
-    this.color = color;
+    this.originalBarColor = barColor;
+    this.barColor = barColor;
+    this.overLayColor = Color.black;
     this.value = value;
     this.labletxt = labletxt;
     this.overLayText = overLayText;
@@ -60,14 +67,42 @@ public class BarPanel extends JPanel
     //config
     setBackground(ColorSchemes.GUI_BACKGROUND);
 
-    lable.setFont(ColorSchemes.GUI_FONT);
+    lable.setFont(GUI_FONT);
     lable.setForeground(ColorSchemes.GUI_TEXT_COLOR);
     lable.setHorizontalAlignment(SwingConstants.LEFT);
     lable.setVerticalAlignment(SwingConstants.TOP);
 
+    addMouseListener(getMouseListener());
+
+    // tool tip setup
+//    createToolTip();
+//    setToolTipText(Double.toString(value));
+
     //wire
     add(lable);
     add(barGraph);
+  }
+
+  private MouseListener getMouseListener()
+  {
+    return new MouseAdapter()
+    {
+      @Override
+      public void mouseEntered(MouseEvent e)
+      {
+        overLayColor = Color.white;
+        barColor = Color.gray;
+        lable.setForeground(Color.white);
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e)
+      {
+        overLayColor = Color.black;
+        barColor = originalBarColor;
+        lable.setForeground(ColorSchemes.GUI_TEXT_COLOR);
+      }
+    };
   }
 
   private Component getBarPane()
@@ -82,17 +117,18 @@ public class BarPanel extends JPanel
         if (animationStep >= length) animationStep = length;
         else animationStep += 3; // animation step;
 
-        g.setColor(color);
+        g.setColor(barColor);
         g.fillRect(10, 2, animationStep, 12); //todo change 12 to font metric.
 
+        // if over lay text has been specified.
         if (overLayText != null)
         {
           ((Graphics2D) g).setRenderingHint(
               RenderingHints.KEY_TEXT_ANTIALIASING,
               RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-          g.setColor(Color.black);
-          g.setFont(new Font("SansSerif", Font.PLAIN, 10));
+          g.setColor(overLayColor);
+          g.setFont(OVERLAY_FONT);
           g.drawString(overLayText, 12, 12);
         }
       }

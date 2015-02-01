@@ -97,7 +97,8 @@ public class StatPane extends JPanel
       BarPanel bp = new BarPanel(
           random.nextBoolean() ? Color.cyan : Color.red,
           pval,
-          s.toUpperCase()
+          s.toUpperCase(),
+          String.format("%.2f", pval)
       );
       stats.addBar(bp);
     }
@@ -128,9 +129,9 @@ public class StatPane extends JPanel
         System.out.println("SETTING LABLE");
         stats.setTitle("QUALITATIVE DATA:");
         stats.cleanBarPlots();
-        stats.addBar(new BarPanel(Color.yellow, 1, "Planting Zone", "ZONE 1"));
+        stats.addBar(new BarPanel(Color.magenta, 1, "Planting Zone", "ZONE 1"));
         stats.addBar(new BarPanel(Color.green, 1, "Soil Type", "TYPE 4"));
-        stats.addBar(new BarPanel(Color.green, 1, "HAPPYNESS INDEX:", "45"));
+        stats.addBar(new BarPanel(Color.yellow, 1, "HAPPYNESS INDEX:", "45"));
       }
     });
     setTitle.setRepeats(false);
