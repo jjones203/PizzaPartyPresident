@@ -23,13 +23,13 @@ public class StatPane extends JPanel
   private final static Color GUI_BACKGROUND = ColorSchemes.GUI_BACKGROUND;
   private final static Color FORGROUND_COL = ColorSchemes.GUI_TEXT_COLOR;
   private JPanel bargraphs;
-  private JLabel title;
+  private JLabel titleLable;
 
   public StatPane(String name)
   {
     //init
     bargraphs = new JPanel();
-    title = new JLabel(name);
+    titleLable = new JLabel(name);
     JPanel titlePane = new JPanel();
 
     //config
@@ -38,16 +38,16 @@ public class StatPane extends JPanel
     titlePane.setBorder(
         BorderFactory.createMatteBorder(0, 0, 2, 0, BORDER_COL));
 
-    title.setFont(TITLE_FONT);
-    title.setForeground(FORGROUND_COL);
-    title.setHorizontalAlignment(SwingConstants.LEFT);
+    titleLable.setFont(TITLE_FONT);
+    titleLable.setForeground(FORGROUND_COL);
+    titleLable.setHorizontalAlignment(SwingConstants.LEFT);
 
     bargraphs.setBackground(GUI_BACKGROUND);
     bargraphs.setBorder(new EmptyBorder(5, 5, 5, 5));
     bargraphs.setLayout(new BoxLayout(bargraphs, BoxLayout.Y_AXIS));
 
     //wire
-    titlePane.add(title);
+    titlePane.add(titleLable);
     setLayout(new BorderLayout());
     add(titlePane, BorderLayout.NORTH);
     add(bargraphs, BorderLayout.CENTER);
@@ -72,6 +72,15 @@ public class StatPane extends JPanel
     bargraphs.removeAll();
   }
 
+
+  /**
+   * Sets the title of the StatePane to the specified string.
+   * @param title string representing the title of the panel.
+   */
+  public void setTitle(String title)
+  {
+    titleLable.setText(title);
+  }
 
   // only for testing.
   public static void main(String[] args)
@@ -109,6 +118,23 @@ public class StatPane extends JPanel
       }
     });
     timer.start();
+
+
+    Timer setTitle = new Timer(1000 * 5, new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        System.out.println("SETTING LABLE");
+        stats.setTitle("QUALITATIVE DATA:");
+        stats.cleanBarPlots();
+        stats.addBar(new BarPanel(Color.yellow, 1, "Planting Zone", "ZONE 1"));
+        stats.addBar(new BarPanel(Color.green, 1, "Soil Type", "TYPE 4"));
+        stats.addBar(new BarPanel(Color.green, 1, "HAPPYNESS INDEX:", "45"));
+      }
+    });
+    setTitle.setRepeats(false);
+    setTitle.start();
   }
 
 }
