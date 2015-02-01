@@ -28,7 +28,7 @@ public interface  ColorSchemes
 
   Color GUI_BACKGROUND = new Color(58, 56, 56);
   Color GUI_TEXT_COLOR = new Color(235, 235, 235);
-  Font GUI_FONT = new Font("SansSerif", Font.PLAIN, 12);
+  Font GUI_FONT = new Font("SansSerif", Font.PLAIN, 11);
 
 
 }

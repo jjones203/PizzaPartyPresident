@@ -31,7 +31,7 @@ public class StatPane extends JPanel
         BorderFactory.createMatteBorder(0, 0, 2, 0, ColorSchemes.GUI_TEXT_COLOR.darker()));
     titlePane.add(title);
 
-    title.setFont(ColorSchemes.GUI_FONT);
+    title.setFont(new Font("SansSerif", Font.PLAIN, 14));
     title.setForeground(ColorSchemes.GUI_TEXT_COLOR);
     title.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -57,10 +57,17 @@ public class StatPane extends JPanel
 
     Random random = new Random();
     RegionAttributes atts = new AttributeGenerator(random).nextAttributeSet();
+
     for (String s : atts.getAllCropsPercentage().keySet())
     {
-      stats.addBar(s, random.nextDouble(), Color.cyan);
+      stats.addBar(s.toUpperCase(), random.nextDouble(), Color.cyan);
     }
+
+    for (RegionAttributes.PLANTING_ATTRIBUTES at : RegionAttributes.PLANTING_ATTRIBUTES.values())
+    {
+      stats.addBar(at.toString().toUpperCase(), random.nextDouble(), random.nextBoolean()? Color.cyan : Color.red);
+    }
+
 
     frame.add(stats);
     frame.pack();
