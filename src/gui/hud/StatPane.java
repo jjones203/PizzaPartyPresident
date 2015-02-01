@@ -1,6 +1,7 @@
 package gui.hud;
 
 import gui.ColorSchemes;
+import javafx.application.Application;
 import model.RegionAttributes;
 import testing.generators.AttributeGenerator;
 
@@ -53,7 +54,7 @@ public class StatPane extends JPanel
 
   public static void main(String[] args)
   {
-    JFrame frame = new JFrame();
+    final JFrame frame = new JFrame();
     StatPane stats = new StatPane("CROPS:");
 
     Random random = new Random();
@@ -74,7 +75,6 @@ public class StatPane extends JPanel
 //    {
 //      stats.addBar(at.toString().toUpperCase(), random.nextDouble(), random.nextBoolean()? Color.cyan : Color.red);
 //    }
-
 
     frame.add(stats);
     frame.pack();
