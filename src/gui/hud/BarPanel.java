@@ -10,6 +10,7 @@ import java.util.Random;
 
 /**
  * Created by winston on 1/31/15.
+ * Draws a single bar of a bar chart.
  */
 public class BarPanel extends JPanel
 {
@@ -23,20 +24,35 @@ public class BarPanel extends JPanel
   private int animationStep = 0;
 
 
+
+  /**
+   * Contructor for class.
+   * @param color the color of the bar to be draw
+   * @param value a double between 0 and 1, 1 being 'full'.
+   * @param labletxt String that will be display labeling the bar
+   */
   public BarPanel(Color color, double value, String labletxt)
   {
     this(color, value, labletxt, null);
   }
 
+  /**
+   * Contructor for class.
+   * @param color the color of the bar to be draw
+   * @param value a double between 0 and 1, 1 being 'full'.
+   * @param labletxt String that will be display labeling the bar
+   * @param overLayText String that will be displayed on top of the bar.
+   *                    (to show the value passed in for example
+   */
   public BarPanel(Color color, double value, String labletxt, String overLayText)
   {
+
+    //init
     this.color = color;
     this.value = value;
     this.labletxt = labletxt;
     this.overLayText = overLayText;
 
-
-    //init
     setLayout(new GridLayout(1, 2));
     lable = new JLabel(labletxt);
     barGraph = getBarPane();
@@ -49,24 +65,9 @@ public class BarPanel extends JPanel
     lable.setHorizontalAlignment(SwingConstants.LEFT);
     lable.setVerticalAlignment(SwingConstants.TOP);
 
-    // THESE DO NOT DO ANYTING!!!
-//    lable.setPreferredSize(getLableDim());
-//    lable.setMinimumSize(getLableDim());
-//
-//    barGraph.setMinimumSize(new Dimension(115, 12));
-//    barGraph.setPreferredSize(new Dimension(115, 12));
-
     //wire
     add(lable);
     add(barGraph);
-  }
-
-  private Dimension getLableDim()
-  {
-    FontMetrics fontMetrics = lable.getFontMetrics(lable.getFont());
-    int length = fontMetrics.charsWidth(labletxt.toCharArray(), 0, labletxt.length());
-    int height = fontMetrics.getHeight();
-    return new Dimension(length, height);
   }
 
   private Component getBarPane()
@@ -76,7 +77,6 @@ public class BarPanel extends JPanel
       @Override
       protected void paintComponent(Graphics g)
       {
-//        super.paintComponent(g);
         int length = (int) (value * 100);
 
         if (animationStep >= length) animationStep = length;
@@ -87,7 +87,7 @@ public class BarPanel extends JPanel
 
         if (overLayText != null)
         {
-          ((Graphics2D)g).setRenderingHint(
+          ((Graphics2D) g).setRenderingHint(
               RenderingHints.KEY_TEXT_ANTIALIASING,
               RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
@@ -95,39 +95,7 @@ public class BarPanel extends JPanel
           g.setFont(new Font("SansSerif", Font.PLAIN, 10));
           g.drawString(overLayText, 12, 12);
         }
-
       }
     };
   }
-
-
-  public static void main(String[] args)
-  {
-
-    JPanel mainPanel = new JPanel();
-    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-    mainPanel.setBackground(Color.gray);
-
-    Random random = new Random();
-    AttributeGenerator attGen = new AttributeGenerator(random);
-
-    RegionAttributes atts = attGen.nextAttributeSet();
-
-    for (String s : atts.getAllCropsPercentage().keySet())
-    {
-      BarPanel pb = new BarPanel(random.nextBoolean() ? Color.cyan : Color.red, random.nextDouble(), s.toUpperCase() + ":");
-      mainPanel.add(pb);
-    }
-
-
-    JFrame frame = new JFrame();
-    frame.setContentPane(mainPanel);
-//    frame.setSize(width, 300);
-    frame.pack();
-    frame.setVisible(true);
-    frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-
-  }
-
 }

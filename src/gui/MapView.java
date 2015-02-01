@@ -170,7 +170,10 @@ public class MapView
 
   public int countIntersectingRegions(Rectangle2D r)
   {
-    return getIntersectingRegions(r, modelRegions).size();
+    return getIntersectingRegions(r, modelRegions).size()
+              + getIntersectingRegions(r, backgroundRegions).size();
+
+
   }
 
   public int countIntersectingPoints(Rectangle2D r)
