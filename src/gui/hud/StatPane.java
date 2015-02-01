@@ -72,9 +72,34 @@ public class StatPane extends JPanel
     bargraphs.removeAll();
   }
 
+  /**
+   * Removes the bar element at specified index.
+   * order => order elements added.
+   *
+   * @param index position of element to remove
+   */
+  public void removeBar(int index)
+  {
+    bargraphs.remove(index);
+  }
+
+  public BarPanel getBarPanel(int index)
+  {
+    try
+    {
+      return (BarPanel) bargraphs.getComponent(index);
+    }
+    catch (Exception e)
+    {
+      System.err.println("could not cast object to barpanbel");
+      return null;
+    }
+  }
+
 
   /**
    * Sets the title of the StatePane to the specified string.
+   *
    * @param title string representing the title of the panel.
    */
   public void setTitle(String title)
@@ -137,13 +162,17 @@ public class StatPane extends JPanel
     setTitle.setRepeats(false);
     setTitle.start();
 
-    Timer addOneMoreBar = new Timer(1000 * 7, new AbstractAction()
+    Timer addOneMoreBar = new Timer(1000 * 8, new AbstractAction()
     {
       @Override
       public void actionPerformed(ActionEvent e)
       {
+        System.out.println("adding two new bars, taking one away");
         stats.addBar(new BarPanel(Color.green, .5, "Bar added mid way through"));
         stats.addBar(new BarPanel(Color.PINK, 1.25, "second bar added mid way through"));
+        stats.removeBar(1);
+        stats.getBarPanel(0).setLabelText("new Text!");
+
         stats.revalidate(); // this is needed to repait the newly added components.
       }
     });
