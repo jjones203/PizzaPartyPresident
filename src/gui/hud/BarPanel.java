@@ -123,14 +123,7 @@ public class BarPanel extends JPanel
       {
         int length = (int) (value * 100);
 
-        if (animationStep >= length)
-        {
-          animationStep = length;
-        }
-        else
-        {
-          animationStep += 3; // animation step;
-        }
+        if ( animationStep < length) animationStep += 3;
 
         g.setColor(barColor);
         g.fillRect(10, 2, animationStep, 12); //todo change 12 to font metric.
