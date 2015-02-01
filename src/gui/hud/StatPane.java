@@ -7,6 +7,7 @@ import testing.generators.AttributeGenerator;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.Random;
 
 /**
@@ -80,6 +81,17 @@ public class StatPane extends JPanel
     frame.setVisible(true);
     frame.setBackground(ColorSchemes.GUI_BACKGROUND);
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+    Timer timer = new Timer(10, new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        frame.repaint();
+      }
+    });
+    timer.start();
+
   }
 
 }

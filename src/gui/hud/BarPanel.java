@@ -20,6 +20,8 @@ public class BarPanel extends JPanel
   private String labletxt;
   private String valueLable;
 
+  private int animationStep = 0;
+
 
   public BarPanel(Color color, double value, String labletxt)
   {
@@ -32,6 +34,7 @@ public class BarPanel extends JPanel
     this.value = value;
     this.labletxt = labletxt;
     this.valueLable = valueLable;
+
 
     //init
     setLayout(new GridLayout(1, 2));
@@ -76,8 +79,11 @@ public class BarPanel extends JPanel
 //        super.paintComponent(g);
         int length = (int) (value * 100);
 
+        if (animationStep >= length) animationStep = length;
+        else animationStep += 2;
+
         g.setColor(color);
-        g.fillRect(10, 2, length, 12); //todo change 12 to font metric.
+        g.fillRect(10, 2, animationStep, 12); //todo change 12 to font metric.
 
         if (valueLable != null)
         {
