@@ -84,7 +84,7 @@ public class BarPanel extends JPanel
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
     mainPanel.setBackground(Color.gray);
 
-    Random random = new Random(12);
+    Random random = new Random();
     AttributeGenerator attGen = new AttributeGenerator(random);
 
     RegionAttributes atts = attGen.nextAttributeSet();
