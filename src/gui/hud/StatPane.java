@@ -131,11 +131,24 @@ public class StatPane extends JPanel
         stats.cleanBarPlots();
         stats.addBar(new BarPanel(Color.magenta, 1, "Planting Zone", "ZONE 1"));
         stats.addBar(new BarPanel(Color.green, 1, "Soil Type", "TYPE 4"));
-        stats.addBar(new BarPanel(Color.yellow, 1, "HAPPYNESS INDEX:", "45"));
+        stats.addBar(new BarPanel(Color.yellow, 1, "HAPPYNESS INDEX:", "VERY"));
       }
     });
     setTitle.setRepeats(false);
     setTitle.start();
+
+    Timer addOneMoreBar = new Timer(1000 * 7, new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        stats.addBar(new BarPanel(Color.green, .5, "Bar added mid way through"));
+        stats.addBar(new BarPanel(Color.PINK, 1.25, "second bar added mid way through"));
+        stats.revalidate(); // this is needed to repait the newly added components.
+      }
+    });
+    addOneMoreBar.setRepeats(false);
+    addOneMoreBar.start();
   }
 
 }
