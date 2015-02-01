@@ -48,11 +48,13 @@ public class BarPanel extends JPanel
     lable.setForeground(ColorSchemes.GUI_TEXT_COLOR);
     lable.setHorizontalAlignment(SwingConstants.LEFT);
     lable.setVerticalAlignment(SwingConstants.TOP);
-    lable.setPreferredSize(getLableDim());
-    lable.setMinimumSize(getLableDim());
 
-    barGraph.setMinimumSize(new Dimension(115, 12));
-    barGraph.setPreferredSize(new Dimension(115, 12));
+    // THESE DO NOT DO ANYTING!!!
+//    lable.setPreferredSize(getLableDim());
+//    lable.setMinimumSize(getLableDim());
+//
+//    barGraph.setMinimumSize(new Dimension(115, 12));
+//    barGraph.setPreferredSize(new Dimension(115, 12));
 
     //wire
     add(lable);
@@ -64,7 +66,6 @@ public class BarPanel extends JPanel
     FontMetrics fontMetrics = lable.getFontMetrics(lable.getFont());
     int length = fontMetrics.charsWidth(labletxt.toCharArray(), 0, labletxt.length());
     int height = fontMetrics.getHeight();
-    System.out.println("len and height: " + length + ", " + height);
     return new Dimension(length, height);
   }
 
@@ -72,7 +73,6 @@ public class BarPanel extends JPanel
   {
     return new JPanel()
     {
-
       @Override
       protected void paintComponent(Graphics g)
       {
@@ -80,7 +80,7 @@ public class BarPanel extends JPanel
         int length = (int) (value * 100);
 
         if (animationStep >= length) animationStep = length;
-        else animationStep += 2;
+        else animationStep += 3; // animation step;
 
         g.setColor(color);
         g.fillRect(10, 2, animationStep, 12); //todo change 12 to font metric.

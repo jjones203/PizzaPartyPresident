@@ -67,14 +67,8 @@ public class StatPane extends JPanel
           pval,
           s.toUpperCase()
       );
-
       stats.addBar(bp);
     }
-
-//    for (RegionAttributes.PLANTING_ATTRIBUTES at : RegionAttributes.PLANTING_ATTRIBUTES.values())
-//    {
-//      stats.addBar(at.toString().toUpperCase(), random.nextDouble(), random.nextBoolean()? Color.cyan : Color.red);
-//    }
 
 
     frame.add(stats);
