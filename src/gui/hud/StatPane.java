@@ -20,7 +20,7 @@ import java.util.Random;
 public class StatPane extends JPanel
 {
   private final static Color BORDER_COL = ColorSchemes.GUI_TEXT_COLOR.darker();
-  private final static Font TITLE_FONT = new Font("SansSerif", Font.PLAIN, 14);
+  private final static Font TITLE_FONT = ColorSchemes.HUD_TITLE;
   private final static Color GUI_BACKGROUND = ColorSchemes.GUI_BACKGROUND;
   private final static Color FORGROUND_COL = ColorSchemes.GUI_TEXT_COLOR;
   private JPanel bargraphs;
