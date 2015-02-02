@@ -18,7 +18,8 @@ public class AttributeGenerator
       "corn", "wheat", "grapeNuts",
       "coffee", "bread", "pudding",
       "scones with chocolate chips",
-      "anti-rasins",
+      "anti-rasins", "apple sauce", "Soylent green",
+      "Soylent blue",
   };
   private Random rand;
 

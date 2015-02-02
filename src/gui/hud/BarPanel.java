@@ -121,9 +121,9 @@ public class BarPanel extends JPanel
       @Override
       protected void paintComponent(Graphics g)
       {
-        int length = (int) (value * 100);
+        int length = (int) (value * 100); // this only needs to be computed once
 
-        if ( animationStep < length) animationStep += 3;
+        if (animationStep < length) animationStep += 3;
 
         g.setColor(barColor);
         g.fillRect(10, 2, animationStep, 12); //todo change 12 to font metric.

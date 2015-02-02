@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Collection;
 import java.util.Random;
 
 /**
@@ -110,8 +111,8 @@ public class StatPane extends JPanel
   // only for testing.
   public static void main(String[] args)
   {
-    JFrame frame = new JFrame();
-    StatPane stats = new StatPane("CROPS:");
+    final JFrame frame = new JFrame();
+    final StatPane stats = new StatPane("CROPS:");
 
     Random random = new Random();
     RegionAttributes atts = new AttributeGenerator(random).nextAttributeSet();
