@@ -2,7 +2,6 @@ package testing;
 
 import IO.AreaXMLloader;
 import IO.XMLparsers.KMLParser;
-import IO.XMLparsers.StateParser;
 import gui.*;
 import gui.GUIRegion;
 import gui.MapView;
@@ -77,7 +76,7 @@ public class MapViewTest extends JPanel
     canvas.setMapView(mapView);
     canvas.setSize(1000, 800);
     canvas.setGrid(mapConverter.getLatLonGrid());
-    canvas.setBackground(ColorSchemes.OCEANS);
+    canvas.setBackground(ColorsAndFonts.OCEANS);
 
     Timer timer = new Timer(10, keyController);
     timer.addActionListener(new AbstractAction()
@@ -151,7 +150,7 @@ public class MapViewTest extends JPanel
       guir.draw(g);
     }
 
-    g2d.setColor(ColorSchemes.MAP_GRID);
+    g2d.setColor(ColorsAndFonts.MAP_GRID);
     for(Line2D l : grid) g2d.draw(l);
 
 

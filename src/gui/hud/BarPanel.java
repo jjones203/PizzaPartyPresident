@@ -1,6 +1,6 @@
 package gui.hud;
 
-import gui.ColorSchemes;
+import gui.ColorsAndFonts;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ import java.awt.event.MouseListener;
  */
 public class BarPanel extends JPanel
 {
-  private static final Font GUI_FONT = ColorSchemes.GUI_FONT;
+  private static final Font GUI_FONT = ColorsAndFonts.GUI_FONT;
   private static final Font OVERLAY_FONT = new Font("SansSerif", Font.PLAIN, 10);
 
   private final Color originalBarColor;
@@ -63,10 +63,10 @@ public class BarPanel extends JPanel
     Component barGraph = getBarPane();
 
     //config
-    setBackground(ColorSchemes.GUI_BACKGROUND);
+    setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
     label.setFont(GUI_FONT);
-    label.setForeground(ColorSchemes.GUI_TEXT_COLOR);
+    label.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     label.setHorizontalAlignment(SwingConstants.LEFT);
     label.setVerticalAlignment(SwingConstants.TOP);
 
@@ -103,7 +103,7 @@ public class BarPanel extends JPanel
       {
         overLayColor = Color.black;
         barColor = originalBarColor;
-        label.setForeground(ColorSchemes.GUI_TEXT_COLOR);
+        label.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
       }
     };
   }

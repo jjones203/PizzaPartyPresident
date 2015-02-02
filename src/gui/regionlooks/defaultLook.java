@@ -1,6 +1,6 @@
 package gui.regionlooks;
 
-import gui.ColorSchemes;
+import gui.ColorsAndFonts;
 import gui.GUIRegion;
 
 import java.awt.*;
@@ -20,20 +20,20 @@ class defaultLook implements RegionView
     {
       Polygon poly = gRegion.getPoly();
 
-      g.setColor(ColorSchemes.ACTIVE_REGION);
+      g.setColor(ColorsAndFonts.ACTIVE_REGION);
       g.fillPolygon(poly);
 
-      g.setColor(ColorSchemes.ACTIVE_REGION_OUTLINE);
+      g.setColor(ColorsAndFonts.ACTIVE_REGION_OUTLINE);
       g.drawPolygon(poly);
     }
     else
     {
       Polygon poly = gRegion.getPoly();
 
-      g.setColor(ColorSchemes.PASSIVE_REGION);
+      g.setColor(ColorsAndFonts.PASSIVE_REGION);
       g.fillPolygon(poly);
 
-      g.setColor(ColorSchemes.PASSIVE_REGION_OUTLINE);
+      g.setColor(ColorsAndFonts.PASSIVE_REGION_OUTLINE);
       g.drawPolygon(poly);
     }
   }

@@ -9,7 +9,7 @@ import java.awt.*;
  * <p>
  * Global set of Color for all things gui
  */
-public interface ColorSchemes
+public interface ColorsAndFonts
 {
 
   Color REGION_NAME_FONT_C = new Color(0x5A2C18);

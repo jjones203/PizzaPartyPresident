@@ -1,6 +1,6 @@
 package gui.hud;
 
-import gui.ColorSchemes;
+import gui.ColorsAndFonts;
 import model.RegionAttributes;
 import testing.generators.AttributeGenerator;
 
@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.Collection;
 import java.util.Random;
 
 /**
@@ -19,10 +18,10 @@ import java.util.Random;
  */
 public class StatPane extends JPanel
 {
-  private final static Color BORDER_COL = ColorSchemes.GUI_TEXT_COLOR.darker();
-  private final static Font TITLE_FONT = ColorSchemes.HUD_TITLE;
-  private final static Color GUI_BACKGROUND = ColorSchemes.GUI_BACKGROUND;
-  private final static Color FORGROUND_COL = ColorSchemes.GUI_TEXT_COLOR;
+  private final static Color BORDER_COL = ColorsAndFonts.GUI_TEXT_COLOR.darker();
+  private final static Font TITLE_FONT = ColorsAndFonts.HUD_TITLE;
+  private final static Color GUI_BACKGROUND = ColorsAndFonts.GUI_BACKGROUND;
+  private final static Color FORGROUND_COL = ColorsAndFonts.GUI_TEXT_COLOR;
   private JPanel bargraphs;
   private JLabel titleLable;
 
@@ -133,7 +132,7 @@ public class StatPane extends JPanel
     frame.add(stats);
     frame.pack();
     frame.setVisible(true);
-    frame.setBackground(ColorSchemes.GUI_BACKGROUND);
+    frame.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     Timer timer = new Timer(10, new AbstractAction()

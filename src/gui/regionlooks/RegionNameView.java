@@ -1,6 +1,6 @@
 package gui.regionlooks;
 
-import gui.ColorSchemes;
+import gui.ColorsAndFonts;
 import gui.GUIRegion;
 
 import java.awt.*;
@@ -28,7 +28,7 @@ class RegionNameView implements RegionView
 
     Graphics2D g2d = (Graphics2D) g;
     g2d.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
-    g2d.setColor(ColorSchemes.REGION_NAME_FONT_C);
+    g2d.setColor(ColorsAndFonts.REGION_NAME_FONT_C);
 
     g2d.drawString(gRegion.getName(),
         (int)gRegion.getPoly().getBounds().getCenterX(),
