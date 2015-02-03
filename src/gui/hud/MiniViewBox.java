@@ -111,6 +111,15 @@ public class MiniViewBox extends JPanel
     this.regionPolygon = regionPolygon;
   }
 
+  public void setTitle(String name)
+  {
+    titleLabel.setText(name);
+  }
+
+  public String getTitle()
+  {
+    return titleLabel.getText();
+  }
 
   /**
    * shifts a given polygon back to the the origin (0, 0). Is used to make the

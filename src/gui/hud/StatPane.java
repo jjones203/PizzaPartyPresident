@@ -1,8 +1,10 @@
 package gui.hud;
 
 import gui.ColorsAndFonts;
+import model.Region;
 import model.RegionAttributes;
 import testing.generators.AttributeGenerator;
+import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -58,6 +60,34 @@ public class StatPane extends JPanel
     add(bargraphs, BorderLayout.CENTER);
   }
 
+  public void displayRegionAttributes(RegionAttributes atts)
+  {
+    for (PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
+    {
+      BarPanel bp = new BarPanel(
+          Color.cyan,
+          atts.getAttribute(att) / 20,
+          att.toString(),
+          String.format("%.2f", atts.getAttribute(att))
+      );
+      addBar(bp);
+    }
+  }
+
+
+  public void displayRegionCrops(RegionAttributes atts)
+  {
+    for (String cropName : atts.getAllCrops())
+    {
+      BarPanel bp = new BarPanel(
+          Color.cyan,
+          atts.getCropP(cropName),
+          cropName,
+          String.format("%.2f", atts.getCropP(cropName))
+      );
+      addBar(bp);
+    }
+  }
   /**
    * Adds another barPanel to the component.
    *
