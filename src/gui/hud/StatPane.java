@@ -83,7 +83,7 @@ public class StatPane extends JPanel
           Color.cyan,
           atts.getCropP(cropName),
           cropName,
-          String.format("%.2f", atts.getCropP(cropName))
+          "%" + String.format("%.2f", atts.getCropP(cropName) * 100)
       );
       addBar(bp);
     }

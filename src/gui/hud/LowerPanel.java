@@ -67,7 +67,7 @@ public class LowerPanel extends JPanel
     frame.add(lowerPanel);
     frame.pack();
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.setResizable(false);
+//    frame.setResizable(false);
     frame.setVisible(true);
 
     Timer animator = new Timer(20, new AbstractAction()
