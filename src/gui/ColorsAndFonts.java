@@ -9,7 +9,7 @@ import java.awt.*;
  * <p>
  * Global set of Color for all things gui
  */
-public interface ColorSchemes
+public interface ColorsAndFonts
 {
 
   Color REGION_NAME_FONT_C = new Color(0x5A2C18);
@@ -29,6 +29,7 @@ public interface ColorSchemes
   Color GUI_BACKGROUND = new Color(58, 56, 56);
   Color GUI_TEXT_COLOR = new Color(235, 235, 235);
   Font GUI_FONT = new Font("SansSerif", Font.PLAIN, 11);
+  Font HUD_TITLE = new Font("SansSerif", Font.PLAIN, 14);
 
 
   class colorConverter

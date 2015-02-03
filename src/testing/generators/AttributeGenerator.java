@@ -11,6 +11,7 @@ import java.util.Random;
  * CS 351 spring 2015
  * <p>
  * Class to generate random attribute sets.
+ * will only be used for testing...
  */
 public class AttributeGenerator
 {
@@ -18,7 +19,8 @@ public class AttributeGenerator
       "corn", "wheat", "grapeNuts",
       "coffee", "bread", "pudding",
       "scones with chocolate chips",
-      "anti-rasins",
+      "anti-rasins", "apple sauce", "Soylent green",
+      "Soylent blue",
   };
   private Random rand;
 

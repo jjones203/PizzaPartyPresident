@@ -6,7 +6,6 @@ package gui;
  * CS 351 spring 2015
  */
 
-import gui.ColorSchemes;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -25,7 +24,7 @@ import java.io.IOException;
  */
 public class XMLeditor extends JDialog
 {
-  private final static Color HILIGHT_ERROR = ColorSchemes.XML_ERROR;
+  private final static Color HILIGHT_ERROR = ColorsAndFonts.XML_ERROR;
   private final static Font EDITOR_FONT = new Font("Helvetica", Font.PLAIN, 16);
   private String currentFile;
   private RSyntaxTextArea textArea = new RSyntaxTextArea();

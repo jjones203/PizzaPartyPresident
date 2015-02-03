@@ -2,7 +2,6 @@ package testing;
 
 import IO.AreaXMLloader;
 import IO.XMLparsers.KMLParser;
-import IO.XMLparsers.StateParser;
 import gui.*;
 import gui.GUIRegion;
 import gui.MapView;
@@ -59,6 +58,7 @@ public class MapViewTest extends JPanel
     Collection<Region> backgroudMap = new ArrayList<>(KMLParser.getRegionsFromFile("resources/countries_world.xml"));
 
     Collection<Region> modelMap = new ArrayList<>(KMLParser.getRegionsFromFile("resources/ne_10m_admin_1_states_provinces.kml"));
+    modelMap.addAll(areaXMLloader.getRegions());
     for (Region r : modelMap)
     {
       r.setAttributes(randoAtts.nextAttributeSet());
@@ -76,7 +76,7 @@ public class MapViewTest extends JPanel
     canvas.setMapView(mapView);
     canvas.setSize(1000, 800);
     canvas.setGrid(mapConverter.getLatLonGrid());
-    canvas.setBackground(ColorSchemes.OCEANS);
+    canvas.setBackground(ColorsAndFonts.OCEANS);
 
     Timer timer = new Timer(10, keyController);
     timer.addActionListener(new AbstractAction()
@@ -133,6 +133,7 @@ public class MapViewTest extends JPanel
   @Override
   public void paintComponent(Graphics g)
   {
+    super.paintComponent(g); // todo this is important! we need to used with in what ever context draws the map.
     Graphics2D g2d = (Graphics2D) g;
 
 
@@ -150,7 +151,7 @@ public class MapViewTest extends JPanel
       guir.draw(g);
     }
 
-    g2d.setColor(ColorSchemes.MAP_GRID);
+    g2d.setColor(ColorsAndFonts.MAP_GRID);
     for(Line2D l : grid) g2d.draw(l);
 
 

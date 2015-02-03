@@ -1,6 +1,6 @@
 package gui.hud;
 
-import gui.ColorSchemes;
+import gui.ColorsAndFonts;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,14 +14,14 @@ import java.awt.event.MouseListener;
  */
 public class BarPanel extends JPanel
 {
-  private static final Font GUI_FONT = ColorSchemes.GUI_FONT;
+  private static final Font GUI_FONT = ColorsAndFonts.GUI_FONT;
   private static final Font OVERLAY_FONT = new Font("SansSerif", Font.PLAIN, 10);
 
   private final Color originalBarColor;
   private Color overLayColor;
   private Color barColor;
   private final JLabel label;
-  private final double value;
+  private final double ratio;
   private final String overLayText;
 
   private int animationStep = 0;
@@ -31,31 +31,31 @@ public class BarPanel extends JPanel
    * Constructor for class.
    *
    * @param barColor  the barColor of the bar to be draw
-   * @param value     a double between 0 and 1, 1 being 'full'.
+   * @param ratio     a double between 0 and 1, 1 being 'full'.
    * @param labelText String that will be display labeling the bar
    */
-  public BarPanel(Color barColor, double value, String labelText)
+  public BarPanel(Color barColor, double ratio, String labelText)
   {
-    this(barColor, value, labelText, null);
+    this(barColor, ratio, labelText, null);
   }
 
   /**
    * Constructor for class.
    *
    * @param barColor    the barColor of the bar to be draw
-   * @param value       a double between 0 and 1, 1 being 'full'.
+   * @param ratio       a double between 0 and 1, 1 being 'full'.
    * @param labelText   String that will be display labeling the bar
    * @param overLayText String that will be displayed on top of the bar.
-   *                    (to show the value passed in for example
+   *                    (to show the ratio passed in for example
    */
-  public BarPanel(Color barColor, double value, String labelText, String overLayText)
+  public BarPanel(Color barColor, double ratio, String labelText, String overLayText)
   {
 
     //init
     this.originalBarColor = barColor;
     this.barColor = barColor;
     this.overLayColor = Color.black;
-    this.value = value;
+    this.ratio = ratio;
     this.overLayText = overLayText;
 
     setLayout(new GridLayout(1, 2));
@@ -63,10 +63,10 @@ public class BarPanel extends JPanel
     Component barGraph = getBarPane();
 
     //config
-    setBackground(ColorSchemes.GUI_BACKGROUND);
+    setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
     label.setFont(GUI_FONT);
-    label.setForeground(ColorSchemes.GUI_TEXT_COLOR);
+    label.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     label.setHorizontalAlignment(SwingConstants.LEFT);
     label.setVerticalAlignment(SwingConstants.TOP);
 
@@ -74,7 +74,7 @@ public class BarPanel extends JPanel
 
     // tool tip setup
 //    createToolTip();
-//    setToolTipText(Double.toString(value));
+//    setToolTipText(Double.toString(ratio));
 
     //wire
     add(label);
@@ -103,7 +103,7 @@ public class BarPanel extends JPanel
       {
         overLayColor = Color.black;
         barColor = originalBarColor;
-        label.setForeground(ColorSchemes.GUI_TEXT_COLOR);
+        label.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
       }
     };
   }
@@ -121,9 +121,9 @@ public class BarPanel extends JPanel
       @Override
       protected void paintComponent(Graphics g)
       {
-        int length = (int) (value * 100);
+        int length = (int) (ratio * 100); // this only needs to be computed once
 
-        if ( animationStep < length) animationStep += 3;
+        if (animationStep < length) animationStep += 3;
 
         g.setColor(barColor);
         g.fillRect(10, 2, animationStep, 12); //todo change 12 to font metric.

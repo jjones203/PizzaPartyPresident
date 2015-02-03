@@ -1,9 +1,10 @@
 package gui.hud;
 
-import gui.ColorSchemes;
-import javafx.application.Application;
+import gui.ColorsAndFonts;
+import model.Region;
 import model.RegionAttributes;
 import testing.generators.AttributeGenerator;
+import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,13 +20,18 @@ import java.util.Random;
  */
 public class StatPane extends JPanel
 {
-  private final static Color BORDER_COL = ColorSchemes.GUI_TEXT_COLOR.darker();
-  private final static Font TITLE_FONT = new Font("SansSerif", Font.PLAIN, 14);
-  private final static Color GUI_BACKGROUND = ColorSchemes.GUI_BACKGROUND;
-  private final static Color FORGROUND_COL = ColorSchemes.GUI_TEXT_COLOR;
+  private final static Color BORDER_COL = ColorsAndFonts.GUI_TEXT_COLOR.darker();
+  private final static Font TITLE_FONT = ColorsAndFonts.HUD_TITLE;
+  private final static Color GUI_BACKGROUND = ColorsAndFonts.GUI_BACKGROUND;
+  private final static Color FORGROUND_COL = ColorsAndFonts.GUI_TEXT_COLOR;
   private JPanel bargraphs;
   private JLabel titleLable;
 
+  /**
+   * Constructor. The specified name is what is printed as the title of the
+   * Stat Panel.
+   * @param name
+   */
   public StatPane(String name)
   {
     //init
@@ -54,6 +60,34 @@ public class StatPane extends JPanel
     add(bargraphs, BorderLayout.CENTER);
   }
 
+  public void displayRegionAttributes(RegionAttributes atts)
+  {
+    for (PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
+    {
+      BarPanel bp = new BarPanel(
+          Color.cyan,
+          atts.getAttribute(att) / 20,
+          att.toString(),
+          String.format("%.2f", atts.getAttribute(att))
+      );
+      addBar(bp);
+    }
+  }
+
+
+  public void displayRegionCrops(RegionAttributes atts)
+  {
+    for (String cropName : atts.getAllCrops())
+    {
+      BarPanel bp = new BarPanel(
+          Color.cyan,
+          atts.getCropP(cropName),
+          cropName,
+          String.format("%.2f", atts.getCropP(cropName))
+      );
+      addBar(bp);
+    }
+  }
   /**
    * Adds another barPanel to the component.
    *
@@ -138,7 +172,7 @@ public class StatPane extends JPanel
     frame.add(stats);
     frame.pack();
     frame.setVisible(true);
-    frame.setBackground(ColorSchemes.GUI_BACKGROUND);
+    frame.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     Timer timer = new Timer(10, new AbstractAction()

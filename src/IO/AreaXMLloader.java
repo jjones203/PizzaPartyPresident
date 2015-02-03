@@ -95,7 +95,7 @@ public class AreaXMLloader
         regionList.addAll(tmpRegions);
 
       }
-      catch (SAXException e)
+      catch (SAXException e) //routine for loading the editor.
       {
         if (editor == null) editor = new XMLeditor(); // to be lazy
         editor.loadFile(currentFile);
