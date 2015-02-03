@@ -1,18 +1,14 @@
 package gui.hud;
 
-import IO.AreaXMLloader;
 import IO.XMLparsers.KMLParser;
-import IO.XMLparsers.StateParser;
 import gui.ColorsAndFonts;
 import gui.EquirectangularConverter;
 import gui.GUIRegion;
 import model.Region;
-import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.xml.parsers.ParserConfigurationException;
 
 import java.awt.*;
 import java.util.Collections;
@@ -23,8 +19,8 @@ import java.util.Random;
  */
 public class MiniViewBox extends JPanel
 {
-  private final static int PANEL_WIDTH = 230;
-  private final static int PANEL_HEIGHT = 400;
+  private final static int R_PANEL_WIDTH = 230;
+  private final static int R_PANEL_HEIGHT = 300;
   private final static Color BORDER_COL = ColorsAndFonts.GUI_TEXT_COLOR.darker();
   private final static Font TITLE_FONT = ColorsAndFonts.HUD_TITLE;
   private final static Color GUI_BACKGROUND = ColorsAndFonts.GUI_BACKGROUND;
@@ -42,9 +38,9 @@ public class MiniViewBox extends JPanel
     this.regionViewer = getRegionView();
 
     // config
-    Dimension prefSize = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);
-    setPreferredSize(prefSize);
-    setMinimumSize(prefSize);
+    Dimension prefSize = new Dimension(R_PANEL_WIDTH, R_PANEL_HEIGHT);
+    regionViewer.setPreferredSize(prefSize);
+    regionViewer.setMinimumSize(prefSize);
     this.setLayout(new BorderLayout());
     this.setBackground(GUI_BACKGROUND);
 
@@ -97,10 +93,11 @@ public class MiniViewBox extends JPanel
   }
 
 
-  private Polygon zeroPospolyGo(Polygon regionPolygon)
+  private static Polygon movePolyToOrigin(Polygon regionPolygon)
   {
     Polygon shifted = new Polygon(
-        regionPolygon.xpoints, regionPolygon.ypoints, regionPolygon.npoints);
+        regionPolygon.xpoints, regionPolygon.ypoints, regionPolygon.npoints
+    );
 
     int x = regionPolygon.getBounds().x;
     int y = regionPolygon.getBounds().y;
@@ -119,32 +116,74 @@ public class MiniViewBox extends JPanel
       {
         if (regionPolygon != null)
         {
+          double padding = .90;
           Graphics2D g2d = (Graphics2D) g;
 
-          // scalling
-          if (regionPolygon.getBounds().width > regionPolygon.getBounds().height)
+          Polygon shifted = movePolyToOrigin(regionPolygon);
+//          shifted = regionPolygon
+          double scaleValue;
+
+
+          // shift for width
+          if (shifted.getBounds().width > shifted.getBounds().height)
           {
-            System.out.println("scaling by width: " + regionPolygon.getBounds().width);
-            double scaleValue = (double) PANEL_WIDTH / regionPolygon.getBounds().width;
-            g2d.scale(scaleValue, scaleValue);
-            System.out.println("scale value: " + scaleValue);
+            scaleValue = ((double) R_PANEL_WIDTH/ shifted.getBounds().width);
+            scaleValue *= padding;
           }
+          // shift for height
           else
           {
-            System.out.println("scaling by height: " + regionPolygon.getBounds().height);
-            double scaleValue = (double) PANEL_HEIGHT / regionPolygon.getBounds().height;
-            g2d.scale(scaleValue, scaleValue);
-            System.out.println("scale value: " + scaleValue);
+            scaleValue = ((double) R_PANEL_HEIGHT / shifted.getBounds().height);
+            scaleValue *= padding;
           }
+
+
+          System.out.println("scaleValue" + scaleValue);
+
+
+          double scaledWidth = shifted.getBounds().width * scaleValue;
+          double scaledHeight = shifted.getBounds().height * scaleValue;
+
+
+          System.out.println("scaledWidth" + scaledWidth);
+          System.out.println("scaledHeight" + scaledHeight);
+
+          double xshift = Math.abs(scaledWidth - R_PANEL_WIDTH) / 2;
+          double yshift = Math.abs(scaledHeight - R_PANEL_HEIGHT) / 2;
+
+          g2d.translate(xshift, yshift);
+
+          g2d.scale(scaleValue, scaleValue);
+
+
+          System.out.println("shifted bounds: " + shifted.getBounds());
+
+          g2d.setColor(ColorsAndFonts.ACTIVE_REGION);
+          g2d.fillPolygon(shifted);
+          // scalling
+//          if (regionPolygon.getBounds().width > regionPolygon.getBounds().height)
+//          {
+//            System.out.println("scaling by width: " + regionPolygon.getBounds().width);
+//            double scaleValue = (double) R_PANEL_WIDTH / regionPolygon.getBounds().width;
+//            g2d.scale(scaleValue, scaleValue);
+//            System.out.println("scale value: " + scaleValue);
+//          }
+//          else
+//          {
+//            System.out.println("scaling by height: " + regionPolygon.getBounds().height);
+//            double scaleValue = (double) R_PANEL_HEIGHT / regionPolygon.getBounds().height;
+//            g2d.scale(scaleValue, scaleValue);
+//            System.out.println("scale value: " + scaleValue);
+//          }
 
 
           //shifting
-          g2d.translate(-regionPolygon.getBounds().x, -regionPolygon.getBounds().y);
+//          g2d.translate(-regionPolygon.getBounds().x, -regionPolygon.getBounds().y);
           //todo find a clean way to add padding. so that the region is centerned nicely.
 
           //drawing
-          g2d.setColor(ColorsAndFonts.ACTIVE_REGION);
-          g2d.fillPolygon(regionPolygon);
+//          g2d.setColor(ColorsAndFonts.ACTIVE_REGION);
+//          g2d.fillPolygon(regionPolygon);
 
           //todo for testing only...
 //          g2d.fillRect(0, 0, 100, 100);
