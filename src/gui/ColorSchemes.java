@@ -6,10 +6,10 @@ import java.awt.*;
  * Created by winston on 1/23/15.
  * Phase_01
  * CS 351 spring 2015
- *
+ * <p>
  * Global set of Color for all things gui
  */
-public interface  ColorSchemes
+public interface ColorSchemes
 {
 
   Color REGION_NAME_FONT_C = new Color(0x5A2C18);
@@ -31,4 +31,18 @@ public interface  ColorSchemes
   Font GUI_FONT = new Font("SansSerif", Font.PLAIN, 11);
 
 
+  class colorConverter
+  {
+    /**
+     * get either back or white depending on the luminosity of the specified color.
+     *
+     * @param color to be 'inverted'
+     * @return
+     */
+    public static Color getContrastColor(Color color)
+    {
+      double y = (299 * color.getRed() + 587 * color.getGreen() + 114 * color.getBlue()) / 1000;
+      return y >= 128 ? Color.black : Color.white;
+    }
+  }
 }

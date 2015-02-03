@@ -1,133 +1,145 @@
 package gui.hud;
 
 import gui.ColorSchemes;
-import model.RegionAttributes;
-import testing.generators.AttributeGenerator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Created by winston on 1/31/15.
+ * Draws a single bar of a bar chart, with a few labels.
  */
 public class BarPanel extends JPanel
 {
-  private Color color;
-  private JLabel lable;
-  private double value;
-  private Component barGraph;
-  private String labletxt;
-  private String valueLable;
+  private static final Font GUI_FONT = ColorSchemes.GUI_FONT;
+  private static final Font OVERLAY_FONT = new Font("SansSerif", Font.PLAIN, 10);
+
+  private final Color originalBarColor;
+  private Color overLayColor;
+  private Color barColor;
+  private final JLabel label;
+  private final double value;
+  private final String overLayText;
 
   private int animationStep = 0;
 
 
-  public BarPanel(Color color, double value, String labletxt)
+  /**
+   * Constructor for class.
+   *
+   * @param barColor  the barColor of the bar to be draw
+   * @param value     a double between 0 and 1, 1 being 'full'.
+   * @param labelText String that will be display labeling the bar
+   */
+  public BarPanel(Color barColor, double value, String labelText)
   {
-    this(color, value, labletxt, null);
+    this(barColor, value, labelText, null);
   }
 
-  public BarPanel(Color color, double value, String labletxt, String valueLable)
+  /**
+   * Constructor for class.
+   *
+   * @param barColor    the barColor of the bar to be draw
+   * @param value       a double between 0 and 1, 1 being 'full'.
+   * @param labelText   String that will be display labeling the bar
+   * @param overLayText String that will be displayed on top of the bar.
+   *                    (to show the value passed in for example
+   */
+  public BarPanel(Color barColor, double value, String labelText, String overLayText)
   {
-    this.color = color;
-    this.value = value;
-    this.labletxt = labletxt;
-    this.valueLable = valueLable;
-
 
     //init
+    this.originalBarColor = barColor;
+    this.barColor = barColor;
+    this.overLayColor = Color.black;
+    this.value = value;
+    this.overLayText = overLayText;
+
     setLayout(new GridLayout(1, 2));
-    lable = new JLabel(labletxt);
-    barGraph = getBarPane();
+    label = new JLabel(labelText);
+    Component barGraph = getBarPane();
 
     //config
     setBackground(ColorSchemes.GUI_BACKGROUND);
 
-    lable.setFont(ColorSchemes.GUI_FONT);
-    lable.setForeground(ColorSchemes.GUI_TEXT_COLOR);
-    lable.setHorizontalAlignment(SwingConstants.LEFT);
-    lable.setVerticalAlignment(SwingConstants.TOP);
-    lable.setPreferredSize(getLableDim());
-    lable.setMinimumSize(getLableDim());
+    label.setFont(GUI_FONT);
+    label.setForeground(ColorSchemes.GUI_TEXT_COLOR);
+    label.setHorizontalAlignment(SwingConstants.LEFT);
+    label.setVerticalAlignment(SwingConstants.TOP);
 
-    barGraph.setMinimumSize(new Dimension(115, 12));
-    barGraph.setPreferredSize(new Dimension(115, 12));
+    addMouseListener(getMouseListener());
+
+    // tool tip setup
+//    createToolTip();
+//    setToolTipText(Double.toString(value));
 
     //wire
-    add(lable);
+    add(label);
     add(barGraph);
   }
 
-  private Dimension getLableDim()
+  public void setLabelText(String text)
   {
-    FontMetrics fontMetrics = lable.getFontMetrics(lable.getFont());
-    int length = fontMetrics.charsWidth(labletxt.toCharArray(), 0, labletxt.length());
-    int height = fontMetrics.getHeight();
-    System.out.println("len and height: " + length + ", " + height);
-    return new Dimension(length, height);
+    label.setText(text);
   }
 
-  private Component getBarPane()
+  private MouseListener getMouseListener()
   {
-    return new JPanel()
+    return new MouseAdapter()
     {
+      @Override
+      public void mouseEntered(MouseEvent e)
+      {
+        overLayColor = Color.white;
+        barColor = Color.gray;
+        label.setForeground(Color.white);
+      }
 
       @Override
-      protected void paintComponent(Graphics g)
+      public void mouseExited(MouseEvent e)
       {
-//        super.paintComponent(g);
-        int length = (int) (value * 100);
-
-        if (animationStep >= length) animationStep = length;
-        else animationStep += 2;
-
-        g.setColor(color);
-        g.fillRect(10, 2, animationStep, 12); //todo change 12 to font metric.
-
-        if (valueLable != null)
-        {
-          ((Graphics2D)g).setRenderingHint(
-              RenderingHints.KEY_TEXT_ANTIALIASING,
-              RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-          g.setColor(Color.black);
-          g.setFont(new Font("SansSerif", Font.PLAIN, 10));
-          g.drawString(valueLable, 12, 12);
-        }
-
+        overLayColor = Color.black;
+        barColor = originalBarColor;
+        label.setForeground(ColorSchemes.GUI_TEXT_COLOR);
       }
     };
   }
 
-
-  public static void main(String[] args)
+  /**
+   * Generates an inner class to handel the custom drawing of the
+   * bar.
+   *
+   * @return component that will be drawn in a special way.
+   */
+  private Component getBarPane()
   {
-
-    JPanel mainPanel = new JPanel();
-    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-    mainPanel.setBackground(Color.gray);
-
-    Random random = new Random();
-    AttributeGenerator attGen = new AttributeGenerator(random);
-
-    RegionAttributes atts = attGen.nextAttributeSet();
-
-    for (String s : atts.getAllCropsPercentage().keySet())
+    return new JPanel()
     {
-      BarPanel pb = new BarPanel(random.nextBoolean() ? Color.cyan : Color.red, random.nextDouble(), s.toUpperCase() + ":");
-      mainPanel.add(pb);
-    }
+      @Override
+      protected void paintComponent(Graphics g)
+      {
+        int length = (int) (value * 100);
 
+        if ( animationStep < length) animationStep += 3;
 
-    JFrame frame = new JFrame();
-    frame.setContentPane(mainPanel);
-//    frame.setSize(width, 300);
-    frame.pack();
-    frame.setVisible(true);
-    frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        g.setColor(barColor);
+        g.fillRect(10, 2, animationStep, 12); //todo change 12 to font metric.
 
+        // if over lay text has been specified.
+        if (overLayText != null)
+        {
+          ((Graphics2D) g).setRenderingHint(
+              RenderingHints.KEY_TEXT_ANTIALIASING,
+              RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
+          g.setColor(overLayColor);
+          g.setFont(OVERLAY_FONT);
+          g.drawString(overLayText, 12, 12);
+        }
+      }
+    };
   }
-
 }
