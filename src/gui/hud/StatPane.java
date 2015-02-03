@@ -112,7 +112,7 @@ public class StatPane extends JPanel
   public static void main(String[] args)
   {
     final JFrame frame = new JFrame();
-    StatPane stats = new StatPane("CROPS:");
+    final StatPane stats = new StatPane("CROPS:");
 
     Random random = new Random();
     RegionAttributes atts = new AttributeGenerator(random).nextAttributeSet();
