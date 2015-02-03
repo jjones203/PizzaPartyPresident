@@ -11,6 +11,7 @@ import java.util.Random;
  * CS 351 spring 2015
  * <p>
  * Class to generate random attribute sets.
+ * will only be used for testing...
  */
 public class AttributeGenerator
 {

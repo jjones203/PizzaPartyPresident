@@ -11,10 +11,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 
 /**
- * Created by winston on 2/2/15.
+ * Encapsulates displaying the selected regions in the hud.
+ *
+ * TODO finish implementing this
  */
 public class MiniViewBox extends JPanel
 {
+  private final static int WIDTH = 230;
+//  private final static int HEIGHT =
   private final static Color BORDER_COL = ColorsAndFonts.GUI_TEXT_COLOR.darker();
   private final static Font TITLE_FONT = ColorsAndFonts.HUD_TITLE;
   private final static Color GUI_BACKGROUND = ColorsAndFonts.GUI_BACKGROUND;

@@ -133,6 +133,7 @@ public class MapViewTest extends JPanel
   @Override
   public void paintComponent(Graphics g)
   {
+    super.paintComponent(g); // todo this is important! we need to used with in what ever context draws the map.
     Graphics2D g2d = (Graphics2D) g;
 
 

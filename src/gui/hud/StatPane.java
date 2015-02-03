@@ -25,6 +25,11 @@ public class StatPane extends JPanel
   private JPanel bargraphs;
   private JLabel titleLable;
 
+  /**
+   * Constructor. The specified name is what is printed as the title of the
+   * Stat Panel.
+   * @param name
+   */
   public StatPane(String name)
   {
     //init

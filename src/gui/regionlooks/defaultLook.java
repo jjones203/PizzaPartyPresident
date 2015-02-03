@@ -8,8 +8,12 @@ import java.awt.*;
 /**
  * Created by winston on 1/23/15.
  * Phase_01
- * class representing the look of a Active or selected region.
  * CS 351 spring 2015
+ *
+ * Class representing the look of a Active or selected region. With no
+ * additional styling information.
+ *
+ * Depends on the ColorAndFontClass.
  */
 class defaultLook implements RegionView
 {
