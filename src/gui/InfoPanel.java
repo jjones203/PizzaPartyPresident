@@ -157,7 +157,7 @@ public class InfoPanel extends JPanel
 
   /**
    * set the Info Pane Title to the name of the specified region.
-   * @param name of the region to display
+   * @param name of the region to displayGUIRegion
    */
   public void setActiveRegionName(String name)
   {

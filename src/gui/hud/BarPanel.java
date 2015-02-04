@@ -32,7 +32,7 @@ public class BarPanel extends JPanel
    *
    * @param barColor  the barColor of the bar to be draw
    * @param ratio     a double between 0 and 1, 1 being 'full'.
-   * @param labelText String that will be display labeling the bar
+   * @param labelText String that will be displayGUIRegion labeling the bar
    */
   public BarPanel(Color barColor, double ratio, String labelText)
   {
@@ -44,7 +44,7 @@ public class BarPanel extends JPanel
    *
    * @param barColor    the barColor of the bar to be draw
    * @param ratio       a double between 0 and 1, 1 being 'full'.
-   * @param labelText   String that will be display labeling the bar
+   * @param labelText   String that will be displayGUIRegion labeling the bar
    * @param overLayText String that will be displayed on top of the bar.
    *                    (to show the ratio passed in for example
    */
