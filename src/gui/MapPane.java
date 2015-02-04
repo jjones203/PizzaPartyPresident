@@ -54,6 +54,7 @@ public class MapPane extends JPanel
     addMouseWheelListener(this);
     addMouseMotionListener(this);
     addKeyListener(this);
+    setBackground(ColorsAndFonts.OCEANS);
     
     /* todo: sizing generalization */
     setPreferredSize(new Dimension(1000,500));
@@ -65,11 +66,16 @@ public class MapPane extends JPanel
   {
     Graphics2D g2 = (Graphics2D) g;
 
-    if(multiSelect) drawDragRect(g2); /* BEFORE transform */
     g2.setTransform(cam.getTransform());
+    for (GUIRegion region : presenter.getRegionsInview(cam)) region.draw(g2);
+    
+    if(multiSelect)
+    {
+      g2.setTransform(new AffineTransform());/* reset transform!! */
+      drawDragRect(g2);
+    }
 
     
-    for (GUIRegion region : presenter.getRegionsInview(cam)) region.draw(g2);
   }
 
   private void drawDragRect(Graphics2D g2)
@@ -159,7 +165,6 @@ public class MapPane extends JPanel
   {
     Point2D mapClick = convertToMapSpace(e.getPoint());
 
-    System.out.println("click");
     if (e.isControlDown())
     {
       cam.centerAbsolute(mapClick.getX(), mapClick.getY());
@@ -190,12 +195,12 @@ public class MapPane extends JPanel
   public void mouseEntered(MouseEvent e){ /* do nothing */ }
 
   
-  private Rectangle2D rectFromCornerPoints(Point2D topLeft, Point2D botRight)
+  private Rectangle2D rectFromCornerPoints(Point2D p1, Point2D p2)
   {
-    double x = Math.max(topLeft.getX(), botRight.getX());
-    double y = Math.min(topLeft.getY(), botRight.getY());
-    double w = Math.abs(topLeft.getX() - botRight.getX());
-    double h = Math.abs(topLeft.getY() - botRight.getY());
+    double x = Math.min(p1.getX(), p2.getX());
+    double y = Math.min(p1.getY(), p2.getY());
+    double w = Math.abs(p1.getX() - p2.getX());
+    double h = Math.abs(p1.getY() - p2.getY());
     return new Rectangle2D.Double(x, y, w, h);
   }
 
@@ -210,8 +215,7 @@ public class MapPane extends JPanel
     Point2D mapClick = convertToMapSpace(e.getPoint());
 
     /*todo: generalize conversion from wheel rotation to zoom */
-    System.out.println("whee!");
-      
+
     cam.zoomAbsolute(e.getPreciseWheelRotation() / 5, mapClick.getX(), mapClick.getY());
   }
 
@@ -227,8 +231,8 @@ public class MapPane extends JPanel
     }
     else
     {
-      double dx = e.getPoint().getX() - dragFrom.getX();
-      double dy = e.getPoint().getY() - dragFrom.getY();
+      double dx = -(e.getPoint().getX() - dragFrom.getX());
+      double dy = -(e.getPoint().getY() - dragFrom.getY());
       cam.translateRelativeToView(dx, dy);
       dragFrom = e.getPoint();
     }
