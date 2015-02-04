@@ -22,7 +22,6 @@ public class GameManager
  public GameManager(World world, WorldPresenter presenter)
  {
 
-  
  }
  
  

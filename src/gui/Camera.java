@@ -140,13 +140,13 @@ public class Camera extends JPanel
   /**
    Translate the camera in terms relative to the screen it is produces transforms
    for.  Scaling is handled automatically
-   
-   @param dx
+   * @param dx
    difference in x to move, in DisplaySpace
    @param dy
-   difference in y to move, in DisplaySpace 
+ difference in y to move, in DisplaySpace
+
    */
-  public void translateRelativeToView(int dx, int dy)
+  public void translateRelativeToView(double dx, double dy)
   {
     translateAbsolute(dx * scale, dy * scale);
   }

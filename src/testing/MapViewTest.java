@@ -56,8 +56,8 @@ public class MapViewTest extends JPanel
     }
 
     Collection<Region> backgroudMap = new ArrayList<>(KMLParser.getRegionsFromFile("resources/countries_world.xml"));
-
     Collection<Region> modelMap = new ArrayList<>(KMLParser.getRegionsFromFile("resources/ne_10m_admin_1_states_provinces.kml"));
+    
     modelMap.addAll(areaXMLloader.getRegions());
     for (Region r : modelMap)
     {
