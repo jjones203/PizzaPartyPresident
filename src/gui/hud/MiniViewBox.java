@@ -127,7 +127,7 @@ public class MiniViewBox extends JPanel
    * shifts a given polygon back to the the origin (0, 0). Is used to make the
    * mini display work.
    * <p/>
-   * (!) note, this method does not mutaite its argument.
+   * (!) note, this method does not mutates its argument.
    *
    * @param regionPolygon region to shift back
    * @return
