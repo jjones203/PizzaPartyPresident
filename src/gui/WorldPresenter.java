@@ -1,6 +1,7 @@
 package gui;
 
-import gui.regionlooks.*;
+import gui.regionlooks.RegionView;
+import gui.regionlooks.RegionViewFactory;
 import model.Region;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ public class WorldPresenter
 {
 
   private boolean DEBUG = true;
-  private CAM_DISTANCE lastDistance = CAM_DISTANCE.LONG; // (!) only for debugging.
+  private CAM_DISTANCE lastDistance; // (!) only for debugging. //todo remove when finalized
   private MapConverter mpConverter;
   private Collection<GUIRegion> modelRegions;
   private Collection<GUIRegion> backgroundRegions;
@@ -35,11 +36,12 @@ public class WorldPresenter
 
   public WorldPresenter(MapConverter mpConverter)
   {
-    modelRegions = new ArrayList<>();
-    backgroundRegions = new ArrayList<>();
+    this.modelRegions = new ArrayList<>();
+    this.backgroundRegions = new ArrayList<>();
     this.mpConverter = mpConverter;
-    regionViewFactory = new RegionViewFactory();
-    activeRegions = new ActiveRegionList();
+    this.regionViewFactory = new RegionViewFactory();
+    this.activeRegions = new ActiveRegionList();
+    this.lastDistance = CAM_DISTANCE.LONG;
   }
 
   public void setBackgroundRegions(Collection<Region> regions)
@@ -48,6 +50,7 @@ public class WorldPresenter
     backgroundRegions = wrapRegions(regions, background);
   }
 
+  // could this be made private?
   public Collection<GUIRegion> getModelRegions()
   {
     return modelRegions;
@@ -76,20 +79,35 @@ public class WorldPresenter
   }
 
 
-  public void appendClick(double x, double y)
+  /**
+   * Marks every region that intersects the specified rectangle as active.
+   * used with the camera object to enable click and drag selection of map
+   * regions.
+   *
+   * @param rect bounding rectangle for selection
+   */
+  public void selectAll(Rectangle2D rect)
   {
-    for (GUIRegion guir : getModelRegions())
+    for (GUIRegion r : getIntersectingRegions(rect, getModelRegions()))
     {
-      if (guir.getPoly().contains(x, y))
-      {
-        activeRegions.add(guir);
-        return; //for early loop termination.
-      }
+      activeRegions.add(r);
     }
+
   }
 
+  /**
+   * Registers a single selection click at the given point.
+   * If the point given correspond to a region, that region will become selected,
+   * and any other regions that were selected will be de-selected.
+   * <p/>
+   * If there is no corresponding region nothing will happen.
+   *
+   * @param x x coord of click
+   * @param y y coord of click
+   */
   public void singleClickAt(double x, double y)
   {
+    assert 3 == 4;
     for (GUIRegion guir : getModelRegions())
     {
       if (guir.getPoly().contains(x, y))
@@ -101,21 +119,43 @@ public class WorldPresenter
     }
   }
 
+  /**
+   * Registers a region append click at the specified point.
+   * if there is a region at said point, its state will be toggled.
+   * This method is called to incrementally build up a group of selected
+   * regions, that need not be contiguous.
+   *
+   * @param x x coord.
+   * @param y y coord.
+   */
+  public void appendClickAt(double x, double y)
+  {
+    for (GUIRegion guir : getModelRegions())
+    {
+      if (guir.getPoly().contains(x, y))
+      {
+        if (activeRegions.contains(guir))
+        {
+          activeRegions.remove(guir);
+        }
+        else
+        {
+          activeRegions.add(guir);
+        }
+        return; //for early loop termination.
+      }
+    }
+  }
 
 
   /**
-   * Toggles the active/passive state of the specified region.
+   * Given a Camera, this method returns all the GUI regions 'in view',
+   * and adjusts the look to the appropriate level of detail.
    *
-   * @param region region that will be modified.
-   * @return boolean representing the active/passive state of the
-   * region after the toggle.
+   * @param camera camera object used to extract 'height' and viewing angle on
+   *               map.
+   * @return all the regions in view, all set to the appropriate rendering rules.
    */
-  private boolean toggleRegionState(GUIRegion region)
-  {
-    region.setActive(!region.isActive());
-    return region.isActive();
-  }
-
   public Collection<GUIRegion> getRegionsInview(Camera camera)
   {
     Rectangle2D inViewBox = camera.getViewBounds();
@@ -174,6 +214,10 @@ public class WorldPresenter
   }
 
 
+  /*
+   * Returns all the regions in the given collection that
+   * intersect the given rectangle
+   */
   private List<GUIRegion> getIntersectingRegions(Rectangle2D r, Collection<GUIRegion> regions)
   {
     List<GUIRegion> regionsInR = new LinkedList<>();
@@ -208,6 +252,9 @@ public class WorldPresenter
     return sum;
   }
 
+  /**
+   * Private class  that manages and the active/passive state of the region.
+   */
   private class ActiveRegionList
   {
     private List<GUIRegion> activeRegions;
@@ -220,11 +267,13 @@ public class WorldPresenter
 
     public void add(GUIRegion region)
     {
+      if (contains(region)) return; // already in the list.
+
       region.setActive(true);
       activeRegions.add(region);
     }
 
-    public GUIRegion remove (GUIRegion region)
+    public GUIRegion remove(GUIRegion region)
     {
       int index = activeRegions.indexOf(region);
       if (index == -1) return null;
@@ -247,7 +296,5 @@ public class WorldPresenter
       }
       activeRegions.clear();
     }
-
   }
-
 }
