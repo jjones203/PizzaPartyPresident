@@ -95,8 +95,7 @@ public class MiniViewBox extends JPanel
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        frame.repaint();
-        
+        frame.repaint();;
       }
     });
     animator.start();
@@ -129,6 +128,7 @@ public class MiniViewBox extends JPanel
    * <p/>
    * (!) note, this method does not mutates its argument.
    *
+   * (!) note, this method does not mutaite its argument.
    * @param regionPolygon region to shift back
    * @return
    */
@@ -142,7 +142,7 @@ public class MiniViewBox extends JPanel
     int x = regionPolygon.getBounds().x;
     int y = regionPolygon.getBounds().y;
 
-    shifted.translate(-x, -y);
+    shifted.translate( -x, -y);
 
     return shifted;
   }
@@ -169,11 +169,19 @@ public class MiniViewBox extends JPanel
           Polygon shifted = movePolyToOrigin(regionPolygon);
           double scaleValue;
 
+          double boxW = getWidth();
+          double boxH = getHeight();
+          double boxAspect = boxW/boxH;
 
-          // shift for width
-          if (shifted.getBounds().width > shifted.getBounds().height)
+          double polyW = shifted.getBounds().getWidth();
+          double polyH = shifted.getBounds().getHeight();
+          double polyAspect = polyW / polyH;
+          
+          double dx, dy;
+          
+          if (boxAspect > polyAspect)
           {
-            scaleValue = ((double) regionViewer.getWidth() / shifted.getBounds().width);
+            scaleValue = ((double) regionViewer.getWidth()/ shifted.getBounds().width);
             scaleValue *= PADDING;
           }
           // shift for height
