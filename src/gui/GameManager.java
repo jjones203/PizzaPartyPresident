@@ -1,9 +1,7 @@
 package gui;
 
-import gui.hud.LowerPanel;
+import gui.hud.InfoPanel;
 import model.World;
-
-import javax.swing.*;
 
 /**
  @author david
@@ -16,7 +14,7 @@ public class GameManager
 {
  
  private MapPane mapPane;
- private LowerPanel infoPane;
+ private InfoPanel infoPane;
  private World world;
  
  public GameManager(World world, WorldPresenter presenter)

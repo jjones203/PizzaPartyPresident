@@ -17,13 +17,14 @@ import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 /**
  * Created by winston on 2/3/15.
  */
-public class LowerPanel extends JPanel
+public class InfoPanel extends JPanel
 {
   private MiniViewBox miniViewBox;
   private StatPane attributeStats;
   private StatPane cropStatPane;
+  private Dimension size = new Dimension(1000, 270);
 
-  public LowerPanel()
+  public InfoPanel()
   {
     // init
     miniViewBox = new MiniViewBox("REGION NAME");
@@ -32,6 +33,8 @@ public class LowerPanel extends JPanel
 
     //config
     this.setLayout(new GridLayout(1,3));
+    this.setMinimumSize(size);
+    this.setPreferredSize(size);
 
     //wire
     this.add(miniViewBox);
@@ -112,10 +115,10 @@ public class LowerPanel extends JPanel
     GUIRegion testRegion = new GUIRegion(firstRegion, new EquirectangularConverter(), null);
 
     final JFrame frame = new JFrame();
-    final LowerPanel lowerPanel = new LowerPanel();
-    lowerPanel.displayGUIRegion(testRegion);
+    final InfoPanel infoPanel = new InfoPanel();
+    infoPanel.displayGUIRegion(testRegion);
 
-    frame.add(lowerPanel);
+    frame.add(infoPanel);
     frame.pack();
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 //    frame.setResizable(false);
@@ -140,7 +143,7 @@ public class LowerPanel extends JPanel
         Region region = testlist.remove(0);
         region.setAttributes(randoAtts.nextAttributeSet());
         GUIRegion guiRegion = new GUIRegion(region, new EquirectangularConverter(), null);
-        lowerPanel.displayGUIRegion(guiRegion);
+        infoPanel.displayGUIRegion(guiRegion);
       }
     }).start();
   }
