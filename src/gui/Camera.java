@@ -1,12 +1,9 @@
 package gui;
 
 
-import com.sun.prism.shader.DrawRoundRect_RadialGradient_PAD_Loader;
-
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -14,21 +11,17 @@ import java.awt.image.BufferedImage;
 
  */
 
-public class Camera
+public class Camera extends JPanel
 {
-  static final double MID_HEIGHT = 10;
-  static final double MAX_HEIGHT = 12;
-  static final double MIN_HEIGHT = 4;
   private static final double ASPECT_RATIO = 2;
   private static final double BASE_W = 1000;
   private static final double BASE_H = BASE_W / ASPECT_RATIO;
+  
   private static final Font DBG_FONT = new Font("Courier", Font.PLAIN, 14);
-  double maxHeight;
-  double minHeight;
+  
+  final double MIN_HEIGHT = 4;
+  final double MAX_HEIGHT;
 
-  double baseW;
-  double baseH;
-  private MapConverter converter; // does the camera need a converter?
   private Rectangle2D viewBounds;
   private Rectangle2D limitingRect;
   private double height;
@@ -53,30 +46,23 @@ public class Camera
    */
   public Camera(double x, double y, MapConverter converter)
   {
-    this(x, y, MAX_HEIGHT, converter);
-  }
+    double minX = converter.lonToX(-180);
+    double minY = converter.latToY(90);
+    double maxX = converter.lonToX(180);
+    double maxY = converter.latToY(-90);
 
-
-  /**
-   Base constructor specifies location in absolute MapSpace, and initial height
-   and a MapConverter to use for projection and scaling reference
-
-   @param x
-   x coord of initial location
-   @param y
-   y coord of initial location
-   @param initialHeight
-   initial height of Camera
-   @param converter
-   MapConverter to use for scaling rules
-   */
-  public Camera(double x, double y, double initialHeight, MapConverter converter)
-  {
-    setConverter(converter);
-    setHeight(initialHeight);
+    double maxW = maxX - minX;
+    double maxH = maxY - minY;
+    
+    MAX_HEIGHT = Math.log(maxW/BASE_W)/Math.log(2);
+    limitingRect = new Rectangle2D.Double(minX, minY, maxW, maxH);
+    
+    setHeight(MAX_HEIGHT);
     viewBounds = new Rectangle2D.Double();
     setViewBounds(x, y, scale * BASE_W, scale * BASE_H);
+    
   }
+
 
   /**
    Center the camera on given x and y coordinates in absolute MapSpace
@@ -135,16 +121,6 @@ public class Camera
 
   
   /**
-   @return
-   the center Point2D of the viewBounds rectangle, in absolute MapSpace
-   */
-  public Point2D getCenter()
-  {
-    return new Point2D.Double(viewBounds.getCenterX(), viewBounds.getCenterY());
-  }
-
-
-  /**
    Translate the camera, in absolute terms, a given differential in x and y
    
    @param dx
@@ -164,13 +140,13 @@ public class Camera
   /**
    Translate the camera in terms relative to the screen it is produces transforms
    for.  Scaling is handled automatically
-   
-   @param dx
+   * @param dx
    difference in x to move, in DisplaySpace
    @param dy
-   difference in y to move, in DisplaySpace 
+ difference in y to move, in DisplaySpace
+
    */
-  public void translateRelativeToView(int dx, int dy)
+  public void translateRelativeToView(double dx, double dy)
   {
     translateAbsolute(dx * scale, dy * scale);
   }
@@ -191,8 +167,7 @@ public class Camera
     zoomAbsolute(-zoomDiff, centerX, centerY);
   }
 
-  
-  
+
   public void zoomOut(double zoomDiff)
   {
     double centerY = viewBounds.getCenterY();
@@ -211,12 +186,8 @@ public class Camera
   public void zoomAbsolute(double dZoom, double anchorX, double anchorY)
   {
     double oldH = height;
-    double oldScale = scale;
-    
     setHeight(height + dZoom);
-    
     double actualDZoom = height - oldH;
-    double dScale = scale - oldScale;
 
     double oldX = viewBounds.getX();
     double oldY = viewBounds.getY();
@@ -252,50 +223,29 @@ public class Camera
   public AffineTransform getTransform()
   {
     AffineTransform at = new AffineTransform();
-
-
+    
     double shiftX = -viewBounds.getX();
     double shiftY = -viewBounds.getY();
 
-    /* viewBounds are scaled, shift is in scaled terms? */
+    /* viewBounds are scaled, shift is in scaled terms */
     at.scale(1 / scale, 1 / scale);
     at.translate(shiftX, shiftY);
 
     return at;
   }
 
-  /* maybe should be private.  Can't modify converter after instantiation */
-  public void setConverter(MapConverter converter)
-  {
-    this.converter = converter;
-    double minX = converter.lonToX(-180);
-    double minY = converter.latToY(90);
-    double maxX = converter.lonToX(180);
-    double maxY = converter.latToY(-90);
-
-    double maxW = maxX - minX;
-    double maxH = maxY - minY;
-
-
-    maxHeight = Math.log(maxW / BASE_W) / Math.log(2); /*TODO: Fix this wrongness */
-
-    limitingRect = new Rectangle2D.Double(minX, minY, maxW, maxH);
-  }
-
-  public int getHeight()
-  {
-    return (int) height; /* TODO: resolve FP v INT dilemma */
-  }
-
+  
   public void setHeight(double height)
   {
     if (height < MIN_HEIGHT)
     {
       height = MIN_HEIGHT;
     }
-    else if (height > maxHeight) height = maxHeight;
+    else if (height > MAX_HEIGHT){
+      height = MAX_HEIGHT;
+      
+    }
     this.height = height;
-
     scale = Math.pow(2, height);
   }
 
@@ -321,6 +271,10 @@ public class Camera
     return s;
   }
 
+
+  /**
+   @return a BufferedImage containing debug info for the camera  
+   */
   public BufferedImage getDBGimg()
   {
     BufferedImage img = new BufferedImage(400, 200, BufferedImage.TYPE_4BYTE_ABGR);
@@ -348,7 +302,10 @@ public class Camera
 
     return img;
   }
-
+  
+  /**
+    @return the CAM_DISTANCE enum based on the height or zoom of this camera
+   */
   public CAM_DISTANCE getDistance()
   {
     if (height < 6) return CAM_DISTANCE.CLOSE_UP;
@@ -356,6 +313,7 @@ public class Camera
     return CAM_DISTANCE.LONG;
   }
 
+  
   public Rectangle2D getLims()
   {
     return limitingRect;

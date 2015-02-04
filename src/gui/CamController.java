@@ -18,8 +18,8 @@ public class CamController
   private final static int CAMERA_STEP = 10;
   private final static double ZOOM_STEP = .05;
   private final static int
-          UP = 38,
-          LEFT = 37,
+  UP = 38,
+  LEFT = 37,
           DOWN = 40,
           RIGHT = 39,
           SHIFT = 16;
