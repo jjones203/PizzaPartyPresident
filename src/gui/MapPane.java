@@ -51,7 +51,7 @@ public class MapPane extends JPanel
     this.cam = cam;
     this.presenter = presenter;
     addMouseListener(this);
-    addMouseListener(this);
+    addMouseWheelListener(this);
     addMouseMotionListener(this);
     addKeyListener(this);
     
@@ -210,6 +210,8 @@ public class MapPane extends JPanel
     Point2D mapClick = convertToMapSpace(e.getPoint());
 
     /*todo: generalize conversion from wheel rotation to zoom */
+    System.out.println("whee!");
+      
     cam.zoomAbsolute(e.getPreciseWheelRotation() / 5, mapClick.getX(), mapClick.getY());
   }
 
