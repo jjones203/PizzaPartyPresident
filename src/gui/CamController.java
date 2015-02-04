@@ -32,13 +32,13 @@ public class CamController
           isSHIFTdepressed;
 
   private Camera cam;
-  private MapView mapView;
+  private WorldPresenter worldPresenter;
 
 
-  public CamController(Camera camera, MapView mapView)
+  public CamController(Camera camera, WorldPresenter worldPresenter)
   {
     this.cam = camera;
-    this.mapView = mapView;
+    this.worldPresenter = worldPresenter;
   }
 
 
@@ -129,7 +129,7 @@ public class CamController
     }
     else
     {
-      mapView.clickAt(mapClick.getX(), mapClick.getY());
+      worldPresenter.clickAt(mapClick.getX(), mapClick.getY());
     }
   }
 

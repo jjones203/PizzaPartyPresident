@@ -58,6 +58,11 @@ public class BarPanel extends JPanel
     this.ratio = ratio;
     this.overLayText = overLayText;
 
+    // 6000 is just to make things too big! fighting with swing.
+    Dimension size = new Dimension(6000, 16);
+    setMaximumSize(size);
+
+
     setLayout(new GridLayout(1, 2));
     label = new JLabel(labelText);
     Component barGraph = getBarPane();

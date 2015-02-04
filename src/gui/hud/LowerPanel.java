@@ -30,7 +30,6 @@ public class LowerPanel extends JPanel
     attributeStats = new StatPane("ATTRIBUTES:");
     cropStatPane = new StatPane("CROPS:");
 
-
     //config
     this.setLayout(new GridLayout(1,3));
 
@@ -58,7 +57,7 @@ public class LowerPanel extends JPanel
   /**
    * Controls the presentation logic of building up the crop percentages section
    * of the GUI info pane.
-   * @param region Whos data is to be extracted and displayed.
+   * @param region  data that will be extracted and displayed.
    * @param statPane GUI element to 'write' to.
    */
   private void diplayCropState(GUIRegion region, StatPane statPane)
@@ -75,6 +74,7 @@ public class LowerPanel extends JPanel
       statPane.addBar(bp);
     }
   }
+
 
   /**
    * Controls the presentation logic for displaying the the soil attributes

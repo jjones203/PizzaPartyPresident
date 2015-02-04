@@ -1,5 +1,6 @@
 package gui.hud;
 
+
 import gui.ColorsAndFonts;
 import model.RegionAttributes;
 import testing.generators.AttributeGenerator;
@@ -49,7 +50,11 @@ public class StatPane extends JPanel
 
     bargraphs.setBackground(GUI_BACKGROUND);
     bargraphs.setBorder(new EmptyBorder(5, 5, 5, 5));
-    bargraphs.setLayout(new BoxLayout(bargraphs, BoxLayout.Y_AXIS));
+
+    BoxLayout layout = new BoxLayout(bargraphs, BoxLayout.Y_AXIS);
+    FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT,3, 3);
+    bargraphs.setLayout(layout);
+
 
     //wire
     titlePane.add(titleLable);
@@ -66,6 +71,7 @@ public class StatPane extends JPanel
    */
   public void addBar(BarPanel barPanel)
   {
+    barPanel.setAlignmentY(TOP_ALIGNMENT);
     bargraphs.add(barPanel);
   }
 

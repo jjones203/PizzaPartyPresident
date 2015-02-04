@@ -19,7 +19,7 @@ import static gui.Camera.CAM_DISTANCE;
  * <p>
  * Manages how the regions are displayed and rendered.
  */
-public class MapView
+public class WorldPresenter
 {
 
   private boolean DEBUG = true;
@@ -31,7 +31,7 @@ public class MapView
   private RegionViewFactory regionViewFactory;
 
 
-  public MapView(MapConverter mpConverter)
+  public WorldPresenter(MapConverter mpConverter)
   {
     modelRegions = new ArrayList<>();
     backgroundRegions = new ArrayList<>();

@@ -2,23 +2,22 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 
 /**
  * Created by winston on 1/23/15.
  * Phase_01
  * CS 351 spring 2015
  */
-public class Map
+public class World
 {
   private Collection<Region> world;
 
-  public Map()
+  public World()
   {
     this(new ArrayList<Region>());
   }
 
-  public Map(Collection<Region> world)
+  public World(Collection<Region> world)
   {
     this.world = world;
   }

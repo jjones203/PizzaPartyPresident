@@ -4,7 +4,7 @@ import IO.AreaXMLloader;
 import IO.XMLparsers.KMLParser;
 import gui.*;
 import gui.GUIRegion;
-import gui.MapView;
+import gui.WorldPresenter;
 import model.Region;
 import org.xml.sax.SAXException;
 import testing.generators.AttributeGenerator;
@@ -32,7 +32,7 @@ public class MapViewTest extends JPanel
   private static final boolean DEBUG = true;
 
   private Camera cam;
-  private MapView mapView;
+  private WorldPresenter worldPresenter;
   private List<Line2D> grid;
 
   public static void main(String[] args)
@@ -65,15 +65,15 @@ public class MapViewTest extends JPanel
     }
 
 
-    MapView mapView = new MapView(mapConverter);
-    mapView.setBackgroundRegions(backgroudMap);
-    mapView.setModelRegions(modelMap);
+    WorldPresenter worldPresenter = new WorldPresenter(mapConverter);
+    worldPresenter.setBackgroundRegions(backgroudMap);
+    worldPresenter.setModelRegions(modelMap);
 
     Camera camera = new Camera(0, 0, mapConverter);
-    CamController keyController = new CamController(camera, mapView);
+    CamController keyController = new CamController(camera, worldPresenter);
 
     canvas.setCam(camera);
-    canvas.setMapView(mapView);
+    canvas.setWorldPresenter(worldPresenter);
     canvas.setSize(1000, 800);
     canvas.setGrid(mapConverter.getLatLonGrid());
     canvas.setBackground(ColorsAndFonts.OCEANS);
@@ -120,14 +120,14 @@ public class MapViewTest extends JPanel
     this.cam = cam;
   }
 
-  public MapView getMapView()
+  public WorldPresenter getWorldPresenter()
   {
-    return mapView;
+    return worldPresenter;
   }
 
-  public void setMapView(MapView mapView)
+  public void setWorldPresenter(WorldPresenter worldPresenter)
   {
-    this.mapView = mapView;
+    this.worldPresenter = worldPresenter;
   }
 
   @Override
@@ -146,7 +146,7 @@ public class MapViewTest extends JPanel
     
 
 
-    for (GUIRegion guir : mapView.getRegionsInview(cam))
+    for (GUIRegion guir : worldPresenter.getRegionsInview(cam))
     {
       guir.draw(g);
     }
@@ -169,9 +169,9 @@ public class MapViewTest extends JPanel
       g2d.setTransform(new AffineTransform());
 
       String regCount = String.format("Polygons in viewBounds: %d",
-              mapView.countIntersectingRegions(cam.getViewBounds()));
+              worldPresenter.countIntersectingRegions(cam.getViewBounds()));
       String vertCount = String.format("Vertices in viewBounds: %d",
-              mapView.countIntersectingPoints(cam.getViewBounds()));
+              worldPresenter.countIntersectingPoints(cam.getViewBounds()));
       
       g2d.setColor(Color.RED);
       g2d.setFont(new Font("Courier", Font.PLAIN, 14));

@@ -32,7 +32,6 @@ class RegionNameView implements RegionView
 
     g2d.drawString(gRegion.getName(),
         (int)gRegion.getPoly().getBounds().getCenterX(),
-        (int)gRegion.getPoly().getBounds().getCenterY()
-        );
+        (int)gRegion.getPoly().getBounds().getCenterY());
   }
 }

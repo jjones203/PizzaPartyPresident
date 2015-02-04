@@ -1,16 +1,13 @@
 package IO.XMLparsers;
 
 import model.AtomicRegion;
-import model.Map;
 import model.MapPoint;
 import model.Region;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
