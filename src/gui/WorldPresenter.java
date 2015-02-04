@@ -16,7 +16,7 @@ import static gui.Camera.CAM_DISTANCE;
  * Created by winston on 1/27/15.
  * Phase_01
  * CS 351 spring 2015
- * <p>
+ * <p/>
  * Manages how the regions are displayed and rendered.
  */
 public class WorldPresenter
@@ -27,6 +27,8 @@ public class WorldPresenter
   private MapConverter mpConverter;
   private Collection<GUIRegion> modelRegions;
   private Collection<GUIRegion> backgroundRegions;
+  private ActiveRegionList activeRegions;
+
 
   private RegionViewFactory regionViewFactory;
 
@@ -37,6 +39,7 @@ public class WorldPresenter
     backgroundRegions = new ArrayList<>();
     this.mpConverter = mpConverter;
     regionViewFactory = new RegionViewFactory();
+    activeRegions = new ActiveRegionList();
   }
 
   public void setBackgroundRegions(Collection<Region> regions)
@@ -73,18 +76,32 @@ public class WorldPresenter
   }
 
 
-  public void clickAt(double x, double y)
+  public void appendClick(double x, double y)
   {
     for (GUIRegion guir : getModelRegions())
     {
       if (guir.getPoly().contains(x, y))
       {
-        // todo debug printing
-        System.out.println("region clicked: " + guir.getName());
-        toggleRegionState(guir);
+        activeRegions.add(guir);
+        return; //for early loop termination.
       }
     }
   }
+
+  public void singleClickAt(double x, double y)
+  {
+    for (GUIRegion guir : getModelRegions())
+    {
+      if (guir.getPoly().contains(x, y))
+      {
+        activeRegions.clear();
+        activeRegions.add(guir);
+        return; //for early loop termination.
+      }
+    }
+  }
+
+
 
   /**
    * Toggles the active/passive state of the specified region.
@@ -93,7 +110,7 @@ public class WorldPresenter
    * @return boolean representing the active/passive state of the
    * region after the toggle.
    */
-  public boolean toggleRegionState(GUIRegion region)
+  private boolean toggleRegionState(GUIRegion region)
   {
     region.setActive(!region.isActive());
     return region.isActive();
@@ -171,7 +188,7 @@ public class WorldPresenter
   public int countIntersectingRegions(Rectangle2D r)
   {
     return getIntersectingRegions(r, modelRegions).size()
-              + getIntersectingRegions(r, backgroundRegions).size();
+        + getIntersectingRegions(r, backgroundRegions).size();
 
 
   }
@@ -191,5 +208,46 @@ public class WorldPresenter
     return sum;
   }
 
+  private class ActiveRegionList
+  {
+    private List<GUIRegion> activeRegions;
+
+
+    public ActiveRegionList()
+    {
+      activeRegions = new ArrayList<>();
+    }
+
+    public void add(GUIRegion region)
+    {
+      region.setActive(true);
+      activeRegions.add(region);
+    }
+
+    public GUIRegion remove (GUIRegion region)
+    {
+      int index = activeRegions.indexOf(region);
+      if (index == -1) return null;
+
+      GUIRegion guir = activeRegions.remove(index);
+      guir.setActive(false);
+      return guir;
+    }
+
+    public boolean contains(GUIRegion region)
+    {
+      return activeRegions.contains(region);
+    }
+
+    public void clear()
+    {
+      for (GUIRegion region : activeRegions)
+      {
+        region.setActive(false);
+      }
+      activeRegions.clear();
+    }
+
+  }
 
 }
