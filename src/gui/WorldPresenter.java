@@ -127,8 +127,8 @@ public class WorldPresenter
     {
       if (guir.getPoly().contains(x, y))
       {
-        activeRegions.clear();
-        activeRegions.add(guir);
+        if (activeRegions.contains(guir)) activeRegions.remove(guir);
+        else activeRegions.add(guir);
         return; //for early loop termination.
       }
     }
