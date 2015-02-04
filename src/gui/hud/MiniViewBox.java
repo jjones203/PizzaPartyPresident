@@ -165,27 +165,30 @@ public class MiniViewBox extends JPanel
           Polygon shifted = movePolyToOrigin(regionPolygon);
           double scaleValue;
 
+          double boxW = getWidth();
+          double boxH = getHeight();
+          double boxAspect = boxW/boxH;
 
-          // shift for width
-          if (shifted.getBounds().width > shifted.getBounds().height)
+          double polyW = shifted.getBounds().getWidth();
+          double polyH = shifted.getBounds().getHeight();
+          double polyAspect = polyW / polyH;
+          
+          double dx, dy;
+          
+          if (boxAspect > polyAspect)
           {
-            scaleValue = ((double) regionViewer.getWidth()/ shifted.getBounds().width);
-            scaleValue *= PADDING;
+            scaleValue = boxH / polyH;
+            dx = (boxW - polyW * scaleValue) / 2;
+            dy = 0;
           }
-          // shift for height
           else
           {
-            scaleValue = ((double) regionViewer.getHeight() / shifted.getBounds().height);
-            scaleValue *= PADDING;
+            scaleValue = boxW/polyW;
+            dy = (boxH - polyH * scaleValue) / 2;
+            dx = 0;
           }
 
-          double scaledWidth = shifted.getBounds().width * scaleValue;
-          double scaledHeight = shifted.getBounds().height * scaleValue;
-
-          double xshift = Math.abs(scaledWidth - regionViewer.getWidth()) / 2;
-          double yshift = Math.abs(scaledHeight - regionViewer.getHeight()) / 2;
-
-          g2d.translate(xshift, yshift);
+          g2d.translate(dx, dy);
           g2d.scale(scaleValue, scaleValue);
 
           g2d.setColor(ColorsAndFonts.ACTIVE_REGION);
