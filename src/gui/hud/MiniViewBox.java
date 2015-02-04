@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.geom.AffineTransform;
 import java.util.Collections;
 import java.util.Random;
 
@@ -26,7 +27,6 @@ public class MiniViewBox extends JPanel
   private final static Font TITLE_FONT = ColorsAndFonts.HUD_TITLE;
   private final static Color GUI_BACKGROUND = ColorsAndFonts.GUI_BACKGROUND;
   private final static Color FORGROUND_COL = ColorsAndFonts.GUI_TEXT_COLOR;
-  private static final double PADDING = .90;
   private final static RenderingHints rh = new RenderingHints(
       RenderingHints.KEY_ANTIALIASING,
       RenderingHints.VALUE_ANTIALIAS_ON
@@ -169,33 +169,34 @@ public class MiniViewBox extends JPanel
           Polygon shifted = movePolyToOrigin(regionPolygon);
           double scaleValue;
 
-          double boxW = getWidth();
-          double boxH = getHeight();
+
+          int inset = 5;
+          double boxW = getWidth() - 2*inset;
+          double boxH = getHeight() - 2*inset;
           double boxAspect = boxW/boxH;
 
           double polyW = shifted.getBounds().getWidth();
           double polyH = shifted.getBounds().getHeight();
           double polyAspect = polyW / polyH;
           
-          double dx, dy;
+          double xshift, yshift;
+          
           
           if (boxAspect > polyAspect)
           {
-            scaleValue = ((double) regionViewer.getWidth()/ shifted.getBounds().width);
-            scaleValue *= PADDING;
+            scaleValue = (boxH)/polyH;
+            xshift = (boxW - scaleValue * polyW) / 2 + inset;
+            yshift = inset;
+
           }
           // shift for height
           else
           {
-            scaleValue = ((double) regionViewer.getHeight() / shifted.getBounds().height);
-            scaleValue *= PADDING;
+            scaleValue = (boxW) / polyW;
+            yshift = (boxH - scaleValue * polyH) / 2 + inset;
+            xshift = inset;
           }
 
-          double scaledWidth = shifted.getBounds().width * scaleValue;
-          double scaledHeight = shifted.getBounds().height * scaleValue;
-
-          double xshift = Math.abs(scaledWidth - regionViewer.getWidth()) / 2;
-          double yshift = Math.abs(scaledHeight - regionViewer.getHeight()) / 2;
 
           g2d.translate(xshift, yshift);
           g2d.scale(scaleValue, scaleValue);
