@@ -44,6 +44,13 @@ public class WorldPresenter
     this.lastDistance = CAM_DISTANCE.LONG;
   }
 
+  /**
+   * Sets the specified collection of regions to be background graphical regions.
+   * This regions set does not have a baring on the logic or model of the game,
+   * it is  used for aesthetic presentation.
+   *
+   * @param regions back ground set of regions. (regions show in LONG shots)
+   */
   public void setBackgroundRegions(Collection<Region> regions)
   {
     RegionView background = regionViewFactory.getBackgroundMapView();
@@ -56,6 +63,14 @@ public class WorldPresenter
     return modelRegions;
   }
 
+  /**
+   * Set the given collection of regions as the model of the game. These
+   * regions can be selected and inspected (in distinction to the background
+   * regions).
+   *
+   * @param regions set of regions that constitute the model and logical
+   *                entities of the game.
+   */
   public void setModelRegions(Collection<Region> regions)
   {
     RegionView background = regionViewFactory.getLongView();
