@@ -1,6 +1,7 @@
 package gui;
 
-import gui.regionlooks.*;
+import gui.regionlooks.RegionView;
+import gui.regionlooks.RegionViewFactory;
 import model.Region;
 
 import java.awt.*;
@@ -16,40 +17,60 @@ import static gui.Camera.CAM_DISTANCE;
  * Created by winston on 1/27/15.
  * Phase_01
  * CS 351 spring 2015
- * <p>
+ * <p/>
  * Manages how the regions are displayed and rendered.
  */
 public class WorldPresenter
 {
 
   private boolean DEBUG = true;
-  private CAM_DISTANCE lastDistance = CAM_DISTANCE.LONG; // (!) only for debugging.
+  private CAM_DISTANCE lastDistance; // (!) only for debugging. //todo remove when finalized
   private MapConverter mpConverter;
   private Collection<GUIRegion> modelRegions;
   private Collection<GUIRegion> backgroundRegions;
+  private ActiveRegionList activeRegions;
+
 
   private RegionViewFactory regionViewFactory;
 
 
   public WorldPresenter(MapConverter mpConverter)
   {
-    modelRegions = new ArrayList<>();
-    backgroundRegions = new ArrayList<>();
+    this.modelRegions = new ArrayList<>();
+    this.backgroundRegions = new ArrayList<>();
     this.mpConverter = mpConverter;
-    regionViewFactory = new RegionViewFactory();
+    this.regionViewFactory = new RegionViewFactory();
+    this.activeRegions = new ActiveRegionList();
+    this.lastDistance = CAM_DISTANCE.LONG;
   }
 
+  /**
+   * Sets the specified collection of regions to be background graphical regions.
+   * This regions set does not have a baring on the logic or model of the game,
+   * it is  used for aesthetic presentation.
+   *
+   * @param regions back ground set of regions. (regions show in LONG shots)
+   */
   public void setBackgroundRegions(Collection<Region> regions)
   {
     RegionView background = regionViewFactory.getBackgroundMapView();
     backgroundRegions = wrapRegions(regions, background);
   }
 
+  // could this be made private?
   public Collection<GUIRegion> getModelRegions()
   {
     return modelRegions;
   }
 
+  /**
+   * Set the given collection of regions as the model of the game. These
+   * regions can be selected and inspected (in distinction to the background
+   * regions).
+   *
+   * @param regions set of regions that constitute the model and logical
+   *                entities of the game.
+   */
   public void setModelRegions(Collection<Region> regions)
   {
     RegionView background = regionViewFactory.getLongView();
@@ -73,32 +94,83 @@ public class WorldPresenter
   }
 
 
-  public void clickAt(double x, double y)
+  /**
+   * Marks every region that intersects the specified rectangle as active.
+   * used with the camera object to enable click and drag selection of map
+   * regions.
+   *
+   * @param rect bounding rectangle for selection
+   */
+  public void selectAll(Rectangle2D rect)
   {
+    for (GUIRegion r : getIntersectingRegions(rect, getModelRegions()))
+    {
+      activeRegions.add(r);
+    }
+
+  }
+
+  /**
+   * Registers a single selection click at the given point.
+   * If the point given correspond to a region, that region will become selected,
+   * and any other regions that were selected will be de-selected.
+   * <p/>
+   * If there is no corresponding region nothing will happen.
+   *
+   * @param x x coord of click
+   * @param y y coord of click
+   */
+  public void singleClickAt(double x, double y)
+  {
+    assert 3 == 4;
     for (GUIRegion guir : getModelRegions())
     {
       if (guir.getPoly().contains(x, y))
       {
-        // todo debug printing
-        System.out.println("region clicked: " + guir.getName());
-        toggleRegionState(guir);
+        activeRegions.clear();
+        activeRegions.add(guir);
+        return; //for early loop termination.
       }
     }
   }
 
   /**
-   * Toggles the active/passive state of the specified region.
+   * Registers a region append click at the specified point.
+   * if there is a region at said point, its state will be toggled.
+   * This method is called to incrementally build up a group of selected
+   * regions, that need not be contiguous.
    *
-   * @param region region that will be modified.
-   * @return boolean representing the active/passive state of the
-   * region after the toggle.
+   * @param x x coord.
+   * @param y y coord.
    */
-  public boolean toggleRegionState(GUIRegion region)
+  public void appendClickAt(double x, double y)
   {
-    region.setActive(!region.isActive());
-    return region.isActive();
+    for (GUIRegion guir : getModelRegions())
+    {
+      if (guir.getPoly().contains(x, y))
+      {
+        if (activeRegions.contains(guir))
+        {
+          activeRegions.remove(guir);
+        }
+        else
+        {
+          activeRegions.add(guir);
+        }
+        return; //for early loop termination.
+      }
+    }
   }
 
+
+  /**
+   * Given a Camera, this method returns all the GUI regions 'in view',
+   * and adjusts the look to the appropriate level of detail.
+   *
+   * @param camera camera object used to extract 'height' and viewing angle on
+   *               map.
+   * @return all the regions in view, all set to the appropriate rendering rules.
+   */
   public Collection<GUIRegion> getRegionsInview(Camera camera)
   {
     Rectangle2D inViewBox = camera.getViewBounds();
@@ -157,6 +229,10 @@ public class WorldPresenter
   }
 
 
+  /*
+   * Returns all the regions in the given collection that
+   * intersect the given rectangle
+   */
   private List<GUIRegion> getIntersectingRegions(Rectangle2D r, Collection<GUIRegion> regions)
   {
     List<GUIRegion> regionsInR = new LinkedList<>();
@@ -171,7 +247,7 @@ public class WorldPresenter
   public int countIntersectingRegions(Rectangle2D r)
   {
     return getIntersectingRegions(r, modelRegions).size()
-              + getIntersectingRegions(r, backgroundRegions).size();
+        + getIntersectingRegions(r, backgroundRegions).size();
 
 
   }
@@ -191,5 +267,49 @@ public class WorldPresenter
     return sum;
   }
 
+  /**
+   * Private class  that manages and the active/passive state of the region.
+   */
+  private class ActiveRegionList
+  {
+    private List<GUIRegion> activeRegions;
 
+
+    public ActiveRegionList()
+    {
+      activeRegions = new ArrayList<>();
+    }
+
+    public void add(GUIRegion region)
+    {
+      if (contains(region)) return; // already in the list.
+
+      region.setActive(true);
+      activeRegions.add(region);
+    }
+
+    public GUIRegion remove(GUIRegion region)
+    {
+      int index = activeRegions.indexOf(region);
+      if (index == -1) return null;
+
+      GUIRegion guir = activeRegions.remove(index);
+      guir.setActive(false);
+      return guir;
+    }
+
+    public boolean contains(GUIRegion region)
+    {
+      return activeRegions.contains(region);
+    }
+
+    public void clear()
+    {
+      for (GUIRegion region : activeRegions)
+      {
+        region.setActive(false);
+      }
+      activeRegions.clear();
+    }
+  }
 }

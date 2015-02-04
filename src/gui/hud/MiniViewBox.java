@@ -21,8 +21,8 @@ import java.util.Random;
  */
 public class MiniViewBox extends JPanel
 {
-  private final static int R_PANEL_WIDTH = 230;
-  private final static int R_PANEL_HEIGHT = 300;
+//  private final static int R_PANEL_WIDTH = 230;
+//  private final static int R_PANEL_HEIGHT = 300;
   private final static Color BORDER_COL = ColorsAndFonts.GUI_TEXT_COLOR.darker();
   private final static Font TITLE_FONT = ColorsAndFonts.HUD_TITLE;
   private final static Color GUI_BACKGROUND = ColorsAndFonts.GUI_BACKGROUND;
@@ -46,9 +46,10 @@ public class MiniViewBox extends JPanel
     this.regionViewer = getRegionView();
 
     // config
-    Dimension prefSize = new Dimension(R_PANEL_WIDTH, R_PANEL_HEIGHT);
-    regionViewer.setPreferredSize(prefSize);
-    regionViewer.setMinimumSize(prefSize);
+      // seems to work better with out setting size info here
+//    Dimension prefSize = new Dimension(R_PANEL_WIDTH, R_PANEL_HEIGHT);
+//    regionViewer.setPreferredSize(prefSize);
+//    regionViewer.setMinimumSize(prefSize);
     this.setLayout(new BorderLayout());
     this.setBackground(GUI_BACKGROUND);
 
