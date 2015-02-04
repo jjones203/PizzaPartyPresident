@@ -200,11 +200,21 @@ public class Camera
     zoomAbsolute(zoomDiff, centerX, centerY);
   }
 
+  /**
+   Moves the camera closer to the map, with an anchor point in the absolute
+   coordinate system of the map
+   
+   @param dZoom
+   @param anchorX
+   @param anchorY
+   */
   public void zoomAbsolute(double dZoom, double anchorX, double anchorY)
   {
     double oldH = height;
     double oldScale = scale;
+    
     setHeight(height + dZoom);
+    
     double actualDZoom = height - oldH;
     double dScale = scale - oldScale;
 
@@ -220,11 +230,25 @@ public class Camera
     setViewBounds(newX, newY, newW, newH);
   }
 
+
+  /**
+    Moves the camera closer to the map, with an anchor point relative to the 
+    screen's coordinate system
+   
+   @param dZoom     difference in the zoom or height of the camera
+   @param anchorX   x coord of the anchor point
+   @param anchorY   y coord of the anchor point 
+   */
   private void zoomRelativeToView(double dZoom, double anchorX, double anchorY)
   {
     zoomAbsolute(dZoom, anchorX / scale, anchorY / scale);
   }
 
+  
+  /**
+   @return the AffineTransform that transforms the view of the map to the screen
+      based on this Camera's location
+   */
   public AffineTransform getTransform()
   {
     AffineTransform at = new AffineTransform();

@@ -35,7 +35,7 @@ public interface ColorsAndFonts
   class colorConverter
   {
     /**
-     * get either back or white depending on the luminosity of the specified color.
+     * get either black or white depending on the luminosity of the specified color.
      *
      * @param color to be 'inverted'
      * @return

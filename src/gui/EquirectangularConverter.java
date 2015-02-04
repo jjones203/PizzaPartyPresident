@@ -10,12 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author david
- *         created: 2015-01-26
- *         <p/>
- *         description:  Converter implementation for Equirectangular map
- *         projections with a constant scaling factor
- */
+ @author david
+ created: 2015-01-26
+ <p/>
+ description:  Converter implementation for Equirectangular map
+ projections with a constant scaling factor */
 
 /*      TODO Check if projection is flipping into graphics-land coords
  *          y(gfx) = -y(cart)
@@ -23,16 +22,17 @@ import java.util.List;
 public class EquirectangularConverter extends MapConverter
 {
 
-  private static final MapPoint DEFAULT_REF = new MapPoint(0,0);
+  private static final MapPoint DEFAULT_REF = new MapPoint(0, 0);
   private static final double SCALING_FACTOR = 10000;
 
 
   /**
-   * Convert latitude to cartesian Y given a point of reference
-   *
-   * @param lat
-   * @param refPoint
-   * @return the latitude, scaled and projected in Y
+   Convert latitude to cartesian Y given a point of reference
+
+   @param lat
+   @param refPoint
+
+   @return the latitude, scaled and projected in Y
    */
   public double latToY(double lat, MapPoint refPoint)
   {
@@ -41,25 +41,30 @@ public class EquirectangularConverter extends MapConverter
 
 
   /**
-   * Convert latitude to cartesian Y, assuming (0,0) is the point of reference
-   * in the spherical coord system
-   *
-   * @param lat
-   * @return the latitude, scaled and projected in Y
+   Convert latitude to cartesian Y, assuming (0,0) is the point of reference
+   in the spherical coord system
+
+   @param lat
+
+   @return the latitude, scaled and projected in Y
    */
   @Override
-  public double latToY(double lat){
+  public double latToY(double lat)
+  {
     return latToY(lat, DEFAULT_REF);
   }
 
 
   /**
-   * Convert longitude to cartesian X, given a reference point in spherical
-   * coords
-   *
-   * @param lon   decimal longitude to convert
-   * @param refPoint  mapPoint of reference
-   * @return    longitude, scaled and projected in X
+   Convert longitude to cartesian X, given a reference point in spherical
+   coords
+
+   @param lon
+   decimal longitude to convert
+   @param refPoint
+   mapPoint of reference
+
+   @return longitude, scaled and projected in X
    */
   public double lonToX(double lon, MapPoint refPoint)
   {
@@ -68,10 +73,13 @@ public class EquirectangularConverter extends MapConverter
 
 
   /**
-   * Convert longitude to cartesian X, assuming a reference point of (0,0) in
-   * spherical coords
-   * @param lon decimal longitude to convert
-   * @return    longitude, scaled and projected in X
+   Convert longitude to cartesian X, assuming a reference point of (0,0) in
+   spherical coords
+
+   @param lon
+   decimal longitude to convert
+
+   @return longitude, scaled and projected in X
    */
   @Override
   public double lonToX(double lon)
@@ -80,23 +88,14 @@ public class EquirectangularConverter extends MapConverter
   }
 
 
-  /*
-   * testing rectangle projections
-   */
-  public Rectangle2D convertRect(Rectangle2D rect, MapPoint refPoint)
-  {
-    double newX = lonToX(rect.getX(), refPoint) * SCALING_FACTOR;
-    double newW = newX - lonToX(rect.getMaxX(), refPoint) * SCALING_FACTOR;
-    return new Rectangle2D.Double(newX, rect.getY(), newW, rect.getHeight());
-  }
-
-
   /**
-   * Convert a MapPoint (lat, lon) to a cartesian point, assuming the parallel
-   * of no distortion is the equator.  This is a Plate-Caree projection.
-   *
-   * @param mp  MapPoint to convert
-   * @return
+   Convert a MapPoint (lat, lon) to a cartesian point, assuming the parallel
+   of no distortion is the equator.  This is a Plate-Caree projection.
+
+   @param mp
+   MapPoint to convert
+
+   @return
    */
   @Override
   public Point mapPointToPoint(MapPoint mp)
@@ -106,30 +105,34 @@ public class EquirectangularConverter extends MapConverter
     return new Point(x, y);
   }
 
+  
   /**
-   * Convert a Point to a MapPoint assuming the parallel of no distortion is
-   * the equator.  This converts from a Plate-Caree projection back to lat and
-   * lon
-   *
-   * @param p
-   * @return
+   Convert a Point to a MapPoint assuming the parallel of no distortion is
+   the equator.  This converts from a Plate-Caree projection back to lat and
+   lon
+
+   @param p
+   Point to convert
+   @return
+   A MapPoint, reversing the projection defined by this class
    */
   @Override
   public MapPoint pointToMapPoint(Point p)
   {
-    return new MapPoint(p.x/SCALING_FACTOR, p.y/SCALING_FACTOR);
-  }
-
-
-  public double yToLon(double y, MapPoint refPoint)
-  {
-    return -y/(SCALING_FACTOR * Math.cos(Math.toRadians(refPoint.getLat())));
+    return new MapPoint(p.x / SCALING_FACTOR, p.y / SCALING_FACTOR);
   }
 
   
+
+  public double yToLon(double y, MapPoint refPoint)
+  {
+    return -y / (SCALING_FACTOR * Math.cos(Math.toRadians(refPoint.getLat())));
+  }
+
+
   public double xToLat(double x, MapPoint refPoint)
   {
-    return x/SCALING_FACTOR;
+    return x / SCALING_FACTOR;
   }
 
 
@@ -138,7 +141,7 @@ public class EquirectangularConverter extends MapConverter
   {
 
     Polygon poly = new Polygon();
-    for(MapPoint mPoint : r.getPerimeter())
+    for (MapPoint mPoint : r.getPerimeter())
     {
       int x = (int) lonToX(mPoint.getLon());
       int y = (int) latToY(mPoint.getLat());
@@ -156,13 +159,13 @@ public class EquirectangularConverter extends MapConverter
 
 
   /**
-   * generates a projected grid of latitude and longitude lines converted to
-   * the scaled cartesian space
-   *
-   * @return
+   generates a projected grid of latitude and longitude lines converted to
+   the scaled cartesian space
+
+   @return
    */
   @Override
-  public List <Line2D> getLatLonGrid()
+  public List<Line2D> getLatLonGrid()
   {
 
     List<Line2D> lines = new ArrayList<>();
@@ -177,7 +180,7 @@ public class EquirectangularConverter extends MapConverter
       Line2D l = new Line2D.Double(x, y, x, -y);
       lines.add(l);
     }
-    for (int lat = -maxLat; lat <= maxLat; lat+= inc)
+    for (int lat = -maxLat; lat <= maxLat; lat += inc)
     {
       double y = latToY(lat);
       double x = lonToX(maxLon);
