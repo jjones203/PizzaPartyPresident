@@ -49,7 +49,7 @@ public class LowerPanel extends JPanel
   public static void main(String[] args)
   {
     long seed = 442;
-    Random random = new Random(seed);
+    Random random = new Random();
     AttributeGenerator randoAtts = new AttributeGenerator(random);
 
     java.util.List<Region> testlist = (java.util.List<Region>) KMLParser.getRegionsFromFile("resources/ne_50m_admin_1_states_provinces_lakes.kml");

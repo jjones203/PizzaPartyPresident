@@ -95,7 +95,8 @@ public class MiniViewBox extends JPanel
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        frame.repaint();;
+        frame.repaint();
+        
       }
     });
     animator.start();
@@ -109,6 +110,7 @@ public class MiniViewBox extends JPanel
   public void setRegionPolygon(Polygon regionPolygon)
   {
     this.regionPolygon = regionPolygon;
+    alpha = 0; // resets alpha for animation.
   }
 
   public void setTitle(String name)
@@ -124,8 +126,9 @@ public class MiniViewBox extends JPanel
   /**
    * shifts a given polygon back to the the origin (0, 0). Is used to make the
    * mini display work.
-   *
+   * <p/>
    * (!) note, this method does not mutaite its argument.
+   *
    * @param regionPolygon region to shift back
    * @return
    */
@@ -139,7 +142,7 @@ public class MiniViewBox extends JPanel
     int x = regionPolygon.getBounds().x;
     int y = regionPolygon.getBounds().y;
 
-    shifted.translate( -x, -y);
+    shifted.translate(-x, -y);
 
     return shifted;
   }
@@ -157,7 +160,8 @@ public class MiniViewBox extends JPanel
           g2d.setRenderingHints(rh);
 
 
-          if (alpha < 1){
+          if (alpha < 1)
+          {
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
             alpha += 0.10f;
           }
@@ -169,7 +173,7 @@ public class MiniViewBox extends JPanel
           // shift for width
           if (shifted.getBounds().width > shifted.getBounds().height)
           {
-            scaleValue = ((double) regionViewer.getWidth()/ shifted.getBounds().width);
+            scaleValue = ((double) regionViewer.getWidth() / shifted.getBounds().width);
             scaleValue *= PADDING;
           }
           // shift for height

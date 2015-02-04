@@ -103,7 +103,6 @@ public class StatPane extends JPanel
    */
   public void cleanBarPlots()
   {
-    //todo test this method
     bargraphs.removeAll();
   }
 

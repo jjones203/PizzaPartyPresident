@@ -18,8 +18,8 @@ public class AttributeGenerator
   private String[] crops = {
       "corn", "wheat", "grapeNuts",
       "coffee", "bread", "pudding",
-      "scones with chocolate chips",
-      "anti-rasins", "apple sauce", "Soylent green",
+//      "scones with chocolate chips",
+//      "anti-rasins", "apple sauce", "Soylent green",
       "Soylent blue",
   };
   private Random rand;
