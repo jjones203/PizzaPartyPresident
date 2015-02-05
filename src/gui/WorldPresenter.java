@@ -101,11 +101,10 @@ public class WorldPresenter extends Observable
    */
   public void selectAll(Rectangle2D rect)
   {
-    for (GUIRegion r : getIntersectingRegions(rect, getModelRegions()))
+    for (GUIRegion r : getIntersectingRegions(rect, modelRegions))
     {
       activeRegions.add(r);
     }
-
   }
 
   /**
@@ -239,7 +238,7 @@ public class WorldPresenter extends Observable
    */
   private List<GUIRegion> getIntersectingRegions(Rectangle2D r, Collection<GUIRegion> regions)
   {
-    List<GUIRegion> regionsInR = new LinkedList<>();
+    List<GUIRegion> regionsInR = new ArrayList<>();
     for (GUIRegion g : regions)
     {
       if (g.getPoly().intersects(r)) regionsInR.add(g);
