@@ -3,6 +3,7 @@ package testing;
 import IO.XMLparsers.KMLParser;
 import gui.*;
 import gui.hud.InfoPanel;
+import gui.regionlooks.RegionViewFactory;
 import model.Region;
 import model.World;
 import testing.generators.AttributeGenerator;
@@ -88,6 +89,16 @@ public class MapPaneTest
         mapPane.repaint();
         mapPane.update();
         infoPanel.repaint();
+      }
+    }).start();
+
+    new Timer(1000 * 7, new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        System.out.println("changin over to to happiness");
+        presenter.setCurrentOverlay(RegionViewFactory.Overlay.HAPPINESS);
       }
     }).start();
   }

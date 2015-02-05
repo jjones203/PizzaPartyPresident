@@ -73,8 +73,8 @@ public class WorldPresenter extends Observable
    */
   public void setModelRegions(Collection<Region> regions)
   {
-    RegionView background = regionViewFactory.getLongView();
-    modelRegions = wrapRegions(regions, background);
+    RegionView backG = regionViewFactory.getViewFromDistance(CAM_DISTANCE.LONG);
+    modelRegions = wrapRegions(regions, backG);
   }
 
   /*

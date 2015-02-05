@@ -1,5 +1,6 @@
 package gui.regionlooks;
 
+import gui.ColorsAndFonts;
 import gui.GUIRegion;
 
 import java.awt.*;
@@ -25,6 +26,12 @@ class RegionHappyView implements RegionView
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
   {
+    if (gRegion == null || gRegion.getRegion().getAttributes() == null)
+    {
+      System.err.println("(!)GUIREGION or attribut set is null!");
+      return;
+    }
+
     double happinessLevel = gRegion.getRegion()
                                    .getAttributes()
                                    .getAttribute(HAPPINESS);
@@ -33,10 +40,22 @@ class RegionHappyView implements RegionView
     double scalingFactor = 12.75;
     happinessLevel = happinessLevel * scalingFactor;
 
-    Color happyCollor = new Color((int) happinessLevel, (int)happinessLevel, 0);
+    Color color;
 
-    g.setColor(happyCollor);
+    if (gRegion.isActive())
+    {
+      color = ColorsAndFonts.ACTIVE_REGION;
+    }
+    else
+    {
+      color = new Color((int) happinessLevel, (int)happinessLevel, 0);
+    }
+
+    g.setColor(color);
     g.fillPolygon(gRegion.getPoly());
+
+    g.setColor(ColorsAndFonts.PASSIVE_REGION_OUTLINE);
+    g.drawPolygon(gRegion.getPoly());
 
   }
 }
