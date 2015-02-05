@@ -47,6 +47,11 @@ public class MapPane extends JPanel
   private boolean doMultiSelect;
 
 
+  /**
+   
+   @param cam
+   @param presenter
+   */
   public MapPane(Camera cam, WorldPresenter presenter)
   {
     this.cam = cam;
@@ -56,18 +61,22 @@ public class MapPane extends JPanel
     addMouseMotionListener(this);
     addKeyListener(this);
     setBackground(ColorsAndFonts.OCEANS);
-    
+
     /* todo: sizing generalization */
     setPreferredSize(new Dimension(1000,500));
+    setSize(getPreferredSize());
+    setDoubleBuffered(true);
+    
   }
   
 
   @Override
   protected void paintComponent(Graphics g)
   {
+  
     Graphics2D g2 = (Graphics2D) g;
-
     g2.setTransform(cam.getTransform());
+
     for (GUIRegion region : presenter.getRegionsInview(cam)) region.draw(g2);
     
     if(drawMultiSelect)
@@ -191,7 +200,6 @@ public class MapPane extends JPanel
   {
     doMultiSelect = false;
     drawMultiSelect = false;
-    System.out.println("release");
   }
 
   
