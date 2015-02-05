@@ -195,7 +195,7 @@ public class WorldPresenter extends Observable
         break;
 
       case MEDIUM:
-        regionsInView = getIntersectingRegions(inViewBox, backgroundRegions);
+        regionsInView = getIntersectingRegions(inViewBox, modelRegions);
         setRegionLook(regionViewFactory.getMediumView(), regionsInView);
         break;
 

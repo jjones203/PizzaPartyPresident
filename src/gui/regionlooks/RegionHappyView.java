@@ -18,7 +18,7 @@ import static model.RegionAttributes.PLANTING_ATTRIBUTES.HAPPINESS;
 class RegionHappyView implements RegionView
 {
   /**
-   * Method extracts the relevant
+   * Method extracts happiness index from region and displays it.
    * @param g
    * @param gRegion
    */

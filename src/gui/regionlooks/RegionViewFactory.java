@@ -1,5 +1,13 @@
 package gui.regionlooks;
 
+enum OVER_LAYS
+{
+  DEFAULT,
+  PLANTING_ZONE,
+  HAPPINESS,
+  MONTHLY_RAIL_FALL;
+}
+
 /**
  * Created by winston on 1/31/15.
  * <p/>
@@ -9,27 +17,45 @@ package gui.regionlooks;
 public class RegionViewFactory
 {
   /* view currently correspond to camera angles */
-  private final static RegionView LONG = new defaultLook();
-  private final static RegionView MEDUIM = new RegionNameView(LONG, 8000);
-  private final static RegionView CLOSE_UP = new RegionNameView(LONG, 800);
+  private final static RegionView DEFAULT_LOOK = new defaultLook();
+  private final static RegionView DEFAULT_WITH_NAME = new RegionNameView(DEFAULT_LOOK, 800);
+
+
+
+  private OVER_LAYS currentOverlay;
+
+  public RegionViewFactory()
+  {
+    this.currentOverlay = OVER_LAYS.DEFAULT;
+  }
+
+  public OVER_LAYS getCurrentOverlay()
+  {
+    return currentOverlay;
+  }
+
+  public void setCurrentOverlay(OVER_LAYS currentOverlay)
+  {
+    this.currentOverlay = currentOverlay;
+  }
 
   public RegionView getBackgroundMapView()
   {
-    return MEDUIM;
+    return DEFAULT_LOOK;
   }
 
   public RegionView getCloseUpView()
   {
-    return CLOSE_UP;
+    return DEFAULT_WITH_NAME;
   }
 
   public RegionView getMediumView()
   {
-    return MEDUIM;
+    return DEFAULT_LOOK;
   }
 
   public RegionView getLongView()
   {
-    return LONG;
+    return DEFAULT_LOOK;
   }
 }
