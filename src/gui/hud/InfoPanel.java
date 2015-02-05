@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Collections;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 
@@ -22,7 +24,7 @@ public class InfoPanel extends JPanel
   private MiniViewBox miniViewBox;
   private StatPane attributeStats;
   private StatPane cropStatPane;
-  private Dimension size = new Dimension(1000, 270);
+  private Dimension size = new Dimension(1000, 220);
 
   public InfoPanel()
   {
@@ -88,6 +90,13 @@ public class InfoPanel extends JPanel
   private void displayAttributes(GUIRegion region, StatPane statPane)
   {
     RegionAttributes atts = region.getRegion().getAttributes();
+
+    if (atts == null)
+    {
+      System.err.println("atts for region " + region.getName() + "are null." );
+      return;
+    }
+
     for (PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
     {
       BarPanel bp = new BarPanel(
@@ -98,6 +107,14 @@ public class InfoPanel extends JPanel
       );
       statPane.addBar(bp);
     }
+  }
+
+  public void clearDisplay()
+  {
+    miniViewBox.setTitle(" ");
+    miniViewBox.setRegionPolygon(null);
+    cropStatPane.clearBarPlots();
+    attributeStats.clearBarPlots();
   }
 
   public static void main(String[] args)
@@ -147,4 +164,6 @@ public class InfoPanel extends JPanel
       }
     }).start();
   }
+
+
 }

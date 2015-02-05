@@ -6,9 +6,7 @@ import model.Region;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 
 import static gui.Camera.CAM_DISTANCE;
@@ -20,7 +18,7 @@ import static gui.Camera.CAM_DISTANCE;
  * <p/>
  * Manages how the regions are displayed and rendered.
  */
-public class WorldPresenter
+public class WorldPresenter extends Observable
 {
 
   private boolean DEBUG = true;
@@ -122,12 +120,14 @@ public class WorldPresenter
    */
   public void singleClickAt(double x, double y)
   {
-    assert 3 == 4;
     for (GUIRegion guir : getModelRegions())
     {
       if (guir.getPoly().contains(x, y))
       {
-        if (activeRegions.contains(guir)) activeRegions.remove(guir);
+        if (activeRegions.contains(guir))
+        {
+          activeRegions.remove(guir);
+        }
         else
         {
           activeRegions.clear();
@@ -271,11 +271,37 @@ public class WorldPresenter
     return sum;
   }
 
+  public GUIRegion getActiveRegion()
+  {
+    if (activeRegions.isEmpty() || activeRegions.size() > 1)
+    {
+      return null;
+    }
+    else
+    {
+      return activeRegions.get(0);
+    }
+  }
+
   /**
    * Private class  that manages and the active/passive state of the region.
+   * also deals the marking changes
    */
   private class ActiveRegionList
   {
+    /**
+     * Returns the element at the specified position in this list.
+     *
+     * @param index index of the element to return
+     * @return the element at the specified position in this list
+     * @throws IndexOutOfBoundsException if the index is out of range
+     *                                   (<tt>index &lt; 0 || index &gt;= size()</tt>)
+     */
+    public GUIRegion get(int index)
+    {
+      return activeRegions.get(index);
+    }
+
     private List<GUIRegion> activeRegions;
 
 
@@ -284,21 +310,49 @@ public class WorldPresenter
       activeRegions = new ArrayList<>();
     }
 
+    /**
+     * Returns the number of elements in this list.  If this list contains
+     * more than <tt>Integer.MAX_VALUE</tt> elements, returns
+     * <tt>Integer.MAX_VALUE</tt>.
+     *
+     * @return the number of elements in this list
+     */
+    public int size()
+    {
+      return activeRegions.size();
+    }
+
+    /**
+     * Returns <tt>true</tt> if this list contains no elements.
+     *
+     * @return <tt>true</tt> if this list contains no elements
+     */
+    public boolean isEmpty()
+    {
+      return activeRegions.isEmpty();
+    }
+
     public void add(GUIRegion region)
     {
       if (contains(region)) return; // already in the list.
-
       region.setActive(true);
       activeRegions.add(region);
+
+      setChanged();
+      notifyObservers();
     }
+
 
     public GUIRegion remove(GUIRegion region)
     {
       int index = activeRegions.indexOf(region);
       if (index == -1) return null;
-
       GUIRegion guir = activeRegions.remove(index);
       guir.setActive(false);
+
+      setChanged();
+      notifyObservers();
+
       return guir;
     }
 
@@ -309,11 +363,11 @@ public class WorldPresenter
 
     public void clear()
     {
-      for (GUIRegion region : activeRegions)
-      {
-        region.setActive(false);
-      }
+      // need to change this is is a concurant modificatoin problem.
+      for (GUIRegion r : activeRegions) r.setActive(false);
       activeRegions.clear();
+      setChanged();
+      notifyObservers();
     }
   }
 }
