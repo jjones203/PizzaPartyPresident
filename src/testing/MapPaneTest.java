@@ -94,14 +94,6 @@ public class MapPaneTest
       }
     }).start();
 
-    new Timer(1000 * 7, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        presenter.setCurrentOverlay(RegionViewFactory.Overlay.PLANTING_ZONE);
-      }
-    }).start();
   }
 
 }

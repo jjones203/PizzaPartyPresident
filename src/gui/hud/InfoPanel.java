@@ -60,7 +60,7 @@ public class InfoPanel extends JPanel
     cropStatPane.revalidate();
   }
 
-  
+
 
   /**
    * Controls the presentation logic of building up the crop percentages section
@@ -106,11 +106,11 @@ public class InfoPanel extends JPanel
 
   private BarPanel getBarPanel(RegionAttributes attributesSet, PLANTING_ATTRIBUTES att)
   {
-    String Primarylable = att.toString();
 
-    Color barColor = null;
-    double ratio = 0;
-    String secondaryLable = null;
+    String Primarylable = att.toString();
+    Color barColor = Color.cyan;
+    double ratio = attributesSet.getAttribute(att) / 20; // magic number from ramdom number generation
+    String secondaryLable = String.format("%.2f", ratio);
 
     switch (att)
     {
@@ -120,10 +120,20 @@ public class InfoPanel extends JPanel
         secondaryLable = "ZONE: " + (int) (double) attributesSet.getAttribute(att);
         break;
 
+      case COST_OF_CROPS:
+        barColor = Color.red;
+        secondaryLable = "$" + secondaryLable;
+        break;
+
+      case HAPPINESS:
+        boolean unhappy = ratio < 0.5;
+        barColor = unhappy ? Color.red : Color.cyan;
+        secondaryLable = unhappy ? "unhappy" : "happy";
+
       default:
-        barColor = Color.cyan;
-        ratio = attributesSet.getAttribute(att) / 20; //based on random generation number //TODO remove someday!
-        secondaryLable = String.format("%.2f", ratio);
+        // no nothing fall back on the above default values.
+
+
     }
 
     return new BarPanel(
