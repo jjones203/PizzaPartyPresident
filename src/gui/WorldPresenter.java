@@ -3,6 +3,7 @@ package gui;
 import gui.regionlooks.RegionView;
 import gui.regionlooks.RegionViewFactory;
 import model.Region;
+import model.World;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -29,6 +30,7 @@ public class WorldPresenter extends Observable
   private Collection<GUIRegion> modelRegions;
   private Collection<GUIRegion> backgroundRegions;
   private ActiveRegionList activeRegions;
+  private World world;
 
 
   private RegionViewFactory regionViewFactory;
@@ -42,6 +44,7 @@ public class WorldPresenter extends Observable
     this.regionViewFactory = new RegionViewFactory();
     this.activeRegions = new ActiveRegionList();
     this.lastDistance = CAM_DISTANCE.LONG;
+    this.world = new World();
   }
 
   /**
@@ -75,6 +78,7 @@ public class WorldPresenter extends Observable
   {
     RegionView backG = regionViewFactory.getViewFromDistance(CAM_DISTANCE.LONG);
     modelRegions = wrapRegions(regions, backG);
+    world.setWorld(regions);
   }
 
   /*
@@ -290,6 +294,15 @@ public class WorldPresenter extends Observable
     {
       return activeRegions.get(0);
     }
+  }
+
+
+  /**
+   * advances the game world forward one month.
+   */
+  public void stepByMonth()
+  {
+    world.stepByMonth();
   }
 
   /**

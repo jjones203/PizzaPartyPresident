@@ -39,11 +39,16 @@ public class PlantingZoneView implements RegionView
         .getAttribute(RegionAttributes.PLANTING_ATTRIBUTES.PLANTING_ZONE);
 
 
-    if (gRegion.isActive()) g.setColor(getPlantingColor(index).brighter());
-    else g.setColor(getPlantingColor(index));
+    if (gRegion.isActive())
+    {
+      g.setColor(getPlantingColor(index).brighter());
+    }
+    else
+    {
+      g.setColor(getPlantingColor(index));
+    }
 
     g.fillPolygon(gRegion.getPoly());
-
     g.setColor(ColorsAndFonts.PASSIVE_REGION_OUTLINE);
     g.drawPolygon(gRegion.getPoly());
   }

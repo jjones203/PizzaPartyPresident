@@ -53,6 +53,9 @@ public class World
     this.currentDate = currentDate;
   }
 
+  /**
+   * advances the game world forward one month.
+   */
   public void stepByMonth()
   {
     currentDate.add(Calendar.MONTH, 1);

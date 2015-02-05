@@ -122,19 +122,19 @@ public class AttributeGenerator
 
   private static void mutateAtts(RegionAttributes attributes, Random random)
   {
-    final double mutator = 1.10;
+    final double mutator = 0.10;
     double tmpVal;
 
     tmpVal = attributes.getAttribute(PLANTING_ATTRIBUTES.HAPPINESS);
     attributes.setAttribute(
       PLANTING_ATTRIBUTES.HAPPINESS,
-      tmpVal *= random.nextBoolean() ? -mutator: mutator);
+      tmpVal +=  tmpVal * (random.nextBoolean() ? -mutator: mutator));
 
 
     tmpVal = attributes.getAttribute(PLANTING_ATTRIBUTES.POPULATION);
     attributes.setAttribute(
       PLANTING_ATTRIBUTES.POPULATION,
-      tmpVal *= random.nextBoolean() ? -mutator : mutator);
+      tmpVal +=  tmpVal * (random.nextBoolean() ? -mutator: mutator));
   }
 
 

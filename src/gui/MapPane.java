@@ -77,6 +77,16 @@ public class MapPane extends JPanel
   };
 
 
+  // test key binding
+  private  Action stepWorld = new AbstractAction()
+  {
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+      System.out.println("step word is firing");
+      presenter.stepByMonth();
+    }
+  };
 
   /**
    
@@ -107,6 +117,9 @@ public class MapPane extends JPanel
 
     getInputMap().put(KeyStroke.getKeyStroke("3"), "planting");
     getActionMap().put("planting", plantingZoneOverlay);
+
+    getInputMap().put(KeyStroke.getKeyStroke("4"), "step");
+    getActionMap().put("step", stepWorld);
 
   }
   

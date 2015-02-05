@@ -46,7 +46,9 @@ class RegionHappyView implements RegionView
       // rough scaling factor => ColorSpace/ValueSpace
       double scalingFactor = 12.75;
       happinessLevel = happinessLevel * scalingFactor;
-      color = new Color((int) happinessLevel, (int) happinessLevel, 0);
+
+      int colorVal = Math.abs((int) happinessLevel) % 254;
+      color = new Color(colorVal, colorVal, 0);
     }
 
     g.setColor(color);
