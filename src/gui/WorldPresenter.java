@@ -101,6 +101,7 @@ public class WorldPresenter extends Observable
    */
   public void selectAll(Rectangle2D rect)
   {
+    activeRegions.clear();
     for (GUIRegion r : getIntersectingRegions(rect, modelRegions))
     {
       activeRegions.add(r);
@@ -238,7 +239,6 @@ public class WorldPresenter extends Observable
    */
   private List<GUIRegion> getIntersectingRegions(Rectangle2D r, Collection<GUIRegion> regions)
   {
-    activeRegions.clear();
     List<GUIRegion> regionsInR = new ArrayList<>();
     for (GUIRegion g : regions)
     {
@@ -363,7 +363,6 @@ public class WorldPresenter extends Observable
 
     public void clear()
     {
-      // need to change this is is a concurant modificatoin problem.
       for (GUIRegion r : activeRegions) r.setActive(false);
       activeRegions.clear();
       setChanged();
