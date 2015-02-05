@@ -26,7 +26,7 @@ public class PlantingZoneView implements RegionView
     catch (Exception e)
     {
       System.err.println("BAD palnting zone value in region");
-      e.printStackTrace();
+//      e.printStackTrace();
     }
     return PlantingZoneColors[0];
   }
@@ -38,8 +38,13 @@ public class PlantingZoneView implements RegionView
         .getAttributes()
         .getAttribute(RegionAttributes.PLANTING_ATTRIBUTES.PLANTING_ZONE);
 
-    g.setColor(getPlantingColor(index));
+
+    if (gRegion.isActive()) g.setColor(getPlantingColor(index).brighter());
+    else g.setColor(getPlantingColor(index));
 
     g.fillPolygon(gRegion.getPoly());
+
+    g.setColor(ColorsAndFonts.PASSIVE_REGION_OUTLINE);
+    g.drawPolygon(gRegion.getPoly());
   }
 }

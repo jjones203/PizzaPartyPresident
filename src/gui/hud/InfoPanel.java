@@ -11,9 +11,9 @@ import testing.generators.AttributeGenerator;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.geom.Area;
 import java.util.Collections;
 import java.util.Random;
+
 import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 
 /**
@@ -46,28 +46,30 @@ public class InfoPanel extends JPanel
 
   public void displayGUIRegion(GUIRegion region)
   {
-    System.out.println("region name: " + region.getName());
     miniViewBox.setTitle(region.getName());
     miniViewBox.setDrawableArea(region.getArea());
 
+    RegionAttributes attributes = region.getRegion().getAttributes();
+
     attributeStats.clearBarPlots();
-    displayAttributes(region, attributeStats);
+    displayAttributes(attributes, attributeStats);
     attributeStats.revalidate();
 
     cropStatPane.clearBarPlots();
-    diplayCropState(region, cropStatPane);
+    diplayCropState(attributes, cropStatPane);
     cropStatPane.revalidate();
   }
+
+  
 
   /**
    * Controls the presentation logic of building up the crop percentages section
    * of the GUI info pane.
-   * @param region  data that will be extracted and displayed.
+   * @param atts  data that will be extracted and displayed.
    * @param statPane GUI element to 'write' to.
    */
-  private void diplayCropState(GUIRegion region, StatPane statPane)
+  private void diplayCropState(RegionAttributes atts, StatPane statPane)
   {
-    RegionAttributes atts = region.getRegion().getAttributes();
     for (String cropName : atts.getAllCrops())
     {
       BarPanel bp = new BarPanel(
@@ -84,16 +86,14 @@ public class InfoPanel extends JPanel
   /**
    * Controls the presentation logic for displaying the the soil attributes
    * in the info panel for the specified region.
-   * @param region to be displayed
+   * @param atts Attribute set to be displayed.
    * @param statPane GUI element to 'write' to.
    */
-  private void displayAttributes(GUIRegion region, StatPane statPane)
+  private void displayAttributes(RegionAttributes atts, StatPane statPane)
   {
-    RegionAttributes atts = region.getRegion().getAttributes();
-
     if (atts == null)
     {
-      System.err.println("atts for region " + region.getName() + "are null." );
+      System.err.println("atts for region are null.");
       return;
     }
 
@@ -142,6 +142,11 @@ public class InfoPanel extends JPanel
     attributeStats.clearBarPlots();
   }
 
+  /**
+   * FOR TESTING ONLY
+   * todo remove when done!
+   * @param args
+   */
   public static void main(String[] args)
   {
     long seed = 442;
