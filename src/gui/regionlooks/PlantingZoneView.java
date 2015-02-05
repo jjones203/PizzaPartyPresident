@@ -7,7 +7,7 @@ import java.awt.*;
 
 /**
  * Created by winston on 2/5/15.
- *
+ * <p/>
  * Over lay view. Expresses the Planting zone in the below divergent color
  * spectrum.
  */
@@ -39,7 +39,17 @@ class PlantingZoneView implements RegionView
         .getAttributes()
         .getAttribute(RegionAttributes.PLANTING_ATTRIBUTES.PLANTING_ZONE);
 
-    g.setColor(PlantingColors[(int) index]);
+    try
+    {
+      g.setColor(PlantingColors[(int) index]);
+    }
+    catch (Exception e)
+    {
+      System.err.println("BAD palnting zone value in region: " +
+                          gRegion.getName());
+
+      e.printStackTrace();
+    }
     g.fillPolygon(gRegion.getPoly());
   }
 }
