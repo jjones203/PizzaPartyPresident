@@ -4,10 +4,10 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  @author david
@@ -78,11 +78,12 @@ public class MapPane extends JPanel
     g2.setTransform(cam.getTransform());
 
     for (GUIRegion region : presenter.getRegionsInview(cam)) region.draw(g2);
-    
+
     if(drawMultiSelect)
     {
       g2.setTransform(new AffineTransform());/* reset transform!! */
       drawDragRect(g2);
+      
     }
   }
 
@@ -253,6 +254,7 @@ public class MapPane extends JPanel
     }
     
   }
+
 
   
   @Override

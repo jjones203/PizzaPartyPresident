@@ -21,51 +21,6 @@ import java.util.Random;
 public class AttributeGenerator
 {
   
-  private static List<Path2D> plantingLines = generatePlantingZones();
-  
-
-  private static List<Path2D> generatePlantingZones()
-  {
-    Random r = new Random();
-    List<Path2D> divisions = new ArrayList<>();
-    
-    
-    int numZones = 13;
-    double latRange = 180;
-    double latShift = 90;
-    double lonRange = 360;
-    double lonShift = 180;
-    double lonStep = 2;
-    
-    double varRange = 20;
-    double varShift = 10;
-    
-    double startLat;
-    double lat, lon;
-    for (int zoneNum = 1; zoneNum < numZones; zoneNum++)
-    {
-      Path2D zone = new Path2D.Double();
-      lat = zoneNum * lonRange + r.nextDouble() * varRange - varShift;
-      
-      
-      
-      for(lon = 0; lon < lonRange; lon += r.nextDouble()*lonStep)
-      {
-        if(lon <= 0) zone.moveTo(0, lat);
-        else
-        {
-          /* line to next random lat lon, within a set variance */
-        }
-        
-      }
-      
-    }
-    
-    
-    
-    return null;
-  }
-
   private String[] crops = {
       "corn", "wheat", "grapeNuts",
 //      "coffee", "bread", "pudding",
@@ -101,9 +56,46 @@ public class AttributeGenerator
     return atts;
   }
   
-  public void setRegionAttributes(Region r)
+  public void setRegionAttributes(Region reg, Random rand)
   {
+    RegionAttributes attribs = new RegionAttributes();
+
+    for(PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
+    {
+      switch(att)
+      {
+        case PLANTING_ZONE:
+          setPlantingZoneAttribute(reg, attribs, rand);
+        case ANNUAL_RAINFALL:
+          break;
+        case AVE_MONTH_TEMP_HI:
+          break;
+        case AVE_MONTH_TEMP_LO:
+          break;
+        case COST_OF_CROPS:
+          break;
+        case ELEVATION:
+          break;
+        case HAPPINESS:
+          break;
+        case POPULATION:
+          break;
+        case PROFIT_FROM_CROPS:
+          break;
+        case SOIL_TYPE:
+          break;
+        default:
+          attribs.setAttribute(att, rand.nextDouble());
+        
+      }
+    }
   }
+
+  private void setPlantingZoneAttribute(Region reg, RegionAttributes attribs, Random rand)
+  {
+
+  }
+
 
   public static void main(String[] args)
   {
