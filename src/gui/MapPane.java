@@ -83,8 +83,8 @@ public class MapPane extends JPanel
     @Override
     public void actionPerformed(ActionEvent e)
     {
-      System.out.println("step word is firing");
       presenter.stepByMonth();
+      System.out.println(presenter.getWorldDate());
     }
   };
 
@@ -189,7 +189,7 @@ public class MapPane extends JPanel
         isSHIFTdepressed = true;
         break;
       default:
-        System.out.println("unhandeled key press: " + e.getKeyCode());
+//        System.out.println("unhandeled key press: " + e.getKeyCode());
 
     }
   }

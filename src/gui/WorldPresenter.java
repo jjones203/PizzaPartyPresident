@@ -7,10 +7,8 @@ import model.World;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 import java.util.List;
-import java.util.Observable;
 
 import static gui.Camera.CAM_DISTANCE;
 
@@ -303,6 +301,11 @@ public class WorldPresenter extends Observable
   public void stepByMonth()
   {
     world.stepByMonth();
+  }
+
+  public Date getWorldDate()
+  {
+    return world.getCurrentDate().getTime();
   }
 
   /**
