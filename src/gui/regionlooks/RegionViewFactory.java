@@ -10,7 +10,7 @@ public class RegionViewFactory
 {
   /* view currently correspond to camera angles */
   private final static RegionView LONG = new defaultLook();
-  private final static RegionView MEDUIM = new RegionNameView(LONG, 8000);
+  private final static RegionView MEDUIM = LONG;
   private final static RegionView CLOSE_UP = new RegionNameView(LONG, 800);
 
   public RegionView getBackgroundMapView()

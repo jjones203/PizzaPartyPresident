@@ -1,19 +1,12 @@
 package gui.hud;
 
-import IO.XMLparsers.KMLParser;
 import gui.ColorsAndFonts;
-import gui.EquirectangularConverter;
-import gui.GUIRegion;
-import model.Region;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.geom.Area;
-import java.util.Collections;
-import java.util.Random;
 
 /**
  * Encapsulates displaying the selected regions in the hud.

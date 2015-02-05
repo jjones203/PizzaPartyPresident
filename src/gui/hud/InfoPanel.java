@@ -47,7 +47,7 @@ public class InfoPanel extends JPanel
   {
     System.out.println("region name: " + region.getName());
     miniViewBox.setTitle(region.getName());
-    miniViewBox.setDrawableArea(new Area(region.getPoly()));
+    miniViewBox.setDrawableArea(region.getArea());
 
     attributeStats.clearBarPlots();
     displayAttributes(region, attributeStats);
