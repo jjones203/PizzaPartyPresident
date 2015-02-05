@@ -80,6 +80,8 @@ public class MapPaneTest
     };
     presenter.addObserver(observer);
 
+    
+    
     new Timer(20, new ActionListener()
     {
       @Override

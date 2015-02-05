@@ -9,7 +9,7 @@ import java.util.Map;
  * Phase_01
  * CS 351 spring 2015
  */
-public class RegionAttributes
+public class  RegionAttributes
 {
 
   public enum PLANTING_ATTRIBUTES
