@@ -3,6 +3,7 @@ package gui.hud;
 import IO.XMLparsers.KMLParser;
 import gui.EquirectangularConverter;
 import gui.GUIRegion;
+import gui.regionlooks.PlantingZoneView;
 import model.Region;
 import model.RegionAttributes;
 import testing.generators.AttributeGenerator;
@@ -98,14 +99,39 @@ public class InfoPanel extends JPanel
 
     for (PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
     {
-      BarPanel bp = new BarPanel(
-          Color.cyan,
-          atts.getAttribute(att) / 20,
-          att.toString(),
-          String.format("%.2f", atts.getAttribute(att))
-      );
+      BarPanel bp = getBarPanel(atts, att);
       statPane.addBar(bp);
     }
+  }
+
+  private BarPanel getBarPanel(RegionAttributes attributesSet, PLANTING_ATTRIBUTES att)
+  {
+    String Primarylable = att.toString();
+
+    Color barColor = null;
+    double ratio = 0;
+    String secondaryLable = null;
+
+    switch (att)
+    {
+      case PLANTING_ZONE:
+        barColor = PlantingZoneView.getPlantingColor(attributesSet.getAttribute(att));
+        ratio = 1;
+        secondaryLable = "ZONE: " + (int) (double) attributesSet.getAttribute(att);
+        break;
+
+      default:
+        barColor = Color.cyan;
+        ratio = attributesSet.getAttribute(att) / 20; //based on random generation number //TODO remove someday!
+        secondaryLable = String.format("%.2f", ratio);
+    }
+
+    return new BarPanel(
+            barColor,
+            ratio,
+            Primarylable,
+            secondaryLable
+        );
   }
 
   public void clearDisplay()

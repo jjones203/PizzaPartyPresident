@@ -57,5 +57,7 @@ class RegionHappyView implements RegionView
     g.setColor(ColorsAndFonts.PASSIVE_REGION_OUTLINE);
     g.drawPolygon(gRegion.getPoly());
 
+//    System.out.println("scale taken from transform: " + ((Graphics2D)g).getTransform().getScaleX());
+
   }
 }
