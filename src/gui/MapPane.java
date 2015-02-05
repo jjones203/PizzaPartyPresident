@@ -37,13 +37,14 @@ public class MapPane extends JPanel
     isSHIFTdepressed;
 
 
-  private boolean multiSelect;
+  private boolean drawMultiSelect;
   private Point2D multiSelectFrom;
   private Rectangle2D dragRect;
   
   private WorldPresenter presenter;
   private Camera cam;
   private Point2D dragFrom;
+  private boolean doMultiSelect;
 
 
   public MapPane(Camera cam, WorldPresenter presenter)
@@ -69,13 +70,11 @@ public class MapPane extends JPanel
     g2.setTransform(cam.getTransform());
     for (GUIRegion region : presenter.getRegionsInview(cam)) region.draw(g2);
     
-    if(multiSelect)
+    if(drawMultiSelect)
     {
       g2.setTransform(new AffineTransform());/* reset transform!! */
       drawDragRect(g2);
     }
-
-    
   }
 
   private void drawDragRect(Graphics2D g2)
@@ -165,6 +164,8 @@ public class MapPane extends JPanel
   {
     Point2D mapClick = convertToMapSpace(e.getPoint());
 
+    System.out.println("click");
+      
     if (e.isControlDown())
     {
       cam.centerAbsolute(mapClick.getX(), mapClick.getY());
@@ -179,6 +180,7 @@ public class MapPane extends JPanel
   @Override
   public void mousePressed(MouseEvent e)
   {
+    doMultiSelect = isSHIFTdepressed;
     multiSelectFrom = e.getPoint();
     dragFrom = e.getPoint();
   }
@@ -187,7 +189,9 @@ public class MapPane extends JPanel
   @Override
   public void mouseReleased(MouseEvent e)
   {
-    multiSelect = false;
+    doMultiSelect = false;
+    drawMultiSelect = false;
+    System.out.println("release");
   }
 
   
@@ -223,11 +227,14 @@ public class MapPane extends JPanel
   @Override
   public void mouseDragged(MouseEvent e)
   {
-    if(isSHIFTdepressed)
+      
+    if(doMultiSelect)
     {
-      multiSelect = true;
+      drawMultiSelect = true;
+      Point2D p1 = convertToMapSpace(multiSelectFrom);
+      Point2D p2 = convertToMapSpace(e.getPoint());
       dragRect = rectFromCornerPoints(multiSelectFrom, e.getPoint());
-      presenter.selectAll(dragRect);
+      presenter.selectAll(rectFromCornerPoints(p1, p2));
     }
     else
     {

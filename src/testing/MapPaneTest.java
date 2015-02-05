@@ -43,7 +43,7 @@ public class MapPaneTest
   win.setVisible(true);
   
   
-  new Timer(30, new ActionListener()
+  new Timer(10, new ActionListener()
   {
    @Override
    public void actionPerformed(ActionEvent e)
