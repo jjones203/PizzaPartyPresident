@@ -10,9 +10,8 @@ import testing.generators.AttributeGenerator;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.geom.Area;
 import java.util.Collections;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Random;
 import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 
@@ -48,7 +47,7 @@ public class InfoPanel extends JPanel
   {
     System.out.println("region name: " + region.getName());
     miniViewBox.setTitle(region.getName());
-    miniViewBox.setRegionPolygon(region.getPoly());
+    miniViewBox.setDrawableArea(new Area(region.getPoly()));
 
     attributeStats.clearBarPlots();
     displayAttributes(region, attributeStats);
@@ -112,7 +111,7 @@ public class InfoPanel extends JPanel
   public void clearDisplay()
   {
     miniViewBox.setTitle(" ");
-    miniViewBox.setRegionPolygon(null);
+    miniViewBox.setDrawableArea(null);
     cropStatPane.clearBarPlots();
     attributeStats.clearBarPlots();
   }

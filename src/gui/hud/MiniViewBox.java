@@ -9,10 +9,9 @@ import model.Region;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.util.Collections;
 import java.util.Random;
 
@@ -21,8 +20,7 @@ import java.util.Random;
  */
 public class MiniViewBox extends JPanel
 {
-//  private final static int R_PANEL_WIDTH = 230;
-//  private final static int R_PANEL_HEIGHT = 300;
+
   private final static Color BORDER_COL = ColorsAndFonts.GUI_TEXT_COLOR.darker();
   private final static Font TITLE_FONT = ColorsAndFonts.HUD_TITLE;
   private final static Color GUI_BACKGROUND = ColorsAndFonts.GUI_BACKGROUND;
@@ -35,7 +33,7 @@ public class MiniViewBox extends JPanel
   public static final EmptyBorder PADDING_BORDER = new EmptyBorder(5, 5, 5, 5);
   private JLabel titleLabel;
   private JPanel regionViewer;
-  private Polygon regionPolygon;
+  private Area drawableArea;
   private float alpha;
 
   public MiniViewBox(String name)
@@ -46,10 +44,6 @@ public class MiniViewBox extends JPanel
     this.regionViewer = getRegionView();
 
     // config
-      // seems to work better with out setting size info here
-//    Dimension prefSize = new Dimension(R_PANEL_WIDTH, R_PANEL_HEIGHT);
-//    regionViewer.setPreferredSize(prefSize);
-//    regionViewer.setMinimumSize(prefSize);
     this.setLayout(new BorderLayout());
     this.setBackground(GUI_BACKGROUND);
 
@@ -62,54 +56,20 @@ public class MiniViewBox extends JPanel
 
     regionViewer.setBorder(PADDING_BORDER);
 
-    // wireup
+    // wire-up
     this.add(titleLabel, BorderLayout.NORTH);
     this.add(regionViewer, BorderLayout.CENTER);
 
   }
 
-  public static void main(String[] args)
+  public Area getDrawableArea()
   {
-    final JFrame frame = new JFrame();
-
-    MiniViewBox vb = new MiniViewBox("REGION NAME");
-
-    long seed = 44;
-    java.util.List<Region> testlist = (java.util.List<Region>) KMLParser.getRegionsFromFile("resources/ne_50m_admin_1_states_provinces_lakes.kml");
-    Collections.shuffle(testlist, new Random());
-
-    Region firstRegion = testlist.get(0);
-    System.out.println("regoins name: " + firstRegion);
-    Polygon testPoly = new GUIRegion(firstRegion, new EquirectangularConverter(), null).getPoly();
-    System.out.println(testPoly.getBounds());
-    vb.setRegionPolygon(testPoly);
-
-
-    frame.add(vb);
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.pack();
-//    frame.setResizable(false);
-    frame.setVisible(true);
-
-    Timer animator = new Timer(20, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        frame.repaint();;
-      }
-    });
-    animator.start();
+    return drawableArea;
   }
 
-  public Polygon getRegionPolygon()
+  public void setDrawableArea(Area drawableArea)
   {
-    return regionPolygon;
-  }
-
-  public void setRegionPolygon(Polygon regionPolygon)
-  {
-    this.regionPolygon = regionPolygon;
+    this.drawableArea = drawableArea;
     alpha = 0; // resets alpha for animation.
   }
 
@@ -123,30 +83,6 @@ public class MiniViewBox extends JPanel
     return titleLabel.getText();
   }
 
-  /**
-   * shifts a given polygon back to the the origin (0, 0). Is used to make the
-   * mini display work.
-   * <p/>
-   * (!) note, this method does not mutates its argument.
-   *
-   * (!) note, this method does not mutaite its argument.
-   * @param regionPolygon region to shift back
-   * @return
-   */
-  private static Polygon movePolyToOrigin(Polygon regionPolygon)
-  {
-    //TODO if we see a performace problem here we could memoize the results.
-    Polygon shifted = new Polygon(
-        regionPolygon.xpoints, regionPolygon.ypoints, regionPolygon.npoints
-    );
-
-    int x = regionPolygon.getBounds().x;
-    int y = regionPolygon.getBounds().y;
-
-    shifted.translate( -x, -y);
-
-    return shifted;
-  }
 
   private JPanel getRegionView()
   {
@@ -155,11 +91,10 @@ public class MiniViewBox extends JPanel
       @Override
       public void paint(Graphics g)
       {
-        if (regionPolygon != null)
+        if (drawableArea != null)
         {
           Graphics2D g2d = (Graphics2D) g;
           g2d.setRenderingHints(rh);
-
 
           if (alpha < 1)
           {
@@ -167,30 +102,30 @@ public class MiniViewBox extends JPanel
             alpha += 0.10f;
           }
 
-          Polygon shifted = movePolyToOrigin(regionPolygon);
           double scaleValue;
 
-
           int inset = 5;
-          double boxW = getWidth() - 2*inset;
-          double boxH = getHeight() - 2*inset;
-          double boxAspect = boxW/boxH;
+          double boxW = getWidth() - 2 * inset;
+          double boxH = getHeight() - 2 * inset;
+          double boxAspect = boxW / boxH;
 
-          double polyW = shifted.getBounds().getWidth();
-          double polyH = shifted.getBounds().getHeight();
+          double polyW = drawableArea.getBounds().getWidth();
+          double polyH = drawableArea.getBounds().getHeight();
+
+          double polyx = drawableArea.getBounds().x;
+          double polyy = drawableArea.getBounds().y;
+
           double polyAspect = polyW / polyH;
-          
+
           double xshift, yshift;
-          
-          
+
           if (boxAspect > polyAspect)
           {
-            scaleValue = (boxH)/polyH;
+            scaleValue = (boxH) / polyH;
             xshift = (boxW - scaleValue * polyW) / 2 + inset;
             yshift = inset;
 
           }
-          // shift for height
           else
           {
             scaleValue = (boxW) / polyW;
@@ -198,12 +133,14 @@ public class MiniViewBox extends JPanel
             xshift = inset;
           }
 
+          double xTranslate = xshift - (scaleValue * polyx);
+          double yTranslate = yshift - (scaleValue * polyy);
 
-          g2d.translate(xshift, yshift);
+          g2d.translate(xTranslate, yTranslate);
           g2d.scale(scaleValue, scaleValue);
 
           g2d.setColor(ColorsAndFonts.ACTIVE_REGION);
-          g2d.fillPolygon(shifted);
+          g2d.fill(drawableArea);
         }
       }
     };
