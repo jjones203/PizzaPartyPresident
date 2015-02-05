@@ -11,15 +11,14 @@ import static model.RegionAttributes.PLANTING_ATTRIBUTES.HAPPINESS;
  * Created by winston on 1/27/15.
  * Phase_01
  * CS 351 spring 2015
- *
+ * <p/>
  * Represents the happiness index of the regions.
- *
- *
  */
 class RegionHappyView implements RegionView
 {
   /**
    * Method extracts happiness index from region and displays it.
+   *
    * @param g
    * @param gRegion
    */
@@ -32,14 +31,6 @@ class RegionHappyView implements RegionView
       return;
     }
 
-    double happinessLevel = gRegion.getRegion()
-                                   .getAttributes()
-                                   .getAttribute(HAPPINESS);
-
-    // rough scaling factor => ColorSpace/ValueSpace
-    double scalingFactor = 12.75;
-    happinessLevel = happinessLevel * scalingFactor;
-
     Color color;
 
     if (gRegion.isActive())
@@ -48,7 +39,14 @@ class RegionHappyView implements RegionView
     }
     else
     {
-      color = new Color((int) happinessLevel, (int)happinessLevel, 0);
+      double happinessLevel = gRegion.getRegion()
+                                .getAttributes()
+                                .getAttribute(HAPPINESS);
+
+      // rough scaling factor => ColorSpace/ValueSpace
+      double scalingFactor = 12.75;
+      happinessLevel = happinessLevel * scalingFactor;
+      color = new Color((int) happinessLevel, (int) happinessLevel, 0);
     }
 
     g.setColor(color);

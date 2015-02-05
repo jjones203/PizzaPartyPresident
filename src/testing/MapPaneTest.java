@@ -99,8 +99,7 @@ public class MapPaneTest
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        System.out.println("changin over to to happiness");
-        presenter.setCurrentOverlay(RegionViewFactory.Overlay.HAPPINESS);
+        presenter.setCurrentOverlay(RegionViewFactory.Overlay.PLANTING_ZONE);
       }
     }).start();
   }

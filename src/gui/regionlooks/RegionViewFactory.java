@@ -56,8 +56,7 @@ public class RegionViewFactory
         return HAPPINESS_VIEW;
 
       default:
-        if (distance == Camera.CAM_DISTANCE.LONG) return DEFAULT_LOOK;
-        else return DEFAULT_LOOK;
+        return DEFAULT_LOOK;
     }
   }
 
