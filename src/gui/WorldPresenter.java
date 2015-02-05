@@ -238,6 +238,7 @@ public class WorldPresenter extends Observable
    */
   private List<GUIRegion> getIntersectingRegions(Rectangle2D r, Collection<GUIRegion> regions)
   {
+    activeRegions.clear();
     List<GUIRegion> regionsInR = new ArrayList<>();
     for (GUIRegion g : regions)
     {
