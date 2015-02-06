@@ -21,7 +21,7 @@ public class AttributeGenerator
 {
   
 
-  
+  public int nonPosCount = 0;
   private String[] crops = {
       "corn", "wheat", "grapeNuts",
 //      "coffee", "bread", "pudding",
@@ -78,22 +78,30 @@ public class AttributeGenerator
           attribs.setAttribute(att, genLowTemp(reg, rand));
           break;
         case COST_OF_CROPS:
-          
-          break;
         case ELEVATION:
-          break;
         case HAPPINESS:
-          break;
         case POPULATION:
-          break;
         case PROFIT_FROM_CROPS:
-          break;
         case SOIL_TYPE:
+          attribs.setAttribute(att, genPosGaussian(rand, LIMITS.get(att)));
           break;
         default:
           attribs.setAttribute(att, rand.nextDouble());
       }
     }
+  }
+
+  /*
+    Generates something resembling a normal distribution between 0 and limit
+   */
+  private double genPosGaussian(Random rand, double limit)
+  {
+    double r;
+    do
+    { 
+      r = (rand.nextGaussian() + 3)/6;
+    } while (r < 0 && r > 1);
+    return r * limit;
   }
 
   private double genHiTemp(Region reg, Random rand)
