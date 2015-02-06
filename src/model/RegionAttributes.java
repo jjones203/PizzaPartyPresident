@@ -12,10 +12,14 @@ import java.util.Map;
 public class  RegionAttributes
 {
 
-  public static Map<PLANTING_ATTRIBUTES, Double> LIMITS = new HashMap<>();
+  public final static Map<PLANTING_ATTRIBUTES, Double> LIMITS = new HashMap<>();
   static
   {
     LIMITS.put(PLANTING_ATTRIBUTES.ANNUAL_RAINFALL, 460.0);
+    LIMITS.put(PLANTING_ATTRIBUTES.MONTHLY_RAINFALL, 10.0);
+    LIMITS.put(PLANTING_ATTRIBUTES.POPULATION, 100_000.0);
+    LIMITS.put(PLANTING_ATTRIBUTES.AVE_MONTH_TEMP_HI, 136.0);
+    LIMITS.put(PLANTING_ATTRIBUTES.AVE_MONTH_TEMP_LO, -126.0);
   }
 
 

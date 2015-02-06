@@ -53,6 +53,7 @@ public interface ColorsAndFonts
     new Color(0x053061),
     new Color(0x053061),
   };
+  Color BAR_GRAPH_NEG = Color.cyan;
 
   class colorConverter
   {
