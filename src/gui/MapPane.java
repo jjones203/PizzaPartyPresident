@@ -2,6 +2,7 @@ package gui;
 
 import gui.regionlooks.RegionViewFactory;
 
+import javax.security.auth.kerberos.KerberosTicket;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
@@ -228,8 +229,6 @@ public class MapPane extends JPanel
   {
     Point2D mapClick = convertToMapSpace(e.getPoint());
 
-    System.out.println("click");
-      
     if (e.isControlDown())
     {
       cam.centerAbsolute(mapClick.getX(), mapClick.getY());

@@ -201,7 +201,7 @@ public class WorldPresenter extends Observable
         break;
 
       case LONG:
-        regionsInView = getIntersectingRegions(inViewBox, backgroundRegions);
+        regionsInView = getIntersectingRegions(inViewBox, modelRegions);
         break;
 
       default:

@@ -1,14 +1,12 @@
 package testing.generators;
 
+import model.MapPoint;
 import model.Region;
 import model.RegionAttributes;
 import model.RegionAttributes.PLANTING_ATTRIBUTES;
+import static model.RegionAttributes.PLANTING_ATTRIBUTES.*;
 
-import java.awt.geom.Line2D;
-import java.awt.geom.Path2D;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -61,7 +59,7 @@ public class AttributeGenerator
   
   public void setRegionAttributes(Region reg, Random rand)
   {
-    RegionAttributes attribs = new RegionAttributes();
+    RegionAttributes attribs = reg.getAttributes();
 
     for(PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
     {
@@ -69,6 +67,7 @@ public class AttributeGenerator
       {
         case PLANTING_ZONE:
           setPlantingZoneAttribute(reg, attribs, rand);
+          break;
         case ANNUAL_RAINFALL:
           break;
         case AVE_MONTH_TEMP_HI:
@@ -89,15 +88,24 @@ public class AttributeGenerator
           break;
         default:
           attribs.setAttribute(att, rand.nextDouble());
-        
       }
     }
   }
 
   private void setPlantingZoneAttribute(Region reg, RegionAttributes attribs, Random rand)
   {
+    int numZones = 13;
+    double midLat = 0;
     
-
+    for(MapPoint mp : reg.getPerimeter()) midLat += mp.getLat();
+    
+    midLat /= reg.getPerimeter().size();
+    
+    midLat += 90; /* shift to bring into natural number land */
+    
+    double zone =  midLat / (180.0/numZones) + rand.nextDouble() * 1.2 - .6;
+    
+    attribs.setAttribute(PLANTING_ZONE, zone);
   }
 
 
@@ -120,15 +128,15 @@ public class AttributeGenerator
     final double mutator = 0.10;
     double tmpVal;
 
-    tmpVal = attributes.getAttribute(PLANTING_ATTRIBUTES.HAPPINESS);
+    tmpVal = attributes.getAttribute(HAPPINESS);
     attributes.setAttribute(
-      PLANTING_ATTRIBUTES.HAPPINESS,
+      HAPPINESS,
       tmpVal +=  tmpVal * (random.nextBoolean() ? -mutator: mutator));
 
 
-    tmpVal = attributes.getAttribute(PLANTING_ATTRIBUTES.POPULATION);
+    tmpVal = attributes.getAttribute(POPULATION);
     attributes.setAttribute(
-      PLANTING_ATTRIBUTES.POPULATION,
+      POPULATION,
       tmpVal +=  tmpVal * (random.nextBoolean() ? -mutator: mutator));
   }
 
