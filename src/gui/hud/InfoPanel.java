@@ -110,70 +110,64 @@ public class InfoPanel extends JPanel
 
     String Primarylable = att.toString();
     Color barColor = ColorsAndFonts.BAR_GRAPH_NEG;
-    double ratio = attributesSet.getAttribute(att);
-    String secondaryLable = String.format("%.2f", attributesSet.getAttribute(att));
+    double ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
+    String secondaryLabel = String.format("%.2f", attributesSet.getAttribute(att));
 
     switch (att)
     {
       case PLANTING_ZONE:
         barColor = PlantingZoneView.getPlantingColor(attributesSet.getAttribute(att));
         ratio = 1;
-        secondaryLable = "ZONE: " + (int) (double) attributesSet.getAttribute(att);
+        secondaryLabel = "ZONE: "+(int)(double) attributesSet.getAttribute(att);
         break;
 
       case PROFIT_FROM_CROPS:
         barColor = Color.green;
-        secondaryLable = "$" + secondaryLable;
+        secondaryLabel = "$" + secondaryLabel;
         break;
 
       case COST_OF_CROPS:
         barColor = Color.red;
-        secondaryLable = "$" + secondaryLable;
+        secondaryLabel = "$" + secondaryLabel;
         break;
 
       case HAPPINESS:
-        boolean unhappy = ratio < 0.5;
-        barColor = unhappy ? Color.red : ColorsAndFonts.BAR_GRAPH_NEG;
-        secondaryLable = unhappy ?
-          (ratio < 0.25 ? "DESPOMDENT" : "GLOOMY" ) : (ratio > .75 ? "ECSTATIC" : "CONTENT");
+        ratio = attributesSet.getAttribute(att);
+        barColor = getHappyColor(ratio);
+        secondaryLabel = getHappyLabel(ratio);
         break;
 
       case ANNUAL_RAINFALL:
-        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
-        secondaryLable = secondaryLable + " in.";
+        secondaryLabel = secondaryLabel + " in.";
         break;
 
       case MONTHLY_RAINFALL:
-        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
-        secondaryLable = secondaryLable + " in.";
+        secondaryLabel = secondaryLabel + " in.";
         break;
 
       case POPULATION:
-        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
-        secondaryLable = "" + (int)(double) attributesSet.getAttribute(att);
+        secondaryLabel = "" + (int)(double) attributesSet.getAttribute(att);
         break;
 
       case AVE_MONTH_TEMP_HI:
-        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
-        secondaryLable = secondaryLable + " F";
+        secondaryLabel = secondaryLabel + " F";
         barColor = Color.red;
         break;
 
       case AVE_MONTH_TEMP_LO:
-        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
         ratio = Math.abs(ratio);
-        secondaryLable = secondaryLable + " F";
+        secondaryLabel = secondaryLabel + " F";
         barColor = ColorsAndFonts.BAR_GRAPH_NEG;
         break;
 
       case ELEVATION:
-        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
-        secondaryLable = secondaryLable + " ft.";
+//        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
+        secondaryLabel = secondaryLabel + " ft.";
         break;
 
       case SOIL_TYPE:
-        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
-        secondaryLable += " ph";
+//        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
+        secondaryLabel += " ph";
 
       default:
         // no nothing fall back on the above default values.
@@ -181,7 +175,20 @@ public class InfoPanel extends JPanel
 
     }
 
-    return new BarPanel(barColor, ratio, Primarylable, secondaryLable);
+    return new BarPanel(barColor, ratio, Primarylable, secondaryLabel);
+  }
+
+  private String getHappyLabel(double ratio)
+  {
+    if (ratio < 0.25)      return "MISERABLE";
+    else if (ratio < 0.5)  return "UNHAPPY";
+    else if (ratio < 0.75) return "HAPPY";
+    else                   return "ESTATIC";
+  }
+
+  private Color getHappyColor(double ratio)
+  {
+    return ratio < 0.5 ? Color.red : Color.cyan;
   }
 
   public void clearDisplay()
