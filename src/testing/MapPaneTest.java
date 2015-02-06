@@ -37,7 +37,7 @@ public class MapPaneTest
 
     for (Region r : modelMap)
     {
-      r.setAttributes(randoAtts.nextAttributeSet());
+//      r.setAttributes(randoAtts.nextAttributeSet());
       randoAtts.setRegionAttributes(r, new Random());
     }
 

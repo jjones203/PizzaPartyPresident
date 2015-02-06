@@ -59,7 +59,7 @@ public class AttributeGenerator
   
   public void setRegionAttributes(Region reg, Random rand)
   {
-    RegionAttributes attribs = reg.getAttributes();
+    RegionAttributes attribs = new RegionAttributes();
 
     for(PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
     {
@@ -89,17 +89,18 @@ public class AttributeGenerator
           attribs.setAttribute(att, rand.nextDouble());
       }
     }
+    reg.setAttributes(attribs);
   }
 
   /*
     Generates something resembling a normal distribution between 0 and limit
    */
-  private double genPosGaussian(Random rand, double limit)
+  private static double genPosGaussian(Random rand, double limit)
   {
     double r;
     do
     { 
-      r = (rand.nextGaussian() + 3)/6;
+      r = (rand.nextGaussian() + 1)/2;
     } while (r < 0 || r > 1);
     
     return r * limit;
@@ -150,19 +151,17 @@ public class AttributeGenerator
 
   private static void mutateAtts(RegionAttributes attributes, Random random)
   {
-    final double mutator = 0.10;
-    double tmpVal;
+    double differential = 0.05;
+    double attVal, change;
 
-    tmpVal = attributes.getAttribute(HAPPINESS);
-    attributes.setAttribute(
-      HAPPINESS,
-      tmpVal +=  tmpVal * (random.nextBoolean() ? -mutator: mutator));
-
-
-    tmpVal = attributes.getAttribute(POPULATION);
-    attributes.setAttribute(
-      POPULATION,
-      tmpVal +=  tmpVal * (random.nextBoolean() ? -mutator: mutator));
+    for(PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
+    {
+      attVal = attributes.getAttribute(att);
+      change = random.nextGaussian() * differential;
+      attVal = Math.max(0, Math.min(LIMITS.get(att), attVal + change));
+      attributes.setAttribute(att, attVal);
+    }
+    
   }
 
 
