@@ -1,7 +1,6 @@
 package gui.hud;
 
 import IO.XMLparsers.KMLParser;
-import gui.ColorsAndFonts;
 import gui.EquirectangularConverter;
 import gui.GUIRegion;
 import gui.regionlooks.PlantingZoneView;
@@ -12,9 +11,11 @@ import testing.generators.AttributeGenerator;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.geom.Area;
 import java.util.Collections;
 import java.util.Random;
 
+import static gui.ColorsAndFonts.BAR_GRAPH_NEG;
 import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 
 /**
@@ -47,21 +48,34 @@ public class InfoPanel extends JPanel
 
   public void displayGUIRegion(GUIRegion region)
   {
-    miniViewBox.setTitle(region.getName());
-    miniViewBox.setDrawableArea(region.getArea());
+    setTitle(region.getName());
+    drawArea(region.getArea());
 
     RegionAttributes attributes = region.getRegion().getAttributes();
 
+    showAttributes(attributes);
+  }
+
+  public void setTitle(String title)
+  {
+    miniViewBox.setTitle(title);
+  }
+
+  public void drawArea(Area area)
+  {
+    miniViewBox.setDrawableArea(area);
+  }
+
+  public void showAttributes(RegionAttributes regionAttributes)
+  {
     attributeStats.clearBarPlots();
-    displayAttributes(attributes, attributeStats);
+    displayAttributes(regionAttributes, attributeStats);
     attributeStats.revalidate();
 
     cropStatPane.clearBarPlots();
-    diplayCropState(attributes, cropStatPane);
+    diplayCropState(regionAttributes, cropStatPane);
     cropStatPane.revalidate();
   }
-
-
 
   /**
    * Controls the presentation logic of building up the crop percentages section
@@ -74,7 +88,7 @@ public class InfoPanel extends JPanel
     for (String cropName : atts.getAllCrops())
     {
       BarPanel bp = new BarPanel(
-        ColorsAndFonts.BAR_GRAPH_NEG,
+        BAR_GRAPH_NEG,
           atts.getCropP(cropName),
           cropName,
           "%" + String.format("%.2f", atts.getCropP(cropName) * 100)
@@ -107,9 +121,9 @@ public class InfoPanel extends JPanel
 
   private BarPanel getBarPanel(RegionAttributes attributesSet, PLANTING_ATTRIBUTES att)
   {
-
+    final int FULL_BAR = 1;
     String Primarylable = att.toString();
-    Color barColor = ColorsAndFonts.BAR_GRAPH_NEG;
+    Color barColor = BAR_GRAPH_NEG;
     double ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
     String secondaryLabel = String.format("%.2f", attributesSet.getAttribute(att));
 
@@ -117,7 +131,7 @@ public class InfoPanel extends JPanel
     {
       case PLANTING_ZONE:
         barColor = PlantingZoneView.getPlantingColor(attributesSet.getAttribute(att));
-        ratio = 1;
+        ratio = FULL_BAR;
         secondaryLabel = "ZONE: "+(int)(double) attributesSet.getAttribute(att);
         break;
 
@@ -157,21 +171,19 @@ public class InfoPanel extends JPanel
       case AVE_MONTH_TEMP_LO:
         ratio = Math.abs(ratio);
         secondaryLabel = secondaryLabel + " F";
-        barColor = ColorsAndFonts.BAR_GRAPH_NEG;
+        barColor = BAR_GRAPH_NEG;
         break;
 
       case ELEVATION:
-//        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
         secondaryLabel = secondaryLabel + " ft.";
         break;
 
       case SOIL_TYPE:
-//        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
         secondaryLabel += " ph";
+        break;
 
       default:
         // no nothing fall back on the above default values.
-
 
     }
 
@@ -180,10 +192,10 @@ public class InfoPanel extends JPanel
 
   private String getHappyLabel(double ratio)
   {
-    if (ratio < 0.25)      return "MISERABLE";
+    if (ratio < 0.25)      return "DESPONDENT";
     else if (ratio < 0.5)  return "UNHAPPY";
     else if (ratio < 0.75) return "HAPPY";
-    else                   return "ESTATIC";
+    else                   return "ECSTATIC";
   }
 
   private Color getHappyColor(double ratio)
