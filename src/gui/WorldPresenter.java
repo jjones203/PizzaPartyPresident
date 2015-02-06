@@ -106,11 +106,6 @@ public class WorldPresenter extends Observable
   public void selectAll(Rectangle2D rect, Camera camera)
   {
     Collection<GUIRegion> regionsInView = getIntersectingRegions(rect, getRegionsInview(camera));
-
-    activeRegions.getList().retainAll(regionsInView);
-
-    if (activeRegions.getList().containsAll(regionsInView)) return;
-
     activeRegions.clear();
     for (GUIRegion r : regionsInView)
     {
