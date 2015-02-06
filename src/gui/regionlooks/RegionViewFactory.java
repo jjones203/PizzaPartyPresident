@@ -44,7 +44,7 @@ public class RegionViewFactory
 
   public RegionView getViewFromDistance(Camera.CAM_DISTANCE distance)
   {
-    if (distance == Camera.CAM_DISTANCE.LONG) return DEFAULT_LOOK;
+//    if (distance == Camera.CAM_DISTANCE.LONG) return DEFAULT_LOOK;
 
     switch (currentOverlay)
     {

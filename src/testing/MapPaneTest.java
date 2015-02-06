@@ -29,16 +29,21 @@ public class MapPaneTest
   public static void main(String[] args)
   {
 
-
-    AttributeGenerator randoAtts = new AttributeGenerator(new Random(254));
+    Random random = new Random(234);
+    AttributeGenerator randoAtts = new AttributeGenerator(random);
 
     Collection<Region> backgroundRegions = KMLParser.getRegionsFromFile("resources/countries_world.xml");
+
+    for (Region r : backgroundRegions)
+    {
+      randoAtts.setRegionAttributes(r, random);
+    }
+
     Collection<Region> modelMap = KMLParser.getRegionsFromFile("resources/ne_10m_admin_1_states_provinces.kml");
 
     for (Region r : modelMap)
     {
-//      r.setAttributes(randoAtts.nextAttributeSet());
-      randoAtts.setRegionAttributes(r, new Random());
+      randoAtts.setRegionAttributes(r, random);
     }
 
     World world = new World(modelMap);
@@ -69,15 +74,24 @@ public class MapPaneTest
       @Override
       public void update(Observable o, Object arg)
       {
-        GUIRegion region = presenter.getActiveRegion();
-        if (region == null)
+        java.util.List<GUIRegion> regions = presenter.getActiveRegions();
+        if (regions == null || regions.size() > 1)
         {
           infoPanel.clearDisplay();
+          return;
+        }
+
+        if (regions.size() == 1)
+        {
+          infoPanel.displayGUIRegion(regions.get(0));
         }
         else
         {
-          infoPanel.displayGUIRegion(region);
+          infoPanel.displayAllGUIRegions(regions);
         }
+
+
+
       }
     };
     presenter.addObserver(observer);

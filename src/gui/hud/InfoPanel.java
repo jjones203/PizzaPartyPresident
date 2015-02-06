@@ -9,11 +9,12 @@ import model.RegionAttributes;
 import testing.generators.AttributeGenerator;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Area;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
 import static gui.ColorsAndFonts.BAR_GRAPH_NEG;
 import static model.RegionAttributes.PLANTING_ATTRIBUTES;
@@ -36,7 +37,7 @@ public class InfoPanel extends JPanel
     cropStatPane = new StatPane("CROPS:");
 
     //config
-    this.setLayout(new GridLayout(1,3));
+    this.setLayout(new GridLayout(1, 3));
     this.setMinimumSize(size);
     this.setPreferredSize(size);
 
@@ -80,7 +81,8 @@ public class InfoPanel extends JPanel
   /**
    * Controls the presentation logic of building up the crop percentages section
    * of the GUI info pane.
-   * @param atts  data that will be extracted and displayed.
+   *
+   * @param atts     data that will be extracted and displayed.
    * @param statPane GUI element to 'write' to.
    */
   private void diplayCropState(RegionAttributes atts, StatPane statPane)
@@ -89,9 +91,9 @@ public class InfoPanel extends JPanel
     {
       BarPanel bp = new BarPanel(
         BAR_GRAPH_NEG,
-          atts.getCropP(cropName),
-          cropName,
-          "%" + String.format("%.2f", atts.getCropP(cropName) * 100)
+        atts.getCropP(cropName),
+        cropName,
+        "%" + String.format("%.2f", atts.getCropP(cropName) * 100)
       );
       statPane.addBar(bp);
     }
@@ -101,7 +103,8 @@ public class InfoPanel extends JPanel
   /**
    * Controls the presentation logic for displaying the the soil attributes
    * in the info panel for the specified region.
-   * @param atts Attribute set to be displayed.
+   *
+   * @param atts     Attribute set to be displayed.
    * @param statPane GUI element to 'write' to.
    */
   private void displayAttributes(RegionAttributes atts, StatPane statPane)
@@ -132,7 +135,7 @@ public class InfoPanel extends JPanel
       case PLANTING_ZONE:
         barColor = PlantingZoneView.getPlantingColor(attributesSet.getAttribute(att));
         ratio = FULL_BAR;
-        secondaryLabel = "ZONE: "+(int)(double) attributesSet.getAttribute(att);
+        secondaryLabel = "ZONE: " + (int) (double) attributesSet.getAttribute(att);
         break;
 
       case PROFIT_FROM_CROPS:
@@ -160,7 +163,7 @@ public class InfoPanel extends JPanel
         break;
 
       case POPULATION:
-        secondaryLabel = "" + (int)(double) attributesSet.getAttribute(att);
+        secondaryLabel = "" + (int) (double) attributesSet.getAttribute(att);
         break;
 
       case AVE_MONTH_TEMP_HI:
@@ -192,10 +195,22 @@ public class InfoPanel extends JPanel
 
   private String getHappyLabel(double ratio)
   {
-    if (ratio < 0.25)      return "DESPONDENT";
-    else if (ratio < 0.5)  return "UNHAPPY";
-    else if (ratio < 0.75) return "HAPPY";
-    else                   return "ECSTATIC";
+    if (ratio < 0.25)
+    {
+      return "DESPONDENT";
+    }
+    else if (ratio < 0.5)
+    {
+      return "UNHAPPY";
+    }
+    else if (ratio < 0.75)
+    {
+      return "HAPPY";
+    }
+    else
+    {
+      return "ECSTATIC";
+    }
   }
 
   private Color getHappyColor(double ratio)
@@ -214,6 +229,7 @@ public class InfoPanel extends JPanel
   /**
    * FOR TESTING ONLY
    * todo remove when done!
+   *
    * @param args
    */
   public static void main(String[] args)
@@ -265,4 +281,15 @@ public class InfoPanel extends JPanel
   }
 
 
+  public void displayAllGUIRegions(List<GUIRegion> regions)
+  {
+    Area sumArea = new Area();
+    for (GUIRegion r : regions)
+    {
+      sumArea.add(r.getArea());
+    }
+
+    drawArea(sumArea);
+    setTitle("SUMMATION OF REGIONS");
+  }
 }

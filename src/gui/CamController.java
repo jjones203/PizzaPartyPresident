@@ -129,7 +129,7 @@ public class CamController
     }
     else
     {
-      worldPresenter.singleClickAt(mapClick.getX(), mapClick.getY());
+      worldPresenter.singleClickAt(mapClick.getX(), mapClick.getY(), cam);
     }
   }
 
