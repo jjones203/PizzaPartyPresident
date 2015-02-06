@@ -1,5 +1,7 @@
 package model;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,10 +31,83 @@ public class  RegionAttributes
   }
 
 
+  private HashMap<PLANTING_ATTRIBUTES, Double> attSet = new HashMap<>();
+
+  private HashMap<String, Double> crops = new HashMap<>();
+  public Double getAttribute(PLANTING_ATTRIBUTES att)
+  {
+    return attSet.get(att);
+  }
+
+  public void setAttribute(PLANTING_ATTRIBUTES att, double x)
+  {
+    attSet.put(att, x);
+  }
+
+
+  /**
+   Set crop growth by name
+   @param name  name of crop
+   @param amount  amount of crop grown, units arbitrary
+   */
+  public void setCrop(String name, double amount)
+  {
+    crops.put(name, amount);
+  }
+
+  /**
+   Get crop percentage by name
+   @param name
+   @return
+   */
+  public double getCropP(String name)
+  {
+    if(!crops.containsKey(name)) return 0;
+    
+    double totalCrops = 0;
+    for(String crop : crops.keySet())
+    {
+      totalCrops += crops.get(crop);
+    }
+    return crops.get(name)/totalCrops;
+  }
+
+  /**
+   Get crop growth by name
+   @param name
+   @return
+   */
+  public double getCropGrowth(String name)
+  {
+    if(!crops.containsKey(name)) return 0;
+    return crops.get(name);
+  }
+
+  
+  public Collection<String> getAllCrops()
+  {
+    return crops.keySet();
+  }
+
+  
+  @Override
+  public String toString()
+  {
+    return "RegionAttributes{" +
+        "attSet=" + attSet +
+        ", crops=" + crops +
+        '}';
+  }
+
+
+  /**
+   enum describing a set of potential planting-related attributes a region
+   might have.
+   */
   public enum PLANTING_ATTRIBUTES
   {
     PLANTING_ZONE("Planting Zone"),
-//    PERCENTAGE_CROPS, // this is a complex value?
+    //    PERCENTAGE_CROPS, // this is a complex value?
     ANNUAL_RAINFALL("Annual Rainfall"),
     MONTHLY_RAINFALL("Monthly Rainfall"),
     AVE_MONTH_TEMP_HI("Average Month High temp"),
@@ -57,75 +132,6 @@ public class  RegionAttributes
     {
       return prettyPrint;
     }
-  }
-
-  private HashMap<PLANTING_ATTRIBUTES, Double> attSet = new HashMap<>();
-  private HashMap<String, Double> crops = new HashMap<>();
-
-  public Double getAttribute(PLANTING_ATTRIBUTES att)
-  {
-    return attSet.get(att);
-  }
-
-  public void setAttribute(PLANTING_ATTRIBUTES att, double x)
-  {
-    attSet.put(att, x);
-  }
-
-  public void addCrop(String name, double percentage)
-  {
-    crops.put(name, percentage);
-  }
-
-  public Double getCropP(String name)
-  {
-    Double res = crops.get(name);
-    return res;
-  }
-
-
-  public Collection<String> getAllCrops()
-  {
-    return crops.keySet();
-  }
-
-  @Deprecated
-  public Map<String, Double> getAllCropsPercentage()
-  {
-    return new HashMap<>(crops); // to keep things safe?
-  }
-
-
-  @Override
-  public String toString()
-  {
-    return "RegionAttributes{" +
-        "attSet=" + attSet +
-        ", crops=" + crops +
-        '}';
-  }
-
-  public static void main(String[] args)
-  {
-    RegionAttributes atts = new RegionAttributes();
-    atts.setAttribute(PLANTING_ATTRIBUTES.ANNUAL_RAINFALL, 34);
-
-    System.out.println(atts.getAttribute(PLANTING_ATTRIBUTES.ANNUAL_RAINFALL));
-    System.out.println(atts.getAttribute(PLANTING_ATTRIBUTES.COST_OF_CROPS));
-
-    atts.addCrop("corn", 45.0);
-    atts.addCrop("Guinness", 55);
-
-    System.out.println(atts.getCropP("corn"));
-
-    for (String name : atts.getAllCropsPercentage().keySet())
-    {
-      double p = atts.getCropP(name);
-      System.out.println(name + " at %" + p);
-    }
-
-    System.out.println(atts);
-
   }
 
 }

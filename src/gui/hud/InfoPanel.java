@@ -234,15 +234,15 @@ public class InfoPanel extends JPanel
    */
   public static void main(String[] args)
   {
+    
     long seed = 442;
     final Random random = new Random();
-    final AttributeGenerator randoAtts = new AttributeGenerator(random);
+    final AttributeGenerator randoAtts = new AttributeGenerator();
 
     final java.util.List<Region> testlist = (java.util.List<Region>) KMLParser.getRegionsFromFile("resources/ne_50m_admin_1_states_provinces_lakes.kml");
     Collections.shuffle(testlist, random);
 
     Region firstRegion = testlist.get(0);
-    firstRegion.setAttributes(randoAtts.nextAttributeSet());
     System.out.println("regoins name: " + firstRegion);
     GUIRegion testRegion = new GUIRegion(firstRegion, new EquirectangularConverter(), null);
 
@@ -273,7 +273,6 @@ public class InfoPanel extends JPanel
       public void actionPerformed(ActionEvent e)
       {
         Region region = testlist.remove(0);
-        region.setAttributes(randoAtts.nextAttributeSet());
         GUIRegion guiRegion = new GUIRegion(region, new EquirectangularConverter(), null);
         infoPanel.displayGUIRegion(guiRegion);
       }

@@ -1,12 +1,15 @@
 package testing.generators;
 
+import model.AtomicRegion;
 import model.MapPoint;
 import model.Region;
 import model.RegionAttributes;
 import static model.RegionAttributes.*;
 import static model.RegionAttributes.PLANTING_ATTRIBUTES.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -20,43 +23,19 @@ import java.util.Random;
 public class AttributeGenerator
 {
   
-
-  public int nonPosCount = 0;
+  /* arbitrary */
+  private static final double CROP_UNIT_LIMIT = 2000;
+  
   private String[] crops = {
       "corn", "wheat", "grapeNuts",
 //      "coffee", "bread", "pudding",
 //      "scones with chocolate chips",
-//      "anti-rasins", "apple sauce", "Soylent green",
+      "anti-rasins", "apple sauce", "Soylent green",
       "Soylent blue",
   };
-  private Random rand;
-
-  public AttributeGenerator()
-  {
-    this(new Random());
-  }
-
-  public AttributeGenerator(Random rand)
-  {
-    this.rand = rand;
-  }
-
-  public RegionAttributes nextAttributeSet()
-  {
-    RegionAttributes atts = new RegionAttributes();
-
-    for (PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
-    {
-      atts.setAttribute(att, rand.nextDouble() * 20);
-    }
-
-    for (String crop : crops)
-    {
-      atts.addCrop(crop, 1.0 / crops.length);
-    }
-    return atts;
-  }
   
+  
+
   public void setRegionAttributes(Region reg, Random rand)
   {
     RegionAttributes attribs = new RegionAttributes();
@@ -89,7 +68,20 @@ public class AttributeGenerator
           attribs.setAttribute(att, rand.nextDouble());
       }
     }
+    
+    setCrops(reg, attribs, rand);
     reg.setAttributes(attribs);
+  }
+
+  /*
+    Randomly generating crop growth for a region
+   */
+  private void setCrops(Region reg, RegionAttributes attribs, Random rand)
+  {
+    for(String crop : crops)
+    {
+      attribs.setCrop(crop, genPosGaussian(rand, CROP_UNIT_LIMIT));
+    }
   }
 
   /*
@@ -134,16 +126,7 @@ public class AttributeGenerator
     return zone;
   }
 
-
-  public static void main(String[] args)
-  {
-    long seed = 45;
-    AttributeGenerator attGen = new AttributeGenerator(new Random(seed));
-
-    System.out.println(attGen.nextAttributeSet());
-    System.out.println(attGen.nextAttributeSet());
-  }
-
+  
   public static void stepAttributes(Random random, Collection<Region> world)
   {
     for (Region r : world) mutateAtts(r.getAttributes(), random);
@@ -162,7 +145,31 @@ public class AttributeGenerator
       attributes.setAttribute(att, attVal);
     }
     
+    for(String crop : attributes.getAllCrops())
+    {
+      attVal = attributes.getCropGrowth(crop);
+      change = random.nextGaussian() * differential;
+      attVal = Math.max(0, Math.min(CROP_UNIT_LIMIT, attVal + change));
+      attributes.setCrop(crop, attVal);
+    }
   }
 
 
+  /**
+   
+   Removed original and built this in case we need to do testing on a single  set of
+   attributes.  Shouldn't need it anymore though.
+   
+   @deprecated
+   @return
+   */
+  public RegionAttributes nextAttributeSet()
+  {
+    Region r = new AtomicRegion();
+    List<MapPoint> pointList = new ArrayList<>();
+    pointList.add(new MapPoint(0,0));
+    r.setPerimeter(pointList);
+    setRegionAttributes(r, new Random());
+    return r.getAttributes();
+  }
 }

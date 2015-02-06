@@ -125,7 +125,7 @@ public class StatPane extends JPanel
     final StatPane stats = new StatPane("CROPS:");
 
     Random random = new Random();
-    RegionAttributes atts = new AttributeGenerator(random).nextAttributeSet();
+    RegionAttributes atts = new AttributeGenerator().nextAttributeSet();
 
     for (String s : atts.getAllCrops())
     {

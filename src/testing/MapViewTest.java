@@ -37,7 +37,7 @@ public class MapViewTest extends JPanel
 
   public static void main(String[] args)
   {
-    AttributeGenerator randoAtts = new AttributeGenerator(new Random());
+    AttributeGenerator randoAtts = new AttributeGenerator();
     final MapViewTest canvas = new MapViewTest();
     MapConverter mapConverter = new EquirectangularConverter();
 

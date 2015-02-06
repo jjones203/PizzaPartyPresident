@@ -30,7 +30,7 @@ public class MapPaneTest
   {
 
     Random random = new Random(234);
-    AttributeGenerator randoAtts = new AttributeGenerator(random);
+    AttributeGenerator randoAtts = new AttributeGenerator();
 
     Collection<Region> backgroundRegions = KMLParser.getRegionsFromFile("resources/countries_world.xml");
 
