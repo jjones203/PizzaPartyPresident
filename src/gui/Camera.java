@@ -308,8 +308,8 @@ public class Camera extends JPanel
    */
   public CAM_DISTANCE getDistance()
   {
-    if (height < 6) return CAM_DISTANCE.CLOSE_UP;
-    if (height < 8) return CAM_DISTANCE.MEDIUM;
+    if (height < 5) return CAM_DISTANCE.CLOSE_UP;
+    if (height < 9) return CAM_DISTANCE.MEDIUM;
     return CAM_DISTANCE.LONG;
   }
 

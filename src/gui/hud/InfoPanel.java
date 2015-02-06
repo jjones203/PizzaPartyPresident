@@ -110,7 +110,7 @@ public class InfoPanel extends JPanel
 
     String Primarylable = att.toString();
     Color barColor = ColorsAndFonts.BAR_GRAPH_NEG;
-    double ratio = attributesSet.getAttribute(att) / 20;
+    double ratio = attributesSet.getAttribute(att);
     String secondaryLable = String.format("%.2f", attributesSet.getAttribute(att));
 
     switch (att)
@@ -121,6 +121,11 @@ public class InfoPanel extends JPanel
         secondaryLable = "ZONE: " + (int) (double) attributesSet.getAttribute(att);
         break;
 
+      case PROFIT_FROM_CROPS:
+        barColor = Color.green;
+        secondaryLable = "$" + secondaryLable;
+        break;
+
       case COST_OF_CROPS:
         barColor = Color.red;
         secondaryLable = "$" + secondaryLable;
@@ -129,7 +134,8 @@ public class InfoPanel extends JPanel
       case HAPPINESS:
         boolean unhappy = ratio < 0.5;
         barColor = unhappy ? Color.red : ColorsAndFonts.BAR_GRAPH_NEG;
-//        secondaryLable = unhappy ? "unhappy" : "happy";
+        secondaryLable = unhappy ?
+          (ratio < 0.25 ? "DESPOMDENT" : "GLOOMY" ) : (ratio > .75 ? "ECSTATIC" : "CONTENT");
         break;
 
       case ANNUAL_RAINFALL:
@@ -159,6 +165,15 @@ public class InfoPanel extends JPanel
         secondaryLable = secondaryLable + " F";
         barColor = ColorsAndFonts.BAR_GRAPH_NEG;
         break;
+
+      case ELEVATION:
+        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
+        secondaryLable = secondaryLable + " ft.";
+        break;
+
+      case SOIL_TYPE:
+        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
+        secondaryLable += " ph";
 
       default:
         // no nothing fall back on the above default values.
