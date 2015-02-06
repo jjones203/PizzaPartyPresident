@@ -22,6 +22,8 @@ import java.util.Random;
 public class AttributeGenerator
 {
   
+
+  
   private String[] crops = {
       "corn", "wheat", "grapeNuts",
 //      "coffee", "bread", "pudding",
@@ -94,6 +96,7 @@ public class AttributeGenerator
 
   private void setPlantingZoneAttribute(Region reg, RegionAttributes attribs, Random rand)
   {
+    
 
   }
 

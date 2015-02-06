@@ -7,9 +7,6 @@ import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 /**
  @author david
@@ -143,14 +140,15 @@ public class MapPane extends JPanel
 
   private void drawDragRect(Graphics2D g2)
   {
-    g2.setColor(ColorsAndFonts.ACTIVE_REGION_OUTLINE);
+    g2.setColor(ColorsAndFonts.SELEECT_RECT_OUTLINE);
     g2.draw(dragRect);
+    g2.setColor(ColorsAndFonts.SELECT_RECT_FILL);
+    g2.fill(dragRect);
   }
 
 
   public void update()
   {
-
     if (isDOWNdepressed && isSHIFTdepressed)
     {
       cam.zoomOut(ZOOM_STEP);

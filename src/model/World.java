@@ -5,6 +5,7 @@ import testing.generators.AttributeGenerator;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Random;
 
 /**
  * Created by winston on 1/23/15.
