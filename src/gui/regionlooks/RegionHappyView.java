@@ -27,12 +27,11 @@ class RegionHappyView implements RegionView
   {
     if (gRegion == null || gRegion.getRegion().getAttributes() == null)
     {
-      System.err.println("(!)GUIREGION or attribut set is null!");
+      System.err.println("(!) GUI REGION or attribut set is null!");
       return;
     }
 
     Color color;
-
     if (gRegion.isActive())
     {
       color = ColorsAndFonts.ACTIVE_REGION;
@@ -40,7 +39,7 @@ class RegionHappyView implements RegionView
     else
     {
       double happinessLevel = gRegion.getRegion().getAttributes()
-                                .getAttribute(HAPPINESS);
+                                                 .getAttribute(HAPPINESS);
 
       color = new Color((float)happinessLevel, (float)happinessLevel, 0.0f);
     }
