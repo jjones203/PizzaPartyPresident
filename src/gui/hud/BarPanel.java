@@ -17,8 +17,12 @@ public class BarPanel extends JPanel
   private static final Font GUI_FONT = ColorsAndFonts.GUI_FONT;
   private static final Font OVERLAY_FONT = new Font("SansSerif", Font.PLAIN, 10);
 
+  private static final Color BAR_TEXT_C = Color.black;
+  public static final Color TEXT_ROLLOVER_C = Color.white;
+  public static final Color BAR_ROLLOVER_C = Color.gray;
+
   private final Color originalBarColor;
-  private Color overLayColor;
+  private Color overLayTextColor;
   private Color barColor;
   private final JLabel label;
   private final double ratio;
@@ -54,7 +58,7 @@ public class BarPanel extends JPanel
     //init
     this.originalBarColor = barColor;
     this.barColor = barColor;
-    this.overLayColor = Color.black;
+    this.overLayTextColor = BAR_TEXT_C;
     this.ratio = ratio;
     this.overLayText = overLayText;
 
@@ -98,15 +102,15 @@ public class BarPanel extends JPanel
       @Override
       public void mouseEntered(MouseEvent e)
       {
-        overLayColor = Color.white;
-        barColor = Color.gray;
-        label.setForeground(Color.white);
+        overLayTextColor = TEXT_ROLLOVER_C;
+        barColor = BAR_ROLLOVER_C;
+        label.setForeground(TEXT_ROLLOVER_C);
       }
 
       @Override
       public void mouseExited(MouseEvent e)
       {
-        overLayColor = Color.black;
+        overLayTextColor = BAR_TEXT_C;
         barColor = originalBarColor;
         label.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
       }
@@ -137,10 +141,10 @@ public class BarPanel extends JPanel
         if (overLayText != null)
         {
           ((Graphics2D) g).setRenderingHint(
-              RenderingHints.KEY_TEXT_ANTIALIASING,
-              RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            RenderingHints.KEY_TEXT_ANTIALIASING,
+            RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-          g.setColor(overLayColor);
+          g.setColor(overLayTextColor);
           g.setFont(OVERLAY_FONT);
           g.drawString(overLayText, 12, 12);
         }
