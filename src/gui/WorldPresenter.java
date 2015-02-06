@@ -103,10 +103,16 @@ public class WorldPresenter extends Observable
    *
    * @param rect bounding rectangle for selection
    */
-  public void selectAll(Rectangle2D rect)
+  public void selectAll(Rectangle2D rect, Camera camera)
   {
+    Collection<GUIRegion> regionsInView = getIntersectingRegions(rect, getRegionsInview(camera));
+
+    activeRegions.getList().retainAll(regionsInView);
+
+    if (activeRegions.getList().containsAll(regionsInView)) return;
+
     activeRegions.clear();
-    for (GUIRegion r : getIntersectingRegions(rect, modelRegions))
+    for (GUIRegion r : regionsInView)
     {
       activeRegions.add(r);
     }
@@ -122,9 +128,9 @@ public class WorldPresenter extends Observable
    * @param x x coord of click
    * @param y y coord of click
    */
-  public void singleClickAt(double x, double y)
+  public void singleClickAt(double x, double y, Camera camera)
   {
-    for (GUIRegion guir : getModelRegions())
+    for (GUIRegion guir : getRegionsInview(camera))
     {
       if (guir.getPoly().contains(x, y))
       {
@@ -151,9 +157,9 @@ public class WorldPresenter extends Observable
    * @param x x coord.
    * @param y y coord.
    */
-  public void appendClickAt(double x, double y)
+  public void appendClickAt(double x, double y, Camera camera)
   {
-    for (GUIRegion guir : getModelRegions())
+    for (GUIRegion guir : getRegionsInview(camera))
     {
       if (guir.getPoly().contains(x, y))
       {
@@ -282,15 +288,15 @@ public class WorldPresenter extends Observable
     return sum;
   }
 
-  public GUIRegion getActiveRegion()
+  public List<GUIRegion> getActiveRegions()
   {
-    if (activeRegions.isEmpty() || activeRegions.size() > 1)
+    if (activeRegions.isEmpty())
     {
       return null;
     }
     else
     {
-      return activeRegions.get(0);
+      return activeRegions.getList();
     }
   }
 
@@ -367,6 +373,10 @@ public class WorldPresenter extends Observable
       notifyObservers();
     }
 
+    public List<GUIRegion> getList()
+    {
+      return new ArrayList<>(activeRegions);
+    }
 
     public GUIRegion remove(GUIRegion region)
     {

@@ -233,7 +233,7 @@ public class MapPane extends JPanel
     }
     else
     {
-      presenter.singleClickAt(mapClick.getX(), mapClick.getY());
+      presenter.singleClickAt(mapClick.getX(), mapClick.getY(), cam);
     }
   }
 
@@ -294,7 +294,7 @@ public class MapPane extends JPanel
       Point2D p1 = convertToMapSpace(multiSelectFrom);
       Point2D p2 = convertToMapSpace(e.getPoint());
       dragRect = rectFromCornerPoints(multiSelectFrom, e.getPoint());
-      presenter.selectAll(rectFromCornerPoints(p1, p2));
+      presenter.selectAll(rectFromCornerPoints(p1, p2), cam);
     }
     else
     {
