@@ -39,16 +39,10 @@ class RegionHappyView implements RegionView
     }
     else
     {
-      double happinessLevel = gRegion.getRegion()
-                                .getAttributes()
+      double happinessLevel = gRegion.getRegion().getAttributes()
                                 .getAttribute(HAPPINESS);
 
-      // rough scaling factor => ColorSpace/ValueSpace
-      double scalingFactor = 12.75;
-      happinessLevel = happinessLevel * scalingFactor;
-
-      int colorVal = Math.abs((int) happinessLevel) % 254;
-      color = new Color(colorVal, colorVal, 0);
+      color = new Color((float)happinessLevel, (float)happinessLevel, 0.0f);
     }
 
     g.setColor(color);
@@ -56,8 +50,5 @@ class RegionHappyView implements RegionView
 
     g.setColor(ColorsAndFonts.PASSIVE_REGION_OUTLINE);
     g.drawPolygon(gRegion.getPoly());
-
-//    System.out.println("scale taken from transform: " + ((Graphics2D)g).getTransform().getScaleX());
-
   }
 }
