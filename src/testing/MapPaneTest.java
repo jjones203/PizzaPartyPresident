@@ -75,7 +75,7 @@ public class MapPaneTest
       public void update(Observable o, Object arg)
       {
         java.util.List<GUIRegion> regions = presenter.getActiveRegions();
-        if (regions == null)
+        if (regions == null || regions.size() > 1)
         {
           infoPanel.clearDisplay();
           return;
