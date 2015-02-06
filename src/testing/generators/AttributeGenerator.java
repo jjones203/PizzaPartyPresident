@@ -3,7 +3,7 @@ package testing.generators;
 import model.MapPoint;
 import model.Region;
 import model.RegionAttributes;
-import model.RegionAttributes.PLANTING_ATTRIBUTES;
+import static model.RegionAttributes.*;
 import static model.RegionAttributes.PLANTING_ATTRIBUTES.*;
 
 import java.util.Collection;
@@ -66,15 +66,19 @@ public class AttributeGenerator
       switch(att)
       {
         case PLANTING_ZONE:
-          setPlantingZoneAttribute(reg, attribs, rand);
+          attribs.setAttribute(att, genPlantZone(reg));
           break;
         case ANNUAL_RAINFALL:
+          attribs.setAttribute(att, LIMITS.get(ANNUAL_RAINFALL) * rand.nextDouble());
           break;
         case AVE_MONTH_TEMP_HI:
+          attribs.setAttribute(att, genHiTemp(reg, rand));
           break;
         case AVE_MONTH_TEMP_LO:
+          attribs.setAttribute(att, genLowTemp(reg, rand));
           break;
         case COST_OF_CROPS:
+          
           break;
         case ELEVATION:
           break;
@@ -92,7 +96,20 @@ public class AttributeGenerator
     }
   }
 
-  private void setPlantingZoneAttribute(Region reg, RegionAttributes attribs, Random rand)
+  private double genHiTemp(Region reg, Random rand)
+  {
+    return genLowTemp(reg, rand) + 20 + rand.nextDouble() * 5;
+  }
+
+  private double genLowTemp(Region reg, Random rand)
+  {
+    double baseTemp = -65;
+    double zoneTempDiff = 10;
+    return genPlantZone(reg) * zoneTempDiff
+      + rand.nextDouble() * zoneTempDiff - zoneTempDiff/2 + baseTemp;
+  }
+
+  private double genPlantZone(Region reg)
   {
     int numZones = 13;
     double midLat = 0;
@@ -103,9 +120,8 @@ public class AttributeGenerator
     
     midLat += 90; /* shift to bring into natural number land */
     
-    double zone =  midLat / (180.0/numZones) + rand.nextDouble() * 1.2 - .6;
-    
-    attribs.setAttribute(PLANTING_ZONE, zone);
+    double zone =  Math.ceil(midLat / (180.0/numZones));
+    return zone;
   }
 
 

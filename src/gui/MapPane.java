@@ -2,7 +2,6 @@ package gui;
 
 import gui.regionlooks.RegionViewFactory;
 
-import javax.security.auth.kerberos.KerberosTicket;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
@@ -44,6 +43,7 @@ public class MapPane extends JPanel
   private WorldPresenter presenter;
   private Camera cam;
   private Point2D dragFrom;
+  
   private boolean doMultiSelect;
 
   // for key binding
@@ -65,6 +65,7 @@ public class MapPane extends JPanel
     }
   };
 
+
   private Action plantingZoneOverlay = new AbstractAction()
   {
     @Override
@@ -73,8 +74,6 @@ public class MapPane extends JPanel
       presenter.setCurrentOverlay(RegionViewFactory.Overlay.PLANTING_ZONE);
     }
   };
-
-
   // test key binding
   private  Action stepWorld = new AbstractAction()
   {
@@ -99,7 +98,7 @@ public class MapPane extends JPanel
     addMouseWheelListener(this);
     addMouseMotionListener(this);
     addKeyListener(this);
-    setBackground(ColorsAndFonts.OCEANS);
+//    setBackground(ColorsAndFonts.OCEANS);
 
     /* todo: sizing generalization */
     setPreferredSize(new Dimension(1000,500));
@@ -118,7 +117,6 @@ public class MapPane extends JPanel
 
     getInputMap().put(KeyStroke.getKeyStroke("4"), "step");
     getActionMap().put("step", stepWorld);
-
   }
   
 
@@ -126,6 +124,8 @@ public class MapPane extends JPanel
   protected void paintComponent(Graphics g)
   {
   
+    super.paintComponent(g);
+
     Graphics2D g2 = (Graphics2D) g;
     g2.setTransform(cam.getTransform());
 
@@ -135,7 +135,6 @@ public class MapPane extends JPanel
     {
       g2.setTransform(new AffineTransform());/* reset transform!! */
       drawDragRect(g2);
-      
     }
   }
 
@@ -153,17 +152,16 @@ public class MapPane extends JPanel
     if (isDOWNdepressed && isSHIFTdepressed)
     {
       cam.zoomOut(ZOOM_STEP);
-      return;
     }
-    if (isUPdepressed && isSHIFTdepressed)
+    else if (isUPdepressed && isSHIFTdepressed)
     {
       cam.zoomIn(ZOOM_STEP);
-      return;
     }
-    if (isDOWNdepressed) cam.translateRelativeToView(0, CAMERA_STEP);
-    if (isUPdepressed) cam.translateRelativeToView(0, -CAMERA_STEP);
-    if (isLEFTdepressed) cam.translateRelativeToView(-CAMERA_STEP, 0);
-    if (isRIGHTdepressed) cam.translateRelativeToView(CAMERA_STEP, 0);
+    else if (isDOWNdepressed) cam.translateRelativeToView(0, CAMERA_STEP);
+    else if (isUPdepressed) cam.translateRelativeToView(0, -CAMERA_STEP);
+    else if (isLEFTdepressed) cam.translateRelativeToView(-CAMERA_STEP, 0);
+    else if (isRIGHTdepressed) cam.translateRelativeToView(CAMERA_STEP, 0);
+    else return;
   }
 
 
@@ -305,7 +303,7 @@ public class MapPane extends JPanel
       cam.translateRelativeToView(dx, dy);
       dragFrom = e.getPoint();
     }
-    
+
   }
 
 
