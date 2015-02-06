@@ -12,6 +12,13 @@ import java.util.Map;
 public class  RegionAttributes
 {
 
+  public static Map<PLANTING_ATTRIBUTES, Double> LIMITS = new HashMap<>();
+  static
+  {
+    LIMITS.put(PLANTING_ATTRIBUTES.ANNUAL_RAINFALL, 460.0);
+  }
+
+
   public enum PLANTING_ATTRIBUTES
   {
     PLANTING_ZONE("Planting Zone"),

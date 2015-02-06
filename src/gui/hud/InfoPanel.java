@@ -109,7 +109,7 @@ public class InfoPanel extends JPanel
 
     String Primarylable = att.toString();
     Color barColor = Color.cyan;
-    double ratio = attributesSet.getAttribute(att) / 20; // magic number from ramdom number generation
+    double ratio = attributesSet.getAttribute(att) / 20;
     String secondaryLable = String.format("%.2f", ratio);
 
     switch (att)
@@ -128,7 +128,12 @@ public class InfoPanel extends JPanel
       case HAPPINESS:
         boolean unhappy = ratio < 0.5;
         barColor = unhappy ? Color.red : Color.cyan;
-        secondaryLable = unhappy ? "unhappy" : "happy";
+//        secondaryLable = unhappy ? "unhappy" : "happy";
+        break;
+
+      case ANNUAL_RAINFALL:
+        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
+        secondaryLable = secondaryLable + " in.";
 
       default:
         // no nothing fall back on the above default values.
@@ -136,12 +141,7 @@ public class InfoPanel extends JPanel
 
     }
 
-    return new BarPanel(
-            barColor,
-            ratio,
-            Primarylable,
-            secondaryLable
-        );
+    return new BarPanel(barColor, ratio, Primarylable, secondaryLable);
   }
 
   public void clearDisplay()
