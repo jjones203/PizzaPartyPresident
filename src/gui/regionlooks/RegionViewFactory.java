@@ -14,10 +14,9 @@ public class RegionViewFactory
 
   /* view currently correspond to camera angles */
   private final static RegionView DEFAULT_LOOK = new defaultLook();
-  private final static RegionView DEFAULT_WITH_NAME = new RegionNameView(DEFAULT_LOOK, 800);
   private final static RegionView PLANTING_VIEW = new PlantingZoneView();
   private final static RegionView HAPPINESS_VIEW = new RegionHappyView();
-  private final static RegionView HAPPINESS_WITH_NAME = new RegionNameView(HAPPINESS_VIEW, 700);
+  private final static RegionView HAPPINESS_WITH_NAME = new RegionNameView(HAPPINESS_VIEW);
   private Overlay currentOverlay;
 
 
@@ -49,6 +48,7 @@ public class RegionViewFactory
     switch (currentOverlay)
     {
       case PLANTING_ZONE:
+        if (distance == Camera.CAM_DISTANCE.CLOSE_UP) return new RegionNameView(PLANTING_VIEW);
         return PLANTING_VIEW;
 
       case HAPPINESS:
@@ -56,6 +56,7 @@ public class RegionViewFactory
         return HAPPINESS_VIEW;
 
       default:
+        if (distance == Camera.CAM_DISTANCE.CLOSE_UP) return new RegionNameView(DEFAULT_LOOK);
         return DEFAULT_LOOK;
     }
   }

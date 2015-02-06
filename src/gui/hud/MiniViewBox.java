@@ -132,7 +132,7 @@ public class MiniViewBox extends JPanel
           g2d.translate(xTranslate, yTranslate);
           g2d.scale(scaleValue, scaleValue);
 
-          g2d.setColor(ColorsAndFonts.ACTIVE_REGION);
+          g2d.setColor(ColorsAndFonts.MINI_BOX_REGION);
           g2d.fill(drawableArea);
         }
       }
