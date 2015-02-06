@@ -32,9 +32,13 @@ public interface ColorsAndFonts
 
   Color GUI_BACKGROUND = new Color(58, 56, 56);
   Color GUI_TEXT_COLOR = new Color(235, 235, 235);
+
   Font GUI_FONT = new Font("SansSerif", Font.PLAIN, 11);
   Font HUD_TITLE = new Font("SansSerif", Font.PLAIN, 14);
+  Font NAME_VIEW = new Font("SansSerif", Font.PLAIN, 400);
 
+
+  Color MINI_BOX_REGION = new Color(189, 185, 184);
 
   Color[] PlantingZoneColors = {
     new Color(0x36F03A),
