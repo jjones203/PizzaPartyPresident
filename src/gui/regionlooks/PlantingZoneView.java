@@ -1,5 +1,6 @@
 package gui.regionlooks;
 
+import gui.ColorsAndFonts;
 import gui.GUIRegion;
 import model.RegionAttributes;
 
@@ -7,30 +8,28 @@ import java.awt.*;
 
 /**
  * Created by winston on 2/5/15.
- *
+ * <p/>
  * Over lay view. Expresses the Planting zone in the below divergent color
  * spectrum.
  */
-class PlantingZoneView implements RegionView
+public class PlantingZoneView implements RegionView
 {
   // planting zone => 1 <= x <= 14
-  private Color[] PlantingColors = {
-      new Color(0xFBFF1E),
-      new Color(0x67001f),
-      new Color(0x67001f),
-      new Color(0x67001f),
-      new Color(0xb2182b),
-      new Color(0xd6604d),
-      new Color(0xf4a582),
-      new Color(0xfddbc7),
-      new Color(0xf7f7f7),
-      new Color(0xd1e5f0),
-      new Color(0x92c5de),
-      new Color(0x4393c3),
-      new Color(0x2166ac),
-      new Color(0x053061),
-      new Color(0x053061),
-  };
+  private static Color[] PlantingZoneColors = ColorsAndFonts.PlantingZoneColors;
+
+  public static Color getPlantingColor(double plantingValue)
+  {
+    try
+    {
+      return PlantingZoneColors[(int) plantingValue];
+    }
+    catch (Exception e)
+    {
+      System.err.println("BAD palnting zone value in region");
+//      e.printStackTrace();
+    }
+    return PlantingZoneColors[0];
+  }
 
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
@@ -39,7 +38,18 @@ class PlantingZoneView implements RegionView
         .getAttributes()
         .getAttribute(RegionAttributes.PLANTING_ATTRIBUTES.PLANTING_ZONE);
 
-    g.setColor(PlantingColors[(int) index]);
+
+    if (gRegion.isActive())
+    {
+      g.setColor(getPlantingColor(index).brighter());
+    }
+    else
+    {
+      g.setColor(getPlantingColor(index));
+    }
+
     g.fillPolygon(gRegion.getPoly());
+    g.setColor(ColorsAndFonts.PASSIVE_REGION_OUTLINE);
+    g.drawPolygon(gRegion.getPoly());
   }
 }

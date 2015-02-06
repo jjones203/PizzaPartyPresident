@@ -7,6 +7,7 @@ import model.RegionAttributes.PLANTING_ATTRIBUTES;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -105,4 +106,28 @@ public class AttributeGenerator
     System.out.println(attGen.nextAttributeSet());
     System.out.println(attGen.nextAttributeSet());
   }
+
+  public static void stepAttributes(Random random, Collection<Region> world)
+  {
+    for (Region r : world) mutateAtts(r.getAttributes(), random);
+  }
+
+  private static void mutateAtts(RegionAttributes attributes, Random random)
+  {
+    final double mutator = 0.10;
+    double tmpVal;
+
+    tmpVal = attributes.getAttribute(PLANTING_ATTRIBUTES.HAPPINESS);
+    attributes.setAttribute(
+      PLANTING_ATTRIBUTES.HAPPINESS,
+      tmpVal +=  tmpVal * (random.nextBoolean() ? -mutator: mutator));
+
+
+    tmpVal = attributes.getAttribute(PLANTING_ATTRIBUTES.POPULATION);
+    attributes.setAttribute(
+      PLANTING_ATTRIBUTES.POPULATION,
+      tmpVal +=  tmpVal * (random.nextBoolean() ? -mutator: mutator));
+  }
+
+
 }

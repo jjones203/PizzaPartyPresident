@@ -3,6 +3,7 @@ package gui;
 import gui.regionlooks.RegionView;
 import gui.regionlooks.RegionViewFactory;
 import model.Region;
+import model.World;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -27,6 +28,7 @@ public class WorldPresenter extends Observable
   private Collection<GUIRegion> modelRegions;
   private Collection<GUIRegion> backgroundRegions;
   private ActiveRegionList activeRegions;
+  private World world;
 
 
   private RegionViewFactory regionViewFactory;
@@ -40,6 +42,7 @@ public class WorldPresenter extends Observable
     this.regionViewFactory = new RegionViewFactory();
     this.activeRegions = new ActiveRegionList();
     this.lastDistance = CAM_DISTANCE.LONG;
+    this.world = new World();
   }
 
   /**
@@ -71,8 +74,9 @@ public class WorldPresenter extends Observable
    */
   public void setModelRegions(Collection<Region> regions)
   {
-    RegionView background = regionViewFactory.getLongView();
-    modelRegions = wrapRegions(regions, background);
+    RegionView backG = regionViewFactory.getViewFromDistance(CAM_DISTANCE.LONG);
+    modelRegions = wrapRegions(regions, backG);
+    world.setWorld(regions);
   }
 
   /*
@@ -189,19 +193,15 @@ public class WorldPresenter extends Observable
     switch (calcDistance(camera))
     {
       case CLOSE_UP:
-        // adds details region view to map only when the camera is close.
-        regionsInView = getIntersectingRegions(inViewBox, modelRegions); // over write background image set
-        setRegionLook(regionViewFactory.getCloseUpView(), regionsInView);
+        regionsInView = getIntersectingRegions(inViewBox, modelRegions);
         break;
 
       case MEDIUM:
         regionsInView = getIntersectingRegions(inViewBox, modelRegions);
-        setRegionLook(regionViewFactory.getMediumView(), regionsInView);
         break;
 
       case LONG:
         regionsInView = getIntersectingRegions(inViewBox, backgroundRegions);
-        setRegionLook(regionViewFactory.getLongView(), regionsInView);
         break;
 
       default:
@@ -209,13 +209,24 @@ public class WorldPresenter extends Observable
         System.exit(1);
     }
 
+    setRegionLook(regionViewFactory.getViewFromDistance(calcDistance(camera)), regionsInView);
     return regionsInView;
   }
 
-  /*
-   * sets the regions to the respective views as a
-   * function of their active state
+  /**
+   * Set the look of any Region View over lay.
+   *
+   * @param currentOverlay over lay to be displayed.
    */
+  public void setCurrentOverlay(RegionViewFactory.Overlay currentOverlay)
+  {
+    regionViewFactory.setCurrentOverlay(currentOverlay);
+  }
+
+  /*
+     * sets the regions to the respective views as a
+     * function of their active state
+     */
   private void setRegionLook(RegionView look, Collection<GUIRegion> guiRegions)
   {
     for (GUIRegion region : guiRegions)
@@ -281,6 +292,20 @@ public class WorldPresenter extends Observable
     {
       return activeRegions.get(0);
     }
+  }
+
+
+  /**
+   * advances the game world forward one month.
+   */
+  public void stepByMonth()
+  {
+    world.stepByMonth();
+  }
+
+  public Date getWorldDate()
+  {
+    return world.getCurrentDate().getTime();
   }
 
   /**

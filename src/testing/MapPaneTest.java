@@ -3,6 +3,7 @@ package testing;
 import IO.XMLparsers.KMLParser;
 import gui.*;
 import gui.hud.InfoPanel;
+import gui.regionlooks.RegionViewFactory;
 import model.Region;
 import model.World;
 import testing.generators.AttributeGenerator;
@@ -92,6 +93,7 @@ public class MapPaneTest
         infoPanel.repaint();
       }
     }).start();
+
   }
 
 }

@@ -3,6 +3,7 @@ package gui.hud;
 import IO.XMLparsers.KMLParser;
 import gui.EquirectangularConverter;
 import gui.GUIRegion;
+import gui.regionlooks.PlantingZoneView;
 import model.Region;
 import model.RegionAttributes;
 import testing.generators.AttributeGenerator;
@@ -10,9 +11,9 @@ import testing.generators.AttributeGenerator;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.geom.Area;
 import java.util.Collections;
 import java.util.Random;
+
 import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 
 /**
@@ -45,28 +46,30 @@ public class InfoPanel extends JPanel
 
   public void displayGUIRegion(GUIRegion region)
   {
-    System.out.println("region name: " + region.getName());
     miniViewBox.setTitle(region.getName());
     miniViewBox.setDrawableArea(region.getArea());
 
+    RegionAttributes attributes = region.getRegion().getAttributes();
+
     attributeStats.clearBarPlots();
-    displayAttributes(region, attributeStats);
+    displayAttributes(attributes, attributeStats);
     attributeStats.revalidate();
 
     cropStatPane.clearBarPlots();
-    diplayCropState(region, cropStatPane);
+    diplayCropState(attributes, cropStatPane);
     cropStatPane.revalidate();
   }
+
+
 
   /**
    * Controls the presentation logic of building up the crop percentages section
    * of the GUI info pane.
-   * @param region  data that will be extracted and displayed.
+   * @param atts  data that will be extracted and displayed.
    * @param statPane GUI element to 'write' to.
    */
-  private void diplayCropState(GUIRegion region, StatPane statPane)
+  private void diplayCropState(RegionAttributes atts, StatPane statPane)
   {
-    RegionAttributes atts = region.getRegion().getAttributes();
     for (String cropName : atts.getAllCrops())
     {
       BarPanel bp = new BarPanel(
@@ -83,29 +86,62 @@ public class InfoPanel extends JPanel
   /**
    * Controls the presentation logic for displaying the the soil attributes
    * in the info panel for the specified region.
-   * @param region to be displayed
+   * @param atts Attribute set to be displayed.
    * @param statPane GUI element to 'write' to.
    */
-  private void displayAttributes(GUIRegion region, StatPane statPane)
+  private void displayAttributes(RegionAttributes atts, StatPane statPane)
   {
-    RegionAttributes atts = region.getRegion().getAttributes();
-
     if (atts == null)
     {
-      System.err.println("atts for region " + region.getName() + "are null." );
+      System.err.println("atts for region are null.");
       return;
     }
 
     for (PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
     {
-      BarPanel bp = new BarPanel(
-          Color.cyan,
-          atts.getAttribute(att) / 20,
-          att.toString(),
-          String.format("%.2f", atts.getAttribute(att))
-      );
+      BarPanel bp = getBarPanel(atts, att);
       statPane.addBar(bp);
     }
+  }
+
+  private BarPanel getBarPanel(RegionAttributes attributesSet, PLANTING_ATTRIBUTES att)
+  {
+
+    String Primarylable = att.toString();
+    Color barColor = Color.cyan;
+    double ratio = attributesSet.getAttribute(att) / 20; // magic number from ramdom number generation
+    String secondaryLable = String.format("%.2f", ratio);
+
+    switch (att)
+    {
+      case PLANTING_ZONE:
+        barColor = PlantingZoneView.getPlantingColor(attributesSet.getAttribute(att));
+        ratio = 1;
+        secondaryLable = "ZONE: " + (int) (double) attributesSet.getAttribute(att);
+        break;
+
+      case COST_OF_CROPS:
+        barColor = Color.red;
+        secondaryLable = "$" + secondaryLable;
+        break;
+
+      case HAPPINESS:
+        boolean unhappy = ratio < 0.5;
+        barColor = unhappy ? Color.red : Color.cyan;
+        secondaryLable = unhappy ? "unhappy" : "happy";
+
+      default:
+        // no nothing fall back on the above default values.
+
+
+    }
+
+    return new BarPanel(
+            barColor,
+            ratio,
+            Primarylable,
+            secondaryLable
+        );
   }
 
   public void clearDisplay()
@@ -116,6 +152,11 @@ public class InfoPanel extends JPanel
     attributeStats.clearBarPlots();
   }
 
+  /**
+   * FOR TESTING ONLY
+   * todo remove when done!
+   * @param args
+   */
   public static void main(String[] args)
   {
     long seed = 442;

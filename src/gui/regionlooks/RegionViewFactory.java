@@ -1,12 +1,7 @@
 package gui.regionlooks;
 
-enum OVER_LAYS
-{
-  DEFAULT,
-  PLANTING_ZONE,
-  HAPPINESS,
-  MONTHLY_RAIL_FALL;
-}
+import gui.Camera;
+
 
 /**
  * Created by winston on 1/31/15.
@@ -16,25 +11,27 @@ enum OVER_LAYS
  */
 public class RegionViewFactory
 {
+
   /* view currently correspond to camera angles */
   private final static RegionView DEFAULT_LOOK = new defaultLook();
   private final static RegionView DEFAULT_WITH_NAME = new RegionNameView(DEFAULT_LOOK, 800);
+  private final static RegionView PLANTING_VIEW = new PlantingZoneView();
+  private final static RegionView HAPPINESS_VIEW = new RegionHappyView();
+  private final static RegionView HAPPINESS_WITH_NAME = new RegionNameView(HAPPINESS_VIEW, 700);
+  private Overlay currentOverlay;
 
-
-
-  private OVER_LAYS currentOverlay;
 
   public RegionViewFactory()
   {
-    this.currentOverlay = OVER_LAYS.DEFAULT;
+    this.currentOverlay = Overlay.NONE;
   }
 
-  public OVER_LAYS getCurrentOverlay()
+  public Overlay getCurrentOverlay()
   {
     return currentOverlay;
   }
 
-  public void setCurrentOverlay(OVER_LAYS currentOverlay)
+  public void setCurrentOverlay(Overlay currentOverlay)
   {
     this.currentOverlay = currentOverlay;
   }
@@ -44,18 +41,31 @@ public class RegionViewFactory
     return DEFAULT_LOOK;
   }
 
-  public RegionView getCloseUpView()
+
+  public RegionView getViewFromDistance(Camera.CAM_DISTANCE distance)
   {
-    return DEFAULT_WITH_NAME;
+    if (distance == Camera.CAM_DISTANCE.LONG) return DEFAULT_LOOK;
+
+    switch (currentOverlay)
+    {
+      case PLANTING_ZONE:
+        return PLANTING_VIEW;
+
+      case HAPPINESS:
+        if (distance == Camera.CAM_DISTANCE.CLOSE_UP) return HAPPINESS_WITH_NAME;
+        return HAPPINESS_VIEW;
+
+      default:
+        return DEFAULT_LOOK;
+    }
   }
 
-  public RegionView getMediumView()
-  {
-    return DEFAULT_LOOK;
-  }
 
-  public RegionView getLongView()
+  public enum Overlay
   {
-    return DEFAULT_LOOK;
+    NONE,
+    PLANTING_ZONE,
+    HAPPINESS,
+    MONTHLY_RAIL_FALL;
   }
 }

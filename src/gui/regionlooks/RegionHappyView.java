@@ -1,5 +1,6 @@
 package gui.regionlooks;
 
+import gui.ColorsAndFonts;
 import gui.GUIRegion;
 
 import java.awt.*;
@@ -10,33 +11,53 @@ import static model.RegionAttributes.PLANTING_ATTRIBUTES.HAPPINESS;
  * Created by winston on 1/27/15.
  * Phase_01
  * CS 351 spring 2015
- *
+ * <p/>
  * Represents the happiness index of the regions.
- *
- *
  */
 class RegionHappyView implements RegionView
 {
   /**
    * Method extracts happiness index from region and displays it.
+   *
    * @param g
    * @param gRegion
    */
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
   {
-    double happinessLevel = gRegion.getRegion()
-                                   .getAttributes()
-                                   .getAttribute(HAPPINESS);
+    if (gRegion == null || gRegion.getRegion().getAttributes() == null)
+    {
+      System.err.println("(!)GUIREGION or attribut set is null!");
+      return;
+    }
 
-    // rough scaling factor => ColorSpace/ValueSpace
-    double scalingFactor = 12.75;
-    happinessLevel = happinessLevel * scalingFactor;
+    Color color;
 
-    Color happyCollor = new Color((int) happinessLevel, (int)happinessLevel, 0);
+    if (gRegion.isActive())
+    {
+      color = ColorsAndFonts.ACTIVE_REGION;
+    }
+    else
+    {
+      double happinessLevel = gRegion.getRegion()
+                                .getAttributes()
+                                .getAttribute(HAPPINESS);
 
-    g.setColor(happyCollor);
+      // rough scaling factor => ColorSpace/ValueSpace
+      double scalingFactor = 12.75;
+      happinessLevel = happinessLevel * scalingFactor;
+
+      int colorVal = Math.abs((int) happinessLevel) % 254;
+      color = new Color(colorVal, colorVal, 0);
+    }
+
+    g.setColor(color);
     g.fillPolygon(gRegion.getPoly());
+
+    g.setColor(ColorsAndFonts.PASSIVE_REGION_OUTLINE);
+    g.drawPolygon(gRegion.getPoly());
+
+//    System.out.println("scale taken from transform: " + ((Graphics2D)g).getTransform().getScaleX());
 
   }
 }

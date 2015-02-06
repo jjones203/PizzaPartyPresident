@@ -1,5 +1,7 @@
 package gui;
 
+import gui.regionlooks.RegionViewFactory;
+
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
@@ -46,6 +48,45 @@ public class MapPane extends JPanel
   private Point2D dragFrom;
   private boolean doMultiSelect;
 
+  // for key binding
+  private Action happyOverlay = new AbstractAction()
+  {
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+      presenter.setCurrentOverlay(RegionViewFactory.Overlay.HAPPINESS);
+    }
+  };
+
+  private Action defaultOverlay = new AbstractAction()
+  {
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+      presenter.setCurrentOverlay(RegionViewFactory.Overlay.NONE);
+    }
+  };
+
+  private Action plantingZoneOverlay = new AbstractAction()
+  {
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+      presenter.setCurrentOverlay(RegionViewFactory.Overlay.PLANTING_ZONE);
+    }
+  };
+
+
+  // test key binding
+  private  Action stepWorld = new AbstractAction()
+  {
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+      presenter.stepByMonth();
+      System.out.println(presenter.getWorldDate());
+    }
+  };
 
   /**
    
@@ -66,7 +107,20 @@ public class MapPane extends JPanel
     setPreferredSize(new Dimension(1000,500));
     setSize(getPreferredSize());
     setDoubleBuffered(true);
-    
+
+    // set up keybindings.
+    getInputMap().put(KeyStroke.getKeyStroke("1"), "default");
+    getActionMap().put("default", defaultOverlay);
+
+    getInputMap().put(KeyStroke.getKeyStroke("2"), "happy");
+    getActionMap().put("happy", happyOverlay);
+
+    getInputMap().put(KeyStroke.getKeyStroke("3"), "planting");
+    getActionMap().put("planting", plantingZoneOverlay);
+
+    getInputMap().put(KeyStroke.getKeyStroke("4"), "step");
+    getActionMap().put("step", stepWorld);
+
   }
   
 
@@ -136,6 +190,8 @@ public class MapPane extends JPanel
         isSHIFTdepressed = true;
         break;
       default:
+//        System.out.println("unhandeled key press: " + e.getKeyCode());
+
     }
   }
 
