@@ -1,6 +1,7 @@
 package gui.hud;
 
 import IO.XMLparsers.KMLParser;
+import gui.ColorsAndFonts;
 import gui.EquirectangularConverter;
 import gui.GUIRegion;
 import gui.regionlooks.PlantingZoneView;
@@ -73,7 +74,7 @@ public class InfoPanel extends JPanel
     for (String cropName : atts.getAllCrops())
     {
       BarPanel bp = new BarPanel(
-          Color.cyan,
+        ColorsAndFonts.BAR_GRAPH_NEG,
           atts.getCropP(cropName),
           cropName,
           "%" + String.format("%.2f", atts.getCropP(cropName) * 100)
@@ -108,9 +109,9 @@ public class InfoPanel extends JPanel
   {
 
     String Primarylable = att.toString();
-    Color barColor = Color.cyan;
-    double ratio = attributesSet.getAttribute(att) / 20; // magic number from ramdom number generation
-    String secondaryLable = String.format("%.2f", ratio);
+    Color barColor = ColorsAndFonts.BAR_GRAPH_NEG;
+    double ratio = attributesSet.getAttribute(att) / 20;
+    String secondaryLable = String.format("%.2f", attributesSet.getAttribute(att));
 
     switch (att)
     {
@@ -127,8 +128,37 @@ public class InfoPanel extends JPanel
 
       case HAPPINESS:
         boolean unhappy = ratio < 0.5;
-        barColor = unhappy ? Color.red : Color.cyan;
-        secondaryLable = unhappy ? "unhappy" : "happy";
+        barColor = unhappy ? Color.red : ColorsAndFonts.BAR_GRAPH_NEG;
+//        secondaryLable = unhappy ? "unhappy" : "happy";
+        break;
+
+      case ANNUAL_RAINFALL:
+        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
+        secondaryLable = secondaryLable + " in.";
+        break;
+
+      case MONTHLY_RAINFALL:
+        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
+        secondaryLable = secondaryLable + " in.";
+        break;
+
+      case POPULATION:
+        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
+        secondaryLable = "" + (int)(double) attributesSet.getAttribute(att);
+        break;
+
+      case AVE_MONTH_TEMP_HI:
+        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
+        secondaryLable = secondaryLable + " F";
+        barColor = Color.red;
+        break;
+
+      case AVE_MONTH_TEMP_LO:
+        ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
+        ratio = Math.abs(ratio);
+        secondaryLable = secondaryLable + " F";
+        barColor = ColorsAndFonts.BAR_GRAPH_NEG;
+        break;
 
       default:
         // no nothing fall back on the above default values.
@@ -136,12 +166,7 @@ public class InfoPanel extends JPanel
 
     }
 
-    return new BarPanel(
-            barColor,
-            ratio,
-            Primarylable,
-            secondaryLable
-        );
+    return new BarPanel(barColor, ratio, Primarylable, secondaryLable);
   }
 
   public void clearDisplay()
