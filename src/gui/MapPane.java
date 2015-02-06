@@ -98,7 +98,7 @@ public class MapPane extends JPanel
     addMouseWheelListener(this);
     addMouseMotionListener(this);
     addKeyListener(this);
-//    setBackground(ColorsAndFonts.OCEANS);
+    setBackground(ColorsAndFonts.OCEANS);
 
     /* todo: sizing generalization */
     setPreferredSize(new Dimension(1000,500));
