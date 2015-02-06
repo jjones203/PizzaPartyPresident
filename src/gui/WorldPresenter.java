@@ -301,6 +301,8 @@ public class WorldPresenter extends Observable
    */
   public void stepByMonth()
   {
+    setChanged();
+    notifyObservers();
     world.stepByMonth();
   }
 
