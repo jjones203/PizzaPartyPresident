@@ -100,7 +100,8 @@ public class AttributeGenerator
     do
     { 
       r = (rand.nextGaussian() + 3)/6;
-    } while (r < 0 && r > 1);
+    } while (r < 0 || r > 1);
+    
     return r * limit;
   }
 
