@@ -115,6 +115,7 @@ public class MapPane extends JPanel
     getInputMap().put(KeyStroke.getKeyStroke("3"), "planting");
     getActionMap().put("planting", plantingZoneOverlay);
 
+    getInputMap().put(KeyStroke.getKeyStroke("shift pressed 4"), "step");
     getInputMap().put(KeyStroke.getKeyStroke("4"), "step");
     getActionMap().put("step", stepWorld);
   }
