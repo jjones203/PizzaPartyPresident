@@ -26,6 +26,7 @@ public class Camera extends JPanel
   private Rectangle2D limitingRect;
   private double height;
   private double scale;
+  private boolean hasMoved;
 
 
   public Camera(MapConverter converter)
@@ -101,6 +102,7 @@ public class Camera extends JPanel
    */
   private void setViewBounds(double x, double y, double w, double h)
   {
+
     if (w > limitingRect.getWidth()) w = limitingRect.getWidth();
     if (h > limitingRect.getHeight()) h = limitingRect.getHeight();
 
@@ -318,6 +320,7 @@ public class Camera extends JPanel
   {
     return limitingRect;
   }
+
 
   public enum CAM_DISTANCE
   {
