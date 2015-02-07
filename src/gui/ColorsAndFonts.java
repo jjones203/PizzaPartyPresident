@@ -34,7 +34,8 @@ public interface ColorsAndFonts
   Color GUI_TEXT_COLOR = new Color(235, 235, 235);
 
   Font GUI_FONT = new Font("SansSerif", Font.PLAIN, 11);
-  Font TOP_FONT = GUI_FONT.deriveFont(18f);
+//  Font TOP_FONT = GUI_FONT.deriveFont(18f);
+  Font TOP_FONT = new Font("SansSerif", Font.PLAIN, 14);
   Font HUD_TITLE = new Font("SansSerif", Font.PLAIN, 14);
   Font NAME_VIEW = new Font("SansSerif", Font.PLAIN, 400);
 
