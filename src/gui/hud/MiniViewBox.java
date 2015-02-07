@@ -9,7 +9,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
@@ -23,7 +22,7 @@ public class MiniViewBox extends JPanel
   private final static Color BORDER_COL = ColorsAndFonts.GUI_TEXT_COLOR.darker();
   private final static Font TITLE_FONT = ColorsAndFonts.HUD_TITLE;
   private final static Color GUI_BACKGROUND = ColorsAndFonts.GUI_BACKGROUND;
-  private final static Color FORGROUND_COL = ColorsAndFonts.GUI_TEXT_COLOR;
+  private final static Color FOREGROUND_COL = ColorsAndFonts.GUI_TEXT_COLOR;
   private final static RenderingHints rh = new RenderingHints(
     RenderingHints.KEY_ANTIALIASING,
     RenderingHints.VALUE_ANTIALIAS_ON
@@ -50,7 +49,7 @@ public class MiniViewBox extends JPanel
 
     titleLabel.setFont(TITLE_FONT);
     titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
-    titleLabel.setForeground(FORGROUND_COL);
+    titleLabel.setForeground(FOREGROUND_COL);
     titleLabel.setBorder(new CompoundBorder(
       BorderFactory.createMatteBorder(0, 0, 2, 0, BORDER_COL),
       PADDING_BORDER));

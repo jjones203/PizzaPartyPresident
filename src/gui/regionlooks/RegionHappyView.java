@@ -27,7 +27,7 @@ class RegionHappyView implements RegionView
   {
     if (gRegion == null || gRegion.getRegion().getAttributes() == null)
     {
-      System.err.println("(!) GUI REGION or attribut set is null!");
+      System.err.println("(!) GUI REGION or attribute set is null!");
       return;
     }
 

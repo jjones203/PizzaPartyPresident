@@ -20,11 +20,11 @@ import static model.RegionAttributes.PLANTING_ATTRIBUTES;
  */
 public class InfoPanel extends JPanel implements Observer
 {
+  private final static Dimension size = new Dimension(1000, 220);
   private MiniViewBox miniViewBox;
   private StatPane attributeStats;
   private StatPane cropStatPane;
   private DisplayUnitConverter converter;
-  private Dimension size = new Dimension(1000, 220);
   private WorldPresenter presenter;
 
 
@@ -119,7 +119,7 @@ public class InfoPanel extends JPanel implements Observer
     attributeStats.revalidate();
 
     cropStatPane.clearBarPlots();
-    diplayCropState(regionAttributes, cropStatPane);
+    displayCropState(regionAttributes, cropStatPane);
     cropStatPane.revalidate();
   }
 
@@ -130,7 +130,7 @@ public class InfoPanel extends JPanel implements Observer
    * @param atts     data that will be extracted and displayed.
    * @param statPane GUI element to 'write' to.
    */
-  private void diplayCropState(RegionAttributes atts, StatPane statPane)
+  private void displayCropState(RegionAttributes atts, StatPane statPane)
   {
     for (String cropName : atts.getAllCrops())
     {
@@ -170,7 +170,7 @@ public class InfoPanel extends JPanel implements Observer
   {
     RegionAttributes converted = getConverter().convertAttributes(attributesSet);
     final int FULL_BAR = 1;
-    String Primarylable = att.toString();
+    String PrimaryLabel = att.toString();
     Color barColor = BAR_GRAPH_NEG;
     double ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
     String secondaryLabel = String.format("%.2f", converted.getAttribute(att));
@@ -200,11 +200,11 @@ public class InfoPanel extends JPanel implements Observer
         break;
 
       case ANNUAL_RAINFALL:
-        secondaryLabel = secondaryLabel + " " + getConverter().getIncheSymbol();
+        secondaryLabel = secondaryLabel + " " + getConverter().getInchSymbol();
         break;
 
       case MONTHLY_RAINFALL:
-        secondaryLabel = secondaryLabel + " " + getConverter().getIncheSymbol();
+        secondaryLabel = secondaryLabel + " " + getConverter().getInchSymbol();
         break;
 
       case POPULATION:
@@ -235,7 +235,7 @@ public class InfoPanel extends JPanel implements Observer
 
     }
 
-    return new BarPanel(barColor, ratio, Primarylable, secondaryLabel);
+    return new BarPanel(barColor, ratio, PrimaryLabel, secondaryLabel);
   }
 
   private String getHappyLabel(double ratio)
@@ -298,11 +298,7 @@ public class InfoPanel extends JPanel implements Observer
   public void update(Observable o, Object arg)
   {
     List<GUIRegion> activeRegions = getPresenter().getActiveRegions();
-    if (activeRegions == null)
-    {
-      clearDisplay();
-      return;
-    }
+    if (activeRegions == null) clearDisplay();
     else displayAllGUIRegions(activeRegions);
   }
 }

@@ -1,12 +1,9 @@
 package testing;
 
-import IO.AreaXMLloader;
+import IO.AreaXMLLoader;
 import IO.XMLparsers.KMLParser;
 import gui.*;
-import gui.hud.AmericanUniteConverter;
 import gui.hud.InfoPanel;
-import gui.hud.MetricDisplayConverter;
-import gui.regionlooks.RegionViewFactory;
 import model.Region;
 import model.World;
 import testing.generators.AttributeGenerator;
@@ -42,7 +39,7 @@ public class MapPaneTest
     }
 
     Collection<Region> modelMap = KMLParser.getRegionsFromFile("resources/ne_10m_admin_1_states_provinces.kml");
-    modelMap.addAll(new AreaXMLloader().getRegions()); // adds XML regions for area folder...
+    modelMap.addAll(new AreaXMLLoader().getRegions()); // adds XML regions for area folder...
     for (Region r : modelMap)
     {
       randoAtts.setRegionAttributes(r, random);

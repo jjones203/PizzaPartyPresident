@@ -8,7 +8,7 @@ package IO;
 
 import IO.XMLparsers.RegionParser;
 import IO.XMLparsers.RegionParserHandler;
-import gui.XMLeditor;
+import gui.XMLEditor;
 import model.Region;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -22,18 +22,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static IO.IOhelpers.convertToFileURL;
-import static IO.IOhelpers.getFilesInDir;
+import static IO.IOHelpers.convertToFileURL;
+import static IO.IOHelpers.getFilesInDir;
 
 /**
  * Class to encapsulate the Processing of a folder of XML Files containing
  * area data.
  */
-public class AreaXMLloader
+public class AreaXMLLoader
 {
   private RegionParser handler;
   private final static String AREA_DIR_PATH = "resources/areas";
-  private XMLeditor editor;
+  private XMLEditor editor;
   private XMLReader xmlReader;
 
 
@@ -41,7 +41,7 @@ public class AreaXMLloader
    * Constructor for class.
    *
    */
-  public AreaXMLloader()
+  public AreaXMLLoader()
   {
     this(new RegionParserHandler());
   }
@@ -51,7 +51,7 @@ public class AreaXMLloader
    *
    * @param handler RegionParsing Handler for building and containing the data
    */
-  public AreaXMLloader(RegionParserHandler handler)
+  public AreaXMLLoader(RegionParserHandler handler)
   {
     this.handler = handler;
 
@@ -99,7 +99,7 @@ public class AreaXMLloader
       }
       catch (SAXException e) //routine for loading the editor.
       {
-        if (editor == null) editor = new XMLeditor(); // to be lazy
+        if (editor == null) editor = new XMLEditor(); // to be lazy
         editor.loadFile(currentFile);
 
         Locator locator = handler.getLocator();
@@ -108,7 +108,7 @@ public class AreaXMLloader
         {
           // we know the line that the error happened on
           editor.highlightLine(locator.getLineNumber() - 1);
-          editor.setCaretToline(locator.getLineNumber() - 1);
+          editor.setCaretToLine(locator.getLineNumber() - 1);
         }
 
         editor.setTitle("editing: " + currentFile);
@@ -129,9 +129,9 @@ public class AreaXMLloader
   }
 
   /**
-   * Method used for parsing a given file. does no error handeling on its own.
+   * Method used for parsing a given file. does no error handling on its own.
    *
-   * @param filePath file path to attemp to parse.
+   * @param filePath file path to attempt to parse.
    * @return The collection of regions expressed in that file.
    * @throws IOException
    * @throws SAXException

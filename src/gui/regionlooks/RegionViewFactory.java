@@ -67,6 +67,6 @@ public class RegionViewFactory
     NONE,
     PLANTING_ZONE,
     HAPPINESS,
-    MONTHLY_RAIL_FALL;
+    MONTHLY_RAIL_FALL
   }
 }

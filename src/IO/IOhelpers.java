@@ -9,7 +9,7 @@ import java.util.List;
  * ${PROJECT_NAME}
  * CS 351 spring 2015
  */
-public class IOhelpers
+public class IOHelpers
 {
   /**
    * given a file name returns the absolute path of that file in URL format.

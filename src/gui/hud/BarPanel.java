@@ -18,8 +18,8 @@ public class BarPanel extends JPanel
   private static final Font OVERLAY_FONT = new Font("SansSerif", Font.PLAIN, 10);
 
   private static final Color BAR_TEXT_C = Color.black;
-  public static final Color TEXT_ROLLOVER_C = new Color(255, 165, 148);
-  public static final Color BAR_ROLLOVER_C = Color.gray;
+  private static final Color TEXT_ROLLOVER_C = new Color(255, 165, 148);
+  private static final Color BAR_ROLLOVER_C = Color.gray;
 
   private final Color originalBarColor;
   private Color overLayTextColor;

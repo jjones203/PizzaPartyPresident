@@ -76,9 +76,6 @@ public class RegionParserHandler extends DefaultHandler implements RegionParser
     {
     /*
      * entering a new area tag.
-     * re-init tmp objects:
-     *    1) tmpRegion
-     *    2) peremterSet
      */
       case "area":
         tmpRegion = new AtomicRegion();

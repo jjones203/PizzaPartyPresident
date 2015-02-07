@@ -2,14 +2,10 @@ package gui.hud;
 
 
 import gui.ColorsAndFonts;
-import model.RegionAttributes;
-import testing.generators.AttributeGenerator;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.util.Random;
 
 /**
  * Created by winston on 1/31/15.
@@ -22,8 +18,8 @@ public class StatPane extends JPanel
   private final static Color BORDER_COL = ColorsAndFonts.GUI_TEXT_COLOR.darker();
   private final static Font TITLE_FONT = ColorsAndFonts.HUD_TITLE;
   private final static Color GUI_BACKGROUND = ColorsAndFonts.GUI_BACKGROUND;
-  private final static Color FORGROUND_COL = ColorsAndFonts.GUI_TEXT_COLOR;
-  private JPanel bargraphs;
+  private final static Color FOREGROUND_COL = ColorsAndFonts.GUI_TEXT_COLOR;
+  private JPanel barGraphsPanel;
   private JLabel titleLable;
 
   /**
@@ -34,7 +30,7 @@ public class StatPane extends JPanel
   public StatPane(String name)
   {
     //init
-    bargraphs = new JPanel();
+    barGraphsPanel = new JPanel();
     titleLable = new JLabel(name);
     JPanel titlePane = new JPanel();
 
@@ -42,25 +38,25 @@ public class StatPane extends JPanel
     titlePane.setBackground(GUI_BACKGROUND);
     titlePane.setLayout(new FlowLayout(FlowLayout.LEFT));
     titlePane.setBorder(
-        BorderFactory.createMatteBorder(0, 0, 2, 0, BORDER_COL));
+      BorderFactory.createMatteBorder(0, 0, 2, 0, BORDER_COL));
 
     titleLable.setFont(TITLE_FONT);
-    titleLable.setForeground(FORGROUND_COL);
+    titleLable.setForeground(FOREGROUND_COL);
     titleLable.setHorizontalAlignment(SwingConstants.LEFT);
 
-    bargraphs.setBackground(GUI_BACKGROUND);
-    bargraphs.setBorder(new EmptyBorder(5, 5, 5, 5));
+    barGraphsPanel.setBackground(GUI_BACKGROUND);
+    barGraphsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-    BoxLayout layout = new BoxLayout(bargraphs, BoxLayout.Y_AXIS);
+    BoxLayout layout = new BoxLayout(barGraphsPanel, BoxLayout.Y_AXIS);
     FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT,3, 3);
-    bargraphs.setLayout(layout);
+    barGraphsPanel.setLayout(layout);
 
 
     //wire
     titlePane.add(titleLable);
     setLayout(new BorderLayout());
     add(titlePane, BorderLayout.NORTH);
-    add(bargraphs, BorderLayout.CENTER);
+    add(barGraphsPanel, BorderLayout.CENTER);
   }
 
 
@@ -72,7 +68,7 @@ public class StatPane extends JPanel
   public void addBar(BarPanel barPanel)
   {
     barPanel.setAlignmentY(TOP_ALIGNMENT);
-    bargraphs.add(barPanel);
+    barGraphsPanel.add(barPanel);
   }
 
   /**
@@ -80,7 +76,7 @@ public class StatPane extends JPanel
    */
   public void clearBarPlots()
   {
-    bargraphs.removeAll();
+    barGraphsPanel.removeAll();
   }
 
   /**
@@ -91,18 +87,18 @@ public class StatPane extends JPanel
    */
   public void removeBar(int index)
   {
-    bargraphs.remove(index);
+    barGraphsPanel.remove(index);
   }
 
   public BarPanel getBarPanel(int index)
   {
     try
     {
-      return (BarPanel) bargraphs.getComponent(index);
+      return (BarPanel) barGraphsPanel.getComponent(index);
     }
     catch (Exception e)
     {
-      System.err.println("could not cast object to barpanbel");
+      System.err.println("could not cast object to bar panel");
       return null;
     }
   }
@@ -116,79 +112,6 @@ public class StatPane extends JPanel
   public void setTitle(String title)
   {
     titleLable.setText(title);
-  }
-
-  // only for testing.
-  public static void main(String[] args)
-  {
-    final JFrame frame = new JFrame();
-    final StatPane stats = new StatPane("CROPS:");
-
-    Random random = new Random();
-    RegionAttributes atts = new AttributeGenerator().nextAttributeSet();
-
-    for (String s : atts.getAllCrops())
-    {
-      double pval = random.nextDouble();
-      BarPanel bp = new BarPanel(
-          random.nextBoolean() ? Color.cyan : Color.red,
-          pval,
-          s.toUpperCase(),
-          String.format("%.2f", pval)
-      );
-      stats.addBar(bp);
-    }
-
-
-    frame.add(stats);
-    frame.pack();
-    frame.setVisible(true);
-    frame.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-    Timer timer = new Timer(10, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        frame.repaint();
-      }
-    });
-    timer.start();
-
-
-    Timer setTitle = new Timer(1000 * 5, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        System.out.println("SETTING LABLE");
-        stats.setTitle("QUALITATIVE DATA:");
-        stats.clearBarPlots();
-        stats.addBar(new BarPanel(Color.magenta, 1, "Planting Zone", "ZONE 1"));
-        stats.addBar(new BarPanel(Color.green, 1, "Soil Type", "TYPE 4"));
-        stats.addBar(new BarPanel(Color.yellow, 1, "HAPPYNESS INDEX:", "VERY"));
-      }
-    });
-    setTitle.setRepeats(false);
-    setTitle.start();
-
-    Timer addOneMoreBar = new Timer(1000 * 8, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        System.out.println("adding two new bars, taking one away");
-        stats.addBar(new BarPanel(Color.green, .5, "Bar added mid way through"));
-        stats.addBar(new BarPanel(Color.PINK, 1.25, "second bar added mid way through"));
-        stats.removeBar(1);
-        stats.getBarPanel(0).setLabelText("new Text!");
-
-        stats.revalidate(); // this is needed to repait the newly added components.
-      }
-    });
-    addOneMoreBar.setRepeats(false);
-    addOneMoreBar.start();
   }
 
 }

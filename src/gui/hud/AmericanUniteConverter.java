@@ -20,7 +20,7 @@ public class AmericanUniteConverter extends DisplayUnitConverter
   }
 
   @Override
-  public String getIncheSymbol()
+  public String getInchSymbol()
   {
     return "In.";
   }
