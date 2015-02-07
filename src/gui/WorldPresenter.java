@@ -130,7 +130,14 @@ public class WorldPresenter extends Observable
    */
   public void singleClickAt(double x, double y, Camera camera)
   {
-    for (GUIRegion guir : getRegionsInview(camera))
+    /**
+     * The regions are reversed so that any region that is drawn on top of other
+     * regions will be drawn first and not the other way around.
+     */
+    List<GUIRegion> regionsInView = (List<GUIRegion>) getRegionsInview(camera);
+    Collections.reverse(regionsInView);
+
+    for (GUIRegion guir : regionsInView)
     {
       if (guir.getPoly().contains(x, y))
       {
@@ -146,6 +153,7 @@ public class WorldPresenter extends Observable
         return; //for early loop termination.
       }
     }
+    activeRegions.clear(); // deselects all regions when mouse click on ocean.
   }
 
   /**

@@ -42,19 +42,19 @@ public class MapPaneTest
     }
 
     Collection<Region> modelMap = KMLParser.getRegionsFromFile("resources/ne_10m_admin_1_states_provinces.kml");
-
+    modelMap.addAll(new AreaXMLloader().getRegions()); // adds XML regions for area folder...
     for (Region r : modelMap)
     {
       randoAtts.setRegionAttributes(r, random);
     }
 
-    AreaXMLloader areaXMLloader = new AreaXMLloader();
+
 
 
 
     List<Region> allRegions = new ArrayList<>(modelMap);
     allRegions.addAll(backgroundRegions);
-    allRegions.addAll(areaXMLloader.getRegions());
+
     World world = new World(allRegions);
 
 
