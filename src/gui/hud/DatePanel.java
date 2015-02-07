@@ -51,13 +51,14 @@ public class DatePanel extends JPanel
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D) g;
 
-    g2.getRenderingHints()
-      .put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    g2.setRenderingHint(
+      RenderingHints.KEY_TEXT_ANTIALIASING,
+      RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
     g2.setColor(ColorsAndFonts.GUI_BACKGROUND);
     g2.setFont(ColorsAndFonts.TOP_FONT);
     
-    String s = getDateString();
+    String s = getDateString().toUpperCase();
     FontMetrics metrics = g2.getFontMetrics();
     
     int w = metrics.stringWidth(s);

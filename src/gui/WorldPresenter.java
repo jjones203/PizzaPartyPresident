@@ -167,7 +167,10 @@ public class WorldPresenter extends Observable
    */
   public void appendClickAt(double x, double y, Camera camera)
   {
-    for (GUIRegion guir : getRegionsInView(camera))
+    List<GUIRegion> regionsInView = (List<GUIRegion>) getRegionsInView(camera);
+    Collections.reverse(regionsInView);
+
+    for (GUIRegion guir : regionsInView)
     {
       if (guir.getPoly().contains(x, y))
       {

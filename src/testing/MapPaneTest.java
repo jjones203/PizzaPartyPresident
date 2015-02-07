@@ -81,6 +81,7 @@ public class MapPaneTest
     win.add(infoPanel, BorderLayout.SOUTH);
     win.pack();
     win.setVisible(true);
+
     
     
     new Timer(20, new ActionListener()
