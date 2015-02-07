@@ -25,7 +25,6 @@ public class InfoPanel extends JPanel implements Observer
   private StatPane cropStatPane;
   private DisplayUnitConverter converter;
   private WorldPresenter presenter;
-  private long lastSummation;
 
 
   public InfoPanel()
@@ -34,7 +33,6 @@ public class InfoPanel extends JPanel implements Observer
     miniViewBox = new MiniViewBox("REGION NAME");
     attributeStats = new StatPane("ATTRIBUTES:");
     cropStatPane = new StatPane("CROPS:");
-    lastSummation = System.currentTimeMillis();
 
     //config
     this.setLayout(new GridLayout(1, 3));
@@ -290,17 +288,8 @@ public class InfoPanel extends JPanel implements Observer
       clearDisplay();
       setTitle("SPACIAL SUM:");
       miniViewBox.setAlph(1f);
-      if (System.currentTimeMillis() - lastSummation > 0)
-      {
-        showAttributes(sumAttributes(regions));
-      }
-      else
-      {
-        attributeStats.addBar(new BarPanel(Color.black, 0, "RELEASE MOUSE TO SUM"));
-        attributeStats.addBar(new BarPanel(Color.black, 0, "REGIONS ATTRIBUTES"));
-      }
+      showAttributes(sumAttributes(regions));
     }
-    lastSummation = System.currentTimeMillis();
     miniViewBox.setDrawableRegions(regions);
   }
 

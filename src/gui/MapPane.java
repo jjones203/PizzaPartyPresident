@@ -277,7 +277,6 @@ public class MapPane extends JPanel
   {
     doMultiSelect = false;
     drawMultiSelect = false;
-    presenter.flagFinishedMultiselect();
   }
 
 
