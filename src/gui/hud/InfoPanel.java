@@ -15,7 +15,7 @@ import static gui.ColorsAndFonts.BAR_GRAPH_NEG;
 import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 
 /**
- Created by winston on 2/3/15.
+ * Created by winston on 2/3/15.
  */
 public class InfoPanel extends JPanel implements Observer
 {
@@ -108,9 +108,9 @@ public class InfoPanel extends JPanel implements Observer
   }
 
   /**
-   Display the Specified Attribute object in the info panel.
-
-   @param regionAttributes
+   * Display the Specified Attribute object in the info panel.
+   *
+   * @param regionAttributes
    */
   public void showAttributes(RegionAttributes regionAttributes)
   {
@@ -124,13 +124,11 @@ public class InfoPanel extends JPanel implements Observer
   }
 
   /**
-   Controls the presentation logic of building up the crop percentages section
-   of the GUI info pane.
-
-   @param atts
-   data that will be extracted and displayed.
-   @param statPane
-   GUI element to 'write' to.
+   * Controls the presentation logic of building up the crop percentages section
+   * of the GUI info pane.
+   *
+   * @param atts     data that will be extracted and displayed.
+   * @param statPane GUI element to 'write' to.
    */
   private void displayCropState(RegionAttributes atts, StatPane statPane)
   {
@@ -147,13 +145,11 @@ public class InfoPanel extends JPanel implements Observer
   }
 
   /**
-   Controls the presentation logic for displaying the the soil attributes
-   in the info panel for the specified region.
-
-   @param atts
-   Attribute set to be displayed.
-   @param statPane
-   GUI element to 'write' to.
+   * Controls the presentation logic for displaying the the soil attributes
+   * in the info panel for the specified region.
+   *
+   * @param atts     Attribute set to be displayed.
+   * @param statPane GUI element to 'write' to.
    */
   private void displayAttributes(RegionAttributes atts, StatPane statPane)
   {
@@ -288,21 +284,22 @@ public class InfoPanel extends JPanel implements Observer
       clearDisplay();
       setTitle("SPACIAL SUM:");
       miniViewBox.setAlph(1f);
-      showAttributes(sumAttributes(regions));
+      if (!presenter.isActivelyDraging())
+      {
+        showAttributes(sumAttributes(regions));
+      }
     }
     miniViewBox.setDrawableRegions(regions);
   }
 
   /**
-   This method is called whenever the observed object is changed. An
-   application calls an <tt>Observable</tt> object's
-   <code>notifyObservers</code> method to have all the object's
-   observers notified of the change.
-
-   @param o
-   the observable object.
-   @param arg
-   an argument passed to the <code>notifyObservers</code>
+   * This method is called whenever the observed object is changed. An
+   * application calls an <tt>Observable</tt> object's
+   * <code>notifyObservers</code> method to have all the object's
+   * observers notified of the change.
+   *
+   * @param o   the observable object.
+   * @param arg an argument passed to the <code>notifyObservers</code>
    */
   @Override
   public void update(Observable o, Object arg)
@@ -422,7 +419,7 @@ public class InfoPanel extends JPanel implements Observer
 
     /* find the most common planting zone */
     Integer maxKey = 1, maxVal = 0;
-    
+
     for (Integer i : zoneMap.keySet())
     {
       Integer current = zoneMap.get(i);
@@ -448,7 +445,7 @@ public class InfoPanel extends JPanel implements Observer
         rAtts.setAttribute(att, attribMap.get(att));
       }
     }
-    
+
     for (String crop : cropMap.keySet()) rAtts.setCrop(crop, cropMap.get(crop));
 
     return rAtts;

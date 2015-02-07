@@ -267,6 +267,7 @@ public class MapPane extends JPanel
   public void mousePressed(MouseEvent e)
   {
     doMultiSelect = isSHIFTdepressed;
+    presenter.setActivelyDraging(true);
     multiSelectFrom = e.getPoint();
     dragFrom = e.getPoint();
   }
@@ -277,6 +278,7 @@ public class MapPane extends JPanel
   {
     doMultiSelect = false;
     drawMultiSelect = false;
+    presenter.setActivelyDraging(false);
   }
 
 

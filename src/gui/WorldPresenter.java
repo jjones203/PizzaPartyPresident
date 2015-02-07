@@ -38,6 +38,8 @@ public class WorldPresenter extends Observable
   public void setActivelyDraging(boolean activelyDraging)
   {
     this.activelyDraging = activelyDraging;
+    setChanged();
+    notifyObservers();
   }
 
   private boolean activelyDraging;
