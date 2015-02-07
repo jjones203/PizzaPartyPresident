@@ -29,7 +29,6 @@ public class MiniViewBox extends JPanel
   public static final EmptyBorder PADDING_BORDER = new EmptyBorder(5, 5, 5, 5);
   private JLabel titleLabel;
   private JPanel regionViewer;
-  private Area drawableArea;
   private float alpha;
   private List<GUIRegion> regions = new ArrayList<>();
 
@@ -57,17 +56,6 @@ public class MiniViewBox extends JPanel
     this.add(titleLabel, BorderLayout.NORTH);
     this.add(regionViewer, BorderLayout.CENTER);
 
-  }
-
-  public Area getDrawableArea()
-  {
-    return drawableArea;
-  }
-
-  public void setDrawableArea(Area drawableArea)
-  {
-    this.drawableArea = drawableArea;
-    alpha = 0; // resets alpha for animation.
   }
 
   public void setTitle(String name)
@@ -120,8 +108,6 @@ public class MiniViewBox extends JPanel
           polyW = maxX - minX;
           polyH = maxY - minY;
 
-          
-
           double polyAspect = polyW / polyH;
 
           double xshift, yshift;
@@ -131,7 +117,6 @@ public class MiniViewBox extends JPanel
             scaleValue = (boxH) / polyH;
             xshift = (boxW - scaleValue * polyW) / 2 + inset;
             yshift = inset;
-
           }
           else
           {
@@ -148,60 +133,6 @@ public class MiniViewBox extends JPanel
 
           g2d.setColor(ColorsAndFonts.MINI_BOX_REGION);
           for(GUIRegion gr : regions) g2d.fill(gr.getPoly());
-        }
-        /* doing some tests */
-        else if (true) return;
-        
-        if (drawableArea != null)
-        {
-          Graphics2D g2d = (Graphics2D) g;
-          g2d.setRenderingHints(rh);
-
-          if (alpha < 1)
-          {
-            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-            alpha += 0.10f;
-          }
-
-          double scaleValue;
-
-          int inset = 5;
-          double boxW = getWidth() - 2 * inset;
-          double boxH = getHeight() - 2 * inset;
-          double boxAspect = boxW / boxH;
-
-          double polyW = drawableArea.getBounds().getWidth();
-          double polyH = drawableArea.getBounds().getHeight();
-
-          double polyx = drawableArea.getBounds().x;
-          double polyy = drawableArea.getBounds().y;
-
-          double polyAspect = polyW / polyH;
-
-          double xshift, yshift;
-
-          if (boxAspect > polyAspect)
-          {
-            scaleValue = (boxH) / polyH;
-            xshift = (boxW - scaleValue * polyW) / 2 + inset;
-            yshift = inset;
-
-          }
-          else
-          {
-            scaleValue = (boxW) / polyW;
-            yshift = (boxH - scaleValue * polyH) / 2 + inset;
-            xshift = inset;
-          }
-
-          double xTranslate = xshift - (scaleValue * polyx);
-          double yTranslate = yshift - (scaleValue * polyy);
-
-          g2d.translate(xTranslate, yTranslate);
-          g2d.scale(scaleValue, scaleValue);
-
-          g2d.setColor(ColorsAndFonts.MINI_BOX_REGION);
-          g2d.fill(drawableArea);
         }
       }
     };

@@ -101,24 +101,9 @@ public class InfoPanel extends JPanel implements Observer
     this.converter = converter;
   }
 
-  public void displayGUIRegion(GUIRegion region)
-  {
-    setTitle(region.getName());
-    drawArea(region.getArea());
-
-    RegionAttributes attributes = region.getRegion().getAttributes();
-
-    showAttributes(attributes);
-  }
-
   public void setTitle(String title)
   {
     miniViewBox.setTitle(title);
-  }
-
-  public void drawArea(Area area)
-  {
-    miniViewBox.setDrawableArea(area);
   }
 
   public void showAttributes(RegionAttributes regionAttributes)
@@ -275,7 +260,7 @@ public class InfoPanel extends JPanel implements Observer
   public void clearDisplay()
   {
     miniViewBox.setTitle(" ");
-    miniViewBox.setDrawableArea(null);
+    miniViewBox.setDrawableRegions(null);
     cropStatPane.clearBarPlots();
     attributeStats.clearBarPlots();
   }
@@ -284,16 +269,6 @@ public class InfoPanel extends JPanel implements Observer
   {
     miniViewBox.setDrawableRegions(regions);
     setTitle("SUMMATION OF REGIONS");
-
-    if(true) return;
-    
-    Area sumArea = new Area();
-    for (GUIRegion r : regions)
-    {
-      sumArea.add(r.getArea());
-    }
-
-    drawArea(sumArea);
   }
 
   /**
@@ -314,14 +289,11 @@ public class InfoPanel extends JPanel implements Observer
       clearDisplay();
       return;
     }
-
-    if (activeRegions.size() == 1)
+    if(activeRegions.size() == 1)
     {
-      displayGUIRegion(activeRegions.get(0));
+      RegionAttributes attribs = activeRegions.get(0).getRegion().getAttributes();
+      showAttributes(attribs);
     }
-    else
-    {
-      displayAllGUIRegions(activeRegions);
-    }
+    displayAllGUIRegions(activeRegions);
   }
 }

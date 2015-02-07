@@ -16,6 +16,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.List;
 
 /**
  * @author david
@@ -46,9 +47,9 @@ public class MapPaneTest
       randoAtts.setRegionAttributes(r, random);
     }
 
-    World world = new World(modelMap);
-
-    World world = new World(allregions);
+    List<Region> allRegions = new ArrayList<>(modelMap);
+    allRegions.addAll(backgroundRegions);
+    World world = new World(allRegions);
 
 
     MapConverter converter = new EquirectangularConverter();
