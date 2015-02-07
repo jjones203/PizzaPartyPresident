@@ -126,7 +126,7 @@ public class RegionAttributes
   public enum PLANTING_ATTRIBUTES
   {
     PLANTING_ZONE("Planting Zone"),
-    //    PERCENTAGE_CROPS, // this is a complex value?
+ // PERCENTAGE_CROPS,                     // this is stored in a map
     ANNUAL_RAINFALL("Annual Rainfall"),
     MONTHLY_RAINFALL("Monthly Rainfall"),
     AVE_MONTH_TEMP_HI("Average Month High temp"),
@@ -137,7 +137,6 @@ public class RegionAttributes
     ELEVATION("Elevation"),
     HAPPINESS("Happiness"),
     SOIL_TYPE("Soil Type");
-
 
     private String prettyPrint;
 
