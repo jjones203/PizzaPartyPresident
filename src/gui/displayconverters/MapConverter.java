@@ -1,4 +1,4 @@
-package gui;
+package gui.displayconverters;
 
 import model.MapPoint;
 import model.Region;

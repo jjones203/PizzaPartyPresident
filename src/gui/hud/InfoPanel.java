@@ -2,6 +2,9 @@ package gui.hud;
 
 import gui.GUIRegion;
 import gui.WorldPresenter;
+import gui.displayconverters.AmericanUniteConverter;
+import gui.displayconverters.DisplayUnitConverter;
+import gui.displayconverters.MetricDisplayConverter;
 import gui.regionlooks.PlantingZoneView;
 import model.RegionAttributes;
 

@@ -1,6 +1,8 @@
 package gui;
 
 
+import gui.displayconverters.MapConverter;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;

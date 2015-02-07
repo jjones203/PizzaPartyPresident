@@ -1,14 +1,12 @@
 package IO;
 
-import gui.EquirectangularConverter;
-import gui.MapConverter;
+import gui.displayconverters.EquirectangularConverter;
+import gui.displayconverters.MapConverter;
 import org.xml.sax.SAXException;
 import model.MapPoint;
 import model.Region;
 
 import java.awt.geom.Area;
-import java.awt.geom.Line2D;
-import java.util.List;
 
 /**
  * Created by winston on 1/25/15.

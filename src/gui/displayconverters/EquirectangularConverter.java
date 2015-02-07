@@ -1,11 +1,10 @@
-package gui;
+package gui.displayconverters;
 
 import model.MapPoint;
 import model.Region;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package gui.hud;
+package gui.displayconverters;
 
 import model.RegionAttributes;
 

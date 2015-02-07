@@ -1,6 +1,6 @@
 package gui;
 
-import gui.MapConverter;
+import gui.displayconverters.MapConverter;
 import gui.regionlooks.RegionView;
 import model.Region;
 
