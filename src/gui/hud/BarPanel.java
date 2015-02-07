@@ -18,7 +18,7 @@ public class BarPanel extends JPanel
   private static final Font OVERLAY_FONT = new Font("SansSerif", Font.PLAIN, 10);
 
   private static final Color BAR_TEXT_C = Color.black;
-  private static final Color TEXT_ROLLOVER_C = new Color(255, 165, 148);
+  private static final Color TEXT_ROLLOVER_C = ColorsAndFonts.ACTIVE_REGION;
   private static final Color BAR_ROLLOVER_C = Color.gray;
 
   private final Color originalBarColor;
@@ -97,7 +97,7 @@ public class BarPanel extends JPanel
       @Override
       public void mouseEntered(MouseEvent e)
       {
-        overLayTextColor = TEXT_ROLLOVER_C;
+        overLayTextColor = Color.white;
         barColor = BAR_ROLLOVER_C;
         label.setForeground(TEXT_ROLLOVER_C);
       }
