@@ -280,6 +280,7 @@ public class InfoPanel extends JPanel implements Observer
     }
     else
     {
+      clearDisplay();
       setTitle("HI DAVID!");
     }
     miniViewBox.setDrawableRegions(regions);

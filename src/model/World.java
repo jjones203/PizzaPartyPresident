@@ -15,6 +15,8 @@ import java.util.Random;
  *  The world is everything that is the case.
  *  The world is the totality of facts, not of things.
  *  The facts in logical space are the world.
+ *
+ *  - L. W.
  */
 public class World
 {
