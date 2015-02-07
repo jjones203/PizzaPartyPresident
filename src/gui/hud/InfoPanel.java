@@ -8,7 +8,6 @@ import model.RegionAttributes;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.geom.Area;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -54,6 +53,8 @@ public class InfoPanel extends JPanel implements Observer
       @Override
       public void actionPerformed(ActionEvent e)
       {
+        System.out.println("switch to metric");
+
         setConverter(new MetricDisplayConverter());
         update(null, null);
       }
@@ -67,6 +68,7 @@ public class InfoPanel extends JPanel implements Observer
       @Override
       public void actionPerformed(ActionEvent e)
       {
+        System.out.println("american unites selected");
         setConverter(new AmericanUniteConverter());
         update(null, null);
       }
@@ -106,6 +108,10 @@ public class InfoPanel extends JPanel implements Observer
     miniViewBox.setTitle(title);
   }
 
+  /**
+   * Display the Specified Attribute object in the info panel.
+   * @param regionAttributes 
+   */
   public void showAttributes(RegionAttributes regionAttributes)
   {
     attributeStats.clearBarPlots();
@@ -270,8 +276,7 @@ public class InfoPanel extends JPanel implements Observer
     if (regions.size() == 1)
     {
       setTitle(regions.get(0).getName());
-      displayAttributes(regions.get(0).getRegion().getAttributes(), attributeStats);
-      diplayCropState(regions.get(0).getRegion().getAttributes(), cropStatPane);
+      showAttributes(regions.get(0).getRegion().getAttributes());
     }
     else
     {
