@@ -290,16 +290,15 @@ public class InfoPanel extends JPanel implements Observer
       clearDisplay();
       setTitle("SPACIAL SUM:");
       miniViewBox.setAlph(1f);
-
-      System.out.println("time diff: " + (System.currentTimeMillis() - lastSummation));
-
-      if (System.currentTimeMillis() - lastSummation > 10)
+      if (System.currentTimeMillis() - lastSummation > 0)
       {
-        System.out.println("recalc summations");
         showAttributes(sumAttributes(regions));
       }
-//      System.out.println("resetting last summation");
-
+      else
+      {
+        attributeStats.addBar(new BarPanel(Color.black, 0, "RELEASE MOUSE TO SUM"));
+        attributeStats.addBar(new BarPanel(Color.black, 0, "REGIONS ATTRIBUTES"));
+      }
     }
     lastSummation = System.currentTimeMillis();
     miniViewBox.setDrawableRegions(regions);
