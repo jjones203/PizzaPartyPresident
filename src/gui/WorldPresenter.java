@@ -23,7 +23,7 @@ public class WorldPresenter extends Observable
 {
 
   private boolean DEBUG = true;
-  private CAM_DISTANCE lastDistance; // (!) only for debugging. //todo remove when finalized
+  private CAM_DISTANCE lastDistance;
   private MapConverter mpConverter;
   private Collection<GUIRegion> modelRegions;
   private Collection<GUIRegion> backgroundRegions;
@@ -34,7 +34,13 @@ public class WorldPresenter extends Observable
   private RegionViewFactory regionViewFactory;
 
 
-  public WorldPresenter(MapConverter mpConverter)
+  /**
+   * Class constructor. Expects a reference to both a map converter, and a
+   * world.
+   * @param mpConverter converter that defies the rules of the map projection.
+   * @param world set of game regions (in opposition to gui only regions).
+   */
+  public WorldPresenter(MapConverter mpConverter, World world)
   {
     this.modelRegions = new ArrayList<>();
     this.backgroundRegions = new ArrayList<>();
@@ -42,7 +48,7 @@ public class WorldPresenter extends Observable
     this.regionViewFactory = new RegionViewFactory();
     this.activeRegions = new ActiveRegionList();
     this.lastDistance = CAM_DISTANCE.LONG;
-    this.world = new World();
+    this.world = world;
   }
 
   /**
@@ -58,11 +64,11 @@ public class WorldPresenter extends Observable
     backgroundRegions = wrapRegions(regions, background);
   }
 
-  // could this be made private?
-  public Collection<GUIRegion> getModelRegions()
-  {
-    return modelRegions;
-  }
+  // todo should we remove this?
+//  public Collection<GUIRegion> getModelRegions()
+//  {
+//    return modelRegions;
+//  }
 
   /**
    * Set the given collection of regions as the model of the game. These
@@ -76,7 +82,6 @@ public class WorldPresenter extends Observable
   {
     RegionView backG = regionViewFactory.getViewFromDistance(CAM_DISTANCE.LONG);
     modelRegions = wrapRegions(regions, backG);
-    world.setWorld(regions);
   }
 
   /*
@@ -370,15 +375,20 @@ public class WorldPresenter extends Observable
       notifyObservers();
     }
 
+    /*
+     * makes and returns list of all active regions.
+     */
     public List<GUIRegion> getList()
     {
       return new ArrayList<>(activeRegions);
     }
 
+
     public GUIRegion remove(GUIRegion region)
     {
       int index = activeRegions.indexOf(region);
       if (index == -1) return null;
+
       GUIRegion guir = activeRegions.remove(index);
       guir.setActive(false);
 

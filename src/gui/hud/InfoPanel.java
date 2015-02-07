@@ -1,20 +1,17 @@
 package gui.hud;
 
-import IO.XMLparsers.KMLParser;
-import gui.EquirectangularConverter;
 import gui.GUIRegion;
+import gui.WorldPresenter;
 import gui.regionlooks.PlantingZoneView;
-import model.Region;
 import model.RegionAttributes;
-import testing.generators.AttributeGenerator;
 
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Area;
-import java.util.*;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import static gui.ColorsAndFonts.BAR_GRAPH_NEG;
 import static model.RegionAttributes.PLANTING_ATTRIBUTES;
@@ -22,12 +19,15 @@ import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 /**
  * Created by winston on 2/3/15.
  */
-public class InfoPanel extends JPanel
+public class InfoPanel extends JPanel implements Observer
 {
   private MiniViewBox miniViewBox;
   private StatPane attributeStats;
   private StatPane cropStatPane;
+  private DisplayUnitConverter converter;
   private Dimension size = new Dimension(1000, 220);
+  private WorldPresenter presenter;
+
 
   public InfoPanel()
   {
@@ -45,6 +45,60 @@ public class InfoPanel extends JPanel
     this.add(miniViewBox);
     this.add(attributeStats);
     this.add(cropStatPane);
+
+
+    getInputMap(WHEN_IN_FOCUSED_WINDOW)
+      .put(KeyStroke.getKeyStroke("M"), "switchToMetric");
+    getActionMap().put("switchToMetric", new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        setConverter(new MetricDisplayConverter());
+        update(null, null);
+      }
+    });
+
+
+    getInputMap(WHEN_IN_FOCUSED_WINDOW)
+      .put(KeyStroke.getKeyStroke("A"), "switchToAmerican");
+    getActionMap().put("switchToAmerican", new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        setConverter(new AmericanUniteConverter());
+        update(null, null);
+      }
+    });
+
+  }
+
+  public WorldPresenter getPresenter()
+  {
+    if (presenter == null)
+    {
+      throw new NullPointerException("World Presenter is null in InfoPanel!");
+    }
+    return presenter;
+  }
+
+  public void setPresenter(WorldPresenter presenter)
+  {
+    this.presenter = presenter;
+    presenter.addObserver(this);
+  }
+
+  public DisplayUnitConverter getConverter()
+  {
+    // defaults to AmericanUniteConverter
+    if (converter == null) converter = new AmericanUniteConverter();
+    return converter;
+  }
+
+  public void setConverter(DisplayUnitConverter converter)
+  {
+    this.converter = converter;
   }
 
   public void displayGUIRegion(GUIRegion region)
@@ -99,7 +153,6 @@ public class InfoPanel extends JPanel
     }
   }
 
-
   /**
    * Controls the presentation logic for displaying the the soil attributes
    * in the info panel for the specified region.
@@ -122,63 +175,64 @@ public class InfoPanel extends JPanel
     }
   }
 
-  private BarPanel getBarPanel(RegionAttributes attributesSet, PLANTING_ATTRIBUTES att)
+  private BarPanel getBarPanel(final RegionAttributes attributesSet, PLANTING_ATTRIBUTES att)
   {
+    RegionAttributes converted = getConverter().convertAttributes(attributesSet);
     final int FULL_BAR = 1;
     String Primarylable = att.toString();
     Color barColor = BAR_GRAPH_NEG;
     double ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
-    String secondaryLabel = String.format("%.2f", attributesSet.getAttribute(att));
+    String secondaryLabel = String.format("%.2f", converted.getAttribute(att));
 
     switch (att)
     {
       case PLANTING_ZONE:
-        barColor = PlantingZoneView.getPlantingColor(attributesSet.getAttribute(att));
+        barColor = PlantingZoneView.getPlantingColor(converted.getAttribute(att));
         ratio = FULL_BAR;
-        secondaryLabel = "ZONE: " + (int) (double) attributesSet.getAttribute(att);
+        secondaryLabel = "ZONE: " + (int) (double) converted.getAttribute(att);
         break;
 
       case PROFIT_FROM_CROPS:
         barColor = Color.green;
-        secondaryLabel = "$" + secondaryLabel;
+        secondaryLabel = getConverter().getCurrencySymbol() + " " + secondaryLabel;
         break;
 
       case COST_OF_CROPS:
         barColor = Color.red;
-        secondaryLabel = "$" + secondaryLabel;
+        secondaryLabel = getConverter().getCurrencySymbol() + " " + secondaryLabel;
         break;
 
       case HAPPINESS:
-        ratio = attributesSet.getAttribute(att);
+        ratio = converted.getAttribute(att);
         barColor = getHappyColor(ratio);
         secondaryLabel = getHappyLabel(ratio);
         break;
 
       case ANNUAL_RAINFALL:
-        secondaryLabel = secondaryLabel + " in.";
+        secondaryLabel = secondaryLabel + " " + getConverter().getIncheSymbol();
         break;
 
       case MONTHLY_RAINFALL:
-        secondaryLabel = secondaryLabel + " in.";
+        secondaryLabel = secondaryLabel + " " + getConverter().getIncheSymbol();
         break;
 
       case POPULATION:
-        secondaryLabel = "" + (int) (double) attributesSet.getAttribute(att);
+        secondaryLabel = "" + (int) (double) converted.getAttribute(att);
         break;
 
       case AVE_MONTH_TEMP_HI:
-        secondaryLabel = secondaryLabel + " F";
+        secondaryLabel = secondaryLabel + " " + getConverter().getTmpSymbol();
         barColor = Color.red;
         break;
 
       case AVE_MONTH_TEMP_LO:
         ratio = Math.abs(ratio);
-        secondaryLabel = secondaryLabel + " F";
+        secondaryLabel = secondaryLabel + " " + getConverter().getTmpSymbol();
         barColor = BAR_GRAPH_NEG;
         break;
 
       case ELEVATION:
-        secondaryLabel = secondaryLabel + " ft.";
+        secondaryLabel = secondaryLabel + " " + getConverter().getFeetSymbol();
         break;
 
       case SOIL_TYPE:
@@ -186,7 +240,7 @@ public class InfoPanel extends JPanel
         break;
 
       default:
-        // no nothing fall back on the above default values.
+        // no nothing, fall back on the above default values.
 
     }
 
@@ -226,60 +280,6 @@ public class InfoPanel extends JPanel
     attributeStats.clearBarPlots();
   }
 
-  /**
-   * FOR TESTING ONLY
-   * todo remove when done!
-   *
-   * @param args
-   */
-  public static void main(String[] args)
-  {
-    
-    long seed = 442;
-    final Random random = new Random();
-    final AttributeGenerator randoAtts = new AttributeGenerator();
-
-    final java.util.List<Region> testlist = (java.util.List<Region>) KMLParser.getRegionsFromFile("resources/ne_50m_admin_1_states_provinces_lakes.kml");
-    Collections.shuffle(testlist, random);
-
-    Region firstRegion = testlist.get(0);
-    System.out.println("regoins name: " + firstRegion);
-    GUIRegion testRegion = new GUIRegion(firstRegion, new EquirectangularConverter(), null);
-
-    final JFrame frame = new JFrame();
-    final InfoPanel infoPanel = new InfoPanel();
-    infoPanel.displayGUIRegion(testRegion);
-
-    frame.add(infoPanel);
-    frame.pack();
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//    frame.setResizable(false);
-    frame.setVisible(true);
-
-    // code this ugly is only for testing....
-    new Timer(20, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        frame.repaint();
-      }
-    }).start();
-
-
-    new Timer(1000 * 5, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        Region region = testlist.remove(0);
-        GUIRegion guiRegion = new GUIRegion(region, new EquirectangularConverter(), null);
-        infoPanel.displayGUIRegion(guiRegion);
-      }
-    }).start();
-  }
-
-
   public void displayAllGUIRegions(List<GUIRegion> regions)
   {
     miniViewBox.setDrawableRegions(regions);
@@ -294,5 +294,34 @@ public class InfoPanel extends JPanel
     }
 
     drawArea(sumArea);
+  }
+
+  /**
+   * This method is called whenever the observed object is changed. An
+   * application calls an <tt>Observable</tt> object's
+   * <code>notifyObservers</code> method to have all the object's
+   * observers notified of the change.
+   *
+   * @param o   the observable object.
+   * @param arg an argument passed to the <code>notifyObservers</code>
+   */
+  @Override
+  public void update(Observable o, Object arg)
+  {
+    List<GUIRegion> activeRegions = getPresenter().getActiveRegions();
+    if (activeRegions == null)
+    {
+      clearDisplay();
+      return;
+    }
+
+    if (activeRegions.size() == 1)
+    {
+      displayGUIRegion(activeRegions.get(0));
+    }
+    else
+    {
+      displayAllGUIRegions(activeRegions);
+    }
   }
 }
