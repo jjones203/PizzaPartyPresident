@@ -5,6 +5,7 @@ import gui.*;
 import gui.hud.AmericanUniteConverter;
 import gui.hud.InfoPanel;
 import gui.hud.MetricDisplayConverter;
+import gui.hud.TopPanel;
 import gui.regionlooks.RegionViewFactory;
 import model.Region;
 import model.World;
@@ -63,10 +64,14 @@ public class MapPaneTest
 
     final InfoPanel infoPanel = new InfoPanel();
     infoPanel.setPresenter(presenter);
+    
+    TopPanel topPanel = new TopPanel(presenter);
+    presenter.addObserver(topPanel);
 
     JFrame win = new JFrame();
     win.setLayout(new BorderLayout());
     win.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    win.add(topPanel, BorderLayout.NORTH);
     win.add(mapPane, BorderLayout.CENTER);
     win.add(infoPanel, BorderLayout.SOUTH);
     win.pack();
