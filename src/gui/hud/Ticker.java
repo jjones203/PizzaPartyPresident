@@ -1,5 +1,6 @@
 package gui.hud;
 
+import gui.ColorsAndFonts;
 import gui.WorldPresenter;
 
 import javax.swing.*;
@@ -17,50 +18,79 @@ import java.util.List;
  description: */
 public class Ticker extends JPanel
 {
- 
- private WorldPresenter presenter;
 
- private final static String[] testStrings = 
- {
-   "Cost of Soylent Green Is Rising As Birthrates Fall In China",
-   "Chocolate Chips Outlawed As Scone Ingredient; Scone Farmers Rejoice", 
-   "Lorem Ipsum Dolor Sit Amet"
- };
- 
- private List<String> marquis;
+  private static final Font MARQUIS_FONT = ColorsAndFonts.TOP_FONT;
+  private static final int INSET = 5;
 
- private Timer timer;
+  private final static String[] testStrings =
+    {
+      "Cost of Soylent Green Is Rising As Birthrates Fall In China",
+      "Chocolate Chips Outlawed As Scone Ingredient; Scone Farmers Rejoice",
+      "Lorem Ipsum Dolor Sit Amet"
+    };
 
- public Ticker(WorldPresenter presenter)
- {
-  this.presenter = presenter;
-  marquis = new ArrayList<>();
-  marquis.addAll(Arrays.asList(testStrings));
-  timer = new Timer(25, new ActionListener()
+  private List<String> marquis;
+
+  private Timer timer;
+
+  public Ticker()
   {
-   @Override
-   public void actionPerformed(ActionEvent e)
-   {
-    repaint();
-   }
-  });
- }
+    marquis = new ArrayList<>();
+    marquis.addAll(Arrays.asList(testStrings));
 
- @Override
- protected void paintComponent(Graphics g)
- {
-  super.paintComponent(g);
-  Graphics2D g2 = (Graphics2D) g;
+    int h = getFontMetrics(MARQUIS_FONT).getHeight() + INSET;
+    int w = 600;
+    setMinimumSize(new Dimension(0, h));
+    setPreferredSize(new Dimension(w, h));
+    setMaximumSize(getPreferredSize());
+    
+    setBackground(ColorsAndFonts.GUI_BACKGROUND);
+
+    timer = new Timer(25, new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        repaint();
+      }
+    });
+  }
+
+  @Override
+  protected void paintComponent(Graphics g)
+  {
+    super.paintComponent(g);
+    Graphics2D g2 = (Graphics2D) g;
+    
+  }
   
- }
+  public void clearMarquisText()
+  {
+    marquis.clear();
+  }
+  
+  public void setMarquisText(List<String> newsList )
+  {
+    marquis = newsList;
+  }
+  
+  public void addMarquisText(String news)
+  {
+    marquis.add(news);
+  }
+  
+  public void addMarquisText(List<String> newsList)
+  {
+    marquis.addAll(newsList);
+  }
 
- public void start()
- {
-  timer.start();
- }
- 
- public void pause()
- {
-  timer.stop();
- }
+  public void start()
+  {
+    timer.start();
+  }
+
+  public void pause()
+  {
+    timer.stop();
+  }
 }
