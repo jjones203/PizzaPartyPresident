@@ -11,13 +11,11 @@ import model.World;
 import testing.generators.AttributeGenerator;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author david
@@ -48,10 +46,14 @@ public class MapPaneTest
       randoAtts.setRegionAttributes(r, random);
     }
 
-    World world = new World(modelMap);
+    Collection<Region> allregions = new ArrayList<>(backgroundRegions);
+    allregions.addAll(modelMap);
+
+    World world = new World(allregions);
+
 
     MapConverter converter = new EquirectangularConverter();
-    final WorldPresenter presenter = new WorldPresenter(converter);
+    final WorldPresenter presenter = new WorldPresenter(converter, world);
     presenter.setBackgroundRegions(backgroundRegions);
     presenter.setModelRegions(modelMap);
 

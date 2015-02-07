@@ -34,7 +34,7 @@ public class WorldPresenter extends Observable
   private RegionViewFactory regionViewFactory;
 
 
-  public WorldPresenter(MapConverter mpConverter)
+  public WorldPresenter(MapConverter mpConverter, World world)
   {
     this.modelRegions = new ArrayList<>();
     this.backgroundRegions = new ArrayList<>();
@@ -42,7 +42,7 @@ public class WorldPresenter extends Observable
     this.regionViewFactory = new RegionViewFactory();
     this.activeRegions = new ActiveRegionList();
     this.lastDistance = CAM_DISTANCE.LONG;
-    this.world = new World();
+    this.world = world;
   }
 
   /**
@@ -76,7 +76,6 @@ public class WorldPresenter extends Observable
   {
     RegionView backG = regionViewFactory.getViewFromDistance(CAM_DISTANCE.LONG);
     modelRegions = wrapRegions(regions, backG);
-    world.setWorld(regions);
   }
 
   /*
