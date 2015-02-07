@@ -48,7 +48,7 @@ public class MapPaneTest
       randoAtts.setRegionAttributes(r, random);
     }
 
-    final World world = new World(modelMap);
+    World world = new World(modelMap);
 
     MapConverter converter = new EquirectangularConverter();
     final WorldPresenter presenter = new WorldPresenter(converter);

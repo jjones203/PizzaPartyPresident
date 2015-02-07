@@ -27,7 +27,7 @@ public class InfoPanel extends JPanel implements Observer
   private DisplayUnitConverter converter;
   private Dimension size = new Dimension(1000, 220);
   private WorldPresenter presenter;
-  
+
 
   public InfoPanel()
   {
