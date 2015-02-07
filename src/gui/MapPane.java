@@ -251,7 +251,7 @@ public class MapPane extends JPanel
     }
     else
     {
-      if (e.isShiftDown())
+      if (e.isMetaDown())
       {
         presenter.appendClickAt(mapClick.getX(), mapClick.getY(), cam);
       }

@@ -30,6 +30,17 @@ public class WorldPresenter extends Observable
   private ActiveRegionList activeRegions;
   private World world;
 
+  public boolean isActivelyDraging()
+  {
+    return activelyDraging;
+  }
+
+  public void setActivelyDraging(boolean activelyDraging)
+  {
+    this.activelyDraging = activelyDraging;
+  }
+
+  private boolean activelyDraging;
 
   private RegionViewFactory regionViewFactory;
 
@@ -49,6 +60,7 @@ public class WorldPresenter extends Observable
     this.activeRegions = new ActiveRegionList();
     this.lastDistance = CAM_DISTANCE.LONG;
     this.world = world;
+    this.activelyDraging = false;
   }
 
   /**
@@ -186,7 +198,7 @@ public class WorldPresenter extends Observable
       }
     }
   }
-  
+
   /**
    * Given a Camera, this method returns all the GUI regions 'in view',
    * and adjusts the look to the appropriate level of detail.
