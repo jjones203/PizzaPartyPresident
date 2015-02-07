@@ -277,11 +277,13 @@ public class InfoPanel extends JPanel implements Observer
     {
       setTitle(regions.get(0).getName());
       showAttributes(regions.get(0).getRegion().getAttributes());
+      miniViewBox.setAlph(0.0f);
     }
     else
     {
       clearDisplay();
       setTitle("HI DAVID!");
+      miniViewBox.setAlph(0.90f);
     }
     miniViewBox.setDrawableRegions(regions);
   }

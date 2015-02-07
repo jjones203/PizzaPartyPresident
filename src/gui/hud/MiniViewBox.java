@@ -166,6 +166,11 @@ public class MiniViewBox extends JPanel
     };
   }
 
+  public void setAlph(float x)
+  {
+    alpha = x;
+  }
+
   public void setDrawableRegions(List<GUIRegion> regions)
   {
     this.regions = regions;

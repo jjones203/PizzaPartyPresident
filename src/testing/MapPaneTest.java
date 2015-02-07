@@ -74,6 +74,7 @@ public class MapPaneTest
     win.add(infoPanel, BorderLayout.SOUTH);
     win.pack();
     win.setVisible(true);
+    win.setResizable(false);
     
     
     new Timer(20, new ActionListener()
