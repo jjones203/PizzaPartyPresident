@@ -40,11 +40,8 @@ public class AreaXMLloader
   /**
    * Constructor for class.
    *
-   * @throws ParserConfigurationException
-   * @throws SAXException
    */
   public AreaXMLloader()
-    throws ParserConfigurationException, SAXException
   {
     this(new RegionParserHandler());
   }
@@ -53,11 +50,8 @@ public class AreaXMLloader
    * Constructor for class
    *
    * @param handler RegionParsing Handler for building and containing the data
-   * @throws ParserConfigurationException
-   * @throws SAXException
    */
   public AreaXMLloader(RegionParserHandler handler)
-    throws ParserConfigurationException, SAXException
   {
     this.handler = handler;
 
@@ -65,8 +59,16 @@ public class AreaXMLloader
 
     spf.setNamespaceAware(true);
 
-    SAXParser saxParser = spf.newSAXParser();
-    xmlReader = saxParser.getXMLReader();
+    SAXParser saxParser = null;
+    try
+    {
+      saxParser = spf.newSAXParser();
+      xmlReader = saxParser.getXMLReader();
+    }
+    catch (ParserConfigurationException | SAXException e)
+    {
+      e.printStackTrace();
+    }
     xmlReader.setContentHandler(handler);
   }
 
@@ -105,15 +107,15 @@ public class AreaXMLloader
         if (locator.getLineNumber() != -1)
         {
           // we know the line that the error happened on
-          editor.highlightLine(locator.getLineNumber()-1);
-          editor.setCaretToline(locator.getLineNumber()-1);
+          editor.highlightLine(locator.getLineNumber() - 1);
+          editor.setCaretToline(locator.getLineNumber() - 1);
         }
 
         editor.setTitle("editing: " + currentFile);
         editor.setErrorMessage(e.getMessage());
         editor.setVisible(true);
 
-        if ( ! editor.getIgnoreFile())
+        if (!editor.getIgnoreFile())
         {
           filesToRead.add(0, currentFile);
         }

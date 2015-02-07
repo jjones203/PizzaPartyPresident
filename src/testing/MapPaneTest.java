@@ -1,5 +1,6 @@
 package testing;
 
+import IO.AreaXMLloader;
 import IO.XMLparsers.KMLParser;
 import gui.*;
 import gui.hud.AmericanUniteConverter;
@@ -47,8 +48,13 @@ public class MapPaneTest
       randoAtts.setRegionAttributes(r, random);
     }
 
+    AreaXMLloader areaXMLloader = new AreaXMLloader();
+
+
+
     List<Region> allRegions = new ArrayList<>(modelMap);
     allRegions.addAll(backgroundRegions);
+    allRegions.addAll(areaXMLloader.getRegions());
     World world = new World(allRegions);
 
 

@@ -19,17 +19,14 @@ import java.util.Collection;
 public class KMLParserTest
 {
   
-  public static Collection<Region> getRegions(){
+  public static Collection<Region> getRegions() throws ParserConfigurationException
+  {
     Collection<Region> l = new ArrayList<>();
 
     try
     {
       AreaXMLloader loader = new AreaXMLloader(new KMLParser());
       l = loader.parseFile("resources/2008_cpi_large.xml");
-    }
-    catch (ParserConfigurationException e)
-    {
-      e.printStackTrace();
     }
     catch (SAXException e)
     {

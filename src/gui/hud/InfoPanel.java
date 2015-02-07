@@ -110,7 +110,7 @@ public class InfoPanel extends JPanel implements Observer
 
   /**
    * Display the Specified Attribute object in the info panel.
-   * @param regionAttributes 
+   * @param regionAttributes
    */
   public void showAttributes(RegionAttributes regionAttributes)
   {
