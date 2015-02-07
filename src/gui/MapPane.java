@@ -9,10 +9,11 @@ import java.awt.event.*;
 import java.awt.geom.*;
 
 /**
- @author david
- created: 2015-02-03
-
- description: */
+ * @author david
+ *         created: 2015-02-03
+ *         <p/>
+ *         description:
+ */
 
 
 public class MapPane extends JPanel
@@ -27,7 +28,7 @@ public class MapPane extends JPanel
     DOWN = 40,
     RIGHT = 39,
     SHIFT = 16;
-  
+
   private boolean
     isUPdepressed,
     isDOWNdepressed,
@@ -39,11 +40,11 @@ public class MapPane extends JPanel
   private boolean drawMultiSelect;
   private Point2D multiSelectFrom;
   private Rectangle2D dragRect;
-  
+
   private WorldPresenter presenter;
   private Camera cam;
   private Point2D dragFrom;
-  
+
   private boolean doMultiSelect;
 
   // for key binding
@@ -75,7 +76,7 @@ public class MapPane extends JPanel
     }
   };
   // test key binding
-  private  Action stepWorld = new AbstractAction()
+  private Action stepWorld = new AbstractAction()
   {
     @Override
     public void actionPerformed(ActionEvent e)
@@ -86,9 +87,8 @@ public class MapPane extends JPanel
   };
 
   /**
-   
-   @param cam
-   @param presenter
+   * @param cam
+   * @param presenter
    */
   public MapPane(Camera cam, WorldPresenter presenter)
   {
@@ -101,7 +101,7 @@ public class MapPane extends JPanel
     setBackground(ColorsAndFonts.OCEANS);
 
     /* todo: sizing generalization */
-    setPreferredSize(new Dimension(1000,500));
+    setPreferredSize(new Dimension(1000, 500));
     setSize(getPreferredSize());
     setDoubleBuffered(true);
 
@@ -119,7 +119,7 @@ public class MapPane extends JPanel
     getInputMap().put(KeyStroke.getKeyStroke("4"), "step");
     getActionMap().put("step", stepWorld);
   }
-  
+
 
   @Override
   protected void paintComponent(Graphics g)
@@ -131,7 +131,7 @@ public class MapPane extends JPanel
 
     for (GUIRegion region : presenter.getRegionsInview(cam)) region.draw(g2);
 
-    if(drawMultiSelect)
+    if (drawMultiSelect)
     {
       g2.setTransform(new AffineTransform());/* reset transform!! */
       drawDragRect(g2);
@@ -157,11 +157,26 @@ public class MapPane extends JPanel
     {
       cam.zoomIn(ZOOM_STEP);
     }
-    else if (isDOWNdepressed) cam.translateRelativeToView(0, CAMERA_STEP);
-    else if (isUPdepressed) cam.translateRelativeToView(0, -CAMERA_STEP);
-    else if (isLEFTdepressed) cam.translateRelativeToView(-CAMERA_STEP, 0);
-    else if (isRIGHTdepressed) cam.translateRelativeToView(CAMERA_STEP, 0);
-    else return;
+    else if (isDOWNdepressed)
+    {
+      cam.translateRelativeToView(0, CAMERA_STEP);
+    }
+    else if (isUPdepressed)
+    {
+      cam.translateRelativeToView(0, -CAMERA_STEP);
+    }
+    else if (isLEFTdepressed)
+    {
+      cam.translateRelativeToView(-CAMERA_STEP, 0);
+    }
+    else if (isRIGHTdepressed)
+    {
+      cam.translateRelativeToView(CAMERA_STEP, 0);
+    }
+    else
+    {
+      return;
+    }
   }
 
 
@@ -192,11 +207,12 @@ public class MapPane extends JPanel
     }
   }
 
-  
-  @Override
-  public void keyTyped(KeyEvent e){ /*do nothing*/}
 
-  
+  @Override
+  public void keyTyped(KeyEvent e)
+  { /*do nothing*/}
+
+
   @Override
   public void keyReleased(KeyEvent e)
   {
@@ -220,7 +236,7 @@ public class MapPane extends JPanel
       default:
     }
   }
-  
+
 
   @Override
   public void mouseClicked(MouseEvent e)
@@ -233,11 +249,18 @@ public class MapPane extends JPanel
     }
     else
     {
-      presenter.singleClickAt(mapClick.getX(), mapClick.getY(), cam);
+      if (e.isShiftDown())
+      {
+        presenter.appendClickAt(mapClick.getX(), mapClick.getY(), cam);
+      }
+      else
+      {
+        presenter.singleClickAt(mapClick.getX(), mapClick.getY(), cam);
+      }
     }
   }
 
-  
+
   @Override
   public void mousePressed(MouseEvent e)
   {
@@ -246,7 +269,7 @@ public class MapPane extends JPanel
     dragFrom = e.getPoint();
   }
 
-  
+
   @Override
   public void mouseReleased(MouseEvent e)
   {
@@ -254,11 +277,12 @@ public class MapPane extends JPanel
     drawMultiSelect = false;
   }
 
-  
-  @Override
-  public void mouseEntered(MouseEvent e){ /* do nothing */ }
 
-  
+  @Override
+  public void mouseEntered(MouseEvent e)
+  { /* do nothing */ }
+
+
   private Rectangle2D rectFromCornerPoints(Point2D p1, Point2D p2)
   {
     double x = Math.min(p1.getX(), p2.getX());
@@ -270,9 +294,10 @@ public class MapPane extends JPanel
 
 
   @Override
-  public void mouseExited(MouseEvent e){ /* do nothing */}
+  public void mouseExited(MouseEvent e)
+  { /* do nothing */}
 
-  
+
   @Override
   public void mouseWheelMoved(MouseWheelEvent e)
   {
@@ -283,12 +308,12 @@ public class MapPane extends JPanel
     cam.zoomAbsolute(e.getPreciseWheelRotation() / 5, mapClick.getX(), mapClick.getY());
   }
 
-  
+
   @Override
   public void mouseDragged(MouseEvent e)
   {
-      
-    if(doMultiSelect)
+
+    if (doMultiSelect)
     {
       drawMultiSelect = true;
       Point2D p1 = convertToMapSpace(multiSelectFrom);
@@ -307,12 +332,11 @@ public class MapPane extends JPanel
   }
 
 
-  
   @Override
   public void mouseMoved(MouseEvent e)
-  { /* todo something here? */  }
+  { /* todo something here? */ }
 
-  
+
   private Point2D convertToMapSpace(Point2D screenClick)
   {
     AffineTransform a = cam.getTransform();
@@ -320,7 +344,8 @@ public class MapPane extends JPanel
     try
     {
       a.invert();
-    } catch (NoninvertibleTransformException e)
+    }
+    catch (NoninvertibleTransformException e)
     {
       e.printStackTrace();
       System.exit(1);

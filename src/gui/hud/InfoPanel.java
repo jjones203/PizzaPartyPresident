@@ -267,8 +267,16 @@ public class InfoPanel extends JPanel implements Observer
 
   public void displayAllGUIRegions(List<GUIRegion> regions)
   {
+    if (regions.size() == 1)
+    {
+      setTitle(regions.get(0).getName());
+    }
+    else
+    {
+      setTitle("HI DAVID!");
+    }
     miniViewBox.setDrawableRegions(regions);
-    setTitle("SUMMATION OF REGIONS");
+
   }
 
   /**
@@ -289,11 +297,6 @@ public class InfoPanel extends JPanel implements Observer
       clearDisplay();
       return;
     }
-    if(activeRegions.size() == 1)
-    {
-      RegionAttributes attribs = activeRegions.get(0).getRegion().getAttributes();
-      showAttributes(attribs);
-    }
-    displayAllGUIRegions(activeRegions);
+    else displayAllGUIRegions(activeRegions);
   }
 }
