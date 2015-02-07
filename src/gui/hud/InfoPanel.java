@@ -270,13 +270,14 @@ public class InfoPanel extends JPanel implements Observer
     if (regions.size() == 1)
     {
       setTitle(regions.get(0).getName());
+      displayAttributes(regions.get(0).getRegion().getAttributes(), attributeStats);
+      diplayCropState(regions.get(0).getRegion().getAttributes(), cropStatPane);
     }
     else
     {
       setTitle("HI DAVID!");
     }
     miniViewBox.setDrawableRegions(regions);
-
   }
 
   /**
