@@ -46,6 +46,7 @@ public class MapPaneTest
       randoAtts.setRegionAttributes(r, random);
     }
 
+    
     World world = new World(modelMap);
 
     MapConverter converter = new EquirectangularConverter();
@@ -64,7 +65,6 @@ public class MapPaneTest
     win.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     win.add(mapPane, BorderLayout.CENTER);
     win.add(infoPanel, BorderLayout.SOUTH);
-    win.addKeyListener(mapPane);
     win.pack();
     win.setVisible(true);
 

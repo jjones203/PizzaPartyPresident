@@ -28,8 +28,8 @@ public class AttributeGenerator
   
   private String[] crops = {
       "corn", "wheat", "grapeNuts",
-//      "coffee", "bread", "pudding",
-//      "scones with chocolate chips",
+      "coffee", "bread", "pudding",
+      "scones with chocolate chips",
       "anti-rasins", "apple sauce", "Soylent green",
       "Soylent blue",
   };
@@ -149,14 +149,13 @@ public class AttributeGenerator
     {
       attVal = attributes.getCropGrowth(crop);
       change = random.nextGaussian() * differential;
-      attVal = Math.max(0, Math.min(CROP_UNIT_LIMIT, attVal + change));
+      attVal = Math.max(0, Math.min(CROP_UNIT_LIMIT, attVal*(1 + change)));
       attributes.setCrop(crop, attVal);
     }
   }
 
 
   /**
-   
    Removed original and built this in case we need to do testing on a single  set of
    attributes.  Shouldn't need it anymore though.
    

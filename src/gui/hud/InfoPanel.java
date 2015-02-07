@@ -282,6 +282,11 @@ public class InfoPanel extends JPanel
 
   public void displayAllGUIRegions(List<GUIRegion> regions)
   {
+    miniViewBox.setDrawableRegions(regions);
+    setTitle("SUMMATION OF REGIONS");
+
+    if(true) return;
+    
     Area sumArea = new Area();
     for (GUIRegion r : regions)
     {
@@ -289,6 +294,5 @@ public class InfoPanel extends JPanel
     }
 
     drawArea(sumArea);
-    setTitle("SUMMATION OF REGIONS");
   }
 }

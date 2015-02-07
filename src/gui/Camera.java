@@ -1,7 +1,6 @@
 package gui;
 
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -11,10 +10,10 @@ import java.awt.image.BufferedImage;
 
  */
 
-public class Camera extends JPanel
+public class Camera
 {
   private static final double ASPECT_RATIO = 2;
-  private static final double BASE_W = 1000;
+  private static final double BASE_W = 1200;
   private static final double BASE_H = BASE_W / ASPECT_RATIO;
   
   private static final Font DBG_FONT = new Font("Courier", Font.PLAIN, 14);
