@@ -2,7 +2,9 @@ package testing;
 
 import IO.XMLparsers.KMLParser;
 import gui.*;
+import gui.hud.AmericanUniteConverter;
 import gui.hud.InfoPanel;
+import gui.hud.MetricDisplayConverter;
 import gui.regionlooks.RegionViewFactory;
 import model.Region;
 import model.World;
@@ -46,7 +48,7 @@ public class MapPaneTest
       randoAtts.setRegionAttributes(r, random);
     }
 
-    World world = new World(modelMap);
+    final World world = new World(modelMap);
 
     MapConverter converter = new EquirectangularConverter();
     final WorldPresenter presenter = new WorldPresenter(converter);
@@ -58,6 +60,7 @@ public class MapPaneTest
 
 
     final InfoPanel infoPanel = new InfoPanel();
+    infoPanel.setPresenter(presenter);
 
     JFrame win = new JFrame();
     win.setLayout(new BorderLayout());
@@ -67,35 +70,6 @@ public class MapPaneTest
     win.addKeyListener(mapPane);
     win.pack();
     win.setVisible(true);
-
-
-    Observer observer = new Observer()
-    {
-      @Override
-      public void update(Observable o, Object arg)
-      {
-        java.util.List<GUIRegion> regions = presenter.getActiveRegions();
-        if (regions == null)
-        {
-          infoPanel.clearDisplay();
-          return;
-        }
-
-        if (regions.size() == 1)
-        {
-          infoPanel.displayGUIRegion(regions.get(0));
-        }
-        else
-        {
-          infoPanel.displayAllGUIRegions(regions);
-        }
-
-
-
-      }
-    };
-    presenter.addObserver(observer);
-
     
     
     new Timer(20, new ActionListener()
@@ -105,7 +79,7 @@ public class MapPaneTest
       {
         mapPane.repaint();
         mapPane.update();
-        infoPanel.repaint();
+        infoPanel.repaint(); // todo this is weird. we should look into why this is needed
       }
     }).start();
 
