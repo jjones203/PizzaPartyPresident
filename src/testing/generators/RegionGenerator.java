@@ -9,6 +9,7 @@ import java.util.Random;
  * Phase_01
  * CS 351 spring 2015
  */
+@Deprecated
 public class RegionGenerator
 {
   private Random rando;

@@ -213,6 +213,8 @@ public class MapPane extends JPanel
   { /*do nothing*/}
 
 
+
+
   @Override
   public void keyReleased(KeyEvent e)
   {
@@ -275,6 +277,7 @@ public class MapPane extends JPanel
   {
     doMultiSelect = false;
     drawMultiSelect = false;
+    presenter.flagFinishedMultiselect();
   }
 
 

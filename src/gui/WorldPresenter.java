@@ -189,6 +189,17 @@ public class WorldPresenter extends Observable
 
 
   /**
+   * Tells the word presenter that the multiSelect operation has finished.
+   * Called when the mouse is dragged then released.
+   *
+   */
+  public void flagFinishedMultiselect()
+  {
+    setChanged();
+    notifyObservers();
+  }
+
+  /**
    * Given a Camera, this method returns all the GUI regions 'in view',
    * and adjusts the look to the appropriate level of detail.
    *

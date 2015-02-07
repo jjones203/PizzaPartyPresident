@@ -40,7 +40,7 @@ public interface ColorsAndFonts
   Font NAME_VIEW = new Font("SansSerif", Font.PLAIN, 400);
 
 
-  Color MINI_BOX_REGION = new Color(189, 185, 184);
+  Color MINI_BOX_REGION = new Color(222, 183, 106);
 
   Color[] PlantingZoneColors = {
     new Color(0x36F03A),
