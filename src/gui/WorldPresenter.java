@@ -254,7 +254,8 @@ public class WorldPresenter extends Observable
    * Returns all the regions in the given collection that
    * intersect the given rectangle
    */
-  private List<GUIRegion> getIntersectingRegions(Rectangle2D r, Collection<GUIRegion> regions)
+  private List<GUIRegion> getIntersectingRegions(Rectangle2D r,
+                                                 Collection<GUIRegion> regions)
   {
     List<GUIRegion> regionsInR = new ArrayList<>();
     for (GUIRegion g : regions)
@@ -290,14 +291,8 @@ public class WorldPresenter extends Observable
 
   public List<GUIRegion> getActiveRegions()
   {
-    if (activeRegions.isEmpty())
-    {
-      return null;
-    }
-    else
-    {
-      return activeRegions.getList();
-    }
+    if (activeRegions.isEmpty()) return null;
+    else return activeRegions.getList();
   }
 
 
@@ -306,9 +301,10 @@ public class WorldPresenter extends Observable
    */
   public void stepByMonth()
   {
+    world.stepByMonth();
+
     setChanged();
     notifyObservers();
-    world.stepByMonth();
   }
 
   public Date getWorldDate()
@@ -367,7 +363,8 @@ public class WorldPresenter extends Observable
 
     public void add(GUIRegion region)
     {
-      if (contains(region)) return; // already in the list.
+      if (contains(region)) return;
+
       region.setActive(true);
       activeRegions.add(region);
 
@@ -407,6 +404,7 @@ public class WorldPresenter extends Observable
     {
       for (GUIRegion r : activeRegions) r.setActive(false);
       activeRegions.clear();
+
       setChanged();
       notifyObservers();
     }
