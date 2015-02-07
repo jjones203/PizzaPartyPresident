@@ -7,7 +7,8 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.geom.Area;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
@@ -21,11 +22,13 @@ public class MiniViewBox extends JPanel
   private final static Color BORDER_COL = ColorsAndFonts.GUI_TEXT_COLOR.darker();
   private final static Font TITLE_FONT = ColorsAndFonts.HUD_TITLE;
   private final static Color GUI_BACKGROUND = ColorsAndFonts.GUI_BACKGROUND;
-  private final static Color FORGROUND_COL = ColorsAndFonts.GUI_TEXT_COLOR;
+  private final static Color FOREGROUND_COL = ColorsAndFonts.GUI_TEXT_COLOR;
   private final static RenderingHints rh = new RenderingHints(
     RenderingHints.KEY_ANTIALIASING,
     RenderingHints.VALUE_ANTIALIAS_ON
   );
+
+  private boolean isHovered;
 
   public static final EmptyBorder PADDING_BORDER = new EmptyBorder(5, 5, 5, 5);
   private JLabel titleLabel;
@@ -46,12 +49,27 @@ public class MiniViewBox extends JPanel
 
     titleLabel.setFont(TITLE_FONT);
     titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
-    titleLabel.setForeground(FORGROUND_COL);
+    titleLabel.setForeground(FOREGROUND_COL);
     titleLabel.setBorder(new CompoundBorder(
       BorderFactory.createMatteBorder(0, 0, 2, 0, BORDER_COL),
       PADDING_BORDER));
 
     regionViewer.setBorder(PADDING_BORDER);
+    regionViewer.addMouseListener(new MouseAdapter()
+    {
+      @Override
+      public void mouseEntered(MouseEvent e)
+      {
+        isHovered = true;
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e)
+      {
+        isHovered = false;
+      }
+    });
+
 
     // wire-up
     this.add(titleLabel, BorderLayout.NORTH);
@@ -139,7 +157,10 @@ public class MiniViewBox extends JPanel
         g2d.translate(xTranslate, yTranslate);
         g2d.scale(scaleValue, scaleValue);
 
-        g2d.setColor(ColorsAndFonts.MINI_BOX_REGION);
+        // currently there is no roll over behavior. but maybe someday...
+        if (isHovered) g2d.setColor(ColorsAndFonts.MINI_BOX_REGION);
+        else g2d.setColor(ColorsAndFonts.MINI_BOX_REGION);
+
         for (GUIRegion gr : regions) g2d.fill(gr.getPoly());
       }
     };

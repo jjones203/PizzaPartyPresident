@@ -1,8 +1,8 @@
 package testing;
 
+import IO.AreaXMLLoader;
 import IO.XMLparsers.KMLParser;
 import gui.*;
-import gui.hud.AmericanUniteConverter;
 import gui.hud.InfoPanel;
 import gui.hud.MetricDisplayConverter;
 import gui.hud.TopPanel;
@@ -42,14 +42,19 @@ public class MapPaneTest
     }
 
     Collection<Region> modelMap = KMLParser.getRegionsFromFile("resources/ne_10m_admin_1_states_provinces.kml");
-
+    modelMap.addAll(new AreaXMLLoader().getRegions()); // adds XML regions for area folder...
     for (Region r : modelMap)
     {
       randoAtts.setRegionAttributes(r, random);
     }
 
+
+
+
+
     List<Region> allRegions = new ArrayList<>(modelMap);
     allRegions.addAll(backgroundRegions);
+
     World world = new World(allRegions);
 
 

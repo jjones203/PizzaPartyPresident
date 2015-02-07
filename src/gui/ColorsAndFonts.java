@@ -19,8 +19,8 @@ public interface ColorsAndFonts
   Color ACTIVE_REGION = new Color(0xDEB564);
   Color ACTIVE_REGION_OUTLINE = new Color(0xE37956);
 
-  Color SELEECT_RECT_OUTLINE = new Color(94, 78, 114);
-  Color SELECT_RECT_FILL = new Color(SELEECT_RECT_OUTLINE.getRGB() & 0x50FFFFFF, true);
+  Color SELECT_RECT_OUTLINE = new Color(94, 78, 114);
+  Color SELECT_RECT_FILL = new Color(SELECT_RECT_OUTLINE.getRGB() & 0x50FFFFFF, true);
 
 
   Color PASSIVE_REGION = new Color(0xCCB79B);

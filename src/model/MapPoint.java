@@ -2,7 +2,7 @@ package model;
 
 
 /**
- * Created by winston on 1/20/15.
+ * Data class representing long and lat on a map.
  */
 public class MapPoint
 {

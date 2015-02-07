@@ -11,6 +11,7 @@ import java.awt.geom.Point2D;
  *         <p/>
  *         description:
  */
+@Deprecated
 public class CamController 
         extends KeyAdapter 
         implements ActionListener, MouseListener, MouseWheelListener

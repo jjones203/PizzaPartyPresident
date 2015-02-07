@@ -13,7 +13,7 @@ public abstract class DisplayUnitConverter
   public abstract String getCurrencySymbol();
 
   public abstract double convertInches(double inches);
-  public abstract String getIncheSymbol();
+  public abstract String getInchSymbol();
 
   public abstract double convertFeet(double feet);
   public abstract String getFeetSymbol();
@@ -66,13 +66,4 @@ public abstract class DisplayUnitConverter
     return copy;
 
   }
-
-
 }
-
-
-/*
- * currency dollars -> other furrence
- * distance in -> mm, ft -> meters
- * temperatur F -> c
- */

@@ -110,7 +110,7 @@ public class WorldPresenter extends Observable
    */
   public void selectAll(Rectangle2D rect, Camera camera)
   {
-    Collection<GUIRegion> regionsInView = getIntersectingRegions(rect, getRegionsInview(camera));
+    Collection<GUIRegion> regionsInView = getIntersectingRegions(rect, getRegionsInView(camera));
     activeRegions.clear();
     for (GUIRegion r : regionsInView)
     {
@@ -130,7 +130,14 @@ public class WorldPresenter extends Observable
    */
   public void singleClickAt(double x, double y, Camera camera)
   {
-    for (GUIRegion guir : getRegionsInview(camera))
+    /**
+     * The regions are reversed so that any region that is drawn on top of other
+     * regions will be drawn first and not the other way around.
+     */
+    List<GUIRegion> regionsInView = (List<GUIRegion>) getRegionsInView(camera);
+    Collections.reverse(regionsInView);
+
+    for (GUIRegion guir : regionsInView)
     {
       if (guir.getPoly().contains(x, y))
       {
@@ -146,6 +153,7 @@ public class WorldPresenter extends Observable
         return; //for early loop termination.
       }
     }
+    activeRegions.clear(); // deselects all regions when mouse click on ocean.
   }
 
   /**
@@ -159,7 +167,7 @@ public class WorldPresenter extends Observable
    */
   public void appendClickAt(double x, double y, Camera camera)
   {
-    for (GUIRegion guir : getRegionsInview(camera))
+    for (GUIRegion guir : getRegionsInView(camera))
     {
       if (guir.getPoly().contains(x, y))
       {
@@ -185,7 +193,7 @@ public class WorldPresenter extends Observable
    *               map.
    * @return all the regions in view, all set to the appropriate rendering rules.
    */
-  public Collection<GUIRegion> getRegionsInview(Camera camera)
+  public Collection<GUIRegion> getRegionsInView(Camera camera)
   {
     Rectangle2D inViewBox = camera.getViewBounds();
     Collection<GUIRegion> regionsInView = null;
@@ -193,7 +201,7 @@ public class WorldPresenter extends Observable
     if (DEBUG && lastDistance != calcDistance(camera))
     {
       lastDistance = calcDistance(camera);
-      System.out.println("currentCamer pos: " + lastDistance);
+      System.out.println("current Camera pos: " + lastDistance);
     }
 
     switch (calcDistance(camera))
@@ -211,7 +219,7 @@ public class WorldPresenter extends Observable
         break;
 
       default:
-        System.err.println(calcDistance(camera) + " (!)Not handeled by getRegionsInview");
+        System.err.println(calcDistance(camera) + " (!)Not handled by getRegionsInView");
         System.exit(1);
     }
 
@@ -254,7 +262,8 @@ public class WorldPresenter extends Observable
    * Returns all the regions in the given collection that
    * intersect the given rectangle
    */
-  private List<GUIRegion> getIntersectingRegions(Rectangle2D r, Collection<GUIRegion> regions)
+  private List<GUIRegion> getIntersectingRegions(Rectangle2D r,
+                                                 Collection<GUIRegion> regions)
   {
     List<GUIRegion> regionsInR = new ArrayList<>();
     for (GUIRegion g : regions)
@@ -290,14 +299,8 @@ public class WorldPresenter extends Observable
 
   public List<GUIRegion> getActiveRegions()
   {
-    if (activeRegions.isEmpty())
-    {
-      return null;
-    }
-    else
-    {
-      return activeRegions.getList();
-    }
+    if (activeRegions.isEmpty()) return null;
+    else return activeRegions.getList();
   }
 
 
@@ -306,9 +309,10 @@ public class WorldPresenter extends Observable
    */
   public void stepByMonth()
   {
+    world.stepByMonth();
+
     setChanged();
     notifyObservers();
-    world.stepByMonth();
   }
 
   public Date getWorldDate()
@@ -367,7 +371,8 @@ public class WorldPresenter extends Observable
 
     public void add(GUIRegion region)
     {
-      if (contains(region)) return; // already in the list.
+      if (contains(region)) return;
+
       region.setActive(true);
       activeRegions.add(region);
 
@@ -407,6 +412,7 @@ public class WorldPresenter extends Observable
     {
       for (GUIRegion r : activeRegions) r.setActive(false);
       activeRegions.clear();
+
       setChanged();
       notifyObservers();
     }

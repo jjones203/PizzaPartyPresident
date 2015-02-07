@@ -1,7 +1,5 @@
 package model;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +8,18 @@ import java.util.Map;
  * Created by winston on 1/23/15.
  * Phase_01
  * CS 351 spring 2015
+ * <p/>
+ * Class representing all the different attributes and crops that can be
+ * associated with a given region. Essentially a data class.
  */
-public class  RegionAttributes
+public class RegionAttributes
 {
 
+  /**
+   * static map to represent att the limits of all the different attributes.
+   */
   public final static Map<PLANTING_ATTRIBUTES, Double> LIMITS = new HashMap<>();
+
   static
   {
     LIMITS.put(PLANTING_ATTRIBUTES.PLANTING_ZONE, 13.0);
@@ -30,15 +35,26 @@ public class  RegionAttributes
     LIMITS.put(PLANTING_ATTRIBUTES.HAPPINESS, 1.0);
   }
 
-
   private HashMap<PLANTING_ATTRIBUTES, Double> attSet = new HashMap<>();
-
   private HashMap<String, Double> crops = new HashMap<>();
+
+  /**
+   * Produces the value associated with the given attribute.
+   *
+   * @param att enum representing the given attribute.
+   * @return double. Value associated with attribute,
+   */
   public Double getAttribute(PLANTING_ATTRIBUTES att)
   {
     return attSet.get(att);
   }
 
+  /**
+   * Set the given attribute to the given value.
+   *
+   * @param att attribute to set.
+   * @param x   value to store.
+   */
   public void setAttribute(PLANTING_ATTRIBUTES att, double x)
   {
     attSet.put(att, x);
@@ -46,9 +62,10 @@ public class  RegionAttributes
 
 
   /**
-   Set crop growth by name
-   @param name  name of crop
-   @param amount  amount of crop grown, units arbitrary
+   * Set crop growth by name
+   *
+   * @param name   name of crop
+   * @param amount amount of crop grown, units arbitrary
    */
   public void setCrop(String name, double amount)
   {
@@ -56,53 +73,55 @@ public class  RegionAttributes
   }
 
   /**
-   Get crop percentage by name
-   @param name
-   @return
+   * Get crop percentage by name
+   *
+   * @param name
+   * @return
    */
   public double getCropP(String name)
   {
-    if(!crops.containsKey(name)) return 0;
-    
+    if (!crops.containsKey(name)) return 0;
+
     double totalCrops = 0;
-    for(String crop : crops.keySet())
+    for (String crop : crops.keySet())
     {
       totalCrops += crops.get(crop);
     }
-    return crops.get(name)/totalCrops;
+    return crops.get(name) / totalCrops;
   }
 
   /**
-   Get crop growth by name
-   @param name
-   @return
+   * Get crop growth by name
+   *
+   * @param name
+   * @return
    */
   public double getCropGrowth(String name)
   {
-    if(!crops.containsKey(name)) return 0;
+    if (!crops.containsKey(name)) return 0;
     return crops.get(name);
   }
 
-  
+
   public Collection<String> getAllCrops()
   {
     return crops.keySet();
   }
 
-  
+
   @Override
   public String toString()
   {
     return "RegionAttributes{" +
-        "attSet=" + attSet +
-        ", crops=" + crops +
-        '}';
+      "attSet=" + attSet +
+      ", crops=" + crops +
+      '}';
   }
 
 
   /**
-   enum describing a set of potential planting-related attributes a region
-   might have.
+   * enum describing a set of potential planting-related attributes a region
+   * might have.
    */
   public enum PLANTING_ATTRIBUTES
   {

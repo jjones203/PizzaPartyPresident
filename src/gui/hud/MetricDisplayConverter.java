@@ -18,7 +18,7 @@ public class MetricDisplayConverter extends DisplayUnitConverter
   }
 
   @Override
-  public String getIncheSymbol()
+  public String getInchSymbol()
   {
     return "mm";
   }

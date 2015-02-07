@@ -28,9 +28,9 @@ public class RegionValidator
 
     //TODO make sure this is an adequate test...
 
-    boolean isSigular = new Area(CONVERTER.regionToPolygon(region)).isSingular();
+    boolean isSingular = new Area(CONVERTER.regionToPolygon(region)).isSingular();
 
-    if (! isSigular) throw new SAXException("Invalid Region shape");
+    if (! isSingular) throw new SAXException("Invalid Region shape");
 
     return true;
   }
@@ -38,10 +38,9 @@ public class RegionValidator
 
   private boolean isValidMapPoint(MapPoint mapPoint)
   {
-    boolean validCoords = Math.abs(mapPoint.getLat()) <= 90.00 &&
-                          Math.abs(mapPoint.getLon()) <= 180.00;
 
-    return validCoords;
+    return Math.abs(mapPoint.getLat()) <= 90.00 &&
+           Math.abs(mapPoint.getLon()) <= 180.00;
 
   }
 }

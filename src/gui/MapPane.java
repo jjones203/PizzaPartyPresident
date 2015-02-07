@@ -129,7 +129,7 @@ public class MapPane extends JPanel
     Graphics2D g2 = (Graphics2D) g;
     g2.setTransform(cam.getTransform());
 
-    for (GUIRegion region : presenter.getRegionsInview(cam)) region.draw(g2);
+    for (GUIRegion region : presenter.getRegionsInView(cam)) region.draw(g2);
 
     if (drawMultiSelect)
     {
@@ -140,7 +140,7 @@ public class MapPane extends JPanel
 
   private void drawDragRect(Graphics2D g2)
   {
-    g2.setColor(ColorsAndFonts.SELEECT_RECT_OUTLINE);
+    g2.setColor(ColorsAndFonts.SELECT_RECT_OUTLINE);
     g2.draw(dragRect);
     g2.setColor(ColorsAndFonts.SELECT_RECT_FILL);
     g2.fill(dragRect);
@@ -175,7 +175,7 @@ public class MapPane extends JPanel
     }
     else
     {
-      return;
+      // do no-thing...
     }
   }
 

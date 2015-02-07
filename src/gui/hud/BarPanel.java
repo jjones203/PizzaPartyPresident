@@ -18,8 +18,8 @@ public class BarPanel extends JPanel
   private static final Font OVERLAY_FONT = new Font("SansSerif", Font.PLAIN, 10);
 
   private static final Color BAR_TEXT_C = Color.black;
-  public static final Color TEXT_ROLLOVER_C = Color.white;
-  public static final Color BAR_ROLLOVER_C = Color.gray;
+  private static final Color TEXT_ROLLOVER_C = new Color(255, 165, 148);
+  private static final Color BAR_ROLLOVER_C = Color.gray;
 
   private final Color originalBarColor;
   private Color overLayTextColor;
@@ -78,12 +78,7 @@ public class BarPanel extends JPanel
     label.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     label.setHorizontalAlignment(SwingConstants.LEFT);
     label.setVerticalAlignment(SwingConstants.TOP);
-
     addMouseListener(getMouseListener());
-
-    // tool tip setup
-//    createToolTip();
-//    setToolTipText(Double.toString(ratio));
 
     //wire
     add(label);
@@ -135,7 +130,10 @@ public class BarPanel extends JPanel
         if (animationStep < length) animationStep += 3;
 
         g.setColor(barColor);
-        g.fillRect(10, 2, animationStep, 12); //todo change 12 to font metric.
+
+        // position info, animation, and seize of bar, should correlate to font
+        // size.
+        g.fillRect(10, 2, animationStep, 12);
 
         // if over lay text has been specified.
         if (overLayText != null)

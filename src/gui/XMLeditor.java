@@ -22,9 +22,9 @@ import java.io.IOException;
 /**
  * User Interface for Editing XML files. This is a modal dialogue box
  */
-public class XMLeditor extends JDialog
+public class XMLEditor extends JDialog
 {
-  private final static Color HILIGHT_ERROR = ColorsAndFonts.XML_ERROR;
+  private final static Color HIGHLIGHT_ERROR = ColorsAndFonts.XML_ERROR;
   private final static Font EDITOR_FONT = new Font("Helvetica", Font.PLAIN, 16);
   private String currentFile;
   private RSyntaxTextArea textArea = new RSyntaxTextArea();
@@ -33,7 +33,7 @@ public class XMLeditor extends JDialog
   private RTextScrollPane scrollPane; //TODO look into how to set the scroll pane to a given line number.
 
 
-  public XMLeditor()
+  public XMLEditor()
   {
     setModal(true);
     textArea.setFont(EDITOR_FONT);
@@ -102,13 +102,13 @@ public class XMLeditor extends JDialog
 
   /**
    * Will highlight a line as an error.
-   * @param lnum line number
+   * @param lineNum line number
    */
-  public void highlightLine(int lnum)
+  public void highlightLine(int lineNum)
   {
     try
     {
-      textArea.addLineHighlight(lnum, HILIGHT_ERROR);
+      textArea.addLineHighlight(lineNum, HIGHLIGHT_ERROR);
     }
     catch (BadLocationException e)
     {
@@ -118,15 +118,15 @@ public class XMLeditor extends JDialog
 
 
   /**
-   * Moves the Carret to the specifed line number
-   * @param lnum line number to move to.
+   * Moves the Caret to the given line number
+   * @param lineNum line number to move to.
    */
-  public void setCaretToline(int lnum)
+  public void setCaretToLine(int lineNum)
   {
-    //todo try To get the scroll wheel to he righ position.
+    //todo try To get the scroll wheel to he right position.
     textArea.setCaretPosition( textArea.getDocument()
             .getDefaultRootElement()
-            .getElement(lnum)
+            .getElement(lineNum)
             .getStartOffset()
     );
   }

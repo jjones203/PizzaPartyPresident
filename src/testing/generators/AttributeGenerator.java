@@ -30,7 +30,7 @@ public class AttributeGenerator
       "corn", "wheat", "grapeNuts",
       "coffee", "bread", "pudding",
       "scones with chocolate chips",
-      "anti-rasins", "apple sauce", "Soylent green",
+      "anti-rains", "apple sauce", "Soylent green",
       "Soylent blue",
   };
   
@@ -38,23 +38,23 @@ public class AttributeGenerator
 
   public void setRegionAttributes(Region reg, Random rand)
   {
-    RegionAttributes attribs = new RegionAttributes();
+    RegionAttributes attributes = new RegionAttributes();
 
     for(PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
     {
       switch(att)
       {
         case PLANTING_ZONE:
-          attribs.setAttribute(att, genPlantZone(reg));
+          attributes.setAttribute(att, genPlantZone(reg));
           break;
         case ANNUAL_RAINFALL:
-          attribs.setAttribute(att, LIMITS.get(ANNUAL_RAINFALL) * rand.nextDouble());
+          attributes.setAttribute(att, LIMITS.get(ANNUAL_RAINFALL) * rand.nextDouble());
           break;
         case AVE_MONTH_TEMP_HI:
-          attribs.setAttribute(att, genHiTemp(reg, rand));
+          attributes.setAttribute(att, genHiTemp(reg, rand));
           break;
         case AVE_MONTH_TEMP_LO:
-          attribs.setAttribute(att, genLowTemp(reg, rand));
+          attributes.setAttribute(att, genLowTemp(reg, rand));
           break;
         case COST_OF_CROPS:
         case ELEVATION:
@@ -62,25 +62,25 @@ public class AttributeGenerator
         case POPULATION:
         case PROFIT_FROM_CROPS:
         case SOIL_TYPE:
-          attribs.setAttribute(att, genPosGaussian(rand, LIMITS.get(att)));
+          attributes.setAttribute(att, genPosGaussian(rand, LIMITS.get(att)));
           break;
         default:
-          attribs.setAttribute(att, rand.nextDouble());
+          attributes.setAttribute(att, rand.nextDouble());
       }
     }
     
-    setCrops(reg, attribs, rand);
-    reg.setAttributes(attribs);
+    setCrops(reg, attributes, rand);
+    reg.setAttributes(attributes);
   }
 
   /*
     Randomly generating crop growth for a region
    */
-  private void setCrops(Region reg, RegionAttributes attribs, Random rand)
+  private void setCrops(Region reg, RegionAttributes attrs, Random rand)
   {
     for(String crop : crops)
     {
-      attribs.setCrop(crop, genPosGaussian(rand, CROP_UNIT_LIMIT));
+      attrs.setCrop(crop, genPosGaussian(rand, CROP_UNIT_LIMIT));
     }
   }
 
@@ -121,9 +121,8 @@ public class AttributeGenerator
     midLat /= reg.getPerimeter().size();
     
     midLat += 90; /* shift to bring into natural number land */
-    
-    double zone =  Math.ceil(midLat / (180.0/numZones));
-    return zone;
+
+    return Math.ceil(midLat / (180.0/numZones));
   }
 
   

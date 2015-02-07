@@ -76,9 +76,6 @@ public class RegionParserHandler extends DefaultHandler implements RegionParser
     {
     /*
      * entering a new area tag.
-     * re-init tmp objects:
-     *    1) tmpRegion
-     *    2) peremterSet
      */
       case "area":
         tmpRegion = new AtomicRegion();
@@ -105,7 +102,7 @@ public class RegionParserHandler extends DefaultHandler implements RegionParser
         catch (Exception e)
         {
           System.out.println(locator.getLineNumber());
-          fatalError(new SAXParseException("Could not parse lat or lon.", locator));
+          fatalError(new SAXParseException("Could not parse lat/lon.", locator));
         }
         tmpPerimeterSet.add(new MapPoint(lat, lon));
         break;
