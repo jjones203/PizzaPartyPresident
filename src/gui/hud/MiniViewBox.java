@@ -76,7 +76,7 @@ public class MiniViewBox extends JPanel
       @Override
       public void paint(Graphics g)
       {
-        if (!regions.isEmpty())
+        if (!(regions == null) || !regions.isEmpty())
         {
           Graphics2D g2d = (Graphics2D) g;
           g2d.setRenderingHints(rh);
@@ -97,6 +97,7 @@ public class MiniViewBox extends JPanel
           double polyW, polyH;
           double minX = Double.MAX_VALUE, minY = Double.MAX_VALUE;
           double maxX = Double.MIN_VALUE, maxY = Double.MIN_VALUE;
+          
           for(GUIRegion gr : regions)
           {
             Rectangle bounds = gr.getPoly().getBounds();
@@ -105,6 +106,7 @@ public class MiniViewBox extends JPanel
             maxX = Math.max(maxX, bounds.getMaxX());
             maxY = Math.max(maxY, bounds.getMaxY());
           }
+          
           polyW = maxX - minX;
           polyH = maxY - minY;
 
