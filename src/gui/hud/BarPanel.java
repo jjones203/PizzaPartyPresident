@@ -115,8 +115,6 @@ public class BarPanel extends JPanel
   /**
    * Generates an inner class to handel the custom drawing of the
    * bar.
-   *
-   * @return component that will be drawn in a special way.
    */
   private Component getBarPane()
   {
