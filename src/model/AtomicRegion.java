@@ -5,7 +5,10 @@ import java.util.List;
 
 
 /**
- * Created by winston on 1/20/15.
+ * Represent a homogeneous area. Defined by a perimeter and various planting
+ * attributes. The class acts as a kind of container for the parsed XML data.
+ *
+ * @author winston riley
  */
 public class AtomicRegion implements Region
 {

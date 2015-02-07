@@ -11,6 +11,10 @@ import java.util.Random;
  * Created by winston on 1/23/15.
  * Phase_01
  * CS 351 spring 2015
+ *
+ *  The world is everything that is the case.
+ *  The world is the totality of facts, not of things.
+ *  The facts in logical space are the world.
  */
 public class World
 {
@@ -18,57 +22,50 @@ public class World
   private Collection<Region> world;
   private Calendar currentDate;
 
-
-  public World()
-  {
-    this(new ArrayList<Region>(), Calendar.getInstance());
-  }
-
+  /**
+   * Class constructor. To build a world one must have a collection of regions.
+   * @param world collection of regions that we represent the world
+   */
   public World(Collection<Region> world)
   {
     this(world, Calendar.getInstance());
   }
 
+  /**
+   * One can also build a world starting at a particular date.
+   * @param world
+   */
   public World(Collection<Region> world, Calendar cal)
   {
     this.world = world;
     this.currentDate = cal;
   }
 
-  public static void main(String[] args)
-  {
-    World world = new World();
-    System.out.println(world.currentDate.getTime());
-    world.stepByMonth();
-    System.out.println(world.currentDate.getTime());
-  }
-
+  /**
+   * Get the current time of this particular world.
+   * @return a calendar object, with the date and time in side.
+   */
   public Calendar getCurrentDate()
   {
     return currentDate;
   }
 
+  /**
+   * Set the world time to the given calendar date.
+   * @param currentDate date the world will be after calling this method.
+   */
   public void setCurrentDate(Calendar currentDate)
   {
     this.currentDate = currentDate;
   }
 
   /**
-   * advances the game world forward one month.
+   * advances the game world forward one month. Simulates the game logic
+   * by using random values.
    */
   public void stepByMonth()
   {
     currentDate.add(Calendar.MONTH, 1);
     AttributeGenerator.stepAttributes(random, world);
-  }
-
-  public Collection<Region> getWorld()
-  {
-    return world;
-  }
-
-  public void setWorld(Collection<Region> world)
-  {
-    this.world = world;
   }
 }

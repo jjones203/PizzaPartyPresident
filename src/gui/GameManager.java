@@ -10,6 +10,7 @@ import model.World;
  description:
  
  */
+@Deprecated
 public class GameManager
 {
  
