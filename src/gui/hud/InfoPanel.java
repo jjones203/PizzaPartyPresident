@@ -8,15 +8,14 @@ import model.RegionAttributes;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.*;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import static gui.ColorsAndFonts.BAR_GRAPH_NEG;
 import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 
 /**
- * Created by winston on 2/3/15.
+ Created by winston on 2/3/15.
  */
 public class InfoPanel extends JPanel implements Observer
 {
@@ -109,8 +108,9 @@ public class InfoPanel extends JPanel implements Observer
   }
 
   /**
-   * Display the Specified Attribute object in the info panel.
-   * @param regionAttributes
+   Display the Specified Attribute object in the info panel.
+
+   @param regionAttributes
    */
   public void showAttributes(RegionAttributes regionAttributes)
   {
@@ -124,11 +124,13 @@ public class InfoPanel extends JPanel implements Observer
   }
 
   /**
-   * Controls the presentation logic of building up the crop percentages section
-   * of the GUI info pane.
-   *
-   * @param atts     data that will be extracted and displayed.
-   * @param statPane GUI element to 'write' to.
+   Controls the presentation logic of building up the crop percentages section
+   of the GUI info pane.
+
+   @param atts
+   data that will be extracted and displayed.
+   @param statPane
+   GUI element to 'write' to.
    */
   private void displayCropState(RegionAttributes atts, StatPane statPane)
   {
@@ -145,11 +147,13 @@ public class InfoPanel extends JPanel implements Observer
   }
 
   /**
-   * Controls the presentation logic for displaying the the soil attributes
-   * in the info panel for the specified region.
-   *
-   * @param atts     Attribute set to be displayed.
-   * @param statPane GUI element to 'write' to.
+   Controls the presentation logic for displaying the the soil attributes
+   in the info panel for the specified region.
+
+   @param atts
+   Attribute set to be displayed.
+   @param statPane
+   GUI element to 'write' to.
    */
   private void displayAttributes(RegionAttributes atts, StatPane statPane)
   {
@@ -282,24 +286,170 @@ public class InfoPanel extends JPanel implements Observer
     {
       clearDisplay();
       setTitle("HI DAVID!");
+      showAttributes(sumAttributes(regions));
+
     }
     miniViewBox.setDrawableRegions(regions);
   }
 
   /**
-   * This method is called whenever the observed object is changed. An
-   * application calls an <tt>Observable</tt> object's
-   * <code>notifyObservers</code> method to have all the object's
-   * observers notified of the change.
-   *
-   * @param o   the observable object.
-   * @param arg an argument passed to the <code>notifyObservers</code>
+   This method is called whenever the observed object is changed. An
+   application calls an <tt>Observable</tt> object's
+   <code>notifyObservers</code> method to have all the object's
+   observers notified of the change.
+
+   @param o
+   the observable object.
+   @param arg
+   an argument passed to the <code>notifyObservers</code>
    */
   @Override
   public void update(Observable o, Object arg)
   {
     List<GUIRegion> activeRegions = getPresenter().getActiveRegions();
-    if (activeRegions == null) clearDisplay();
-    else displayAllGUIRegions(activeRegions);
+    if (activeRegions == null)
+    {
+      clearDisplay();
+    }
+    else
+    {
+      displayAllGUIRegions(activeRegions);
+    }
+  }
+
+
+  /*
+    returns a RegionAttributes instance representing a collection of regions
+    
+    The following attributes are averaged:
+    Annual rainfall,
+    Monthly rainfall,
+    Soil type (acidity),
+    Average monthly high,
+    Average monthly low,
+    Elevation,
+    Happiness
+    
+    The following attributes are summed:
+    Population
+    Cost of crops
+    Profit from crops
+    All crop growth
+    
+    The Planting Zone is the median zone of all the regions in the List
+   */
+  private RegionAttributes sumAttributes(List<GUIRegion> regions)
+  {
+    /* Planting zone is represented as a median across multiple regions */
+    Map<Integer, Integer> zoneMap = new HashMap<>();
+
+    /* init map */
+    for (int i = 1; i <= 13; i++)
+    {
+      zoneMap.put(i, 0);
+    }
+    
+    /* everything else is either a sum or average */
+    Map<PLANTING_ATTRIBUTES, Double> attribMap = new HashMap<>();
+    
+    /* init map */
+    for (PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
+    {
+      attribMap.put(att, .0);
+    }
+    
+    /* crops are summed separately in a map */
+    Map<String, Double> cropMap = new HashMap<>();
+
+    int numRegions = regions.size();
+    
+    /* for performance checking */
+    System.out.println("summing " + numRegions + " regions");
+
+    for (GUIRegion gr : regions)
+    {
+      RegionAttributes attribs = gr.getRegion().getAttributes();
+      for (PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
+      {
+        switch (att)
+        {
+          /* averaged attributes */
+          case AVE_MONTH_TEMP_LO:
+          case AVE_MONTH_TEMP_HI:
+          case ANNUAL_RAINFALL:
+          case MONTHLY_RAINFALL:
+          case HAPPINESS:
+          case ELEVATION:
+          case SOIL_TYPE:
+            attribMap.put(att,
+              attribMap.get(att) + attribs.getAttribute(att) / numRegions);
+            break;
+          
+          /* summed attributes */
+          case PROFIT_FROM_CROPS:
+          case COST_OF_CROPS:
+          case POPULATION:
+            attribMap.put(att,
+              attribMap.get(att) + attribs.getAttribute(att));
+            break;
+          
+          /* median'd attributes */
+          case PLANTING_ZONE:
+            Integer zone = attribs.getAttribute(att).intValue();
+            zoneMap.put(zone, zoneMap.get(zone) + 1);
+            break;
+          default:
+            /* never reached */
+            System.err.println("Problems in Attribute Summation");
+            break;
+        }
+      }
+
+      /* sum the crops */
+      for (String crop : attribs.getAllCrops())
+      {
+        if (!cropMap.containsKey(crop))
+        {
+          cropMap.put(crop, attribs.getCropGrowth(crop));
+        }
+        else
+        {
+          cropMap.put(crop, cropMap.get(crop) + attribs.getCropGrowth(crop));
+        }
+      }
+    }
+
+    /* find the most common planting zone */
+    Integer maxKey = 1, maxVal = 0;
+    
+    for (Integer i : zoneMap.keySet())
+    {
+      Integer current = zoneMap.get(i);
+      if (current > maxVal)
+      {
+        maxVal = current;
+        maxKey = i;
+      }
+    }
+
+    /* build the new attribute set */
+    RegionAttributes rAtts = new RegionAttributes();
+    for (PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
+    {
+      /* make sure to use the median value from zoneMap, NOT the value in
+         attribMap (still 0, probably) */
+      if (att == PLANTING_ATTRIBUTES.PLANTING_ZONE)
+      {
+        rAtts.setAttribute(att, maxKey);
+      }
+      else
+      {
+        rAtts.setAttribute(att, attribMap.get(att));
+      }
+    }
+    
+    for (String crop : cropMap.keySet()) rAtts.setCrop(crop, cropMap.get(crop));
+
+    return rAtts;
   }
 }

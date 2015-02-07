@@ -19,7 +19,7 @@ import java.util.List;
 public class Ticker extends JPanel
 {
 
-  private static final Font MARQUIS_FONT = ColorsAndFonts.TOP_FONT;
+  private static final Font MARQUIS_FONT = ColorsAndFonts.GUI_FONT;
   private static final int INSET = 5;
 
   private final static String[] testStrings =
@@ -28,15 +28,16 @@ public class Ticker extends JPanel
       "Chocolate Chips Outlawed As Scone Ingredient; Scone Farmers Rejoice",
       "Lorem Ipsum Dolor Sit Amet"
     };
+  private static final String SPACING = "   ";
 
-  private List<String> marquis;
+  private String marquisStr;
 
   private Timer timer;
 
   public Ticker()
   {
-    marquis = new ArrayList<>();
-    marquis.addAll(Arrays.asList(testStrings));
+    marquisStr = new String();
+    setMarquisText(Arrays.asList(testStrings));
 
     int h = getFontMetrics(MARQUIS_FONT).getHeight() + INSET;
     int w = 600;
@@ -61,27 +62,39 @@ public class Ticker extends JPanel
   {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D) g;
+    g2.setFont(MARQUIS_FONT);
+    FontMetrics metrics = g2.getFontMetrics();
+    
+    int width = metrics.stringWidth(marquisStr);
+    
     
   }
   
   public void clearMarquisText()
   {
-    marquis.clear();
+    marquisStr = "";
   }
   
-  public void setMarquisText(List<String> newsList )
+  public void setMarquisText(List<String> newsList)
   {
-    marquis = newsList;
+    clearMarquisText();
+    addMarquisText(newsList);
+  }
+  
+  public void setMarquisText(String news)
+  {
+    clearMarquisText();
+    addMarquisText(news);
   }
   
   public void addMarquisText(String news)
   {
-    marquis.add(news);
+    marquisStr += news + SPACING;
   }
   
   public void addMarquisText(List<String> newsList)
   {
-    marquis.addAll(newsList);
+    for(String s : newsList) addMarquisText(s);
   }
 
   public void start()
