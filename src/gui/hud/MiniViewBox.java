@@ -8,6 +8,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
 
@@ -90,19 +91,24 @@ public class MiniViewBox extends JPanel
         double scaleValue;
 
         int inset = 5;
+        
         double boxW = getWidth() - 2 * inset;
         double boxH = getHeight() - 2 * inset;
+        
         double boxAspect = boxW / boxH;
 
         double polyW, polyH;
-        double minX = Double.MAX_VALUE, minY = Double.MAX_VALUE;
-        double maxX = Double.MIN_VALUE, maxY = Double.MIN_VALUE;
+        
+        double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY;
 
         for (GUIRegion gr : regions)
         {
-          Rectangle bounds = gr.getPoly().getBounds();
+          Rectangle2D bounds = gr.getPoly().getBounds2D();
+
           minX = Math.min(minX, bounds.getX());
           minY = Math.min(minY, bounds.getY());
+
           maxX = Math.max(maxX, bounds.getMaxX());
           maxY = Math.max(maxY, bounds.getMaxY());
         }
