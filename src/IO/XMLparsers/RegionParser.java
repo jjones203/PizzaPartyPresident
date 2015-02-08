@@ -10,7 +10,6 @@ import java.util.List;
  * Phase_01
  * CS 351 spring 2015
  */
-@Deprecated
 public interface RegionParser
 {
   List<Region> getRegionList();
