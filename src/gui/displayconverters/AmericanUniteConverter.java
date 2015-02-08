@@ -4,6 +4,11 @@ import model.RegionAttributes;
 
 /**
  * Created by winston on 2/6/15.
+ *
+ * implements the  DisplayUnitConverter class in terms of customary american
+ * unites of measurement, which is the default for the model.
+ *
+ * for detailed documentation please see DisplayUnitConverter
  */
 public class AmericanUniteConverter extends DisplayUnitConverter
 {
@@ -46,13 +51,13 @@ public class AmericanUniteConverter extends DisplayUnitConverter
   @Override
   public String getTmpSymbol()
   {
-    return "F";
+    return "F°";
   }
 
 
   @Override
   public RegionAttributes convertAttributes(RegionAttributes originalSet)
   {
-    return originalSet;
+    return originalSet; // because we are in model already, no transforms.
   }
 }

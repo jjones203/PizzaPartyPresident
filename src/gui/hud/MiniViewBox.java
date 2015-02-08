@@ -166,11 +166,20 @@ public class MiniViewBox extends JPanel
     };
   }
 
+  /**
+   * Set level of transparency for the displayed regions. Can be used to
+   * controls animation starting opacity.
+   * @param x float between 0 and 1. 0 => completely translucent, 1 => Opaque.
+   */
   public void setAlph(float x)
   {
     alpha = x;
   }
 
+  /**
+   * Collection of Gui regions to draw in the mini Display box.
+   * @param regions
+   */
   public void setDrawableRegions(List<GUIRegion> regions)
   {
     this.regions = regions;
