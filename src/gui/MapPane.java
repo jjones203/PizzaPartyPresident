@@ -17,7 +17,7 @@ import java.awt.geom.*;
 
 
 public class MapPane extends JPanel
-  implements MouseListener, MouseWheelListener, MouseInputListener, KeyListener
+  implements MouseWheelListener, MouseInputListener, KeyListener
 {
 
   private final static int CAMERA_STEP = 10;
@@ -66,7 +66,6 @@ public class MapPane extends JPanel
     }
   };
 
-
   private Action plantingZoneOverlay = new AbstractAction()
   {
     @Override
@@ -85,7 +84,7 @@ public class MapPane extends JPanel
       System.out.println(presenter.getWorldDate());
     }
   };
-
+  
   /**
    * @param cam
    * @param presenter
@@ -103,20 +102,21 @@ public class MapPane extends JPanel
     /* todo: sizing generalization */
     setPreferredSize(new Dimension(1000, 500));
     setSize(getPreferredSize());
+    setMinimumSize(getPreferredSize());
     setDoubleBuffered(true);
 
     // set up keybindings.
-    getInputMap().put(KeyStroke.getKeyStroke("1"), "default");
+    getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("1"), "default");
     getActionMap().put("default", defaultOverlay);
 
-    getInputMap().put(KeyStroke.getKeyStroke("2"), "happy");
+    getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("2"), "happy");
     getActionMap().put("happy", happyOverlay);
 
-    getInputMap().put(KeyStroke.getKeyStroke("3"), "planting");
+    getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("3"), "planting");
     getActionMap().put("planting", plantingZoneOverlay);
 
-    getInputMap().put(KeyStroke.getKeyStroke("shift pressed 4"), "step");
-    getInputMap().put(KeyStroke.getKeyStroke("4"), "step");
+    getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("shift pressed 4"), "step");
+    getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("4"), "step");
     getActionMap().put("step", stepWorld);
   }
 
@@ -210,7 +210,7 @@ public class MapPane extends JPanel
 
   @Override
   public void keyTyped(KeyEvent e)
-  { /*do nothing*/}
+  { /*do nothing*/ }
 
 
 

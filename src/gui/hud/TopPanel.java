@@ -18,7 +18,7 @@ import java.util.Observer;
 public class TopPanel extends JPanel implements Observer
 {
 
- private static final int PADDING = 8;
+ private static final int PADDING = 0;
 
 
  private WorldPresenter presenter;
@@ -34,11 +34,7 @@ public class TopPanel extends JPanel implements Observer
   ticker = new Ticker();
   
   setBackground(ColorsAndFonts.GUI_BACKGROUND);
-//  setBorder(BorderFactory.createCompoundBorder(
-//    BorderFactory.createEmptyBorder(2,2,2,2),
-//    BorderFactory.createLineBorder(ColorsAndFonts.GUI_TEXT_COLOR, 1)
-//    ));
-  
+
   initLayout();
   int prefH = datePanel.getPreferredSize().height + PADDING*2;
   int prefW = datePanel.getPreferredSize().width + ticker.getPreferredSize().width+PADDING*2;
