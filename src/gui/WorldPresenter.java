@@ -232,7 +232,8 @@ public class WorldPresenter extends Observable
         System.exit(1);
     }
 
-    setRegionLook(regionViewFactory.getViewFromDistance(calcDistance(camera)), regionsInView);
+    RegionView regionView = regionViewFactory.getViewFromDistance(calcDistance(camera));
+    setRegionLook(regionView, regionsInView);
     return regionsInView;
   }
 
@@ -354,7 +355,6 @@ public class WorldPresenter extends Observable
      * @param index index of the element to return
      * @return the element at the specified position in this list
      * @throws IndexOutOfBoundsException if the index is out of range
-     *                                   (<tt>index &lt; 0 || index &gt;= size()</tt>)
      */
     public GUIRegion get(int index)
     {
