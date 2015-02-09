@@ -35,6 +35,7 @@ public class XMLEditor extends JDialog
 
   public XMLEditor()
   {
+    
     setModal(true);
     textArea.setFont(EDITOR_FONT);
     textArea.setAntiAliasingEnabled(true);
@@ -55,7 +56,7 @@ public class XMLEditor extends JDialog
     setMinimumSize(new Dimension(400, 300));
   }
 
-
+  
   private JPanel getControlPanel()
   {
     JPanel controlP = new JPanel();
@@ -168,7 +169,8 @@ public class XMLEditor extends JDialog
       e.printStackTrace();
     }
   }
-
+  
+  
   public void setErrorMessage(String message)
   {
     errorMsg.setText(message);

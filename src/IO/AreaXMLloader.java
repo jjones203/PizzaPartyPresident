@@ -90,6 +90,7 @@ public class AreaXMLLoader
       String currentFile = filesToRead.remove(0);
       try
       {
+        /* todo remove this comment hi git */
         Collection<Region> tmpRegions = parseFile(currentFile);
 
         for (Region r : tmpRegions) regionValidator.validate(r);
@@ -109,6 +110,7 @@ public class AreaXMLLoader
           // we know the line that the error happened on
           editor.highlightLine(locator.getLineNumber() - 1);
           editor.setCaretToLine(locator.getLineNumber() - 1);
+
         }
 
         editor.setTitle("editing: " + currentFile);
