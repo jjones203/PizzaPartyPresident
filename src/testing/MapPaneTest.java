@@ -9,7 +9,7 @@ import gui.hud.InfoPanel;
 import gui.hud.TopPanel;
 import model.Region;
 import model.World;
-import testing.generators.AttributeGenerator;
+import IO.AttributeGenerator;
 
 import javax.swing.*;
 import javax.swing.Timer;

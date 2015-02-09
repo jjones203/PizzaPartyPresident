@@ -1,8 +1,7 @@
 package model;
 
-import testing.generators.AttributeGenerator;
+import IO.AttributeGenerator;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Random;

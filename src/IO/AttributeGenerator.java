@@ -1,4 +1,4 @@
-package testing.generators;
+package IO;
 
 import model.AtomicRegion;
 import model.MapPoint;
