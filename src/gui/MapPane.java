@@ -1,5 +1,6 @@
 package gui;
 
+import gui.regionlooks.RegionNameDraw;
 import gui.regionlooks.RegionViewFactory;
 
 import javax.swing.*;
@@ -7,6 +8,7 @@ import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.util.Collection;
 
 /**
  * @author david
@@ -129,7 +131,14 @@ public class MapPane extends JPanel
     Graphics2D g2 = (Graphics2D) g;
     g2.setTransform(cam.getTransform());
 
-    for (GUIRegion region : presenter.getRegionsInView(cam)) region.draw(g2);
+    Collection<GUIRegion> regionsToDraw = presenter.getRegionsInView(cam);
+
+    for (GUIRegion region : regionsToDraw) region.draw(g2);
+
+    if (cam.getDistance() == Camera.CAM_DISTANCE.CLOSE_UP)
+    {
+      for (GUIRegion region : regionsToDraw) RegionNameDraw.draw(g2, region);
+    }
 
     if (drawMultiSelect)
     {

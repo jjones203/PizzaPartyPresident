@@ -10,20 +10,10 @@ import java.awt.*;
  * Phase_01
  * CS 351 spring 2015
  */
-class RegionNameView implements RegionView
+public class RegionNameDraw
 {
-  private RegionView view;
-
-  public RegionNameView(RegionView view)
+  public static void draw(Graphics g, GUIRegion gRegion)
   {
-    this.view = view;
-  }
-
-  @Override
-  public void draw(Graphics g, GUIRegion gRegion)
-  {
-    view.draw(g, gRegion);
-
     Graphics2D g2d = (Graphics2D) g;
 
     g2d.setRenderingHint(
