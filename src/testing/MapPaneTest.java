@@ -78,6 +78,7 @@ public class MapPaneTest
     win.addKeyListener(mapPane);
     win.pack();
     win.setVisible(true);
+    win.setResizable(false);
     
     new Timer(20, new ActionListener()
     {
