@@ -4,6 +4,8 @@ package gui;
  * Created by winston on 1/22/15.
  * Phase_01
  * CS 351 spring 2015
+ *
+ * XML Editor.
  */
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -12,7 +14,6 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.FileReader;
@@ -34,6 +35,9 @@ public class XMLEditor extends JDialog
   private RTextScrollPane scrollPane; //TODO look into how to set the scroll pane to a given line number.
 
 
+  /**
+   * Constructor for method, handles configuration.
+   */
   public XMLEditor()
   {
     setModal(true);
@@ -178,11 +182,21 @@ public class XMLEditor extends JDialog
   }
 
 
+  /**
+   * Set the user feed back error message. Used to convey what kind of Error has
+   * occurred.
+   * @param message to be displayed in the GUI.
+   */
   public void setErrorMessage(String message)
   {
     errorMsg.setText(message);
   }
 
+  /**
+   * Used to retrieve a flag as to whether the current file should be ignored
+   * or not.
+   * @return boolean value for if the file is still of interest.
+   */
   public boolean getIgnoreFile()
   {
     return ignoreFile;
