@@ -6,7 +6,6 @@ import java.util.List;
 
 /**
  * Created by winston on 1/22/15.
- * ${PROJECT_NAME}
  * CS 351 spring 2015
  */
 public class IOHelpers
