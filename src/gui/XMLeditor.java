@@ -39,10 +39,6 @@ public class XMLEditor extends JDialog
     setModal(true);
     textArea.setFont(EDITOR_FONT);
     textArea.setAntiAliasingEnabled(true);
-
-    DefaultCaret caret = (DefaultCaret)textArea.getCaret();
-    caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-
     textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
     scrollPane = new RTextScrollPane(textArea);
 
@@ -52,6 +48,7 @@ public class XMLEditor extends JDialog
 
     errorMsg = new JLabel();
     errorMsg.setHorizontalAlignment(SwingConstants.CENTER);
+    errorMsg.setForeground(Color.red.darker());
     add(errorMsg, BorderLayout.NORTH);
 
     setSize(700, 500);
@@ -135,6 +132,13 @@ public class XMLEditor extends JDialog
                     .getStartOffset();
 
     textArea.setCaretPosition(moveTo);
+
+    int caretPos = textArea.getCaretLineNumber();
+    int lineHeight = textArea.getLineHeight();
+
+    Rectangle viewBox = new Rectangle(1, caretPos * lineHeight, 1, 1);
+
+    textArea.scrollRectToVisible(viewBox);
   }
 
   /**

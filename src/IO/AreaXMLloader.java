@@ -33,7 +33,7 @@ public class AreaXMLLoader
 {
   private RegionParser handler;
   private final static String AREA_DIR_PATH = "resources/areas";
-  private XMLEditor editor = new XMLEditor();
+  private XMLEditor editor;
   private XMLReader xmlReader;
 
 
@@ -110,7 +110,7 @@ public class AreaXMLLoader
           // we know the line that the error happened on
           editor.highlightLine(locator.getLineNumber() - 1);
           editor.setCaretToLine(locator.getLineNumber() - 1);
-          errorMessage = "line" + locator.getLineNumber() + ": ";
+          errorMessage = "line " + locator.getLineNumber() + ": ";
         }
 
         editor.setTitle("editing: " + currentFile);
