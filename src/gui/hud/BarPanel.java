@@ -10,13 +10,15 @@ import java.awt.event.MouseListener;
 
 /**
  * Created by winston on 1/31/15.
- * Draws a single bar of a bar chart, with a few labels.
+ *
+ * Draw a single bar chart graphic element (a bar with a lable). This class is
+ * used to build up the State panel objects of the GUI.
  */
 public class BarPanel extends JPanel
 {
+  /* look and feel constants */
   private static final Font GUI_FONT = ColorsAndFonts.GUI_FONT;
   private static final Font OVERLAY_FONT = new Font("SansSerif", Font.PLAIN, 10);
-
   private static final Color BAR_TEXT_C = Color.black;
   private static final Color TEXT_ROLLOVER_C = ColorsAndFonts.ACTIVE_REGION;
   private static final Color BAR_ROLLOVER_C = Color.gray;
@@ -28,7 +30,7 @@ public class BarPanel extends JPanel
   private final double ratio;
   private final String overLayText;
 
-  private int animationStep = 0;
+  private int animationStep = 0; /* used to start and stop animation */
 
 
   /**
@@ -63,6 +65,7 @@ public class BarPanel extends JPanel
     this.overLayText = overLayText;
 
     // 6000 is just to make things too big! fighting with swing.
+    // 16 is height of each individual bar.
     Dimension size = new Dimension(6000, 16);
     setMaximumSize(size);
 
@@ -85,11 +88,18 @@ public class BarPanel extends JPanel
     add(barGraph);
   }
 
+  /**
+   * set the label for the bar graph.
+   * @param text
+   */
   public void setLabelText(String text)
   {
     label.setText(text);
   }
 
+  /**
+   * creates a mouse listener to facilitate roll-over effects.
+   */
   private MouseListener getMouseListener()
   {
     return new MouseAdapter()
@@ -115,8 +125,6 @@ public class BarPanel extends JPanel
   /**
    * Generates an inner class to handel the custom drawing of the
    * bar.
-   *
-   * @return component that will be drawn in a special way.
    */
   private Component getBarPane()
   {
@@ -125,7 +133,7 @@ public class BarPanel extends JPanel
       @Override
       protected void paintComponent(Graphics g)
       {
-        int length = (int) (ratio * 100); // this only needs to be computed once
+        int length = (int) (ratio * 100);
 
         if (animationStep < length) animationStep += 3;
 
@@ -135,7 +143,7 @@ public class BarPanel extends JPanel
         // size.
         g.fillRect(10, 2, animationStep, 12);
 
-        // if over lay text has been specified.
+        // if over lay text has been specified => draw it.
         if (overLayText != null)
         {
           ((Graphics2D) g).setRenderingHint(

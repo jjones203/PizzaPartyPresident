@@ -1,7 +1,12 @@
-package gui.hud;
+package gui.displayconverters;
 
 /**
  * Created by winston on 2/6/15.
+ * <p/>
+ * implements the  DisplayUnitConverter class in terms of metric
+ * unites of measurement.
+ * <p/>
+ * for detailed documentation please see DisplayUnitConverter
  */
 public class MetricDisplayConverter extends DisplayUnitConverter
 {
@@ -14,7 +19,7 @@ public class MetricDisplayConverter extends DisplayUnitConverter
   @Override
   public double convertInches(double inches)
   {
-    return inches/0.039370;
+    return inches / 0.039370;
   }
 
   @Override
@@ -26,7 +31,7 @@ public class MetricDisplayConverter extends DisplayUnitConverter
   @Override
   public double convertFeet(double feet)
   {
-    return feet/3.2808;
+    return feet / 3.2808;
   }
 
   @Override
@@ -44,6 +49,6 @@ public class MetricDisplayConverter extends DisplayUnitConverter
   @Override
   public String getTmpSymbol()
   {
-    return "C";
+    return "C°";
   }
 }

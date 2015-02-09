@@ -12,6 +12,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.FileReader;
@@ -35,11 +36,9 @@ public class XMLEditor extends JDialog
 
   public XMLEditor()
   {
-    
     setModal(true);
     textArea.setFont(EDITOR_FONT);
     textArea.setAntiAliasingEnabled(true);
-
     textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
     scrollPane = new RTextScrollPane(textArea);
 
@@ -49,6 +48,7 @@ public class XMLEditor extends JDialog
 
     errorMsg = new JLabel();
     errorMsg.setHorizontalAlignment(SwingConstants.CENTER);
+    errorMsg.setForeground(Color.red.darker());
     add(errorMsg, BorderLayout.NORTH);
 
     setSize(700, 500);
@@ -56,7 +56,7 @@ public class XMLEditor extends JDialog
     setMinimumSize(new Dimension(400, 300));
   }
 
-  
+
   private JPanel getControlPanel()
   {
     JPanel controlP = new JPanel();
@@ -125,11 +125,20 @@ public class XMLEditor extends JDialog
   public void setCaretToLine(int lineNum)
   {
     //todo try To get the scroll wheel to he right position.
-    textArea.setCaretPosition( textArea.getDocument()
-            .getDefaultRootElement()
-            .getElement(lineNum)
-            .getStartOffset()
-    );
+
+    int moveTo = textArea.getDocument()
+                    .getDefaultRootElement()
+                    .getElement(lineNum)
+                    .getStartOffset();
+
+    textArea.setCaretPosition(moveTo);
+
+    int caretPos = textArea.getCaretLineNumber();
+    int lineHeight = textArea.getLineHeight();
+
+    Rectangle viewBox = new Rectangle(1, caretPos * lineHeight, 1, 1);
+
+    textArea.scrollRectToVisible(viewBox);
   }
 
   /**
@@ -169,8 +178,8 @@ public class XMLEditor extends JDialog
       e.printStackTrace();
     }
   }
-  
-  
+
+
   public void setErrorMessage(String message)
   {
     errorMsg.setText(message);

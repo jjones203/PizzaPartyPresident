@@ -1,5 +1,6 @@
 package gui;
 
+import gui.displayconverters.MapConverter;
 import gui.regionlooks.RegionView;
 import gui.regionlooks.RegionViewFactory;
 import model.Region;
@@ -21,7 +22,6 @@ import static gui.Camera.CAM_DISTANCE;
  */
 public class WorldPresenter extends Observable
 {
-
   private boolean DEBUG = true;
   private CAM_DISTANCE lastDistance;
   private MapConverter mpConverter;
@@ -29,29 +29,16 @@ public class WorldPresenter extends Observable
   private Collection<GUIRegion> backgroundRegions;
   private ActiveRegionList activeRegions;
   private World world;
-
-  public boolean isActivelyDraging()
-  {
-    return activelyDraging;
-  }
-
-  public void setActivelyDraging(boolean activelyDraging)
-  {
-    this.activelyDraging = activelyDraging;
-    setChanged();
-    notifyObservers();
-  }
-
   private boolean activelyDraging;
-
   private RegionViewFactory regionViewFactory;
 
 
   /**
    * Class constructor. Expects a reference to both a map converter, and a
    * world.
+   *
    * @param mpConverter converter that defies the rules of the map projection.
-   * @param world set of game regions (in opposition to gui only regions).
+   * @param world       set of game regions (in opposition to gui only regions).
    */
   public WorldPresenter(MapConverter mpConverter, World world)
   {
@@ -78,11 +65,17 @@ public class WorldPresenter extends Observable
     backgroundRegions = wrapRegions(regions, background);
   }
 
-  // todo should we remove this?
-//  public Collection<GUIRegion> getModelRegions()
-//  {
-//    return modelRegions;
-//  }
+  public boolean isActivelyDraging()
+  {
+    return activelyDraging;
+  }
+
+  public void setActivelyDraging(boolean activelyDraging)
+  {
+    this.activelyDraging = activelyDraging;
+    setChanged();
+    notifyObservers();
+  }
 
   /**
    * Set the given collection of regions as the model of the game. These
@@ -293,7 +286,7 @@ public class WorldPresenter extends Observable
   public int countIntersectingRegions(Rectangle2D r)
   {
     return getIntersectingRegions(r, modelRegions).size()
-        + getIntersectingRegions(r, backgroundRegions).size();
+      + getIntersectingRegions(r, backgroundRegions).size();
 
 
   }
@@ -315,8 +308,14 @@ public class WorldPresenter extends Observable
 
   public List<GUIRegion> getActiveRegions()
   {
-    if (activeRegions.isEmpty()) return null;
-    else return activeRegions.getList();
+    if (activeRegions.isEmpty())
+    {
+      return null;
+    }
+    else
+    {
+      return activeRegions.getList();
+    }
   }
 
 
@@ -342,6 +341,13 @@ public class WorldPresenter extends Observable
    */
   private class ActiveRegionList
   {
+    private List<GUIRegion> activeRegions;
+
+    public ActiveRegionList()
+    {
+      activeRegions = new ArrayList<>();
+    }
+
     /**
      * Returns the element at the specified position in this list.
      *
@@ -353,14 +359,6 @@ public class WorldPresenter extends Observable
     public GUIRegion get(int index)
     {
       return activeRegions.get(index);
-    }
-
-    private List<GUIRegion> activeRegions;
-
-
-    public ActiveRegionList()
-    {
-      activeRegions = new ArrayList<>();
     }
 
     /**

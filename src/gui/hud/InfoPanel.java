@@ -2,6 +2,9 @@ package gui.hud;
 
 import gui.GUIRegion;
 import gui.WorldPresenter;
+import gui.displayconverters.AmericanUniteConverter;
+import gui.displayconverters.DisplayUnitConverter;
+import gui.displayconverters.MetricDisplayConverter;
 import gui.regionlooks.PlantingZoneView;
 import model.RegionAttributes;
 
@@ -16,6 +19,10 @@ import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 
 /**
  * Created by winston on 2/3/15.
+ *
+ * Class responsible for creating and maintaining all the elements that
+ * constitute the info panel. Used for viewing attributes about what is selected
+ * in the map, and given feel back on what is selected.
  */
 public class InfoPanel extends JPanel implements Observer
 {
@@ -45,6 +52,7 @@ public class InfoPanel extends JPanel implements Observer
     this.add(cropStatPane);
 
 
+    // key binding to switch between different Unite Display objects.
     getInputMap(WHEN_IN_FOCUSED_WINDOW)
       .put(KeyStroke.getKeyStroke("M"), "switchToMetric");
     getActionMap().put("switchToMetric", new AbstractAction()
@@ -52,8 +60,6 @@ public class InfoPanel extends JPanel implements Observer
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        System.out.println("switch to metric");
-
         setConverter(new MetricDisplayConverter());
         update(null, null);
       }
@@ -67,7 +73,6 @@ public class InfoPanel extends JPanel implements Observer
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        System.out.println("american unites selected");
         setConverter(new AmericanUniteConverter());
         update(null, null);
       }
@@ -75,7 +80,13 @@ public class InfoPanel extends JPanel implements Observer
 
   }
 
-  public WorldPresenter getPresenter()
+  /**
+   * Retuns the word presenter object, provides some safety if the object has
+   * not been set.
+   *
+   * @return word presenter object.
+   */
+  private WorldPresenter getPresenter()
   {
     if (presenter == null)
     {
@@ -84,12 +95,20 @@ public class InfoPanel extends JPanel implements Observer
     return presenter;
   }
 
+  /**
+   * Set the corresponding word presenter. This object is used to know what
+   * the info panel should be presenting and how.
+   * @param presenter to get regions selection information from.
+   */
   public void setPresenter(WorldPresenter presenter)
   {
     this.presenter = presenter;
     presenter.addObserver(this);
   }
 
+  /**
+   * Returns the current DisplayConverter object.
+   */
   public DisplayUnitConverter getConverter()
   {
     // defaults to AmericanUniteConverter
@@ -97,20 +116,29 @@ public class InfoPanel extends JPanel implements Observer
     return converter;
   }
 
+  /**
+   * set the Converter object to use with displaying region information.
+   */
   public void setConverter(DisplayUnitConverter converter)
   {
     this.converter = converter;
   }
 
+  /**
+   * sets the Info panel title lable, generally used to display the name of the
+   * selected region.
+   * @param title to be displayed in the info panel.
+   */
   public void setTitle(String title)
   {
     miniViewBox.setTitle(title);
   }
 
   /**
-   * Display the Specified Attribute object in the info panel.
+   * Display the Specified Attribute object in the info panel. This method
+   * delegates and handles clearing the previously displayed information.
    *
-   * @param regionAttributes
+   * @param regionAttributes to render in the display.
    */
   public void showAttributes(RegionAttributes regionAttributes)
   {
@@ -145,7 +173,7 @@ public class InfoPanel extends JPanel implements Observer
   }
 
   /**
-   * Controls the presentation logic for displaying the the soil attributes
+   * Controls the presentation logic for displaying the soil attributes
    * in the info panel for the specified region.
    *
    * @param atts     Attribute set to be displayed.
@@ -166,10 +194,17 @@ public class InfoPanel extends JPanel implements Observer
     }
   }
 
+  /**
+   * long (and ugly) method to handel the tedious logic of displaying each
+   * region attribute in the appropriate way, with the appropriate color.
+   *<p>
+   * ie. $ 2.23 for money, 34.23 F° for temperature etc...
+   */
   private BarPanel getBarPanel(final RegionAttributes attributesSet, PLANTING_ATTRIBUTES att)
   {
+    // somewhat sensible defaults.
     RegionAttributes converted = getConverter().convertAttributes(attributesSet);
-    final int FULL_BAR = 1;
+    int FULL_BAR = 1; // TO CREATE A LABEL, overloading the concept of bar.
     String PrimaryLabel = att.toString();
     Color barColor = BAR_GRAPH_NEG;
     double ratio = attributesSet.getAttribute(att) / RegionAttributes.LIMITS.get(att);
@@ -238,6 +273,9 @@ public class InfoPanel extends JPanel implements Observer
     return new BarPanel(barColor, ratio, PrimaryLabel, secondaryLabel);
   }
 
+  /**
+   * Convert the happiness double into a string for gui presentation.
+   */
   private String getHappyLabel(double ratio)
   {
     if (ratio < 0.25)
@@ -258,11 +296,15 @@ public class InfoPanel extends JPanel implements Observer
     }
   }
 
+  /* display color as a function of happiness */
   private Color getHappyColor(double ratio)
   {
     return ratio < 0.5 ? Color.red : Color.cyan;
   }
 
+  /**
+   * Resets the info panel, used when no information should be in the Display.
+   */
   public void clearDisplay()
   {
     miniViewBox.setTitle(" ");
@@ -271,20 +313,27 @@ public class InfoPanel extends JPanel implements Observer
     attributeStats.clearBarPlots();
   }
 
+  /**
+   * Renders the Stats for the list of regions given. This is also used
+   * when only drawing a single region (i.e. length of collection = 1).
+   *
+   * @param regions List of regions to display state for.
+   */
   public void displayAllGUIRegions(List<GUIRegion> regions)
   {
+    // single region display logic
     if (regions.size() == 1)
     {
       setTitle(regions.get(0).getName());
       showAttributes(regions.get(0).getRegion().getAttributes());
       miniViewBox.setAlph(0.0f);
     }
-    else
+    else  // multi region display logic.
     {
       clearDisplay();
       setTitle("SPACIAL SUM:");
       miniViewBox.setAlph(1f);
-      if (!presenter.isActivelyDraging())
+      if (!presenter.isActivelyDraging()) // delays summation until drag is over.
       {
         showAttributes(sumAttributes(regions));
       }

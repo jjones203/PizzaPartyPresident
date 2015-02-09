@@ -90,7 +90,6 @@ public class AreaXMLLoader
       String currentFile = filesToRead.remove(0);
       try
       {
-        /* todo remove this comment hi git */
         Collection<Region> tmpRegions = parseFile(currentFile);
 
         for (Region r : tmpRegions) regionValidator.validate(r);
@@ -100,6 +99,7 @@ public class AreaXMLLoader
       }
       catch (SAXException e) //routine for loading the editor.
       {
+        String errorMessage = "";
         if (editor == null) editor = new XMLEditor(); // to be lazy
         editor.loadFile(currentFile);
 
@@ -110,11 +110,11 @@ public class AreaXMLLoader
           // we know the line that the error happened on
           editor.highlightLine(locator.getLineNumber() - 1);
           editor.setCaretToLine(locator.getLineNumber() - 1);
-
+          errorMessage = "line " + locator.getLineNumber() + ": ";
         }
 
         editor.setTitle("editing: " + currentFile);
-        editor.setErrorMessage(e.getMessage());
+        editor.setErrorMessage(errorMessage + e.getMessage());
         editor.setVisible(true);
 
         if (!editor.getIgnoreFile())
