@@ -12,6 +12,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.FileReader;
@@ -38,6 +39,9 @@ public class XMLEditor extends JDialog
     setModal(true);
     textArea.setFont(EDITOR_FONT);
     textArea.setAntiAliasingEnabled(true);
+
+    DefaultCaret caret = (DefaultCaret)textArea.getCaret();
+    caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
     textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
     scrollPane = new RTextScrollPane(textArea);
@@ -124,11 +128,13 @@ public class XMLEditor extends JDialog
   public void setCaretToLine(int lineNum)
   {
     //todo try To get the scroll wheel to he right position.
-    textArea.setCaretPosition( textArea.getDocument()
-            .getDefaultRootElement()
-            .getElement(lineNum)
-            .getStartOffset()
-    );
+
+    int moveTo = textArea.getDocument()
+                    .getDefaultRootElement()
+                    .getElement(lineNum)
+                    .getStartOffset();
+
+    textArea.setCaretPosition(moveTo);
   }
 
   /**
@@ -168,6 +174,7 @@ public class XMLEditor extends JDialog
       e.printStackTrace();
     }
   }
+
 
   public void setErrorMessage(String message)
   {

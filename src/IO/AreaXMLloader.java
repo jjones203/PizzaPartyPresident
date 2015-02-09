@@ -33,7 +33,7 @@ public class AreaXMLLoader
 {
   private RegionParser handler;
   private final static String AREA_DIR_PATH = "resources/areas";
-  private XMLEditor editor;
+  private XMLEditor editor = new XMLEditor();
   private XMLReader xmlReader;
 
 
@@ -99,6 +99,7 @@ public class AreaXMLLoader
       }
       catch (SAXException e) //routine for loading the editor.
       {
+        String errorMessage = "";
         if (editor == null) editor = new XMLEditor(); // to be lazy
         editor.loadFile(currentFile);
 
@@ -109,10 +110,11 @@ public class AreaXMLLoader
           // we know the line that the error happened on
           editor.highlightLine(locator.getLineNumber() - 1);
           editor.setCaretToLine(locator.getLineNumber() - 1);
+          errorMessage = "line" + locator.getLineNumber() + ": ";
         }
 
         editor.setTitle("editing: " + currentFile);
-        editor.setErrorMessage(e.getMessage());
+        editor.setErrorMessage(errorMessage + e.getMessage());
         editor.setVisible(true);
 
         if (!editor.getIgnoreFile())
