@@ -26,7 +26,7 @@ import java.io.IOException;
 public class XMLEditor extends JDialog
 {
   private final static Color HIGHLIGHT_ERROR = ColorsAndFonts.XML_ERROR;
-  private final static Font EDITOR_FONT = new Font("Helvetica", Font.PLAIN, 16);
+  private final static Font EDITOR_FONT = new Font("Monospaced", Font.PLAIN, 14);
   private String currentFile;
   private RSyntaxTextArea textArea = new RSyntaxTextArea();
   private JLabel errorMsg;
@@ -135,9 +135,7 @@ public class XMLEditor extends JDialog
 
     int caretPos = textArea.getCaretLineNumber();
     int lineHeight = textArea.getLineHeight();
-
     Rectangle viewBox = new Rectangle(1, caretPos * lineHeight, 1, 1);
-
     textArea.scrollRectToVisible(viewBox);
   }
 
