@@ -12,6 +12,7 @@ import java.awt.geom.Area;
  * Created by winston on 1/25/15.
  * Phase_01 Utility class to validate regions at load time.
  * CS 351 spring 2015
+ *
  */
 public class RegionValidator
 {
@@ -24,8 +25,7 @@ public class RegionValidator
       if (! isValidMapPoint(mp) ) throw new SAXException("Invalid Map Point.");
     }
 
-    //TODO make sure this is an adequate test...
-
+    // check to make sure all region polygons are simple.
     boolean isSingular = new Area(CONVERTER.regionToPolygon(region)).isSingular();
 
     if (! isSingular) throw new SAXException("Invalid Region shape");

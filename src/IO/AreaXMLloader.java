@@ -6,7 +6,7 @@ package IO;
  * CS 351 spring 2015
  */
 
-import IO.XMLparsers.RegionParser;
+
 import IO.XMLparsers.RegionParserHandler;
 import gui.XMLEditor;
 import model.Region;
@@ -31,7 +31,7 @@ import static IO.IOHelpers.getFilesInDir;
  */
 public class AreaXMLLoader
 {
-  private RegionParser handler;
+  private RegionParserHandler handler;
   private final static String AREA_DIR_PATH = "resources/areas";
   private XMLEditor editor;
   private XMLReader xmlReader;

@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * The class handles the parsing of the region data from XML into region objects.
  */
-public class RegionParserHandler extends DefaultHandler implements RegionParser
+public class RegionParserHandler extends DefaultHandler
 {
   private List<Region> regionList;
   private Locator locator;
@@ -37,7 +37,7 @@ public class RegionParserHandler extends DefaultHandler implements RegionParser
    *
    * @return list of regions from the last file parsed.
    */
-  @Override
+
   public List<Region> getRegionList()
   {
     return regionList;
