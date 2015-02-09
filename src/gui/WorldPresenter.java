@@ -65,14 +65,14 @@ public class WorldPresenter extends Observable
     backgroundRegions = wrapRegions(regions, background);
   }
 
-  public boolean isActivelyDraging()
+  public boolean isActivelyDragging()
   {
     return activelyDraging;
   }
 
-  public void setActivelyDraging(boolean activelyDraging)
+  public void setActivelyDragging(boolean activelyDragging)
   {
-    this.activelyDraging = activelyDraging;
+    this.activelyDraging = activelyDragging;
     setChanged();
     notifyObservers();
   }

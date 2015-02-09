@@ -16,7 +16,7 @@ public class RegionAttributes
 {
 
   /**
-   * static map to represent att the limits of all the different attributes.
+   * static map to represent all the limits of all the different attributes.
    */
   public final static Map<PLANTING_ATTRIBUTES, Double> LIMITS = new HashMap<>();
 

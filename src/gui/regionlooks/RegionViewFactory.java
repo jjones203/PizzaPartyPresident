@@ -17,6 +17,8 @@ public class RegionViewFactory
   private final static RegionView PLANTING_VIEW = new PlantingZoneView();
   private final static RegionView HAPPINESS_VIEW = new RegionHappyView();
   private final static RegionView HAPPINESS_WITH_NAME = new RegionNameView(HAPPINESS_VIEW);
+  private final static RegionView RAIN_VIEW = new RainView();
+  private final static RegionView RAIN_VIEW_WITH_NAME = new RegionNameView(RAIN_VIEW);
   private Overlay currentOverlay;
 
 
@@ -55,6 +57,10 @@ public class RegionViewFactory
         if (distance == Camera.CAM_DISTANCE.CLOSE_UP) return HAPPINESS_WITH_NAME;
         return HAPPINESS_VIEW;
 
+      case YEARLY_RAIL_FALL:
+        if (distance == Camera.CAM_DISTANCE.CLOSE_UP) return RAIN_VIEW_WITH_NAME;
+        return RAIN_VIEW;
+
       default:
         if (distance == Camera.CAM_DISTANCE.CLOSE_UP) return new RegionNameView(DEFAULT_LOOK);
         return DEFAULT_LOOK;
@@ -67,6 +73,6 @@ public class RegionViewFactory
     NONE,
     PLANTING_ZONE,
     HAPPINESS,
-    MONTHLY_RAIL_FALL
+    YEARLY_RAIL_FALL
   }
 }

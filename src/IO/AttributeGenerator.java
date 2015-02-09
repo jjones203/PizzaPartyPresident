@@ -68,7 +68,6 @@ public class AttributeGenerator
           attributes.setAttribute(att, rand.nextDouble());
       }
     }
-
     setCrops(reg, attributes, rand);
     reg.setAttributes(attributes);
   }

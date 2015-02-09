@@ -26,7 +26,6 @@ public class PlantingZoneView implements RegionView
     catch (Exception e)
     {
       System.err.println("BAD planting zone value in region");
-//      e.printStackTrace();
     }
     return PlantingZoneColors[0];
   }

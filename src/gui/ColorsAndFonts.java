@@ -59,6 +59,20 @@ public interface ColorsAndFonts
     new Color(0x053061),
     new Color(0x053061),
   };
+
+
+  Color[] RAIN_FALL = {
+    new Color(0xf7fbff),
+    new Color(0xdeebf7),
+    new Color(0xc6dbef),
+    new Color(0x9ecae1),
+    new Color(0x6baed6),
+    new Color(0x4292c6),
+    new Color(0x2171b5),
+    new Color(0x08519c),
+    new Color(0x08306b),
+  };
+
   Color BAR_GRAPH_NEG = Color.cyan;
 
   class colorConverter

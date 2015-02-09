@@ -333,7 +333,7 @@ public class InfoPanel extends JPanel implements Observer
       clearDisplay();
       setTitle("SPACIAL SUM:");
       miniViewBox.setAlph(1f);
-      if (!presenter.isActivelyDraging()) // delays summation until drag is over.
+      if (!presenter.isActivelyDragging()) // delays summation until drag is over.
       {
         showAttributes(sumAttributes(regions));
       }
