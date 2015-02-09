@@ -12,12 +12,8 @@ import java.util.List;
  @author david
  created: 2015-01-26
  <p/>
- description:  Converter implementation for Equirectangular map
+ description:  MapConverter implementation for Equirectangular map
  projections with a constant scaling factor */
-
-/*      TODO Check if projection is flipping into graphics-land coords
- *          y(gfx) = -y(cart)
- */
 public class EquirectangularConverter extends MapConverter
 {
 
@@ -26,7 +22,7 @@ public class EquirectangularConverter extends MapConverter
 
 
   /**
-   Convert latitude to cartesian Y given a point of reference
+   Convert latitude to graphics Y given a point of reference
 
    @param lat
    @param refPoint
@@ -40,7 +36,7 @@ public class EquirectangularConverter extends MapConverter
 
 
   /**
-   Convert latitude to cartesian Y, assuming (0,0) is the point of reference
+   Convert latitude to graphics Y, assuming (0,0) is the point of reference
    in the spherical coord system
 
    @param lat
@@ -55,7 +51,7 @@ public class EquirectangularConverter extends MapConverter
 
 
   /**
-   Convert longitude to cartesian X, given a reference point in spherical
+   Convert longitude to graphics X, given a reference point in spherical
    coords
 
    @param lon
@@ -69,10 +65,9 @@ public class EquirectangularConverter extends MapConverter
   {
     return lon * Math.cos(Math.toRadians(refPoint.getLat())) * SCALING_FACTOR;
   }
-
-
+  
   /**
-   Convert longitude to cartesian X, assuming a reference point of (0,0) in
+   Convert longitude to graphics X, assuming a reference point of (0,0) in
    spherical coords
 
    @param lon
@@ -88,13 +83,12 @@ public class EquirectangularConverter extends MapConverter
 
 
   /**
-   Convert a MapPoint (lat, lon) to a cartesian point, assuming the parallel
+   Convert a MapPoint (lat, lon) to a graphics-space point, assuming the parallel
    of no distortion is the equator.  This is a Plate-Caree projection.
 
    @param mp
    MapPoint to convert
-
-   @return
+   @return a Point in graphics-space
    */
   @Override
   public Point mapPointToPoint(MapPoint mp)
@@ -106,10 +100,9 @@ public class EquirectangularConverter extends MapConverter
 
   
   /**
-   Convert a Point to a MapPoint assuming the parallel of no distortion is
-   the equator.  This converts from a Plate-Caree projection back to lat and
-   lon
-
+   Convert a Point in graphics-space to a MapPoint assuming the parallel of no 
+   distortion is  the equator.  This converts from a Plate-Caree projection back
+   to lat and lon
    @param p
    Point to convert
    @return
@@ -120,21 +113,13 @@ public class EquirectangularConverter extends MapConverter
   {
     return new MapPoint(p.x / SCALING_FACTOR, p.y / SCALING_FACTOR);
   }
-
   
 
-  public double yToLon(double y, MapPoint refPoint)
-  {
-    return -y / (SCALING_FACTOR * Math.cos(Math.toRadians(refPoint.getLat())));
-  }
-
-
-  public double xToLat(double x, MapPoint refPoint)
-  {
-    return x / SCALING_FACTOR;
-  }
-
-
+  /**
+   Converts a Region to a Polygon in graphics-space
+   @param r region object to be transformed.
+   @return a Polygon representing the passed Region, appropriately scaled and converted
+   */
   @Override
   public Polygon regionToPolygon(Region r)
   {
@@ -150,6 +135,9 @@ public class EquirectangularConverter extends MapConverter
     return poly;
   }
 
+  /**
+   @return the factor by which this converter scales coordinates
+   */
   @Override
   public double getScale()
   {
@@ -159,9 +147,8 @@ public class EquirectangularConverter extends MapConverter
 
   /**
    generates a projected grid of latitude and longitude lines converted to
-   the scaled cartesian space
-
-   @return
+   the scaled graphics space
+   @return  A list of Line2Ds representing the Lon Lat grid in graphics-space
    */
   @Override
   public List<Line2D> getLatLonGrid()

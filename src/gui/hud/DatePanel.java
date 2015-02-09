@@ -18,16 +18,25 @@ import java.util.Date;
  @author david
  created: 2015-02-06
 
- description: */
+ description: DatePanel is a Swing component that can be instructed to display
+ a Date in a simple format.  It is meant to be driven by a parent container
+ (WorldFeedPanel in this case)
+ */
 public class DatePanel extends JPanel
 {
   private static final int INSET = 5;
   private static final String DATE_PATTERN = "EEE, MMM d, YYYY";
   private static final Font DATE_FONT = ColorsAndFonts.TOP_FONT;
-  
+  private static final Color guiBackground = ColorsAndFonts.GUI_BACKGROUND;
+
   private SimpleDateFormat formatter;
   private Date date;
 
+
+  /**
+   Instantiates a DatePanel whose Dimension is dependent on FontMetrics and a
+   default GUI font (see gui.ColorsAndFonts)
+   */
   public DatePanel()
   {
     formatter = new SimpleDateFormat(DATE_PATTERN);
@@ -38,13 +47,16 @@ public class DatePanel extends JPanel
     FontMetrics metrics = getFontMetrics(DATE_FONT);
     int h = metrics.getHeight() + INSET*2;
     int w = metrics.stringWidth(DATE_PATTERN) + INSET * 2;
-
     
     setPreferredSize(new Dimension(w, h));
     setMinimumSize(getPreferredSize());
     setMaximumSize(getPreferredSize());
   }
 
+  /**
+   Paints the Date using
+   @param g
+   */
   @Override
   public void paintComponent(Graphics g)
   {
@@ -55,7 +67,7 @@ public class DatePanel extends JPanel
       RenderingHints.KEY_TEXT_ANTIALIASING,
       RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-    g2.setColor(ColorsAndFonts.GUI_BACKGROUND);
+    g2.setColor(guiBackground);
     g2.setFont(ColorsAndFonts.TOP_FONT);
     
     String s = getDateString().toUpperCase();
