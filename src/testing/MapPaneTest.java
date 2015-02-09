@@ -48,10 +48,6 @@ public class MapPaneTest
       randoAtts.setRegionAttributes(r, random);
     }
 
-
-
-
-
     List<Region> allRegions = new ArrayList<>(modelMap);
     allRegions.addAll(backgroundRegions);
 
@@ -79,6 +75,7 @@ public class MapPaneTest
     win.add(topPanel, BorderLayout.NORTH);
     win.add(mapPane, BorderLayout.CENTER);
     win.add(infoPanel, BorderLayout.SOUTH);
+    win.addKeyListener(mapPane);
     win.pack();
     win.setVisible(true);
     
