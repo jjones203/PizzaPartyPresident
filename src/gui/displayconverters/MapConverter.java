@@ -33,7 +33,7 @@ public abstract class MapConverter
   }
 
   /**
-   * Facor that the map points are scaled by.
+   * Factor that the map points are scaled by.
    * @return double representing the conversion scaled between
    * gui space and map.modle space.
    */
@@ -71,7 +71,7 @@ public abstract class MapConverter
   public abstract MapPoint pointToMapPoint(Point p);
 
   /**
-   * Returns a conventional grip in latitude and longitude as defined by the
+   * Returns a conventional grid in latitude and longitude as defined by the
    * converter.
    *
    * @return list of line2d objects representing a grid.

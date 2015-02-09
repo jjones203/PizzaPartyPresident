@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
 /**
  * Created by winston on 1/31/15.
  *
- * Draw a single bar chart graphic element (a bar with a lable). This class is
+ * Draw a single bar chart graphic element (a bar with a label). This class is
  * used to build up the State panel objects of the GUI.
  */
 public class BarPanel extends JPanel

@@ -15,7 +15,7 @@ import java.util.Observer;
  created: 2015-02-05
 
  description: */
-public class TopPanel extends JPanel implements Observer
+public class WorldFeedPanel extends JPanel implements Observer
 {
 
  private static final int PADDING = 0;
@@ -26,7 +26,7 @@ public class TopPanel extends JPanel implements Observer
  private Ticker ticker;
  private GroupLayout layout;
  
- public TopPanel(WorldPresenter presenter)
+ public WorldFeedPanel(WorldPresenter presenter)
  {
   this.presenter = presenter;
   datePanel = new DatePanel();
@@ -66,7 +66,7 @@ public class TopPanel extends JPanel implements Observer
  public static void main(String[] args)
  {
   final JFrame frame = new JFrame();
-  frame.setContentPane(new TopPanel(null));
+  frame.setContentPane(new WorldFeedPanel(null));
   frame.pack();
   frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
   frame.setVisible(true);

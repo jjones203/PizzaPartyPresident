@@ -6,7 +6,7 @@ import gui.*;
 import gui.displayconverters.EquirectangularConverter;
 import gui.displayconverters.MapConverter;
 import gui.hud.InfoPanel;
-import gui.hud.TopPanel;
+import gui.hud.WorldFeedPanel;
 import model.Region;
 import model.World;
 import IO.AttributeGenerator;
@@ -66,13 +66,13 @@ public class MapPaneTest
     final InfoPanel infoPanel = new InfoPanel();
     infoPanel.setPresenter(presenter);
     
-    TopPanel topPanel = new TopPanel(presenter);
-    presenter.addObserver(topPanel);
+    WorldFeedPanel worldFeedPanel = new WorldFeedPanel(presenter);
+    presenter.addObserver(worldFeedPanel);
 
     JFrame win = new JFrame();
     win.setLayout(new BorderLayout());
     win.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    win.add(topPanel, BorderLayout.NORTH);
+    win.add(worldFeedPanel, BorderLayout.NORTH);
     win.add(mapPane, BorderLayout.CENTER);
     win.add(infoPanel, BorderLayout.SOUTH);
     win.addKeyListener(mapPane);
