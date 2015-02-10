@@ -22,7 +22,8 @@ import java.io.IOException;
 
 
 /**
- * User Interface for Editing XML files. This is a modal dialogue box
+ * GUI XML editor. Gui interface for editing and saving XML files in the
+ * context of the game's initialization process.
  */
 public class XMLEditor extends JDialog
 {
@@ -35,7 +36,7 @@ public class XMLEditor extends JDialog
   private RTextScrollPane scrollPane;
 
   /**
-   * Constructor for method, handles configuration.
+   * Constructor for XMLEditor.
    */
   public XMLEditor()
   {
