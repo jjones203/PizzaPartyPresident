@@ -26,7 +26,10 @@ import static model.RegionAttributes.PLANTING_ATTRIBUTES;
  */
 public class InfoPanel extends JPanel implements Observer
 {
-  private final static Dimension size = new Dimension(1000, 220);
+  /* width = 1 allows panel to be resized intelligently upon container
+     instantiation.  Height is important, however, to ensure the child components
+     are able to display their info correctly */
+  private final static Dimension size = new Dimension(1, 220);
   private MiniViewBox miniViewBox;
   private StatPane attributeStats;
   private StatPane cropStatPane;

@@ -2,7 +2,6 @@ package gui;
 
 import gui.regionlooks.RegionNameDraw;
 import gui.regionlooks.RegionViewFactory;
-import model.Region;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -16,6 +15,10 @@ import java.util.Collection;
  *         created: 2015-02-03
  *         <p/>
  *         description:
+ *         MapPane is a Swing JPanel encapsulating the view through a Camera
+ *         object and its user control interface.  The MapPane communicates
+ *         input events corresponding to its domain to the WorldPresenter
+ *         to allow regions to be selected and displayed properly         
  */
 
 
@@ -51,7 +54,8 @@ public class MapPane extends JPanel
 
   private boolean doMultiSelect;
   private boolean dynamicNameDrawing;
-  // for key binding
+  
+  /* Actions associated with the KeyBinding mapping framework */
   private Action happyOverlay = new AbstractAction()
   {
     @Override
@@ -88,8 +92,10 @@ public class MapPane extends JPanel
   };
 
   /**
-   * @param cam
-   * @param presenter
+   * Instantiate this MapPane with a Camera to provide transforms and a
+   * WorldPresenter to provide an interface into the model space 
+   * @param cam   Camera controlling the map transformations
+   * @param presenter   WorldPresenter to 
    */
   public MapPane(Camera cam, WorldPresenter presenter)
   {
@@ -102,8 +108,7 @@ public class MapPane extends JPanel
     setBackground(ColorsAndFonts.OCEANS);
     dynamicNameDrawing = true;
 
-    /* todo: sizing generalization */
-    setPreferredSize(new Dimension(1000, 500));
+    setPreferredSize(cam.getTargetSize());
     setSize(getPreferredSize());
     setMinimumSize(getPreferredSize());
     setDoubleBuffered(true);
