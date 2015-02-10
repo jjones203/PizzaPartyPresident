@@ -45,7 +45,7 @@ public interface ColorsAndFonts
   Color MINI_BOX_REGION = new Color(222, 183, 106);
 
   Color[] PlantingZoneColors = {
-    new Color(0x36F03A),
+    new Color(0x404040),
     new Color(0x67001f),
     new Color(0x67001f),
     new Color(0x67001f),
