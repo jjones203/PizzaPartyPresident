@@ -19,7 +19,10 @@ public class RegionViewFactory
   private final static RegionView RAIN_VIEW = new RainView();
   private Overlay currentOverlay;
 
-
+  /**
+   * Constructor for class. World Presenter class relies on this object for
+   * region presentation logic.
+   */
   public RegionViewFactory()
   {
     this.currentOverlay = Overlay.NONE;
