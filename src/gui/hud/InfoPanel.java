@@ -337,7 +337,7 @@ public class InfoPanel extends JPanel implements Observer
     else  // multi region display logic.
     {
       clearDisplay();
-      setTitle("SPACIAL SUM:");
+      setTitle("REGION ∑ :");
       miniViewBox.setAlph(1f);
       if (!presenter.isActivelyDragging()) // delays summation until drag is over.
       {
