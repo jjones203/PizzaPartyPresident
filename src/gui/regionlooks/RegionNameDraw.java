@@ -60,9 +60,9 @@ public class RegionNameDraw
       e.printStackTrace();
     }
 
-    g2d.drawString(gRegion.getName(),
-      dst.x,
-      dst.y);
+    g2d.drawString(gRegion.getName(), dst.x, dst.y);
+    
+    /* reset the transform for any RegionViews depending on it for proper rendering */
     g2d.setTransform(at);
   }
 }
