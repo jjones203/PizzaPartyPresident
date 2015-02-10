@@ -108,26 +108,4 @@ public class DatePanel extends JPanel
     repaint();
   }
 
-  public static void main(String[] args)
-  {
-    final JFrame frame = new JFrame();
-    final DatePanel datePanel = new DatePanel();
-    frame.setContentPane(datePanel);
-    frame.pack();
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.setVisible(true);
-
-    new Timer(30, new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        frame.repaint();
-      }
-    }).start();
-
-
-  }
-
-
 }
