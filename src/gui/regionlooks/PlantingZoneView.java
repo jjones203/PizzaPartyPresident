@@ -21,7 +21,7 @@ public class PlantingZoneView implements RegionView
   {
     try
     {
-      return PlantingZoneColors[(int) plantingValue];
+      return PlantingZoneColors[(int) Math.round(plantingValue)];
     }
     catch (Exception e)
     {

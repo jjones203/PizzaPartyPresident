@@ -1,6 +1,5 @@
 package IO;
 
-import model.AtomicRegion;
 import model.MapPoint;
 import model.Region;
 import model.RegionAttributes;
@@ -8,9 +7,7 @@ import model.RegionAttributes;
 import static model.RegionAttributes.*;
 import static model.RegionAttributes.PLANTING_ATTRIBUTES.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -154,9 +151,9 @@ public class AttributeGenerator
 
     midLat /= reg.getPerimeter().size();
 
-    midLat += 90; /* shift to bring into natural number land */
+    midLat = Math.abs(midLat); /* shift to bring into natural number land */
 
-    return Math.ceil(midLat / (180.0 / numZones));
+    return Math.ceil(midLat / (90.0 / numZones));
   }
 
 }
