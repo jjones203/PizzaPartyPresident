@@ -12,7 +12,7 @@ import java.awt.*;
 public interface ColorsAndFonts
 {
 
-  Color REGION_NAME_FONT_C = new Color(0x505050);
+  Color REGION_NAME_FONT_C = new Color(0x6C111C);
 
   Color OCEANS = new Color(0x626060);
 
