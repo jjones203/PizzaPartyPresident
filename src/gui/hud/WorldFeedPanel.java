@@ -15,18 +15,25 @@ import java.util.Observer;
  @author david
  created: 2015-02-05
 
- description: */
+ description:
+ WorldFeedPanel holds a Ticker and DatePanel that (might) display world news events
+ and world date respectively, to keep the player apprised of the state of the world
+ and help maintain a constant sense of dread as time marches ever forward.
+ */
 public class WorldFeedPanel extends JPanel implements Observer
 {
 
  private static final int PADDING = 0;
-
-
  private WorldPresenter presenter;
  private DatePanel datePanel;
  private Ticker ticker;
  private GroupLayout layout;
- 
+
+ /**
+  Instantiate the WorldFeedPanel with a WorldPresenter to poll from upon
+  receipt of update notifications
+  @param presenter WorldPresenter to observe
+  */
  public WorldFeedPanel(WorldPresenter presenter)
  {
   this.presenter = presenter;
@@ -44,6 +51,9 @@ public class WorldFeedPanel extends JPanel implements Observer
   
  }
 
+ /*
+  setup GroupLayout groups and orientation
+  */
  private void initLayout()
  {
   layout = new GroupLayout(this);
@@ -64,30 +74,16 @@ public class WorldFeedPanel extends JPanel implements Observer
   );
  }
 
- public static void main(String[] args)
- {
-  final JFrame frame = new JFrame();
-  frame.setContentPane(new WorldFeedPanel(null));
-  frame.pack();
-  frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-  frame.setVisible(true);
 
-  new Timer(30, new ActionListener()
-  {
-   @Override
-   public void actionPerformed(ActionEvent e)
-   {
-    frame.repaint();
-   }
-  }).start();
-
- }
-
-
+ /**
+  
+  @param o
+  @param arg
+  */
  @Override
  public void update(Observable o, Object arg)
  {
-  datePanel.setDate(presenter.getWorldDate());
+  datePanel.setDate(((WorldPresenter)o).getWorldDate());
   
   /* update ticker text */
  }

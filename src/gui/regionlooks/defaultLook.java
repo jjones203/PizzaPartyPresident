@@ -20,7 +20,11 @@ class defaultLook implements RegionView
   private boolean drawBorders;
 
 
-
+  /**
+   Draw a GUIRegion to a given graphics context
+   @param g   Graphics context to draw to
+   @param gRegion   GUIRegion to draw
+   */
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
   {

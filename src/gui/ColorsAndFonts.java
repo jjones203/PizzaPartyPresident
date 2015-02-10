@@ -17,7 +17,9 @@ public interface ColorsAndFonts
   Color OCEANS = new Color(0x626060);
 
   Color ACTIVE_REGION = new Color(0xDEB564);
-  Color ACTIVE_REGION_OUTLINE = new Color(0xE37956);
+  
+  /* changed from 0xE37956, now is same as PASSIVE_REGION_OUTLINE */
+  Color ACTIVE_REGION_OUTLINE = new Color(0x767979); 
 
   Color SELECT_RECT_OUTLINE = new Color(94, 78, 114);
   Color SELECT_RECT_FILL = new Color(SELECT_RECT_OUTLINE.getRGB() & 0x50FFFFFF, true);

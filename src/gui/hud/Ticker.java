@@ -46,27 +46,12 @@ public class Ticker extends JPanel
     setMaximumSize(getPreferredSize());
     
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
-
-    timer = new Timer(25, new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        repaint();
-      }
-    });
   }
 
   @Override
   protected void paintComponent(Graphics g)
   {
-    super.paintComponent(g);
-    Graphics2D g2 = (Graphics2D) g;
-    g2.setFont(MARQUIS_FONT);
-    FontMetrics metrics = g2.getFontMetrics();
-    
-    int width = metrics.stringWidth(marquisStr);
-    
+
     
   }
   
