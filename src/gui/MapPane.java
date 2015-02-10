@@ -135,7 +135,7 @@ public class MapPane extends JPanel
 
     for (GUIRegion region : regionsToDraw) region.draw(g2);
 
-    if (cam.getDistance() == Camera.CAM_DISTANCE.CLOSE_UP)
+    if (cam.getDistance() != Camera.CAM_DISTANCE.LONG)
     {
       for (GUIRegion region : regionsToDraw) RegionNameDraw.draw(g2, region);
     }
