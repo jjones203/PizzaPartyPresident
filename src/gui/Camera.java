@@ -9,7 +9,16 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
-
+ 
+ @author david
+ 
+ description:
+  Camera class describes an object that moves relative to a map or world projection.
+  It's primary use is in building an AffineTransform that takes everything within
+  its view in map-space (see viewBounds rect) and translate it to screen space
+  for viewing in some Window-type object.
+  It provides an interface for motion and zooming both in terms of the projection
+  and in terms of the window it is translating to.
  */
 
 public class Camera
@@ -19,14 +28,14 @@ public class Camera
   private static final double BASE_H = BASE_W / ASPECT_RATIO;
   
   final double MIN_HEIGHT = 0;
-  final double MAX_HEIGHT;
 
+  /* determined by the scale of the Converter used to instantiate the Camera */
+  final double MAX_HEIGHT;
+  
   private Rectangle2D viewBounds;
   private Rectangle2D limitingRect;
   private double height;
   private double scale;
-  private boolean hasMoved;
-
 
   /**
    Instantiate this Camera with a MapConverter upon which it will base its
@@ -64,7 +73,6 @@ public class Camera
     setHeight(MAX_HEIGHT);
     viewBounds = new Rectangle2D.Double();
     setViewBounds(x, y, scale * BASE_W, scale * BASE_H);
-    
   }
 
 
@@ -314,7 +322,6 @@ public class Camera
     return CAM_DISTANCE.LONG;
   }
 
-  
 
   /**
    Enum binning the Camera's distance from the map (i.e. height) for
