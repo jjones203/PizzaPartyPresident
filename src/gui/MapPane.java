@@ -91,6 +91,7 @@ public class MapPane extends JPanel
       presenter.setWorldForward(30);
     }
   };
+  private Collection<Line2D> grid;
 
   /**
    * Instantiate this MapPane with a Camera to provide transforms and a
@@ -173,6 +174,9 @@ public class MapPane extends JPanel
 
     Collection<GUIRegion> regionsToDraw = presenter.getRegionsInView(cam);
 
+    g2.setColor(ColorsAndFonts.MAP_GRID);
+    for(Line2D l : grid) g2.draw(l);
+    
     for (GUIRegion region : regionsToDraw) region.draw(g2);
 
     if (dynamicNameDrawing)
@@ -439,6 +443,12 @@ public class MapPane extends JPanel
   }
 
 
+  public void setGrid(Collection<Line2D> lines)
+  {
+    grid = lines;
+    
+  }
+  
   @Override
   public void mouseMoved(MouseEvent e)
   {/* do nothing */}

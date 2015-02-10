@@ -397,7 +397,7 @@ public class InfoPanel extends JPanel implements Observer
     Map<Integer, Integer> zoneMap = new HashMap<>();
 
     /* init map */
-    for (int i = 1; i <= 13; i++)
+    for (int i = 0; i <= 13; i++)
     {
       zoneMap.put(i, 0);
     }

@@ -51,7 +51,7 @@ public class Game
   private void init()
   {
 
-    Random random = new Random(234);
+    Random random = new Random();
     AttributeGenerator randoAtts = new AttributeGenerator();
 
     Collection<Region> background = initBackgroundRegions(random, randoAtts);
@@ -69,6 +69,7 @@ public class Game
 
     Camera cam = new Camera(converter);
     mapPane = new MapPane(cam, worldPresenter);
+    mapPane.setGrid(converter.getLatLonGrid());
 
     infoPanel = new InfoPanel();
     infoPanel.setPresenter(worldPresenter);
