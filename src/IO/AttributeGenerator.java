@@ -63,6 +63,10 @@ public class AttributeGenerator
     {
       attVal = attributes.getAttribute(att);
       change = random.nextGaussian() * differential;
+
+      /* World always gets worse */
+      change = Math.min(change, -change);
+
       attVal = Math.max(0, Math.min(LIMITS.get(att), attVal + change));
       attributes.setAttribute(att, attVal);
     }
@@ -71,6 +75,10 @@ public class AttributeGenerator
     {
       attVal = attributes.getCropGrowth(crop);
       change = random.nextGaussian() * differential;
+      
+      /* World always gets worse */
+      change = Math.min(change, -change);
+
       attVal = Math.max(0, Math.min(CROP_UNIT_LIMIT, attVal * (1 + change)));
       attributes.setCrop(crop, attVal);
     }
@@ -123,6 +131,7 @@ public class AttributeGenerator
     }
   }
 
+  
   private double genHiTemp(Region reg, Random rand)
   {
     return genLowTemp(reg, rand) + 20 + rand.nextDouble() * 5;
