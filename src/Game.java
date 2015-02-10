@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.List;
 
 /**
- *
+ * Main entry point for the 'game'. Handles loading data and all configurations.
  * @author david
  *         created: 2015-02-04
  *         <p/>
@@ -37,11 +37,17 @@ public class Game
   private Timer gameLoop;
   private JFrame frame;
 
+  /**
+   * Constructor for game, handles all init logic.
+   */
   public Game()
   {
     init();
   }
 
+  /**
+   * set it ALL up, I mean all of it.
+   */
   private void init()
   {
 
@@ -74,17 +80,26 @@ public class Game
     setupControlls();
   }
 
+  /**
+   * sets the main game container to visible.
+   */
   public void show()
   {
     frame.setVisible(true);
   }
 
+  /**
+   * Starts the game timers.
+   */
   public void start()
   {
     gameLoop.start();
     worldTime.start();
   }
 
+  /**
+   * pauses the game.
+   */
   public void pause()
   {
     gameLoop.stop();
@@ -92,11 +107,17 @@ public class Game
   }
 
 
+  /**
+   * @return true if the game loop is running.
+   */
   public boolean isRunning()
   {
     return gameLoop.isRunning();
   }
 
+  /**
+   * init and configures the timers and key bindings for the game.
+   */
   private void setupControlls()
   {
     worldTime = new Timer(DEFAULT_TIME_SPEED, new AbstractAction()
@@ -140,7 +161,7 @@ public class Game
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        worldTime.setDelay(DEFAULT_TIME_SPEED / 2);
+        worldTime.setDelay(DEFAULT_TIME_SPEED / 3);
       }
     });
 
@@ -150,7 +171,7 @@ public class Game
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        worldTime.setDelay(DEFAULT_TIME_SPEED / 4);
+        worldTime.setDelay(DEFAULT_TIME_SPEED / 6);
       }
     });
 

@@ -37,7 +37,7 @@ public class InfoPanel extends JPanel implements Observer
   public InfoPanel()
   {
     // init
-    miniViewBox = new MiniViewBox("REGION NAME");
+    miniViewBox = new MiniViewBox("");
     attributeStats = new StatPane("ATTRIBUTES:");
     cropStatPane = new StatPane("CROPS:");
 
