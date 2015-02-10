@@ -18,7 +18,7 @@ public class Camera
   private static final double BASE_W = 1000;
   private static final double BASE_H = BASE_W / ASPECT_RATIO;
   
-  final double MIN_HEIGHT = 4;
+  final double MIN_HEIGHT = 0;
   final double MAX_HEIGHT;
 
   private Rectangle2D viewBounds;
@@ -28,15 +28,19 @@ public class Camera
   private boolean hasMoved;
 
 
+  /**
+   Instantiate this Camera with a MapConverter upon which it will base its
+   maximum height (according to the scale of the converter)
+   @param converter MapConverter used to set height limits
+   */
   public Camera(MapConverter converter)
   {
     this(0, 0, converter);
   }
 
   /**
-   Wraps base constructor setting camera to a Maximum height by default
-   Location and MapConverter to use can be specified
-
+   Instantiate this camera with an initial position in map-space and a converter
+   to use to define the camera's height limits
    @param x
    x coord of initial location
    @param y
@@ -89,7 +93,6 @@ public class Camera
    the viewBounds would exceed its limiting rectangle in any direction, it is
    positioned flush against the edge(s) it would have crossed int the
    repositioning
-   
    @param x
    new x coord of viewBounds
    @param y
@@ -123,7 +126,6 @@ public class Camera
   
   /**
    Translate the camera, in absolute terms, a given differential in x and y
-   
    @param dx
    difference in x to move 
    @param dy
@@ -144,8 +146,7 @@ public class Camera
    * @param dx
    difference in x to move, in DisplaySpace
    @param dy
- difference in y to move, in DisplaySpace
-
+   difference in y to move, in DisplaySpace
    */
   public void translateRelativeToView(double dx, double dy)
   {
@@ -155,11 +156,10 @@ public class Camera
 
   /**
    zoom in by a given amount.  This lowers the "height" of the camera.
-   The units are semi-arbitrary.  They are a function of the scaling factor
-   in the MapConverter associated with this Camera
-   
-   @param zoomDiff
-   amount to zoom it
+   The units of the zoom are relative to the converter used to instantiate
+   the camera.  The differential should be small enough that transforms
+   produced by the camera are not jarring.
+   @param zoomDiff amount to zoom in
    */
   public void zoomIn(double zoomDiff)
   {
@@ -169,6 +169,13 @@ public class Camera
   }
 
 
+  /**
+   zoom out by a given amount.  This raises the "height" of the camera.
+   The units of the zoom are relative to the converter used to instantiate
+   the camera.  The differential should be small enough that transforms
+   produced by the camera are not jarring.
+   @param zoomDiff amount to zoom out
+   */
   public void zoomOut(double zoomDiff)
   {
     double centerY = viewBounds.getCenterY();
@@ -176,16 +183,19 @@ public class Camera
     zoomAbsolute(zoomDiff, centerX, centerY);
   }
 
+  
   /**
-   Moves the camera closer to the map, with an anchor point in the absolute
-   coordinate system of the map
-   
-   @param dZoom
-   @param anchorX
-   @param anchorY
+   Adjusts the camera height (depending on sign of dZoom) and sets its
+   viewbounds such that the anchor coordinates provided remain in the same
+   position relative to the viewbounds
+   @param dZoom     zoom differential
+   @param anchorX   x coord to anchor camera at
+   @param anchorY   y coord to anchor camera at
    */
   public void zoomAbsolute(double dZoom, double anchorX, double anchorY)
   {
+    /* this zoom diff calculation is important: allows for proper scaling of the
+     distance ratios from the anchor point*/
     double oldH = height;
     setHeight(height + dZoom);
     double actualDZoom = height - oldH;
@@ -206,7 +216,6 @@ public class Camera
   /**
     Moves the camera closer to the map, with an anchor point relative to the 
     screen's coordinate system
-   
    @param dZoom     difference in the zoom or height of the camera
    @param anchorX   x coord of the anchor point
    @param anchorY   y coord of the anchor point 
@@ -228,14 +237,20 @@ public class Camera
     double shiftX = -viewBounds.getX();
     double shiftY = -viewBounds.getY();
 
-    /* viewBounds are scaled, shift is in scaled terms */
+    /* viewBounds are in scaled terms so shift is also in scaled terms:
+     * hence translate *after* scale  */
     at.scale(1 / scale, 1 / scale);
     at.translate(shiftX, shiftY);
 
     return at;
   }
 
-  
+
+  /**
+   set Height of the camera.  This should be used both externally and internally
+   as it guarantees the height bounds are honored
+   @param height  height to set camera to
+   */
   public void setHeight(double height)
   {
     if (height < MIN_HEIGHT)
@@ -249,11 +264,20 @@ public class Camera
     scale = Math.pow(2, height);
   }
 
+  /**
+   @return the Rectangle that defines the visible area the Camera is scaling to,
+   in map-space
+   */
   public Rectangle2D getViewBounds()
   {
     return viewBounds;
   }
 
+
+  /**
+   @return Meaningful String representation of the Camera
+   (ViewBounds info, height)
+   */
   @Override
   public String toString()
   {
@@ -267,7 +291,6 @@ public class Camera
       viewBounds.getCenterX(), viewBounds.getCenterY(),
       viewBounds.getHeight(), viewBounds.getWidth(),
       height);
-
     return s;
   }
 
@@ -281,13 +304,11 @@ public class Camera
     return CAM_DISTANCE.LONG;
   }
 
-  
-  public Rectangle2D getLims()
-  {
-    return limitingRect;
-  }
 
-
+  /**
+   Enum binning the Camera's distance from the map (i.e. height) for
+   less numerical dependence in external classes
+   */
   public enum CAM_DISTANCE
   {
     CLOSE_UP, MEDIUM, LONG
