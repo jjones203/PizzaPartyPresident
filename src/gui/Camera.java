@@ -18,8 +18,6 @@ public class Camera
   private static final double BASE_W = 1000;
   private static final double BASE_H = BASE_W / ASPECT_RATIO;
   
-  private static final Font DBG_FONT = new Font("Courier", Font.PLAIN, 14);
-  
   final double MIN_HEIGHT = 4;
   final double MAX_HEIGHT;
 
@@ -246,7 +244,6 @@ public class Camera
     }
     else if (height > MAX_HEIGHT){
       height = MAX_HEIGHT;
-      
     }
     this.height = height;
     scale = Math.pow(2, height);
@@ -274,38 +271,6 @@ public class Camera
     return s;
   }
 
-
-  /**
-   @return a BufferedImage containing debug info for the camera  
-   */
-  public BufferedImage getDBGimg()
-  {
-    BufferedImage img = new BufferedImage(400, 200, BufferedImage.TYPE_4BYTE_ABGR);
-    Graphics2D g = (Graphics2D) img.getGraphics();
-
-    String topleft_str = String.format("top left: (%.2f,%.2f)",
-      viewBounds.getX(), viewBounds.getY());
-    String dimension_str = String.format("size: (%.2f,%.2f)",
-      viewBounds.getWidth(), viewBounds.getHeight());
-    String center_str = String.format("center: (%.2f,%.2f)",
-      viewBounds.getCenterX(), viewBounds.getCenterY());
-    String height_str = String.format("height: %.2f", height);
-    String scale_str = String.format("scaling factor: %.2f", scale);
-
-
-    g.setColor(Color.RED);
-    g.setFont(DBG_FONT);
-
-    g.drawString("Camera Debug Info", 15, 20);
-    g.drawString(topleft_str, 15, 40);
-    g.drawString(center_str, 15, 60);
-    g.drawString(dimension_str, 15, 80);
-    g.drawString(height_str, 15, 100);
-    g.drawString(scale_str, 15, 120);
-
-    return img;
-  }
-  
   /**
     @return the CAM_DISTANCE enum based on the height or zoom of this camera
    */

@@ -11,9 +11,19 @@ import java.awt.geom.NoninvertibleTransformException;
  * Created by winston on 1/27/15.
  * Phase_01
  * CS 351 spring 2015
+ * 
+ * RegionView that draws the names of Regions somewhere near the center of the
+ * region via a static method, which is called in an order or with an appropriate
+ * graphics context to allow the names to be seen above other display elements 
  */
 public class RegionNameDraw
 {
+
+  /**
+   Draw the name of a GUIRegion on a given graphics context
+   @param g   graphics context to draw to
+   @param gRegion   GUIRegion whose name is to be drawn
+   */
   public static void draw(Graphics g, GUIRegion gRegion)
   {
     Graphics2D g2d = (Graphics2D) g;
