@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 public class Camera
 {
   private static final double ASPECT_RATIO = 2;
-  private static final double BASE_W = 1000;
+  private static final double BASE_W = 800;
   private static final double BASE_H = BASE_W / ASPECT_RATIO;
   
   final double MIN_HEIGHT = 0;
@@ -294,6 +294,16 @@ public class Camera
     return s;
   }
 
+
+  /**
+   @return The Dimension to which this camera is scaling
+   */
+  public Dimension getTargetSize()
+  {
+    return new Dimension((int)BASE_W, (int)BASE_H);
+  }
+  
+  
   /**
     @return the CAM_DISTANCE enum based on the height or zoom of this camera
    */
@@ -304,6 +314,7 @@ public class Camera
     return CAM_DISTANCE.LONG;
   }
 
+  
 
   /**
    Enum binning the Camera's distance from the map (i.e. height) for

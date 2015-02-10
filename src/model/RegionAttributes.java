@@ -126,7 +126,6 @@ public class RegionAttributes
   public enum PLANTING_ATTRIBUTES
   {
     PLANTING_ZONE("Planting Zone"),
- // PERCENTAGE_CROPS,                     // this is stored in a map
     ANNUAL_RAINFALL("Annual Rainfall"),
     MONTHLY_RAINFALL("Monthly Rainfall"),
     AVE_MONTH_TEMP_HI("Average Month High temp"),

@@ -48,9 +48,7 @@ public class StatPane extends JPanel
     barGraphsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
     BoxLayout layout = new BoxLayout(barGraphsPanel, BoxLayout.Y_AXIS);
-    FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT,3, 3);
     barGraphsPanel.setLayout(layout);
-
 
     //wire
     titlePane.add(titleLable);
