@@ -15,6 +15,8 @@ import java.util.*;
 import java.util.List;
 
 import static gui.ColorsAndFonts.BAR_GRAPH_NEG;
+import static gui.ColorsAndFonts.GUI_BACKGROUND;
+import static gui.ColorsAndFonts.OCEANS;
 import static model.RegionAttributes.PLANTING_ATTRIBUTES;
 
 /**
@@ -48,6 +50,7 @@ public class InfoPanel extends JPanel implements Observer
     this.setLayout(new GridLayout(1, 3));
     this.setMinimumSize(size);
     this.setPreferredSize(size);
+    this.setBackground(GUI_BACKGROUND);
 
     //wire
     this.add(miniViewBox);
