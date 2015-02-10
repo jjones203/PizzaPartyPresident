@@ -88,6 +88,11 @@ public class MiniViewBox extends JPanel
   }
 
 
+  
+  /* constructs a JPanel whose paintComponent method is overridden with 
+     a definition for displaying a nicely scaled and located aggregation of
+     polygons representing region borders
+   */
   private JPanel getRegionView()
   {
     return new JPanel()
@@ -95,28 +100,43 @@ public class MiniViewBox extends JPanel
       @Override
       public void paint(Graphics g)
       {
+        /* logical short circuiting not reliable here? */
         if (regions == null) return;
         if (regions.isEmpty()) return;
+        
+        
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHints(rh);
 
+        /* set alpha blending var for a nice fade in animation */
         if (alpha < 1)
         {
           g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
           alpha += 0.10f;
         }
 
+        
+        /* 
+        Here is the algorithm for shifting and scaling polygons for the region
+        summation view.
+        The algorithm constructs a minimum rectangle that contains all the
+        polygons to be drawn and, based on its aspect ratio relative to that
+        of the MiniViewBox, sets a scaling factor and shift that can be used
+        to define an AffineTransform that will convert all the points of the
+        polygons into centered, scaled versions for the region summation
+        graphic in the MiniViewBox
+        */
         double scaleValue;
-
         int inset = 5;
         
         double boxW = getWidth() - 2 * inset;
         double boxH = getHeight() - 2 * inset;
         
         double boxAspect = boxW / boxH;
-
         double polyW, polyH;
         
+        /* DO NOT USE MIN_VALUE!  MIN_VALUE is the minimum positive value a
+           double can take */
         double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY;
         double maxX = Double.NEGATIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY;
 
@@ -131,6 +151,7 @@ public class MiniViewBox extends JPanel
           maxY = Math.max(maxY, bounds.getMaxY());
         }
 
+        /* width and height of bounding rect */
         polyW = maxX - minX;
         polyH = maxY - minY;
 
@@ -151,6 +172,7 @@ public class MiniViewBox extends JPanel
           xshift = inset;
         }
 
+        /* minX and minY represent location of minimum rect holding all polygons */
         double xTranslate = xshift - (scaleValue * minX);
         double yTranslate = yshift - (scaleValue * minY);
 
