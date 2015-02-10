@@ -54,8 +54,9 @@ public class DatePanel extends JPanel
   }
 
   /**
-   Paints the Date using
-   @param g
+   Overridden paintComponent draws the Date with pleasant insets, locating
+   itself according to FontMetrics
+   @param g Graphics context to draw to
    */
   @Override
   public void paintComponent(Graphics g)
@@ -80,14 +81,23 @@ public class DatePanel extends JPanel
     int x = (getWidth() - w) / 2;
     int y = (getHeight() + h) / 2;
 
-//    g2.fillRect(x - 5, y - h, w + 10, h + 10);
-//    g2.setColor(ColorsAndFonts.GUI_TEXT_COLOR);
-    
-//    g2.setStroke(new BasicStroke(2));
-//    g2.drawRect(x - 5, y - h, w + 10, h + 10);
-    
     g2.setColor(ColorsAndFonts.GUI_TEXT_COLOR);
     g2.drawString(s, x, y);
+  }
+
+  /**
+   Set the date to display
+   @param d   Date to display in panel
+   */
+  public void setDate(Date d)
+  {
+    date = d;
+    repaint();
+  }
+
+  private String getDateString()
+  {
+    return getDateString(date);
   }
 
   private String getDateString(Date d)
@@ -95,17 +105,6 @@ public class DatePanel extends JPanel
     StringBuffer s = new StringBuffer();
     formatter.format(d, s, new FieldPosition(DateFormat.FULL));
     return s.toString();
-  }
-
-  private String getDateString()
-  {
-    return getDateString(date);
-  }
-  
-  public void setDate(Date d)
-  {
-    date = d;
-    repaint();
   }
 
 }
