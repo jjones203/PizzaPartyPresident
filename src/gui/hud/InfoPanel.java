@@ -40,7 +40,7 @@ public class InfoPanel extends JPanel implements Observer
   public InfoPanel()
   {
     // init
-    miniViewBox = new MiniViewBox("");
+    miniViewBox = new MiniViewBox(" ");
     attributeStats = new StatPane("ATTRIBUTES:");
     cropStatPane = new StatPane("CROPS:");
 
