@@ -35,6 +35,46 @@ public class AttributeGenerator
     "Soylent blue",
   };
 
+  /*
+    Generates something resembling a normal distribution between 0 and limit
+   */
+  private static double genPosGaussian(Random rand, double limit)
+  {
+    double r;
+    do
+    {
+      r = (rand.nextGaussian() + 1) / 2;
+    } while (r < 0 || r > 1);
+
+    return r * limit;
+  }
+
+  public static void stepAttributes(Random random, Collection<Region> world)
+  {
+    for (Region r : world) mutateAtts(r.getAttributes(), random);
+  }
+
+  private static void mutateAtts(RegionAttributes attributes, Random random)
+  {
+    double differential = 0.05;
+    double attVal, change;
+
+    for (PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
+    {
+      attVal = attributes.getAttribute(att);
+      change = random.nextGaussian() * differential;
+      attVal = Math.max(0, Math.min(LIMITS.get(att), attVal + change));
+      attributes.setAttribute(att, attVal);
+    }
+
+    for (String crop : attributes.getAllCrops())
+    {
+      attVal = attributes.getCropGrowth(crop);
+      change = random.nextGaussian() * differential;
+      attVal = Math.max(0, Math.min(CROP_UNIT_LIMIT, attVal * (1 + change)));
+      attributes.setCrop(crop, attVal);
+    }
+  }
 
   public void setRegionAttributes(Region reg, Random rand)
   {
@@ -83,20 +123,6 @@ public class AttributeGenerator
     }
   }
 
-  /*
-    Generates something resembling a normal distribution between 0 and limit
-   */
-  private static double genPosGaussian(Random rand, double limit)
-  {
-    double r;
-    do
-    {
-      r = (rand.nextGaussian() + 1) / 2;
-    } while (r < 0 || r > 1);
-
-    return r * limit;
-  }
-
   private double genHiTemp(Region reg, Random rand)
   {
     return genLowTemp(reg, rand) + 20 + rand.nextDouble() * 5;
@@ -124,50 +150,4 @@ public class AttributeGenerator
     return Math.ceil(midLat / (180.0 / numZones));
   }
 
-
-  public static void stepAttributes(Random random, Collection<Region> world)
-  {
-    for (Region r : world) mutateAtts(r.getAttributes(), random);
-  }
-
-  private static void mutateAtts(RegionAttributes attributes, Random random)
-  {
-    double differential = 0.05;
-    double attVal, change;
-
-    for (PLANTING_ATTRIBUTES att : PLANTING_ATTRIBUTES.values())
-    {
-      attVal = attributes.getAttribute(att);
-      change = random.nextGaussian() * differential;
-      attVal = Math.max(0, Math.min(LIMITS.get(att), attVal + change));
-      attributes.setAttribute(att, attVal);
-    }
-
-    for (String crop : attributes.getAllCrops())
-    {
-      attVal = attributes.getCropGrowth(crop);
-      change = random.nextGaussian() * differential;
-      attVal = Math.max(0, Math.min(CROP_UNIT_LIMIT, attVal * (1 + change)));
-      attributes.setCrop(crop, attVal);
-    }
-  }
-
-
-  /**
-   Removed original and built this in case we need to do testing on a single  set
-   of
-   attributes.  Shouldn't need it anymore though.
-
-   @return
-   @deprecated
-   */
-  public RegionAttributes nextAttributeSet()
-  {
-    Region r = new AtomicRegion();
-    List<MapPoint> pointList = new ArrayList<>();
-    pointList.add(new MapPoint(0, 0));
-    r.setPerimeter(pointList);
-    setRegionAttributes(r, new Random());
-    return r.getAttributes();
-  }
 }

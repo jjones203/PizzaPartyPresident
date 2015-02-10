@@ -413,9 +413,6 @@ public class InfoPanel extends JPanel implements Observer
 
     int numRegions = regions.size();
     
-    /* for performance checking */
-    System.out.println("summing " + numRegions + " regions");
-
     for (GUIRegion gr : regions)
     {
       RegionAttributes attribs = gr.getRegion().getAttributes();
