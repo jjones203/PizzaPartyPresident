@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Main entry point for the 'game'. Handles loading data and all configurations.
- * @author david
+ * @author david winston
  *         created: 2015-02-04
  *         <p/>
  *         description:
@@ -186,18 +186,12 @@ public class Game
       }
     });
 
-
-    inputMap.put(KeyStroke.getKeyStroke("N"), "setName");
-    actionMap.put("setName", new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-//        mapPane.setDrawRegionsNames(! mapPane.getDrawRegionsNames());
-      }
-    });
   }
 
+  /**
+   * Handles constructing the frame and adding all the gui components in
+   * their proper places.
+   */
   private void initFrame()
   {
     frame = new JFrame();
@@ -211,11 +205,17 @@ public class Game
     frame.setResizable(false);
   }
 
+  /**
+   * Loads all the model regions and sets their attributes according to the
+   * given attribute generator.
+   */
   private Collection<Region> initModelRegions(Random random,
                                               AttributeGenerator randoAtts)
   {
     Collection<Region> modelMap = KMLParser.getRegionsFromFile(MODEL_DATA_PATH);
-    modelMap.addAll(new AreaXMLLoader().getRegions()); // adds XML regions for area folder...
+
+    // adds XML regions for area folder...
+    modelMap.addAll(new AreaXMLLoader().getRegions());
     for (Region r : modelMap)
     {
       randoAtts.setRegionAttributes(r, random);
@@ -223,6 +223,9 @@ public class Game
     return modelMap;
   }
 
+  /**
+   * Loads and inits attributes for all background regions.
+   */
   private Collection<Region> initBackgroundRegions(Random random,
                                                    AttributeGenerator randoAtts)
   {
@@ -234,6 +237,9 @@ public class Game
     return BGRegions;
   }
 
+  //*******
+  // MAIN *
+  //*******
   public static void main(String[] args)
   {
     Game gameManager = new Game();
