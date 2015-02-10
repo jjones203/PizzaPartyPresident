@@ -8,11 +8,9 @@ import static model.RegionAttributes.PLANTING_ATTRIBUTES.*;
 /**
  * Created by winston on 2/6/15.
  * <p/>
- * Class is responsible for for converting, and primarily displaying unites
- * in different systems of measurements.
- * <p/>
- * all conventions happen in terms of the model unit system, which uses the
- * customary United States units.
+ * Class is responsible for converting and properly displaying unites of
+ * measurements in different systems of measurements. All conventions happen in
+ * terms of the model unit system, which uses the customary United States units.
  * <p/>
  * for more info see: http://en.wikipedia.org/wiki/United_States_customary_units
  */
