@@ -24,7 +24,6 @@ public class WorldFeedPanel extends JPanel implements Observer
 {
 
  private static final int PADDING = 0;
- private WorldPresenter presenter;
  private DatePanel datePanel;
  private Ticker ticker;
  private GroupLayout layout;
@@ -36,7 +35,6 @@ public class WorldFeedPanel extends JPanel implements Observer
   */
  public WorldFeedPanel(WorldPresenter presenter)
  {
-  this.presenter = presenter;
   datePanel = new DatePanel();
   datePanel.setDate(presenter.getWorldDate());
   ticker = new Ticker();

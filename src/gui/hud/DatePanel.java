@@ -95,11 +95,13 @@ public class DatePanel extends JPanel
     repaint();
   }
 
+  /* wraps getDateString base with the member variable date as an arg*/
   private String getDateString()
   {
     return getDateString(date);
   }
 
+  /* construct a string using the SimpleDateFormat for the passed Date object */
   private String getDateString(Date d)
   {
     StringBuffer s = new StringBuffer();
