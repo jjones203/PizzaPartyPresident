@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -90,4 +91,9 @@ public class WorldFeedPanel extends JPanel implements Observer
   
   /* update ticker text */
  }
+
+  public void setDate(Date date)
+  {
+    datePanel.setDate(date);
+  }
 }
