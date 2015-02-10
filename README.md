@@ -3,7 +3,7 @@ by
 David Ringo and Winston Riley.
 
 ## Building
-find the following files and...
+find the following files `make.sh` and `run.sh` and...
 
 ~~~bash
 ./make.sh && ./run.sh
