@@ -37,7 +37,7 @@ public interface ColorsAndFonts
 //  Font TOP_FONT = GUI_FONT.deriveFont(18f);
   Font TOP_FONT = new Font("SansSerif", Font.PLAIN, 14);
   Font HUD_TITLE = new Font("SansSerif", Font.PLAIN, 14);
-  Font NAME_VIEW = new Font("SansSerif", Font.PLAIN, 400);
+  Font NAME_VIEW = new Font("SansSerif", Font.PLAIN, 12);
 
 
   Color MINI_BOX_REGION = new Color(222, 183, 106);
