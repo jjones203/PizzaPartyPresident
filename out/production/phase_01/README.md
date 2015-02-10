@@ -3,12 +3,19 @@ by
 By David Ringo and Winston Riley.
 
 ## Building
+find the following files and...
+
+~~~bash
+./make.sh && ./run.sh
+~~~
+
 
 ##Controls
 ### Navigation
 * arrow keys pan around the globe
 * shift + up arrow or down arrow zooms in and out respectively
 * control clicking on a point on the map centers the camera at that point.
+* mouse scroll wheel also zooms in and out
 
 
 ### Inspecting
@@ -26,4 +33,4 @@ By David Ringo and Winston Riley.
 
 #### credits
 text editor for XML editing was build using [RSyntaxTextArea](https://github.com/bobbylight).  
-region data from [Natural Earth](http://www.naturalearthdata.com)
+region data from [Natural Earth](http://www.naturalearthdata.com).
