@@ -64,7 +64,7 @@ public class Main
     final InfoPanel infoPanel = new InfoPanel();
     infoPanel.setPresenter(presenter);
     
-    WorldFeedPanel worldFeedPanel = new WorldFeedPanel(presenter);
+    final WorldFeedPanel worldFeedPanel = new WorldFeedPanel(presenter);
     presenter.addObserver(worldFeedPanel);
 
     JFrame win = new JFrame();
@@ -90,6 +90,16 @@ public class Main
     }).start();
 
 
+    Timer worldTime = new Timer(1000, new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        presenter.setWorldForward(1);
+        worldFeedPanel.setDate(presenter.getWorldDate());
+      }
+    });
+    worldTime.start();
 
   }
 

@@ -82,7 +82,7 @@ public class MapPane extends JPanel
     @Override
     public void actionPerformed(ActionEvent e)
     {
-      presenter.stepByMonth();
+      presenter.setWorldForward(1);
       System.out.println(presenter.getWorldDate());
     }
   };

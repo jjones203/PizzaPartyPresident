@@ -60,13 +60,22 @@ public class World
     this.currentDate = currentDate;
   }
 
+
+
   /**
-   * advances the game world forward one month. Simulates the game logic
-   * by using random values.
+   * Advances the world forward by the given number of days. Every new month
+   * the worlds attributes are randomly modulated.
+   * @param numOfDays number of days to travel in the future too.
+   * @return true - the world was change, false otherwise.
    */
-  public void stepByMonth()
+  public boolean setByDays(int numOfDays)
   {
-    currentDate.add(Calendar.MONTH, 1);
-    AttributeGenerator.stepAttributes(random, world);
+    int previousMonth = currentDate.get(Calendar.MONTH);
+    currentDate.add(Calendar.DATE, numOfDays);
+
+    boolean isNewMonth = previousMonth != currentDate.get(Calendar.MONTH);
+    if (isNewMonth) AttributeGenerator.stepAttributes(random, world);
+
+    return isNewMonth;
   }
 }
