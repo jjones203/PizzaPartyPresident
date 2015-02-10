@@ -22,7 +22,7 @@ import static gui.Camera.CAM_DISTANCE;
  */
 public class WorldPresenter extends Observable
 {
-  private boolean DEBUG = true;
+  private boolean DEBUG = false;
   private CAM_DISTANCE lastDistance;
   private MapConverter mpConverter;
   private Collection<GUIRegion> modelRegions;

@@ -1,9 +1,9 @@
 # CS 351 DLP_phase01
 by  
-By David Ringo and Winston Riley.
+David Ringo and Winston Riley.
 
 ## Building
-find the following files and...
+find the following files `make.sh` and `run.sh` and...
 
 ~~~bash
 ./make.sh && ./run.sh
@@ -20,15 +20,15 @@ find the following files and...
 
 ### Inspecting
 * Meta (on mac command) click allows multiple region selection (as does click and drag).
-* key 1 displays the default map look
-* key 2 displays the 'happiness' index of regions
-* key 3 displays the planting zone of each region.
+* num-key 1 displays the default map look
+* num-key 2 displays the 'happiness' index of regions
+* num-key 3 displays the planting zone of each region.
 
 ### Time
 
-* key 8 sets the game time to normal 
-* key 9 speed the game to medium
-* key 0 set the game to super fast speed.
+* num-key 8 sets the game time to normal
+* num-key 9 speed the game to medium
+* num-key 0 set the game to super fast speed.
 * space bar pauses the game.
 
 #### credits

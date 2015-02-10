@@ -88,8 +88,7 @@ public class MapPane extends JPanel
     @Override
     public void actionPerformed(ActionEvent e)
     {
-      presenter.setWorldForward(1);
-      System.out.println(presenter.getWorldDate());
+      presenter.setWorldForward(30);
     }
   };
 
