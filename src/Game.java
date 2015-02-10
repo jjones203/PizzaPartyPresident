@@ -18,8 +18,8 @@ import java.util.*;
 import java.util.List;
 
 /**
- *
- * @author david
+ * Main entry point for the 'game'. Handles loading data and all configurations.
+ * @author david winston
  *         created: 2015-02-04
  *         <p/>
  *         description:
@@ -37,11 +37,17 @@ public class Game
   private Timer gameLoop;
   private JFrame frame;
 
+  /**
+   * Constructor for game, handles all init logic.
+   */
   public Game()
   {
     init();
   }
 
+  /**
+   * set it ALL up, I mean all of it.
+   */
   private void init()
   {
 
@@ -74,17 +80,26 @@ public class Game
     setupControlls();
   }
 
+  /**
+   * sets the main game container to visible.
+   */
   public void show()
   {
     frame.setVisible(true);
   }
 
+  /**
+   * Starts the game timers.
+   */
   public void start()
   {
     gameLoop.start();
     worldTime.start();
   }
 
+  /**
+   * pauses the game.
+   */
   public void pause()
   {
     gameLoop.stop();
@@ -92,11 +107,17 @@ public class Game
   }
 
 
+  /**
+   * @return true if the game loop is running.
+   */
   public boolean isRunning()
   {
     return gameLoop.isRunning();
   }
 
+  /**
+   * init and configures the timers and key bindings for the game.
+   */
   private void setupControlls()
   {
     worldTime = new Timer(DEFAULT_TIME_SPEED, new AbstractAction()
@@ -140,7 +161,7 @@ public class Game
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        worldTime.setDelay(DEFAULT_TIME_SPEED / 2);
+        worldTime.setDelay(DEFAULT_TIME_SPEED / 3);
       }
     });
 
@@ -150,7 +171,7 @@ public class Game
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        worldTime.setDelay(DEFAULT_TIME_SPEED / 4);
+        worldTime.setDelay(DEFAULT_TIME_SPEED / 6);
       }
     });
 
@@ -165,18 +186,12 @@ public class Game
       }
     });
 
-
-    inputMap.put(KeyStroke.getKeyStroke("N"), "setName");
-    actionMap.put("setName", new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-//        mapPane.setDrawRegionsNames(! mapPane.getDrawRegionsNames());
-      }
-    });
   }
 
+  /**
+   * Handles constructing the frame and adding all the gui components in
+   * their proper places.
+   */
   private void initFrame()
   {
     frame = new JFrame();
@@ -190,11 +205,17 @@ public class Game
     frame.setResizable(false);
   }
 
+  /**
+   * Loads all the model regions and sets their attributes according to the
+   * given attribute generator.
+   */
   private Collection<Region> initModelRegions(Random random,
                                               AttributeGenerator randoAtts)
   {
     Collection<Region> modelMap = KMLParser.getRegionsFromFile(MODEL_DATA_PATH);
-    modelMap.addAll(new AreaXMLLoader().getRegions()); // adds XML regions for area folder...
+
+    // adds XML regions for area folder...
+    modelMap.addAll(new AreaXMLLoader().getRegions());
     for (Region r : modelMap)
     {
       randoAtts.setRegionAttributes(r, random);
@@ -202,6 +223,9 @@ public class Game
     return modelMap;
   }
 
+  /**
+   * Loads and inits attributes for all background regions.
+   */
   private Collection<Region> initBackgroundRegions(Random random,
                                                    AttributeGenerator randoAtts)
   {
@@ -213,6 +237,9 @@ public class Game
     return BGRegions;
   }
 
+  //*******
+  // MAIN *
+  //*******
   public static void main(String[] args)
   {
     Game gameManager = new Game();
