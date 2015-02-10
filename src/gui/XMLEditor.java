@@ -33,8 +33,7 @@ public class XMLEditor extends JDialog
   private RSyntaxTextArea textArea = new RSyntaxTextArea();
   private JLabel errorMsg;
   private boolean ignoreFile;
-  private RTextScrollPane scrollPane; //TODO look into how to set the scroll pane to a given line number.
-
+  private RTextScrollPane scrollPane;
 
   /**
    * Constructor for XMLEditor.
@@ -129,8 +128,6 @@ public class XMLEditor extends JDialog
    */
   public void setCaretToLine(int lineNum)
   {
-    //todo try To get the scroll wheel to he right position.
-
     int moveTo = textArea.getDocument()
                     .getDefaultRootElement()
                     .getElement(lineNum)

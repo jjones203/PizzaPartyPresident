@@ -412,6 +412,11 @@ public class MapPane extends JPanel
   }
 
 
+  /**
+   Overridden mouseDragged controls either camera panning (when no modifier key
+   is held) or multi-select (when shift is held)
+   @param e MouseEvent fired by a mouse drag
+   */
   @Override
   public void mouseDragged(MouseEvent e)
   {
