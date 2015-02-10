@@ -21,6 +21,7 @@ public class GUIRegion
   private RegionView look;
   private Polygon poly;
 
+
   public GUIRegion(Region region, MapConverter converter, RegionView look)
   {
     this.region = region;
@@ -62,6 +63,10 @@ public class GUIRegion
     return poly;
   }
 
+  public double getSurfaceArea()
+  {
+    return getPoly().getBounds().getWidth() * getPoly().getBounds().getHeight();
+  }
 
   public Area getArea()
   {

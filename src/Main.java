@@ -90,7 +90,7 @@ public class Main
     }).start();
 
 
-    Timer worldTime = new Timer(1000, new AbstractAction()
+    Timer worldTime = new Timer(2000, new AbstractAction()
     {
       @Override
       public void actionPerformed(ActionEvent e)

@@ -311,7 +311,7 @@ public class Camera
    */
   public CAM_DISTANCE getDistance()
   {
-    if (height < 6) return CAM_DISTANCE.CLOSE_UP;
+    if (height < 7) return CAM_DISTANCE.CLOSE_UP;
     if (height < 8) return CAM_DISTANCE.MEDIUM;
     return CAM_DISTANCE.LONG;
   }

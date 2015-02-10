@@ -2,6 +2,7 @@ package gui;
 
 import gui.regionlooks.RegionNameDraw;
 import gui.regionlooks.RegionViewFactory;
+import model.Region;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -22,6 +23,7 @@ public class MapPane extends JPanel
   implements MouseWheelListener, MouseInputListener, KeyListener
 {
 
+  private final static double MAP_VISIBILITY_SCALE = 100;
   private final static int CAMERA_STEP = 10;
   private final static double ZOOM_STEP = .05;
   private final static int
@@ -48,7 +50,7 @@ public class MapPane extends JPanel
   private Point2D dragFrom;
 
   private boolean doMultiSelect;
-
+  private boolean dynamicNameDrawing;
   // for key binding
   private Action happyOverlay = new AbstractAction()
   {
@@ -58,7 +60,6 @@ public class MapPane extends JPanel
       presenter.setCurrentOverlay(RegionViewFactory.Overlay.HAPPINESS);
     }
   };
-
   private Action defaultOverlay = new AbstractAction()
   {
     @Override
@@ -67,7 +68,6 @@ public class MapPane extends JPanel
       presenter.setCurrentOverlay(RegionViewFactory.Overlay.NONE);
     }
   };
-
   private Action plantingZoneOverlay = new AbstractAction()
   {
     @Override
@@ -86,7 +86,7 @@ public class MapPane extends JPanel
       System.out.println(presenter.getWorldDate());
     }
   };
-  
+
   /**
    * @param cam
    * @param presenter
@@ -100,6 +100,7 @@ public class MapPane extends JPanel
     addMouseMotionListener(this);
     addKeyListener(this);
     setBackground(ColorsAndFonts.OCEANS);
+    dynamicNameDrawing = true;
 
     /* todo: sizing generalization */
     setPreferredSize(new Dimension(1000, 500));
@@ -122,6 +123,15 @@ public class MapPane extends JPanel
     getActionMap().put("step", stepWorld);
   }
 
+  public boolean isDynamicNameDrawing()
+  {
+    return dynamicNameDrawing;
+  }
+
+  public void setDynamicNameDrawing(boolean dynamicNameDrawing)
+  {
+    this.dynamicNameDrawing = dynamicNameDrawing;
+  }
 
   @Override
   protected void paintComponent(Graphics g)
@@ -135,9 +145,23 @@ public class MapPane extends JPanel
 
     for (GUIRegion region : regionsToDraw) region.draw(g2);
 
-    if (cam.getDistance() != Camera.CAM_DISTANCE.LONG)
+    if (dynamicNameDrawing)
     {
-      for (GUIRegion region : regionsToDraw) RegionNameDraw.draw(g2, region);
+      double screenArea = cam.getViewBounds().getWidth() * cam.getViewBounds().getWidth();
+      for (GUIRegion region : regionsToDraw)
+      {
+        if (screenArea / region.getSurfaceArea() < MAP_VISIBILITY_SCALE)
+        {
+          RegionNameDraw.draw(g2, region);
+        }
+      }
+    }
+    else
+    {
+      if (cam.getDistance() != Camera.CAM_DISTANCE.LONG)
+      {
+        for (GUIRegion region : regionsToDraw) RegionNameDraw.draw(g2, region);
+      }
     }
 
     if (drawMultiSelect)
@@ -220,8 +244,6 @@ public class MapPane extends JPanel
   @Override
   public void keyTyped(KeyEvent e)
   { /*do nothing*/ }
-
-
 
 
   @Override
