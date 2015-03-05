@@ -14,7 +14,7 @@ import java.awt.geom.Rectangle2D;
  description:
   Camera class describes an object that moves relative to a map or world projection.
   It's primary use is in building an AffineTransform that takes everything within
-  its view in map-space (see viewBounds rect) and translate it to screen space
+  its view in map-space (see viewBounds rect) and rotate it to screen space
   for viewing in some Window-type object.
   It provides an interface for motion and zooming both in terms of the projection
   and in terms of the window it is translating to.
@@ -23,7 +23,8 @@ import java.awt.geom.Rectangle2D;
 public class Camera
 {
   private static final double ASPECT_RATIO = 2;
-  private static final double BASE_W = 900;
+  private static final double BASE_W = 1100;
+
   private static final double BASE_H = BASE_W / ASPECT_RATIO;
   
   final double MIN_HEIGHT = 0;

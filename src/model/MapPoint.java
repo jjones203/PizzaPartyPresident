@@ -9,7 +9,7 @@ public class MapPoint
   private double lat;
   private double lon;
 
-  public MapPoint(double lat, double lon)
+  public MapPoint(double lon, double lat)
   {
     this.lat = lat;
     this.lon = lon;
