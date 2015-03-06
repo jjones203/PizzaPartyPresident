@@ -235,6 +235,7 @@ public class Game
     {
       randoAtts.setRegionAttributes(r, random);
     }
+
     return BGRegions;
   }
 
