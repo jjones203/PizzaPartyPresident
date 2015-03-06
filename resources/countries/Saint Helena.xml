@@ -1,0 +1,25 @@
+<country>
+<name>Saint Helena</name>
+<area>
+<vertex lat="-15.997731" lon="-5.692153"/>
+<vertex lat="-16.004036" lon="-5.782510"/>
+<vertex lat="-15.956700" lon="-5.775042"/>
+<vertex lat="-15.906161" lon="-5.707863"/>
+<vertex lat="-15.912775" lon="-5.662517"/>
+<vertex lat="-15.970859" lon="-5.659701"/>
+<vertex lat="-15.997731" lon="-5.692153"/>
+</area>
+<area>
+<vertex lat="-7.974345" lon="-14.364363"/>
+<vertex lat="-7.975792" lon="-14.398676"/>
+<vertex lat="-7.967472" lon="-14.408702"/>
+<vertex lat="-7.943753" lon="-14.414954"/>
+<vertex lat="-7.905719" lon="-14.398573"/>
+<vertex lat="-7.882568" lon="-14.383638"/>
+<vertex lat="-7.885978" lon="-14.360384"/>
+<vertex lat="-7.912643" lon="-14.328861"/>
+<vertex lat="-7.935484" lon="-14.302558"/>
+<vertex lat="-7.956155" lon="-14.316821"/>
+<vertex lat="-7.974345" lon="-14.364363"/>
+</area>
+</country>

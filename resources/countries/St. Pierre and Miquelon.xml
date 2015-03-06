@@ -1,0 +1,31 @@
+<country>
+<name>St. Pierre and Miquelon</name>
+<area>
+<vertex lat="46.762417" lon="-56.150727"/>
+<vertex lat="46.752857" lon="-56.171708"/>
+<vertex lat="46.767197" lon="-56.243280"/>
+<vertex lat="46.798229" lon="-56.209173"/>
+<vertex lat="46.807272" lon="-56.185066"/>
+<vertex lat="46.811097" lon="-56.152613"/>
+<vertex lat="46.801562" lon="-56.137343"/>
+<vertex lat="46.778644" lon="-56.139255"/>
+<vertex lat="46.762417" lon="-56.150727"/>
+</area>
+<area>
+<vertex lat="46.838485" lon="-56.267103"/>
+<vertex lat="46.795335" lon="-56.354229"/>
+<vertex lat="46.819416" lon="-56.384770"/>
+<vertex lat="46.847632" lon="-56.377225"/>
+<vertex lat="46.915948" lon="-56.332551"/>
+<vertex lat="46.935637" lon="-56.333946"/>
+<vertex lat="47.067980" lon="-56.386889"/>
+<vertex lat="47.089555" lon="-56.377949"/>
+<vertex lat="47.098986" lon="-56.364642"/>
+<vertex lat="47.070977" lon="-56.287360"/>
+<vertex lat="47.035010" lon="-56.278368"/>
+<vertex lat="46.953878" lon="-56.314903"/>
+<vertex lat="46.899877" lon="-56.289789"/>
+<vertex lat="46.860964" lon="-56.255475"/>
+<vertex lat="46.838485" lon="-56.267103"/>
+</area>
+</country>

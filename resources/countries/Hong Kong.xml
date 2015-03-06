@@ -1,0 +1,48 @@
+<country>
+<name>Hong Kong</name>
+<area>
+<vertex lat="22.210531" lon="114.232025"/>
+<vertex lat="22.195183" lon="114.207220"/>
+<vertex lat="22.268383" lon="114.138801"/>
+<vertex lat="22.292231" lon="114.134460"/>
+<vertex lat="22.296624" lon="114.187377"/>
+<vertex lat="22.263551" lon="114.246908"/>
+<vertex lat="22.233527" lon="114.243601"/>
+<vertex lat="22.210531" lon="114.232025"/>
+</area>
+<area>
+<vertex lat="22.210479" lon="113.997724"/>
+<vertex lat="22.210453" lon="113.877318"/>
+<vertex lat="22.220453" lon="113.851583"/>
+<vertex lat="22.241692" lon="113.838871"/>
+<vertex lat="22.280294" lon="113.881556"/>
+<vertex lat="22.333417" lon="114.043923"/>
+<vertex lat="22.277555" lon="114.003305"/>
+<vertex lat="22.210479" lon="113.997724"/>
+</area>
+<area>
+<vertex lat="22.396230" lon="114.335275"/>
+<vertex lat="22.373777" lon="114.290523"/>
+<vertex lat="22.325304" lon="114.287836"/>
+<vertex lat="22.295539" lon="114.267992"/>
+<vertex lat="22.348455" lon="114.139008"/>
+<vertex lat="22.375895" lon="114.032864"/>
+<vertex lat="22.364992" lon="113.937263"/>
+<vertex lat="22.396101" lon="113.902536"/>
+<vertex lat="22.428166" lon="113.896438"/>
+<vertex lat="22.484054" lon="114.006716"/>
+<vertex lat="22.511908" lon="114.015398"/>
+<vertex lat="22.514440" lon="114.018291"/>
+<vertex lat="22.542991" lon="114.050331"/>
+<vertex lat="22.551259" lon="114.097873"/>
+<vertex lat="22.565005" lon="114.122885"/>
+<vertex lat="22.565005" lon="114.188204"/>
+<vertex lat="22.553947" lon="114.228201"/>
+<vertex lat="22.540976" lon="114.266028"/>
+<vertex lat="22.536764" lon="114.269646"/>
+<vertex lat="22.499454" lon="114.291143"/>
+<vertex lat="22.457596" lon="114.284528"/>
+<vertex lat="22.437416" lon="114.325249"/>
+<vertex lat="22.396230" lon="114.335275"/>
+</area>
+</country>

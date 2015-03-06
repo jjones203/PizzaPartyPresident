@@ -1,0 +1,76 @@
+<country>
+<name>Faroe Is.</name>
+<area>
+<vertex lat="61.444622" lon="-6.699456"/>
+<vertex lat="61.414288" lon="-6.679716"/>
+<vertex lat="61.417698" lon="-6.703048"/>
+<vertex lat="61.452270" lon="-6.770511"/>
+<vertex lat="61.534746" lon="-6.888153"/>
+<vertex lat="61.602907" lon="-6.929236"/>
+<vertex lat="61.634326" lon="-6.934843"/>
+<vertex lat="61.630812" lon="-6.905904"/>
+<vertex lat="61.602803" lon="-6.881667"/>
+<vertex lat="61.584355" lon="-6.770021"/>
+<vertex lat="61.570506" lon="-6.740642"/>
+<vertex lat="61.536399" lon="-6.741082"/>
+<vertex lat="61.495937" lon="-6.703513"/>
+<vertex lat="61.444622" lon="-6.699456"/>
+</area>
+<area>
+<vertex lat="61.805969" lon="-6.623208"/>
+<vertex lat="61.768323" lon="-6.642793"/>
+<vertex lat="61.768633" lon="-6.670156"/>
+<vertex lat="61.815323" lon="-6.764259"/>
+<vertex lat="61.840773" lon="-6.839138"/>
+<vertex lat="61.862271" lon="-6.863994"/>
+<vertex lat="61.899116" lon="-6.884768"/>
+<vertex lat="61.903715" lon="-6.841799"/>
+<vertex lat="61.895344" lon="-6.790769"/>
+<vertex lat="61.861754" lon="-6.662120"/>
+<vertex lat="61.826717" lon="-6.625843"/>
+<vertex lat="61.805969" lon="-6.623208"/>
+</area>
+<area>
+<vertex lat="62.139308" lon="-7.186868"/>
+<vertex lat="62.100551" lon="-7.097106"/>
+<vertex lat="62.073266" lon="-7.065196"/>
+<vertex lat="62.046807" lon="-7.116821"/>
+<vertex lat="62.040038" lon="-7.179375"/>
+<vertex lat="62.046136" lon="-7.254926"/>
+<vertex lat="62.074816" lon="-7.379079"/>
+<vertex lat="62.140290" lon="-7.422616"/>
+<vertex lat="62.138688" lon="-7.336782"/>
+<vertex lat="62.151220" lon="-7.235315"/>
+<vertex lat="62.139308" lon="-7.186868"/>
+</area>
+<area>
+<vertex lat="62.227882" lon="-6.631037"/>
+<vertex lat="62.093626" lon="-6.655816"/>
+<vertex lat="62.094350" lon="-6.696433"/>
+<vertex lat="62.131505" lon="-6.768909"/>
+<vertex lat="62.139101" lon="-6.823428"/>
+<vertex lat="62.119309" lon="-6.840533"/>
+<vertex lat="62.095435" lon="-6.837691"/>
+<vertex lat="62.080423" lon="-6.809501"/>
+<vertex lat="61.990403" lon="-6.722530"/>
+<vertex lat="61.964151" lon="-6.714417"/>
+<vertex lat="61.951464" lon="-6.725165"/>
+<vertex lat="61.977458" lon="-6.809708"/>
+<vertex lat="62.093988" lon="-7.013572"/>
+<vertex lat="62.285604" lon="-7.172167"/>
+<vertex lat="62.316248" lon="-6.958639"/>
+<vertex lat="62.265967" lon="-6.803662"/>
+<vertex lat="62.227882" lon="-6.631037"/>
+</area>
+<area>
+<vertex lat="62.258629" lon="-6.406063"/>
+<vertex lat="62.186540" lon="-6.453864"/>
+<vertex lat="62.197858" lon="-6.524687"/>
+<vertex lat="62.205635" lon="-6.544169"/>
+<vertex lat="62.224523" lon="-6.559465"/>
+<vertex lat="62.278111" lon="-6.552049"/>
+<vertex lat="62.355677" lon="-6.554607"/>
+<vertex lat="62.291909" lon="-6.473036"/>
+<vertex lat="62.258629" lon="-6.406063"/>
+</area>
+</country>

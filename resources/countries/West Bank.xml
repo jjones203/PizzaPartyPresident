@@ -1,0 +1,45 @@
+<country>
+<name>West Bank</name>
+<area>
+<vertex lat="32.395516" lon="35.551453"/>
+<vertex lat="32.237878" lon="35.572020"/>
+<vertex lat="32.103002" lon="35.534710"/>
+<vertex lat="31.984921" lon="35.531506"/>
+<vertex lat="31.765529" lon="35.558998"/>
+<vertex lat="31.672382" lon="35.499467"/>
+<vertex lat="31.562363" lon="35.465463"/>
+<vertex lat="31.479319" lon="35.450529"/>
+<vertex lat="31.482937" lon="35.408723"/>
+<vertex lat="31.422785" lon="35.276689"/>
+<vertex lat="31.366199" lon="35.101196"/>
+<vertex lat="31.351317" lon="34.907771"/>
+<vertex lat="31.368163" lon="34.880486"/>
+<vertex lat="31.396895" lon="34.872735"/>
+<vertex lat="31.536577" lon="34.929217"/>
+<vertex lat="31.602283" lon="34.950921"/>
+<vertex lat="31.673235" lon="35.034689"/>
+<vertex lat="31.734497" lon="35.153441"/>
+<vertex lat="31.750026" lon="35.203671"/>
+<vertex lat="31.776329" lon="35.197986"/>
+<vertex lat="31.816766" lon="35.127138"/>
+<vertex lat="31.837954" lon="35.053189"/>
+<vertex lat="31.816818" lon="34.983012"/>
+<vertex lat="31.823329" lon="34.961153"/>
+<vertex lat="31.841261" lon="34.953815"/>
+<vertex lat="31.866427" lon="34.978310"/>
+<vertex lat="31.913298" lon="34.989782"/>
+<vertex lat="31.991588" lon="34.978775"/>
+<vertex lat="32.087086" lon="34.971385"/>
+<vertex lat="32.160931" lon="34.955934"/>
+<vertex lat="32.281079" lon="34.999497"/>
+<vertex lat="32.338181" lon="35.010504"/>
+<vertex lat="32.460422" lon="35.065075"/>
+<vertex lat="32.534423" lon="35.193232"/>
+<vertex lat="32.512925" lon="35.303820"/>
+<vertex lat="32.507473" lon="35.362162"/>
+<vertex lat="32.493030" lon="35.386709"/>
+<vertex lat="32.450629" lon="35.402625"/>
+<vertex lat="32.401640" lon="35.484429"/>
+<vertex lat="32.395516" lon="35.551453"/>
+</area>
+</country>
