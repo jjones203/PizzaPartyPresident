@@ -4,8 +4,13 @@ import IO.XMLparsers.KMLParser;
 import model.MapPoint;
 import model.Region;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by winston on 3/6/15.
@@ -30,7 +35,8 @@ public class KMLtoSpecTransformer
       writer.println("<area>");
       for (MapPoint point : area)
       {
-        writer.println(String.format("<vertex lat=\"%f\" lon=\"%f\"/>", point.getLat(), point.getLon()));
+        writer.println(String.format("<vertex lat=\"%f\" lon=\"%f\"/>",
+          point.getLat(), point.getLon()));
       }
       writer.println("</area>");
     }
@@ -43,22 +49,22 @@ public class KMLtoSpecTransformer
   {
     Collection<Region> regions = KMLParser.getRegionsFromFile("resources/countries_world.xml");
 
-    HashMap<String, List<List<MapPoint>>> complextSet = new HashMap<>();
+    HashMap<String, List<List<MapPoint>>> complexSet = new HashMap<>();
 
     for (Region region : regions)
     {
-      if (!complextSet.containsKey(region.getName()))
+      if (!complexSet.containsKey(region.getName()))
       {
-        complextSet.put(region.getName(), new ArrayList<List<MapPoint>>());
+        complexSet.put(region.getName(), new ArrayList<List<MapPoint>>());
       }
 
-      complextSet.get(region.getName()).add(region.getPerimeter());
+      complexSet.get(region.getName()).add(region.getPerimeter());
     }
 
 
-    for (String name : complextSet.keySet())
+    for (String name : complexSet.keySet())
     {
-      writeOutCountry(name, complextSet.get(name));
+      writeOutCountry(name, complexSet.get(name));
     }
   }
 }
