@@ -1,0 +1,61 @@
+<country>
+<name>Aland</name>
+<area>
+<vertex lat="60.040677" lon="20.611280"/>
+<vertex lat="60.016957" lon="20.603425"/>
+<vertex lat="60.011686" lon="20.521776"/>
+<vertex lat="60.032770" lon="20.487463"/>
+<vertex lat="60.030135" lon="20.411189"/>
+<vertex lat="60.040677" lon="20.397959"/>
+<vertex lat="60.061735" lon="20.429585"/>
+<vertex lat="60.074886" lon="20.490150"/>
+<vertex lat="60.069615" lon="20.569112"/>
+<vertex lat="60.040677" lon="20.611280"/>
+</area>
+<area>
+<vertex lat="60.187179" lon="19.662294"/>
+<vertex lat="60.164752" lon="19.667461"/>
+<vertex lat="60.170359" lon="19.629221"/>
+<vertex lat="60.162685" lon="19.599765"/>
+<vertex lat="60.135038" lon="19.579922"/>
+<vertex lat="60.144960" lon="19.536513"/>
+<vertex lat="60.184595" lon="19.519047"/>
+<vertex lat="60.243868" lon="19.551396"/>
+<vertex lat="60.246090" lon="19.628807"/>
+<vertex lat="60.187179" lon="19.662294"/>
+</area>
+<area>
+<vertex lat="60.351149" lon="19.989509"/>
+<vertex lat="60.350890" lon="20.020205"/>
+<vertex lat="60.359313" lon="20.033847"/>
+<vertex lat="60.353422" lon="20.087384"/>
+<vertex lat="60.314717" lon="20.167896"/>
+<vertex lat="60.293736" lon="20.184122"/>
+<vertex lat="60.282987" lon="20.239519"/>
+<vertex lat="60.261283" lon="20.258846"/>
+<vertex lat="60.193561" lon="20.194768"/>
+<vertex lat="60.192295" lon="20.155080"/>
+<vertex lat="60.200874" lon="20.125521"/>
+<vertex lat="60.193432" lon="20.073225"/>
+<vertex lat="60.180642" lon="20.042529"/>
+<vertex lat="60.152479" lon="20.032297"/>
+<vertex lat="60.093542" lon="20.033951"/>
+<vertex lat="60.081759" lon="19.799856"/>
+<vertex lat="60.098968" lon="19.746010"/>
+<vertex lat="60.232990" lon="19.672216"/>
+<vertex lat="60.267639" lon="19.686892"/>
+<vertex lat="60.282367" lon="19.736501"/>
+<vertex lat="60.285545" lon="19.778979"/>
+<vertex lat="60.213353" lon="19.785284"/>
+<vertex lat="60.220562" lon="19.847709"/>
+<vertex lat="60.268105" lon="19.867139"/>
+<vertex lat="60.301617" lon="19.871583"/>
+<vertex lat="60.318489" lon="19.854633"/>
+<vertex lat="60.331589" lon="19.812259"/>
+<vertex lat="60.354042" lon="19.787764"/>
+<vertex lat="60.390164" lon="19.823007"/>
+<vertex lat="60.405822" lon="19.888326"/>
+<vertex lat="60.357505" lon="19.944550"/>
+<vertex lat="60.351149" lon="19.989509"/>
+</area>
+</country>
