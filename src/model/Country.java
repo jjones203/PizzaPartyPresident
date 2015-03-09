@@ -1,11 +1,16 @@
 package model;
 
+import java.util.List;
+
 /**
  * DRAFT!
  * Created by winston on 3/9/15.
  */
 public class Country
 {
+  private List<AtomicRegion> landMasses;
+  private String name;
+
   public int country;
   public int population;
   public int averageAge;
