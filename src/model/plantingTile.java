@@ -3,7 +3,7 @@ package model;
 /**
  * Created by winston on 3/9/15.
  */
-public class plantingTile
+public class PlantingTile
 {
   public double annualHighTemp;
   public double annualLowTemp;
