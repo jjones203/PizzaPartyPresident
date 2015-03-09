@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class AtomicRegion implements Region
 {
+  private List<PlantingTile> landmass;
   private List<MapPoint> perimeter;
   private String name;
   private RegionAttributes attributes;

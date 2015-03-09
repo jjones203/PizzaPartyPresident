@@ -11,7 +11,6 @@ public class Country
   private List<AtomicRegion> landMasses;
   private String name;
 
-  public int country;
   public int population;
   public int averageAge;
   public int birthRate;
@@ -43,7 +42,4 @@ public class Country
   public double organic;
   public double conventional;
   public double gmo;
-
-
-
 }
