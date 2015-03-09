@@ -6,6 +6,7 @@ import model.Region;
 
 import java.awt.*;
 import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Created by winston on 1/23/15.
@@ -85,5 +86,17 @@ public class GUIRegion
   public Region getRegion()
   {
     return region;
+  }
+
+  public boolean intersects(Rectangle2D r)
+  {
+    return getPoly().intersects(r);
+  }
+
+
+  public boolean contains(double x, double y)
+  {
+    return getPoly().contains(x, y);
+
   }
 }

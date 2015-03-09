@@ -146,7 +146,7 @@ public class WorldPresenter extends Observable
 
     for (GUIRegion guir : regionsInView)
     {
-      if (guir.getPoly().contains(x, y))
+      if (guir.contains(x, y))
       {
         if (activeRegions.contains(guir))
         {
@@ -179,7 +179,7 @@ public class WorldPresenter extends Observable
 
     for (GUIRegion guir : regionsInView)
     {
-      if (guir.getPoly().contains(x, y))
+      if (guir.contains(x, y))
       {
         if (activeRegions.contains(guir))
         {
@@ -278,7 +278,7 @@ public class WorldPresenter extends Observable
     List<GUIRegion> regionsInR = new ArrayList<>();
     for (GUIRegion g : regions)
     {
-      if (g.getPoly().intersects(r)) regionsInR.add(g);
+      if (g.intersects(r)) regionsInR.add(g);
     }
 
     return regionsInR;
