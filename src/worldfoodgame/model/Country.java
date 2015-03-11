@@ -137,4 +137,36 @@ public class Country extends AbstractCountry
     landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
   }
 
+
+  public double getMethodPercentage(int year, EnumCropType crop)
+  {
+    return cultivationMethod[crop.ordinal()][year - START_YEAR];
+  }
+
+  public void setMethodPercentage(int year, EnumCropType crop, double percentage)
+  {
+    cultivationMethod[crop.ordinal()][year - START_YEAR] = percentage;
+  }
+
+  /* passing year might be useful in the next milestone? */
+  
+  public double getCropYield(int year, EnumCropType crop)
+  {
+    return cropYield[crop.ordinal()];
+  }
+
+  public void setCropYield(int year, EnumCropType crop, double tonPerSqKilom)
+  {
+    cropYield[crop.ordinal()] = tonPerSqKilom;
+  }
+
+  public double getCropNeedPerCapita(int year, EnumCropType crop)
+  {
+    return cropNeedPerCapita[crop.ordinal()];
+  }
+
+  public void setCropNeedPerCapita(int year, EnumCropType crop, double tonPerPerson)
+  {
+    cropNeedPerCapita[crop.ordinal()] = tonPerPerson;
+  }
 }
