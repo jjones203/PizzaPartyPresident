@@ -15,6 +15,7 @@ import java.util.HashMap;
  */
 
 /*
+ todo clean up padding logic...?
  todo add consturtor support for animation handeling ?
  todo cleanup selection logic and handelers.
  */
@@ -25,11 +26,11 @@ public class TabbedPanel extends JPanel
   public static final Color SELECTED_C = Color.lightGray;
   public static final Color TEXT_DEFAULT_COLOR = ColorsAndFonts.GUI_TEXT_COLOR;
   public static final Color BACKGROUND_COLOR = ColorsAndFonts.GUI_BACKGROUND;
-  public static final Font TAB_FONT = ColorsAndFonts.GUI_FONT;
+  public static final Font TAB_FONT = ColorsAndFonts.GUI_FONT.deriveFont(Font.BOLD);
   private static final float ALPHA_STEP = 0.1f;
 
   public float fontSize;
-  public int vPadding;  // padding must be set before adding tabs. 
+  public int vPadding;  // padding must be set before adding tabs.
   public int hPadding;  // padding must be set before adding tabs.
   private JPanel tabpabel;
   private JPanel contentArea;
@@ -82,6 +83,7 @@ public class TabbedPanel extends JPanel
 
     TabbedPanel tabbedPanel2 = new TabbedPanel();
     tabbedPanel2.fontSize = 12;
+
     tabbedPanel2.addTab("white", new JPanel());
     tabbedPanel2.addTab("green", greenPanel);
 
@@ -106,7 +108,7 @@ public class TabbedPanel extends JPanel
   }
 
 
-  /* Extending JPanel here for the sake of easing animation */
+  /* Extending JPanel to animation */
   private JPanel getContentPanel()
   {
     return new JPanel()
@@ -117,7 +119,8 @@ public class TabbedPanel extends JPanel
         if (alpha < 1)
         {
           Graphics2D g2d = (Graphics2D) g;
-          g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+          g2d.setComposite(
+            AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
           alpha += ALPHA_STEP;
           super.paint(g2d);
         }
@@ -129,6 +132,12 @@ public class TabbedPanel extends JPanel
     };
   }
 
+  /**
+   * Adds a tab and a corresponding JComponent (generally a Jpanel) to the tab
+   * panel.
+   * @param label string to be displayed in the Tab Panel
+   * @param component component that is displayed when tab is selected.
+   */
   public void addTab(String label, Component component)
   {
     Tab tab = new Tab(label);
@@ -160,7 +169,7 @@ public class TabbedPanel extends JPanel
           super.mouseClicked(e);
           if (Tab.this == currentTab) return;
 
-          for (Tab t : tabmap.keySet()) t.unselect();
+          for (Tab t : tabmap.keySet()) t.deselect();
 
           alpha = 0;
           currentTab = Tab.this;
@@ -196,9 +205,10 @@ public class TabbedPanel extends JPanel
       });
     }
 
-    private void unselect()
+    /* changes there graphical representation */
+    private void deselect()
     {
-      Tab.this.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+      Tab.this.setForeground(TEXT_DEFAULT_COLOR);
     }
   }
 }
