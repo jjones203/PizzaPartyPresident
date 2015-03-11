@@ -15,9 +15,7 @@ import java.util.HashMap;
  */
 
 /*
- todo make handles for changing font size.
- todo pull out useful constants
- todo add consturtor support for animation handeling...
+ todo add consturtor support for animation handeling ?
  todo cleanup selection logic and handelers.
  */
 public class TabbedPanel extends JPanel
@@ -29,12 +27,15 @@ public class TabbedPanel extends JPanel
   public static final Color BACKGROUND_COLOR = ColorsAndFonts.GUI_BACKGROUND;
   public static final Font TAB_FONT = ColorsAndFonts.GUI_FONT;
   private static final float ALPHA_STEP = 0.1f;
+
+  public float fontSize;
+  public int vPadding;  // padding must be set before adding tabs. 
+  public int hPadding;  // padding must be set before adding tabs.
   private JPanel tabpabel;
   private JPanel contentArea;
   private HashMap<Tab, Component> tabmap;
   private float alpha;
   private Tab currentTab;
-  private float fontSize = 14; //default value
 
   public TabbedPanel()
   {
@@ -45,6 +46,10 @@ public class TabbedPanel extends JPanel
     contentArea = getContentPanel();
 
     //config
+    fontSize = 14;        // default values
+    vPadding = 3;
+    hPadding = 7;
+
     setLayout(new BorderLayout());
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
@@ -76,7 +81,7 @@ public class TabbedPanel extends JPanel
     tabbedPanel.addTab("white", new JPanel());
 
     TabbedPanel tabbedPanel2 = new TabbedPanel();
-    tabbedPanel2.setFontSize(12);
+    tabbedPanel2.fontSize = 12;
     tabbedPanel2.addTab("white", new JPanel());
     tabbedPanel2.addTab("green", greenPanel);
 
@@ -100,15 +105,6 @@ public class TabbedPanel extends JPanel
     }).start();
   }
 
-  public float getFontSize()
-  {
-    return fontSize;
-  }
-
-  public void setFontSize(float fontSize)
-  {
-    this.fontSize = fontSize;
-  }
 
   /* Extending JPanel here for the sake of easing animation */
   private JPanel getContentPanel()
@@ -154,7 +150,7 @@ public class TabbedPanel extends JPanel
       this.setForeground(TEXT_DEFAULT_COLOR);
       this.setBackground(BACKGROUND_COLOR);
       this.setFont(TAB_FONT.deriveFont(fontSize));
-      this.setBorder(new EmptyBorder(3, 7, 3, 7));
+      this.setBorder(new EmptyBorder(vPadding, hPadding, vPadding, hPadding));
 
       this.addMouseListener(new MouseAdapter()
       {

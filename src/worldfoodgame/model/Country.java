@@ -149,7 +149,7 @@ public class Country extends AbstractCountry
   }
 
   /* passing year might be useful in the next milestone? */
-  
+
   public double getCropYield(int year, EnumCropType crop)
   {
     return cropYield[crop.ordinal()];
