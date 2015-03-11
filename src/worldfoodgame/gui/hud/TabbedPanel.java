@@ -17,6 +17,8 @@ import java.util.HashMap;
 /*
  todo make handles for changing font size.
  todo pull out useful constants
+ todo add consturtor support for animation handeling...
+ todo cleanup selection logic and handelers.
  */
 public class TabbedPanel extends JPanel
 {
@@ -25,7 +27,6 @@ public class TabbedPanel extends JPanel
   private JPanel contentArea;
   private HashMap<Tab, Component> tabmap;
   private float alpha;
-
   private Tab currentTab;
 
   public TabbedPanel()
@@ -89,7 +90,7 @@ public class TabbedPanel extends JPanel
       super(text);
       this.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
       this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-      this.setBorder(new EmptyBorder(10, 10, 10, 10));
+      this.setBorder(new EmptyBorder(3, 7, 3, 7));
 
       this.addMouseListener(new MouseAdapter()
       {
@@ -99,14 +100,16 @@ public class TabbedPanel extends JPanel
           super.mouseClicked(e);
           if (Tab.this == currentTab) return;
 
+          for (Tab t : tabmap.keySet()) t.unselect();
+
           alpha = 0;
           currentTab = Tab.this;
+
+          setForeground(Color.lightGray);
 
           contentArea.removeAll();
           contentArea.add(tabmap.get(Tab.this));
 
-          //todo clean up, test to see which calls are strictly nessiary
-          contentArea.revalidate();
           getRootPane().revalidate();
           getRootPane().repaint();
         }
@@ -114,17 +117,28 @@ public class TabbedPanel extends JPanel
         @Override
         public void mouseEntered(MouseEvent e)
         {
-          super.mouseEntered(e);
-          Tab.this.setForeground(Color.CYAN);
+          if (Tab.this != currentTab)
+          {
+            super.mouseEntered(e);
+            Tab.this.setForeground(Color.CYAN);
+          }
         }
 
         @Override
         public void mouseExited(MouseEvent e)
         {
-          super.mouseEntered(e);
-          Tab.this.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+          if (Tab.this != currentTab)
+          {
+            super.mouseEntered(e);
+            Tab.this.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+          }
         }
       });
+    }
+
+    private void unselect()
+    {
+      Tab.this.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     }
   }
 
