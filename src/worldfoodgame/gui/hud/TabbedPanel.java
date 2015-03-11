@@ -167,7 +167,7 @@ public class TabbedPanel extends JPanel
     tabbedPanel2.addTab("white", new JPanel());
     tabbedPanel2.addTab("green", greenPanel);
 
-    tabbedPanel.addTab("what will happen", tabbedPanel2);
+    tabbedPanel.addTab("recur", tabbedPanel2);
 
     final JFrame frame = new JFrame();
     frame.add(tabbedPanel);
