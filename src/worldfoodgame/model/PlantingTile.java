@@ -1,5 +1,7 @@
 package worldfoodgame.model;
 
+import worldfoodgame.common.EnumCropType;
+
 /**
  * Created by winston on 3/9/15.
  */
@@ -14,5 +16,5 @@ public class PlantingTile
   public boolean isCoastal;
   public double annualPercipitaion;
 
-  public Crop crop;
+  public EnumCropType crop;
 }

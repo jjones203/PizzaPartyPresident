@@ -1,5 +1,7 @@
 package worldfoodgame.gui;
 
+import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 /**
@@ -76,6 +78,7 @@ public interface ColorsAndFonts
   };
 
   Color BAR_GRAPH_NEG = Color.cyan;
+  MatteBorder HEADING_UNDERLINE = BorderFactory.createMatteBorder(0, 0, 2, 0, ColorsAndFonts.GUI_TEXT_COLOR.darker());
 
   class colorConverter
   {

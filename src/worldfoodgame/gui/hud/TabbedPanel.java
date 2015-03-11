@@ -22,12 +22,19 @@ import java.util.HashMap;
  */
 public class TabbedPanel extends JPanel
 {
+
+  public static final Color ROLLOVER_C = Color.CYAN;
+  public static final Color SELECTED_C = Color.lightGray;
+  public static final Color TEXT_DEFAULT_COLOR = ColorsAndFonts.GUI_TEXT_COLOR;
+  public static final Color BACKGROUND_COLOR = ColorsAndFonts.GUI_BACKGROUND;
+  public static final Font TAB_FONT = ColorsAndFonts.GUI_FONT;
   private static final float ALPHA_STEP = 0.1f;
   private JPanel tabpabel;
   private JPanel contentArea;
   private HashMap<Tab, Component> tabmap;
   private float alpha;
   private Tab currentTab;
+  private float fontSize = 14; //default value
 
   public TabbedPanel()
   {
@@ -43,7 +50,7 @@ public class TabbedPanel extends JPanel
 
     tabpabel.setLayout(new FlowLayout(FlowLayout.LEFT));
     tabpabel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    tabpabel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, ColorsAndFonts.GUI_TEXT_COLOR.darker()));
+    tabpabel.setBorder(ColorsAndFonts.HEADING_UNDERLINE);
 
     contentArea.setLayout(new BorderLayout());
     contentArea.setBackground(ColorsAndFonts.GUI_BACKGROUND);
@@ -51,6 +58,56 @@ public class TabbedPanel extends JPanel
     //wireup
     add(tabpabel, BorderLayout.NORTH);
     add(contentArea, BorderLayout.CENTER);
+  }
+
+  // for testin only
+  public static void main(String[] args)
+  {
+    TabbedPanel tabbedPanel = new TabbedPanel();
+
+    JPanel greenPanel = new JPanel();
+    greenPanel.setBackground(Color.green);
+    JPanel bluePanel = new JPanel();
+    bluePanel.setBackground(Color.blue);
+
+
+    tabbedPanel.addTab("blue", bluePanel);
+    tabbedPanel.addTab("green", greenPanel);
+    tabbedPanel.addTab("white", new JPanel());
+
+    TabbedPanel tabbedPanel2 = new TabbedPanel();
+    tabbedPanel2.setFontSize(12);
+    tabbedPanel2.addTab("white", new JPanel());
+    tabbedPanel2.addTab("green", greenPanel);
+
+    tabbedPanel.addTab("recur", tabbedPanel2);
+
+    final JFrame frame = new JFrame();
+    frame.add(tabbedPanel);
+    frame.setSize(900, 300);
+    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    frame.setVisible(true);
+
+
+    System.out.println("testing repainting at 10 ms");
+    new Timer(10, new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        frame.repaint();
+      }
+    }).start();
+  }
+
+  public float getFontSize()
+  {
+    return fontSize;
+  }
+
+  public void setFontSize(float fontSize)
+  {
+    this.fontSize = fontSize;
   }
 
   /* Extending JPanel here for the sake of easing animation */
@@ -83,13 +140,20 @@ public class TabbedPanel extends JPanel
     tabpabel.add(tab);
   }
 
+  @Override
+  protected void paintComponent(Graphics g)
+  {
+    super.paintComponent(g);
+  }
+
   private class Tab extends JLabel
   {
     public Tab(String text)
     {
       super(text);
-      this.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
-      this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+      this.setForeground(TEXT_DEFAULT_COLOR);
+      this.setBackground(BACKGROUND_COLOR);
+      this.setFont(TAB_FONT.deriveFont(fontSize));
       this.setBorder(new EmptyBorder(3, 7, 3, 7));
 
       this.addMouseListener(new MouseAdapter()
@@ -105,7 +169,7 @@ public class TabbedPanel extends JPanel
           alpha = 0;
           currentTab = Tab.this;
 
-          setForeground(Color.lightGray);
+          setForeground(SELECTED_C);
 
           contentArea.removeAll();
           contentArea.add(tabmap.get(Tab.this));
@@ -120,7 +184,7 @@ public class TabbedPanel extends JPanel
           if (Tab.this != currentTab)
           {
             super.mouseEntered(e);
-            Tab.this.setForeground(Color.CYAN);
+            Tab.this.setForeground(ROLLOVER_C);
           }
         }
 
@@ -130,7 +194,7 @@ public class TabbedPanel extends JPanel
           if (Tab.this != currentTab)
           {
             super.mouseEntered(e);
-            Tab.this.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+            Tab.this.setForeground(TEXT_DEFAULT_COLOR);
           }
         }
       });
@@ -140,50 +204,5 @@ public class TabbedPanel extends JPanel
     {
       Tab.this.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     }
-  }
-
-  @Override
-  protected void paintComponent(Graphics g)
-  {
-    super.paintComponent(g);
-  }
-
-  // for testin only
-  public static void main(String[] args)
-  {
-    TabbedPanel tabbedPanel = new TabbedPanel();
-
-    JPanel greenPanel = new JPanel();
-    greenPanel.setBackground(Color.green);
-    JPanel bluePanel = new JPanel();
-    bluePanel.setBackground(Color.blue);
-
-
-    tabbedPanel.addTab("blue", bluePanel);
-    tabbedPanel.addTab("green", greenPanel);
-    tabbedPanel.addTab("white", new JPanel());
-
-    TabbedPanel tabbedPanel2 = new TabbedPanel();
-    tabbedPanel2.addTab("white", new JPanel());
-    tabbedPanel2.addTab("green", greenPanel);
-
-    tabbedPanel.addTab("recur", tabbedPanel2);
-
-    final JFrame frame = new JFrame();
-    frame.add(tabbedPanel);
-    frame.setSize(900, 300);
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.setVisible(true);
-
-
-    System.out.println("testing repainting at 10 ms");
-    new Timer(10, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        frame.repaint();
-      }
-    }).start();
   }
 }

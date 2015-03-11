@@ -13,6 +13,7 @@ import java.awt.*;
  * UI container element. Encapsulates a collection of BarPanel objects,
  * creates a panel that generates and plots bar graphs.
  */
+@Deprecated
 public class StatPane extends JPanel
 {
   private final static Color BORDER_COL = ColorsAndFonts.GUI_TEXT_COLOR.darker();
