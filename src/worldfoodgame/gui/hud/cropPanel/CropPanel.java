@@ -27,7 +27,7 @@ public class CropPanel extends JFrame
 
 }
 
-/* just a tuple */
+/* just a tuple basically*/
 class CropData
 {
 
