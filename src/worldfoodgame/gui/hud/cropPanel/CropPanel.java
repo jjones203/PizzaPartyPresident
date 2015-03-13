@@ -1,68 +1,75 @@
 package worldfoodgame.gui.hud.cropPanel;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import worldfoodgame.common.EnumCropType;
-import worldfoodgame.model.Country;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.awt.event.ActionEvent;
 
 /**
  * Created by winston on 3/12/15.
  */
-public class CropPanel extends JFrame
+public class CropPanel extends JPanel
 {
-  private BufferedImage logo;
-  private Collection<Country> countries = new ArrayList<>();
-  private CropData data;
-
-
-  public CropPanel(CropData data) throws HeadlessException
+  private EnumCropType type;
+  public CropPanel(CountryDataHandler dataHandler, EnumCropType type)
   {
-    this.data = data;
+    this.type = type;
+
+
+
+    setLayout(new GridLayout(0, 3));
+
+    JPanel overView = new JPanel();
+    overView.setLayout(new BoxLayout(overView, BoxLayout.Y_AXIS));
+    overView.add(
+      new GraphLabel("Production", dataHandler.getProduction(type),
+        dataHandler.landArea, 1000, Color.red, false,"#,###,### tons")
+    );
+
+    overView.add(
+      new GraphLabel("Exported", dataHandler.getExport(type),
+        dataHandler.getExport(type), 10, Color.red, false, "#,###,### tons")
+    );
+
+    overView.add(
+      new GraphLabel("Imported", dataHandler.getImports(type),
+        dataHandler.getExport(type), 1, Color.red, false,"#,###,### tons")
+    );
+
+    JPanel landUse = new JPanel();
+    landUse.setLayout(new BoxLayout(landUse, BoxLayout.Y_AXIS));
+    landUse.add(
+      new GraphLabel("Land used", dataHandler.getLand(type),
+        dataHandler.getCultivatedLand(), 10, Color.red, false, "#,###,### kilos")
+    );
+
+    add(overView);
+    add(landUse);
   }
-
-}
-
-/* just a tuple basically*/
-class CropData
-{
-
-  public static CropData extractData(Collection<Country> countries, int year)
-  {
-    //todo implement
-    throw new NotImplementedException();
-  }
-
-  public static CropData extractData(Country country, int year)
-  {
-    //todo implement
-    throw new NotImplementedException();
-  }
-
-  public void writeCropData(Country country, int year)
-  {
-    //todo implement
-    throw new NotImplementedException();
-  }
-
-  EnumCropType type;
-  double production, exported, imported, usedLand, yield, need;
-
 
   public static void main(String[] args)
   {
-    CropData data = new CropData();
-    data.type = EnumCropType.CORN;
-    data.production = 10;
-    data.exported = 15;
-    data.imported = 56;
-    data.usedLand = 31;
-    data.yield = 15;
-    data.need = 80;
+
+    final JFrame jFrame = new JFrame();
+
+    jFrame.add(new CropPanel(CountryDataHandler.getTestData(), EnumCropType.CORN));
+
+    jFrame.pack();
+    jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    jFrame.setVisible(true);
+
+    new Timer(10, new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        jFrame.repaint();
+      }
+    }).start();
   }
 }
+
+
+
 
