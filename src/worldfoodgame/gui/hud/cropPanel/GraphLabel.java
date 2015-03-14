@@ -25,7 +25,7 @@ public class GraphLabel extends JPanel
 
   private Runnable consequent;
   private String label;
-  private double percent;
+  private double value;
   private Color barColor;
   private JPanel bar;
   private DecimalFormat formatter;
@@ -34,15 +34,15 @@ public class GraphLabel extends JPanel
   private final double STEP;
   private final boolean isController;
 
-  public double getPercent()
+  public double getValue()
   {
-    return percent;
+    return value;
   }
 
-  public void setPercent(double percent)
+  public void setValue(double value)
   {
-    this.percent = percent;
-    valueLabel.setText(formatter.format(percent));
+    this.value = value;
+    valueLabel.setText(formatter.format(value));
   }
 
   public GraphLabel(String label, double percent,
@@ -50,7 +50,7 @@ public class GraphLabel extends JPanel
                     Color barColor, boolean isController, String formatPattern)
   {
     this.label = label;
-    this.percent = percent;
+    this.value = percent;
     this.barColor = barColor;
     this.formatter = new DecimalFormat(formatPattern);
     this.valueLabel = new JLabel();
@@ -105,11 +105,11 @@ public class GraphLabel extends JPanel
         @Override
         public void actionPerformed(ActionEvent e)
         {
-          if (!(percent + (dx - epsilon) > LIMIT || percent + (dx + epsilon) < 0))
+          if (!(value + (dx - epsilon) > LIMIT || value + (dx + epsilon) < 0))
           {
-            percent += dx;
-            if (percent < 0) percent = 0.0;
-            valueLabel.setText(formatter.format(percent));
+            value += dx;
+            if (value < 0) value = 0.0;
+            valueLabel.setText(formatter.format(value));
             if (consequent != null) consequent.run();
           }
         }
@@ -149,7 +149,7 @@ public class GraphLabel extends JPanel
       @Override
       protected void paintComponent(Graphics g)
       {
-        int barlen = (int) (percent / LIMIT * BAR_MAX_LEN);
+        int barlen = (int) (value / LIMIT * BAR_MAX_LEN);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(barColor);
         g2d.fillRect(6, -4, barlen, 14);

@@ -18,10 +18,10 @@ public class CountryDataHandler
     mortalityRate, migrationRate, undernourished,
     landArea, arableOpen;
 
-  private HashMap<EnumCropType,Double> production = new HashMap<>();
-  private HashMap<EnumCropType,Double> imports = new HashMap<>();
-  private HashMap<EnumCropType,Double> exports = new HashMap<>();
-  private HashMap<EnumCropType,Double> land = new HashMap<>();
+  public HashMap<EnumCropType,Double> production = new HashMap<>();
+         HashMap<EnumCropType,Double> imports = new HashMap<>();
+         HashMap<EnumCropType,Double> exports = new HashMap<>();
+         HashMap<EnumCropType,Double> land = new HashMap<>();
 
   private CountryDataHandler()
   {
@@ -35,31 +35,13 @@ public class CountryDataHandler
 
     for (EnumCropType type : EnumCropType.values())
     {
-      sum += getLand(type);
+      sum += land.get(type);
     }
     return sum;
   }
 
 
-  public double getProduction(EnumCropType type)
-  {
-    return production.get(type);
-  }
 
-  public double getImports(EnumCropType type)
-  {
-    return imports.get(type);
-  }
-
-  public double getExport(EnumCropType type)
-  {
-    return exports.get(type);
-  }
-
-  public double getLand(EnumCropType type)
-  {
-    return land.get(type);
-  }
 
     public static CountryDataHandler getTestData()
   {
@@ -97,12 +79,22 @@ public class CountryDataHandler
     dataHandler.land.put(EnumCropType.SOY, 0.0);
     dataHandler.land.put(EnumCropType.OTHER_CROPS, 72871130.0);
 
-    dataHandler.landArea = 652860;
+    dataHandler.landArea = 2.001123413E8;
     dataHandler.arableOpen = 1652018;
 
 
     return  dataHandler;
   }
-//
+
+  public void setland(EnumCropType type, double percent)
+  {
+    land.put(type, percent);
+  }
+
+  public double getOpenLand()
+  {
+    return landArea - getCultivatedLand();
+  }
+
 
 }
