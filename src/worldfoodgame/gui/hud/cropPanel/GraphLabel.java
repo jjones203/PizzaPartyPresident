@@ -18,6 +18,12 @@ public class GraphLabel extends JPanel
   private static Font labelTypeFace = ColorsAndFonts.GUI_FONT.deriveFont(13.5f);
   private static final int BAR_MAX_LEN = 130;
 
+  public void setConsequent(Runnable consequent)
+  {
+    this.consequent = consequent;
+  }
+
+  private Runnable consequent;
   private String label;
   private double percent;
   private Color barColor;
@@ -27,6 +33,17 @@ public class GraphLabel extends JPanel
   private final double LIMIT;
   private final double STEP;
   private final boolean isController;
+
+  public double getPercent()
+  {
+    return percent;
+  }
+
+  public void setPercent(double percent)
+  {
+    this.percent = percent;
+    valueLabel.setText(formatter.format(percent));
+  }
 
   public GraphLabel(String label, double percent,
                     double limit, double step,
@@ -93,6 +110,7 @@ public class GraphLabel extends JPanel
             percent += dx;
             if (percent < 0) percent = 0.0;
             valueLabel.setText(formatter.format(percent));
+            if (consequent != null) consequent.run();
           }
         }
       });

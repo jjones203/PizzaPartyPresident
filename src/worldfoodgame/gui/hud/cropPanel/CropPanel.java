@@ -13,7 +13,9 @@ import java.awt.event.ActionEvent;
 public class CropPanel extends JPanel
 {
   private EnumCropType type;
-  public CropPanel(CountryDataHandler dataHandler, EnumCropType type)
+  private GraphLabel landcontroll;
+  private GraphLabel inverse;
+  public CropPanel(final CountryDataHandler dataHandler, EnumCropType type)
   {
     this.type = type;
 
@@ -42,15 +44,25 @@ public class CropPanel extends JPanel
     JPanel landUse = new JPanel();
     landUse.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     landUse.setLayout(new BoxLayout(landUse, BoxLayout.Y_AXIS));
-    landUse.add(
-      new GraphLabel("Land used", dataHandler.getLand(type),
-        dataHandler.getCultivatedLand(), 10, Color.red, true, "#,###,### kilos")
-    );
 
-    landUse.add(
-      new GraphLabel("Land used", dataHandler.getLand(type),
-        dataHandler.getCultivatedLand(), dataHandler.getCultivatedLand()/100, Color.red, true, "#,###,### kilos")
-    );
+    landcontroll = new GraphLabel("Land used", dataHandler.getLand(type),
+      dataHandler.getCultivatedLand(), dataHandler.getCultivatedLand()/100, Color.red, true, "#,###,### kilos");
+
+    landcontroll.setConsequent(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        inverse.setPercent(inverse.getPercent() - dataHandler.getCultivatedLand()/100);
+      }
+    });
+
+    landUse.add(landcontroll);
+
+    inverse = new GraphLabel("inverse", dataHandler.getLand(type),
+      dataHandler.getCultivatedLand(), dataHandler.getCultivatedLand()/100, Color.red, true, "#,###,### kilos");
+
+    landUse.add(inverse);
 
     add(overView);
     add(landUse);
