@@ -50,6 +50,7 @@ public class GraphLabel extends JPanel
     //config
     setLayout(new BorderLayout());
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    setMaximumSize(new Dimension(1000, 40));
 
     //wire
     add(getControllPanel(label), BorderLayout.NORTH);

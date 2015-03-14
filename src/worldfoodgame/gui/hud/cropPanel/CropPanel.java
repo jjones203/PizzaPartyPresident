@@ -1,6 +1,7 @@
 package worldfoodgame.gui.hud.cropPanel;
 
 import worldfoodgame.common.EnumCropType;
+import worldfoodgame.gui.ColorsAndFonts;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,10 +18,11 @@ public class CropPanel extends JPanel
     this.type = type;
 
 
-
+    setBackground(ColorsAndFonts.GUI_BACKGROUND);
     setLayout(new GridLayout(0, 3));
 
     JPanel overView = new JPanel();
+    overView.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     overView.setLayout(new BoxLayout(overView, BoxLayout.Y_AXIS));
     overView.add(
       new GraphLabel("Production", dataHandler.getProduction(type),
@@ -38,10 +40,16 @@ public class CropPanel extends JPanel
     );
 
     JPanel landUse = new JPanel();
+    landUse.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     landUse.setLayout(new BoxLayout(landUse, BoxLayout.Y_AXIS));
     landUse.add(
       new GraphLabel("Land used", dataHandler.getLand(type),
-        dataHandler.getCultivatedLand(), 10, Color.red, false, "#,###,### kilos")
+        dataHandler.getCultivatedLand(), 10, Color.red, true, "#,###,### kilos")
+    );
+
+    landUse.add(
+      new GraphLabel("Land used", dataHandler.getLand(type),
+        dataHandler.getCultivatedLand(), dataHandler.getCultivatedLand()/100, Color.red, true, "#,###,### kilos")
     );
 
     add(overView);
