@@ -61,9 +61,10 @@ public class CropPanel extends JPanel
   private JPanel getIconPanel()
   {
     JLabel img = null;
+    BufferedImage icon = null;
     try
     {
-      BufferedImage icon = ImageIO.read(new File("resources/imgs/wheatLogo.png"));
+      icon = ImageIO.read(new File("resources/imgs/wheatLogo.png"));
       img = new JLabel(new ImageIcon(icon));
     }
     catch (IOException e)
@@ -72,8 +73,8 @@ public class CropPanel extends JPanel
     }
     JPanel iconPanel = new JPanel();
     iconPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-//    img.setBorder(new EmptyBorder(40, 40, 40, 40));
     iconPanel.add(img);
+    iconPanel.setMaximumSize(new Dimension(icon.getWidth(), icon.getHeight()));
     return iconPanel;
   }
 
@@ -112,10 +113,10 @@ public class CropPanel extends JPanel
       dataHandler.exports.get(type), "#,###,### tons");
 
     landcontroll = new GraphLabel("Land used", dataHandler.land.get(type),
-      dataHandler.getCultivatedLand(), "#,###,### km sq.", landAdjustment);
+      dataHandler.getCultivatedLand(), "#.## km sq", landAdjustment);
 
     openLand = new GraphLabel("Arable open Land", dataHandler.getOpenLand(),
-      dataHandler.getCultivatedLand(), "#,###,### km sq.");
+      dataHandler.getCultivatedLand(), "#,###,### km sq");
   }
 
   // FOR TESTING ONLY

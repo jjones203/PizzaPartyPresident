@@ -26,8 +26,8 @@ import java.util.HashMap;
 public class TabbedPanel extends JPanel
 {
 
-  public static final Color ROLLOVER_C = Color.CYAN;
-  public static final Color SELECTED_C = Color.lightGray;
+  public static final Color ROLLOVER_C = Color.WHITE;
+  public static final Color SELECTED_C = Color.RED.darker();
   public static final Color TEXT_DEFAULT_COLOR = ColorsAndFonts.GUI_TEXT_COLOR;
   public static final Color BACKGROUND_COLOR = ColorsAndFonts.GUI_BACKGROUND;
   public static final Font TAB_FONT = ColorsAndFonts.GUI_FONT;
