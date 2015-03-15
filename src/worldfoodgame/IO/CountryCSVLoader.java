@@ -7,6 +7,7 @@ import org.apache.commons.csv.CSVFormat;
 import worldfoodgame.model.Country;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumGrowMethod;
+import worldfoodgame.common.AbstractScenario;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +26,7 @@ public class CountryCSVLoader
 {
   private final static String DATA_DIR_PATH = "resources/data/";
   private final static String DATA_FILE = "countryDataTest.csv";
-  public static final int START_YEAR = 2014;
+  public static final int START_YEAR = AbstractScenario.START_YEAR;
   
   /**
    * Static method gets country data from DATA_FILE, populates and returns list
@@ -61,7 +62,7 @@ public class CountryCSVLoader
   
   private static void parseCountryRecord(Country country, CSVRecord record)
   {
-    // demographics
+    // demographics from csv
     country.setPopulation(START_YEAR, Integer.parseInt(record.get("population")));
     country.setMedianAge(START_YEAR,  Integer.parseInt(record.get("averageAge")));
     country.setBirthRate(START_YEAR, Double.parseDouble(record.get("birthRate")));
@@ -69,33 +70,37 @@ public class CountryCSVLoader
     country.setMigrationRate(START_YEAR, Double.parseDouble(record.get("migration")));
     country.setUndernourished(START_YEAR, Double.parseDouble(record.get("undernourish"))/100); // divide int by 100
     
-    // main crops
-    setCropData(country, EnumCropType.CORN, record);
-    setCropData(country, EnumCropType.WHEAT, record);
-    setCropData(country, EnumCropType.RICE, record);
-    setCropData(country, EnumCropType.SOY, record);
+    // crop data; note can't do this before setting population
+    for (EnumCropType crop : EnumCropType.values()) setCropData(country, crop, record);
     
-    // other crops
-    country.setCropProduction(START_YEAR, EnumCropType.OTHER_CROPS, Double.parseDouble(record.get("otherProduction")));
-    country.setCropExport(START_YEAR, EnumCropType.OTHER_CROPS, Double.parseDouble(record.get("otherExports")));
-    country.setCropImport(START_YEAR, EnumCropType.OTHER_CROPS, Double.parseDouble(record.get("otherImports")));
-    country.setCropLand(START_YEAR, EnumCropType.OTHER_CROPS, Double.parseDouble(record.get("otherLand")));
-    
-    // etc
+    // land
     country.setArableLand(START_YEAR, Double.parseDouble(record.get("arableOpen")));
     country.setLandTotal(START_YEAR, Double.parseDouble(record.get("landArea")));
     
-    // set grow method percentages
+    // grow method percentages
     for (EnumGrowMethod method : EnumGrowMethod.values()) setGrowMethodData(country, method, record);
   }
   
   private static void setCropData(Country country, EnumCropType crop, CSVRecord record)
   {
-    String cropString = crop.toString().toLowerCase();
-    country.setCropProduction(START_YEAR, crop, Double.parseDouble(record.get(cropString+"Production")));
-    country.setCropExport(START_YEAR, crop, Double.parseDouble(record.get(cropString+"Exports")));
-    country.setCropImport(START_YEAR, crop, Double.parseDouble(record.get(cropString+"Imports")));
-    country.setCropLand(START_YEAR, crop, Double.parseDouble(record.get(cropString+"Land")));
+    String cropString;
+    if (crop == EnumCropType.OTHER_CROPS) cropString = "other"; 
+    else cropString = crop.toString().toLowerCase();
+    // get values from csv
+    double production = Double.parseDouble(record.get(cropString+"Production"));
+    double exports = Double.parseDouble(record.get(cropString+"Exports"));
+    double imports = Double.parseDouble(record.get(cropString+"Imports"));
+    double land = Double.parseDouble(record.get(cropString+"Land"));
+    // calculate yield and need
+    double yield = production/land;
+    double need = (production + imports - exports)/country.getPopulation(START_YEAR);
+    // set values
+    country.setCropProduction(START_YEAR, crop, production);
+    country.setCropExport(START_YEAR, crop, exports);
+    country.setCropImport(START_YEAR, crop, imports);
+    country.setCropLand(START_YEAR, crop, land);
+    country.setCropYield(START_YEAR, crop, yield);
+    country.setCropNeedPerCapita(START_YEAR, crop, need);
   }
     
   private static void setGrowMethodData(Country country, EnumGrowMethod method, CSVRecord record)
@@ -108,9 +113,10 @@ public class CountryCSVLoader
   public static void main(String[] args)
   {
     List<Country> countries = getCountries();
+    System.out.println("Testing - main method in CountryCSVLoader");
     for (Country ctry:countries)
     {
-      System.out.println(ctry.getName()+" "+ctry.getMethodPercentage(START_YEAR, EnumGrowMethod.ORGANIC));
+      System.out.println(ctry.getName()+" "+ctry.getCropYield(START_YEAR,EnumCropType.WHEAT));
     }
   }*/
 }
