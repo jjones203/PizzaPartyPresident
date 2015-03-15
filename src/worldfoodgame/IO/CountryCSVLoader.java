@@ -75,7 +75,14 @@ public class CountryCSVLoader
     
     // land
     country.setArableLand(START_YEAR, Double.parseDouble(record.get("arableOpen")));
-    country.setLandTotal(START_YEAR, Double.parseDouble(record.get("landArea")));
+
+    // winston commented this out because...
+    /*
+      Error:(78, 12) java: cannot find symbol
+        symbol:   method setLandTotal(int,double)
+        location: variable country of type worldfoodgame.model.Country
+    */
+//    country.setLandTotal(START_YEAR, Double.parseDouble(record.get("landArea")));
     
     // grow method percentages
     for (EnumGrowMethod method : EnumGrowMethod.values()) setGrowMethodData(country, method, record);
@@ -106,7 +113,12 @@ public class CountryCSVLoader
   private static void setGrowMethodData(Country country, EnumGrowMethod method, CSVRecord record)
   {
     String methodString = method.toString().toLowerCase();
-    country.setMethodPercentage(START_YEAR, method, Double.parseDouble(record.get(methodString)));
+
+
+    /* the following line generated this error:
+    Error:(109, 12) java: method setMethodPercentage in class worldfoodgame.model.Country cannot be applied to given types;
+     */
+//    country.setMethodPercentage(START_YEAR, method, Double.parseDouble(record.get(methodString)));
   }
  
   /* for testing
