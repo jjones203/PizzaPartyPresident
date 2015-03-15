@@ -3,85 +3,128 @@ package worldfoodgame.gui.hud.cropPanel;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by winston on 3/12/15.
  */
 public class CropPanel extends JPanel
 {
-  private EnumCropType type;
-  private GraphLabel landcontroll;
-  private GraphLabel openLand;
-  public CropPanel(final CountryDataHandler dataHandler, final EnumCropType type)
+  private final static Collection<CropPanel> relatedPanels = new ArrayList<>();
+  private final EnumCropType type;
+  private CountryDataHandler dataHandler;
+  private GraphLabel
+    landcontroll,
+    openLand,
+    production,
+    exported,
+    imported;
+
+  private Runnable landAdjustment = new Runnable()
   {
+    @Override
+    public void run()
+    {
+      dataHandler.setland(type, landcontroll.getValue());
+      for (CropPanel panel : relatedPanels)
+      {
+        panel.resetValues();
+      }
+    }
+  };
+
+  public CropPanel(CountryDataHandler dataHandler, EnumCropType type)
+  {
+    // init.
+    this.dataHandler = dataHandler;
     this.type = type;
+    initLabelsAndControlls(dataHandler, type);
 
-
+    //conf.
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
     setLayout(new GridLayout(0, 3));
+    add(getIconPanel());
+    add(getOverViewPanel());
+    add(getControllPanel());
 
-    JPanel overView = new JPanel();
-    overView.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    overView.setLayout(new BoxLayout(overView, BoxLayout.Y_AXIS));
-    overView.add(
-      new GraphLabel("Production", dataHandler.production.get(type),
-        dataHandler.landArea, 1000, Color.red, false,"#,###,### tons")
-    );
+    CropPanel.relatedPanels.add(this);
+  }
 
-    overView.add(
-      new GraphLabel("Exported", dataHandler.exports.get(type),
-        dataHandler.exports.get(type), 10, Color.red, false, "#,###,### tons")
-    );
+  private JPanel getIconPanel()
+  {
+    JLabel img = null;
+    try
+    {
+      BufferedImage icon = ImageIO.read(new File("resources/imgs/wheatLogo.png"));
+      img = new JLabel(new ImageIcon(icon));
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    JPanel iconPanel = new JPanel();
+    iconPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+//    img.setBorder(new EmptyBorder(40, 40, 40, 40));
+    iconPanel.add(img);
+    return iconPanel;
+  }
 
-    overView.add(
-      new GraphLabel("Imported", dataHandler.imports.get(type),
-        dataHandler.exports.get(type), 1, Color.red, false,"#,###,### tons")
-    );
-
+  // creates the control sub-panel for adjusting the amount of land for crop.
+  private JPanel getControllPanel()
+  {
     JPanel landUse = new JPanel();
     landUse.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     landUse.setLayout(new BoxLayout(landUse, BoxLayout.Y_AXIS));
-
-    landcontroll = new GraphLabel("Land used", dataHandler.land.get(type),
-      dataHandler.getCultivatedLand(), dataHandler.getCultivatedLand()/100, Color.red, true, "#,###,### kilos");
-
-    landcontroll.setConsequent(new Runnable()
-    {
-      @Override
-      public void run()
-      {
-        dataHandler.setland(type, landcontroll.getValue());
-        System.out.println("get cultivated land: " + dataHandler.getCultivatedLand());
-        openLand.setValue(dataHandler.getOpenLand());
-        /**
-         * todo
-         * this is still very rough, basically what needs to happen is that
-         * when ever a runnable like this is called it sets the appropriate filed in the data handler,
-         * then calls a reset method on all the lables in  question so that there value is updated.
-         */
-      }
-    });
-
     landUse.add(landcontroll);
-
-    openLand = new GraphLabel("Arable open Land", dataHandler.getOpenLand(),
-      dataHandler.getCultivatedLand(), dataHandler.getOpenLand()/100, Color.red, true, "#,###,### kilos");
-
     landUse.add(openLand);
-
-    add(overView);
-    add(landUse);
+    return landUse;
   }
 
+  // creates the sub-panel for production, exports, and imports info.
+  private JPanel getOverViewPanel()
+  {
+    JPanel overView = new JPanel();
+    overView.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    overView.setLayout(new BoxLayout(overView, BoxLayout.Y_AXIS));
+    overView.add(production);
+    overView.add(exported);
+    overView.add(imported);
+    return overView;
+  }
+
+  private void initLabelsAndControlls(CountryDataHandler dataHandler, EnumCropType type)
+  {
+    production = new GraphLabel("Production", dataHandler.production.get(type),
+      dataHandler.landArea, "#,###,### tons");
+
+    exported = new GraphLabel("Exported", dataHandler.exports.get(type),
+      dataHandler.exports.get(type), "#,###,### tons");
+
+    imported = new GraphLabel("Imported", dataHandler.imports.get(type),
+      dataHandler.exports.get(type), "#,###,### tons");
+
+    landcontroll = new GraphLabel("Land used", dataHandler.land.get(type),
+      dataHandler.getCultivatedLand(), "#,###,### km sq.", landAdjustment);
+
+    openLand = new GraphLabel("Arable open Land", dataHandler.getOpenLand(),
+      dataHandler.getCultivatedLand(), "#,###,### km sq.");
+  }
+
+  // FOR TESTING ONLY
   public static void main(String[] args)
   {
 
     final JFrame jFrame = new JFrame();
-
-    jFrame.add(new CropPanel(CountryDataHandler.getTestData(), EnumCropType.CORN));
+    final CropPanel cropPanel = new CropPanel(CountryDataHandler.getTestData(), EnumCropType.OTHER_CROPS);
+    jFrame.add(cropPanel);
 
     jFrame.pack();
     jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -95,6 +138,23 @@ public class CropPanel extends JPanel
         jFrame.repaint();
       }
     }).start();
+
+  }
+
+
+  public void setData(CountryDataHandler dataHandler)
+  {
+    this.dataHandler = dataHandler;
+    resetValues();
+  }
+
+  private void resetValues()
+  {
+    landcontroll.setValue(dataHandler.land.get(type));
+    openLand.setValue(dataHandler.getOpenLand());
+    production.setValue(dataHandler.production.get(type));
+    exported.setValue(dataHandler.exports.get(type));
+    imported.setValue(dataHandler.imports.get(type));
   }
 }
 

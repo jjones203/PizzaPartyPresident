@@ -1,6 +1,9 @@
 package worldfoodgame.gui.hud;
 
+import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
+import worldfoodgame.gui.hud.cropPanel.CountryDataHandler;
+import worldfoodgame.gui.hud.cropPanel.CropPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -86,11 +89,23 @@ public class TabbedPanel extends JPanel
     TabbedPanel tabbedPanel2 = new TabbedPanel();
     tabbedPanel2.fontSize = 12;
 
-    tabbedPanel2.addTab("corn", new JPanel());
-    tabbedPanel2.addTab("wheat", new JPanel());
-    tabbedPanel2.addTab("rice", new JPanel());
-    tabbedPanel2.addTab("soy", new JPanel());
-    tabbedPanel2.addTab("other", new JPanel());
+    CountryDataHandler dataHandler = CountryDataHandler.getTestData();
+
+    tabbedPanel2.addTab("corn",
+      new CropPanel(dataHandler, EnumCropType.CORN));
+
+    tabbedPanel2.addTab("wheat",
+      new CropPanel(dataHandler, EnumCropType.WHEAT));
+
+    tabbedPanel2.addTab("rice",
+      new CropPanel(dataHandler, EnumCropType.RICE));
+
+    tabbedPanel2.addTab("soy",
+      new CropPanel(dataHandler, EnumCropType.SOY));
+
+    tabbedPanel2.addTab("other",
+      new CropPanel(dataHandler, EnumCropType.OTHER_CROPS));
+
 
     tabbedPanel.addTab("crops", tabbedPanel2);
 
