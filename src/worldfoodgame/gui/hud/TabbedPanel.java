@@ -2,8 +2,8 @@ package worldfoodgame.gui.hud;
 
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
-import worldfoodgame.gui.hud.cropPanel.CountryDataHandler;
-import worldfoodgame.gui.hud.cropPanel.CropPanel;
+import worldfoodgame.gui.hud.infopanel.CountryDataHandler;
+import worldfoodgame.gui.hud.infopanel.CropPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

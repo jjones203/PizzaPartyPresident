@@ -1,4 +1,4 @@
-package worldfoodgame.gui.hud.cropPanel;
+package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.gui.ColorsAndFonts;
 
@@ -157,6 +157,7 @@ public class GraphLabel extends JPanel
     control.setFont(labelTypeFace);
     control.addMouseListener(new MouseAdapter()
     {
+      // todo move this into class members, this looks sloppy.
       final double epsilon = 0.001;
       final Timer timer = new Timer(10, new AbstractAction()
       {

@@ -1,4 +1,4 @@
-package worldfoodgame.gui.hud.cropPanel;
+package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
