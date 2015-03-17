@@ -22,6 +22,12 @@ public class GraphLabel extends JPanel
   private final double LIMIT;
   private final double STEP;
   private final boolean isController;
+
+  public void setEffectRunnable(Runnable effectRunnable)
+  {
+    this.effectRunnable = effectRunnable;
+  }
+
   private Runnable effectRunnable;
   private double value;
   private final Color barColor;

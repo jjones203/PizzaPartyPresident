@@ -42,6 +42,24 @@ public class LandPanel extends JPanel implements Observer
     this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     this.add(getOverViewPanel());
 
+
+    // ONLY FOR TESTING
+    this.add(getTestingPanel());
+
+  }
+
+  private JPanel getTestingPanel()
+  {
+    JPanel testPanel = new JPanel();
+    testPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    testPanel.setLayout(new BoxLayout(testPanel, BoxLayout.Y_AXIS));
+
+    LabelFactory labelFactory = new LabelFactory(dataHandler);
+
+    testPanel.add(labelFactory.getPopulationLabel());
+    testPanel.add(labelFactory.getPopulationControll());
+
+    return testPanel;
   }
 
   private JPanel getOverViewPanel()
