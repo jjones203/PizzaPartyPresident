@@ -140,4 +140,23 @@ public class LabelFactory
 
     return mortalityRate;
   }
+
+
+  public GraphLabel getTotalLand()
+  {
+    return new GraphLabel(
+      "Total Land",
+      dataHandler.landTotal,
+      dataHandler.landTotal,
+      "# sq km");
+  }
+
+  public GraphLabel getArableLand()
+  {
+    return new GraphLabel(
+      "Total Land",
+      dataHandler.arableOpen,
+      dataHandler.arableOpen,
+      "# sq km");
+  }
 }

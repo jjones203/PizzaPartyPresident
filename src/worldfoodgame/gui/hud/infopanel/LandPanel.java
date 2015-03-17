@@ -1,11 +1,9 @@
 package worldfoodgame.gui.hud.infopanel;
 
-import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -20,19 +18,6 @@ public class LandPanel extends JPanel implements Observer
   private CountryDataHandler dataHandler;
   private LabelFactory labelFactory;
 
-  // label set
-  // overview panel
-  private GraphLabel
-    landTotal,
-    arableLand,
-    gmoPercentage,
-    organicP,
-    conventionalP,
-    totalYeild,
-    totalNeed;
-
-  private HashMap<EnumCropType, GraphLabel> landByCrops;
-
 
   public LandPanel(CountryDataHandler dataHandler, LabelFactory labelFactory)
   {
@@ -46,17 +31,6 @@ public class LandPanel extends JPanel implements Observer
 
   }
 
-  private JPanel getTestingPanel()
-  {
-    JPanel testPanel = new JPanel();
-    testPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    testPanel.setLayout(new BoxLayout(testPanel, BoxLayout.Y_AXIS));
-
-    testPanel.add(labelFactory.getPopulationLabel());
-    testPanel.add(labelFactory.getPopulationControll());
-
-    return testPanel;
-  }
 
   private JPanel getOverViewPanel()
   {
@@ -64,13 +38,8 @@ public class LandPanel extends JPanel implements Observer
     overView.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     overView.setLayout(new BoxLayout(overView, BoxLayout.Y_AXIS));
 
-    landTotal = new GraphLabel("Land Total", dataHandler.landTotal,
-      dataHandler.landTotal, "#,###,### km sq");
-    overView.add(landTotal);
-
-    arableLand = new GraphLabel("Arable Land", dataHandler.getOpenLand(),
-      dataHandler.landTotal, "#,###,### km sq");
-    overView.add(arableLand);
+    overView.add(labelFactory.getTotalLand());
+    overView.add(labelFactory.getArableLand());
 
     return overView;
   }
