@@ -3,6 +3,7 @@ package worldfoodgame.gui.hud.infopanel;
 import worldfoodgame.common.EnumCropType;
 
 import java.util.HashMap;
+import java.util.Observable;
 
 /**
  * Created by winston on 3/13/15.
@@ -10,13 +11,13 @@ import java.util.HashMap;
  * Stores and handles country data interactions for a given country at a given
  * year.
  */
-public class CountryDataHandler
+public class CountryDataHandler extends Observable
 {
   String name;
   public double
     population, medianAge, birthRate,
     mortalityRate, migrationRate, undernourished,
-    landArea, arableOpen;
+    landTotal, arableOpen;
 
   public HashMap<EnumCropType,Double> production = new HashMap<>();
          HashMap<EnumCropType,Double> imports = new HashMap<>();
@@ -79,7 +80,7 @@ public class CountryDataHandler
     dataHandler.land.put(EnumCropType.SOY, 0.0);
     dataHandler.land.put(EnumCropType.OTHER_CROPS, 72871130.0);
 
-    dataHandler.landArea = 2.001123413E8;
+    dataHandler.landTotal = 2.001123413E8;
     dataHandler.arableOpen = 1652018;
 
 
@@ -93,7 +94,7 @@ public class CountryDataHandler
 
   public double getOpenLand()
   {
-    return landArea - getCultivatedLand();
+    return landTotal - getCultivatedLand();
   }
 
 

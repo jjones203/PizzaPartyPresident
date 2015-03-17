@@ -111,7 +111,7 @@ public class CountryCSVLoader
     try
     {
       country.setPopulation(START_YEAR, Integer.parseInt(record.get("population")));
-      country.setLandTotal(START_YEAR, Double.parseDouble(record.get("landArea")));
+      country.setLandTotal(START_YEAR, Double.parseDouble(record.get("landTotal")));
     }
     catch (NumberFormatException e)
     {

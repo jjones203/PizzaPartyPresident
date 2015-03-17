@@ -4,6 +4,7 @@ import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.hud.infopanel.CountryDataHandler;
 import worldfoodgame.gui.hud.infopanel.CropPanel;
+import worldfoodgame.gui.hud.infopanel.LandPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -80,16 +81,16 @@ public class TabbedPanel extends JPanel
     JPanel bluePanel = new JPanel();
     bluePanel.setBackground(Color.blue);
 
+    CountryDataHandler dataHandler = CountryDataHandler.getTestData();
 
     tabbedPanel.addTab("demographic", bluePanel);
-    tabbedPanel.addTab("land", greenPanel);
+    tabbedPanel.addTab("land", new LandPanel(dataHandler));
 
 
 
     TabbedPanel tabbedPanel2 = new TabbedPanel();
     tabbedPanel2.fontSize = 12;
 
-    CountryDataHandler dataHandler = CountryDataHandler.getTestData();
 
     tabbedPanel2.addTab("corn",
       new CropPanel(dataHandler, EnumCropType.CORN));

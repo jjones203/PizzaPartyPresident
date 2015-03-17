@@ -104,7 +104,7 @@ public class CropPanel extends JPanel
   private void initLabelsAndControlls(CountryDataHandler dataHandler, EnumCropType type)
   {
     production = new GraphLabel("Production", dataHandler.production.get(type),
-      dataHandler.landArea, "#,###,### tons");
+      dataHandler.landTotal, "#,###,### tons");
 
     exported = new GraphLabel("Exported", dataHandler.exports.get(type),
       dataHandler.exports.get(type), "#,###,### tons");
