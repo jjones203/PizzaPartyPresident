@@ -2,9 +2,7 @@ package worldfoodgame.gui.hud;
 
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
-import worldfoodgame.gui.hud.infopanel.CountryDataHandler;
-import worldfoodgame.gui.hud.infopanel.CropPanel;
-import worldfoodgame.gui.hud.infopanel.LandPanel;
+import worldfoodgame.gui.hud.infopanel.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -83,8 +81,10 @@ public class TabbedPanel extends JPanel
 
     CountryDataHandler dataHandler = CountryDataHandler.getTestData();
 
-    tabbedPanel.addTab("demographic", bluePanel);
-    tabbedPanel.addTab("land", new LandPanel(dataHandler));
+    LabelFactory labelFactory = new LabelFactory(dataHandler);
+
+    tabbedPanel.addTab("demographic", new DemographicPanel(labelFactory));
+    tabbedPanel.addTab("land", new LandPanel(dataHandler, labelFactory));
 
 
 

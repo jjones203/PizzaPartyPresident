@@ -5,19 +5,23 @@ import java.util.Collection;
 
 /**
  * Created by winston on 3/17/15.
- *
+ * <p/>
  * creates a label factory that maintains th state of the associated data object.
  */
 public class LabelFactory
 {
-  private Collection<GraphLabel> labels;
+//  private Collection<GraphLabel> labels;
   private Collection<Runnable> updates;
   private CountryDataHandler dataHandler;
 
+  private void updateLabels()
+  {
+    for (Runnable update: updates) update.run();;
+  }
   public LabelFactory(CountryDataHandler dataHandler)
   {
     this.dataHandler = dataHandler;
-    labels = new ArrayList<>();
+//    labels = new ArrayList<>();
     updates = new ArrayList<>();
   }
 
@@ -56,19 +60,21 @@ public class LabelFactory
       public void run()
       {
         dataHandler.population = popControll.getValue();
-
-        for (Runnable run : updates)
-        {
-          if (this != run) run.run();
-        }
+        updateLabels();
       }
     };
-
     popControll.setEffectRunnable(effect);
-    updates.add(effect);
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        popControll.setValue(dataHandler.population);
+      }
+    });
 
     return popControll;
   }
-
 
 }

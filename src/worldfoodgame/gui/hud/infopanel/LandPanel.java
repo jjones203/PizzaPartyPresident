@@ -18,6 +18,7 @@ import java.util.Observer;
 public class LandPanel extends JPanel implements Observer
 {
   private CountryDataHandler dataHandler;
+  private LabelFactory labelFactory;
 
   // label set
   // overview panel
@@ -33,9 +34,10 @@ public class LandPanel extends JPanel implements Observer
   private HashMap<EnumCropType, GraphLabel> landByCrops;
 
 
-  public LandPanel(CountryDataHandler dataHandler)
+  public LandPanel(CountryDataHandler dataHandler, LabelFactory labelFactory)
   {
     this.dataHandler = dataHandler;
+    this.labelFactory = labelFactory;
 
     //config
     this.setLayout(new GridLayout(0, 3));
@@ -53,8 +55,6 @@ public class LandPanel extends JPanel implements Observer
     JPanel testPanel = new JPanel();
     testPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     testPanel.setLayout(new BoxLayout(testPanel, BoxLayout.Y_AXIS));
-
-    LabelFactory labelFactory = new LabelFactory(dataHandler);
 
     testPanel.add(labelFactory.getPopulationLabel());
     testPanel.add(labelFactory.getPopulationControll());
