@@ -30,8 +30,10 @@ public class DemographicPanel extends JPanel
     panel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-    add(labelFactory.getPopulationLabel());
-    add(labelFactory.getPopulationControll());
+    panel.add(labelFactory.getPopulationLabel());
+    panel.add(labelFactory.getMedianAge());
+    panel.add(labelFactory.getBirthRate());
+    panel.add(labelFactory.getMortalityRate());
 
     return panel;
   }

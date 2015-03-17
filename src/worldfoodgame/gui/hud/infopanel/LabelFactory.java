@@ -7,6 +7,8 @@ import java.util.Collection;
  * Created by winston on 3/17/15.
  * <p/>
  * creates a label factory that maintains th state of the associated data object.
+ *
+ * todo add the idea of a unite converter.
  */
 public class LabelFactory
 {
@@ -77,4 +79,65 @@ public class LabelFactory
     return popControll;
   }
 
+  public GraphLabel getMedianAge()
+  {
+    final GraphLabel medianAge = new GraphLabel(
+      "Median Age",
+      dataHandler.medianAge,
+      120,
+      "# yrs");
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        medianAge.setValue(dataHandler.medianAge);
+      }
+    });
+
+    return medianAge;
+  }
+
+  public GraphLabel getBirthRate()
+  {
+    final GraphLabel birthRate = new GraphLabel(
+      "Birth Rate",
+      dataHandler.birthRate,
+      100,
+      "# per thousand"
+    );
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        birthRate.setValue(dataHandler.birthRate);
+      }
+    });
+
+    return birthRate;
+  }
+
+  public GraphLabel getMortalityRate()
+  {
+    final GraphLabel mortalityRate = new GraphLabel(
+      "Mortality Rate",
+      dataHandler.mortalityRate,
+      100,
+      "# per thousand"
+    );
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        mortalityRate.setValue(dataHandler.birthRate);
+      }
+    });
+
+    return mortalityRate;
+  }
 }

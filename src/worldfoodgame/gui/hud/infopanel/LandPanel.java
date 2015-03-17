@@ -44,10 +44,6 @@ public class LandPanel extends JPanel implements Observer
     this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     this.add(getOverViewPanel());
 
-
-    // ONLY FOR TESTING
-    this.add(getTestingPanel());
-
   }
 
   private JPanel getTestingPanel()
