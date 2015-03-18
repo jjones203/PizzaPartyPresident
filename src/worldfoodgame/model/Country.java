@@ -3,12 +3,13 @@ package worldfoodgame.model;
 import worldfoodgame.common.AbstractCountry;
 import worldfoodgame.common.AbstractScenario;
 import worldfoodgame.common.EnumCropType;
-
+import worldfoodgame.common.EnumGrowMethod;
 import java.util.List;
 
 /**
  * DRAFT!
  * Created by winston on 3/9/15.
+ * Edited by Jessica on 3/14/15: getName, setLandTotal, methodPercentage methods
  */
 public class Country extends AbstractCountry
 {
@@ -20,6 +21,11 @@ public class Country extends AbstractCountry
     this.name = name;
   }
 
+  public String getName()
+  {
+    return name;
+  }
+  
   public int getPopulation(int year)
   {
     return population[year - START_YEAR];
@@ -115,7 +121,10 @@ public class Country extends AbstractCountry
     return landTotal[year - START_YEAR];
   }
 
-  /* do we need to write land total? */
+  public void setLandTotal(int year, double kilomsq)
+  {
+    landTotal[year - START_YEAR] = kilomsq;
+  }
 
   public double getArableLand(int year)
   {
@@ -138,14 +147,14 @@ public class Country extends AbstractCountry
   }
 
 
-  public double getMethodPercentage(int year, EnumCropType crop)
+  public double getMethodPercentage(int year, EnumGrowMethod method)
   {
-    return cultivationMethod[crop.ordinal()][year - START_YEAR];
+    return cultivationMethod[method.ordinal()][year - START_YEAR];
   }
 
-  public void setMethodPercentage(int year, EnumCropType crop, double percentage)
+  public void setMethodPercentage(int year, EnumGrowMethod method, double percentage)
   {
-    cultivationMethod[crop.ordinal()][year - START_YEAR] = percentage;
+    cultivationMethod[method.ordinal()][year - START_YEAR] = percentage;
   }
 
   /* passing year might be useful in the next milestone? */
