@@ -1,0 +1,5 @@
+country,population,averageAge,birthRate,mortality,migration,undernourish,cornProduction,cornExports,cornImports,cornLand,wheatProduction,wheatExports,wheatImports,wheatLand,riceProduction,riceExports,riceImports,riceLand,soyProduction,soyExports,soyImports,soyLand,otherProduction,otherExports,otherImports,otherLand,landArea,arableOpen,organic,conventional,gmo
+String,int,int,int,int,int,int,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double
+Afghanistan,39106000,16,35,8,-3,24,300120,45,2885,1830,3388000,0,1758691,22320,448224,0,73110,2100,0,0,0,0,2602689,273980,980216,52850,652860,278771.22,0.00000759,0.99999241,0
+Albania,76000,32,12,7,-6,5,366400,210,51809,612,292800,3953,388748,692.19,0,37,20766,0,600,0,37,3.24,1764969,52335,337960,5652.57,27400,26084.8,0.00833333,0.99166667,0
+Algeria,22364000,26,25,6,-1,5,575,0,3177667,2.46,2554926,4505,7486774,16724.31,183,5,85812,1.79,0,0,81,0,15175188,483266,4007848,67481.44,2381740,242937.48,0.00008194,0.99991806,0
