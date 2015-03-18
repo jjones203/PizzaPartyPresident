@@ -1,5 +1,7 @@
 package worldfoodgame.gui.hud.infopanel;
 
+import worldfoodgame.common.EnumCropType;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -7,19 +9,21 @@ import java.util.Collection;
  * Created by winston on 3/17/15.
  * <p/>
  * creates a label factory that maintains th state of the associated data object.
- *
+ * <p/>
  * todo add the idea of a unite converter.
  */
 public class LabelFactory
 {
-//  private Collection<GraphLabel> labels;
+  //  private Collection<GraphLabel> labels;
   private Collection<Runnable> updates;
   private CountryDataHandler dataHandler;
 
   private void updateLabels()
   {
-    for (Runnable update: updates) update.run();;
+    for (Runnable update : updates) update.run();
+    ;
   }
+
   public LabelFactory(CountryDataHandler dataHandler)
   {
     this.dataHandler = dataHandler;
@@ -47,37 +51,38 @@ public class LabelFactory
     return label;
   }
 
-  public GraphLabel getPopulationControll()
-  {
-    final GraphLabel popControll = new GraphLabel(
-      "pop controll test",
-      dataHandler.population,
-      dataHandler.population,
-      "##",
-      null);
-
-    Runnable effect = new Runnable()
-    {
-      @Override
-      public void run()
-      {
-        dataHandler.population = popControll.getValue();
-        updateLabels();
-      }
-    };
-    popControll.setEffectRunnable(effect);
-
-    updates.add(new Runnable()
-    {
-      @Override
-      public void run()
-      {
-        popControll.setValue(dataHandler.population);
-      }
-    });
-
-    return popControll;
-  }
+  // todo erase this, this was only for testing
+//  public GraphLabel getPopulationControll()
+//  {
+//    final GraphLabel popControll = new GraphLabel(
+//      "pop controll test",
+//      dataHandler.population,
+//      dataHandler.population,
+//      "##",
+//      null);
+//
+//    Runnable effect = new Runnable()
+//    {
+//      @Override
+//      public void run()
+//      {
+//        dataHandler.population = popControll.getValue();
+//        updateLabels();
+//      }
+//    };
+//    popControll.setEffectRunnable(effect);
+//
+//    updates.add(new Runnable()
+//    {
+//      @Override
+//      public void run()
+//      {
+//        popControll.setValue(dataHandler.population);
+//      }
+//    });
+//
+//    return popControll;
+//  }
 
   public GraphLabel getMedianAge()
   {
@@ -158,5 +163,118 @@ public class LabelFactory
       dataHandler.arableOpen,
       dataHandler.arableOpen,
       "# sq km");
+  }
+
+  public GraphLabel getProductionLabel(final EnumCropType type)
+  {
+    final GraphLabel productionLabel = new GraphLabel(
+      "Production",
+      dataHandler.production.get(type),
+      dataHandler.production.get(type), //todo choose the right graphical limit
+      "# metric Tons"
+    );
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        productionLabel.setValue(dataHandler.production.get(type));
+      }
+    });
+
+    return productionLabel;
+  }
+
+  public GraphLabel getLandLabel(final EnumCropType type)
+  {
+    final GraphLabel foodControll = new GraphLabel(
+      "Land used",
+      dataHandler.land.get(type),
+      dataHandler.getCultivatedLand(),
+      "#.## km sq",
+      null);
+
+    foodControll.setEffectRunnable(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        dataHandler.land.put(type, foodControll.getValue());
+        updateLabels();
+      }
+    });
+
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        foodControll.setValue(dataHandler.land.get(type));
+      }
+    });
+
+    return foodControll;
+  }
+
+  public GraphLabel getOpenLandLabel(final EnumCropType type)
+  {
+    final GraphLabel openLandLabel = new GraphLabel(
+      "Arable Land",
+      dataHandler.getOpenLand(),
+      dataHandler.getCultivatedLand(),
+      "#,###,### km sq");
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        openLandLabel.setValue(dataHandler.getOpenLand());
+      }
+    });
+
+    return openLandLabel;
+  }
+
+  public GraphLabel getExportedLabel(final EnumCropType type)
+  {
+    final GraphLabel exports = new GraphLabel(
+      "Exported",
+      dataHandler.exports.get(type),
+      dataHandler.production.get(type),
+      "#,###,### tons");
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        exports.setValue(dataHandler.exports.get(type));
+      }
+    });
+
+    return exports;
+  }
+
+  public GraphLabel getImportedLabel(final EnumCropType type)
+  {
+    final GraphLabel imported = new GraphLabel(
+      "Imported",
+      dataHandler.imports.get(type),
+      dataHandler.production.get(type),
+      "#,###,### tons");
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        imported.setValue(dataHandler.imports.get(type));
+      }
+    });
+
+    return  imported;
   }
 }

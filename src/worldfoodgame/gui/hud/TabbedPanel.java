@@ -93,19 +93,19 @@ public class TabbedPanel extends JPanel
 
 
     tabbedPanel2.addTab("corn",
-      new CropPanel(dataHandler, EnumCropType.CORN));
+      new CropPanel(labelFactory, EnumCropType.CORN));
 
     tabbedPanel2.addTab("wheat",
-      new CropPanel(dataHandler, EnumCropType.WHEAT));
+      new CropPanel(labelFactory, EnumCropType.WHEAT));
 
     tabbedPanel2.addTab("rice",
-      new CropPanel(dataHandler, EnumCropType.RICE));
+      new CropPanel(labelFactory, EnumCropType.RICE));
 
     tabbedPanel2.addTab("soy",
-      new CropPanel(dataHandler, EnumCropType.SOY));
+      new CropPanel(labelFactory, EnumCropType.SOY));
 
     tabbedPanel2.addTab("other",
-      new CropPanel(dataHandler, EnumCropType.OTHER_CROPS));
+      new CropPanel(labelFactory, EnumCropType.OTHER_CROPS));
 
 
     tabbedPanel.addTab("crops", tabbedPanel2);
