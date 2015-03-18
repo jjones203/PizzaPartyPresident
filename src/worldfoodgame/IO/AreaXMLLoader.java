@@ -7,12 +7,13 @@ package worldfoodgame.IO;
  */
 
 
-import worldfoodgame.IO.XMLparsers.RegionParserHandler;
-import worldfoodgame.gui.XMLEditor;
-import worldfoodgame.model.Region;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import worldfoodgame.IO.XMLparsers.RegionParserHandler;
+import worldfoodgame.gui.XMLEditor;
+import worldfoodgame.model.Country;
+import worldfoodgame.model.Region;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -20,6 +21,7 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import static worldfoodgame.IO.IOHelpers.convertToFileURL;
@@ -73,13 +75,32 @@ public class AreaXMLLoader
   }
 
   /**
+   * Returns a list of countries derived from the country XML data.
+   * @return
+   */
+  public Collection<Country> getCountries()
+  {
+    LinkedList<Country> countries = new LinkedList<>();
+
+
+
+
+    return countries;
+  }
+
+  /**
    * Returns a collection of all the regions parsed from the files in the
    * specified DIR.
    *
    * @return Returns the set of regions expressed by the all the collection of
    * xml files
    */
-  public Collection<Region> getRegions()
+
+  public  Collection<Region> getRegions()
+  {
+    return getRegions(AREA_DIR_PATH);
+  }
+  private Collection<Region> getRegions(final String AREA_DIR_PATH)
   {
     List<Region> regionList = new ArrayList<>();
     List<String> filesToRead = getFilesInDir(AREA_DIR_PATH);

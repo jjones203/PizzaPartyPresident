@@ -9,8 +9,10 @@ import java.util.Collection;
  * Created by winston on 3/17/15.
  * <p/>
  * creates a label factory that maintains the state of the associated data object.
+ *
+ * to get a label, call the corresponding getter method.
  * <p/>
- * todo add the idea of a unite converter.
+ * todo add the idea of a unite converter here? or in the CountryDataHandler?
  */
 public class LabelFactory
 {
