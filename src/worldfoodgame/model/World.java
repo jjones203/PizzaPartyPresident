@@ -60,7 +60,14 @@ public class World
     this.currentDate = currentDate;
   }
 
-
+  /**
+   * returns the year as an int.
+   * @return
+   */
+  public int getYear()
+  {
+    return getCurrentDate().get(Calendar.YEAR);
+  }
 
   /**
    * Advances the world forward by the given number of days. Every new month

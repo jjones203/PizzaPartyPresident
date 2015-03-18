@@ -1,5 +1,6 @@
 package worldfoodgame.common;
 
+import worldfoodgame.common.CropZoneData.EnumCropZone;
 
 public abstract class AbstractScenario
 {
@@ -7,14 +8,7 @@ public abstract class AbstractScenario
   public static final int END_YEAR = 2050;
   public static final int YEARS_OF_SIM = (END_YEAR - START_YEAR) + 1;
   
-  //Note: This class does not include a structure for the climate and 
-  //      elevation data. 
-  //      This is to allow the development team to choose the representation 
-  //      that best fit the team's search and display implementations.
-  // 
-  //      Also absent from this class are abstract methods that may need to 
-  //      use the climate or elevation data.
-  
+
   protected double randomizationPercentage = 1.0; //Domain: [0.0, 1.0]
   protected double baseSeaLevelRisePerYear;
   
@@ -27,7 +21,11 @@ public abstract class AbstractScenario
   
   protected CropZoneData[] idealCropZone = new CropZoneData[EnumCropType.SIZE];
   
-  public abstract CropZoneData.EnumCropZone getZone(EnumCropType crop,
+  protected AbstractAltitudeData altitudeData;
+  protected AbstractClimateData climateData;
+  
+  
+  public abstract EnumCropZone classifyZone(EnumCropType crop, 
       double minTemp, double maxTemp, double dayTemp, double nightTemp, double rain);
   
   
@@ -49,7 +47,7 @@ public abstract class AbstractScenario
   public int indexToYear(int i)
   {
     if (i<0 || i>=YEARS_OF_SIM) 
-    { throw new IllegalArgumentException("worldfoodgame.worldfoodgame.common.indexToYear("+i+")");
+    { throw new IllegalArgumentException("worldfoodgame.common.indexToYear("+i+")");
     }
     return i+START_YEAR;
   }
@@ -58,7 +56,7 @@ public abstract class AbstractScenario
   public int yearToIndex(int year)
   {
     if (year<START_YEAR || year>END_YEAR) 
-    { throw new IllegalArgumentException("worldfoodgame.worldfoodgame.common.yearToIndex("+year+")");
+    { throw new IllegalArgumentException("worldfoodgame.common.yearToIndex("+year+")");
     }
     return year-START_YEAR;
   }

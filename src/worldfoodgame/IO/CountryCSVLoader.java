@@ -119,6 +119,7 @@ public class CountryCSVLoader
     }
   }
 
+
   /**
    * Set fields other than name, population, and total land area.
    * If any field missing, its value must be determined.
@@ -135,6 +136,7 @@ public class CountryCSVLoader
     setGrowMethodData(country, recordMap);
   }
   
+
   /**
    * Set averageAge, birthRate, mortality, migration, undernourish, and arableOpen fields.
    * @param country     country object
@@ -150,6 +152,7 @@ public class CountryCSVLoader
     {
       String field = demographicFields[i];
       String value = recordMap.get(field);
+
       /*if (value.isEmpty())
       {
         // get default value for field here
@@ -192,6 +195,7 @@ public class CountryCSVLoader
     }
   }
   
+
   /**
    * Set production, exports, imports, and land fields for each crop type in EnumCropType.
    * @param country     country object
@@ -216,6 +220,7 @@ public class CountryCSVLoader
         String cropField = cropFields[i];
         String key = cropString + cropFields[i];
         String value = recordMap.get(key);
+
 
         /*if (value.isEmpty())
         {
@@ -264,6 +269,7 @@ public class CountryCSVLoader
       country.setCropNeedPerCapita(START_YEAR, crop, need);
     }
   }
+
   
   /**
    * Set percentage for each method in EnumGrowMethod.
@@ -277,13 +283,13 @@ public class CountryCSVLoader
     {
       String methodString = method.toString().toLowerCase();
       String value = recordMap.get(methodString);
+
       /*if (value.isEmpty())
       {
         // set default value
         value = "0";
         recordMap.put(methodString, value);
       }*/
-      
       try
       {
         country.setMethodPercentage(START_YEAR, method, Double.parseDouble(recordMap.get(methodString)));

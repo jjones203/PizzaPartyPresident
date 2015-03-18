@@ -157,4 +157,17 @@ public class BarPanel extends JPanel
       }
     };
   }
+
+
+  public static void main(String[] args)
+  {
+    BarPanel barPanel = new BarPanel(Color.red, 1, "hi");
+
+    JFrame jFrame = new JFrame();
+    jFrame.add(barPanel);
+    jFrame.pack();
+    jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    jFrame.setVisible(true);
+
+  }
 }

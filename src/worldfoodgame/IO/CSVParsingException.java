@@ -25,5 +25,4 @@ public class CSVParsingException extends RuntimeException
     this.record = record;
     this.csvFile = csvFile;
   }
- 
 }

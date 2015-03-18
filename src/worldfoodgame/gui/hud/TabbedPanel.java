@@ -1,6 +1,8 @@
 package worldfoodgame.gui.hud;
 
+import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
+import worldfoodgame.gui.hud.infopanel.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -18,15 +20,16 @@ import java.util.HashMap;
  todo clean up padding logic...?
  todo add consturtor support for animation handeling ?
  todo cleanup selection logic and handelers.
+ todo add handler for border color and most importantly width.
  */
 public class TabbedPanel extends JPanel
 {
 
-  public static final Color ROLLOVER_C = Color.CYAN;
-  public static final Color SELECTED_C = Color.lightGray;
+  public static final Color ROLLOVER_C = Color.WHITE;
+  public static final Color SELECTED_C = Color.RED.darker();
   public static final Color TEXT_DEFAULT_COLOR = ColorsAndFonts.GUI_TEXT_COLOR;
   public static final Color BACKGROUND_COLOR = ColorsAndFonts.GUI_BACKGROUND;
-  public static final Font TAB_FONT = ColorsAndFonts.GUI_FONT.deriveFont(Font.BOLD);
+  public static final Font TAB_FONT = ColorsAndFonts.GUI_FONT;
   private static final float ALPHA_STEP = 0.1f;
 
   public float fontSize;
@@ -76,22 +79,40 @@ public class TabbedPanel extends JPanel
     JPanel bluePanel = new JPanel();
     bluePanel.setBackground(Color.blue);
 
+    CountryDataHandler dataHandler = CountryDataHandler.getTestData();
 
-    tabbedPanel.addTab("blue", bluePanel);
-    tabbedPanel.addTab("green", greenPanel);
-    tabbedPanel.addTab("white", new JPanel());
+    LabelFactory labelFactory = new LabelFactory(dataHandler);
+
+    tabbedPanel.addTab("demographic", new DemographicPanel(labelFactory));
+    tabbedPanel.addTab("land", new LandPanel(dataHandler, labelFactory));
+
+
 
     TabbedPanel tabbedPanel2 = new TabbedPanel();
     tabbedPanel2.fontSize = 12;
 
-    tabbedPanel2.addTab("white", new JPanel());
-    tabbedPanel2.addTab("green", greenPanel);
 
-    tabbedPanel.addTab("recur", tabbedPanel2);
+    tabbedPanel2.addTab("corn",
+      new CropPanel(labelFactory, EnumCropType.CORN));
+
+    tabbedPanel2.addTab("wheat",
+      new CropPanel(labelFactory, EnumCropType.WHEAT));
+
+    tabbedPanel2.addTab("rice",
+      new CropPanel(labelFactory, EnumCropType.RICE));
+
+    tabbedPanel2.addTab("soy",
+      new CropPanel(labelFactory, EnumCropType.SOY));
+
+    tabbedPanel2.addTab("other",
+      new CropPanel(labelFactory, EnumCropType.OTHER_CROPS));
+
+
+    tabbedPanel.addTab("crops", tabbedPanel2);
 
     final JFrame frame = new JFrame();
     frame.add(tabbedPanel);
-    frame.setSize(900, 300);
+    frame.setSize(670, 250);
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setVisible(true);
 
@@ -168,6 +189,8 @@ public class TabbedPanel extends JPanel
         {
           super.mouseClicked(e);
           if (Tab.this == currentTab) return;
+
+          Tab.this.doLayout();
 
           for (Tab t : tabmap.keySet()) t.deselect();
 

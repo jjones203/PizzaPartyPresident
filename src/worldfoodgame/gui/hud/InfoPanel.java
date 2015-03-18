@@ -25,6 +25,7 @@ import static worldfoodgame.model.RegionAttributes.PLANTING_ATTRIBUTES;
  * constitute the info panel. Used for viewing attributes about what is selected
  * in the map, and given feel back on what is selected.
  */
+@Deprecated
 public class InfoPanel extends JPanel implements Observer
 {
   /* width = 1 allows panel to be resized intelligently upon container
