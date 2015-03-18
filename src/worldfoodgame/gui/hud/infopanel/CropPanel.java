@@ -60,7 +60,7 @@ public class CropPanel extends JPanel
     landUse.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     landUse.setLayout(new BoxLayout(landUse, BoxLayout.Y_AXIS));
     landUse.add(labelFactory.getLandLabel(type));
-    landUse.add(labelFactory.getOpenLandLabel(type));
+    landUse.add(labelFactory.getOpenLandLabel());
     return landUse;
   }
 

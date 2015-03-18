@@ -8,81 +8,45 @@ import java.util.Collection;
 /**
  * Created by winston on 3/17/15.
  * <p/>
- * creates a label factory that maintains th state of the associated data object.
+ * creates a label factory that maintains the state of the associated data object.
  * <p/>
  * todo add the idea of a unite converter.
  */
 public class LabelFactory
 {
-  //  private Collection<GraphLabel> labels;
   private Collection<Runnable> updates;
   private CountryDataHandler dataHandler;
 
   private void updateLabels()
   {
     for (Runnable update : updates) update.run();
-    ;
   }
 
   public LabelFactory(CountryDataHandler dataHandler)
   {
     this.dataHandler = dataHandler;
-//    labels = new ArrayList<>();
-    updates = new ArrayList<>();
+    this.updates = new ArrayList<>();
   }
 
   public GraphLabel getPopulationLabel()
   {
-    final GraphLabel label = new GraphLabel(
+    final GraphLabel population = new GraphLabel(
       "Population",
       dataHandler.population,
       dataHandler.population,
       "##");
 
-    final Runnable update = new Runnable()
+    updates.add(new Runnable()
     {
       @Override
       public void run()
       {
-        label.setValue(dataHandler.population);
+        population.setValue(dataHandler.population);
       }
-    };
-    updates.add(update);
-    return label;
+    });
+    return population;
   }
 
-  // todo erase this, this was only for testing
-//  public GraphLabel getPopulationControll()
-//  {
-//    final GraphLabel popControll = new GraphLabel(
-//      "pop controll test",
-//      dataHandler.population,
-//      dataHandler.population,
-//      "##",
-//      null);
-//
-//    Runnable effect = new Runnable()
-//    {
-//      @Override
-//      public void run()
-//      {
-//        dataHandler.population = popControll.getValue();
-//        updateLabels();
-//      }
-//    };
-//    popControll.setEffectRunnable(effect);
-//
-//    updates.add(new Runnable()
-//    {
-//      @Override
-//      public void run()
-//      {
-//        popControll.setValue(dataHandler.population);
-//      }
-//    });
-//
-//    return popControll;
-//  }
 
   public GraphLabel getMedianAge()
   {
@@ -189,7 +153,7 @@ public class LabelFactory
   public GraphLabel getLandLabel(final EnumCropType type)
   {
     final GraphLabel foodControll = new GraphLabel(
-      "Land used",
+      type.toString() + " land",
       dataHandler.land.get(type),
       dataHandler.getCultivatedLand(),
       "#.## km sq",
@@ -218,7 +182,7 @@ public class LabelFactory
     return foodControll;
   }
 
-  public GraphLabel getOpenLandLabel(final EnumCropType type)
+  public GraphLabel getOpenLandLabel()
   {
     final GraphLabel openLandLabel = new GraphLabel(
       "Arable Land",

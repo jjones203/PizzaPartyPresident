@@ -1,5 +1,6 @@
 package worldfoodgame.gui.hud.infopanel;
 
+import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 
 import javax.swing.*;
@@ -28,7 +29,22 @@ public class LandPanel extends JPanel implements Observer
     this.setLayout(new GridLayout(0, 3));
     this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     this.add(getOverViewPanel());
+    this.add(getCropView());
 
+  }
+
+  private JPanel getCropView()
+  {
+    JPanel cropView = new JPanel();
+    cropView.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    cropView.setLayout(new BoxLayout(cropView, BoxLayout.Y_AXIS));
+
+    for (EnumCropType crop : EnumCropType.values())
+    {
+      cropView.add(labelFactory.getLandLabel(crop));
+    }
+
+    return cropView;
   }
 
 
@@ -40,7 +56,7 @@ public class LandPanel extends JPanel implements Observer
 
     overView.add(labelFactory.getTotalLand());
     overView.add(labelFactory.getArableLand());
-
+    overView.add(labelFactory.getOpenLandLabel());
     return overView;
   }
 
