@@ -82,15 +82,10 @@ public class CountryCSVLoader
       {
         String name = record.get("country");
         if (!name.isEmpty()) country = new Country(name);
-<<<<<<< HEAD
         else throw new CSVParsingException("country", record, this.csvFile);
-=======
-        else throw new CSVParsingException(record, this.csvFile);
->>>>>>> d359edf7f59042e01ea716290634317088262a6a
         setEssentialFields(country,record);
         setNonessentialFields(country,record);
         tempCountryList.add(country);
-        
       }
       // if name or essential fields empty, edit file
       catch (CSVParsingException exception)
@@ -115,7 +110,6 @@ public class CountryCSVLoader
     try
     {
       country.setPopulation(START_YEAR, Integer.parseInt(record.get("population")));
-<<<<<<< HEAD
     }
     catch (NumberFormatException e)
     {
@@ -123,24 +117,16 @@ public class CountryCSVLoader
     }
     try
     {
-=======
->>>>>>> d359edf7f59042e01ea716290634317088262a6a
       country.setLandTotal(START_YEAR, Double.parseDouble(record.get("landArea")));
     }
     catch (NumberFormatException e)
     {
-<<<<<<< HEAD
       throw new CSVParsingException("landArea", record, this.csvFile);
     }
   }
 
-=======
-      throw new CSVParsingException(record, this.csvFile);
-    }
-  }
 
 
->>>>>>> d359edf7f59042e01ea716290634317088262a6a
   /**
    * Set fields other than name, population, and total land area.
    * If any field missing, its value must be determined.
@@ -157,10 +143,6 @@ public class CountryCSVLoader
     setGrowMethodData(country, recordMap);
   }
   
-<<<<<<< HEAD
-=======
-
->>>>>>> d359edf7f59042e01ea716290634317088262a6a
   /**
    * Set averageAge, birthRate, mortality, migration, undernourish, and arableOpen fields.
    * @param country     country object
@@ -176,10 +158,6 @@ public class CountryCSVLoader
     {
       String field = demographicFields[i];
       String value = recordMap.get(field);
-<<<<<<< HEAD
-=======
-
->>>>>>> d359edf7f59042e01ea716290634317088262a6a
       /*if (value.isEmpty())
       {
         // get default value for field here
@@ -222,10 +200,6 @@ public class CountryCSVLoader
     }
   }
   
-<<<<<<< HEAD
-=======
-
->>>>>>> d359edf7f59042e01ea716290634317088262a6a
   /**
    * Set production, exports, imports, and land fields for each crop type in EnumCropType.
    * @param country     country object
@@ -251,10 +225,6 @@ public class CountryCSVLoader
         String key = cropString + cropFields[i];
         String value = recordMap.get(key);
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d359edf7f59042e01ea716290634317088262a6a
         /*if (value.isEmpty())
         {
           // get default value for field here
@@ -302,11 +272,7 @@ public class CountryCSVLoader
       country.setCropNeedPerCapita(START_YEAR, crop, need);
     }
   }
-<<<<<<< HEAD
-=======
 
->>>>>>> d359edf7f59042e01ea716290634317088262a6a
-  
   /**
    * Set percentage for each method in EnumGrowMethod.
    * @param country     country object
@@ -319,20 +285,12 @@ public class CountryCSVLoader
     {
       String methodString = method.toString().toLowerCase();
       String value = recordMap.get(methodString);
-<<<<<<< HEAD
-=======
-
->>>>>>> d359edf7f59042e01ea716290634317088262a6a
       /*if (value.isEmpty())
       {
         // set default value
         value = "0";
         recordMap.put(methodString, value);
       }*/
-<<<<<<< HEAD
-      
-=======
->>>>>>> d359edf7f59042e01ea716290634317088262a6a
       try
       {
         country.setMethodPercentage(START_YEAR, method, Double.parseDouble(recordMap.get(methodString)));
@@ -399,12 +357,7 @@ public class CountryCSVLoader
       System.err.println("Country data file not found");
     }
   }
-  
-  
-  
-<<<<<<< HEAD
-  ///* for testing
-=======
+
   /* for testing
 >>>>>>> d359edf7f59042e01ea716290634317088262a6a
   public static void main(String[] args)
@@ -420,9 +373,5 @@ public class CountryCSVLoader
     }
 <<<<<<< HEAD
   }//*/
-=======
-  }*/
->>>>>>> d359edf7f59042e01ea716290634317088262a6a
-  
-  
+
 }

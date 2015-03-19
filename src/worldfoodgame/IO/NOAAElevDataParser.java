@@ -108,6 +108,9 @@ public class NOAAElevDataParser
     sqSize = outputCellSize;
   }
 
+  /*
+    reads all the files in the first field of the fileDef array
+   */
   public List<ElevPoint> readAll()
   {
     for (String listing[] : fileDef)
@@ -117,6 +120,10 @@ public class NOAAElevDataParser
     return null;
   }
 
+  /*
+    reads a single file from the NOAA data and returns the List of ElevPoints
+    parsed from that file
+   */
   private List<ElevPoint> readFile(String filename)
   {
     
@@ -177,6 +184,10 @@ public class NOAAElevDataParser
     return pts;
   }
 
+  /*
+    given a filename, return the corresponding listing that defines that file's
+    constraints
+   */
   private String[] getListingByName(String filename) throws IOException
   {
     for(String listing[] : fileDef) 
@@ -186,6 +197,10 @@ public class NOAAElevDataParser
     throw new IOException("listing not found");
   }
 
+  /*
+    temp class used for storing an elevation point
+    todo: implement points in terms of AbstractAltitudeData
+   */
   static class ElevPoint
   {
     public final double lon;
@@ -205,6 +220,7 @@ public class NOAAElevDataParser
     }
 
 
+    
     public String toXMLString()
     {
       return String.format(
@@ -213,6 +229,10 @@ public class NOAAElevDataParser
     }
   }
 
+  
+  /*
+    testing
+   */
   public static void main(String[] args)
   {
     NOAAElevDataParser p =
