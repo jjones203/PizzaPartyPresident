@@ -11,17 +11,18 @@ public abstract class AbstractCountry
   
   protected static final int YEARS_OF_SIM = AbstractScenario.YEARS_OF_SIM;
   
+  
+  protected AbstractCountryBorderData border;
+  protected AbstractCropLocations cropLocationsCurrentYear;
+  protected AbstractCropLocations cropLocationsPreviousYear;
+  
   //Note: Since there are only about 200 countries, it does not take much 
   //      space to maintain all annual country data values from the start of the 
-  //      worldfoodgame.model through the current year of the worldfoodgame.model.
+  //      model through the current year of the model.
   //      This information may be useful in milestone III for
   //      a) displaying graphs
   //      b) improved prediction algorithms that use multi-year trends.
-  
-  //Note: This class does not include a structure for the country boarder, 
-  //      or the crop locations. 
-  //      This is to allow the development team to choose the representation 
-  //      that best fit the team's search and display implementations.
+   
   
   //Note: This class does not include fields for unused arable land, annual 
   //      crop consumption for each country, annual unhappy people for each 
@@ -34,7 +35,7 @@ public abstract class AbstractCountry
   //      is useful to maintain their internal representations as doubles.
   
   //Note: As the start of milestone II, birthRate and migrationRate are assumed constant
-  //      for each year of the worldfoodgame.model and medianAge is not used at all.
+  //      for each year of the model and medianAge is not used at all. 
   //      However, it might be that before the end of milestone II, we are given simple functions
   //      for these quantities: such as a constant rate of change of birth rate replacing the 
   //      constant birth rate or a data lookup table that has predefined values for each year.
@@ -54,13 +55,13 @@ public abstract class AbstractCountry
   protected double[] landArable = new double[YEARS_OF_SIM];  //in square kilometers
   protected double[][] landCrop = new double[EnumCropType.SIZE][YEARS_OF_SIM];  //in square kilometers
   
-  //Note: in milestone II, the worldfoodgame.model does nothing with the cultivation method.
+  //Note: in milestone II, the model does nothing with the cultivation method.
   protected double[][] cultivationMethod = new double[EnumGrowMethod.SIZE][YEARS_OF_SIM]; //percentage
   
   //In Milestone II, crop yield and per capita need are defined in the first year and assumed constant 
   //    throughout each year of the simulation.
   //    This will NOT be changed before the end of milestone II as it would require redefining the core of
-  //    the worldfoodgame.model's calculations.
+  //    the model's calculations.
   protected double[] cropYield = new double[EnumCropType.SIZE]; //metric tons per square kilometer
   protected double[] cropNeedPerCapita = new double[EnumCropType.SIZE]; //metric tons per person per year.
 }
