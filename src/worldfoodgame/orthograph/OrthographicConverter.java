@@ -73,6 +73,7 @@ public class OrthographicConverter extends MapConverter
   */
  public List<Path2D> convertRegions(Collection<Region> col)
  {
+  
   List<MapPoint> perim;
   List<Path2D> projection = new ArrayList<>();
 
