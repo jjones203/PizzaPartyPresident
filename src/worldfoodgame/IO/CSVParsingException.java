@@ -11,6 +11,7 @@ import org.apache.commons.csv.*;
  */
 public class CSVParsingException extends RuntimeException
 {
+  public String field;
   public CSVRecord record;
   public File csvFile;
   
@@ -19,10 +20,12 @@ public class CSVParsingException extends RuntimeException
    * @param record    CSVRecord causing error
    * @param csvFile   File containing record
    */
-  public CSVParsingException(CSVRecord record, File csvFile)
+  public CSVParsingException(String field, CSVRecord record, File csvFile)
   {
     super();
+    this.field = field;
     this.record = record;
     this.csvFile = csvFile;
   }
+ 
 }
