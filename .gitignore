@@ -16,6 +16,9 @@ hs_err_pid*
 *.iml
 *.iws
 out/
+.classpath
+.project
+.settings/
 
 #mac stuff
 .DS_Store
