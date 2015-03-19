@@ -1,0 +1,76 @@
+Sources for countryData.csv
+
+Population
+Mid-2014 estimates from Population Reference Bureau.
+
+Median Age
+For most countries, 2010 data from UNdata.
+For countries not included in UNdata figures, 2014 estimates from CIA World Factbook.
+
+Birth Rate, Mortality, Migration
+2014 figures from Population Reference Bureau.
+
+Undernourishment
+FAOSTAT 2012 3-year average.
+If FAOSTAT states "proportion of undernourished less than five percent," 5% used.
+
+Production, Imports, Exports of Corn, Rice, Wheat, Soy
+FAOSTAT 2011 data for production, import quantity, and export quantity of:
+- Maize and products
+- Rice (Milled Equivalent)
+- Wheat and products
+- Soyabeans
+
+Production, Imports, Exports of Other
+Sum of FAOSTAT 2011 data for production, import quantity, and export quantity of:
+Item 2905	Cereals - Excluding Beer
+Item 2907	Starchy Roots
+Item 2908	Sugar Crops
+Item 2909	Sugar & Sweeteners
+Item 2911	Pulses
+Item 2912	Treenuts
+Item 2913	Oilcrops
+Item 2914	Vegetable Oils
+Item 2918	Vegetables
+Item 2919	Fruits - Excluding Wine
+Item 2923	Spices
+less sum of corn, rice, wheat, and soy.
+
+Land for Corn, Rice, Wheat, Soy
+FAOSTAT 2011 Area Harvested for Maize; Rice, paddy; Wheat; and Soybeans.
+
+Land for Other
+FAOSTAT 2011 Arable land and Permanent crops area less sum of land for corn, rice, wheat, and soy.
+* For Samoa, Agricultural area used instead of Arable land and Permanent crops area.
+
+Land Area
+FAOSTAT 2011 Land area.
+
+arableOpen
+The greater of:
+- the country's land area * its region's average percentage (cultivated land + grassland + woodland and forest).
+- FAOSTAT 2011 Arable land and Permanent crops.
+Regional data from FAO SOLAW Background Report TR-02: Scarcity and abundance of land resources: competing uses and the shrinking land resource base
+
+organic
+FAOSTAT 2011 Agricultural area organic, total, divided by 2011 Arable land and Permanent crops area.
+* For Samoa, Agricultural area used instead of Arable land and Permanent crops area. Otherwise, organic/total > 100%.
+* For Uruguay, used 15% of given Agricultural area organic, total, because:
+    a) Research suggests over 80% of the country's organic area is pasture, not cultivated land.
+    b) Otherwise, (organic area + GMO area) > Arable land and Permanent crops
+    
+conventional
+1 - (organic + GMO)
+
+GMO
+Area of Biotech Crops in 2014 (from ISAAA Brief 49-2014) divided by FAOSTAT 2011 Arable land and Permanent crops area.
+
+References:
+- Population Research Bureau. http://www.prb.org/DataFinder
+- UNdata. http://data.un.org/
+- CIA World Factbook. https://www.cia.gov/library/publications/the-world-factbook/
+- FAOSTAT. http://faostat3.fao.org/home/E
+- FAO SOLAW Background Report TR-02: Scarcity and abundance of land resources: competing uses and the shrinking land resource base,
+    by G. Fischer, E. Hizsnyik, S. Prieler & D. Wiberg. http://www.fao.org/fileadmin/templates/solaw/files/thematic_reports/TR_02_light.pdf
+- ISAAA Brief 49-2014: Executive Summary. Global Status of Commercialized Biotech/GM Crops: 2014.
+    http://www.isaaa.org/resources/publications/briefs/49/executivesummary/default.asp

@@ -1,13 +1,13 @@
-import IO.AreaXMLLoader;
-import IO.XMLparsers.KMLParser;
-import gui.*;
-import gui.displayconverters.EquirectangularConverter;
-import gui.displayconverters.MapConverter;
-import gui.hud.InfoPanel;
-import gui.hud.WorldFeedPanel;
-import model.Region;
-import model.World;
-import IO.AttributeGenerator;
+import worldfoodgame.IO.AreaXMLLoader;
+import worldfoodgame.IO.XMLparsers.KMLParser;
+import worldfoodgame.gui.*;
+import worldfoodgame.gui.displayconverters.EquirectangularConverter;
+import worldfoodgame.gui.displayconverters.MapConverter;
+import worldfoodgame.gui.hud.InfoPanel;
+import worldfoodgame.gui.hud.WorldFeedPanel;
+import worldfoodgame.model.Region;
+import worldfoodgame.model.World;
+import worldfoodgame.IO.AttributeGenerator;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -190,7 +190,7 @@ public class Game
   }
 
   /**
-   * Handles constructing the frame and adding all the gui components in
+   * Handles constructing the frame and adding all the worldfoodgame.gui components in
    * their proper places.
    */
   private void initFrame()
@@ -207,7 +207,7 @@ public class Game
   }
 
   /**
-   * Loads all the model regions and sets their attributes according to the
+   * Loads all the worldfoodgame.model regions and sets their attributes according to the
    * given attribute generator.
    */
   private Collection<Region> initModelRegions(Random random,
