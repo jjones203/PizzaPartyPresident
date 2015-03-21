@@ -4,7 +4,6 @@ import org.apache.commons.csv.*;
 
 import worldfoodgame.IO.CSVhelpers.CSVParsingException;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
@@ -15,7 +14,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,12 +23,9 @@ import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.Vector;
 
 /**
@@ -78,15 +73,13 @@ public class CSVEditor extends JDialog implements ActionListener
     table.setPreferredSize(new Dimension(1200,400));
     table.setFillsViewportHeight(true);
     scrollPane.setPreferredSize(new Dimension(900,200));
-    //scrollPane.getViewport().setViewSize((new Dimension(900,200)));
-    //table.revalidate();
     scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     
     JButton saveButton = new JButton("SAVE AND CONTINUE");
     saveButton.addActionListener(this);
     
-    // text area standing in for highlighting for time being
+    // text area with info on errors
     String colName = exception.field;
     long recNum = exception.record.getRecordNumber()-1;
     String errMsg = new String("Error in "+colName+" column of Record "+recNum);
@@ -185,6 +178,10 @@ public class CSVEditor extends JDialog implements ActionListener
     
   }
   
+  /**
+   * CustomCellRenderer highlights cell with error in yellow.
+   * @author jessica
+   */
   private class CustomCellRenderer extends DefaultTableCellRenderer
   {
     long rowNumber;
