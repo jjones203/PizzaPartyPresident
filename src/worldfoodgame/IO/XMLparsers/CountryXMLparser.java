@@ -162,6 +162,11 @@ public class CountryXMLparser extends DefaultHandler
     return regionList;
   }
 
+  public Collection<Country> getCountries()
+  {
+    return RegionsToCountries(getRegionList());
+  }
+
   /* private method to generate the set of regions*/
   private void generateRegions()
   throws ParserConfigurationException, SAXException
