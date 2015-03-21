@@ -16,6 +16,10 @@ import static worldfoodgame.IO.IOHelpers.getFilesInDir;
 
 /**
  * Created by winston on 3/21/15.
+ * Reads in the country XML data and produces a set of regions.
+ *
+ * also provides supporting method to link regions to countries and generate
+ * a set of liked countries form regions.
  */
 public class CountryXMLparser extends DefaultHandler
 {
@@ -23,18 +27,43 @@ public class CountryXMLparser extends DefaultHandler
 
   private List<AtomicRegion> regionList;
   private Locator locator;
-
   private String countryName;
-
   private AtomicRegion tmpRegion;
   private List<MapPoint> tmpPerimeterSet;
-  private boolean
-    country, name, area, vertex;
+  private boolean name;
 
-
-  public CountryXMLparser()
+  /**
+   * generates a set of Countries from a list of regions. liked properly together.
+   * @param regions list to derive countries from
+   * @return collection of countries created form the given regions.
+   */
+  public static Collection<Country> RegionsToCountries(List<AtomicRegion> regions)
   {
-//    this.regionList = new ArrayList<>();
+    HashMap<String, Country> nameToCountry = new HashMap<>();
+
+    for (AtomicRegion region : regions)
+    {
+      if ( ! nameToCountry.containsKey(region.getName()))
+      {
+        Country country = new Country(region.getName());
+        nameToCountry.put(region.getName(), country);
+      }
+      region.setCountry( nameToCountry.get(region.getName()));
+    }
+
+    return nameToCountry.values();
+  }
+
+
+  public Locator getLocator()
+  {
+    return locator;
+  }
+
+  @Override
+  public void setDocumentLocator(Locator locator)
+  {
+    this.locator = locator;
   }
 
   @Override
@@ -53,7 +82,7 @@ public class CountryXMLparser extends DefaultHandler
     switch (qName)
     {
       case "country":
-        //to nothing...
+        //do nothing...
         break;
 
       case "area":
@@ -119,25 +148,6 @@ public class CountryXMLparser extends DefaultHandler
     }
   }
 
-
-
-  public static Collection<Country> RegionsToCountries(List<AtomicRegion> regions)
-  {
-    HashMap<String, Country> nameToCountry = new HashMap<>();
-
-    for (AtomicRegion region : regions)
-    {
-      if ( ! nameToCountry.containsKey(region.getName()))
-      {
-        Country country = new Country(region.getName());
-        nameToCountry.put(region.getName(), country);
-      }
-      region.setCountry( nameToCountry.get(region.getName()));
-    }
-
-    return nameToCountry.values();
-  }
-
   public List<AtomicRegion> getRegionList()
   {
     if (regionList == null)
@@ -158,6 +168,7 @@ public class CountryXMLparser extends DefaultHandler
     return regionList;
   }
 
+  /* private method to generate the set of regions*/
   private void generateRegions()
   throws ParserConfigurationException, SAXException
   {
@@ -176,17 +187,5 @@ public class CountryXMLparser extends DefaultHandler
         // todo add Editor support here!
       }
     }
-  }
-
-
-  public static void main(String[] args)
-  {
-    CountryXMLparser countryXMLparser = new CountryXMLparser();
-
-    List<AtomicRegion> regions = countryXMLparser.getRegionList();
-
-    System.out.println("num of countries: " + CountryXMLparser.RegionsToCountries(regions).size());
-
-
   }
 }
