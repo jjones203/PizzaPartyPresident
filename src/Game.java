@@ -29,7 +29,7 @@ import java.util.Random;
 public class Game
 {
   public static final String MODEL_DATA_PATH = "resources/ne_10m_admin_1_states_provinces.kml";
-  public static final String BG_DATA_PATH = "resources/countries_world.xml";
+  public static final String BG_DATA_PATH = "resources/ne_110m_land.kml";
   private MapPane mapPane;
   private InfoPanel infoPanel;
   private WorldPresenter worldPresenter;
