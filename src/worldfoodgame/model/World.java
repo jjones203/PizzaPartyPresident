@@ -44,7 +44,7 @@ public class World
   }
 
 
-  private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
+  public World(Collection<Region> world, Collection<Country> countries, Calendar cal)
   {
     this.world = world;
     this.politicalWorld = countries;

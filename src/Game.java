@@ -8,6 +8,7 @@ import worldfoodgame.gui.displayconverters.EquirectangularConverter;
 import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.hud.InfoPanelDep;
 import worldfoodgame.gui.hud.WorldFeedPanel;
+import worldfoodgame.model.Country;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
 
@@ -15,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Random;
 
@@ -58,11 +60,11 @@ public class Game
     Collection<Region> background = initBackgroundRegions(random, randoAtts);
     Collection<Region> modelRegions = initModelRegions(random, randoAtts);
 
-
+    Collection<Country> noDataCountries = CountryXMLparser.RegionsToCountries(modelRegions)
     // trying to tease out interaction between model and background regions
 //    List<Region> allRegions = new ArrayList<>(modelRegions);
 //    allRegions.addAll(background);
-    World world = new World(modelRegions);
+    World world = new World(modelRegions, noDataCountries, Calendar.getInstance());
     MapConverter converter = new EquirectangularConverter();
 
     worldPresenter = new WorldPresenter(converter, world);
