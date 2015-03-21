@@ -29,17 +29,6 @@ public class WorldPresenter extends Observable
   private Collection<GUIRegion> modelRegions;
   private Collection<Country> countries;
 
-  public Collection<Country> getCountries()
-  {
-    return countries;
-  }
-
-  public void setCountries(Collection<Country> countries)
-  {
-    System.out.println("setting this number of countries: " + countries.size());
-    this.countries = countries;
-  }
-
   private Collection<GUIRegion> backgroundRegions;
   private ActiveRegionList activeRegions;
   private World world;
@@ -60,10 +49,16 @@ public class WorldPresenter extends Observable
     this.backgroundRegions = new ArrayList<>();
     this.mpConverter = mpConverter;
     this.regionViewFactory = new RegionViewFactory();
-    this.activeRegions = new ActiveRegionList();
     this.lastDistance = CAM_DISTANCE.LONG;
     this.world = world;
     this.activelyDraging = false;
+
+    setModelRegions(world.getWorldRegions());
+    countries = world.getCountries();
+
+    // this must be constructed last..
+    // it depends on the setModelRegions being called
+    this.activeRegions = new ActiveRegionList();
   }
 
   /**
@@ -99,7 +94,7 @@ public class WorldPresenter extends Observable
    * @param regions set of regions that constitute the worldfoodgame.model and logical
    *                entities of the game.
    */
-  public void setModelRegions(Collection<Region> regions)
+  private void setModelRegions(Collection<Region> regions)
   {
     RegionView backG = regionViewFactory.getViewFromDistance(CAM_DISTANCE.LONG);
     modelRegions = wrapRegions(regions, backG);
@@ -211,6 +206,7 @@ public class WorldPresenter extends Observable
 
   /**
    * Method to only get the background regions
+   *
    * @param camera
    * @return
    */
@@ -371,15 +367,45 @@ public class WorldPresenter extends Observable
   private class ActiveRegionList
   {
     private List<GUIRegion> activeRegions;
-
-    private HashMap<GUIRegion, Country> countryLookup;
-
+    private HashMap<String, List<GUIRegion>> countryLookup;
 
 
     public ActiveRegionList()
     {
       activeRegions = new ArrayList<>();
+      countryLookup = makeLookup(modelRegions);
+    }
 
+    /**
+     * Given a specified guiRegion, returns all of its associated guiRegions.
+     * this is used to support country selection.
+     * @param guiRegion
+     * @return
+     */
+    private Collection<GUIRegion> getAssociated(GUIRegion guiRegion)
+    {
+      return countryLookup.get(guiRegion.getName());
+    }
+
+
+    private HashMap<String, List<GUIRegion>> makeLookup(Collection<GUIRegion> modelRegions)
+    {
+
+      System.out.println("len of modle regions: " + modelRegions);
+
+      HashMap<String, List<GUIRegion>> countryLookup = new HashMap<>();
+
+      for (GUIRegion guiRegion : modelRegions)
+      {
+        String name = guiRegion.getRegion().getCountry().getName();
+        if (!countryLookup.containsKey(name))
+        {
+          countryLookup.put(name, new ArrayList<GUIRegion>());
+        }
+        countryLookup.get(name).add(guiRegion);
+      }
+
+      return countryLookup;
     }
 
     /**
@@ -420,8 +446,12 @@ public class WorldPresenter extends Observable
     {
       if (contains(region)) return;
 
-      region.setActive(true);
-      activeRegions.add(region);
+
+      for (GUIRegion guiRegion : getAssociated(region))
+      {
+        guiRegion.setActive(true);
+        activeRegions.add(guiRegion);
+      }
 
       setChanged();
       notifyObservers();
@@ -441,13 +471,15 @@ public class WorldPresenter extends Observable
       int index = activeRegions.indexOf(region);
       if (index == -1) return null;
 
-      GUIRegion guir = activeRegions.remove(index);
-      guir.setActive(false);
+      for (GUIRegion guiRegion : getAssociated(region))
+      {
+        activeRegions.remove(guiRegion);
+        guiRegion.setActive(false);
+      }
 
       setChanged();
       notifyObservers();
-
-      return guir;
+      return region;
     }
 
     public boolean contains(GUIRegion region)

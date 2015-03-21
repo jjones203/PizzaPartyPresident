@@ -67,8 +67,8 @@ public class Game
 
     worldPresenter = new WorldPresenter(converter, world);
     worldPresenter.setBackgroundRegions(background);
-    worldPresenter.setModelRegions(modelRegions);
-    worldPresenter.setCountries(CountryXMLparser.RegionsToCountries(modelRegions));
+
+
 
     Camera cam = new Camera(converter);
     mapPane = new MapPane(cam, worldPresenter);

@@ -1,6 +1,7 @@
 package worldfoodgame.model;
 
 import worldfoodgame.IO.AttributeGenerator;
+import worldfoodgame.IO.XMLparsers.CountryXMLparser;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -21,6 +22,7 @@ public class World
 {
   private Random random = new Random(44);
   private Collection<Region> world;
+  private Collection<Country> politicalWorld;
   private Calendar currentDate;
 
   /**
@@ -38,7 +40,14 @@ public class World
    */
   public World(Collection<Region> world, Calendar cal)
   {
+    this(world, CountryXMLparser.RegionsToCountries(world), cal);
+  }
+
+
+  private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
+  {
     this.world = world;
+    this.politicalWorld = countries;
     this.currentDate = cal;
   }
 
@@ -84,5 +93,15 @@ public class World
     if (isNewMonth) AttributeGenerator.stepAttributes(random, world);
 
     return isNewMonth;
+  }
+
+  public Collection<Region> getWorldRegions()
+  {
+    return world;
+  }
+
+  public Collection<Country> getCountries()
+  {
+    return politicalWorld;
   }
 }
