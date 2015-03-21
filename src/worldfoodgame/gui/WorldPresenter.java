@@ -3,6 +3,7 @@ package worldfoodgame.gui;
 import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.regionlooks.RegionView;
 import worldfoodgame.gui.regionlooks.RegionViewFactory;
+import worldfoodgame.model.Country;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
 
@@ -26,6 +27,19 @@ public class WorldPresenter extends Observable
   private CAM_DISTANCE lastDistance;
   private MapConverter mpConverter;
   private Collection<GUIRegion> modelRegions;
+  private Collection<Country> countries;
+
+  public Collection<Country> getCountries()
+  {
+    return countries;
+  }
+
+  public void setCountries(Collection<Country> countries)
+  {
+    System.out.println("setting this number of countries: " + countries.size());
+    this.countries = countries;
+  }
+
   private Collection<GUIRegion> backgroundRegions;
   private ActiveRegionList activeRegions;
   private World world;
@@ -358,9 +372,14 @@ public class WorldPresenter extends Observable
   {
     private List<GUIRegion> activeRegions;
 
+    private HashMap<GUIRegion, Country> countryLookup;
+
+
+
     public ActiveRegionList()
     {
       activeRegions = new ArrayList<>();
+
     }
 
     /**

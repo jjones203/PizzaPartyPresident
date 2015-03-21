@@ -1,4 +1,3 @@
-import worldfoodgame.IO.AreaXMLLoader;
 import worldfoodgame.IO.AttributeGenerator;
 import worldfoodgame.IO.XMLparsers.CountryXMLparser;
 import worldfoodgame.IO.XMLparsers.KMLParser;
@@ -68,7 +67,8 @@ public class Game
 
     worldPresenter = new WorldPresenter(converter, world);
     worldPresenter.setBackgroundRegions(background);
-    worldPresenter.setModelRegions(new CountryXMLparser().getRegionList());
+    worldPresenter.setModelRegions(modelRegions);
+    worldPresenter.setCountries(CountryXMLparser.RegionsToCountries(modelRegions));
 
     Camera cam = new Camera(converter);
     mapPane = new MapPane(cam, worldPresenter);
@@ -216,10 +216,10 @@ public class Game
   private Collection<Region> initModelRegions(Random random,
                                               AttributeGenerator randoAtts)
   {
-    Collection<Region> modelMap = KMLParser.getRegionsFromFile(MODEL_DATA_PATH);
+//    Collection<Region> modelMap = KMLParser.getRegionsFromFile(MODEL_DATA_PATH);
+    Collection<Region> modelMap = new CountryXMLparser().getRegionList();
 
     // adds XML regions for area folder...
-    modelMap.addAll(new AreaXMLLoader().getRegions());
     for (Region r : modelMap)
     {
       randoAtts.setRegionAttributes(r, random);

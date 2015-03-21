@@ -25,4 +25,5 @@ public interface Region
   void setCountry(Country country);
 
   Country getCountry();
+
 }
