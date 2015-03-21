@@ -4,6 +4,8 @@ import worldfoodgame.common.AbstractCountry;
 import worldfoodgame.common.AbstractScenario;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumGrowMethod;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +16,19 @@ import java.util.List;
 public class Country extends AbstractCountry
 {
   private int START_YEAR = AbstractScenario.START_YEAR;
-  private List<AtomicRegion> landMasses;
+  private List<Region> regions;
+
+
+  public void addRegion(Region region)
+  {
+    if (regions == null) regions = new ArrayList<>();
+    regions.add(region);
+  }
+
+  public List<Region> getRegions()
+  {
+    return regions;
+  }
 
   public Country(String name)
   {
