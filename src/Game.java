@@ -60,7 +60,7 @@ public class Game
     Collection<Region> background = initBackgroundRegions(random, randoAtts);
     Collection<Region> modelRegions = initModelRegions(random, randoAtts);
 
-    Collection<Country> noDataCountries = CountryXMLparser.RegionsToCountries(modelRegions)
+    Collection<Country> noDataCountries = CountryXMLparser.RegionsToCountries(modelRegions);
     // trying to tease out interaction between model and background regions
 //    List<Region> allRegions = new ArrayList<>(modelRegions);
 //    allRegions.addAll(background);

@@ -83,7 +83,7 @@ public class TabbedPanel extends JPanel
     LabelFactory labelFactory = new LabelFactory(dataHandler);
 
     tabbedPanel.addTab("demographic", new DemographicPanel(labelFactory));
-    tabbedPanel.addTab("land", new LandPanel(dataHandler, labelFactory));
+    tabbedPanel.addTab("land", new LandPanel(labelFactory));
 
 
 
