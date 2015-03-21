@@ -1,37 +1,45 @@
 package worldfoodgame.IO.XMLparsers;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
+import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 import worldfoodgame.model.AtomicRegion;
+import worldfoodgame.model.Country;
 import worldfoodgame.model.MapPoint;
-import worldfoodgame.model.Region;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.IOException;
+import java.util.*;
+
+import static worldfoodgame.IO.IOHelpers.convertToFileURL;
+import static worldfoodgame.IO.IOHelpers.getFilesInDir;
 
 /**
  * Created by winston on 3/21/15.
  */
 public class CountryXMLparser extends DefaultHandler
 {
-  private List<Region> regionList;
+  private static String COUNTRY_DIR = "resources/countries";
+
+  private List<AtomicRegion> regionList;
   private Locator locator;
 
   private String countryName;
 
-  private Region tmpRegion;
+  private AtomicRegion tmpRegion;
   private List<MapPoint> tmpPerimeterSet;
   private boolean
     country, name, area, vertex;
 
+
+  public CountryXMLparser()
+  {
+//    this.regionList = new ArrayList<>();
+  }
+
   @Override
   public void startDocument() throws SAXException
   {
-    regionList = new ArrayList<>();
     tmpPerimeterSet = new LinkedList<>();
     countryName = null;
   }
@@ -50,8 +58,14 @@ public class CountryXMLparser extends DefaultHandler
 
       case "area":
         tmpRegion = new AtomicRegion();
-        if (countryName != null) tmpRegion.setName(countryName);
-        else new NullPointerException("country name not set"); // todo remove when i think its working
+        if (countryName != null)
+        {
+          tmpRegion.setName(countryName);
+        }
+        else
+        {
+          new NullPointerException("country name not set"); // todo remove when i think its working
+        }
         break;
 
       case "name":
@@ -106,8 +120,73 @@ public class CountryXMLparser extends DefaultHandler
   }
 
 
+
+  public static Collection<Country> RegionsToCountries(List<AtomicRegion> regions)
+  {
+    HashMap<String, Country> nameToCountry = new HashMap<>();
+
+    for (AtomicRegion region : regions)
+    {
+      if ( ! nameToCountry.containsKey(region.getName()))
+      {
+        Country country = new Country(region.getName());
+        nameToCountry.put(region.getName(), country);
+      }
+      region.setCountry( nameToCountry.get(region.getName()));
+    }
+
+    return nameToCountry.values();
+  }
+
+  public List<AtomicRegion> getRegionList()
+  {
+    if (regionList == null)
+    {
+      try
+      {
+        generateRegions();
+      }
+      catch (ParserConfigurationException e)
+      {
+        e.printStackTrace();
+      }
+      catch (SAXException e)
+      {
+        e.printStackTrace();
+      }
+    }
+    return regionList;
+  }
+
+  private void generateRegions()
+  throws ParserConfigurationException, SAXException
+  {
+    regionList = new ArrayList<>();
+    XMLReader xmlReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+    xmlReader.setContentHandler(this);
+    for (String file : getFilesInDir(COUNTRY_DIR))
+    {
+      try
+      {
+        xmlReader.parse(convertToFileURL(file));
+      }
+      catch (IOException e)
+      {
+        e.printStackTrace();
+        // todo add Editor support here!
+      }
+    }
+  }
+
+
   public static void main(String[] args)
   {
+    CountryXMLparser countryXMLparser = new CountryXMLparser();
+
+    List<AtomicRegion> regions = countryXMLparser.getRegionList();
+
+    System.out.println("num of countries: " + CountryXMLparser.RegionsToCountries(regions).size());
+
 
   }
 }
