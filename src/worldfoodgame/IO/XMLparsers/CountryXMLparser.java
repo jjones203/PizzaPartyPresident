@@ -87,14 +87,7 @@ public class CountryXMLparser extends DefaultHandler
 
       case "area":
         tmpRegion = new AtomicRegion();
-        if (countryName != null)
-        {
-          tmpRegion.setName(countryName);
-        }
-        else
-        {
-          new NullPointerException("country name not set"); // todo remove when i think its working
-        }
+        tmpRegion.setName(countryName);
         break;
 
       case "name":
