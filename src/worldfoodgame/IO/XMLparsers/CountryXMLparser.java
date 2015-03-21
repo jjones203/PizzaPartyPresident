@@ -5,6 +5,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import worldfoodgame.model.AtomicRegion;
 import worldfoodgame.model.Country;
 import worldfoodgame.model.MapPoint;
+import worldfoodgame.model.Region;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
@@ -25,7 +26,7 @@ public class CountryXMLparser extends DefaultHandler
 {
   private static String COUNTRY_DIR = "resources/countries";
 
-  private List<AtomicRegion> regionList;
+  private Collection<Region> regionList;
   private Locator locator;
   private String countryName;
   private AtomicRegion tmpRegion;
@@ -37,11 +38,11 @@ public class CountryXMLparser extends DefaultHandler
    * @param regions list to derive countries from
    * @return collection of countries created form the given regions.
    */
-  public static Collection<Country> RegionsToCountries(List<AtomicRegion> regions)
+  public static Collection<Country> RegionsToCountries(List<Region> regions)
   {
     HashMap<String, Country> nameToCountry = new HashMap<>();
 
-    for (AtomicRegion region : regions)
+    for (Region region : regions)
     {
       if ( ! nameToCountry.containsKey(region.getName()))
       {
@@ -141,7 +142,7 @@ public class CountryXMLparser extends DefaultHandler
     }
   }
 
-  public List<AtomicRegion> getRegionList()
+  public Collection<Region> getRegionList()
   {
     if (regionList == null)
     {
@@ -180,5 +181,10 @@ public class CountryXMLparser extends DefaultHandler
         // todo add Editor support here!
       }
     }
+  }
+
+  public static void main(String[] args)
+  {
+    System.out.println(new CountryXMLparser().getRegionList().size());
   }
 }

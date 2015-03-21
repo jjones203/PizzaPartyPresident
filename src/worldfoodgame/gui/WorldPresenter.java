@@ -237,6 +237,7 @@ public class WorldPresenter extends Observable
     return regionsInView;
   }
 
+
   /**
    * Set the look of any Region View over lay.
    *

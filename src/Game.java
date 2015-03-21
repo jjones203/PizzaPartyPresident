@@ -1,21 +1,23 @@
 import worldfoodgame.IO.AreaXMLLoader;
+import worldfoodgame.IO.AttributeGenerator;
+import worldfoodgame.IO.XMLparsers.CountryXMLparser;
 import worldfoodgame.IO.XMLparsers.KMLParser;
-import worldfoodgame.gui.*;
+import worldfoodgame.gui.Camera;
+import worldfoodgame.gui.MapPane;
+import worldfoodgame.gui.WorldPresenter;
 import worldfoodgame.gui.displayconverters.EquirectangularConverter;
 import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.hud.InfoPanel;
 import worldfoodgame.gui.hud.WorldFeedPanel;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
-import worldfoodgame.IO.AttributeGenerator;
 
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
-import java.util.List;
+import java.util.Collection;
+import java.util.Random;
 
 /**
  * Main entry point for the 'game'. Handles loading data and all configurations.
@@ -57,15 +59,16 @@ public class Game
     Collection<Region> background = initBackgroundRegions(random, randoAtts);
     Collection<Region> modelRegions = initModelRegions(random, randoAtts);
 
-    List<Region> allRegions = new ArrayList<>(modelRegions);
-    allRegions.addAll(background);
-    World world = new World(allRegions);
 
+    // trying to tease out interaction between model and background regions
+//    List<Region> allRegions = new ArrayList<>(modelRegions);
+//    allRegions.addAll(background);
+    World world = new World(modelRegions);
     MapConverter converter = new EquirectangularConverter();
 
     worldPresenter = new WorldPresenter(converter, world);
     worldPresenter.setBackgroundRegions(background);
-    worldPresenter.setModelRegions(modelRegions);
+    worldPresenter.setModelRegions(new CountryXMLparser().getRegionList());
 
     Camera cam = new Camera(converter);
     mapPane = new MapPane(cam, worldPresenter);

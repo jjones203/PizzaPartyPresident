@@ -18,11 +18,13 @@ public class AtomicRegion implements Region
   private String name;
   private RegionAttributes attributes;
 
+  @Override
   public Country getCountry()
   {
     return country;
   }
 
+  @Override
   public void setCountry(Country country)
   {
     this.country = country;
