@@ -7,7 +7,7 @@ import worldfoodgame.gui.MapPane;
 import worldfoodgame.gui.WorldPresenter;
 import worldfoodgame.gui.displayconverters.EquirectangularConverter;
 import worldfoodgame.gui.displayconverters.MapConverter;
-import worldfoodgame.gui.hud.InfoPanel;
+import worldfoodgame.gui.hud.InfoPanelDep;
 import worldfoodgame.gui.hud.WorldFeedPanel;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
@@ -31,7 +31,7 @@ public class Game
   public static final String MODEL_DATA_PATH = "resources/ne_10m_admin_1_states_provinces.kml";
   public static final String BG_DATA_PATH = "resources/ne_110m_land.kml";
   private MapPane mapPane;
-  private InfoPanel infoPanel;
+  private InfoPanelDep infoPanelDep;
   private WorldPresenter worldPresenter;
   private WorldFeedPanel worldFeedPanel;
   private Timer worldTime;
@@ -74,8 +74,8 @@ public class Game
     mapPane = new MapPane(cam, worldPresenter);
     mapPane.setGrid(converter.getLatLonGrid());
 
-    infoPanel = new InfoPanel();
-    infoPanel.setPresenter(worldPresenter);
+    infoPanelDep = new InfoPanelDep();
+    infoPanelDep.setPresenter(worldPresenter);
 
     worldFeedPanel = new WorldFeedPanel(worldPresenter);
     worldPresenter.addObserver(worldFeedPanel);
@@ -141,7 +141,7 @@ public class Game
       {
         mapPane.repaint();   // for graphics
         mapPane.update();    // for controls
-        infoPanel.repaint(); // again for graphics.
+        infoPanelDep.repaint(); // again for graphics.
       }
     });
 
@@ -203,7 +203,7 @@ public class Game
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.add(worldFeedPanel, BorderLayout.NORTH);
     frame.add(mapPane, BorderLayout.CENTER);
-    frame.add(infoPanel, BorderLayout.SOUTH);
+    frame.add(infoPanelDep, BorderLayout.SOUTH);
     frame.addKeyListener(mapPane);
     frame.pack();
     frame.setResizable(false);
