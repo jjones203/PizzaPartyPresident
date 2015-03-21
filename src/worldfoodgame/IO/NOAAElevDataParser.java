@@ -198,11 +198,12 @@ public class NOAAElevDataParser
   }
 
   /*
-    temp class used for storing an elevation point
-    todo: implement points in terms of AbstractAltitudeData
+    temporary class used for storing an elevation point
    */
   static class ElevPoint
   {
+    private int dataPoints = 0;
+    
     public final double lon;
     public final double lat;
     public final double elev;
