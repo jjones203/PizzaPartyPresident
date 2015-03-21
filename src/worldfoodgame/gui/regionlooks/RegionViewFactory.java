@@ -13,6 +13,7 @@ public class RegionViewFactory
 {
 
   /* view currently correspond to camera angles */
+  private final static RegionView BG_VIEW = new backGroundLook();
   private final static RegionView DEFAULT_LOOK = new defaultLook();
   private final static RegionView PLANTING_VIEW = new PlantingZoneView();
   private final static RegionView HAPPINESS_VIEW = new RegionHappyView();
@@ -40,12 +41,13 @@ public class RegionViewFactory
 
   public RegionView getBackgroundMapView()
   {
-    return DEFAULT_LOOK;
+    return BG_VIEW;
   }
 
 
   public RegionView getViewFromDistance(Camera.CAM_DISTANCE distance)
   {
+//    if (distance == Camera.CAM_DISTANCE.LONG) return BG_VIEW;
     switch (currentOverlay)
     {
       case PLANTING_ZONE:

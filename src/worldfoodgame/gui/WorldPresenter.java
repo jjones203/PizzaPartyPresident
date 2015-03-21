@@ -194,6 +194,18 @@ public class WorldPresenter extends Observable
     }
   }
 
+
+  /**
+   * Method to only get the background regions
+   * @param camera
+   * @return
+   */
+  public Collection<GUIRegion> getBackgroundRegionsInView(Camera camera)
+  {
+    return getIntersectingRegions(camera.getViewBounds(), backgroundRegions);
+  }
+
+
   /**
    * Given a Camera, this method returns all the GUI regions 'in view',
    * and adjusts the look to the appropriate level of detail.
@@ -224,7 +236,7 @@ public class WorldPresenter extends Observable
         break;
 
       case LONG:
-        regionsInView = getIntersectingRegions(inViewBox, backgroundRegions);
+        regionsInView = getIntersectingRegions(inViewBox, modelRegions);
         break;
 
       default:
