@@ -74,6 +74,19 @@ public class WorldPresenter extends Observable
     backgroundRegions = wrapRegions(regions, background);
   }
 
+  /**
+   * Gives the caller all the countries currently selected. This method is used by
+   * the info-panel to update it display information.
+   *
+   * this delegates to the private inner class ActiveRegionList.
+   *
+   * @return collection of currently selected countries.
+   */
+  public Collection<Country> getActiveCountries()
+  {
+    return activeRegions.getActiveCountries();
+  }
+
   public boolean isActivelyDragging()
   {
     return activelyDraging;
@@ -363,6 +376,8 @@ public class WorldPresenter extends Observable
   /**
    * Private class  that manages and the active/passive state of the region.
    * also deals the marking changes
+   *
+   * todo make move this into its own class so that the info panel can access it directly
    */
   private class ActiveRegionList
   {
@@ -374,6 +389,22 @@ public class WorldPresenter extends Observable
     {
       activeRegions = new ArrayList<>();
       countryLookup = makeLookup(modelRegions);
+    }
+
+    /**
+     * Gives the caller all the countries currently selected. This method is used by
+     * the info-panel to update it display information.
+     * @return collection of currently selected countries.
+     */
+    public Collection<Country> getActiveCountries()
+    {
+      Collection<Country> coutries = new HashSet<>();
+
+      for (GUIRegion guiRegion : activeRegions)
+      {
+        coutries.add(guiRegion.getRegion().getCountry());
+      }
+      return coutries;
     }
 
     /**
