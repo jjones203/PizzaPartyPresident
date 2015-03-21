@@ -1,4 +1,5 @@
 import worldfoodgame.IO.AttributeGenerator;
+import worldfoodgame.IO.CountryCSVLoader;
 import worldfoodgame.IO.XMLparsers.CountryXMLparser;
 import worldfoodgame.IO.XMLparsers.KMLParser;
 import worldfoodgame.gui.Camera;
@@ -49,7 +50,7 @@ public class Game
   }
 
   /**
-   * set it ALL up, I mean all of it.
+   * set it ALL up.
    */
   private void init()
   {
@@ -61,6 +62,9 @@ public class Game
     Collection<Region> modelRegions = initModelRegions(random, randoAtts);
 
     Collection<Country> noDataCountries = CountryXMLparser.RegionsToCountries(modelRegions);
+    // add data from csv to noDataCountries
+    CountryCSVLoader csvLoader = new CountryCSVLoader(noDataCountries);
+    noDataCountries = csvLoader.getCountriesFromCSV();
     // trying to tease out interaction between model and background regions
 //    List<Region> allRegions = new ArrayList<>(modelRegions);
 //    allRegions.addAll(background);

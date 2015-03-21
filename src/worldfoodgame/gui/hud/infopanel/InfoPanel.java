@@ -41,7 +41,7 @@ public class InfoPanel extends JPanel implements Observer
 
     OuterTabbedPanel = new TabbedPanel();
     add(OuterTabbedPanel);
-    
+
     demographicPanel = new DemographicPanel(labelFactory);
     OuterTabbedPanel.addTab("demographic", demographicPanel);
 
