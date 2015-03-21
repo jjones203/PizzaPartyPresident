@@ -38,7 +38,7 @@ public class CountryXMLparser extends DefaultHandler
    * @param regions list to derive countries from
    * @return collection of countries created form the given regions.
    */
-  public static Collection<Country> RegionsToCountries(List<Region> regions)
+  public static Collection<Country> RegionsToCountries(Collection<Region> regions)
   {
     HashMap<String, Country> nameToCountry = new HashMap<>();
 
@@ -183,8 +183,15 @@ public class CountryXMLparser extends DefaultHandler
     }
   }
 
+
+  public Collection<Country> getCountries()
+  {
+    return RegionsToCountries(getRegionList());
+  }
+
+
   public static void main(String[] args)
   {
-    System.out.println(new CountryXMLparser().getRegionList().size());
+    System.out.println(new CountryXMLparser().getCountries().size());
   }
 }
