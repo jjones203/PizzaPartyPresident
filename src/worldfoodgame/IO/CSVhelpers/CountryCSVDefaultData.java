@@ -1,4 +1,4 @@
-package worldfoodgame.IO;
+package worldfoodgame.IO.CSVhelpers;
 
 /**
  * Place for constants needed to generate values when country data missing from csv.

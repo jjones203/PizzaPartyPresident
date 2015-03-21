@@ -1,26 +1,42 @@
 package worldfoodgame.gui;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
-import org.apache.commons.csv.CSVRecord;
-import worldfoodgame.IO.CSVParsingException;
+import org.apache.commons.csv.*;
 
-import javax.swing.*;
+import worldfoodgame.IO.CSVhelpers.CSVParsingException;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import java.awt.*;
+import javax.swing.table.TableColumnModel;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 /**
  * Dialog window for correcting errors found when parsing csv file of country data.
- * TO DO: get scrolling to work correctly; highlight cell with error
  * @author jessica
- * @version 18-Mar-2015
+ * @version 20-Mar-2015
  */
 public class CSVEditor extends JDialog implements ActionListener
 {
@@ -29,7 +45,7 @@ public class CSVEditor extends JDialog implements ActionListener
   private CSVParsingException exception;
   private CSVTableModel tableModel;
   private JTable table;
-
+  
   /**
    * Make and display new CSVEditor
    * @param headers   string array of column names
@@ -41,44 +57,54 @@ public class CSVEditor extends JDialog implements ActionListener
     this.headers = headers;
     this.records = records;
     this.exception = exception;
-
+    
     setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
+    
     tableModel = makeTableModel(headers, records);
     table = new JTable(tableModel);
+    
+    TableCellRenderer hRend = table.getTableHeader().getDefaultRenderer();
     for (int i = 0; i < headers.length; ++i)
     {
-      TableColumn column = table.getColumnModel().getColumn(i);
-      column.setMinWidth(75);
+      TableColumn tableCol = table.getColumnModel().getColumn(i);
+      tableCol.setHeaderRenderer(hRend);
+      tableCol.sizeWidthToFit();
     }
-
+    table.setDefaultRenderer(String.class, new CustomCellRenderer(exception, headers));
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // set resize mode to get horizontal scrolling to work
+          
     JScrollPane scrollPane = new JScrollPane(table);
-    table.setPreferredScrollableViewportSize(new Dimension(900,200));
+    table.setPreferredSize(new Dimension(1200,400));
     table.setFillsViewportHeight(true);
+    scrollPane.setPreferredSize(new Dimension(900,200));
+    //scrollPane.getViewport().setViewSize((new Dimension(900,200)));
+    //table.revalidate();
     scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
+    
     JButton saveButton = new JButton("SAVE AND CONTINUE");
     saveButton.addActionListener(this);
-
+    
     // text area standing in for highlighting for time being
     String colName = exception.field;
     long recNum = exception.record.getRecordNumber()-1;
     String errMsg = new String("Error in "+colName+" column of Record "+recNum);
     JTextArea text = new JTextArea(errMsg);
-
+    
     Container contentPane = getContentPane();
     contentPane.add(text,BorderLayout.PAGE_START);
     contentPane.add(scrollPane,BorderLayout.CENTER);
     contentPane.add(saveButton,BorderLayout.PAGE_END);
-
+    
     this.setContentPane(contentPane);
     this.pack();
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);  // reset resize mode to get horizontal scrolling to work
+    
     this.setVisible(true);
-
+    
   }
-
+  
   /* 
    * actionPerformed is called when user clicks "SAVE AND CONTINUE" button.
    * Saves to csv file associated with this editor's exception member variable.
@@ -106,8 +132,8 @@ public class CSVEditor extends JDialog implements ActionListener
       exception.printStackTrace();
     }
   }
-
-
+  
+  
   private CSVTableModel makeTableModel(String[] headers, List<CSVRecord> records)
   {
     int cols = headers.length;
@@ -125,13 +151,13 @@ public class CSVEditor extends JDialog implements ActionListener
     CSVTableModel tableModel = new CSVTableModel(tableArray, headers);
     return tableModel;
   }
-
+  
   private void stopEditing()
   {
     if (table.getCellEditor() != null) table.getCellEditor().stopCellEditing();
-  }
+ }
 
-
+  
   /**
    * Class extends DefaultTableModel; use in creating table containing csv data.
    * Prevents user from editing row of table with data types.
@@ -144,20 +170,50 @@ public class CSVEditor extends JDialog implements ActionListener
     {
       super(data,columnNames);
     }
-
+    
     public boolean isCellEditable(int row, int column)
     {
       // user can't edit row with data types
       if (row != 0) return true;
       else return false;
     }
-
+    
     public Class<?> getColumnClass(int columnIndex)
     {
       return String.class;
     }
-
+    
   }
+  
+  private class CustomCellRenderer extends DefaultTableCellRenderer
+  {
+    long rowNumber;
+    int columnNumber;
 
+    CustomCellRenderer(CSVParsingException exception, String[] headers)
+    {
+      super();
+      rowNumber = exception.record.getRecordNumber() - 1;
+      for (int i = 0; i < headers.length; i++)
+      {
+        if (headers[i].equals(exception.field))
+        {
+          columnNumber = i;
+          break;
+        }
+      }
+    }
 
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+    {
+      Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+      if (row == rowNumber && column == columnNumber)
+      {
+        cell.setBackground(Color.yellow);
+      }
+      else cell.setBackground(Color.white);
+      return cell;
+    }
+  }
+  
 }

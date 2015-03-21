@@ -5,6 +5,8 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVFormat;
 import worldfoodgame.model.Country;
+import worldfoodgame.IO.CSVhelpers.CSVParsingException;
+import worldfoodgame.IO.CSVhelpers.CountryCSVDataGenerator;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumGrowMethod;
 import worldfoodgame.common.AbstractScenario;
@@ -26,9 +28,9 @@ import java.lang.Double;
 /**
  * CountryCSVLoader contains methods for parsing country data in csv file, creating list of
  * country objects. Uses Apache Commons CSV parser.
- * 3/15 TO DO: add error handling for both essential and nonessential fields
+ * 3/20 TO DO: add error handling for crops & demographic fields
  * @author  jessica
- * @version Mar-15-2015
+ * @version Mar-20-2015
  */
 public class CountryCSVLoader
 {
@@ -86,6 +88,7 @@ public class CountryCSVLoader
         setEssentialFields(country,record);
         setNonessentialFields(country,record);
         tempCountryList.add(country);
+        
       }
       // if name or essential fields empty, edit file
       catch (CSVParsingException exception)
@@ -124,8 +127,6 @@ public class CountryCSVLoader
       throw new CSVParsingException("landArea", record, this.csvFile);
     }
   }
-
-
 
   /**
    * Set fields other than name, population, and total land area.
@@ -223,7 +224,7 @@ public class CountryCSVLoader
         // concatenate to cornProduction, cornExports, etc.
         String cropField = cropFields[i];
         String key = cropString + cropFields[i];
-        String value = recordMap.get(key);
+        Double value = Double.parseDouble(recordMap.get(key));
 
         /*if (value.isEmpty())
         {
@@ -237,16 +238,16 @@ public class CountryCSVLoader
           switch (cropField)
           {
             case "Production":
-              production = Double.parseDouble(recordMap.get(key));
+              production = value;
               break;
             case "Exports":
-              exports = Double.parseDouble(recordMap.get(key));
+              exports = value;
               break;
             case "Imports":
-              imports = Double.parseDouble(recordMap.get(key));
+              imports = value;
               break;
             case "Land":
-              land  = Double.parseDouble(recordMap.get(key));
+              land  = value;
               break;
             default:
               break;
@@ -255,8 +256,8 @@ public class CountryCSVLoader
         catch (NumberFormatException e)
         {
           // need to assign default value
-          value = "0";
-          recordMap.put(key, value);
+          //value = "0";
+          recordMap.put(key, "0");
           // loop again after reassigning value
           i--;
         }
@@ -272,7 +273,7 @@ public class CountryCSVLoader
       country.setCropNeedPerCapita(START_YEAR, crop, need);
     }
   }
-
+  
   /**
    * Set percentage for each method in EnumGrowMethod.
    * @param country     country object
@@ -281,29 +282,35 @@ public class CountryCSVLoader
    */
   private void setGrowMethodData(Country country, Map<String,String> recordMap)
   {
+    int numError = 0;
+    double methodsTotal = 0;
     for (EnumGrowMethod method : EnumGrowMethod.values()) 
     {
-      String methodString = method.toString().toLowerCase();
-      String value = recordMap.get(methodString);
-      /*if (value.isEmpty())
-      {
-        // set default value
-        value = "0";
-        recordMap.put(methodString, value);
-      }*/
+      double value = 0;
       try
       {
-        country.setMethodPercentage(START_YEAR, method, Double.parseDouble(recordMap.get(methodString)));
+        String methodString = method.toString().toLowerCase();
+        value = Double.parseDouble(recordMap.get(methodString));
       }
       catch (NumberFormatException e)
       {
-        // set default value
-        value = "0";
-        country.setMethodPercentage(START_YEAR, method, Double.parseDouble(value));
+        numError++;  // if value is not a number, is error
+        continue;
       }
+      if (value >= 0 && value <= 1)
+      {
+        country.setMethodPercentage(START_YEAR, method, value);
+        methodsTotal += value;
+      }
+      else numError++; // if value is not between 0 and 1, is error
+    }
+    if (methodsTotal != 1) numError = 3; // treat incorrect sum same as all values being wrong 
+    if (numError > 0)
+    {
+      CountryCSVDataGenerator.fixGrowMethods(country, recordMap, numError);
     }
   }
-  
+
   /**
    * Creates CSVEditor when CSVParsingException thrown.
    * @param exception   the exception thrown
@@ -357,9 +364,10 @@ public class CountryCSVLoader
       System.err.println("Country data file not found");
     }
   }
-
-  /* for testing
->>>>>>> d359edf7f59042e01ea716290634317088262a6a
+  
+  
+  
+  ///* for testing
   public static void main(String[] args)
   { 
     CountryCSVLoader testLoader = new CountryCSVLoader(new ArrayList<Country>());
@@ -371,7 +379,7 @@ public class CountryCSVLoader
     {
       System.out.println(ctry.getName()+" "+ctry.getMethodPercentage(START_YEAR,EnumGrowMethod.ORGANIC));
     }
-<<<<<<< HEAD
   }//*/
-
+  
+  
 }
