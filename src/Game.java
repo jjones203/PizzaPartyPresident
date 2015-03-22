@@ -1,4 +1,3 @@
-import worldfoodgame.IO.AttributeGenerator;
 import worldfoodgame.IO.CountryCSVLoader;
 import worldfoodgame.IO.XMLparsers.CountryXMLparser;
 import worldfoodgame.IO.XMLparsers.KMLParser;
@@ -19,7 +18,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Random;
 
 /**
  * Main entry point for the 'game'. Handles loading data and all configurations.
@@ -55,20 +53,16 @@ public class Game
    */
   private void init()
   {
-
-    Random random = new Random();
-    AttributeGenerator randoAtts = new AttributeGenerator();
-
-    Collection<Region> background = initBackgroundRegions(random, randoAtts);
-    Collection<Region> modelRegions = initModelRegions(random, randoAtts);
+    Collection<Region> background = KMLParser.getRegionsFromFile(BG_DATA_PATH);
+    Collection<Region> modelRegions = new CountryXMLparser().getRegionList();
 
     Collection<Country> noDataCountries = CountryXMLparser.RegionsToCountries(modelRegions);
+
     // add data from csv to noDataCountries
     CountryCSVLoader csvLoader = new CountryCSVLoader(noDataCountries);
     noDataCountries = csvLoader.getCountriesFromCSV();
-    // trying to tease out interaction between model and background regions
-//    List<Region> allRegions = new ArrayList<>(modelRegions);
-//    allRegions.addAll(background);
+
+
     World world = new World(modelRegions, noDataCountries, Calendar.getInstance());
     MapConverter converter = new EquirectangularConverter();
 
@@ -219,38 +213,6 @@ public class Game
     frame.setResizable(false);
   }
 
-  /**
-   * Loads all the worldfoodgame.model regions and sets their attributes according to the
-   * given attribute generator.
-   */
-  private Collection<Region> initModelRegions(Random random,
-                                              AttributeGenerator randoAtts)
-  {
-//    Collection<Region> modelMap = KMLParser.getRegionsFromFile(MODEL_DATA_PATH);
-    Collection<Region> modelMap = new CountryXMLparser().getRegionList();
-
-    // adds XML regions for area folder...
-    for (Region r : modelMap)
-    {
-      randoAtts.setRegionAttributes(r, random);
-    }
-    return modelMap;
-  }
-
-  /**
-   * Loads and inits attributes for all background regions.
-   */
-  private Collection<Region> initBackgroundRegions(Random random,
-                                                   AttributeGenerator randoAtts)
-  {
-    Collection<Region> BGRegions = KMLParser.getRegionsFromFile(BG_DATA_PATH);
-    for (Region r : BGRegions)
-    {
-      randoAtts.setRegionAttributes(r, random);
-    }
-
-    return BGRegions;
-  }
 
   //*******
   // MAIN *
