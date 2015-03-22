@@ -10,7 +10,13 @@ import java.nio.ByteBuffer;
  description: */
 public class LandTile
 {
- enum BYTE_DEF
+
+ public void setElev(float elev)
+ {
+  elevation = elev;
+ }
+
+ public enum BYTE_DEF
  {
   LONGITUDE, LATITUDE, ELEVATION, 
   MAX_ANNUAL_TEMP, MIN_ANNUAL_TEMP, 
@@ -19,13 +25,14 @@ public class LandTile
   PROJ_MAX_ANNUAL_TEMP, PROJ_MIN_ANNUAL_TEMP,
   PROJ_AVG_DAY_TEMP, PROJ_AVG_NIGHT_TEMP, 
   PROJ_RAINFALL;
-  
-  int index() { return ordinal(); }
-  
-  public static final int SIZE = values().length;
-  public static final int SIZE_IN_BYTES = SIZE * Float.SIZE/Byte.SIZE; 
- }
 
+  int index() { return ordinal() * Float.SIZE/Byte.SIZE; }
+
+  public static final int SIZE = values().length;
+
+  public static final int SIZE_IN_BYTES = SIZE * Float.SIZE/Byte.SIZE;
+ }
+ 
  private float elevation = 0;     /* in meters above sea level */
  private float maxAnnualTemp = 0; /* in degrees Celsius. */
  private float minAnnualTemp = 0; /* in degrees Celsius. */
@@ -37,7 +44,6 @@ public class LandTile
  private float proj_avgDayTemp = 0;    /* in degrees Celsius. */
  private float proj_avgNightTemp = 0;  /* in degrees Celsius. */
  private float proj_rainfall = 0;      /* in cm */
- 
  private MapPoint center;
 
  /**
@@ -50,7 +56,7 @@ public class LandTile
  {
   center = new MapPoint(lon, lat);
  }
- 
+
  public LandTile(ByteBuffer buf)
  {
   int len = buf.array().length;
@@ -80,7 +86,7 @@ public class LandTile
 
   center = new MapPoint(lon, lat);
  }
- 
+
  public ByteBuffer toByteBuffer()
  {
   ByteBuffer buf = ByteBuffer.allocate(BYTE_DEF.SIZE_IN_BYTES);
@@ -104,11 +110,26 @@ public class LandTile
   return buf;
  }
 
+ public double getLon()
+ {
+  return center.getLon();
+ }
  
+ public double getLat()
+ {
+  return center.getLat();
+ }
+ 
+ public MapPoint getCenter()
+ {
+  return center;
+ }
+
+
  /*
     todo: interpolate data by year in accessors
   */
- 
+
  public float getElevation()
  {
   return elevation;
