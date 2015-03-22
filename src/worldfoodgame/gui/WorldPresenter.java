@@ -179,9 +179,6 @@ public class WorldPresenter extends Observable
           activeRegions.clear();
           activeRegions.add(guir);
         }
-        //todo for testing:
-        System.out.println("selected region:");
-        System.out.println(activeRegions.getActiveCountries().get(0).getName());
         return; //for early loop termination.
       }
     }
@@ -430,9 +427,6 @@ public class WorldPresenter extends Observable
 
     private HashMap<String, List<GUIRegion>> makeLookup(Collection<GUIRegion> modelRegions)
     {
-
-      System.out.println("len of modle regions: " + modelRegions);
-
       HashMap<String, List<GUIRegion>> countryLookup = new HashMap<>();
 
       for (GUIRegion guiRegion : modelRegions)

@@ -7,8 +7,8 @@ import worldfoodgame.gui.MapPane;
 import worldfoodgame.gui.WorldPresenter;
 import worldfoodgame.gui.displayconverters.EquirectangularConverter;
 import worldfoodgame.gui.displayconverters.MapConverter;
-import worldfoodgame.gui.hud.InfoPanelDep;
 import worldfoodgame.gui.hud.WorldFeedPanel;
+import worldfoodgame.gui.hud.infopanel.InfoPanel;
 import worldfoodgame.model.Country;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
@@ -33,7 +33,8 @@ public class Game
   public static final String MODEL_DATA_PATH = "resources/ne_10m_admin_1_states_provinces.kml";
   public static final String BG_DATA_PATH = "resources/ne_110m_land.kml";
   private MapPane mapPane;
-  private InfoPanelDep infoPanelDep;
+//  private InfoPanelDep infoPanelDep;
+  private InfoPanel infoPanel;
   private WorldPresenter worldPresenter;
   private WorldFeedPanel worldFeedPanel;
   private Timer worldTime;
@@ -80,8 +81,11 @@ public class Game
     mapPane = new MapPane(cam, worldPresenter);
     mapPane.setGrid(converter.getLatLonGrid());
 
-    infoPanelDep = new InfoPanelDep();
-    infoPanelDep.setPresenter(worldPresenter);
+//    infoPanelDep = new InfoPanelDep();
+//    infoPanelDep.setPresenter(worldPresenter);
+
+    infoPanel = new InfoPanel(worldPresenter);
+
 
     worldFeedPanel = new WorldFeedPanel(worldPresenter);
     worldPresenter.addObserver(worldFeedPanel);
@@ -147,7 +151,7 @@ public class Game
       {
         mapPane.repaint();   // for graphics
         mapPane.update();    // for controls
-        infoPanelDep.repaint(); // again for graphics.
+        infoPanel.repaint(); // again for graphics.
       }
     });
 
@@ -207,9 +211,9 @@ public class Game
     frame = new JFrame();
     frame.setLayout(new BorderLayout());
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.add(worldFeedPanel, BorderLayout.NORTH);
+//    frame.add(worldFeedPanel, BorderLayout.NORTH); this was causing the mapPane to jump.
     frame.add(mapPane, BorderLayout.CENTER);
-    frame.add(infoPanelDep, BorderLayout.SOUTH);
+    frame.add(infoPanel, BorderLayout.SOUTH);
     frame.addKeyListener(mapPane);
     frame.pack();
     frame.setResizable(false);
