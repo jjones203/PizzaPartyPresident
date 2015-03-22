@@ -156,9 +156,9 @@ public class LabelFactory
   {
     final GraphLabel foodControll = new GraphLabel(
       type.toString() + " land",
-      dataHandler.land.get(type),
-      dataHandler.getCultivatedLand(),
-      "##E00 km sq",
+      dataHandler.land.get(type) / dataHandler.arableOpen,
+      1,
+      "% #.#",
       null);
 
     foodControll.setEffectRunnable(new Runnable()
@@ -166,7 +166,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        dataHandler.land.put(type, foodControll.getValue());
+        dataHandler.land.put(type, foodControll.getValue() * dataHandler.arableOpen);
         updateLabels();
       }
     });
@@ -177,7 +177,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        foodControll.setValue(dataHandler.land.get(type));
+        foodControll.setValue(dataHandler.land.get(type) / dataHandler.arableOpen);
       }
     });
 

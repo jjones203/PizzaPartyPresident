@@ -29,6 +29,7 @@ public class CountryDataHandler extends Observable
          HashMap<EnumCropType,Double> imports = new HashMap<>();
          HashMap<EnumCropType,Double> exports = new HashMap<>();
          HashMap<EnumCropType,Double> land = new HashMap<>();
+         HashMap<EnumCropType,Double> need = new HashMap<>();
 
   private CountryDataHandler()
   {
@@ -87,7 +88,7 @@ public class CountryDataHandler extends Observable
     dataHandler.land.put(EnumCropType.OTHER_CROPS, 72871130.0);
 
     dataHandler.landTotal = 2.001123413E8;
-    dataHandler.arableOpen = 1652018;
+    dataHandler.arableOpen = 2.001123413E8 * 4.0/5.0;
 
 
     return  dataHandler;
@@ -113,6 +114,7 @@ public class CountryDataHandler extends Observable
   private static CountryDataHandler extractData(Country country, int year)
   {
     CountryDataHandler dataHandler = new CountryDataHandler();
+    dataHandler.name = country.getName();
     dataHandler.landTotal = country.getLandTotal(year);
     dataHandler.population = country.getPopulation(year);
     dataHandler.medianAge = country.getMedianAge(year);
@@ -120,6 +122,16 @@ public class CountryDataHandler extends Observable
     dataHandler.mortalityRate = country.getMortalityRate(year);
     dataHandler.migrationRate = country.getMigrationRate(year);
     dataHandler.undernourished = country.getUndernourished(year);
+    dataHandler.arableOpen = country.getArableLand(year);
+
+    for (EnumCropType type : EnumCropType.values())
+    {
+      dataHandler.land.put(type, country.getCropLand(year, type));
+      dataHandler.imports.put(type, country.getCropImport(year, type));
+      dataHandler.exports.put(type, country.getCropExport(year, type));
+      dataHandler.production.put(type, country.getCropProduction(year, type));
+      dataHandler.need.put(type, country.getCropNeedPerCapita(year, type));
+    }
 
     return dataHandler;
   }
