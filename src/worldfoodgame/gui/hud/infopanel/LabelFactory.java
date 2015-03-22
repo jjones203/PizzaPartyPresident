@@ -36,7 +36,7 @@ public class LabelFactory
       "Population",
       dataHandler.population,
       dataHandler.population,
-      "##");
+      "#");
 
     updates.add(new Runnable()
     {
