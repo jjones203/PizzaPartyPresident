@@ -1,12 +1,11 @@
 package worldfoodgame.gui.hud.infopanel;
 
+import worldfoodgame.IO.CountryCSVLoader;
+import worldfoodgame.IO.XMLparsers.CountryXMLparser;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.model.Country;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
 
 /**
  * Created by winston on 3/13/15.
@@ -114,6 +113,9 @@ public class CountryDataHandler extends Observable
   private static CountryDataHandler extractData(Country country, int year)
   {
     CountryDataHandler dataHandler = new CountryDataHandler();
+    dataHandler.derivedFrom = new ArrayList<>();
+    dataHandler.derivedFrom.add(country);
+
     dataHandler.name = country.getName();
     dataHandler.landTotal = country.getLandTotal(year);
     dataHandler.population = country.getPopulation(year);
@@ -136,9 +138,46 @@ public class CountryDataHandler extends Observable
     return dataHandler;
   }
 
+
   private static CountryDataHandler summationData(List<Country> activeCountries, int year)
   {
     System.err.println("summationData is not implemented yet!");
     return extractData(activeCountries.get(0), year);
+  }
+
+  @Override
+  public String toString()
+  {
+    return "CountryDataHandler{" +
+      "arableOpen=" + arableOpen +
+      ", derivedFrom=" + derivedFrom +
+      ", name='" + name + '\'' +
+      ", population=" + population +
+      ", medianAge=" + medianAge +
+      ", birthRate=" + birthRate +
+      ", mortalityRate=" + mortalityRate +
+      ", migrationRate=" + migrationRate +
+      ", undernourished=" + undernourished +
+      ", landTotal=" + landTotal +
+      ", production=" + production +
+      ", imports=" + imports +
+      ", exports=" + exports +
+      ", land=" + land +
+      ", need=" + need +
+      '}';
+  }
+
+  // for testing.
+  public static void main(String[] args)
+  {
+    Collection<Country> countries = new CountryXMLparser().getCountries();
+    CountryCSVLoader csvLoader = new CountryCSVLoader(countries);
+    countries = csvLoader.getCountriesFromCSV();
+
+    for (Country country : countries)
+    {
+      System.out.println(extractData(country, 2014));
+    }
+
   }
 }
