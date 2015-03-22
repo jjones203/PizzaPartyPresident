@@ -45,7 +45,22 @@ public class GraphLabel extends JPanel
    */
   public GraphLabel(String label, double value, double limit, String formatPattern)
   {
-    this(label, value, limit, limit/10.0, Color.red, false, formatPattern);
+    this(label, value, limit, limit/10.0, Color.red, false, new DecimalFormat(formatPattern));
+  }
+
+
+  /**
+   * Create a new Graph Label object. Used to display country data and control
+   * interface for user.
+   *
+   * @param label string to be printed above the bar graph.
+   * @param value value to be draw as a bar.
+   * @param limit represents what a full bar would be. (used to scale the bar)
+   * @param decimalFormat Formatter that determines how the label is printed.
+   */
+  public GraphLabel(String label, double value, double limit, DecimalFormat decimalFormat)
+  {
+    this(label, value, limit, limit/10.0, Color.red, false, decimalFormat);
   }
 
 
@@ -63,7 +78,7 @@ public class GraphLabel extends JPanel
   public GraphLabel(String label, double value,
                     double limit, String formatPattern, Runnable runnable)
   {
-    this(label, value, limit, limit/100.0, Color.red, true, formatPattern);
+    this(label, value, limit, limit/100.0, Color.red, true, new DecimalFormat(formatPattern));
     this.effectRunnable = runnable;
   }
 
@@ -71,11 +86,11 @@ public class GraphLabel extends JPanel
 
   private GraphLabel(String label, double value,
                     double limit, double step,
-                    Color barColor, boolean isController, String formatPattern)
+                    Color barColor, boolean isController, DecimalFormat formatter)
   {
     this.value = value;
     this.barColor = barColor;
-    this.formatter = new DecimalFormat(formatPattern);
+    this.formatter = formatter;
     this.valueLabel = new JLabel();
     this.LIMIT = limit;
     this.STEP = step;
@@ -97,35 +112,36 @@ public class GraphLabel extends JPanel
     add(getBar(), BorderLayout.CENTER);
   }
 
-  // FOR TESTING ONLY
-  public static void main(String[] args)
-  {
-    GraphLabel graphLabel = new GraphLabel("Population", 10.0, 100, .2, Color.red, true, "##,#000 tons");
-
-    final JFrame jFrame = new JFrame();
-    jFrame.setLayout(new BoxLayout(jFrame.getContentPane(), BoxLayout.Y_AXIS));
-
-    double dtest = 20;
-
-
-    jFrame.add(graphLabel);
-    jFrame.add(new GraphLabel("corn", dtest, 1, 0.01, Color.red, false, "00"));
-    jFrame.add(new GraphLabel("cornz", .20, 1, 0.01, Color.red, false, "00"));
-    jFrame.add(new GraphLabel("cornz", dtest, 1, 0.01, Color.red, true, "00"));
-
-    jFrame.pack();
-    jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    jFrame.setVisible(true);
-
-    new Timer(10, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        jFrame.repaint();
-      }
-    }).start();
-  }
+//  // FOR TESTING ONLY
+  // todo remove:
+//  public static void main(String[] args)
+//  {
+//    GraphLabel graphLabel = new GraphLabel("Population", 10.0, 100, .2, Color.red, true, "##,#000 tons");
+//
+//    final JFrame jFrame = new JFrame();
+//    jFrame.setLayout(new BoxLayout(jFrame.getContentPane(), BoxLayout.Y_AXIS));
+//
+//    double dtest = 20;
+//
+//
+//    jFrame.add(graphLabel);
+//    jFrame.add(new GraphLabel("corn", dtest, 1, 0.01, Color.red, false, "00"));
+//    jFrame.add(new GraphLabel("cornz", .20, 1, 0.01, Color.red, false, "00"));
+//    jFrame.add(new GraphLabel("cornz", dtest, 1, 0.01, Color.red, true, "00"));
+//
+//    jFrame.pack();
+//    jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//    jFrame.setVisible(true);
+//
+//    new Timer(10, new AbstractAction()
+//    {
+//      @Override
+//      public void actionPerformed(ActionEvent e)
+//      {
+//        jFrame.repaint();
+//      }
+//    }).start();
+//  }
 
   public double getValue()
   {
@@ -163,7 +179,6 @@ public class GraphLabel extends JPanel
     control.setFont(labelTypeFace);
     control.addMouseListener(new MouseAdapter()
     {
-      // todo move this into class members, this looks sloppy.
       final double epsilon = 0.001;
       final Timer timer = new Timer(10, new AbstractAction()
       {
