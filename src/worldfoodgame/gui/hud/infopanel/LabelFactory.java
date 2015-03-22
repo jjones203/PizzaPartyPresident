@@ -36,7 +36,7 @@ public class LabelFactory
       "Population",
       dataHandler.population,
       dataHandler.population,
-      "#");
+      "###E00");
 
     updates.add(new Runnable()
     {
@@ -158,7 +158,7 @@ public class LabelFactory
       type.toString() + " land",
       dataHandler.land.get(type),
       dataHandler.getCultivatedLand(),
-      "#.## km sq",
+      "##E00 km sq",
       null);
 
     foodControll.setEffectRunnable(new Runnable()
