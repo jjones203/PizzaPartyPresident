@@ -39,7 +39,9 @@ public class DemographicPanel extends JPanel
   // factory to the correct data.
   public void redraw()
   {
+    this.removeAll();
     this.add(getDemoPanel());
+    this.validate();
   }
 
   private JPanel getDemoPanel()

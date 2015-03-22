@@ -44,6 +44,7 @@ public class LandPanel extends JPanel
     this.removeAll();
     this.add(getOverViewPanel());
     this.add(getCropView());
+    this.validate();
   }
 
   private JPanel getCropView()

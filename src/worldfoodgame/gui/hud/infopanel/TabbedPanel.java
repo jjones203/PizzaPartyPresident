@@ -50,7 +50,7 @@ public class TabbedPanel extends JPanel
 
     //config
     fontSize = 14;        // default values
-    vPadding = 3;
+    vPadding = 0;
     hPadding = 7;
 
     setLayout(new BorderLayout());

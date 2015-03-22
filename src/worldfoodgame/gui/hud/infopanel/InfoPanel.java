@@ -6,6 +6,7 @@ import worldfoodgame.gui.hud.MiniViewBox;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,9 +16,14 @@ import java.util.Observer;
  */
 public class InfoPanel extends JPanel implements Observer
 {
+  public static final Dimension VIEW_BOX_DIM = new Dimension(220, 240);
+  public static final Dimension TABP_DIM = new Dimension(620, 240);
+
+
   private final WorldPresenter worldPresenter;
   private CountryDataHandler dataHandler;
-  private final static Dimension SIZE = new Dimension(1, 224);
+  private LabelFactory labelFactory;
+//  private final static Dimension SIZE = new Dimension(1, 224);
   private TabbedPanel OuterTabbedPanel;
   private DemographicPanel demographicPanel;
   private LandPanel landPanel;
@@ -29,18 +35,21 @@ public class InfoPanel extends JPanel implements Observer
 
   public InfoPanel(WorldPresenter worldPresenter)
   {
-    // todo, add getNullData() as a way to init these components
+
     this.dataHandler = CountryDataHandler.getTestData();
     this.worldPresenter = worldPresenter;
+    this.labelFactory = new LabelFactory(dataHandler);
 //    worldPresenter.addObserver(this); // disabled for testing only.
 
-    // init
-    LabelFactory labelFactory = new LabelFactory(dataHandler);
-    viewBox = new MiniViewBox("");
-    add(viewBox);
+
+    setLayout(new BorderLayout());
+    viewBox = new MiniViewBox("MAP view:");
+    viewBox.setPreferredSize(VIEW_BOX_DIM);
+    add(viewBox, BorderLayout.WEST);
 
     OuterTabbedPanel = new TabbedPanel();
-    add(OuterTabbedPanel);
+    OuterTabbedPanel.setPreferredSize(TABP_DIM);
+    add(OuterTabbedPanel, BorderLayout.CENTER);
 
     demographicPanel = new DemographicPanel(labelFactory);
     OuterTabbedPanel.addTab("demographic", demographicPanel);
@@ -49,6 +58,7 @@ public class InfoPanel extends JPanel implements Observer
     OuterTabbedPanel.addTab("land", landPanel);
 
     innerTabbedPanel = new TabbedPanel();
+    innerTabbedPanel.fontSize = 12f;
     cropPanels = new HashMap<>();
     for (EnumCropType type : EnumCropType.values())
     {
@@ -57,7 +67,6 @@ public class InfoPanel extends JPanel implements Observer
     }
 
     OuterTabbedPanel.addTab("crops", innerTabbedPanel);
-
   }
 
   @Override
@@ -66,9 +75,13 @@ public class InfoPanel extends JPanel implements Observer
     // this would change to convets an active list of countries
     // taken from the wordpresenter into a country data object
     // todo find a way to issure read and write commands from the GUI....
-    dataHandler = CountryDataHandler.getTestData();
+    dataHandler = CountryDataHandler.getData(
+      worldPresenter.getActiveCountries(),
+      worldPresenter.getYear());
 
-    LabelFactory labelFactory = new LabelFactory(dataHandler);
+//    dataHandler = CountryDataHandler.getTestData();
+    labelFactory = new LabelFactory(dataHandler);
+
     landPanel.setLabelFactory(labelFactory);
     landPanel.redraw();
 
@@ -86,13 +99,34 @@ public class InfoPanel extends JPanel implements Observer
 
   public static void main(String[] args)
   {
-    JFrame frame = new JFrame();
-    InfoPanel infoPanel = new InfoPanel(null);
+    final JFrame frame = new JFrame();
+    final InfoPanel infoPanel = new InfoPanel(null);
     frame.add(infoPanel);
 
     frame.pack();
     frame.setVisible(true);
+    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+
+    new Timer(10, new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        frame.repaint();
+      }
+    }).start();
+
+
+    new Timer(4000, new AbstractAction()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        infoPanel.update(null, null);
+        System.out.println("just updated!");
+      }
+    }).start();
 
   }
 

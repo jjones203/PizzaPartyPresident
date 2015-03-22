@@ -82,7 +82,7 @@ public class WorldPresenter extends Observable
    *
    * @return collection of currently selected countries.
    */
-  public Collection<Country> getActiveCountries()
+  public List<Country> getActiveCountries()
   {
     return activeRegions.getActiveCountries();
   }
@@ -373,6 +373,11 @@ public class WorldPresenter extends Observable
     return world.getCurrentDate().getTime();
   }
 
+  public int getYear()
+  {
+    return world.getYear();
+  }
+
   /**
    * Private class  that manages and the active/passive state of the region.
    * also deals the marking changes
@@ -396,7 +401,7 @@ public class WorldPresenter extends Observable
      * the info-panel to update it display information.
      * @return collection of currently selected countries.
      */
-    public Collection<Country> getActiveCountries()
+    public List<Country> getActiveCountries()
     {
       Collection<Country> coutries = new HashSet<>();
 
@@ -404,7 +409,8 @@ public class WorldPresenter extends Observable
       {
         coutries.add(guiRegion.getRegion().getCountry());
       }
-      return coutries;
+
+      return new ArrayList<>(coutries);
     }
 
     /**

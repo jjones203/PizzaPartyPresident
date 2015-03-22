@@ -46,6 +46,7 @@ public class CropPanel extends JPanel
     add(getIconPanel());
     add(getOverViewPanel());
     add(getControllPanel());
+    this.validate();
   }
 
   private JPanel getIconPanel()
