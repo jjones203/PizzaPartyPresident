@@ -125,7 +125,7 @@ public class LabelFactory
   public GraphLabel getArableLand()
   {
     return new GraphLabel(
-      "Total Land",
+      "Arable Land",
       dataHandler.arableOpen,
       dataHandler.arableOpen,
       "# sq km");
@@ -187,7 +187,7 @@ public class LabelFactory
   public GraphLabel getOpenLandLabel()
   {
     final GraphLabel openLandLabel = new GraphLabel(
-      "Arable Land",
+      "Open Land",
       dataHandler.getOpenLand(),
       dataHandler.getCultivatedLand(),
       "#,###,### km sq");

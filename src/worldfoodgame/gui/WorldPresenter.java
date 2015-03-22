@@ -179,6 +179,9 @@ public class WorldPresenter extends Observable
           activeRegions.clear();
           activeRegions.add(guir);
         }
+        //todo for testing:
+        System.out.println("selected region:");
+        System.out.println(activeRegions.getActiveCountries().get(0).getName());
         return; //for early loop termination.
       }
     }
