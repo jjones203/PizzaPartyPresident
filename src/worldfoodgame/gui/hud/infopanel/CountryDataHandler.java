@@ -100,7 +100,7 @@ public class CountryDataHandler extends Observable
 
   public double getOpenLand()
   {
-    return landTotal - getCultivatedLand();
+    return arableOpen - getCultivatedLand();
   }
 
 

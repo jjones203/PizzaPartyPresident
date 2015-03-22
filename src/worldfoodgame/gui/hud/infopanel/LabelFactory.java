@@ -119,7 +119,7 @@ public class LabelFactory
       "Total Land",
       dataHandler.landTotal,
       dataHandler.landTotal,
-      "# sq km");
+      "#,###,### km sq");
   }
 
   public GraphLabel getArableLand()
@@ -128,7 +128,7 @@ public class LabelFactory
       "Arable Land",
       dataHandler.arableOpen,
       dataHandler.arableOpen,
-      "# sq km");
+      "#,###,### km sq");
   }
 
   public GraphLabel getProductionLabel(final EnumCropType type)
@@ -189,7 +189,7 @@ public class LabelFactory
     final GraphLabel openLandLabel = new GraphLabel(
       "Open Land",
       dataHandler.getOpenLand(),
-      dataHandler.getCultivatedLand(),
+      dataHandler.arableOpen,
       "#,###,### km sq");
 
     updates.add(new Runnable()
