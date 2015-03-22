@@ -172,6 +172,10 @@ public class MapPane extends JPanel
     Graphics2D g2 = (Graphics2D) g;
     g2.setTransform(cam.getTransform());
 
+    Collection<GUIRegion> backgroundRegions = presenter.getBackgroundRegionsInView(cam);
+
+    for (GUIRegion region : backgroundRegions) region.draw(g2);
+
     Collection<GUIRegion> regionsToDraw = presenter.getRegionsInView(cam);
 
     g2.setColor(ColorsAndFonts.MAP_GRID);

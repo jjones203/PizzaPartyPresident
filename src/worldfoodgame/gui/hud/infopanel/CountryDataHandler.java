@@ -1,8 +1,11 @@
 package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.common.EnumCropType;
+import worldfoodgame.model.Country;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -13,7 +16,10 @@ import java.util.Observable;
  */
 public class CountryDataHandler extends Observable
 {
+  private Collection<Country> derivedFrom;
+
   String name;
+
   public double
     population, medianAge, birthRate,
     mortalityRate, migrationRate, undernourished,
@@ -41,7 +47,7 @@ public class CountryDataHandler extends Observable
     return sum;
   }
 
-
+  // todo add write method, that takes the values in the data handler and writes them to the country.
 
 
     public static CountryDataHandler getTestData()
@@ -98,4 +104,29 @@ public class CountryDataHandler extends Observable
   }
 
 
+  public static CountryDataHandler getData(List<Country> activeCountries, int year)
+  {
+    if (activeCountries.size() == 1) return extractData(activeCountries.get(0), year);
+    else return summationData(activeCountries,year);
+  }
+
+  private static CountryDataHandler extractData(Country country, int year)
+  {
+    CountryDataHandler dataHandler = new CountryDataHandler();
+    dataHandler.landTotal = country.getLandTotal(year);
+    dataHandler.population = country.getPopulation(year);
+    dataHandler.medianAge = country.getMedianAge(year);
+    dataHandler.birthRate = country.getBirthRate(year);
+    dataHandler.mortalityRate = country.getMortalityRate(year);
+    dataHandler.migrationRate = country.getMigrationRate(year);
+    dataHandler.undernourished = country.getUndernourished(year);
+
+    return dataHandler;
+  }
+
+  private static CountryDataHandler summationData(List<Country> activeCountries, int year)
+  {
+    System.err.println("summationData is not implemented yet!");
+    return extractData(activeCountries.get(0), year);
+  }
 }

@@ -36,7 +36,7 @@ public class LabelFactory
       "Population",
       dataHandler.population,
       dataHandler.population,
-      "##");
+      "###E00");
 
     updates.add(new Runnable()
     {
@@ -125,7 +125,7 @@ public class LabelFactory
   public GraphLabel getArableLand()
   {
     return new GraphLabel(
-      "Total Land",
+      "Arable Land",
       dataHandler.arableOpen,
       dataHandler.arableOpen,
       "# sq km");
@@ -158,7 +158,7 @@ public class LabelFactory
       type.toString() + " land",
       dataHandler.land.get(type),
       dataHandler.getCultivatedLand(),
-      "#.## km sq",
+      "##E00 km sq",
       null);
 
     foodControll.setEffectRunnable(new Runnable()
@@ -187,7 +187,7 @@ public class LabelFactory
   public GraphLabel getOpenLandLabel()
   {
     final GraphLabel openLandLabel = new GraphLabel(
-      "Arable Land",
+      "Open Land",
       dataHandler.getOpenLand(),
       dataHandler.getCultivatedLand(),
       "#,###,### km sq");

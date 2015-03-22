@@ -21,7 +21,27 @@ public class DemographicPanel extends JPanel
     this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     this.setLayout(new GridLayout(0, 3));
 
+
+    redraw();
+  }
+
+  public LabelFactory getLabelFactory()
+  {
+    return labelFactory;
+  }
+
+  public void setLabelFactory(LabelFactory labelFactory)
+  {
+    this.labelFactory = labelFactory;
+  }
+
+  // this is meant to be called to update the panel, after resetting the label
+  // factory to the correct data.
+  public void redraw()
+  {
+    this.removeAll();
     this.add(getDemoPanel());
+    this.validate();
   }
 
   private JPanel getDemoPanel()

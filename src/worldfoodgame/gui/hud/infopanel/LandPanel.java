@@ -5,8 +5,6 @@ import worldfoodgame.gui.ColorsAndFonts;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by winston on 3/17/15.
@@ -14,23 +12,39 @@ import java.util.Observer;
  * GUi info panel component. Intended to show an overview all land management
  * information to the user, also allow for user to change attributes.
  */
-public class LandPanel extends JPanel implements Observer
+public class LandPanel extends JPanel
 {
   private CountryDataHandler dataHandler;
+
+  public LabelFactory getLabelFactory()
+  {
+    return labelFactory;
+  }
+
+  public void setLabelFactory(LabelFactory labelFactory)
+  {
+    this.labelFactory = labelFactory;
+  }
+
   private LabelFactory labelFactory;
 
 
-  public LandPanel(CountryDataHandler dataHandler, LabelFactory labelFactory)
+  public LandPanel(LabelFactory labelFactory)
   {
-    this.dataHandler = dataHandler;
     this.labelFactory = labelFactory;
 
     //config
     this.setLayout(new GridLayout(0, 3));
     this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    redraw();
+  }
+
+  public void redraw()
+  {
+    this.removeAll();
     this.add(getOverViewPanel());
     this.add(getCropView());
-
+    this.validate();
   }
 
   private JPanel getCropView()
@@ -60,9 +74,4 @@ public class LandPanel extends JPanel implements Observer
     return overView;
   }
 
-  @Override
-  public void update(Observable o, Object arg)
-  {
-    // todo add update value to here.
-  }
 }

@@ -21,4 +21,9 @@ public interface Region
   public RegionAttributes getAttributes();
 
   public void setAttributes(RegionAttributes attributes);
+
+  void setCountry(Country country);
+
+  Country getCountry();
+
 }

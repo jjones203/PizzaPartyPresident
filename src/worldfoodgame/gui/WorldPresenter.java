@@ -3,6 +3,7 @@ package worldfoodgame.gui;
 import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.regionlooks.RegionView;
 import worldfoodgame.gui.regionlooks.RegionViewFactory;
+import worldfoodgame.model.Country;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
 
@@ -26,6 +27,8 @@ public class WorldPresenter extends Observable
   private CAM_DISTANCE lastDistance;
   private MapConverter mpConverter;
   private Collection<GUIRegion> modelRegions;
+  private Collection<Country> countries;
+
   private Collection<GUIRegion> backgroundRegions;
   private ActiveRegionList activeRegions;
   private World world;
@@ -46,10 +49,16 @@ public class WorldPresenter extends Observable
     this.backgroundRegions = new ArrayList<>();
     this.mpConverter = mpConverter;
     this.regionViewFactory = new RegionViewFactory();
-    this.activeRegions = new ActiveRegionList();
     this.lastDistance = CAM_DISTANCE.LONG;
     this.world = world;
     this.activelyDraging = false;
+
+    setModelRegions(world.getWorldRegions());
+    countries = world.getCountries();
+
+    // this must be constructed last..
+    // it depends on the setModelRegions being called
+    this.activeRegions = new ActiveRegionList();
   }
 
   /**
@@ -63,6 +72,19 @@ public class WorldPresenter extends Observable
   {
     RegionView background = regionViewFactory.getBackgroundMapView();
     backgroundRegions = wrapRegions(regions, background);
+  }
+
+  /**
+   * Gives the caller all the countries currently selected. This method is used by
+   * the info-panel to update it display information.
+   *
+   * this delegates to the private inner class ActiveRegionList.
+   *
+   * @return collection of currently selected countries.
+   */
+  public List<Country> getActiveCountries()
+  {
+    return activeRegions.getActiveCountries();
   }
 
   public boolean isActivelyDragging()
@@ -85,7 +107,7 @@ public class WorldPresenter extends Observable
    * @param regions set of regions that constitute the worldfoodgame.model and logical
    *                entities of the game.
    */
-  public void setModelRegions(Collection<Region> regions)
+  private void setModelRegions(Collection<Region> regions)
   {
     RegionView backG = regionViewFactory.getViewFromDistance(CAM_DISTANCE.LONG);
     modelRegions = wrapRegions(regions, backG);
@@ -157,6 +179,9 @@ public class WorldPresenter extends Observable
           activeRegions.clear();
           activeRegions.add(guir);
         }
+        //todo for testing:
+        System.out.println("selected region:");
+        System.out.println(activeRegions.getActiveCountries().get(0).getName());
         return; //for early loop termination.
       }
     }
@@ -194,6 +219,19 @@ public class WorldPresenter extends Observable
     }
   }
 
+
+  /**
+   * Method to only get the background regions
+   *
+   * @param camera
+   * @return
+   */
+  public Collection<GUIRegion> getBackgroundRegionsInView(Camera camera)
+  {
+    return getIntersectingRegions(camera.getViewBounds(), backgroundRegions);
+  }
+
+
   /**
    * Given a Camera, this method returns all the GUI regions 'in view',
    * and adjusts the look to the appropriate level of detail.
@@ -224,7 +262,7 @@ public class WorldPresenter extends Observable
         break;
 
       case LONG:
-        regionsInView = getIntersectingRegions(inViewBox, backgroundRegions);
+        regionsInView = getIntersectingRegions(inViewBox, modelRegions);
         break;
 
       default:
@@ -236,6 +274,7 @@ public class WorldPresenter extends Observable
     setRegionLook(regionView, regionsInView);
     return regionsInView;
   }
+
 
   /**
    * Set the look of any Region View over lay.
@@ -337,17 +376,76 @@ public class WorldPresenter extends Observable
     return world.getCurrentDate().getTime();
   }
 
+  public int getYear()
+  {
+    return world.getYear();
+  }
+
   /**
    * Private class  that manages and the active/passive state of the region.
    * also deals the marking changes
+   *
+   * todo make move this into its own class so that the info panel can access it directly
    */
   private class ActiveRegionList
   {
     private List<GUIRegion> activeRegions;
+    private HashMap<String, List<GUIRegion>> countryLookup;
+
 
     public ActiveRegionList()
     {
       activeRegions = new ArrayList<>();
+      countryLookup = makeLookup(modelRegions);
+    }
+
+    /**
+     * Gives the caller all the countries currently selected. This method is used by
+     * the info-panel to update it display information.
+     * @return collection of currently selected countries.
+     */
+    public List<Country> getActiveCountries()
+    {
+      Collection<Country> coutries = new HashSet<>();
+
+      for (GUIRegion guiRegion : activeRegions)
+      {
+        coutries.add(guiRegion.getRegion().getCountry());
+      }
+
+      return new ArrayList<>(coutries);
+    }
+
+    /**
+     * Given a specified guiRegion, returns all of its associated guiRegions.
+     * this is used to support country selection.
+     * @param guiRegion
+     * @return
+     */
+    private Collection<GUIRegion> getAssociated(GUIRegion guiRegion)
+    {
+      return countryLookup.get(guiRegion.getName());
+    }
+
+
+    private HashMap<String, List<GUIRegion>> makeLookup(Collection<GUIRegion> modelRegions)
+    {
+
+      System.out.println("len of modle regions: " + modelRegions);
+
+      HashMap<String, List<GUIRegion>> countryLookup = new HashMap<>();
+
+      for (GUIRegion guiRegion : modelRegions)
+      {
+        String name = guiRegion.getRegion().getCountry().getName();
+        if (!countryLookup.containsKey(name))
+        {
+          countryLookup.put(name, new ArrayList<GUIRegion>());
+        }
+        countryLookup.get(name).add(guiRegion);
+      }
+
+      return countryLookup;
     }
 
     /**
@@ -388,8 +486,12 @@ public class WorldPresenter extends Observable
     {
       if (contains(region)) return;
 
-      region.setActive(true);
-      activeRegions.add(region);
+
+      for (GUIRegion guiRegion : getAssociated(region))
+      {
+        guiRegion.setActive(true);
+        activeRegions.add(guiRegion);
+      }
 
       setChanged();
       notifyObservers();
@@ -409,13 +511,15 @@ public class WorldPresenter extends Observable
       int index = activeRegions.indexOf(region);
       if (index == -1) return null;
 
-      GUIRegion guir = activeRegions.remove(index);
-      guir.setActive(false);
+      for (GUIRegion guiRegion : getAssociated(region))
+      {
+        activeRegions.remove(guiRegion);
+        guiRegion.setActive(false);
+      }
 
       setChanged();
       notifyObservers();
-
-      return guir;
+      return region;
     }
 
     public boolean contains(GUIRegion region)

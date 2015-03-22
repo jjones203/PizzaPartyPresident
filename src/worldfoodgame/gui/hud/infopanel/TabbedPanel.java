@@ -1,8 +1,7 @@
-package worldfoodgame.gui.hud;
+package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
-import worldfoodgame.gui.hud.infopanel.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -51,7 +50,7 @@ public class TabbedPanel extends JPanel
 
     //config
     fontSize = 14;        // default values
-    vPadding = 3;
+    vPadding = 0;
     hPadding = 7;
 
     setLayout(new BorderLayout());
@@ -84,7 +83,7 @@ public class TabbedPanel extends JPanel
     LabelFactory labelFactory = new LabelFactory(dataHandler);
 
     tabbedPanel.addTab("demographic", new DemographicPanel(labelFactory));
-    tabbedPanel.addTab("land", new LandPanel(dataHandler, labelFactory));
+    tabbedPanel.addTab("land", new LandPanel(labelFactory));
 
 
 

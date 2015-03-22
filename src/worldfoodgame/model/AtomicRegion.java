@@ -12,10 +12,23 @@ import java.util.List;
  */
 public class AtomicRegion implements Region
 {
+  private Country country;
   private List<PlantingTile> landmass;
   private List<MapPoint> perimeter;
   private String name;
   private RegionAttributes attributes;
+
+  @Override
+  public Country getCountry()
+  {
+    return country;
+  }
+
+  @Override
+  public void setCountry(Country country)
+  {
+    this.country = country;
+  }
 
   @Override
   public RegionAttributes getAttributes()
@@ -60,7 +73,7 @@ public class AtomicRegion implements Region
   public String toString()
   {
     return "AtomicRegion{" +
-        "name='" + name + '\'' +
-        '}';
+      "name='" + name + '\'' +
+      '}';
   }
 }

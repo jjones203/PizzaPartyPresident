@@ -26,7 +26,7 @@ import static worldfoodgame.model.RegionAttributes.PLANTING_ATTRIBUTES;
  * in the map, and given feel back on what is selected.
  */
 @Deprecated
-public class InfoPanel extends JPanel implements Observer
+public class InfoPanelDep extends JPanel implements Observer
 {
   /* width = 1 allows panel to be resized intelligently upon container
      instantiation.  Height is important, however, to ensure the child components
@@ -39,7 +39,7 @@ public class InfoPanel extends JPanel implements Observer
   private WorldPresenter presenter;
 
 
-  public InfoPanel()
+  public InfoPanelDep()
   {
     // init
     miniViewBox = new MiniViewBox(" ");
@@ -96,7 +96,7 @@ public class InfoPanel extends JPanel implements Observer
   {
     if (presenter == null)
     {
-      throw new NullPointerException("World Presenter is null in InfoPanel!");
+      throw new NullPointerException("World Presenter is null in InfoPanelDep!");
     }
     return presenter;
   }

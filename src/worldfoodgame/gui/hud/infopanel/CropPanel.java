@@ -18,7 +18,6 @@ public class CropPanel extends JPanel
   private final EnumCropType type;
   private LabelFactory labelFactory;
 
-
   public CropPanel(LabelFactory labelFactory, EnumCropType type)
   {
     // init.
@@ -28,9 +27,26 @@ public class CropPanel extends JPanel
     //conf.
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
     setLayout(new GridLayout(0, 3));
+    redraw();
+  }
+
+  public LabelFactory getLabelFactory()
+  {
+    return labelFactory;
+  }
+
+  public void setLabelFactory(LabelFactory labelFactory)
+  {
+    this.labelFactory = labelFactory;
+  }
+
+  public void redraw()
+  {
+    removeAll();
     add(getIconPanel());
     add(getOverViewPanel());
     add(getControllPanel());
+    this.validate();
   }
 
   private JPanel getIconPanel()
