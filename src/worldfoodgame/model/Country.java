@@ -19,7 +19,7 @@ public class Country extends AbstractCountry
 {
   private int START_YEAR = AbstractScenario.START_YEAR;
   private List<Region> regions;
-
+  private MapPoint capitolLocation;
 
   public void addRegion(Region region)
   {
