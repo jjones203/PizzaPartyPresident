@@ -48,7 +48,7 @@ public class ProgessControllPanel extends JPanel
     add(getNumbericalLabel("Years Remaining", "20"));
     yearLabel = getNumbericalLabel("World Population", "8 billion");
     add(yearLabel);
-    add(getNumbericalLabel("Happiness %", "45.2"));
+    add(getNumbericalLabel("Happiness", "% 45.2"));
 
     this.add(controlls, BorderLayout.WEST);
   }
@@ -69,7 +69,7 @@ public class ProgessControllPanel extends JPanel
     jPanel.add(titleLabel, BorderLayout.NORTH);
 
     JLabel numbericalValue = new JLabel(formatedNum);
-    numbericalValue.setFont(ColorsAndFonts.GUI_FONT.deriveFont(20f));
+    numbericalValue.setFont(ColorsAndFonts.GUI_FONT.deriveFont(18f));
     numbericalValue.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     jPanel.add(numbericalValue, BorderLayout.CENTER);
 
