@@ -1,4 +1,3 @@
-import worldfoodgame.IO.AttributeGenerator;
 import worldfoodgame.IO.CountryCSVLoader;
 import worldfoodgame.IO.XMLparsers.CountryXMLparser;
 import worldfoodgame.IO.XMLparsers.KMLParser;
@@ -7,8 +6,8 @@ import worldfoodgame.gui.MapPane;
 import worldfoodgame.gui.WorldPresenter;
 import worldfoodgame.gui.displayconverters.EquirectangularConverter;
 import worldfoodgame.gui.displayconverters.MapConverter;
-import worldfoodgame.gui.hud.InfoPanelDep;
 import worldfoodgame.gui.hud.WorldFeedPanel;
+import worldfoodgame.gui.hud.infopanel.InfoPanel;
 import worldfoodgame.model.Country;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
@@ -19,7 +18,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Random;
 
 /**
  * Main entry point for the 'game'. Handles loading data and all configurations.
@@ -33,7 +31,8 @@ public class Game
   public static final String MODEL_DATA_PATH = "resources/ne_10m_admin_1_states_provinces.kml";
   public static final String BG_DATA_PATH = "resources/ne_110m_land.kml";
   private MapPane mapPane;
-  private InfoPanelDep infoPanelDep;
+//  private InfoPanelDep infoPanelDep;
+  private InfoPanel infoPanel;
   private WorldPresenter worldPresenter;
   private WorldFeedPanel worldFeedPanel;
   private Timer worldTime;
@@ -54,20 +53,16 @@ public class Game
    */
   private void init()
   {
-
-    Random random = new Random();
-    AttributeGenerator randoAtts = new AttributeGenerator();
-
-    Collection<Region> background = initBackgroundRegions(random, randoAtts);
-    Collection<Region> modelRegions = initModelRegions(random, randoAtts);
+    Collection<Region> background = KMLParser.getRegionsFromFile(BG_DATA_PATH);
+    Collection<Region> modelRegions = new CountryXMLparser().getRegionList();
 
     Collection<Country> noDataCountries = CountryXMLparser.RegionsToCountries(modelRegions);
+
     // add data from csv to noDataCountries
     CountryCSVLoader csvLoader = new CountryCSVLoader(noDataCountries);
     noDataCountries = csvLoader.getCountriesFromCSV();
-    // trying to tease out interaction between model and background regions
-//    List<Region> allRegions = new ArrayList<>(modelRegions);
-//    allRegions.addAll(background);
+
+
     World world = new World(modelRegions, noDataCountries, Calendar.getInstance());
     MapConverter converter = new EquirectangularConverter();
 
@@ -80,8 +75,11 @@ public class Game
     mapPane = new MapPane(cam, worldPresenter);
     mapPane.setGrid(converter.getLatLonGrid());
 
-    infoPanelDep = new InfoPanelDep();
-    infoPanelDep.setPresenter(worldPresenter);
+//    infoPanelDep = new InfoPanelDep();
+//    infoPanelDep.setPresenter(worldPresenter);
+
+    infoPanel = new InfoPanel(worldPresenter);
+
 
     worldFeedPanel = new WorldFeedPanel(worldPresenter);
     worldPresenter.addObserver(worldFeedPanel);
@@ -147,7 +145,7 @@ public class Game
       {
         mapPane.repaint();   // for graphics
         mapPane.update();    // for controls
-        infoPanelDep.repaint(); // again for graphics.
+        infoPanel.repaint(); // again for graphics.
       }
     });
 
@@ -207,46 +205,14 @@ public class Game
     frame = new JFrame();
     frame.setLayout(new BorderLayout());
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.add(worldFeedPanel, BorderLayout.NORTH);
+//    frame.add(worldFeedPanel, BorderLayout.NORTH); this was causing the mapPane to jump.
     frame.add(mapPane, BorderLayout.CENTER);
-    frame.add(infoPanelDep, BorderLayout.SOUTH);
+    frame.add(infoPanel, BorderLayout.SOUTH);
     frame.addKeyListener(mapPane);
     frame.pack();
     frame.setResizable(false);
   }
 
-  /**
-   * Loads all the worldfoodgame.model regions and sets their attributes according to the
-   * given attribute generator.
-   */
-  private Collection<Region> initModelRegions(Random random,
-                                              AttributeGenerator randoAtts)
-  {
-//    Collection<Region> modelMap = KMLParser.getRegionsFromFile(MODEL_DATA_PATH);
-    Collection<Region> modelMap = new CountryXMLparser().getRegionList();
-
-    // adds XML regions for area folder...
-    for (Region r : modelMap)
-    {
-      randoAtts.setRegionAttributes(r, random);
-    }
-    return modelMap;
-  }
-
-  /**
-   * Loads and inits attributes for all background regions.
-   */
-  private Collection<Region> initBackgroundRegions(Random random,
-                                                   AttributeGenerator randoAtts)
-  {
-    Collection<Region> BGRegions = KMLParser.getRegionsFromFile(BG_DATA_PATH);
-    for (Region r : BGRegions)
-    {
-      randoAtts.setRegionAttributes(r, random);
-    }
-
-    return BGRegions;
-  }
 
   //*******
   // MAIN *

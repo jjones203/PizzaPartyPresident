@@ -4,11 +4,12 @@ import worldfoodgame.model.MapPoint;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.RegionAttributes;
 
-import static worldfoodgame.model.RegionAttributes.*;
-import static worldfoodgame.model.RegionAttributes.PLANTING_ATTRIBUTES.*;
-
 import java.util.Collection;
 import java.util.Random;
+
+import static worldfoodgame.model.RegionAttributes.LIMITS;
+import static worldfoodgame.model.RegionAttributes.PLANTING_ATTRIBUTES;
+import static worldfoodgame.model.RegionAttributes.PLANTING_ATTRIBUTES.ANNUAL_RAINFALL;
 
 /**
  Created by winston on 1/26/15.
@@ -18,6 +19,7 @@ import java.util.Random;
  Class to generate random attribute sets.
  will only be used for testing...
  */
+@Deprecated
 public class AttributeGenerator
 {
 

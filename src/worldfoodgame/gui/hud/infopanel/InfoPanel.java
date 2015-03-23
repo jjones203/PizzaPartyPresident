@@ -1,15 +1,16 @@
 package worldfoodgame.gui.hud.infopanel;
 
+import worldfoodgame.common.AbstractScenario;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.WorldPresenter;
 import worldfoodgame.gui.hud.MiniViewBox;
+import worldfoodgame.model.Country;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 /**
  * Created by winston on 3/21/15.
@@ -39,11 +40,11 @@ public class InfoPanel extends JPanel implements Observer
     this.dataHandler = CountryDataHandler.getTestData();
     this.worldPresenter = worldPresenter;
     this.labelFactory = new LabelFactory(dataHandler);
-//    worldPresenter.addObserver(this); // disabled for testing only.
+    worldPresenter.addObserver(this);
 
 
     setLayout(new BorderLayout());
-    viewBox = new MiniViewBox("MAP view:");
+    viewBox = new MiniViewBox(" ");
     viewBox.setPreferredSize(VIEW_BOX_DIM);
     add(viewBox, BorderLayout.WEST);
 
@@ -75,11 +76,19 @@ public class InfoPanel extends JPanel implements Observer
     // this would change to convets an active list of countries
     // taken from the wordpresenter into a country data object
     // todo find a way to issure read and write commands from the GUI....
-    dataHandler = CountryDataHandler.getData(
-      worldPresenter.getActiveCountries(),
-      worldPresenter.getYear());
 
-//    dataHandler = CountryDataHandler.getTestData();
+    java.util.List<Country> countryList = worldPresenter.getActiveCountries();
+
+    if (countryList.size() == 0) return;
+
+    dataHandler = CountryDataHandler.getData(
+      countryList,
+      AbstractScenario.START_YEAR);
+
+
+    viewBox.setTitle(dataHandler.name);
+    viewBox.setDrawableRegions(worldPresenter.getActiveRegions());
+
     labelFactory = new LabelFactory(dataHandler);
 
     landPanel.setLabelFactory(labelFactory);

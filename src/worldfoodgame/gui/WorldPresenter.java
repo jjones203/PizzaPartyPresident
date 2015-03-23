@@ -427,9 +427,6 @@ public class WorldPresenter extends Observable
 
     private HashMap<String, List<GUIRegion>> makeLookup(Collection<GUIRegion> modelRegions)
     {
-
-      System.out.println("len of modle regions: " + modelRegions);
-
       HashMap<String, List<GUIRegion>> countryLookup = new HashMap<>();
 
       for (GUIRegion guiRegion : modelRegions)

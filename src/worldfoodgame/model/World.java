@@ -84,6 +84,7 @@ public class World
    * @param numOfDays number of days to travel in the future too.
    * @return true - the world was change, false otherwise.
    */
+  @Deprecated
   public boolean setByDays(int numOfDays)
   {
     int previousMonth = currentDate.get(Calendar.MONTH);

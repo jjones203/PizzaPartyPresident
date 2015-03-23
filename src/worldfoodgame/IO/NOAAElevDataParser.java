@@ -1,9 +1,12 @@
 package worldfoodgame.IO;
 
-import java.awt.geom.Point2D;
+import worldfoodgame.model.CropZoneData;
+import worldfoodgame.model.LandTile;
+
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
 import static worldfoodgame.IO.NOAAElevDataParser.INDICIES.*;
 /**
  @author david
@@ -59,18 +62,7 @@ public class NOAAElevDataParser
 {
   public enum INDICIES
   {
-    NAME(0), 
-    MINLAT(1), MAXLAT(2), 
-    MINLON(3), MAXLON(4), 
-    MINEL(5), MAXEL(6), 
-    COLS(7), ROWS(8);
-
-    final int id;
-    
-    INDICIES(int id)
-    {
-      this.id = id;
-    }
+    NAME, MINLAT, MAXLAT, MINLON, MAXLON, MINEL, MAXEL, COLS, ROWS
   }
 
   final String[][] fileDef = new String[][]
@@ -93,42 +85,48 @@ public class NOAAElevDataParser
       {"P10G", "-90", "-50", "90", "180", "1", "4363", "10800", "4800"}
     };
 
-  int sqSize;
   String root;
-  ArrayList<ElevPoint> allPoints = new ArrayList<>();
+  Map<LandTile, ElevPoint> map = new HashMap<>();
+  CropZoneData dataSet = CropZoneDataIO.parseFile("resources/data/tiledata");
 
   /**
    @param rootPath
    absolute path to location of NOAA files.  See class comment
-   @param outputCellSize
    */
-  public NOAAElevDataParser(String rootPath, int outputCellSize)
+  public NOAAElevDataParser(String rootPath)
   {
     root = rootPath;
-    sqSize = outputCellSize;
   }
 
   /*
     reads all the files in the first field of the fileDef array
    */
-  public List<ElevPoint> readAll()
+  public void readAll()
   {
     for (String listing[] : fileDef)
     {
-      allPoints.addAll(readFile(listing[NAME.ordinal()]));
+      readFile(listing[NAME.ordinal()]);
     }
-    return null;
   }
-
+  
+  public void writeData(String filename)
+  {
+    CropZoneDataIO.writeCropZoneData(dataSet, filename);
+  }
+  
+  public void writeData()
+  {
+    writeData("resources/data/tiledata");
+  }
+    
+    
   /*
     reads a single file from the NOAA data and returns the List of ElevPoints
     parsed from that file
    */
-  private List<ElevPoint> readFile(String filename)
+  private void readFile(String filename)
   {
-    
-    List<ElevPoint> pts = new ArrayList<>();
-    
+    LandTile tile;
 
     try(FileInputStream in = new FileInputStream(root + "/" + filename))
     {
@@ -153,7 +151,6 @@ public class NOAAElevDataParser
       int elev;
       double lat;
       double lon;
-      int index;
 
       for (int row = 0; row < rows; row++)
       {
@@ -170,9 +167,17 @@ public class NOAAElevDataParser
 
           lat = row * latStep + minLat;
           lon = col * lonStep + minLon;
-
-          pts.add(new ElevPoint(lon, lat, elev));
-          if(pts.size()%1000 == 0) System.out.println(pts.size());
+          
+          tile = dataSet.getTile(lon, lat);
+          if(null == tile) 
+          {
+            dataSet.hashCode();
+          }
+          if(!map.containsKey(tile))
+          {
+            map.put(tile, new ElevPoint());
+          }
+          map.get(tile).addDataPoint(elev);
         }
       }
     } 
@@ -181,7 +186,14 @@ public class NOAAElevDataParser
       e.printStackTrace();
       System.exit(-1);
     }
-    return pts;
+  }
+
+  private void setElevData()
+  {
+    for(LandTile t : map.keySet())
+    {
+      t.setElev((float) map.get(t).elev);
+    }
   }
 
   /*
@@ -198,49 +210,30 @@ public class NOAAElevDataParser
   }
 
   /*
-    temp class used for storing an elevation point
-    todo: implement points in terms of AbstractAltitudeData
+    temporary class used for storing an elevation point
    */
   static class ElevPoint
   {
-    public final double lon;
-    public final double lat;
-    public final double elev;
-
-    public ElevPoint(double lon, double lat, double elev)
-    {
-      this.lon = lon;
-      this.lat = lat;
-      this.elev = elev;
-    }
-
-    public ElevPoint(Point2D loc, double elev)
-    {
-      this(loc.getX(), loc.getY(), elev);
-    }
-
-
+    private int dataPoints = 0;
+    private double elev = 0;
     
-    public String toXMLString()
+    public void addDataPoint(double data)
     {
-      return String.format(
-        "<ElevationPoint lon=\"%.6f\" lat=\"%.6f\" elev=\"%f\"/>",
-        lon, lat, elev);
+     elev = (elev * dataPoints + data) / (++dataPoints);
     }
   }
 
   
   /*
-    testing
+    convert data to project specific raster format
    */
   public static void main(String[] args)
   {
     NOAAElevDataParser p =
-      new NOAAElevDataParser("/Users/david/cs351/Food_Project/all10",10);
+      new NOAAElevDataParser("/Users/david/cs351/Food_Project/all10");
     
-    p.allPoints.addAll(p.readFile(p.fileDef[0][0]));
-    
-    System.out.println(p.allPoints.size());
-    System.out.println(p.allPoints.get(0).toXMLString());
+    p.readAll();
+    p.setElevData();
+    p.writeData();
   }
 }

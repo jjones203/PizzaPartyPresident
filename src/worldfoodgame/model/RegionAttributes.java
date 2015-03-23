@@ -12,6 +12,7 @@ import java.util.Map;
  * Class representing all the different attributes and crops that can be
  * associated with a given region. Essentially a data class.
  */
+@Deprecated
 public class RegionAttributes
 {
 

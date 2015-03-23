@@ -119,16 +119,16 @@ public class LabelFactory
       "Total Land",
       dataHandler.landTotal,
       dataHandler.landTotal,
-      "# sq km");
+      "#,###,### km sq");
   }
 
   public GraphLabel getArableLand()
   {
     return new GraphLabel(
-      "Total Land",
+      "Arable Land",
       dataHandler.arableOpen,
       dataHandler.arableOpen,
-      "# sq km");
+      "#,###,### km sq");
   }
 
   public GraphLabel getProductionLabel(final EnumCropType type)
@@ -156,9 +156,9 @@ public class LabelFactory
   {
     final GraphLabel foodControll = new GraphLabel(
       type.toString() + " land",
-      dataHandler.land.get(type),
-      dataHandler.getCultivatedLand(),
-      "##E00 km sq",
+      dataHandler.land.get(type) / dataHandler.arableOpen,
+      1,
+      "% #.#",
       null);
 
     foodControll.setEffectRunnable(new Runnable()
@@ -166,7 +166,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        dataHandler.land.put(type, foodControll.getValue());
+        dataHandler.land.put(type, foodControll.getValue() * dataHandler.arableOpen);
         updateLabels();
       }
     });
@@ -177,7 +177,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        foodControll.setValue(dataHandler.land.get(type));
+        foodControll.setValue(dataHandler.land.get(type) / dataHandler.arableOpen);
       }
     });
 
@@ -187,9 +187,9 @@ public class LabelFactory
   public GraphLabel getOpenLandLabel()
   {
     final GraphLabel openLandLabel = new GraphLabel(
-      "Arable Land",
+      "Open Land",
       dataHandler.getOpenLand(),
-      dataHandler.getCultivatedLand(),
+      dataHandler.arableOpen,
       "#,###,### km sq");
 
     updates.add(new Runnable()
