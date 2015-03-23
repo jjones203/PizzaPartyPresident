@@ -2,6 +2,7 @@ package worldfoodgame.model;
 
 
 import worldfoodgame.common.AbstractCountryBorderData;
+import worldfoodgame.gui.hud.infopanel.LandPanel;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public class AtomicRegion extends AbstractCountryBorderData implements Region
 {
   private Country country;
-  private List<PlantingTile> landmass;
+  private List<LandPanel> landmass;
   private List<MapPoint> perimeter;
   private String name;
   private RegionAttributes attributes;
