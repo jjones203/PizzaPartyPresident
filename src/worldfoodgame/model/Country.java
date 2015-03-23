@@ -159,8 +159,8 @@ public class Country extends AbstractCountry
 
   public void setArableLand(int year, double kilomsq)
   {
-    if (kilomsq > 0) landArable[year - START_YEAR] = kilomsq;
-    else System.err.println("Invalid argument for Country.setArableLand method");
+    if (kilomsq >= 0) landArable[year - START_YEAR] = kilomsq;
+    else System.err.println("Invalid argument for Country.setArableLand method for country "+getName());
   }
 
   public double getCropLand(int year, EnumCropType crop)
