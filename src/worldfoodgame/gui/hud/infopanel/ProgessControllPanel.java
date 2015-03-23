@@ -22,15 +22,18 @@ public class ProgessControllPanel extends JFrame
   private SingleClickButton
     nextYear, run, pause;
 
+  private JPanel yearLabel;
+
   public ProgessControllPanel(WorldPresenter worldPresenter) throws HeadlessException
   {
     this.worldPresenter = worldPresenter;
-    this.setLayout(new BorderLayout());
+    this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
     JPanel controlls = new JPanel();
-    this.add(controlls, BorderLayout.EAST);
+    controlls.setLayout(new GridLayout(1,3));
+    this.add(controlls, BorderLayout.WEST);
 
-    nextYear = new SingleClickButton("next year");
+    nextYear = new SingleClickButton("next");
     controlls.add(nextYear);
 
     run = new SingleClickButton("run");
@@ -39,8 +42,30 @@ public class ProgessControllPanel extends JFrame
     pause = new SingleClickButton("pause");
     controlls.add(pause);
 
-
+    // todo change this so that i get the world population form the world presenter.
+    yearLabel = getNumbericalLabel("World Population", "15");
+    add(yearLabel);
   }
+
+
+  private JPanel getNumbericalLabel(String label, String formatedNum)
+  {
+    JPanel jPanel = new JPanel();
+    jPanel.setLayout(new BorderLayout());
+    jPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+
+    JLabel titleLabel = new JLabel(label);
+    titleLabel.setFont(ColorsAndFonts.GUI_FONT.deriveFont(12f));
+//    titleLabel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+
+    jPanel.add(titleLabel, BorderLayout.NORTH);
+
+    JLabel numbericalValue = new JLabel(formatedNum);
+    jPanel.add(numbericalValue, BorderLayout.CENTER);
+
+    return jPanel;
+  }
+
 
   private class SingleClickButton extends JLabel
   {
@@ -72,8 +97,17 @@ public class ProgessControllPanel extends JFrame
         }
       });
     }
+  }
 
+  public static void main(String[] args)
+  {
+    ProgessControllPanel pcp = new ProgessControllPanel(null);
 
+    JFrame jFrame = new JFrame();
 
+    jFrame.add(pcp);
+    jFrame.pack();
+    jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    jFrame.setVisible(true);
   }
 }
