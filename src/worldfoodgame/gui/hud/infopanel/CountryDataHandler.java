@@ -132,7 +132,7 @@ public class CountryDataHandler extends Observable
       dataHandler.imports.put(type, country.getCropImport(year, type));
       dataHandler.exports.put(type, country.getCropExport(year, type));
       dataHandler.production.put(type, country.getCropProduction(year, type));
-      dataHandler.need.put(type, country.getCropNeedPerCapita(year, type));
+      dataHandler.need.put(type, country.getCropNeedPerCapita(type));
     }
 
     return dataHandler;
