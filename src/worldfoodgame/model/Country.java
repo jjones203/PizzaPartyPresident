@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DRAFT!
+ * Country class extends AbstractCountry, includes methods for accessing its
+ * fields.
  * Created by winston on 3/9/15.
  * Edited by Jessica on 3/14/15: getName, setLandTotal, methodPercentage methods
+ * @version   22-Mar-2015
  */
 public class Country extends AbstractCountry
 {
@@ -47,7 +49,8 @@ public class Country extends AbstractCountry
 
   public void setPopulation(int year, int n)
   {
-    population[year - START_YEAR] = n;
+    if (n >= 0) population[year - START_YEAR] = n;
+    else System.err.println("Invalid argument for Country.setPopulation method");
   }
 
   public double getMedianAge(int year)
@@ -57,7 +60,8 @@ public class Country extends AbstractCountry
 
   public void setMedianAge(int year, double years)
   {
-    medianAge[year - START_YEAR] = years;
+    if (years >= 0) medianAge[year - START_YEAR] = years;
+    else System.err.println("Invalid argument for Country.setMedianAge method");
   }
 
   public double getBirthRate(int year)
@@ -67,7 +71,8 @@ public class Country extends AbstractCountry
 
   public void setBirthRate(int year, double permille)
   {
-    birthRate[year - START_YEAR] = permille;
+    if (permille >= 0 && permille <= 1000) birthRate[year - START_YEAR] = permille;
+    else System.err.println("Invalid argument for Country.setBirthRate method");
   }
 
   public double getMortalityRate(int year)
@@ -77,7 +82,8 @@ public class Country extends AbstractCountry
 
   public void setMortalityRate(int year, double permille)
   {
-    mortalityRate[year - START_YEAR] = permille;
+    if (permille >= 0 && permille <= 1000) mortalityRate[year - START_YEAR] = permille;
+    else System.err.println("Invalid argument for Country.setMortalityRate method");
   }
 
   public double getMigrationRate(int year)
@@ -87,7 +93,8 @@ public class Country extends AbstractCountry
 
   public void setMigrationRate(int year, double permille)
   {
-    migrationRate[year - START_YEAR] = permille;
+    if (permille >= -1000 && permille <= 1000) migrationRate[year - START_YEAR] = permille;
+    else System.err.println("Invalid argument for Country.setMigrationRate method");
   }
 
   public double getUndernourished(int year)
@@ -97,7 +104,8 @@ public class Country extends AbstractCountry
 
   public void setUndernourished(int year, double percentage)
   {
-    undernourished[year - START_YEAR] = percentage;
+    if (percentage >= 0 && percentage <= 1) undernourished[year - START_YEAR] = percentage;
+    else System.err.println("Invalid argument for Country.setUndernourished method");
   }
 
   public double getCropProduction(int year, EnumCropType crop)
@@ -107,7 +115,8 @@ public class Country extends AbstractCountry
 
   public void setCropProduction(int year, EnumCropType crop, double metTons)
   {
-    cropProduction[crop.ordinal()][year - START_YEAR] = metTons;
+    if (metTons >= 0) cropProduction[crop.ordinal()][year - START_YEAR] = metTons;
+    else System.err.println("Invalid argument for Country.setCropProduction method");
   }
 
   public double getCropExport(int year, EnumCropType crop)
@@ -117,7 +126,8 @@ public class Country extends AbstractCountry
 
   public void setCropExport(int year, EnumCropType crop, double metTons)
   {
-    cropExport[crop.ordinal()][year - START_YEAR] = metTons;
+    if (metTons >= 0) cropExport[crop.ordinal()][year - START_YEAR] = metTons;
+    else System.err.println("Invalid argument for Country.setCropExport method");
   }
 
   public double getCropImport(int year, EnumCropType crop)
@@ -127,7 +137,8 @@ public class Country extends AbstractCountry
 
   public void setCropImport(int year, EnumCropType crop, double metTons)
   {
-    cropImport[crop.ordinal()][year - START_YEAR] = metTons;
+    if (metTons >= 0) cropImport[crop.ordinal()][year - START_YEAR] = metTons;
+    else System.err.println("Invalid argument for Country.setCropImport method");
   }
 
   public double getLandTotal(int year)
@@ -137,7 +148,8 @@ public class Country extends AbstractCountry
 
   public void setLandTotal(int year, double kilomsq)
   {
-    landTotal[year - START_YEAR] = kilomsq;
+    if (kilomsq > 0) landTotal[year - START_YEAR] = kilomsq;
+    else System.err.println("Invalid argument for Country.setLandTotal method");
   }
 
   public double getArableLand(int year)
@@ -147,7 +159,8 @@ public class Country extends AbstractCountry
 
   public void setArableLand(int year, double kilomsq)
   {
-    landArable[year - START_YEAR] = kilomsq;
+    if (kilomsq > 0) landArable[year - START_YEAR] = kilomsq;
+    else System.err.println("Invalid argument for Country.setArableLand method");
   }
 
   public double getCropLand(int year, EnumCropType crop)
@@ -157,7 +170,8 @@ public class Country extends AbstractCountry
 
   public void setCropLand(int year, EnumCropType crop, double kilomsq)
   {
-    landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
+    if (kilomsq >= 0) landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
+    else System.err.println("Invalid argument for Country.setCropLand method");
   }
 
 
@@ -168,7 +182,8 @@ public class Country extends AbstractCountry
 
   public void setMethodPercentage(int year, EnumGrowMethod method, double percentage)
   {
-    cultivationMethod[method.ordinal()][year - START_YEAR] = percentage;
+    if (percentage >= 0) cultivationMethod[method.ordinal()][year - START_YEAR] = percentage;
+    else System.err.println("Invalid argument for Country.setMethodPercentage method");
   }
 
   /* passing year might be useful in the next milestone? */
@@ -183,12 +198,30 @@ public class Country extends AbstractCountry
     cropYield[crop.ordinal()] = tonPerSqKilom;
   }
 
-  public double getCropNeedPerCapita(int year, EnumCropType crop)
+  public double getCropNeedPerCapita(EnumCropType crop)
   {
     return cropNeedPerCapita[crop.ordinal()];
   }
 
-  public void setCropNeedPerCapita(int year, EnumCropType crop, double tonPerPerson)
+  /**
+   * Method for calculating & setting crop need
+   * @param crop                    EnumCropType
+   * @param tonsConsumed            2014 production + imports - exports
+   * @param percentUndernourished   2014 % of population undernourished
+   */
+  public void setCropNeedPerCapita(EnumCropType crop, double tonsConsumed, double percentUndernourished)
+  {
+    double population = getPopulation(START_YEAR);
+    double tonPerPerson = tonsConsumed/(population - 0.5*percentUndernourished*population);
+    cropNeedPerCapita[crop.ordinal()] = tonPerPerson;
+  }
+  
+  /**
+   * Method for setting crop need when already known (e.g., when copying).
+   * @param crop                    EnumCropType
+   * @param tonPerPerson            2014 ton/person
+   */
+  public void setCropNeedPerCapita(EnumCropType crop, double tonPerPerson)
   {
     cropNeedPerCapita[crop.ordinal()] = tonPerPerson;
   }

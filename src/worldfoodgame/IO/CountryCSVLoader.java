@@ -146,17 +146,21 @@ public class CountryCSVLoader
   {
     try
     {
-      country.setPopulation(START_YEAR, Integer.parseInt(record.get("population")));
+      int value = Integer.parseInt(record.get("population"));
+      if (value > 0) country.setPopulation(START_YEAR, value);
+      else throw new IllegalArgumentException();
     }
-    catch (NumberFormatException e)
+    catch (IllegalArgumentException e)
     {
       throw new CSVParsingException("population", record, this.csvFile);
     }
     try
     {
-      country.setLandTotal(START_YEAR, Double.parseDouble(record.get("landArea")));
+      double value = Double.parseDouble(record.get("landArea"));
+      if (value > 0) country.setLandTotal(START_YEAR, value);
+      else throw new IllegalArgumentException();
     }
-    catch (NumberFormatException e)
+    catch (IllegalArgumentException e)
     {
       throw new CSVParsingException("landArea", record, this.csvFile);
     }
@@ -265,22 +269,21 @@ public class CountryCSVLoader
         try
         {
           Double value = Double.parseDouble(recordMap.get(key));
+          if (value < 0) throw new IllegalArgumentException();
           switch (cropField)
           {
             case "Production":
-              if (value >= 0) production = value;
-              else throw new IllegalArgumentException();
+               production = value;
               break;
             case "Exports":
-              if (value >= 0) exports = value;
-              else throw new IllegalArgumentException();
+              exports = value;
+              
               break;
             case "Imports":
-              if (value >= 0) imports = value;
-              else throw new IllegalArgumentException();
+              imports = value;
               break;
             case "Land":
-              if (value >= 0 && value <= country.getLandTotal(START_YEAR)) land  = value;
+              if (value <= country.getLandTotal(START_YEAR)) land  = value;
               else throw new IllegalArgumentException();
               break;
             default:
@@ -294,14 +297,14 @@ public class CountryCSVLoader
         }
       }
       double yield = production/land;
-      double need = (production + imports - exports)/country.getPopulation(START_YEAR);
+      double tonsConsumed = production + imports - exports;
       // set values
       country.setCropProduction(START_YEAR, crop, production);
       country.setCropExport(START_YEAR, crop, exports);
       country.setCropImport(START_YEAR, crop, imports);
       country.setCropLand(START_YEAR, crop, land);
       country.setCropYield(START_YEAR, crop, yield);
-      country.setCropNeedPerCapita(START_YEAR, crop, need);
+      country.setCropNeedPerCapita(crop, tonsConsumed, country.getUndernourished(START_YEAR));
     }
   }
   
@@ -432,14 +435,14 @@ public class CountryCSVLoader
       double exports = countryTemp.getCropExport(START_YEAR, crop);
       double land = countryTemp.getCropLand(START_YEAR, crop);
       double yield = countryTemp.getCropYield(START_YEAR, crop);
-      double need = countryTemp.getCropNeedPerCapita(START_YEAR, crop);
+      double need = countryTemp.getCropNeedPerCapita(crop);
 
       countryFinal.setCropProduction(START_YEAR, crop, production);
       countryFinal.setCropImport(START_YEAR, crop, imports);
       countryFinal.setCropExport(START_YEAR, crop, exports);
       countryFinal.setCropLand(START_YEAR, crop, land);
       countryFinal.setCropYield(START_YEAR, crop, yield);
-      countryFinal.setCropNeedPerCapita(START_YEAR, crop, need);
+      countryFinal.setCropNeedPerCapita(crop, need);
     }
   }
   

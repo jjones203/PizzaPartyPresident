@@ -79,7 +79,7 @@ public final class CountryCSVDataGenerator implements CountryCSVDefaultData
     country.setCropImport(START_YEAR, crop, countryNeed);
     country.setCropLand(START_YEAR, crop, 0);
     country.setCropYield(START_YEAR, crop, 0);
-    country.setCropNeedPerCapita(START_YEAR, crop, worldPerCap);
+    country.setCropNeedPerCapita(crop, worldPerCap);
   }
   
   /**
