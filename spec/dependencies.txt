@@ -1,0 +1,82 @@
+Year Stepping Dependencies
+
+1) Change tiles' temp & precipitation values
+    Requires:
+    - previously interpolated values for each tile
+
+2) Add noise to tiles' temp & precipitation values (random 10% of tiles + tiles within 100km of those tiles)
+    Requires:
+    - scenario's randomization percentage
+    - distance calculation
+
+3) Calculate sea level rise & its effects
+    Requires:
+    - scenario's base sea level rise/year
+    - scenario's randomization percentage
+    - info on which tiles are currently coastline and their elevations
+    -> determine which tiles are underwater; set them as ocean or null
+    -> remove those tiles' areas from their country's arable land area (also total land area?)
+   
+4) Allocate crops to tiles
+    Requires: 
+    - the updated climate data for each tile
+    - what was planted in each tile in prior year
+    - ideal ranges for each crop
+    - each country's yield for each crop (set at start of game)
+    - user's allocation of land for each crop at start of year
+    - optimization algorithm
+ 
+ 5) Calculate crop production
+    Requires:
+    - starting yields
+    - how many ideal, acceptable, and poor tiles have been allocated to each crop
+        (or, look up which tiles have each crop and then look up whether ideal, etc.?)
+    
+7) Trading: which crops get imported/exported, how much
+
+8) Calculate food available
+    Requires:
+    - crop production
+    - import/export info
+
+9) Calculate countries' death rate
+    Requires:
+    - 2014 death rate
+    - population in prior year
+    - number of malnourished people in prior year
+    - 2014 number of malnourished people
+    
+10) Calculate current population*
+    Requires:
+    - 2014 birthrate and migration
+    - prior year population
+    - current year death rate
+    * think equation in spec is wrong, need to check
+    
+11) Calculate undernourished %
+    Requires:
+    - amount of each crop available
+    - current year population
+    - 2014 need per capita for each crop
+    
+12) Calculate happy people
+    Requires:
+    - current population
+    - prior year population
+    - current death rate
+    - prior year death rate
+    - current undernourished %
+    - prior year undernourished %
+
+
+climate & crops chain of dependency:  
+1 -> (2 & 3) -> 4 -> 5 -> 6 -> 7 -> 8
+
+population chain of dependency:
+9 -> 10
+
+happiness chain of dependency:
+(8 & 10) -> 11 -> 12
+
+Climate & crops chain and population chain are independent.
+Happiness chain depends on both of them.
