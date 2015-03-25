@@ -64,10 +64,12 @@ public class RegionNameDraw
 
     g2d.drawString(gRegion.getName(), dst.x, dst.y);
 
+
     BufferedImage flag = FlagLoader.getFlagLoader()
       .getFlag(gRegion.getRegion().getCountry().getName());
 
-    g2d.drawImage(flag, x-30, y-30, null);
+
+    g2d.drawImage(flag, dst.x - flag.getWidth(), dst.y - flag.getHeight(), null);
     /* reset the transform for any RegionViews depending on it for proper rendering */
       g2d.setTransform(at);
   }
