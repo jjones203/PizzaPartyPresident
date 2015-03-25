@@ -228,18 +228,17 @@ public class Country extends AbstractCountry
   
   /**
    * Calculates number of unhappy people in country for a given year based on formula in specifications.
-   * For START_YEAR, returns total population to avoid null pointer.
+   * For START_YEAR, returns undernourished population to avoid null pointer.
    * @param   year
    * @return  number of unhappy people for that year
    */
   public double getUnhappyPeople(int year)
   {
-    int currentPop;
+    int currentPop = getPopulation(year);
     double formulaResult;
-    if (year == START_YEAR) return population[0];
+    if (year == START_YEAR) return currentPop * getUndernourished(year);
     else
     {
-      currentPop = getPopulation(year);
       double numUndernourish = getUndernourished(year) * currentPop;
       double numDeaths = getMortalityRate(year) * currentPop;
       double changeUndernourish = numUndernourish - (getPopulation(year-1) * getUndernourished(year-1));
