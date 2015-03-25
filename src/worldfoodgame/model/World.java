@@ -115,4 +115,37 @@ public class World
   {
     return AbstractScenario.END_YEAR - getCurrentYear();
   }
+  
+  /**
+   * @return    world population at current world time, in millions as a double.
+   */
+  public double getWorldPopulation()
+  {
+    double totalPop = 0;
+    int year = getCurrentYear();
+    for (Country country:politicalWorld)
+    {
+      totalPop += country.getPopulation(year);
+    }
+    totalPop = totalPop/1000000;
+    return totalPop;
+  }
+  
+  
+  /**
+   * @return  percent of world's population that is happy at current world time
+   */
+  public double getWorldHappinessPercent()
+  {
+    double unhappyPeople = 0;
+    int year = getCurrentYear();
+    for (Country country:politicalWorld)
+    {
+      unhappyPeople += country.getUnhappyPeople(year);
+    }
+    double percentHappy = 1 - unhappyPeople/getWorldPopulation();
+    return percentHappy;
+  }
+  
+  
 }
