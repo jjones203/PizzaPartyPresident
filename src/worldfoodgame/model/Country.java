@@ -225,4 +225,26 @@ public class Country extends AbstractCountry
   {
     cropNeedPerCapita[crop.ordinal()] = tonPerPerson;
   }
+  
+  /**
+   * Calculates number of unhappy people in country for a given year based on formula in specifications.
+   * For START_YEAR, returns undernourished population to avoid null pointer.
+   * @param   year
+   * @return  number of unhappy people for that year
+   */
+  public double getUnhappyPeople(int year)
+  {
+    int currentPop = getPopulation(year);
+    double formulaResult;
+    if (year == START_YEAR) return currentPop * getUndernourished(year);
+    else
+    {
+      double numUndernourish = getUndernourished(year) * currentPop;
+      double numDeaths = getMortalityRate(year) * currentPop;
+      double changeUndernourish = numUndernourish - (getPopulation(year-1) * getUndernourished(year-1));
+      double changeDeaths = numDeaths - (getPopulation(year-1) * getMortalityRate(year-1));
+      formulaResult = 5 * numUndernourish + 2 * changeUndernourish + 10 * numDeaths + 5 * changeDeaths;
+    }
+    return Math.min(currentPop,formulaResult);
+  }
 }

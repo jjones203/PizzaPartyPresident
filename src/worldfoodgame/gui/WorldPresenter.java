@@ -394,8 +394,7 @@ public class WorldPresenter extends Observable
    */
   public double getPoppulation()
   {
-    System.out.println("worldPresenter.getPoppulation(), not implemented");
-    return 12.8;
+    return world.getWorldPopulation();
   }
 
 
@@ -405,8 +404,7 @@ public class WorldPresenter extends Observable
    */
   public double getHappinessP()
   {
-    System.out.println("worldPresenter.getHappinessP(), not implemented");
-    return 45.00;
+    return world.getWorldHappinessPercent();
   }
 
   /**
