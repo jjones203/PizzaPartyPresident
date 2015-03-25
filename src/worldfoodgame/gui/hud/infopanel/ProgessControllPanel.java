@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,6 +18,10 @@ import java.util.Observer;
  */
 public class ProgessControllPanel extends JPanel implements Observer
 {
+
+  private static DecimalFormat
+    happinessP = new DecimalFormat("#.00"),
+    popuLationFormatter = new DecimalFormat("0.0");
   private static Color
     DEFAULT_FONT_COL = ColorsAndFonts.GUI_TEXT_COLOR,
     ROLLOVER_COLOR = Color.red;
@@ -60,11 +65,11 @@ public class ProgessControllPanel extends JPanel implements Observer
     add(yearRemainng);
 
     population = new numbericalLabel("World Population",
-      Double.toString(worldPresenter.getPoppulation()) + " Millon");
+      popuLationFormatter.format(worldPresenter.getPoppulation()) + " Mill");
     add(population);
 
     happiness = new numbericalLabel("Happiness",
-      "% " + Double.toString(worldPresenter.getHappinessP()));
+      "% " + happinessP.format(worldPresenter.getHappinessP()));
     add(happiness);
 
     this.add(controlls, BorderLayout.WEST);
@@ -75,8 +80,8 @@ public class ProgessControllPanel extends JPanel implements Observer
   {
     currentYear.setValString(Integer.toString(worldPresenter.getYear()));
     yearRemainng.setValString(Integer.toString(worldPresenter.yearRemaining()));
-    population.setValString(Double.toString(worldPresenter.getPoppulation()) + " Millon");
-    happiness.setValString("% " + Double.toString(worldPresenter.getHappinessP()));
+    population.setValString(popuLationFormatter.format(worldPresenter.getPoppulation()) + " Mill");
+    happiness.setValString("% " + happinessP.format(worldPresenter.getHappinessP()));
   }
 
 

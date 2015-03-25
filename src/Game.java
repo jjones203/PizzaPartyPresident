@@ -68,22 +68,6 @@ public class Game
     Calendar startingDate = Calendar.getInstance();
     startingDate.set(Calendar.YEAR,  2014);
 
-
-    if (DEBUG)
-    {
-      java.util.List<String> countryNames = new ArrayList<>();
-      for (Country country : noDataCountries)
-      {
-        String name = country.getName();
-        countryNames.add(name.replace(" ",""));
-
-      }
-
-      Collections.sort(countryNames);
-
-      for (String name : countryNames) System.out.println(name);
-    }
-
     World world = new World(modelRegions, noDataCountries, startingDate);
     MapConverter converter = new EquirectangularConverter();
 
