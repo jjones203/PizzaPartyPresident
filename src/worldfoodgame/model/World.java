@@ -2,6 +2,7 @@ package worldfoodgame.model;
 
 import worldfoodgame.IO.AttributeGenerator;
 import worldfoodgame.IO.XMLparsers.CountryXMLparser;
+import worldfoodgame.common.AbstractScenario;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -73,7 +74,7 @@ public class World
    * returns the year as an int.
    * @return
    */
-  public int getYear()
+  public int getCurrentYear()
   {
     return getCurrentDate().get(Calendar.YEAR);
   }
@@ -104,5 +105,14 @@ public class World
   public Collection<Country> getCountries()
   {
     return politicalWorld;
+  }
+
+  /**
+   * Returns the number of year remaining in the model as an int.
+   * @return
+   */
+  public int yearRemaining()
+  {
+    return AbstractScenario.END_YEAR - getCurrentYear();
   }
 }

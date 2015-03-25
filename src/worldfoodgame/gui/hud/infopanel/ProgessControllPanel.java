@@ -15,14 +15,15 @@ public class ProgessControllPanel extends JPanel
 {
   private static Color
     DEFAULT_FONT_COL = ColorsAndFonts.GUI_TEXT_COLOR,
-    ROLLOVER_COLOR = Color.red,
-    SELECTED_COL = Color.yellow;
+    ROLLOVER_COLOR = Color.red;
+
 
   private WorldPresenter worldPresenter;
   private SingleClickButton
     nextYear, run, pause;
 
-  private JPanel yearLabel;
+  private numbericalLabel
+    currentYear, yearRemainng, population, happiness;
 
   public ProgessControllPanel(WorldPresenter worldPresenter) throws HeadlessException
   {
@@ -30,7 +31,7 @@ public class ProgessControllPanel extends JPanel
     this.setLayout(new GridLayout(1, 6));
 
     JPanel controlls = new JPanel();
-    controlls.setLayout(new GridLayout(1,3));
+    controlls.setLayout(new GridLayout(1, 3));
     controlls.setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
 
@@ -44,36 +45,56 @@ public class ProgessControllPanel extends JPanel
     controlls.add(pause);
 
     // todo change this so that i get the world population form the world presenter.
-    add(getNumbericalLabel("Current Year", "2015"));
-    add(getNumbericalLabel("Years Remaining", "20"));
-    yearLabel = getNumbericalLabel("World Population", "8 billion");
-    add(yearLabel);
-    add(getNumbericalLabel("Happiness", "% 45.2"));
+    currentYear = new numbericalLabel("Current Year",
+      Integer.toString(worldPresenter.getYear()));
+    add(currentYear);
+
+    yearRemainng = new numbericalLabel("Years Remaining",
+      Integer.toString(worldPresenter.yearRemaining()));
+    add(yearRemainng);
+
+    population = new numbericalLabel("World Population",
+      Double.toString(worldPresenter.getPoppulation()) + "Millon");
+    add(population);
+
+    happiness = new numbericalLabel("Happiness",
+      "%" + Double.toString(worldPresenter.getHappinessP()));
+    add(happiness);
 
     this.add(controlls, BorderLayout.WEST);
   }
 
 
-  private JPanel getNumbericalLabel(String label, String formatedNum)
+  private class numbericalLabel extends JPanel
   {
-    JPanel jPanel = new JPanel();
-    jPanel.setLayout(new BorderLayout());
-    jPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
+    private JLabel titleLabel, numbericalValue;
 
-    JLabel titleLabel = new JLabel(label);
-    titleLabel.setFont(ColorsAndFonts.GUI_FONT.deriveFont(12f));
-    titleLabel.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
-//    titleLabel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    public numbericalLabel(String label, String valAsString)
+    {
+      //init
+      this.titleLabel = new JLabel(label);
+      this.numbericalValue = new JLabel(valAsString);
 
-    jPanel.add(titleLabel, BorderLayout.NORTH);
+      //config
+      this.setLayout(new BorderLayout());
+      this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
-    JLabel numbericalValue = new JLabel(formatedNum);
-    numbericalValue.setFont(ColorsAndFonts.GUI_FONT.deriveFont(18f));
-    numbericalValue.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
-    jPanel.add(numbericalValue, BorderLayout.CENTER);
+      titleLabel.setFont(ColorsAndFonts.GUI_FONT.deriveFont(12f));
+      titleLabel.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
 
-    return jPanel;
+      numbericalValue.setFont(ColorsAndFonts.GUI_FONT.deriveFont(18f));
+      numbericalValue.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+
+      //wire up
+      this.add(titleLabel, BorderLayout.NORTH);
+      this.add(numbericalValue, BorderLayout.CENTER);
+    }
+
+    public void setValString(String string)
+    {
+      numbericalValue.setText(string);
+    }
   }
 
 
@@ -93,7 +114,10 @@ public class ProgessControllPanel extends JPanel
         @Override
         public void mouseClicked(MouseEvent e)
         {
-          if (action != null) action.run();
+          if (action != null)
+          {
+            action.run();
+          }
           else
           {
             System.err.println("action not set on Single click button");

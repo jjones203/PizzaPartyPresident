@@ -375,7 +375,38 @@ public class WorldPresenter extends Observable
 
   public int getYear()
   {
-    return world.getYear();
+    return world.getCurrentYear();
+  }
+
+  /**
+   * Returns the number of year remaining in the model as an int.
+   * delagates the the world class.
+   * @return
+   */
+  public int yearRemaining()
+  {
+    return world.yearRemaining();
+  }
+
+  /**
+   * Returns the population, in millions as a double.
+   * @return
+   */
+  public double getPoppulation()
+  {
+    System.out.println("worldPresenter.getPoppulation(), not implemented");
+    return 12.8;
+  }
+
+
+  /**
+   * returns the percentage of happy people in the world.
+   * @return
+   */
+  public double getHappinessP()
+  {
+    System.out.println("worldPresenter.getHappinessP(), not implemented");
+    return 45.00;
   }
 
   /**
