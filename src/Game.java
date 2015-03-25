@@ -13,11 +13,11 @@ import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Main entry point for the 'game'. Handles loading data and all configurations.
@@ -28,6 +28,8 @@ import java.util.Collection;
  */
 public class Game
 {
+  private static boolean DEBUG = true;
+
   public static final String MODEL_DATA_PATH = "resources/ne_10m_admin_1_states_provinces.kml";
   public static final String BG_DATA_PATH = "resources/ne_110m_land.kml";
   private MapPane mapPane;
@@ -66,6 +68,22 @@ public class Game
     Calendar startingDate = Calendar.getInstance();
     startingDate.set(Calendar.YEAR,  2014);
 
+
+    if (DEBUG)
+    {
+      java.util.List<String> countryNames = new ArrayList<>();
+      for (Country country : noDataCountries)
+      {
+        String name = country.getName();
+        countryNames.add(name.replace(" ",""));
+
+      }
+
+      Collections.sort(countryNames);
+
+      for (String name : countryNames) System.out.println(name);
+    }
+
     World world = new World(modelRegions, noDataCountries, startingDate);
     MapConverter converter = new EquirectangularConverter();
 
@@ -77,9 +95,6 @@ public class Game
     Camera cam = new Camera(converter);
     mapPane = new MapPane(cam, worldPresenter);
     mapPane.setGrid(converter.getLatLonGrid());
-
-//    infoPanelDep = new InfoPanelDep();
-//    infoPanelDep.setPresenter(worldPresenter);
 
     infoPanel = new InfoPanel(worldPresenter);
 
