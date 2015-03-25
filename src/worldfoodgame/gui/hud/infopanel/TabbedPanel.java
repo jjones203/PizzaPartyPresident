@@ -128,6 +128,7 @@ public class TabbedPanel extends JPanel
   }
 
 
+
   /* Extending JPanel to animation */
   private JPanel getContentPanel()
   {

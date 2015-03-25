@@ -43,6 +43,8 @@ public class InfoPanel extends JPanel implements Observer
     worldPresenter.addObserver(this);
 
 
+
+
     setLayout(new BorderLayout());
     viewBox = new MiniViewBox(" ");
     viewBox.setPreferredSize(VIEW_BOX_DIM);
@@ -68,6 +70,8 @@ public class InfoPanel extends JPanel implements Observer
     }
 
     OuterTabbedPanel.addTab("crops", innerTabbedPanel);
+
+    add(new ProgessControllPanel(worldPresenter), BorderLayout.NORTH);
   }
 
   @Override

@@ -4,14 +4,18 @@ import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.WorldPresenter;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by winston on 3/23/15.
  */
-public class ProgessControllPanel extends JPanel
+public class ProgessControllPanel extends JPanel implements Observer
 {
   private static Color
     DEFAULT_FONT_COL = ColorsAndFonts.GUI_TEXT_COLOR,
@@ -29,11 +33,13 @@ public class ProgessControllPanel extends JPanel
   {
     this.worldPresenter = worldPresenter;
     this.setLayout(new GridLayout(1, 6));
-
+    worldPresenter.addObserver(this);
     JPanel controlls = new JPanel();
     controlls.setLayout(new GridLayout(1, 3));
     controlls.setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
+    setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    setBorder(new CompoundBorder(ColorsAndFonts.HEADING_UNDERLINE, new EmptyBorder(3,3,3,3)));
 
     nextYear = new SingleClickButton("next");
     controlls.add(nextYear);
@@ -54,14 +60,23 @@ public class ProgessControllPanel extends JPanel
     add(yearRemainng);
 
     population = new numbericalLabel("World Population",
-      Double.toString(worldPresenter.getPoppulation()) + "Millon");
+      Double.toString(worldPresenter.getPoppulation()) + " Millon");
     add(population);
 
     happiness = new numbericalLabel("Happiness",
-      "%" + Double.toString(worldPresenter.getHappinessP()));
+      "% " + Double.toString(worldPresenter.getHappinessP()));
     add(happiness);
 
     this.add(controlls, BorderLayout.WEST);
+  }
+
+  @Override
+  public void update(Observable o, Object arg)
+  {
+    currentYear.setValString(Integer.toString(worldPresenter.getYear()));
+    yearRemainng.setValString(Integer.toString(worldPresenter.yearRemaining()));
+    population.setValString(Double.toString(worldPresenter.getPoppulation()) + " Millon");
+    happiness.setValString("% " + Double.toString(worldPresenter.getHappinessP()));
   }
 
 
@@ -80,10 +95,10 @@ public class ProgessControllPanel extends JPanel
       this.setLayout(new BorderLayout());
       this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
-      titleLabel.setFont(ColorsAndFonts.GUI_FONT.deriveFont(12f));
+      titleLabel.setFont(ColorsAndFonts.GUI_FONT.deriveFont(11f));
       titleLabel.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
 
-      numbericalValue.setFont(ColorsAndFonts.GUI_FONT.deriveFont(18f));
+      numbericalValue.setFont(ColorsAndFonts.GUI_FONT.deriveFont(16f));
       numbericalValue.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
 
       //wire up
