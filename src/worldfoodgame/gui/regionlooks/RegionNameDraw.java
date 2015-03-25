@@ -1,11 +1,13 @@
 package worldfoodgame.gui.regionlooks;
 
 import worldfoodgame.gui.ColorsAndFonts;
+import worldfoodgame.gui.FlagLoader;
 import worldfoodgame.gui.GUIRegion;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by winston on 1/27/15.
@@ -61,8 +63,12 @@ public class RegionNameDraw
     }
 
     g2d.drawString(gRegion.getName(), dst.x, dst.y);
-    
+
+    BufferedImage flag = FlagLoader.getFlagLoader()
+      .getFlag(gRegion.getRegion().getCountry().getName());
+
+    g2d.drawImage(flag, x-30, y-30, null);
     /* reset the transform for any RegionViews depending on it for proper rendering */
-    g2d.setTransform(at);
+      g2d.setTransform(at);
   }
 }
