@@ -1,16 +1,16 @@
 package worldfoodgame.gui.hud.infopanel;
 
-import worldfoodgame.common.AbstractScenario;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.WorldPresenter;
 import worldfoodgame.gui.hud.MiniViewBox;
 import worldfoodgame.model.Country;
 
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by winston on 3/21/15.
@@ -85,10 +85,7 @@ public class InfoPanel extends JPanel implements Observer
 
     if (countryList.size() == 0) return;
 
-    dataHandler = CountryDataHandler.getData(
-      countryList,
-      AbstractScenario.START_YEAR);
-
+    dataHandler = CountryDataHandler.getData(countryList, worldPresenter.getYear());
 
     viewBox.setTitle(dataHandler.name);
     viewBox.setDrawableRegions(worldPresenter.getActiveRegions());

@@ -63,7 +63,10 @@ public class Game
     noDataCountries = csvLoader.getCountriesFromCSV();
 
 
-    World world = new World(modelRegions, noDataCountries, Calendar.getInstance());
+    Calendar startingDate = Calendar.getInstance();
+    startingDate.set(Calendar.YEAR,  2014);
+
+    World world = new World(modelRegions, noDataCountries, startingDate);
     MapConverter converter = new EquirectangularConverter();
 
     worldPresenter = new WorldPresenter(converter, world);
