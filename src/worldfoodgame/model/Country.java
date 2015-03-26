@@ -247,4 +247,25 @@ public class Country extends AbstractCountry
     }
     return Math.min(currentPop,formulaResult);
   }
+  
+  /**
+   * Calculate great circle distance from country's capitolLocation to another MapPoint.
+   * Formula from http://www.gcmap.com/faq/gccalc
+   * @param   otherCapitol
+   * @return  great circle distance in km
+   */
+  public double getShippingDistance(MapPoint otherCapitol)
+  {
+    double radianConversion = (Math.PI)/180;
+    double lon1 = capitolLocation.getLon() * radianConversion;
+    double lat1 = capitolLocation.getLat() * radianConversion;
+    double lon2 = otherCapitol.getLon() * radianConversion;
+    double lat2 = otherCapitol.getLat() * radianConversion;
+    double theta = lon2 - lon1;
+    double dist = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(theta));
+    if (dist < 0) dist = dist + Math.PI;
+    dist = dist * 6371.2; 
+    return dist;
+  }
+  
 }
