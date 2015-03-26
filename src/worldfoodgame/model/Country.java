@@ -4,7 +4,10 @@ import worldfoodgame.common.AbstractCountry;
 import worldfoodgame.common.AbstractScenario;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumGrowMethod;
+import worldfoodgame.gui.displayconverters.EquirectangularConverter;
+import worldfoodgame.gui.displayconverters.MapConverter;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +16,55 @@ import java.util.List;
  * fields.
  * Created by winston on 3/9/15.
  * Edited by Jessica on 3/14/15: getName, setLandTotal, methodPercentage methods
- * @version   22-Mar-2015
+ *
+ * @version 22-Mar-2015
  */
 public class Country extends AbstractCountry
 {
+  private static MapConverter converter = new EquirectangularConverter();
   private int START_YEAR = AbstractScenario.START_YEAR;
   private List<Region> regions;
   private MapPoint capitolLocation;
+
+  /**
+   * returns the point representing the shipping location of that country.
+   *
+   * (!) note: this method can only be called after the Country's regions have
+   * been set.
+   * @return map point representing the lat and lon location of the Country's
+   * capitol.
+   */
+  public MapPoint getCapitolLocation()
+  {
+    if (capitolLocation == null)
+    {
+      capitolLocation = calCapitalLocation();
+    }
+    return capitolLocation;
+  }
+
+  // generate the capital by finding the center of the largest landmass.
+  // this method can only be called after the Country's regions have been set.
+  private MapPoint calCapitalLocation()
+  {
+    if (regions == null) throw new RuntimeException("(!) regions not set!");
+
+    int maxArea = 0;
+    Polygon largest = null;
+
+    for (Region region : regions)
+    {
+      Polygon poly = converter.regionToPolygon(region);
+      int area = poly.getBounds().width * poly.getBounds().height;
+      if (area > maxArea) largest = poly;
+    }
+
+    int x = largest.getBounds().x + largest.getBounds().width / 2;
+    int y = largest.getBounds().x + largest.getBounds().height / 2;
+
+    return converter.pointToMapPoint(new Point(x, y));
+  }
+
 
   public void addRegion(Region region)
   {
@@ -41,7 +86,7 @@ public class Country extends AbstractCountry
   {
     return name;
   }
-  
+
   public int getPopulation(int year)
   {
     return population[year - START_YEAR];
@@ -49,8 +94,14 @@ public class Country extends AbstractCountry
 
   public void setPopulation(int year, int n)
   {
-    if (n >= 0) population[year - START_YEAR] = n;
-    else System.err.println("Invalid argument for Country.setPopulation method");
+    if (n >= 0)
+    {
+      population[year - START_YEAR] = n;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setPopulation method");
+    }
   }
 
   public double getMedianAge(int year)
@@ -60,8 +111,14 @@ public class Country extends AbstractCountry
 
   public void setMedianAge(int year, double years)
   {
-    if (years >= 0) medianAge[year - START_YEAR] = years;
-    else System.err.println("Invalid argument for Country.setMedianAge method");
+    if (years >= 0)
+    {
+      medianAge[year - START_YEAR] = years;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setMedianAge method");
+    }
   }
 
   public double getBirthRate(int year)
@@ -71,8 +128,14 @@ public class Country extends AbstractCountry
 
   public void setBirthRate(int year, double permille)
   {
-    if (permille >= 0 && permille <= 1000) birthRate[year - START_YEAR] = permille;
-    else System.err.println("Invalid argument for Country.setBirthRate method");
+    if (permille >= 0 && permille <= 1000)
+    {
+      birthRate[year - START_YEAR] = permille;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setBirthRate method");
+    }
   }
 
   public double getMortalityRate(int year)
@@ -82,8 +145,14 @@ public class Country extends AbstractCountry
 
   public void setMortalityRate(int year, double permille)
   {
-    if (permille >= 0 && permille <= 1000) mortalityRate[year - START_YEAR] = permille;
-    else System.err.println("Invalid argument for Country.setMortalityRate method");
+    if (permille >= 0 && permille <= 1000)
+    {
+      mortalityRate[year - START_YEAR] = permille;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setMortalityRate method");
+    }
   }
 
   public double getMigrationRate(int year)
@@ -93,8 +162,14 @@ public class Country extends AbstractCountry
 
   public void setMigrationRate(int year, double permille)
   {
-    if (permille >= -1000 && permille <= 1000) migrationRate[year - START_YEAR] = permille;
-    else System.err.println("Invalid argument for Country.setMigrationRate method");
+    if (permille >= -1000 && permille <= 1000)
+    {
+      migrationRate[year - START_YEAR] = permille;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setMigrationRate method");
+    }
   }
 
   public double getUndernourished(int year)
@@ -104,8 +179,14 @@ public class Country extends AbstractCountry
 
   public void setUndernourished(int year, double percentage)
   {
-    if (percentage >= 0 && percentage <= 1) undernourished[year - START_YEAR] = percentage;
-    else System.err.println("Invalid argument for Country.setUndernourished method");
+    if (percentage >= 0 && percentage <= 1)
+    {
+      undernourished[year - START_YEAR] = percentage;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setUndernourished method");
+    }
   }
 
   public double getCropProduction(int year, EnumCropType crop)
@@ -115,8 +196,14 @@ public class Country extends AbstractCountry
 
   public void setCropProduction(int year, EnumCropType crop, double metTons)
   {
-    if (metTons >= 0) cropProduction[crop.ordinal()][year - START_YEAR] = metTons;
-    else System.err.println("Invalid argument for Country.setCropProduction method");
+    if (metTons >= 0)
+    {
+      cropProduction[crop.ordinal()][year - START_YEAR] = metTons;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setCropProduction method");
+    }
   }
 
   public double getCropExport(int year, EnumCropType crop)
@@ -126,8 +213,14 @@ public class Country extends AbstractCountry
 
   public void setCropExport(int year, EnumCropType crop, double metTons)
   {
-    if (metTons >= 0) cropExport[crop.ordinal()][year - START_YEAR] = metTons;
-    else System.err.println("Invalid argument for Country.setCropExport method");
+    if (metTons >= 0)
+    {
+      cropExport[crop.ordinal()][year - START_YEAR] = metTons;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setCropExport method");
+    }
   }
 
   public double getCropImport(int year, EnumCropType crop)
@@ -137,8 +230,14 @@ public class Country extends AbstractCountry
 
   public void setCropImport(int year, EnumCropType crop, double metTons)
   {
-    if (metTons >= 0) cropImport[crop.ordinal()][year - START_YEAR] = metTons;
-    else System.err.println("Invalid argument for Country.setCropImport method");
+    if (metTons >= 0)
+    {
+      cropImport[crop.ordinal()][year - START_YEAR] = metTons;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setCropImport method");
+    }
   }
 
   public double getLandTotal(int year)
@@ -148,8 +247,14 @@ public class Country extends AbstractCountry
 
   public void setLandTotal(int year, double kilomsq)
   {
-    if (kilomsq > 0) landTotal[year - START_YEAR] = kilomsq;
-    else System.err.println("Invalid argument for Country.setLandTotal method");
+    if (kilomsq > 0)
+    {
+      landTotal[year - START_YEAR] = kilomsq;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setLandTotal method");
+    }
   }
 
   public double getArableLand(int year)
@@ -159,8 +264,14 @@ public class Country extends AbstractCountry
 
   public void setArableLand(int year, double kilomsq)
   {
-    if (kilomsq >= 0) landArable[year - START_YEAR] = kilomsq;
-    else System.err.println("Invalid argument for Country.setArableLand method for country "+getName());
+    if (kilomsq >= 0)
+    {
+      landArable[year - START_YEAR] = kilomsq;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setArableLand method for country " + getName());
+    }
   }
 
   public double getCropLand(int year, EnumCropType crop)
@@ -170,8 +281,14 @@ public class Country extends AbstractCountry
 
   public void setCropLand(int year, EnumCropType crop, double kilomsq)
   {
-    if (kilomsq >= 0) landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
-    else System.err.println("Invalid argument for Country.setCropLand method");
+    if (kilomsq >= 0)
+    {
+      landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setCropLand method");
+    }
   }
 
 
@@ -182,8 +299,14 @@ public class Country extends AbstractCountry
 
   public void setMethodPercentage(int year, EnumGrowMethod method, double percentage)
   {
-    if (percentage >= 0) cultivationMethod[method.ordinal()][year - START_YEAR] = percentage;
-    else System.err.println("Invalid argument for Country.setMethodPercentage method");
+    if (percentage >= 0)
+    {
+      cultivationMethod[method.ordinal()][year - START_YEAR] = percentage;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setMethodPercentage method");
+    }
   }
 
   /* passing year might be useful in the next milestone? */
@@ -205,47 +328,85 @@ public class Country extends AbstractCountry
 
   /**
    * Method for calculating & setting crop need
-   * @param crop                    EnumCropType
-   * @param tonsConsumed            2014 production + imports - exports
-   * @param percentUndernourished   2014 % of population undernourished
+   *
+   * @param crop                  EnumCropType
+   * @param tonsConsumed          2014 production + imports - exports
+   * @param percentUndernourished 2014 % of population undernourished
    */
   public void setCropNeedPerCapita(EnumCropType crop, double tonsConsumed, double percentUndernourished)
   {
     double population = getPopulation(START_YEAR);
-    double tonPerPerson = tonsConsumed/(population - 0.5*percentUndernourished*population);
+    double tonPerPerson = tonsConsumed / (population - 0.5 * percentUndernourished * population);
     cropNeedPerCapita[crop.ordinal()] = tonPerPerson;
   }
-  
+
   /**
    * Method for setting crop need when already known (e.g., when copying).
-   * @param crop                    EnumCropType
-   * @param tonPerPerson            2014 ton/person
+   *
+   * @param crop         EnumCropType
+   * @param tonPerPerson 2014 ton/person
    */
   public void setCropNeedPerCapita(EnumCropType crop, double tonPerPerson)
   {
     cropNeedPerCapita[crop.ordinal()] = tonPerPerson;
   }
-  
+
   /**
    * Calculates number of unhappy people in country for a given year based on formula in specifications.
    * For START_YEAR, returns undernourished population to avoid null pointer.
-   * @param   year
-   * @return  number of unhappy people for that year
+   *
+   * @param year
+   * @return number of unhappy people for that year
    */
   public double getUnhappyPeople(int year)
   {
     int currentPop = getPopulation(year);
     double formulaResult;
-    if (year == START_YEAR) return currentPop * getUndernourished(year);
+    if (year == START_YEAR)
+    {
+      return currentPop * getUndernourished(year);
+    }
     else
     {
       double numUndernourish = getUndernourished(year) * currentPop;
       double numDeaths = getMortalityRate(year) * currentPop;
-      double changeUndernourish = numUndernourish - (getPopulation(year-1) * getUndernourished(year-1));
-      double changeDeaths = numDeaths - (getPopulation(year-1) * getMortalityRate(year-1));
+      double changeUndernourish = numUndernourish - (getPopulation(year - 1) * getUndernourished(year - 1));
+      double changeDeaths = numDeaths - (getPopulation(year - 1) * getMortalityRate(year - 1));
       formulaResult = 5 * numUndernourish + 2 * changeUndernourish + 10 * numDeaths + 5 * changeDeaths;
     }
-    return Math.min(currentPop,formulaResult);
+    return Math.min(currentPop, formulaResult);
+  }
+  
+  /**
+   * Calculate great circle distance from country's capitolLocation to another MapPoint.
+   * Formula from http://www.gcmap.com/faq/gccalc
+   * @param   otherCapitol
+   * @return  great circle distance in km
+   */
+  public double getShippingDistance(MapPoint otherCapitol)
+  {
+    double radianConversion = (Math.PI)/180;
+    double lon1 = capitolLocation.getLon() * radianConversion;
+    double lat1 = capitolLocation.getLat() * radianConversion;
+    double lon2 = otherCapitol.getLon() * radianConversion;
+    double lat2 = otherCapitol.getLat() * radianConversion;
+    double theta = lon2 - lon1;
+    double dist = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(theta));
+    if (dist < 0) dist = dist + Math.PI;
+    dist = dist * 6371.2; 
+    return dist;
+  }
+  
+  /**
+   * returns the number of tons needed of crop type for the specified year.
+   *
+   * @param year year in question
+   * @param type type of crop
+   * @return tons of crop needed
+   */
+  public double getSurplus(int year, EnumCropType type)
+  {
+    return this.getCropProduction(year, type) - this.getPopulation(year) * this.getCropNeedPerCapita(type);
   }
   
   /**
