@@ -408,6 +408,6 @@ public class Country extends AbstractCountry
   {
     return this.getCropProduction(year, type) - this.getPopulation(year) * this.getCropNeedPerCapita(type);
   }
-  
+
   
 }
