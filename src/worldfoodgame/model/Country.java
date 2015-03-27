@@ -104,16 +104,33 @@ public class Country extends AbstractCountry
     }
   }
 
+  /**
+   * Updates population for given year based on formula in spec
+   * @param year    year for which to calculate population
+   */
+  public void updatePopulation(int year)
+  {
+    int priorPop = population[year - START_YEAR -1];
+    double changePer1K = birthRate[year - START_YEAR] + migrationRate[year - START_YEAR] - mortalityRate[year - START_YEAR];
+    Double popNow = priorPop + changePer1K * priorPop/1000;
+    int popInt = popNow.intValue();
+    population[year - START_YEAR] = popInt;
+  }
+  
   public double getMedianAge(int year)
   {
     return medianAge[year - START_YEAR];
   }
 
-  public void setMedianAge(int year, double years)
+  /**
+   * Populate medianAge array with given age; assumes median age remains constant.
+   * @param years   median age
+   */
+  public void setMedianAge(double years)
   {
     if (years >= 0)
     {
-      medianAge[year - START_YEAR] = years;
+      for (int i = 0; i < medianAge.length; i++) medianAge[i] = years;
     }
     else
     {
@@ -126,11 +143,15 @@ public class Country extends AbstractCountry
     return birthRate[year - START_YEAR];
   }
 
-  public void setBirthRate(int year, double permille)
+  /**
+   * Populate birthRate array with given rate; assumes rate remains constant.
+   * @param permille  births/1000 people
+   */
+  public void setBirthRate(double permille)
   {
     if (permille >= 0 && permille <= 1000)
     {
-      birthRate[year - START_YEAR] = permille;
+      for (int i = 0; i < birthRate.length; i++) birthRate[i] = permille;
     }
     else
     {
@@ -155,16 +176,34 @@ public class Country extends AbstractCountry
     }
   }
 
+  /**
+   * Updates mortality rate for given year based on formula given in spec.
+   * @param year    year for which we are updating mortality rate
+   */
+  public void updateMortalityRate(int year)
+  {
+    double hungryStart = undernourished[START_YEAR] * population[START_YEAR];
+    int popNow = population[year - START_YEAR -1];
+    double hungryNow = popNow * undernourished[year - START_YEAR -1];
+    double hungryChange = hungryNow - hungryStart;
+    double mortalityNow = (mortalityRate[START_YEAR] + 0.2 * hungryChange)/(popNow/1000); 
+    mortalityRate[year - START_YEAR] = mortalityNow;
+  }
+  
   public double getMigrationRate(int year)
   {
     return migrationRate[year - START_YEAR];
   }
 
-  public void setMigrationRate(int year, double permille)
+  /**
+   * Populate migrationRate array with given rate; assumes rate remains constant.
+   * @param permille    migration/1000 people
+   */
+  public void setMigrationRate(double permille)
   {
     if (permille >= -1000 && permille <= 1000)
     {
-      migrationRate[year - START_YEAR] = permille;
+      for (int i = 0; i < migrationRate.length; i++) migrationRate[i] = permille;
     }
     else
     {

@@ -29,16 +29,16 @@ public final class CountryCSVDataGenerator implements CountryCSVDefaultData
     switch (field)
     {
       case "averageAge":
-        country.setMedianAge(START_YEAR, WORLD_AVG_AGE);
+        country.setMedianAge(WORLD_AVG_AGE);
         break;
       case "birthRate":
-        country.setBirthRate(START_YEAR, WORLD_BIRTH_RATE);
+        country.setBirthRate(WORLD_BIRTH_RATE);
         break;
       case "mortality":
         country.setMortalityRate(START_YEAR, WORLD_MORTALITY);
         break;
       case "migration":
-        country.setMigrationRate(START_YEAR, WORLD_MIGRATION);
+        country.setMigrationRate(WORLD_MIGRATION);
         break;
       case "undernourish":
         country.setUndernourished(START_YEAR, WORLD_UNDERNOURISH/100); //divide int by 100
@@ -95,32 +95,5 @@ public final class CountryCSVDataGenerator implements CountryCSVDefaultData
       country.setMethodPercentage(START_YEAR, EnumGrowMethod.GMO, WORLD_GMO);
   }
   
-  private static void fixGrowMethodSingleError(Country country, Map<String,String> recordMap)
-  {
-    double totalMethods = 0;
-    EnumGrowMethod wrongMethod = null;
-    for (EnumGrowMethod method : EnumGrowMethod.values()) 
-    {
-      try
-      {
-
-        String methodString = method.toString().toLowerCase();
-        double value = Double.parseDouble(recordMap.get(methodString));
-
-        if (value >= 0 && value <= 1)
-        {
-          totalMethods += value;
-        }
-        else wrongMethod = method;
-      }
-      catch (NumberFormatException e)
-      {
-        // set default value
-        wrongMethod = method;  // if value is not a number, is error
-        //country.setMethodPercentage(START_YEAR, method, Double.parseDouble(value));
-      }
-    }
-    double correctValue = 1 - totalMethods;
-    country.setMethodPercentage(START_YEAR, wrongMethod, correctValue);
-  }
+ 
 }

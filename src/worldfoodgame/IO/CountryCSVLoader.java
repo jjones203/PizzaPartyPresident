@@ -203,12 +203,12 @@ public class CountryCSVLoader
         {
           case "averageAge":
             int intValue = Integer.parseInt(value);
-            if (intValue > 0) country.setMedianAge(START_YEAR, intValue);
+            if (intValue > 0) country.setMedianAge(intValue);
             else throw new IllegalArgumentException(); 
             break;
           case "birthRate":
             double numValue = Double.parseDouble(value);
-            if (numValue >= 0 && numValue < 2000) country.setBirthRate(START_YEAR, numValue);
+            if (numValue >= 0 && numValue < 2000) country.setBirthRate(numValue);
             else throw new IllegalArgumentException();
             break;
           case "mortality":
@@ -218,7 +218,7 @@ public class CountryCSVLoader
             break;
           case "migration":
             numValue = Double.parseDouble(value);
-            if (numValue >= -1000 && numValue <= 1000) country.setMigrationRate(START_YEAR, numValue);
+            if (numValue >= -1000 && numValue <= 1000) country.setMigrationRate(numValue);
             else throw new IllegalArgumentException();
             break;
           case "undernourish":
@@ -408,10 +408,10 @@ public class CountryCSVLoader
      
      // copy everything
      countryFinal.setPopulation(START_YEAR, population);
-     countryFinal.setMedianAge(START_YEAR, medianAge);
-     countryFinal.setBirthRate(START_YEAR, birthRate);
+     countryFinal.setMedianAge(medianAge);
+     countryFinal.setBirthRate(birthRate);
      countryFinal.setMortalityRate(START_YEAR, mortalityRate);
-     countryFinal.setMigrationRate(START_YEAR, migrationRate);
+     countryFinal.setMigrationRate(migrationRate);
      countryFinal.setUndernourished(START_YEAR, undernourished);
      countryFinal.setLandTotal(START_YEAR, landTotal);
      countryFinal.setArableLand(START_YEAR, landArable);

@@ -3,6 +3,9 @@ package worldfoodgame.model;
 
 import java.nio.ByteBuffer;
 
+import worldfoodgame.common.CropZoneData.EnumCropZone;
+import worldfoodgame.common.EnumCropType;
+
 /**
  @author david
  created: 2015-03-21
@@ -163,34 +166,42 @@ public class LandTile
  /**
  * Rates tile's suitability for a particular crop.
  * @param   crop                  crop for which we want rating (wheat, corn, rice, or soy)
- * @return                        TileCropRating (IDEAL, ACCEPTABLE, or POOR)
+ * @return                        EnumCropZone (IDEAL, ACCEPTABLE, or POOR)
  * @throws NullPointerException   if called with argument EnumCropType.OTHER_CROPS, will throw an
  *                                exception because OTHER_CROPS required climate varies by country;
  *                                rating cannot be calculated using crop alone.
  */
-//public TileCropRating rateTileForCrop(EnumCropType crop) throws NullPointerException
-// {
-//   double tempRange30 = (crop.dayTemp - crop.nightTemp)*0.3;                // tempRange30 is 30% of crop's optimum day-night temp range
-//   double rainRange30 = (crop.maxRain - crop.minRain)*0.3;                  // rainRange30 is 30% of crop's optimum rainfall range
-//   if (avgDayTemp <= crop.dayTemp && avgDayTemp >= crop.nightTemp &&        // if avgDayTemp and avgNightTemp are both
-//       avgNightTemp >= crop.nightTemp && avgNightTemp <= crop.dayTemp &&    // in the interval [crop.nightTemp, crop.dayTemp],
-//       maxAnnualTemp <= crop.maxTemp && minAnnualTemp >= crop.minTemp &&    // and maxAnnualTemp and minAnnualTemp are both in
-//       rainfall >= crop.minRain && rainfall <= crop.maxRain)                // the interval [crop.minTemp, crop.maxTemp],
-//   {                                                                        // and rainfall is in [crop.minRain, crop.maxRain]
-//     return TileCropRating.IDEAL;                                           // then tile is IDEAL for crop
-//   }
-//   else if  (avgDayTemp <= crop.dayTemp+tempRange30 &&                      // if avgDayTemp and avgNightTemp are both in
-//             avgDayTemp >= crop.nightTemp-tempRange30 &&                    // [crop.nightTemp-tempRange30,crop.dayTemp+tempRange30]
-//             avgNightTemp <= crop.dayTemp+tempRange30 &&                    // and maxAnnualTemp and minAnnualTemp are both in
-//             avgNightTemp >= crop.nightTemp-tempRange30 &&                  // the interval [crop.minTemp, crop.maxTemp],
-//             maxAnnualTemp <= crop.maxTemp &&                               // and rainfall is in
-//             minAnnualTemp >= crop.minTemp &&                               // [crop.minRain-rainRange30, crop.maxRain+rainRange30]
-//             rainfall >= crop.minRain-rainRange30 &&                        // then tile is ACCEPTABLE for crop
-//             rainfall <= crop.maxRain+rainRange30)
-//   {
-//     return TileCropRating.ACCEPTABLE;
-//   }
-//   else return TileCropRating.POOR;                                         // otherwise tile is POOR for crop
-// }
+ public EnumCropZone rateTileForCrop(EnumCropType crop) throws NullPointerException
+ {
+   int cropDayT = crop.dayTemp;
+   int cropNightT = crop.nightTemp;
+   int cropMaxT = crop.maxTemp;
+   int cropMinT = crop.minTemp;
+   int cropMaxR = crop.maxRain;
+   int cropMinR = crop.minRain;
+   double tRange30 = (crop.dayTemp - crop.nightTemp)*0.3;                       // tempRange30 is 30% of crop's optimum day-night temp range
+   double rRange30 = (crop.maxRain - crop.minRain)*0.3;                         // rainRange30 is 30% of crop's optimum rainfall range
+   if (isBetween(avgDayTemp, cropNightT, cropDayT) &&                           // if avgDayTemp and avgNightTemp are both
+       isBetween(avgNightTemp, cropNightT, cropDayT) &&                         // in the interval [crop.nightTemp, crop.dayTemp],
+       maxAnnualTemp <= cropMaxT && minAnnualTemp >= cropMinT &&                // and maxAnnualTemp and minAnnualTemp are both in
+       isBetween(rainfall, cropMinR, cropMaxR))                                 // the interval [crop.minTemp, crop.maxTemp],
+   {                                                                            // and rainfall is in [crop.minRain, crop.maxRain]
+     return EnumCropZone.IDEAL;                                                 // then tile is IDEAL for crop
+   }
+   else if  (isBetween(avgDayTemp, cropNightT-tRange30, cropDayT+tRange30) &&   // if avgDayTemp and avgNightTemp are both in
+             isBetween(avgNightTemp, cropNightT-tRange30, cropDayT+tRange30) && // [crop.nightTemp-tempRange30,crop.dayTemp+tempRange30]
+             maxAnnualTemp <= cropMaxT && minAnnualTemp >= cropMinT &&          // and maxAnnualTemp and minAnnualTemp are both in                                 
+             isBetween(rainfall, cropMinR-rRange30, cropMaxR+rRange30))         // the interval [crop.minTemp, crop.maxTemp],                        
+   {                                                                            // [crop.minRain-rainRange30, crop.maxRain+rainRange30]     
+     return EnumCropZone.ACCEPTABLE;                                            // and rainfall is in
+   }                                                                            // then tile is ACCEPTABLE for crop
+   else return EnumCropZone.POOR;                                               // otherwise tile is POOR for crop
+ }
+ 
+ private boolean isBetween(Number numToTest, Number lowVal, Number highVal)
+ {
+   if (numToTest.doubleValue() >= lowVal.doubleValue() && numToTest.doubleValue() <= highVal.doubleValue()) return true;
+   else return false;
+ }
  
 }
