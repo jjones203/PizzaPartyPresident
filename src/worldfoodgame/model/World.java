@@ -24,6 +24,7 @@ public class World
   private Random random = new Random(44);
   private Collection<Region> world;
   private Collection<Country> politicalWorld;
+  private Collection<LandTile> allTheLand;
   private Calendar currentDate;
 
   /**
@@ -161,5 +162,50 @@ public class World
     else rise = 0;
     return rise;
   }
-  
+
+
+  // stetck of top down look at world step:
+  public void stepWorld()
+  {
+    updateEcoSystems();
+    allocateCrops();
+    harvestCrops();
+    shipAndReveice();
+    adjustCountryDemographics();
+  }
+
+  private void adjustCountryDemographics()
+  {
+    new RuntimeException("NOT IMPLEMENTED");
+  }
+
+  private void shipAndReveice()
+  {
+    new RuntimeException("NOT IMPLEMENTED");
+  }
+
+  private void harvestCrops()
+  {
+    new RuntimeException("NOT IMPLEMENTED");
+  }
+
+  private void allocateCrops()
+  {
+    new RuntimeException("NOT IMPLEMENTED");
+  }
+
+  private void updateEcoSystems()
+  {
+    new RuntimeException("NOT IMPLEMENTED");
+  }
+
+  public Collection<LandTile> getAllTheLand()
+  {
+    return allTheLand;
+  }
+
+  public void setAllTheLand(Collection<LandTile> allTheLand)
+  {
+    this.allTheLand = allTheLand;
+  }
 }
