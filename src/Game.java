@@ -72,7 +72,7 @@ public class Game
     MapConverter converter = new EquirectangularConverter();
 
     worldPresenter = new WorldPresenter(converter, world);
-    worldPresenter.setBackgroundRegions(background);
+//    worldPresenter.setBackgroundRegions(background);
 
 
 
@@ -207,7 +207,6 @@ public class Game
     frame = new JFrame();
     frame.setLayout(new BorderLayout());
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//    frame.add(worldFeedPanel, BorderLayout.NORTH); this was causing the mapPane to jump.
     frame.add(mapPane, BorderLayout.CENTER);
     frame.add(infoPanel, BorderLayout.SOUTH);
     frame.addKeyListener(mapPane);

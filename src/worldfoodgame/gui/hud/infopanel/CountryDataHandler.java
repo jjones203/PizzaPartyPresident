@@ -24,11 +24,11 @@ public class CountryDataHandler extends Observable
     mortalityRate, migrationRate, undernourished,
     landTotal, arableOpen;
 
-  public HashMap<EnumCropType,Double> production = new HashMap<>();
-         HashMap<EnumCropType,Double> imports = new HashMap<>();
-         HashMap<EnumCropType,Double> exports = new HashMap<>();
-         HashMap<EnumCropType,Double> land = new HashMap<>();
-         HashMap<EnumCropType,Double> need = new HashMap<>();
+  public HashMap<EnumCropType, Double> production = new HashMap<>();
+  HashMap<EnumCropType, Double> imports = new HashMap<>();
+  HashMap<EnumCropType, Double> exports = new HashMap<>();
+  HashMap<EnumCropType, Double> land = new HashMap<>();
+  HashMap<EnumCropType, Double> need = new HashMap<>();
 
   private CountryDataHandler()
   {
@@ -49,48 +49,47 @@ public class CountryDataHandler extends Observable
 
   // todo add write method, that takes the values in the data handler and writes them to the country.
 
-
-    public static CountryDataHandler getTestData()
+  public static CountryDataHandler getTestData()
   {
     CountryDataHandler dataHandler = new CountryDataHandler();
 
-    dataHandler.name = "Afghanistan";
-    dataHandler.population = 31281000;
-    dataHandler.medianAge = 16;
-    dataHandler.birthRate = 35;
-    dataHandler.mortalityRate = 8;
-    dataHandler.migrationRate = -3;
-    dataHandler.undernourished = 24.00; // percent
+    dataHandler.name = "";
+    dataHandler.population = 0;
+    dataHandler.medianAge = 0;
+    dataHandler.birthRate = 0;
+    dataHandler.mortalityRate = 0;
+    dataHandler.migrationRate = 0;
+    dataHandler.undernourished = 0; // percent
 
-    dataHandler.production.put(EnumCropType.CORN, 300120.0);
-    dataHandler.production.put(EnumCropType.WHEAT, 3388000.0);
-    dataHandler.production.put(EnumCropType.RICE, 448224.0);
+    dataHandler.production.put(EnumCropType.CORN, 0.0);
+    dataHandler.production.put(EnumCropType.WHEAT, 0.0);
+    dataHandler.production.put(EnumCropType.RICE, 0.0);
     dataHandler.production.put(EnumCropType.SOY, 0.0);
-    dataHandler.production.put(EnumCropType.OTHER_CROPS, 2602689.0);
+    dataHandler.production.put(EnumCropType.OTHER_CROPS, 0.0);
 
-    dataHandler.imports.put(EnumCropType.CORN, 45.0);
+    dataHandler.imports.put(EnumCropType.CORN, 0.0);
     dataHandler.imports.put(EnumCropType.WHEAT, 0.0);
     dataHandler.imports.put(EnumCropType.RICE, 0.0);
     dataHandler.imports.put(EnumCropType.SOY, 0.0);
-    dataHandler.imports.put(EnumCropType.OTHER_CROPS, 273980.0);
+    dataHandler.imports.put(EnumCropType.OTHER_CROPS, 0.0);
 
-    dataHandler.exports.put(EnumCropType.CORN, 2885.0);
-    dataHandler.exports.put(EnumCropType.WHEAT, 1758691.0);
-    dataHandler.exports.put(EnumCropType.RICE, 73110.0);
+    dataHandler.exports.put(EnumCropType.CORN, 0.0);
+    dataHandler.exports.put(EnumCropType.WHEAT, 0.0);
+    dataHandler.exports.put(EnumCropType.RICE, 0.0);
     dataHandler.exports.put(EnumCropType.SOY, 0.0);
-    dataHandler.exports.put(EnumCropType.OTHER_CROPS, 980216.0);
+    dataHandler.exports.put(EnumCropType.OTHER_CROPS, 0.0);
 
-    dataHandler.land.put(EnumCropType.CORN, 1830000.0);
-    dataHandler.land.put(EnumCropType.WHEAT, 22320000.0);
-    dataHandler.land.put(EnumCropType.RICE, 2100000.0);
+    dataHandler.land.put(EnumCropType.CORN, 0.0);
+    dataHandler.land.put(EnumCropType.WHEAT, 0.0);
+    dataHandler.land.put(EnumCropType.RICE, 0.0);
     dataHandler.land.put(EnumCropType.SOY, 0.0);
-    dataHandler.land.put(EnumCropType.OTHER_CROPS, 72871130.0);
+    dataHandler.land.put(EnumCropType.OTHER_CROPS, 0.0);
 
-    dataHandler.landTotal = 2.001123413E8;
-    dataHandler.arableOpen = 2.001123413E8 * 4.0/5.0;
+    dataHandler.landTotal = 0.0;
+    dataHandler.arableOpen = 0.0;
 
 
-    return  dataHandler;
+    return dataHandler;
   }
 
   public void setland(EnumCropType type, double percent)
@@ -106,8 +105,14 @@ public class CountryDataHandler extends Observable
 
   public static CountryDataHandler getData(List<Country> activeCountries, int year)
   {
-    if (activeCountries.size() == 1) return extractData(activeCountries.get(0), year);
-    else return summationData(activeCountries,year);
+    if (activeCountries.size() == 1)
+    {
+      return extractData(activeCountries.get(0), year);
+    }
+    else
+    {
+      return summationData(activeCountries, year);
+    }
   }
 
   private static CountryDataHandler extractData(Country country, int year)
