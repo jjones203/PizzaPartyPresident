@@ -9,6 +9,7 @@ import worldfoodgame.gui.displayconverters.MapConverter;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -25,6 +26,7 @@ public class Country extends AbstractCountry
   private int START_YEAR = AbstractScenario.START_YEAR;
   private List<Region> regions;
   private MapPoint capitolLocation;
+  private Collection<LandTile> landTiles;
 
   /**
    * returns the point representing the shipping location of that country.
@@ -216,6 +218,11 @@ public class Country extends AbstractCountry
     return undernourished[year - START_YEAR];
   }
 
+  /**
+   * Sets undernourished percentage; see updateUndernourished method for calculating percentage. 
+   * @param year        year to set
+   * @param percentage  percentage to set
+   */
   public void setUndernourished(int year, double percentage)
   {
     if (percentage >= 0 && percentage <= 1)
@@ -437,16 +444,68 @@ public class Country extends AbstractCountry
   }
   
   /**
-   * returns the number of tons needed of crop type for the specified year.
-   *
-   * @param year year in question
-   * @param type type of crop
-   * @return tons of crop needed
+   * Returns difference between country's production and need for a crop for the specified year.
+   * If a positive value is returned, country has a surplus available for export.
+   * If a negative value is returned, country has unmet need to be satisfied by imports.
+   * @param year  year in question
+   * @param type  type of crop
+   * @return      surplus/shortfall of crop
    */
   public double getSurplus(int year, EnumCropType type)
   {
-    return this.getCropProduction(year, type) - this.getPopulation(year) * this.getCropNeedPerCapita(type);
+    return this.getCropProduction(year, type) - getTotalCropNeed(year, type);
   }
 
+  /**
+   * Returns how many tons of crop country needs for specified year
+   * @param year  year in question
+   * @param crop  crop in question
+   * @return      total tons needed to meet population's need 
+   */
+  public double getTotalCropNeed(int year, EnumCropType crop)
+  {
+    double tonsPerPerson = getCropNeedPerCapita(crop);
+    int population = getPopulation(year);
+    return tonsPerPerson * population;
+  }
+  
+  /**
+   * Calculates net crop available using formula from p. 15 of spec 1.7
+   * @param year  year in question
+   * @param crop  crop in question
+   * @return      tons available
+   */
+  public double getNetCropAvailable(int year, EnumCropType crop)
+  {
+    double available = getCropProduction(year, crop) + getCropImport(year, crop) - getCropExport(year, crop);
+    return available;
+  }
+  
+  
+  
+  /**
+   * Calculate % of undernourished people for year, update undernourished array.
+   * Translate formula from spec 1.7, p. 10, #6 to:
+   * -2 * ((tons available/per capita consumption) - population) = number undernourished for that crop
+   * Based on p. 16, #15, calculate number undernourished for each crop and take max of those 5 results.
+   * The number undernourished is the lower of the max result and the total population. 
+   * @param   year
+   */
+  public void updateUndernourished(int year)
+  {
+    double maxResult = 0; // maxResult is highest number of people undernourished based on 5 crop calculations
+    int population = getPopulation(year);
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      double tonsAvail = getNetCropAvailable(year,crop);
+      double perCapCon = getCropNeedPerCapita(crop);
+      double result = -2 * (tonsAvail/perCapCon - population);
+      if (result > maxResult) maxResult = result;
+    }
+    double undernourished = Math.min(maxResult,population);
+    setUndernourished(year, undernourished/population);
+  }
+  
+  
   
 }
