@@ -1,11 +1,9 @@
 package worldfoodgame.gui.hud.infopanel;
 
-import worldfoodgame.IO.CountryCSVLoader;
-import worldfoodgame.IO.XMLparsers.CountryXMLparser;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.model.Country;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Created by winston on 3/13/15.
@@ -13,95 +11,106 @@ import java.util.*;
  * Stores and handles country data interactions for a given country at a given
  * year.
  */
-public class CountryDataHandler extends Observable
+public abstract class CountryDataHandler
 {
-  private Collection<Country> derivedFrom;
-
-  String name;
-
-  public double
-    population, medianAge, birthRate,
-    mortalityRate, migrationRate, undernourished,
-    landTotal, arableOpen;
-
-  public HashMap<EnumCropType, Double> production = new HashMap<>();
-  HashMap<EnumCropType, Double> imports = new HashMap<>();
-  HashMap<EnumCropType, Double> exports = new HashMap<>();
-  HashMap<EnumCropType, Double> land = new HashMap<>();
-  HashMap<EnumCropType, Double> need = new HashMap<>();
-
-  private CountryDataHandler()
-  {
-    // to keep things secret/safe.
-  }
-
-
-  public double getCultivatedLand()
-  {
-    double sum = 0;
-
-    for (EnumCropType type : EnumCropType.values())
-    {
-      sum += land.get(type);
-    }
-    return sum;
-  }
 
   // todo add write method, that takes the values in the data handler and writes them to the country.
 
-  public static CountryDataHandler getTestData()
+  public static CountryDataHandler getNullData()
   {
-    CountryDataHandler dataHandler = new CountryDataHandler();
+    return new CountryDataHandler()
+    {
+      @Override
+      public String getName()
+      {
+        return "";
+      }
 
-    dataHandler.name = "";
-    dataHandler.population = 0;
-    dataHandler.medianAge = 0;
-    dataHandler.birthRate = 0;
-    dataHandler.mortalityRate = 0;
-    dataHandler.migrationRate = 0;
-    dataHandler.undernourished = 0; // percent
+      @Override
+      public double getPopulation()
+      {
+        return 0;
+      }
 
-    dataHandler.production.put(EnumCropType.CORN, 0.0);
-    dataHandler.production.put(EnumCropType.WHEAT, 0.0);
-    dataHandler.production.put(EnumCropType.RICE, 0.0);
-    dataHandler.production.put(EnumCropType.SOY, 0.0);
-    dataHandler.production.put(EnumCropType.OTHER_CROPS, 0.0);
+      @Override
+      public double getMedianAge()
+      {
+        return 0;
+      }
 
-    dataHandler.imports.put(EnumCropType.CORN, 0.0);
-    dataHandler.imports.put(EnumCropType.WHEAT, 0.0);
-    dataHandler.imports.put(EnumCropType.RICE, 0.0);
-    dataHandler.imports.put(EnumCropType.SOY, 0.0);
-    dataHandler.imports.put(EnumCropType.OTHER_CROPS, 0.0);
+      @Override
+      public double getBirthRate()
+      {
+        return 0;
+      }
 
-    dataHandler.exports.put(EnumCropType.CORN, 0.0);
-    dataHandler.exports.put(EnumCropType.WHEAT, 0.0);
-    dataHandler.exports.put(EnumCropType.RICE, 0.0);
-    dataHandler.exports.put(EnumCropType.SOY, 0.0);
-    dataHandler.exports.put(EnumCropType.OTHER_CROPS, 0.0);
+      @Override
+      public double getMortalityRate()
+      {
+        return 0;
+      }
 
-    dataHandler.land.put(EnumCropType.CORN, 0.0);
-    dataHandler.land.put(EnumCropType.WHEAT, 0.0);
-    dataHandler.land.put(EnumCropType.RICE, 0.0);
-    dataHandler.land.put(EnumCropType.SOY, 0.0);
-    dataHandler.land.put(EnumCropType.OTHER_CROPS, 0.0);
+      @Override
+      public double getMigrationRate()
+      {
+        return 0;
+      }
 
-    dataHandler.landTotal = 0.0;
-    dataHandler.arableOpen = 0.0;
+      @Override
+      public double getUndernourished()
+      {
+        return 0;
+      }
 
+      @Override
+      public double getLandTotal()
+      {
+        return 0;
+      }
 
-    return dataHandler;
+      @Override
+      public double getArableOpen()
+      {
+        return 0;
+      }
+
+      @Override
+      public double getProduction(EnumCropType type)
+      {
+        return 0;
+      }
+
+      @Override
+      public double getImports(EnumCropType type)
+      {
+        return 0;
+      }
+
+      @Override
+      public double getExports(EnumCropType type)
+      {
+        return 0;
+      }
+
+      @Override
+      public double getLand(EnumCropType type)
+      {
+        return 0;
+      }
+
+      @Override
+      public void setLand(EnumCropType type, double p)
+      {
+
+      }
+
+      @Override
+      public double getNeed(EnumCropType type)
+      {
+        return 0;
+      }
+    };
   }
-
-  public void setland(EnumCropType type, double percent)
-  {
-    land.put(type, percent);
-  }
-
-  public double getOpenLand()
-  {
-    return arableOpen - getCultivatedLand();
-  }
-
 
   public static CountryDataHandler getData(List<Country> activeCountries, int year)
   {
@@ -117,30 +126,8 @@ public class CountryDataHandler extends Observable
 
   private static CountryDataHandler extractData(Country country, int year)
   {
-    CountryDataHandler dataHandler = new CountryDataHandler();
-    dataHandler.derivedFrom = new ArrayList<>();
-    dataHandler.derivedFrom.add(country);
 
-    dataHandler.name = country.getName();
-    dataHandler.landTotal = country.getLandTotal(year);
-    dataHandler.population = country.getPopulation(year);
-    dataHandler.medianAge = country.getMedianAge(year);
-    dataHandler.birthRate = country.getBirthRate(year);
-    dataHandler.mortalityRate = country.getMortalityRate(year);
-    dataHandler.migrationRate = country.getMigrationRate(year);
-    dataHandler.undernourished = country.getUndernourished(year);
-    dataHandler.arableOpen = country.getArableLand(year);
-
-    for (EnumCropType type : EnumCropType.values())
-    {
-      dataHandler.land.put(type, country.getCropLand(year, type));
-      dataHandler.imports.put(type, country.getCropImport(year, type));
-      dataHandler.exports.put(type, country.getCropExport(year, type));
-      dataHandler.production.put(type, country.getCropProduction(year, type));
-      dataHandler.need.put(type, country.getCropNeedPerCapita(type));
-    }
-
-    return dataHandler;
+    return new SingleCountryHandeler(country, year);
   }
 
 
@@ -150,39 +137,48 @@ public class CountryDataHandler extends Observable
     return extractData(activeCountries.get(0), year);
   }
 
-  @Override
-  public String toString()
-  {
-    return "CountryDataHandler{" +
-      "arableOpen=" + arableOpen +
-      ", derivedFrom=" + derivedFrom +
-      ", name='" + name + '\'' +
-      ", population=" + population +
-      ", medianAge=" + medianAge +
-      ", birthRate=" + birthRate +
-      ", mortalityRate=" + mortalityRate +
-      ", migrationRate=" + migrationRate +
-      ", undernourished=" + undernourished +
-      ", landTotal=" + landTotal +
-      ", production=" + production +
-      ", imports=" + imports +
-      ", exports=" + exports +
-      ", land=" + land +
-      ", need=" + need +
-      '}';
-  }
 
-  // for testing.
-  public static void main(String[] args)
-  {
-    Collection<Country> countries = new CountryXMLparser().getCountries();
-    CountryCSVLoader csvLoader = new CountryCSVLoader(countries);
-    countries = csvLoader.getCountriesFromCSV();
 
-    for (Country country : countries)
+  public abstract String getName();
+  public abstract double getPopulation();
+  public abstract double getMedianAge();
+  public abstract double getBirthRate();
+  public abstract double getMortalityRate();
+  public abstract double getMigrationRate();
+  public abstract double getUndernourished();
+  public abstract double getLandTotal();
+  public abstract double getArableOpen();
+  public abstract double getProduction(EnumCropType type);
+  public abstract double getImports(EnumCropType type);
+  public abstract double getExports(EnumCropType type);
+
+  /* returns the percent! of arable land dedicated to specified crop */
+  public abstract double getLand(EnumCropType type);
+
+
+  /* sets the percent! of arable land dedicated to specified crop */
+  public abstract void setLand(EnumCropType type, double p);
+
+  public abstract double getNeed(EnumCropType type);
+
+  public double getCultivatedLand()
+  {
+    double sum = 0;
+
+    for (EnumCropType type : EnumCropType.values())
     {
-      System.out.println(extractData(country, 2014));
+      sum += getLand(type);
     }
-
+    return sum;
   }
+
+
+  public double getOpenLand()
+  {
+    //todo is this the corect def of open land?
+    return getArableOpen() - getCultivatedLand();
+  }
+
 }
+
+

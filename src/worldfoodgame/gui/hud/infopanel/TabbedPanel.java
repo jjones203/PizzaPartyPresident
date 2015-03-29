@@ -78,7 +78,7 @@ public class TabbedPanel extends JPanel
     JPanel bluePanel = new JPanel();
     bluePanel.setBackground(Color.blue);
 
-    CountryDataHandler dataHandler = CountryDataHandler.getTestData();
+    CountryDataHandler dataHandler = CountryDataHandler.getNullData();
 
     LabelFactory labelFactory = new LabelFactory(dataHandler);
 

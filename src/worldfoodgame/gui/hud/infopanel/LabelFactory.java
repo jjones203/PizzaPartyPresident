@@ -34,8 +34,8 @@ public class LabelFactory
   {
     final GraphLabel population = new GraphLabel(
       "Population",
-      dataHandler.population,
-      dataHandler.population,
+      dataHandler.getPopulation(),
+      dataHandler.getPopulation(),
       "###E00");
 
     updates.add(new Runnable()
@@ -43,7 +43,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        population.setValue(dataHandler.population);
+        population.setValue(dataHandler.getPopulation());
       }
     });
     return population;
@@ -54,7 +54,7 @@ public class LabelFactory
   {
     final GraphLabel medianAge = new GraphLabel(
       "Median Age",
-      dataHandler.medianAge,
+      dataHandler.getMedianAge(),
       120,
       "# yrs");
 
@@ -63,7 +63,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        medianAge.setValue(dataHandler.medianAge);
+        medianAge.setValue(dataHandler.getMedianAge());
       }
     });
 
@@ -74,7 +74,7 @@ public class LabelFactory
   {
     final GraphLabel birthRate = new GraphLabel(
       "Birth Rate",
-      dataHandler.birthRate,
+      dataHandler.getBirthRate(),
       100,
       "# per thousand"
     );
@@ -84,7 +84,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        birthRate.setValue(dataHandler.birthRate);
+        birthRate.setValue(dataHandler.getBirthRate());
       }
     });
 
@@ -95,7 +95,7 @@ public class LabelFactory
   {
     final GraphLabel mortalityRate = new GraphLabel(
       "Mortality Rate",
-      dataHandler.mortalityRate,
+      dataHandler.getMortalityRate(),
       100,
       "# per thousand"
     );
@@ -105,7 +105,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        mortalityRate.setValue(dataHandler.birthRate);
+        mortalityRate.setValue(dataHandler.getBirthRate());
       }
     });
 
@@ -117,8 +117,8 @@ public class LabelFactory
   {
     return new GraphLabel(
       "Total Land",
-      dataHandler.landTotal,
-      dataHandler.landTotal,
+      dataHandler.getLandTotal(),
+      dataHandler.getLandTotal(),
       "#,###,### km sq");
   }
 
@@ -126,8 +126,8 @@ public class LabelFactory
   {
     return new GraphLabel(
       "Arable Land",
-      dataHandler.arableOpen,
-      dataHandler.arableOpen,
+      dataHandler.getArableOpen(),
+      dataHandler.getArableOpen(),
       "#,###,### km sq");
   }
 
@@ -135,8 +135,8 @@ public class LabelFactory
   {
     final GraphLabel productionLabel = new GraphLabel(
       "Production",
-      dataHandler.production.get(type),
-      dataHandler.production.get(type), //todo choose the right graphical limit
+      dataHandler.getProduction(type),
+      dataHandler.getProduction(type), //todo choose the right graphical limit
       "# metric Tons"
     );
 
@@ -145,7 +145,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        productionLabel.setValue(dataHandler.production.get(type));
+        productionLabel.setValue(dataHandler.getProduction(type));
       }
     });
 
@@ -156,7 +156,7 @@ public class LabelFactory
   {
     final GraphLabel foodControll = new GraphLabel(
       type.toString() + " land",
-      dataHandler.land.get(type) / dataHandler.arableOpen,
+      dataHandler.getLand(type), // this is a percent value that is returned.
       1,
       "% #.#",
       null);
@@ -166,7 +166,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        dataHandler.land.put(type, foodControll.getValue() * dataHandler.arableOpen);
+        dataHandler.setLand(type, foodControll.getValue());
         updateLabels();
       }
     });
@@ -177,7 +177,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        foodControll.setValue(dataHandler.land.get(type) / dataHandler.arableOpen);
+        foodControll.setValue(dataHandler.getLand(type));
       }
     });
 
@@ -189,7 +189,7 @@ public class LabelFactory
     final GraphLabel openLandLabel = new GraphLabel(
       "Open Land",
       dataHandler.getOpenLand(),
-      dataHandler.arableOpen,
+      dataHandler.getArableOpen(),
       "#,###,### km sq");
 
     updates.add(new Runnable()
@@ -208,8 +208,8 @@ public class LabelFactory
   {
     final GraphLabel exports = new GraphLabel(
       "Exported",
-      dataHandler.exports.get(type),
-      dataHandler.production.get(type),
+      dataHandler.getExports(type),
+      dataHandler.getProduction(type),
       "#,###,### tons");
 
     updates.add(new Runnable()
@@ -217,7 +217,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        exports.setValue(dataHandler.exports.get(type));
+        exports.setValue(dataHandler.getExports(type));
       }
     });
 
@@ -228,8 +228,8 @@ public class LabelFactory
   {
     final GraphLabel imported = new GraphLabel(
       "Imported",
-      dataHandler.imports.get(type),
-      dataHandler.production.get(type),
+      dataHandler.getImports(type),
+      dataHandler.getProduction(type),
       "#,###,### tons");
 
     updates.add(new Runnable()
@@ -237,7 +237,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        imported.setValue(dataHandler.imports.get(type));
+        imported.setValue(dataHandler.getImports(type));
       }
     });
 

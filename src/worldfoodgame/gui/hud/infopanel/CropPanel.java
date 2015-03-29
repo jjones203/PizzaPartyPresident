@@ -99,7 +99,7 @@ public class CropPanel extends JPanel
 //  {
 //
 //    final JFrame jFrame = new JFrame();
-//    final CropPanel cropPanel = new CropPanel(CountryDataHandler.getTestData(), EnumCropType.OTHER_CROPS);
+//    final CropPanel cropPanel = new CropPanel(CountryDataHandler.getNullData(), EnumCropType.OTHER_CROPS);
 //    jFrame.add(cropPanel);
 //
 //    jFrame.pack();
