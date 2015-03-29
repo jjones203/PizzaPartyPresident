@@ -9,6 +9,7 @@ import worldfoodgame.gui.displayconverters.MapConverter;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -25,6 +26,8 @@ public class Country extends AbstractCountry
   private int START_YEAR = AbstractScenario.START_YEAR;
   private List<Region> regions;
   private MapPoint capitolLocation;
+  private Collection<LandTile> landTiles;
+  public OtherCropsData otherCropsData;
 
   /**
    * returns the point representing the shipping location of that country.
@@ -217,6 +220,11 @@ public class Country extends AbstractCountry
     return undernourished[year - START_YEAR];
   }
 
+  /**
+   * Sets undernourished percentage; see updateUndernourished method for calculating percentage. 
+   * @param year        year to set
+   * @param percentage  percentage to set
+   */
   public void setUndernourished(int year, double percentage)
   {
     if (percentage >= 0 && percentage <= 1)
@@ -319,14 +327,42 @@ public class Country extends AbstractCountry
     return landCrop[crop.ordinal()][year - START_YEAR];
   }
 
-
-  // todo this still needs to be corrected
+  /**
+   * Returns area available for planting: arable land - sum(area used for each crop)
+   * @param year  year to check
+   * @return      arable area unused
+   */
+  public double getArableLandUnused(int year)
+  {
+    double used = 0;
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      used += getCropLand(year,crop);  
+    }
+    double unused = getArableLand(year) - used;
+    return unused;
+  }
+  
+  /**
+   * Sets area to be planted with given crop in given year
+   * @param year      year in question
+   * @param crop      crop in question
+   * @param kilomsq   number square km user wants to plant with that crop
+   */
   public void setCropLand(int year, EnumCropType crop, double kilomsq)
   {
-    if (kilomsq >= 0)
+    double unused = getArableLandUnused(year);
+    // if requested area is positive and less than available area, assign requested area to crop
+    if (kilomsq >= 0 && kilomsq <= unused)
     {
       landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
     }
+    // else if requested area is positive and there is some area available, assign the available area to crop
+    else if (kilomsq >= 0 && unused > 0)
+    {
+      landCrop[crop.ordinal()][year - START_YEAR] = unused;
+    }
+    // else something is weird
     else
     {
       System.err.println("Invalid argument for Country.setCropLand method");
@@ -440,16 +476,125 @@ public class Country extends AbstractCountry
   }
   
   /**
-   * returns the number of tons needed of crop type for the specified year.
-   *
-   * @param year year in question
-   * @param type type of crop
-   * @return tons of crop needed
+   * Returns difference between country's production and need for a crop for the specified year.
+   * If a positive value is returned, country has a surplus available for export.
+   * If a negative value is returned, country has unmet need to be satisfied by imports.
+   * @param year  year in question
+   * @param type  type of crop
+   * @return      surplus/shortfall of crop
    */
   public double getSurplus(int year, EnumCropType type)
   {
-    return this.getCropProduction(year, type) - this.getPopulation(year) * this.getCropNeedPerCapita(type);
+    return this.getCropProduction(year, type) - getTotalCropNeed(year, type);
   }
 
+  /**
+   * Returns how many tons of crop country needs for specified year
+   * @param year  year in question
+   * @param crop  crop in question
+   * @return      total tons needed to meet population's need 
+   */
+  public double getTotalCropNeed(int year, EnumCropType crop)
+  {
+    double tonsPerPerson = getCropNeedPerCapita(crop);
+    int population = getPopulation(year);
+    return tonsPerPerson * population;
+  }
   
+  /**
+   * Calculates net crop available using formula from p. 15 of spec 1.7
+   * @param year  year in question
+   * @param crop  crop in question
+   * @return      tons available
+   */
+  public double getNetCropAvailable(int year, EnumCropType crop)
+  {
+    double available = getCropProduction(year, crop) + getCropImport(year, crop) - getCropExport(year, crop);
+    return available;
+  }
+  
+  
+  
+  /**
+   * Calculate % of undernourished people for year, update undernourished array.
+   * Translate formula from spec 1.7, p. 10, #6 to:
+   * -2 * ((tons available/per capita consumption) - population) = number undernourished for that crop
+   * Based on p. 16, #15, calculate number undernourished for each crop and take max of those 5 results.
+   * The number undernourished is the lower of the max result and the total population. 
+   * @param   year
+   */
+  public void updateUndernourished(int year)
+  {
+    double maxResult = 0; // maxResult is highest number of people undernourished based on 5 crop calculations
+    int population = getPopulation(year);
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      double tonsAvail = getNetCropAvailable(year,crop);
+      double perCapCon = getCropNeedPerCapita(crop);
+      double result = -2 * (tonsAvail/perCapCon - population);
+      if (result > maxResult) maxResult = result;
+    }
+    double undernourished = Math.min(maxResult,population);
+    setUndernourished(year, undernourished/population);
+  }
+  
+  /**
+   * Iterate through country's collection of land tiles. Based on their climate data,
+   * create OtherCropsData object.
+   */
+  public void setOtherCropsData()
+  {
+    // initialize max & mins to unrealistic values to ensure they're replaced
+    float maxTemp = -10000;
+    float minTemp = 10000;
+    float sumDayTemp = 0;
+    float sumNightTemp = 0;
+    float maxRain = -1;
+    float minRain = 10000;
+    long numTiles = 0;
+    
+    for (LandTile tile:landTiles)
+    {
+      // test min & max values
+      if (tile.getMaxAnnualTemp() > maxTemp) maxTemp = tile.getMaxAnnualTemp();
+      if (tile.getMinAnnualTemp() < minTemp) minTemp = tile.getMinAnnualTemp();
+      if (tile.getRainfall() > maxRain) maxRain = tile.getRainfall();
+      if (tile.getRainfall() < minRain) minRain = tile.getRainfall();
+      sumDayTemp += tile.getAvgDayTemp();
+      sumNightTemp += tile.getAvgNightTemp();
+      numTiles++;
+    }
+    
+    float avgDayTemp = sumDayTemp/numTiles;
+    float avgNightTemp = sumNightTemp/numTiles;
+    
+    this.otherCropsData = new OtherCropsData(maxTemp, minTemp, avgDayTemp, avgNightTemp, maxRain, minRain);
+  }
+  
+
+  /**
+   * Class for storing each country's other crops climate requirements.
+   * @author  jessica
+   * @version 29-March-2015
+   */
+  private class OtherCropsData
+  {
+    public final float maxTemp;
+    public final float minTemp;
+    public final float dayTemp;
+    public final float nightTemp;
+    public final float maxRain;
+    public final float minRain;
+    
+    OtherCropsData(float maxTemp, float minTemp, float dayTemp, float nightTemp, float maxRain, float minRain)
+    {
+      this.maxTemp = maxTemp;
+      this.minTemp = minTemp;
+      this.dayTemp = dayTemp;
+      this.nightTemp = nightTemp;
+      this.maxRain = maxRain;
+      this.minRain = minRain;
+    }
+    
+  }
 }
