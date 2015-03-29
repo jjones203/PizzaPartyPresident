@@ -67,8 +67,8 @@ public class OverlayPanel extends JPanel implements ActionListener
   @Override
   public void actionPerformed(ActionEvent e)
   {
-    System.out.println(e.getActionCommand());
-    RegionViewFactory.Overlay overlay = RegionViewFactory.Overlay.values()[Integer.parseInt(e.getActionCommand())];
+    RegionViewFactory.Overlay overlay =
+      RegionViewFactory.Overlay.values()[Integer.parseInt(e.getActionCommand())];
 
     if (worldPresenter != null)
     {
