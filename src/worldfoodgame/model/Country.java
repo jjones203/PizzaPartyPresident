@@ -325,6 +325,8 @@ public class Country extends AbstractCountry
     return landCrop[crop.ordinal()][year - START_YEAR];
   }
 
+
+  // todo this still needs to be corrected
   public void setCropLand(int year, EnumCropType crop, double kilomsq)
   {
     if (kilomsq >= 0)
