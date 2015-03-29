@@ -152,11 +152,9 @@ public abstract class CountryDataHandler
   public abstract double getImports(EnumCropType type);
   public abstract double getExports(EnumCropType type);
 
-  /* returns the percent! of arable land dedicated to specified crop */
   public abstract double getLand(EnumCropType type);
 
 
-  /* sets the percent! of arable land dedicated to specified crop */
   public abstract void setLand(EnumCropType type, double p);
 
   public abstract double getNeed(EnumCropType type);

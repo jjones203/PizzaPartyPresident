@@ -156,7 +156,7 @@ public class LabelFactory
   {
     final GraphLabel foodControll = new GraphLabel(
       type.toString() + " land",
-      dataHandler.getLand(type), // this is a percent value that is returned.
+      dataHandler.getLand(type) / dataHandler.getArableOpen(), // this is a percent value that is returned.
       1,
       "% #.#",
       null);
@@ -166,7 +166,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        dataHandler.setLand(type, foodControll.getValue());
+        dataHandler.setLand(type, foodControll.getValue() * dataHandler.getArableOpen());
         updateLabels();
       }
     });
@@ -177,7 +177,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        foodControll.setValue(dataHandler.getLand(type));
+        foodControll.setValue(dataHandler.getLand(type) / dataHandler.getArableOpen());
       }
     });
 

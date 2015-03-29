@@ -62,7 +62,7 @@ public class SingleCountryHandeler extends CountryDataHandler
   @Override
   public double getLandTotal()
   {
-    return country.getUndernourished(year);
+    return country.getLandTotal(year);
   }
 
   @Override
@@ -92,14 +92,13 @@ public class SingleCountryHandeler extends CountryDataHandler
   @Override
   public double getLand(EnumCropType type)
   {
-    return country.getCropLand(year, type) / getArableOpen();
+    return country.getCropLand(year, type);
   }
 
   @Override
-  public void setLand(EnumCropType type, double p)
+  public void setLand(EnumCropType type, double kilom)
   {
-    //todo this need to be set up on the country class.
-    country.setCropLand(year, type, p * getArableOpen());
+    country.setCropLand(year, type, kilom);
   }
 
   @Override
