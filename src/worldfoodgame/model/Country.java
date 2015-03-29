@@ -343,17 +343,6 @@ public class Country extends AbstractCountry
     return unused;
   }
   
-  public void setCropLand(int year, EnumCropType crop, double kilomsq)
-  {
-    if (kilomsq >= 0 && kilomsq <= getArableLand(year))
-    {
-      landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
-    }
-    else
-    {
-      System.err.println("Invalid argument for Country.setCropLand method");
-    }
-  }
   
   /**
    * Set crop land value; use this method when initializing
