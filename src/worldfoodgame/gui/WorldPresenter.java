@@ -359,6 +359,7 @@ public class WorldPresenter extends Observable
   /**
    * advances the game world forward one month.
    */
+  @Deprecated
   public void setWorldForward(int numOfdays)
   {
     if (world.setByDays(numOfdays))

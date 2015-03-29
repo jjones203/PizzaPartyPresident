@@ -5,8 +5,6 @@ import worldfoodgame.gui.GUIRegion;
 
 import java.awt.*;
 
-import static worldfoodgame.model.RegionAttributes.PLANTING_ATTRIBUTES.HAPPINESS;
-
 /**
  * Created by winston on 1/27/15.
  * Phase_01
@@ -25,12 +23,6 @@ class RegionHappyView implements RegionView
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
   {
-    if (gRegion == null || gRegion.getRegion().getAttributes() == null)
-    {
-      System.err.println("(!) GUI REGION or attribute set is null!");
-      return;
-    }
-
     Color color;
     if (gRegion.isActive())
     {
@@ -38,10 +30,13 @@ class RegionHappyView implements RegionView
     }
     else
     {
-      double happinessLevel = gRegion.getRegion().getAttributes()
-                                                 .getAttribute(HAPPINESS);
+      int yearOfInterest = 2014; // todo find solution to this!
+      double unhappyPeople = gRegion.getRegion().getCountry().getUnhappyPeople(yearOfInterest);
+      double totalPopulation = gRegion.getRegion().getCountry().getPopulation(yearOfInterest);
 
-      color = new Color((float)happinessLevel, (float)happinessLevel, 0.0f);
+      double ratio = 1.0 - (unhappyPeople / totalPopulation);
+
+      color = new Color((float)ratio, (float)ratio, 0.0f);
     }
 
     g.setColor(color);

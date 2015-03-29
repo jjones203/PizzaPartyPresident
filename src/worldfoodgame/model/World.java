@@ -153,6 +153,7 @@ public class World
    * @param     year
    * @return    rise in cm
    */
+  @Deprecated
   public double getBaseSeaLevelRise(int year)
   {
     double rise;
