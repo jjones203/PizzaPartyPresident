@@ -21,16 +21,10 @@ public abstract class MapConverter
    * @param r region object to be transformed.
    * @return polygon representing the region in the appropriate map projection.
    */
-  public Polygon regionToPolygon(Region r)
-  {
-    Polygon polygon = new Polygon();
-    for (MapPoint mp : r.getPerimeter())
-    {
-      Point p = new Point(mapPointToPoint(mp));
-      polygon.addPoint(p.x, p.y);
-    }
-    return polygon;
-  }
+  public abstract Polygon regionToPolygon(Region r);
+
+
+
 
   /**
    * Factor that the map points are scaled by.

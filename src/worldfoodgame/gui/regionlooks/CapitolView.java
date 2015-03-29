@@ -33,28 +33,13 @@ class CapitolView implements RegionView
     g2d.setTransform(new AffineTransform());
 
 
-    /* find ~center of region in map-space */
-    int x = (int) gRegion.getPoly().getBounds().getCenterX();
-    int y = (int) gRegion.getPoly().getBounds().getCenterY();
-
-
-    Point src = new Point(x, y);
-
-    if (true) // debuggin
-    {
-      MapPoint capitol = gRegion.getRegion().getCountry().getCapitolLocation();
-
-      Point convertedPoint = converter.mapPointToPoint(capitol);
-
-      System.out.println("converted point: " + convertedPoint);
-      System.out.println("src point: " + src);
-    }
-
+    MapPoint capitol = gRegion.getRegion().getCountry().getCapitolLocation();
+    Point convertedPoint = converter.mapPointToPoint(capitol);
 
 
     Point dst = new Point();
 
-    at.transform(src, dst);
+    at.transform(convertedPoint, dst);
 
     g2d.setColor(Color.CYAN);
     g2d.fillOval(dst.x, dst.y, 10, 10);
