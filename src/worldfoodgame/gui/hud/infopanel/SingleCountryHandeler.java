@@ -106,4 +106,10 @@ public class SingleCountryHandeler extends CountryDataHandler
   {
     return country.getCropNeedPerCapita(type);
   }
+
+  @Override
+  public double getOpenLand()
+  {
+    return country.getArableLandUnused(year);
+  }
 }

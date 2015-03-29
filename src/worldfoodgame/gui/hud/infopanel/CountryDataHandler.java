@@ -103,9 +103,14 @@ public abstract class CountryDataHandler
       {
 
       }
-
       @Override
       public double getNeed(EnumCropType type)
+      {
+        return 0;
+      }
+
+      @Override
+      public double getOpenLand()
       {
         return 0;
       }
@@ -171,11 +176,8 @@ public abstract class CountryDataHandler
   }
 
 
-  public double getOpenLand()
-  {
-    //todo is this the corect def of open land?
-    return getArableOpen() - getCultivatedLand();
-  }
+  public abstract double getOpenLand();
+
 
 }
 

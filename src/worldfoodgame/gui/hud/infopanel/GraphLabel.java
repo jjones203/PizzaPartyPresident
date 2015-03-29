@@ -38,14 +38,14 @@ public class GraphLabel extends JPanel
    * Create a new Graph Label object. Used to display country data and control
    * interface for user.
    *
-   * @param label string to be printed above the bar graph.
-   * @param value value to be draw as a bar.
-   * @param limit represents what a full bar would be. (used to scale the bar)
+   * @param label         string to be printed above the bar graph.
+   * @param value         value to be draw as a bar.
+   * @param limit         represents what a full bar would be. (used to scale the bar)
    * @param formatPattern defines how to display the numerical information.
    */
   public GraphLabel(String label, double value, double limit, String formatPattern)
   {
-    this(label, value, limit, limit/10.0, Color.red, false, new DecimalFormat(formatPattern));
+    this(label, value, limit, limit / 10.0, Color.red, false, new DecimalFormat(formatPattern));
   }
 
 
@@ -53,14 +53,14 @@ public class GraphLabel extends JPanel
    * Create a new Graph Label object. Used to display country data and control
    * interface for user.
    *
-   * @param label string to be printed above the bar graph.
-   * @param value value to be draw as a bar.
-   * @param limit represents what a full bar would be. (used to scale the bar)
+   * @param label         string to be printed above the bar graph.
+   * @param value         value to be draw as a bar.
+   * @param limit         represents what a full bar would be. (used to scale the bar)
    * @param decimalFormat Formatter that determines how the label is printed.
    */
   public GraphLabel(String label, double value, double limit, DecimalFormat decimalFormat)
   {
-    this(label, value, limit, limit/10.0, Color.red, false, decimalFormat);
+    this(label, value, limit, limit / 10.0, Color.red, false, decimalFormat);
   }
 
 
@@ -68,25 +68,24 @@ public class GraphLabel extends JPanel
    * Create a new Graph Label object. Used to display country data and control
    * interface for user.
    *
-   * @param label string to be printed above the bar graph.
-   * @param value value to be draw as a bar.
-   * @param limit represents what a full bar would be. (used to scale the bar)
+   * @param label         string to be printed above the bar graph.
+   * @param value         value to be draw as a bar.
+   * @param limit         represents what a full bar would be. (used to scale the bar)
    * @param formatPattern defines how to display the numerical information.
-   * @param runnable this runnable is executed whenever the controls are
-   *                 engaged.
+   * @param runnable      this runnable is executed whenever the controls are
+   *                      engaged.
    */
   public GraphLabel(String label, double value,
                     double limit, String formatPattern, Runnable runnable)
   {
-    this(label, value, limit, limit/100.0, Color.red, true, new DecimalFormat(formatPattern));
+    this(label, value, limit, limit / 100.0, Color.red, true, new DecimalFormat(formatPattern));
     this.effectRunnable = runnable;
   }
 
 
-
   private GraphLabel(String label, double value,
-                    double limit, double step,
-                    Color barColor, boolean isController, DecimalFormat formatter)
+                     double limit, double step,
+                     Color barColor, boolean isController, DecimalFormat formatter)
   {
     this.value = value;
     this.barColor = barColor;
@@ -160,7 +159,7 @@ public class GraphLabel extends JPanel
     tempPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
     tempPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
-    JLabel text = new JLabel(label+":");
+    JLabel text = new JLabel(label + ":");
     text.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     text.setFont(labelTypeFace);
 
