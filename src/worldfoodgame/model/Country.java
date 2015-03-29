@@ -354,15 +354,37 @@ public class Country extends AbstractCountry
     return unused;
   }
   
+  public void setCropLand(int year, EnumCropType crop, double kilomsq)
+  {
+    if (kilomsq >= 0 && kilomsq <= getArableLand(year))
+    {
+      landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setCropLand method");
+    }
+  }
+  
   /**
-   * Sets area to be planted with given crop in given year
+   * Sets area to be planted with given crop in given year based on user input
    * @param year      year in question
    * @param crop      crop in question
    * @param kilomsq   number square km user wants to plant with that crop
    */
-  public void setCropLand(int year, EnumCropType crop, double kilomsq)
+  public void updateCropLand(int year, EnumCropType crop, double kilomsq)
   {
     double unused = getArableLandUnused(year);
+    double currCropLand = getCropLand(year, crop);
+    double delta = kilomsq - currCropLand;
+    
+    // if trying to decrease beyond 0, set to 0
+    if ((currCropLand + delta) < 0) landCrop[crop.ordinal()][year - START_YEAR] = 0;
+    // else if trying to increase by amount greater than available, set to current + available
+    else if (delta > unused) landCrop[crop.ordinal()][year - START_YEAR] = currCropLand + unused;
+    // else set to curr + delta
+    else landCrop[crop.ordinal()][year - START_YEAR] = currCropLand + delta;
+    /*double unused = getArableLandUnused(year);
     // if requested area is positive and less than available area, assign requested area to crop
     if (kilomsq >= 0 && kilomsq <= unused)
     {
@@ -377,7 +399,7 @@ public class Country extends AbstractCountry
     else
     {
       System.err.println("Invalid argument for Country.setCropLand method");
-    }
+    }*/
   }
 
 
