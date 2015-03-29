@@ -27,6 +27,7 @@ public class Country extends AbstractCountry
   private List<Region> regions;
   private MapPoint capitolLocation;
   private Collection<LandTile> landTiles;
+  public OtherCropsData otherCropsData;
 
   /**
    * returns the point representing the shipping location of that country.
@@ -325,14 +326,42 @@ public class Country extends AbstractCountry
     return landCrop[crop.ordinal()][year - START_YEAR];
   }
 
-
-  // todo this still needs to be corrected
+  /**
+   * Returns area available for planting: arable land - sum(area used for each crop)
+   * @param year  year to check
+   * @return      arable area unused
+   */
+  public double getArableLandUnused(int year)
+  {
+    double used = 0;
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      used += getCropLand(year,crop);  
+    }
+    double unused = getArableLand(year) - used;
+    return unused;
+  }
+  
+  /**
+   * Sets area to be planted with given crop in given year
+   * @param year      year in question
+   * @param crop      crop in question
+   * @param kilomsq   number square km user wants to plant with that crop
+   */
   public void setCropLand(int year, EnumCropType crop, double kilomsq)
   {
-    if (kilomsq >= 0)
+    double unused = getArableLandUnused(year);
+    // if requested area is positive and less than available area, assign requested area to crop
+    if (kilomsq >= 0 && kilomsq <= unused)
     {
       landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
     }
+    // else if requested area is positive and there is some area available, assign the available area to crop
+    else if (kilomsq >= 0 && unused > 0)
+    {
+      landCrop[crop.ordinal()][year - START_YEAR] = unused;
+    }
+    // else something is weird
     else
     {
       System.err.println("Invalid argument for Country.setCropLand method");
@@ -508,6 +537,63 @@ public class Country extends AbstractCountry
     setUndernourished(year, undernourished/population);
   }
   
+  /**
+   * Iterate through country's collection of land tiles. Based on their climate data,
+   * create OtherCropsData object.
+   */
+  public void setOtherCropsData()
+  {
+    // initialize max & mins to unrealistic values to ensure they're replaced
+    float maxTemp = -10000;
+    float minTemp = 10000;
+    float sumDayTemp = 0;
+    float sumNightTemp = 0;
+    float maxRain = -1;
+    float minRain = 10000;
+    long numTiles = 0;
+    
+    for (LandTile tile:landTiles)
+    {
+      // test min & max values
+      if (tile.getMaxAnnualTemp() > maxTemp) maxTemp = tile.getMaxAnnualTemp();
+      if (tile.getMinAnnualTemp() < minTemp) minTemp = tile.getMinAnnualTemp();
+      if (tile.getRainfall() > maxRain) maxRain = tile.getRainfall();
+      if (tile.getRainfall() < minRain) minRain = tile.getRainfall();
+      sumDayTemp += tile.getAvgDayTemp();
+      sumNightTemp += tile.getAvgNightTemp();
+      numTiles++;
+    }
+    
+    float avgDayTemp = sumDayTemp/numTiles;
+    float avgNightTemp = sumNightTemp/numTiles;
+    
+    this.otherCropsData = new OtherCropsData(maxTemp, minTemp, avgDayTemp, avgNightTemp, maxRain, minRain);
+  }
   
-  
+
+  /**
+   * Class for storing each country's other crops climate requirements.
+   * @author  jessica
+   * @version 29-March-2015
+   */
+  private class OtherCropsData
+  {
+    public final float maxTemp;
+    public final float minTemp;
+    public final float dayTemp;
+    public final float nightTemp;
+    public final float maxRain;
+    public final float minRain;
+    
+    OtherCropsData(float maxTemp, float minTemp, float dayTemp, float nightTemp, float maxRain, float minRain)
+    {
+      this.maxTemp = maxTemp;
+      this.minTemp = minTemp;
+      this.dayTemp = dayTemp;
+      this.nightTemp = nightTemp;
+      this.maxRain = maxRain;
+      this.minRain = minRain;
+    }
+    
+  }
 }
