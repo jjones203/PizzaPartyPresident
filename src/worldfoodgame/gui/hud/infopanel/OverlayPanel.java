@@ -22,6 +22,7 @@ public class OverlayPanel extends JPanel implements ActionListener
   private RegionViewFactory.Overlay[] overlays = {
     RegionViewFactory.Overlay.NONE,
     RegionViewFactory.Overlay.HAPPINESS,
+    RegionViewFactory.Overlay.CAPITAL,
   };
 
   public OverlayPanel(WorldPresenter worldPresenter)

@@ -59,6 +59,9 @@ public class RegionViewFactory
       case YEARLY_RAIL_FALL:
         return RAIN_VIEW;
 
+      case CAPITAL:
+        return new CapitolView();
+
       default:
         return DEFAULT_LOOK;
     }
@@ -71,6 +74,7 @@ public class RegionViewFactory
     NONE,
     PLANTING_ZONE,
     HAPPINESS,
-    YEARLY_RAIL_FALL
+    YEARLY_RAIL_FALL,
+    CAPITAL,
   }
 }
