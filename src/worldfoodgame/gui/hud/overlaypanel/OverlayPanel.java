@@ -51,7 +51,6 @@ public class OverlayPanel extends JPanel implements ActionListener
 
       button.setIcon(new CustomIcon(button));
 
-      button.setBackground(ColorsAndFonts.GUI_BACKGROUND);
       button.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
       button.addActionListener(this);
 
@@ -103,7 +102,7 @@ public class OverlayPanel extends JPanel implements ActionListener
   private class CustomIcon implements Icon
   {
     private JRadioButton button;
-
+    private int circle_size = 10;
     public CustomIcon(JRadioButton button)
     {
       this.button = button;
@@ -126,19 +125,19 @@ public class OverlayPanel extends JPanel implements ActionListener
         RenderingHints.VALUE_ANTIALIAS_ON
       );
 
-      g.fillOval(x, y, 10, 10);
+      g.fillOval(x, y, circle_size, circle_size);
     }
 
     @Override
     public int getIconWidth()
     {
-      return 10;
+      return circle_size;
     }
 
     @Override
     public int getIconHeight()
     {
-      return 10;
+      return circle_size;
     }
   }
 }
