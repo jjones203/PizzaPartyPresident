@@ -172,6 +172,12 @@ public class OrthographicConverter extends MapConverter
  }
 
  @Override
+ public Polygon regionToPolygon(Region r)
+ {
+  throw new RuntimeException("NOT IMPLEMENTED!");
+ }
+
+ @Override
  public double getScale()
  {
   return 0;

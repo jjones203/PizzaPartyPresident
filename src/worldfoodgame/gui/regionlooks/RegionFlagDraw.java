@@ -5,7 +5,6 @@ import worldfoodgame.gui.GUIRegion;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.image.BufferedImage;
 
 /**
@@ -42,17 +41,7 @@ public class RegionFlagDraw
     Point src = new Point(x, y);
     Point dst = new Point();
 
-    try
-    {
-      /* convert center point to screen space for drawing */
-      AffineTransform atINV = new AffineTransform(at);
-      atINV.invert();
-      at.transform(src, dst);
-    }
-    catch (NoninvertibleTransformException e)
-    { /* should never happen: all map transforms should be invertible */
-      e.printStackTrace();
-    }
+    at.transform(src, dst);
 
     BufferedImage flag = FlagLoader.getFlagLoader()
       .getFlag(gRegion.getRegion().getCountry().getName());
@@ -60,9 +49,10 @@ public class RegionFlagDraw
 
     if (flag != null)
     {
-      // magic numbers are padding to position the flag
-      int imgX = dst.x - flag.getWidth() - 3;
-      int imgY = dst.y - flag.getHeight() + 3;
+
+      int padding = 3;
+      int imgX = dst.x - flag.getWidth() - padding;
+      int imgY = dst.y - flag.getHeight() + padding;
       g2d.drawImage(flag, imgX, imgY, null);
     }
     else

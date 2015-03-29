@@ -51,9 +51,10 @@ public class Country extends AbstractCountry
   private MapPoint calCapitalLocation()
   {
     if (regions == null) throw new RuntimeException("(!) regions not set!");
+    if (regions.isEmpty()) throw new RuntimeException("(!) no regions !");
 
     int maxArea = 0;
-    Polygon largest = null;
+    Polygon largest = converter.regionToPolygon(regions.get(0));
 
     for (Region region : regions)
     {
@@ -62,8 +63,8 @@ public class Country extends AbstractCountry
       if (area > maxArea) largest = poly;
     }
 
-    int x = largest.getBounds().x + largest.getBounds().width / 2;
-    int y = largest.getBounds().x + largest.getBounds().height / 2;
+    int x = (int) largest.getBounds().getCenterX();
+    int y = (int) largest.getBounds().getCenterY();
 
     return converter.pointToMapPoint(new Point(x, y));
   }
@@ -340,6 +341,18 @@ public class Country extends AbstractCountry
     }
     double unused = getArableLand(year) - used;
     return unused;
+  }
+  
+  public void setCropLand(int year, EnumCropType crop, double kilomsq)
+  {
+    if (kilomsq >= 0 && kilomsq <= getArableLand(year))
+    {
+      landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setCropLand method");
+    }
   }
   
   /**

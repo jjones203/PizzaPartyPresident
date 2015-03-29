@@ -5,7 +5,6 @@ import worldfoodgame.gui.GUIRegion;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 
 /**
  * Created by winston on 1/27/15.
@@ -50,21 +49,10 @@ public class RegionNameDraw
     Point src = new Point(x, y);
     Point dst = new Point();
 
-    try
-    {
-      /* convert center point to screen space for drawing */
-      AffineTransform atINV = new AffineTransform(at);
-      atINV.invert();
-      at.transform(src, dst);
-    }
-    catch (NoninvertibleTransformException e)
-    { /* should never happen: all map transforms should be invertible */
-      e.printStackTrace();
-    }
+    at.transform(src, dst);
 
     g2d.drawString(gRegion.getName(), dst.x, dst.y);
 
-    /* reset the transform for any RegionViews depending on it for proper rendering */
     g2d.setTransform(at);
 
   }

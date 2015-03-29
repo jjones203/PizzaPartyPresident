@@ -163,22 +163,7 @@ public abstract class CountryDataHandler
   public abstract void setLand(EnumCropType type, double p);
 
   public abstract double getNeed(EnumCropType type);
-
-  public double getCultivatedLand()
-  {
-    double sum = 0;
-
-    for (EnumCropType type : EnumCropType.values())
-    {
-      sum += getLand(type);
-    }
-    return sum;
-  }
-
-
   public abstract double getOpenLand();
-
-
 }
 
 

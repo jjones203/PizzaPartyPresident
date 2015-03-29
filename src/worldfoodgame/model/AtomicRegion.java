@@ -31,6 +31,7 @@ public class AtomicRegion extends AbstractCountryBorderData implements Region
   public void setCountry(Country country)
   {
     this.country = country;
+    country.addRegion(this);
   }
 
   @Override
