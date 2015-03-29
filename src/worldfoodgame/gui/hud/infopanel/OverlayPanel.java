@@ -1,4 +1,4 @@
-package worldfoodgame.gui.hud.overlaypanel;
+package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.WorldPresenter;
@@ -20,14 +20,14 @@ public class OverlayPanel extends JPanel implements ActionListener
   private WorldPresenter worldPresenter;
 
   private RegionViewFactory.Overlay[] overlays = {
+    RegionViewFactory.Overlay.NONE,
     RegionViewFactory.Overlay.HAPPINESS,
-    RegionViewFactory.Overlay.NONE
   };
 
   public OverlayPanel(WorldPresenter worldPresenter)
   {
     this.worldPresenter = worldPresenter;
-
+    this.setLayout(new FlowLayout(FlowLayout.LEFT));
     // styling
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
     setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
@@ -48,7 +48,7 @@ public class OverlayPanel extends JPanel implements ActionListener
     {
       RegionViewFactory.Overlay overlay = overlays[i];
       JRadioButton button = new JRadioButton(overlay.toString());
-
+      button.setActionCommand(Integer.toString(overlay.ordinal()));
       button.setIcon(new CustomIcon(button));
 
       button.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
@@ -62,41 +62,22 @@ public class OverlayPanel extends JPanel implements ActionListener
 
     return radioPanel;
   }
-
-
-  private static void createAndShowGUI()
-  {
-    //Create and set up the window.
-    JFrame frame = new JFrame("RadioButtonDemo");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    //Create and set up the content pane.
-    JComponent newContentPane = new OverlayPanel(null);
-    newContentPane.setOpaque(true); //content panes must be opaque
-    frame.setContentPane(newContentPane);
-
-    //Display the window.
-    frame.pack();
-    frame.setVisible(true);
-  }
-
-
-  public static void main(String[] args)
-  {
-    javax.swing.SwingUtilities.invokeLater(new Runnable()
-    {
-      public void run()
-      {
-        createAndShowGUI();
-      }
-    });
-  }
+  
 
   @Override
   public void actionPerformed(ActionEvent e)
   {
     System.out.println(e.getActionCommand());
+    RegionViewFactory.Overlay overlay = RegionViewFactory.Overlay.values()[Integer.parseInt(e.getActionCommand())];
 
+    if (worldPresenter != null)
+    {
+      worldPresenter.setCurrentOverlay(overlay);
+    }
+    else
+    {
+      System.err.println("world Presenter is null!");
+    }
   }
 
   private class CustomIcon implements Icon
