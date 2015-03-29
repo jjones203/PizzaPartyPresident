@@ -98,6 +98,7 @@ public class SingleCountryHandeler extends CountryDataHandler
   @Override
   public void setLand(EnumCropType type, double p)
   {
+    //todo this need to be set up on the country class.
     country.setCropLand(year, type, p * getArableOpen());
   }
 
