@@ -2,6 +2,7 @@ package worldfoodgame.gui.regionlooks;
 
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.GUIRegion;
+import worldfoodgame.model.World;
 
 import java.awt.*;
 
@@ -30,7 +31,7 @@ class RegionHappyView implements RegionView
     }
     else
     {
-      int yearOfInterest = 2014; // todo find solution to this!
+      int yearOfInterest = World.getWorld().getCurrentYear();
       double unhappyPeople = gRegion.getRegion().getCountry().getUnhappyPeople(yearOfInterest);
       double totalPopulation = gRegion.getRegion().getCountry().getPopulation(yearOfInterest);
 

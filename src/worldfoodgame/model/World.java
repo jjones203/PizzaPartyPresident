@@ -1,7 +1,6 @@
 package worldfoodgame.model;
 
 import worldfoodgame.IO.AttributeGenerator;
-import worldfoodgame.IO.XMLparsers.CountryXMLparser;
 import worldfoodgame.common.AbstractScenario;
 
 import java.util.Calendar;
@@ -12,15 +11,16 @@ import java.util.Random;
  * Created by winston on 1/23/15.
  * Phase_01
  * CS 351 spring 2015
- *
- *  The world is everything that is the case.
- *  The world is the totality of facts, not of things.
- *  The facts in logical space are the world.
- *
- *  - L. W.
+ * <p/>
+ * The world is everything that is the case.
+ * The world is the totality of facts, not of things.
+ * The facts in logical space are the world.
+ * <p/>
+ * - L. W.
  */
 public class World
 {
+  private static World theOneWorld;
   private Random random = new Random(44);
   private Collection<Region> world;
   private Collection<Country> politicalWorld;
@@ -28,25 +28,35 @@ public class World
   private Calendar currentDate;
 
   /**
-   * Class constructor. To build a world one must have a collection of regions.
-   * @param world collection of regions that we represent the world
+   * This method is used to create the world object. The world object is a
+   * singleton class, there is one and only one world.
+   * @param world the list of regions that make up the world.
+   * @param countries the countryies in the world
+   * @param cal the starting date of the world.
    */
-  public World(Collection<Region> world)
+  public static void makeWorld(Collection<Region> world, Collection<Country> countries, Calendar cal)
   {
-    this(world, Calendar.getInstance());
+    if (theOneWorld != null)
+    {
+      new RuntimeException("Make World can only be called once!");
+    }
+    theOneWorld = new World(world, countries, cal);
   }
 
   /**
-   * One can also build a world starting at a particular date.
-   * @param world
+   * used to return the world => singleton design pattern.
+   * @return
    */
-  public World(Collection<Region> world, Calendar cal)
+  public static World getWorld()
   {
-    this(world, CountryXMLparser.RegionsToCountries(world), cal);
+    if (theOneWorld == null)
+    {
+      throw new RuntimeException("WORLD HAS NOT BEEN MADE YET!");
+    }
+    return theOneWorld;
   }
 
-
-  public World(Collection<Region> world, Collection<Country> countries, Calendar cal)
+  private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
   {
     this.world = world;
     this.politicalWorld = countries;
@@ -55,6 +65,7 @@ public class World
 
   /**
    * Get the current time of this particular world.
+   *
    * @return a calendar object, with the date and time in side.
    */
   public Calendar getCurrentDate()
@@ -64,6 +75,7 @@ public class World
 
   /**
    * Set the world time to the given calendar date.
+   *
    * @param currentDate date the world will be after calling this method.
    */
   public void setCurrentDate(Calendar currentDate)
@@ -73,6 +85,7 @@ public class World
 
   /**
    * returns the year as an int.
+   *
    * @return
    */
   public int getCurrentYear()
@@ -83,6 +96,7 @@ public class World
   /**
    * Advances the world forward by the given number of days. Every new month
    * the worlds attributes are randomly modulated.
+   *
    * @param numOfDays number of days to travel in the future too.
    * @return true - the world was change, false otherwise.
    */
@@ -110,57 +124,71 @@ public class World
 
   /**
    * Returns the number of year remaining in the model as an int.
+   *
    * @return
    */
   public int yearRemaining()
   {
     return AbstractScenario.END_YEAR - getCurrentYear();
   }
-  
+
   /**
-   * @return    world population at current world time, in millions as a double.
+   * @return world population at current world time, in millions as a double.
    */
   public double getWorldPopulation()
   {
     double totalPop = 0;
     int year = getCurrentYear();
-    for (Country country:politicalWorld)
+    for (Country country : politicalWorld)
     {
       totalPop += country.getPopulation(year);
     }
-    totalPop = totalPop/1000000;
+    totalPop = totalPop / 1000000;
     return totalPop;
   }
-  
-  
+
+
   /**
-   * @return  percent of world's population that is happy at current world time
+   * @return percent of world's population that is happy at current world time
    */
   public double getWorldHappinessPercent()
   {
     double unhappyPeople = 0;
     int year = getCurrentYear();
-    for (Country country:politicalWorld)
+    for (Country country : politicalWorld)
     {
       unhappyPeople += country.getUnhappyPeople(year);
     }
-    double percentHappy = 1 - unhappyPeople/getWorldPopulation();
+    double percentHappy = 1 - unhappyPeople / getWorldPopulation();
     return percentHappy;
   }
-  
+
   /**
    * Returns projected sea level increase during given year
-   * @param     year
-   * @return    rise in cm
+   *
+   * @param year
+   * @return rise in cm
    */
   @Deprecated
   public double getBaseSeaLevelRise(int year)
   {
     double rise;
-    if (year >= 2015 && year < 2020) rise = 0.32;
-    else if (year >= 2020 && year < 2040) rise = 0.3;
-    else if (year >= 2040 && year <= 2050) rise = 0.4;
-    else rise = 0;
+    if (year >= 2015 && year < 2020)
+    {
+      rise = 0.32;
+    }
+    else if (year >= 2020 && year < 2040)
+    {
+      rise = 0.3;
+    }
+    else if (year >= 2040 && year <= 2050)
+    {
+      rise = 0.4;
+    }
+    else
+    {
+      rise = 0;
+    }
     return rise;
   }
 

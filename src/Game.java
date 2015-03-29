@@ -68,7 +68,9 @@ public class Game
     Calendar startingDate = Calendar.getInstance();
     startingDate.set(Calendar.YEAR,  2014);
 
-    World world = new World(modelRegions, noDataCountries, startingDate);
+    World.makeWorld(modelRegions, noDataCountries, startingDate);
+
+    World world = World.getWorld();
     MapConverter converter = new EquirectangularConverter();
 
     worldPresenter = new WorldPresenter(converter, world);
