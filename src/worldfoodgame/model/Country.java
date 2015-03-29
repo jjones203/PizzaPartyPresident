@@ -73,8 +73,8 @@ public class Country extends AbstractCountry
       Point point = converter.mapPointToPoint(mapPointtest);
 
       System.out.println(name);
-      System.out.println("point before conversion: " + testPoint);
-      System.out.println("point after conversion: " + testPoint);
+      System.out.println("(!) point before conversion: " + testPoint);
+      System.out.println("(!) point after conversion: " + point);
     }
 
     return converter.pointToMapPoint(new Point(x, y));
