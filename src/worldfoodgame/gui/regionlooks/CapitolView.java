@@ -22,12 +22,7 @@ class CapitolView implements RegionView
     defalt.draw(g, gRegion);
 
     Graphics2D g2d = (Graphics2D) g;
-
-    g2d.setRenderingHint(
-      RenderingHints.KEY_TEXT_ANTIALIASING,
-      RenderingHints.VALUE_TEXT_ANTIALIAS_ON
-    );
-
+    
     /* save and temporarily reset the graphics transform */
     AffineTransform at = g2d.getTransform();
     g2d.setTransform(new AffineTransform());
@@ -36,9 +31,7 @@ class CapitolView implements RegionView
     MapPoint capitol = gRegion.getRegion().getCountry().getCapitolLocation();
     Point convertedPoint = converter.mapPointToPoint(capitol);
 
-
     Point dst = new Point();
-
     at.transform(convertedPoint, dst);
 
     g2d.setColor(Color.RED);
