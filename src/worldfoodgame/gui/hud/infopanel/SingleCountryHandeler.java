@@ -98,7 +98,7 @@ public class SingleCountryHandeler extends CountryDataHandler
   @Override
   public void setLand(EnumCropType type, double kilom)
   {
-    country.setCropLand(year, type, kilom);
+    country.updateCropLand(year, type, kilom);
   }
 
   @Override
