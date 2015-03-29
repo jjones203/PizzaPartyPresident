@@ -98,8 +98,7 @@ public class SingleCountryHandeler extends CountryDataHandler
   @Override
   public void setLand(EnumCropType type, double p)
   {
-    System.out.println("set land by: " + (p * getLandTotal()));
-    country.setCropLand(year, type, p * getLandTotal());
+    country.setCropLand(year, type, p * getArableOpen());
   }
 
   @Override
