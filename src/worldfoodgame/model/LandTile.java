@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 
 import worldfoodgame.common.CropZoneData.EnumCropZone;
 import worldfoodgame.common.EnumCropType;
+import worldfoodgame.model.Country.OtherCropsData;
 
 /**
  @author david
@@ -181,8 +182,8 @@ public class LandTile
    int cropMinT = crop.minTemp;
    int cropMaxR = crop.maxRain;
    int cropMinR = crop.minRain;
-   double tRange30 = (crop.dayTemp - crop.nightTemp)*0.3;                       // tempRange30 is 30% of crop's optimum day-night temp range
-   double rRange30 = (crop.maxRain - crop.minRain)*0.3;                         // rainRange30 is 30% of crop's optimum rainfall range
+   double tRange30 = (cropDayT - cropNightT)*0.3;                               // tempRange30 is 30% of crop's optimum day-night temp range
+   double rRange30 = (cropMaxR - cropMinR)*0.3;                                 // rainRange30 is 30% of crop's optimum rainfall range
    if (isBetween(avgDayTemp, cropNightT, cropDayT) &&                           // if avgDayTemp and avgNightTemp are both
        isBetween(avgNightTemp, cropNightT, cropDayT) &&                         // in the interval [crop.nightTemp, crop.dayTemp],
        maxAnnualTemp <= cropMaxT && minAnnualTemp >= cropMinT &&                // and maxAnnualTemp and minAnnualTemp are both in
@@ -199,6 +200,39 @@ public class LandTile
    }                                                                            // then tile is ACCEPTABLE for crop
    else return EnumCropZone.POOR;                                               // otherwise tile is POOR for crop
  }
+ 
+ /**
+ * Rate tile's suitability for a particular country's other crops.
+ * @param otherCropsData    a country's otherCropsData object
+ * @return                  EnumCropZone (IDEAL, ACCEPTABLE, or POOR)
+ */
+public EnumCropZone rateTileForOtherCrops(OtherCropsData otherCropsData)
+ {
+   float cropDayT = otherCropsData.dayTemp;
+   float cropNightT = otherCropsData.nightTemp;
+   float cropMaxT = otherCropsData.maxTemp;
+   float cropMinT = otherCropsData.minTemp;
+   float cropMaxR = otherCropsData.maxRain;
+   float cropMinR = otherCropsData.minRain;
+   float tRange30 = (float) ((cropDayT - cropNightT)*0.3);                      // tempRange30 is 30% of crop's optimum day-night temp range
+   float rRange30 = (float) ((cropMaxR - cropMinR)*0.3);                        // rainRange30 is 30% of crop's optimum rainfall range
+   if (isBetween(avgDayTemp, cropNightT, cropDayT) &&                           // if avgDayTemp and avgNightTemp are both
+       isBetween(avgNightTemp, cropNightT, cropDayT) &&                         // in the interval [crop.nightTemp, crop.dayTemp],
+       maxAnnualTemp <= cropMaxT && minAnnualTemp >= cropMinT &&                // and maxAnnualTemp and minAnnualTemp are both in
+       isBetween(rainfall, cropMinR, cropMaxR))                                 // the interval [crop.minTemp, crop.maxTemp],
+   {                                                                            // and rainfall is in [crop.minRain, crop.maxRain]
+     return EnumCropZone.IDEAL;                                                 // then tile is IDEAL for crop
+   }
+   else if  (isBetween(avgDayTemp, cropNightT-tRange30, cropDayT+tRange30) &&   // if avgDayTemp and avgNightTemp are both in
+             isBetween(avgNightTemp, cropNightT-tRange30, cropDayT+tRange30) && // [crop.nightTemp-tempRange30,crop.dayTemp+tempRange30]
+             maxAnnualTemp <= cropMaxT && minAnnualTemp >= cropMinT &&          // and maxAnnualTemp and minAnnualTemp are both in                                 
+             isBetween(rainfall, cropMinR-rRange30, cropMaxR+rRange30))         // the interval [crop.minTemp, crop.maxTemp],                        
+   {                                                                            // [crop.minRain-rainRange30, crop.maxRain+rainRange30]     
+     return EnumCropZone.ACCEPTABLE;                                            // and rainfall is in
+   }                                                                            // then tile is ACCEPTABLE for crop
+   else return EnumCropZone.POOR;                                               // otherwise tile is POOR for crop
+ }
+
  
  private boolean isBetween(Number numToTest, Number lowVal, Number highVal)
  {

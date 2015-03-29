@@ -356,6 +356,24 @@ public class Country extends AbstractCountry
   }
   
   /**
+   * Set crop land value; use this method when initializing
+   * @param year      year in question
+   * @param crop      crop in question
+   * @param kilomsq   area to set
+   */
+  public void setCropLand(int year, EnumCropType crop, double kilomsq)
+  {
+    if (kilomsq >= 0 && kilomsq <= getArableLand(year))
+    {
+      landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
+    }
+    else
+    {
+      System.err.println("Invalid argument for Country.setCropLand method");
+    }
+  }
+  
+  /**
    * Sets area to be planted with given crop in given year based on user input
    * @param year      year in question
    * @param crop      crop in question
@@ -373,22 +391,6 @@ public class Country extends AbstractCountry
     else if (delta > unused) landCrop[crop.ordinal()][year - START_YEAR] = currCropLand + unused;
     // else set to curr + delta
     else landCrop[crop.ordinal()][year - START_YEAR] = currCropLand + delta;
-    /*double unused = getArableLandUnused(year);
-    // if requested area is positive and less than available area, assign requested area to crop
-    if (kilomsq >= 0 && kilomsq <= unused)
-    {
-      landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
-    }
-    // else if requested area is positive and there is some area available, assign the available area to crop
-    else if (kilomsq >= 0 && unused > 0)
-    {
-      landCrop[crop.ordinal()][year - START_YEAR] = unused;
-    }
-    // else something is weird
-    else
-    {
-      System.err.println("Invalid argument for Country.setCropLand method");
-    }*/
   }
 
 
@@ -497,6 +499,8 @@ public class Country extends AbstractCountry
     return dist;
   }
   
+  
+  
   /**
    * Returns difference between country's production and need for a crop for the specified year.
    * If a positive value is returned, country has a surplus available for export.
@@ -522,6 +526,12 @@ public class Country extends AbstractCountry
     int population = getPopulation(year);
     return tonsPerPerson * population;
   }
+ 
+  /*public void updateProduction(int year)
+  {
+    
+    
+  }*/
   
   /**
    * Calculates net crop available using formula from p. 15 of spec 1.7
@@ -535,9 +545,7 @@ public class Country extends AbstractCountry
     return available;
   }
   
-  
-  
-  /**
+   /**
    * Calculate % of undernourished people for year, update undernourished array.
    * Translate formula from spec 1.7, p. 10, #6 to:
    * -2 * ((tons available/per capita consumption) - population) = number undernourished for that crop
@@ -599,7 +607,7 @@ public class Country extends AbstractCountry
    * @author  jessica
    * @version 29-March-2015
    */
-  private class OtherCropsData
+  class OtherCropsData
   {
     public final float maxTemp;
     public final float minTemp;
