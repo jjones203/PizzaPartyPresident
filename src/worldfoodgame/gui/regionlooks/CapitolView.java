@@ -41,8 +41,8 @@ class CapitolView implements RegionView
 
     at.transform(convertedPoint, dst);
 
-    g2d.setColor(Color.CYAN);
-    g2d.fillOval(dst.x, dst.y, 10, 10);
+    g2d.setColor(Color.RED);
+    g2d.fillOval(dst.x, dst.y, 5, 5);
 
     g2d.setTransform(at);
 
