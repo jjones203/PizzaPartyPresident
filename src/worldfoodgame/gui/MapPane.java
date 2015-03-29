@@ -1,5 +1,6 @@
 package worldfoodgame.gui;
 
+import worldfoodgame.gui.regionlooks.RegionFlagDraw;
 import worldfoodgame.gui.regionlooks.RegionNameDraw;
 import worldfoodgame.gui.regionlooks.RegionViewFactory;
 
@@ -18,7 +19,7 @@ import java.util.Collection;
  *         MapPane is a Swing JPanel encapsulating the view through a Camera
  *         object and its user control interface.  The MapPane communicates
  *         input events corresponding to its domain to the WorldPresenter
- *         to allow regions to be selected and displayed properly         
+ *         to allow regions to be selected and displayed properly
  */
 
 
@@ -26,7 +27,8 @@ public class MapPane extends JPanel
   implements MouseWheelListener, MouseInputListener, KeyListener
 {
 
-  private final static double MAP_VISIBILITY_SCALE = 100;
+  private final static double NAME_VIS_SCALE = 40;
+  private final static double FLAG_VIS_SCALE = 250;
   private final static int CAMERA_STEP = 10;
   private final static double ZOOM_STEP = .05;
   private final static double SCROLL_FACTOR = .2;
@@ -56,7 +58,7 @@ public class MapPane extends JPanel
 
   private boolean doMultiSelect;
   private boolean dynamicNameDrawing;
-  
+
   /* Actions associated with the KeyBinding mapping framework */
   private Action happyOverlay = new AbstractAction()
   {
@@ -96,8 +98,9 @@ public class MapPane extends JPanel
   /**
    * Instantiate this MapPane with a Camera to provide transforms and a
    * WorldPresenter to provide an interface into the worldfoodgame.model space
-   * @param cam   Camera controlling the map transformations
-   * @param presenter   WorldPresenter to 
+   *
+   * @param cam       Camera controlling the map transformations
+   * @param presenter WorldPresenter to
    */
   public MapPane(Camera cam, WorldPresenter presenter)
   {
@@ -109,14 +112,14 @@ public class MapPane extends JPanel
     addMouseWheelListener(this);
     addMouseMotionListener(this);
     addKeyListener(this);
-    
+
     setBackground(ColorsAndFonts.OCEANS);
     dynamicNameDrawing = true; /* more like sexyNameDrawing */
 
     setPreferredSize(cam.getTargetSize());
     setSize(getPreferredSize());
     setMinimumSize(getPreferredSize());
-    setDoubleBuffered(true); 
+    setDoubleBuffered(true);
 
     // set up keybindings.
     getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("1"), "default");
@@ -138,8 +141,8 @@ public class MapPane extends JPanel
   }
 
   /**
-   @return if MapPane is drawing names dynamically (based on heuristic estimate
-   of screen space occupied by a region
+   * @return if MapPane is drawing names dynamically (based on heuristic estimate
+   * of screen space occupied by a region
    */
   public boolean isDynamicNameDrawing()
   {
@@ -147,10 +150,11 @@ public class MapPane extends JPanel
   }
 
   /**
-   Set the name drawing mode for regions.  True -> names are drawn when regions
-   occupy a reasonable proportion of the screen, False -> constant name drawing
-   based simply on Camera height
-   @param dynamicNameDrawing  True if names are to be drawn dynamically
+   * Set the name drawing mode for regions.  True -> names are drawn when regions
+   * occupy a reasonable proportion of the screen, False -> constant name drawing
+   * based simply on Camera height
+   *
+   * @param dynamicNameDrawing True if names are to be drawn dynamically
    */
   public void setDynamicNameDrawing(boolean dynamicNameDrawing)
   {
@@ -159,10 +163,11 @@ public class MapPane extends JPanel
 
 
   /**
-   Overridden paintComponent handles all map drawing.  Model-dependent drawing
-   is handled by the GUIRegions and their associated RegionViews.  Interface
-   dependent drawing logic is handled in this class
-   @param g Graphics context to draw to
+   * Overridden paintComponent handles all map drawing.  Model-dependent drawing
+   * is handled by the GUIRegions and their associated RegionViews.  Interface
+   * dependent drawing logic is handled in this class
+   *
+   * @param g Graphics context to draw to
    */
   @Override
   protected void paintComponent(Graphics g)
@@ -179,26 +184,25 @@ public class MapPane extends JPanel
     Collection<GUIRegion> regionsToDraw = presenter.getRegionsInView(cam);
 
     g2.setColor(ColorsAndFonts.MAP_GRID);
-    for(Line2D l : grid) g2.draw(l);
-    
-    for (GUIRegion region : regionsToDraw) region.draw(g2);
+    for (Line2D l : grid) g2.draw(l);
 
-    if (dynamicNameDrawing)
+    for (GUIRegion region : regionsToDraw)
     {
-      double screenArea = cam.getViewBounds().getWidth() * cam.getViewBounds().getWidth();
-      for (GUIRegion region : regionsToDraw)
-      {
-        if (screenArea / region.getSurfaceArea() < MAP_VISIBILITY_SCALE)
-        {
-          RegionNameDraw.draw(g2, region);
-        }
-      }
+      region.draw(g2);
     }
-    else
+
+    double screenArea = cam.getViewBounds().getWidth() * cam.getViewBounds().getWidth();
+
+    for (GUIRegion region : regionsToDraw)
     {
-      if (cam.getDistance() != Camera.CAM_DISTANCE.LONG)
+      double visibleRaio = screenArea / region.getSurfaceArea();
+      if (visibleRaio < NAME_VIS_SCALE)
       {
-        for (GUIRegion region : regionsToDraw) RegionNameDraw.draw(g2, region);
+        RegionNameDraw.draw(g2, region);
+      }
+      if (visibleRaio < FLAG_VIS_SCALE)
+      {
+        RegionFlagDraw.draw(g2, region);
       }
     }
 
@@ -223,7 +227,7 @@ public class MapPane extends JPanel
 
 
   /**
-    Respond to any input events that may have triggered by input events
+   * Respond to any input events that may have triggered by input events
    */
   public void update()
   {
@@ -259,9 +263,10 @@ public class MapPane extends JPanel
 
 
   /**
-   Overridden KeyPressed sets flags that can be interpreted at the control-polling
-   rate.  Flags are unset in keyReleased
-   @param e KeyEvent fired by a key press
+   * Overridden KeyPressed sets flags that can be interpreted at the control-polling
+   * rate.  Flags are unset in keyReleased
+   *
+   * @param e KeyEvent fired by a key press
    */
   @Override
   public void keyPressed(KeyEvent e)
@@ -297,9 +302,10 @@ public class MapPane extends JPanel
 
 
   /**
-   Overridden keyReleased method unsets flags that indicate which key presses
-   must be responded to when controls are polled
-   @param e KeyEvent fired by a key release
+   * Overridden keyReleased method unsets flags that indicate which key presses
+   * must be responded to when controls are polled
+   *
+   * @param e KeyEvent fired by a key release
    */
   @Override
   public void keyReleased(KeyEvent e)
@@ -327,9 +333,10 @@ public class MapPane extends JPanel
 
 
   /**
-   Overridden mouseClicked controls region selection, (multi/single) and can
-   attempt to center the map to a click location
-   @param e MouseEvent fired by a mouse click
+   * Overridden mouseClicked controls region selection, (multi/single) and can
+   * attempt to center the map to a click location
+   *
+   * @param e MouseEvent fired by a mouse click
    */
   @Override
   public void mouseClicked(MouseEvent e)
@@ -355,10 +362,11 @@ public class MapPane extends JPanel
 
 
   /**
-   Overridden mousePressed method initializes variables that define the behavior
-   directly after the MouseEvent fired, (e.g. whether the user is multi-selecting
-   or not)
-   @param e MouseEvent fired by a mouse press
+   * Overridden mousePressed method initializes variables that define the behavior
+   * directly after the MouseEvent fired, (e.g. whether the user is multi-selecting
+   * or not)
+   *
+   * @param e MouseEvent fired by a mouse press
    */
   @Override
   public void mousePressed(MouseEvent e)
@@ -371,8 +379,9 @@ public class MapPane extends JPanel
 
 
   /**
-   Overridden mouseReleased method resets flags that control multi-select behavior
-   @param e MouseEvent fired by a mouse release
+   * Overridden mouseReleased method resets flags that control multi-select behavior
+   *
+   * @param e MouseEvent fired by a mouse release
    */
   @Override
   public void mouseReleased(MouseEvent e)
@@ -387,7 +396,7 @@ public class MapPane extends JPanel
   public void mouseEntered(MouseEvent e)
   { /* do nothing */ }
 
-  
+
   /* create a rectangle defined by two corner points */
   private Rectangle2D rectFromCornerPoints(Point2D p1, Point2D p2)
   {
@@ -405,8 +414,9 @@ public class MapPane extends JPanel
 
 
   /**
-   Overridden mouseWheelMoved controls zooming on the map
-   @param e MouseWheelEvent fired by mouse wheel motion
+   * Overridden mouseWheelMoved controls zooming on the map
+   *
+   * @param e MouseWheelEvent fired by mouse wheel motion
    */
   @Override
   public void mouseWheelMoved(MouseWheelEvent e)
@@ -420,9 +430,10 @@ public class MapPane extends JPanel
 
 
   /**
-   Overridden mouseDragged controls either camera panning (when no modifier key
-   is held) or multi-select (when shift is held)
-   @param e MouseEvent fired by a mouse drag
+   * Overridden mouseDragged controls either camera panning (when no modifier key
+   * is held) or multi-select (when shift is held)
+   *
+   * @param e MouseEvent fired by a mouse drag
    */
   @Override
   public void mouseDragged(MouseEvent e)
@@ -450,9 +461,9 @@ public class MapPane extends JPanel
   public void setGrid(Collection<Line2D> lines)
   {
     grid = lines;
-    
+
   }
-  
+
   @Override
   public void mouseMoved(MouseEvent e)
   {/* do nothing */}
