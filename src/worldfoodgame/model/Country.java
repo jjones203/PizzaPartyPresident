@@ -56,15 +56,26 @@ public class Country extends AbstractCountry
     int maxArea = 0;
     Polygon largest = converter.regionToPolygon(regions.get(0));
 
-    for (Region region : regions)
-    {
-      Polygon poly = converter.regionToPolygon(region);
-      int area = poly.getBounds().width * poly.getBounds().height;
-      if (area > maxArea) largest = poly;
-    }
+//    for (Region region : regions)
+//    {
+//      Polygon poly = converter.regionToPolygon(region);
+//      int area = poly.getBounds().width * poly.getBounds().height;
+//      if (area > maxArea) largest = poly;
+//    }
 
     int x = (int) largest.getBounds().getCenterX();
     int y = (int) largest.getBounds().getCenterY();
+
+    if (true) // debug
+    {
+      Point testPoint = new Point(x, y);
+      MapPoint mapPointtest = converter.pointToMapPoint(testPoint);
+      Point point = converter.mapPointToPoint(mapPointtest);
+
+      System.out.println(name);
+      System.out.println("point before conversion: " + testPoint);
+      System.out.println("point after conversion: " + testPoint);
+    }
 
     return converter.pointToMapPoint(new Point(x, y));
   }

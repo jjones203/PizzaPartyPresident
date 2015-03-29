@@ -111,7 +111,7 @@ public class EquirectangularConverter extends MapConverter
   @Override
   public MapPoint pointToMapPoint(Point p)
   {
-    return new MapPoint(p.x / SCALING_FACTOR, p.y / SCALING_FACTOR);
+    return new MapPoint(p.x / SCALING_FACTOR, - p.y / SCALING_FACTOR);
   }
   
 
