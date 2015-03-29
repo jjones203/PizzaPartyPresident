@@ -74,6 +74,7 @@ public class Country extends AbstractCountry
 
       System.out.println(name);
       System.out.println("(!) point before conversion: " + testPoint);
+      System.out.println("(-) mapPoint " + mapPointtest);
       System.out.println("(!) point after conversion: " + point);
     }
 
