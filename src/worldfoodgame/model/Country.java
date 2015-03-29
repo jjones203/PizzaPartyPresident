@@ -27,6 +27,7 @@ public class Country extends AbstractCountry
   private List<Region> regions;
   private MapPoint capitolLocation;
   private Collection<LandTile> landTiles;
+  public OtherCropsData otherCropsData;
 
   /**
    * returns the point representing the shipping location of that country.
@@ -508,6 +509,63 @@ public class Country extends AbstractCountry
     setUndernourished(year, undernourished/population);
   }
   
+  /**
+   * Iterate through country's collection of land tiles. Based on their climate data,
+   * create OtherCropsData object.
+   */
+  public void setOtherCropsData()
+  {
+    // initialize max & mins to unrealistic values to ensure they're replaced
+    float maxTemp = -10000;
+    float minTemp = 10000;
+    float sumDayTemp = 0;
+    float sumNightTemp = 0;
+    float maxRain = -1;
+    float minRain = 10000;
+    long numTiles = 0;
+    
+    for (LandTile tile:landTiles)
+    {
+      // test min & max values
+      if (tile.getMaxAnnualTemp() > maxTemp) maxTemp = tile.getMaxAnnualTemp();
+      if (tile.getMinAnnualTemp() < minTemp) minTemp = tile.getMinAnnualTemp();
+      if (tile.getRainfall() > maxRain) maxRain = tile.getRainfall();
+      if (tile.getRainfall() < minRain) minRain = tile.getRainfall();
+      sumDayTemp += tile.getAvgDayTemp();
+      sumNightTemp += tile.getAvgNightTemp();
+      numTiles++;
+    }
+    
+    float avgDayTemp = sumDayTemp/numTiles;
+    float avgNightTemp = sumNightTemp/numTiles;
+    
+    this.otherCropsData = new OtherCropsData(maxTemp, minTemp, avgDayTemp, avgNightTemp, maxRain, minRain);
+  }
   
-  
+
+  /**
+   * Class for storing each country's other crops climate requirements.
+   * @author  jessica
+   * @version 29-March-2015
+   */
+  private class OtherCropsData
+  {
+    public final float maxTemp;
+    public final float minTemp;
+    public final float dayTemp;
+    public final float nightTemp;
+    public final float maxRain;
+    public final float minRain;
+    
+    OtherCropsData(float maxTemp, float minTemp, float dayTemp, float nightTemp, float maxRain, float minRain)
+    {
+      this.maxTemp = maxTemp;
+      this.minTemp = minTemp;
+      this.dayTemp = dayTemp;
+      this.nightTemp = nightTemp;
+      this.maxRain = maxRain;
+      this.minRain = minRain;
+    }
+    
+  }
 }

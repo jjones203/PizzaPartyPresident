@@ -48,6 +48,8 @@ public class LandTile
  private float proj_avgNightTemp = 0;  /* in degrees Celsius. */
  private float proj_rainfall = 0;      /* in cm */
  private MapPoint center;
+ private EnumCropType currCrop;
+ private EnumCropType previousCrop;
 
  /**
   Constructor used for initial creation of dataset
