@@ -52,6 +52,20 @@ public class LandTile
  private EnumCropType currCrop;
  private EnumCropType previousCrop;
 
+ @Override
+ public String toString()
+ {
+  return "LandTile{" +
+    "rainfall=" + rainfall +
+    ", avgNightTemp=" + avgNightTemp +
+    ", avgDayTemp=" + avgDayTemp +
+    ", minAnnualTemp=" + minAnnualTemp +
+    ", maxAnnualTemp=" + maxAnnualTemp +
+    ", elevation=" + elevation +
+    ", center=" + center +
+    '}';
+ }
+
  /**
   Constructor used for initial creation of dataset
 
@@ -165,7 +179,57 @@ public class LandTile
  {
   return rainfall;
  }
- 
+
+ public void setProj_rainfall(float proj_rainfall)
+ {
+  this.proj_rainfall = proj_rainfall;
+ }
+
+ public void setProj_avgNightTemp(float proj_avgNightTemp)
+ {
+  this.proj_avgNightTemp = proj_avgNightTemp;
+ }
+
+ public void setProj_avgDayTemp(float proj_avgDayTemp)
+ {
+  this.proj_avgDayTemp = proj_avgDayTemp;
+ }
+
+ public void setProj_minAnnualTemp(float proj_minAnnualTemp)
+ {
+  this.proj_minAnnualTemp = proj_minAnnualTemp;
+ }
+
+ public void setProj_maxAnnualTemp(float proj_maxAnnualTemp)
+ {
+  this.proj_maxAnnualTemp = proj_maxAnnualTemp;
+ }
+
+ public void setRainfall(float rainfall)
+ {
+  this.rainfall = rainfall;
+ }
+
+ public void setAvgNightTemp(float avgNightTemp)
+ {
+  this.avgNightTemp = avgNightTemp;
+ }
+
+ public void setAvgDayTemp(float avgDayTemp)
+ {
+  this.avgDayTemp = avgDayTemp;
+ }
+
+ public void setMinAnnualTemp(float minAnnualTemp)
+ {
+  this.minAnnualTemp = minAnnualTemp;
+ }
+
+ public void setMaxAnnualTemp(float maxAnnualTemp)
+ {
+  this.maxAnnualTemp = maxAnnualTemp;
+ }
+
  /**
  * Rates tile's suitability for a particular crop.
  * @param   crop                  crop for which we want rating (wheat, corn, rice, or soy)

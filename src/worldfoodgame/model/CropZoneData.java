@@ -1,6 +1,7 @@
 package worldfoodgame.model;
 
 
+import com.sun.scenario.effect.Crop;
 import worldfoodgame.IO.CropZoneDataIO;
 
 import java.io.FileNotFoundException;
@@ -29,10 +30,15 @@ public class CropZoneData
 
   public static final int ROWS = 1500;
   public static final int COLS = 4000;
+  public static final LandTile NO_TILE = new LandTile(-180,0); /* in pacific */
   public LandTile[][] tiles = new LandTile[COLS][ROWS];
 
-  public static final double ACCEPTABLE_THRESHOLD = 0.30;
 
+  public CropZoneData()
+  {
+    for(LandTile[] arr : tiles) Arrays.fill(arr, NO_TILE);
+  }
+  
   /**
    Get a tile by longitude and latitude
    
@@ -46,7 +52,8 @@ public class CropZoneData
     /* equal area projection is encapsulated here */
     int col = lonToCol(lon);
     int row = latToRow(lat);
-    return tiles[col][row];
+    LandTile tile = tiles[col][row];
+    return tile == null? NO_TILE : tile;
   }
   
   public void putTile(LandTile tile)
@@ -98,53 +105,21 @@ public class CropZoneData
     return 360 * ((double)col) / COLS - 180;
   }
 
-  public enum EnumCropZone
+  public boolean removeTile(LandTile t)
   {
-    IDEAL
-      {
-        public double productionRate() {return 1.0;}
-      },
-
-    ACCEPTABLE
-      {
-        public double productionRate() {return 0.60;}
-      },
-
-    POOR
-      {
-        public double productionRate() {return 0.25;}
-      };
-    public static final int SIZE = values().length;
-    public abstract double productionRate();
+    int col = lonToCol(t.getLon());
+    int row = latToRow(t.getLat());
+    boolean ret = tiles[col][row] == t;
+    tiles[col][row] = NO_TILE;
+    return ret;
   }
 
-  public static void main(String[] args)
-  {
-    loadAndCheckTiles();
-  }
-
-  private static void loadAndCheckTiles()
-  {
-    CropZoneData data = CropZoneDataIO.parseFile("resources/data/tiledata");
-    int nulls = 0;
-    int above = 0;
-    int below = 0;
-    for(LandTile t : data.allTiles())
-    {
-      if(null == t) nulls++;
-      if(t.getElevation() > 0 ) above++; 
-      if(t.getElevation() < 0 ) below++; 
-    }
-    System.out.println(above);
-    System.out.println(below);
-    
-  }
 
   private static void initNewTileSet()
   {
     CropZoneData data = new CropZoneData();
     data.initTiles();
-    try(FileOutputStream out = new FileOutputStream("resources/data/tiledata"))
+    try(FileOutputStream out = new FileOutputStream("resources/data/tiledata.bil"))
     {
       for(LandTile t : data.allTiles())
       {
@@ -158,6 +133,13 @@ public class CropZoneData
     {
       e.printStackTrace();
     }
-    
+
+  }
+
+
+
+  public static void main(String[] args)
+  {
+
   }
 }
