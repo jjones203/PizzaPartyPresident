@@ -37,13 +37,14 @@ public class PercipView implements RegionView
           Point point = converter.mapPointToPoint(tile.getCenter());
           Color transRed = new Color(0.3019608f, 1.0f, 0.49803922f);
 
-//          g2d.setComposite(
-//            AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .2f));
+          g2d.setComposite(
+            AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .1f));
 
           g2d.setColor(transRed);
+          g2d.fillOval(point.x, point.y, 10_00, 10_000);
 
-
-          g2d.fillOval(point.x, point.y, 1000, 1000);
+          g2d.setComposite(
+            AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         }
       }
     }
