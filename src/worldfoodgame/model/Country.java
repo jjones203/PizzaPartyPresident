@@ -87,13 +87,13 @@ public class Country extends AbstractCountry
     if (regions.isEmpty()) throw new RuntimeException("(!) no regions !");
 
     int maxArea = 0;
-    Polygon largest = converter.regionToPolygon(regions.get(0));
+    Polygon largest = null;
 
     for (Region region : regions)
     {
       Polygon poly = converter.regionToPolygon(region);
-      int area = poly.getBounds().width * poly.getBounds().height;
-      if (area > maxArea) largest = poly;
+      int area = (int) (poly.getBounds().getWidth() * poly.getBounds().getHeight());
+      if (area >= maxArea) largest = poly;
     }
 
     int x = (int) largest.getBounds().getCenterX();

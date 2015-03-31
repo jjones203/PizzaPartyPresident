@@ -21,23 +21,34 @@ class CapitolView implements RegionView
   {
     defalt.draw(g, gRegion);
 
-    Graphics2D g2d = (Graphics2D) g;
+    if (gRegion.isPrimaryRegion())
+    {
+      Graphics2D g2d = (Graphics2D) g;
     
     /* save and temporarily reset the graphics transform */
-    AffineTransform at = g2d.getTransform();
-    g2d.setTransform(new AffineTransform());
+      AffineTransform at = g2d.getTransform();
+      g2d.setTransform(new AffineTransform());
 
 
-    MapPoint capitol = gRegion.getRegion().getCountry().getCapitolLocation();
-    Point convertedPoint = converter.mapPointToPoint(capitol);
+      MapPoint capitol = gRegion.getRegion().getCountry().getCapitolLocation();
+      Point convertedPoint = converter.mapPointToPoint(capitol);
 
-    Point dst = new Point();
-    at.transform(convertedPoint, dst);
+      Point dst = new Point();
+      at.transform(convertedPoint, dst);
 
-    g2d.setColor(Color.RED);
-    g2d.fillOval(dst.x, dst.y, 5, 5);
+      if (gRegion.isActive())
+      {
+        g2d.setColor(Color.GREEN);
+      }
+      else
+      {
+        g2d.setColor(Color.RED);
+      }
 
-    g2d.setTransform(at);
 
+      g2d.fillOval(dst.x, dst.y, 5, 5);
+
+      g2d.setTransform(at);
+    }
   }
 }
