@@ -31,15 +31,20 @@ public class PercipView implements RegionView
 
       for (LandTile tile : tiles)
       {
-        Point point = converter.mapPointToPoint(tile.getCenter());
 
-        Color transRed = new Color(0.3254902f, 0.5137255f, 1.0f);
+        if (tile.getRainfall() > 60)
+        {
+          Point point = converter.mapPointToPoint(tile.getCenter());
+          Color transRed = new Color(0.3019608f, 1.0f, 0.49803922f);
 
-        g2d.setComposite(
-          AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .5f));
+//          g2d.setComposite(
+//            AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .2f));
 
-        g2d.setColor(transRed);
-        g2d.fillOval(point.x, point.y, 300, 300);
+          g2d.setColor(transRed);
+
+
+          g2d.fillOval(point.x, point.y, 1000, 1000);
+        }
       }
     }
   }
