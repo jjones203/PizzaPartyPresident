@@ -1,6 +1,6 @@
 import worldfoodgame.IO.CountryCSVLoader;
+import worldfoodgame.IO.CropZoneDataIO;
 import worldfoodgame.IO.XMLparsers.CountryXMLparser;
-import worldfoodgame.IO.XMLparsers.KMLParser;
 import worldfoodgame.gui.Camera;
 import worldfoodgame.gui.MapPane;
 import worldfoodgame.gui.WorldPresenter;
@@ -9,15 +9,16 @@ import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.hud.WorldFeedPanel;
 import worldfoodgame.gui.hud.infopanel.InfoPanel;
 import worldfoodgame.model.Country;
+import worldfoodgame.model.CropZoneData;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
 
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collection;
 
 /**
  * Main entry point for the 'game'. Handles loading data and all configurations.
@@ -55,10 +56,12 @@ public class Game
    */
   private void init()
   {
-    Collection<Region> background = KMLParser.getRegionsFromFile(BG_DATA_PATH);
+//    Collection<Region> background = KMLParser.getRegionsFromFile(BG_DATA_PATH);
     Collection<Region> modelRegions = new CountryXMLparser().getRegionList();
 
     Collection<Country> noDataCountries = CountryXMLparser.RegionsToCountries(modelRegions);
+
+    CropZoneData cropZoneData = CropZoneDataIO.parseFile(CropZoneDataIO.DEFAULT_FILE, noDataCountries);
 
     // add data from csv to noDataCountries
     CountryCSVLoader csvLoader = new CountryCSVLoader(noDataCountries);
@@ -68,7 +71,7 @@ public class Game
     Calendar startingDate = Calendar.getInstance();
     startingDate.set(Calendar.YEAR,  2014);
 
-    World.makeWorld(modelRegions, noDataCountries, startingDate);
+    World.makeWorld(modelRegions, noDataCountries, cropZoneData.allTiles(), startingDate);
 
     World world = World.getWorld();
     MapConverter converter = new EquirectangularConverter();

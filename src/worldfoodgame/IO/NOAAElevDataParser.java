@@ -87,7 +87,7 @@ public class NOAAElevDataParser
 
   String root;
   Map<LandTile, ElevPoint> map = new HashMap<>();
-  CropZoneData dataSet = CropZoneDataIO.parseFile("resources/data/tiledata");
+  CropZoneData dataSet = CropZoneDataIO.parseFile("resources/data/tiledata", null);
 
   /**
    @param rootPath

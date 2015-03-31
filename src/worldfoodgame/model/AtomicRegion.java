@@ -2,8 +2,8 @@ package worldfoodgame.model;
 
 
 import worldfoodgame.common.AbstractCountryBorderData;
-import worldfoodgame.gui.hud.infopanel.LandPanel;
 
+import java.awt.geom.Path2D;
 import java.util.List;
 
 
@@ -16,10 +16,12 @@ import java.util.List;
 public class AtomicRegion extends AbstractCountryBorderData implements Region
 {
   private Country country;
-  private List<LandPanel> landmass;
   private List<MapPoint> perimeter;
   private String name;
   private RegionAttributes attributes;
+
+  private Path2D path;
+
 
   @Override
   public Country getCountry()
@@ -32,6 +34,25 @@ public class AtomicRegion extends AbstractCountryBorderData implements Region
   {
     this.country = country;
     country.addRegion(this);
+  }
+
+  @Override
+  public boolean containsMapPoint(MapPoint mapPoint)
+  {
+    if (path == null) path = makePath();
+    return path.contains(mapPoint.getLon(), mapPoint.getLat());
+  }
+
+  // constructs a path object representing the Region.
+  private Path2D makePath()
+  {
+    Path2D path = new Path2D.Double();
+    for (MapPoint mapPoint :perimeter)
+    {
+      path.moveTo(mapPoint.getLon(), mapPoint.getLat());
+    }
+    path.clone();
+    return path;
   }
 
   @Override

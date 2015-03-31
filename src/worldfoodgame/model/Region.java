@@ -24,6 +24,8 @@ public interface Region
 
   void setCountry(Country country);
 
+
+  boolean containsMapPoint(MapPoint mapPoint);
   Country getCountry();
 
 }
