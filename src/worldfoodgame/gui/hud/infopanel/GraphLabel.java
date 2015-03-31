@@ -110,38 +110,7 @@ public class GraphLabel extends JPanel
     add(getControlPanel(label), BorderLayout.NORTH);
     add(getBar(), BorderLayout.CENTER);
   }
-
-//  // FOR TESTING ONLY
-  // todo remove:
-//  public static void main(String[] args)
-//  {
-//    GraphLabel graphLabel = new GraphLabel("Population", 10.0, 100, .2, Color.red, true, "##,#000 tons");
-//
-//    final JFrame jFrame = new JFrame();
-//    jFrame.setLayout(new BoxLayout(jFrame.getContentPane(), BoxLayout.Y_AXIS));
-//
-//    double dtest = 20;
-//
-//
-//    jFrame.add(graphLabel);
-//    jFrame.add(new GraphLabel("corn", dtest, 1, 0.01, Color.red, false, "00"));
-//    jFrame.add(new GraphLabel("cornz", .20, 1, 0.01, Color.red, false, "00"));
-//    jFrame.add(new GraphLabel("cornz", dtest, 1, 0.01, Color.red, true, "00"));
-//
-//    jFrame.pack();
-//    jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//    jFrame.setVisible(true);
-//
-//    new Timer(10, new AbstractAction()
-//    {
-//      @Override
-//      public void actionPerformed(ActionEvent e)
-//      {
-//        jFrame.repaint();
-//      }
-//    }).start();
-//  }
-
+  
   public double getValue()
   {
     return value;
@@ -184,15 +153,11 @@ public class GraphLabel extends JPanel
         @Override
         public void actionPerformed(ActionEvent e)
         {
-          if (!(value + (dx - epsilon) > LIMIT || value + (dx + epsilon) < 0))
+          value += dx;
+          valueLabel.setText(formatter.format(value));
+          if (effectRunnable != null)
           {
-            value += dx;
-            if (value < 0) value = 0.0;
-            valueLabel.setText(formatter.format(value));
-            if (effectRunnable != null)
-            {
-              effectRunnable.run();
-            }
+            effectRunnable.run();
           }
         }
       });
