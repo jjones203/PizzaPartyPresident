@@ -2,6 +2,7 @@ package worldfoodgame.gui;
 
 import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.regionlooks.RegionView;
+import worldfoodgame.model.MapPoint;
 import worldfoodgame.model.Region;
 
 import java.awt.*;
@@ -22,12 +23,26 @@ public class GUIRegion
   private RegionView look;
   private Polygon poly;
 
+  private Boolean isPrimaryRegion;
 
   public GUIRegion(Region region, MapConverter converter, RegionView look)
   {
     this.region = region;
     this.converter = converter;
     this.look = look;
+
+    isPrimaryRegion = null;
+  }
+
+  public boolean isPrimaryRegion()
+  {
+    if (isPrimaryRegion == null)
+    {
+      MapPoint mapPoint = getRegion().getCountry().getCapitolLocation();
+      Point point = converter.mapPointToPoint(mapPoint);
+      isPrimaryRegion = getPoly().contains(point);
+    }
+    return isPrimaryRegion;
   }
 
   public boolean isActive()
