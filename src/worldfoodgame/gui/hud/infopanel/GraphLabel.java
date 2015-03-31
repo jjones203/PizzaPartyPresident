@@ -172,6 +172,7 @@ public class GraphLabel extends JPanel
         public void actionPerformed(ActionEvent e)
         {
           value += dx;
+          if (value <= 0) value = 0;
           valueLabel.setText(formatter.format(value));
           if (effectRunnable != null)
           {
