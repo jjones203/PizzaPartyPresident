@@ -34,7 +34,6 @@ public class Game
   public static final String MODEL_DATA_PATH = "resources/ne_10m_admin_1_states_provinces.kml";
   public static final String BG_DATA_PATH = "resources/ne_110m_land.kml";
   private MapPane mapPane;
-//  private InfoPanelDep infoPanelDep;
   private InfoPanel infoPanel;
   private WorldPresenter worldPresenter;
   private WorldFeedPanel worldFeedPanel;
@@ -135,16 +134,6 @@ public class Game
    */
   private void setupControlls()
   {
-    worldTime = new Timer(DEFAULT_TIME_SPEED, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        worldPresenter.setWorldForward(1);
-        worldFeedPanel.setDate(worldPresenter.getWorldDate());
-      }
-    });
-
     gameLoop = new Timer(20, new ActionListener()
     {
       @Override
