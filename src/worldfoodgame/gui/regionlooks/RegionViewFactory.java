@@ -62,6 +62,9 @@ public class RegionViewFactory
       case CAPITAL:
         return new CapitolView();
 
+      case POPULATION:
+        return PopulationView.getPopulationView();
+
       default:
         return DEFAULT_LOOK;
     }
@@ -76,5 +79,6 @@ public class RegionViewFactory
     HAPPINESS,
     YEARLY_RAIL_FALL,
     CAPITAL,
+    POPULATION,
   }
 }

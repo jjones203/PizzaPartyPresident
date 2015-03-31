@@ -79,6 +79,19 @@ public interface ColorsAndFonts
     new Color(0x08306b),
   };
 
+
+  Color[] POPULATION_COLORS = {
+    new Color(0xfff5f0),
+    new Color(0xfee0d2),
+    new Color(0xfcbba1),
+    new Color(0xfc9272),
+    new Color(0xfb6a4a),
+    new Color(0xef3b2c),
+    new Color(0xcb181d),
+    new Color(0xa50f15),
+    new Color(0x67000d),
+  };
+
   Color BAR_GRAPH_NEG = Color.cyan;
   MatteBorder HEADING_UNDERLINE = BorderFactory.createMatteBorder(0, 0, 2, 0, ColorsAndFonts.GUI_TEXT_COLOR.darker());
 

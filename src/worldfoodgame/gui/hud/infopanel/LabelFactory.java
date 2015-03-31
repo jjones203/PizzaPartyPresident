@@ -34,16 +34,16 @@ public class LabelFactory
   {
     final GraphLabel population = new GraphLabel(
       "Population",
-      dataHandler.getPopulation(),
-      dataHandler.getPopulation(),
-      "###E00");
+      dataHandler.getPopulation() / 1_000_000.0,
+      dataHandler.getPopulation() / 1_000_000.0,
+      "#,###.00 million");
 
     updates.add(new Runnable()
     {
       @Override
       public void run()
       {
-        population.setValue(dataHandler.getPopulation());
+        population.setValue(dataHandler.getPopulation() / 1_000_000.0);
       }
     });
     return population;
