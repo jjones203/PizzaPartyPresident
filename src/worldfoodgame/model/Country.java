@@ -23,22 +23,27 @@ import java.util.List;
 public class Country extends AbstractCountry
 {
   private static MapConverter converter = new EquirectangularConverter();
+  public OtherCropsData otherCropsData;
   private int START_YEAR = AbstractScenario.START_YEAR;
   private List<Region> regions;
   private MapPoint capitolLocation;
+  private Collection<LandTile> landTiles;
+
+  public Country(String name)
+  {
+    this.name = name;
+    this.landTiles = new ArrayList<>();
+  }
 
   public Collection<LandTile> getLandTiles()
   {
     return landTiles;
   }
 
-  public void setLandTiles(Collection<LandTile> landTiles)
+  public void addLandTime(LandTile tile)
   {
-    this.landTiles = landTiles;
+    landTiles.add(tile);
   }
-
-  private Collection<LandTile> landTiles;
-  public OtherCropsData otherCropsData;
 
   /**
    * returns the point representing the shipping location of that country.
@@ -78,7 +83,6 @@ public class Country extends AbstractCountry
     return false;
   }
 
-
   // generate the capital by finding the center of the largest landmass.
   // this method can only be called after the Country's regions have been set.
   private MapPoint calCapitalLocation()
@@ -102,7 +106,6 @@ public class Country extends AbstractCountry
     return converter.pointToMapPoint(new Point(x, y));
   }
 
-
   public void addRegion(Region region)
   {
     if (regions == null) regions = new ArrayList<>();
@@ -112,11 +115,6 @@ public class Country extends AbstractCountry
   public List<Region> getRegions()
   {
     return regions;
-  }
-
-  public Country(String name)
-  {
-    this.name = name;
   }
 
   public String getName()

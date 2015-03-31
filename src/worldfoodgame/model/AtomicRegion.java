@@ -2,8 +2,10 @@ package worldfoodgame.model;
 
 
 import worldfoodgame.common.AbstractCountryBorderData;
+import worldfoodgame.gui.displayconverters.EquirectangularConverter;
+import worldfoodgame.gui.displayconverters.MapConverter;
 
-import java.awt.geom.Path2D;
+import java.awt.*;
 import java.util.List;
 
 
@@ -15,12 +17,14 @@ import java.util.List;
  */
 public class AtomicRegion extends AbstractCountryBorderData implements Region
 {
+  //todo clean up mapconverters
+  private static MapConverter mapConverter = new EquirectangularConverter();
   private Country country;
   private List<MapPoint> perimeter;
   private String name;
   private RegionAttributes attributes;
 
-  private Path2D path;
+  private Polygon mapSpacePoly;
 
 
   @Override
@@ -39,21 +43,23 @@ public class AtomicRegion extends AbstractCountryBorderData implements Region
   @Override
   public boolean containsMapPoint(MapPoint mapPoint)
   {
-    if (path == null) path = makePath();
-    return path.contains(mapPoint.getLon(), mapPoint.getLat());
+    if (mapSpacePoly == null) mapSpacePoly = mapConverter.regionToPolygon(this);
+
+    Point point = mapConverter.mapPointToPoint(mapPoint);
+    return mapSpacePoly.contains(point);
   }
 
   // constructs a path object representing the Region.
-  private Path2D makePath()
-  {
-    Path2D path = new Path2D.Double();
-    for (MapPoint mapPoint :perimeter)
-    {
-      path.moveTo(mapPoint.getLon(), mapPoint.getLat());
-    }
-    path.clone();
-    return path;
-  }
+//  private Path2D makePath()
+//  {
+//    Path2D path = new Path2D.Double();
+//    for (MapPoint mapPoint : perimeter)
+//    {
+//      path.moveTo(mapPoint.getLon(), mapPoint.getLat());
+//    }
+//    path.closePath();
+//    return path;
+//  }
 
   @Override
   public RegionAttributes getAttributes()

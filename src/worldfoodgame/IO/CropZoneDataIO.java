@@ -35,8 +35,10 @@ public class CropZoneDataIO
   {
     CropZoneData dataSet = new CropZoneData();
 
+
     try (FileInputStream in = new FileInputStream(filename))
     {
+      System.out.println("starting tiledata loading");
       byte bytes[] = new byte[LandTile.BYTE_DEF.SIZE_IN_BYTES];
       ByteBuffer buf = ByteBuffer.allocate(LandTile.BYTE_DEF.SIZE_IN_BYTES);
       LandTile tile;
@@ -54,7 +56,7 @@ public class CropZoneDataIO
         {
           if (country.containsMapPoint(tile.getCenter()))
           {
-            country.getLandTiles().add(tile);
+            country.addLandTime(tile);
           }
         }
 

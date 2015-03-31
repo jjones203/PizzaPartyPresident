@@ -14,7 +14,7 @@ import java.awt.geom.AffineTransform;
 class CapitolView implements RegionView
 {
   private MapConverter converter = new EquirectangularConverter();
-  private RegionView defalt = new defaultLook();
+  private RegionView defalt = new DefaultLook();
 
   @Override
   public void draw(Graphics g, GUIRegion gRegion)

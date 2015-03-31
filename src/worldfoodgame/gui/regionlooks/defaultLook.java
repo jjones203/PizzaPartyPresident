@@ -15,7 +15,7 @@ import java.awt.*;
  *
  * Depends on the ColorAndFontClass.
  */
-class defaultLook implements RegionView
+class DefaultLook implements RegionView
 {
   private boolean drawBorders;
 

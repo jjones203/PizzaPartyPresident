@@ -24,6 +24,7 @@ public class OverlayPanel extends JPanel implements ActionListener
     RegionViewFactory.Overlay.HAPPINESS,
     RegionViewFactory.Overlay.CAPITAL,
     RegionViewFactory.Overlay.POPULATION,
+    RegionViewFactory.Overlay.PERCIPITATION,
   };
 
   public OverlayPanel(WorldPresenter worldPresenter)
