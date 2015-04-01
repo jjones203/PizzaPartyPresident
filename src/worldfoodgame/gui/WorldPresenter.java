@@ -283,6 +283,16 @@ public class WorldPresenter extends Observable
     regionViewFactory.setCurrentOverlay(currentOverlay);
   }
 
+
+  /**
+   * returns the currently in use over lay
+   * @return
+   */
+  public RegionViewFactory.Overlay getCurrentOverlay()
+  {
+    return regionViewFactory.getCurrentOverlay();
+  }
+
   /*
      * sets the regions to the respective views as a
      * function of their active state

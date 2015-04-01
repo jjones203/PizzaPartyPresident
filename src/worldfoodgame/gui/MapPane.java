@@ -212,7 +212,7 @@ public class MapPane extends JPanel
       }
     }
 
-    
+
     if (drawMultiSelect)
     {
       g2.setTransform(new AffineTransform()); /* reset transform! */
