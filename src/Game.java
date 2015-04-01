@@ -142,51 +142,6 @@ public class Game
       }
     });
 
-
-    InputMap inputMap = mapPane.getInputMap();
-    ActionMap actionMap = mapPane.getActionMap();
-
-    inputMap.put(KeyStroke.getKeyStroke("8"), "defaultTime");
-    actionMap.put("defaultTime", new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        worldTime.setDelay(DEFAULT_TIME_SPEED);
-      }
-    });
-
-    inputMap.put(KeyStroke.getKeyStroke("9"), "faster");
-    actionMap.put("faster", new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        worldTime.setDelay(DEFAULT_TIME_SPEED / 3);
-      }
-    });
-
-    inputMap.put(KeyStroke.getKeyStroke("0"), "superfast");
-    actionMap.put("superfast", new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        worldTime.setDelay(DEFAULT_TIME_SPEED / 6);
-      }
-    });
-
-    inputMap.put(KeyStroke.getKeyStroke("SPACE"), "pause");
-    actionMap.put("pause", new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        if (isRunning()) pause();
-        else start();
-      }
-    });
-
   }
 
   /**
