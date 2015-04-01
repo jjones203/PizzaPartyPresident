@@ -6,17 +6,22 @@ import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.model.LandTile;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 
 /**
  * Created by winston on 3/31/15.
  */
-public class PercipView implements RegionView
+public class PercipView implements RegionView, RasterDataView
 {
+  private static int TILE_SIZE = 500;
   private static RegionView view;
 
   private static MapConverter converter = new EquirectangularConverter();
   private static DefaultLook defaultLook = new DefaultLook();
+
+  private static int calculatedYear = 0;
+
 
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
@@ -31,21 +36,23 @@ public class PercipView implements RegionView
 
       for (LandTile tile : tiles)
       {
+        Point point = converter.mapPointToPoint(tile.getCenter());
 
-        if (tile.getRainfall() > 60)
-        {
-          Point point = converter.mapPointToPoint(tile.getCenter());
-          Color transRed = new Color(0.3019608f, 1.0f, 0.49803922f);
+        float peripRatio = tile.getRainfall() / 1_000;
 
-          g2d.setComposite(
-            AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .1f));
+        if (peripRatio > 1) peripRatio = 1;
 
-          g2d.setColor(transRed);
-          g2d.fillOval(point.x, point.y, 10_00, 10_000);
 
-          g2d.setComposite(
-            AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-        }
+        Color transRed = new Color(69, 255, 206);
+
+        g2d.setComposite(
+          AlphaComposite.getInstance(AlphaComposite.SRC_OVER, peripRatio));
+
+        g2d.setColor(transRed);
+        g2d.fillOval(point.x - TILE_SIZE/2, point.y - TILE_SIZE/2, TILE_SIZE, TILE_SIZE);
+
+        g2d.setComposite(
+          AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
       }
     }
   }
@@ -54,5 +61,11 @@ public class PercipView implements RegionView
   {
     if (view == null) view = new PercipView();
     return view;
+  }
+
+  @Override
+  public BufferedImage getRasterImage()
+  {
+    return null;
   }
 }

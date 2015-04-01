@@ -177,22 +177,28 @@ public class MapPane extends JPanel
     Graphics2D g2 = (Graphics2D) g;
     g2.setTransform(cam.getTransform());
 
-    Collection<GUIRegion> backgroundRegions = presenter.getBackgroundRegionsInView(cam);
-
-    for (GUIRegion region : backgroundRegions) region.draw(g2);
-
-    Collection<GUIRegion> regionsToDraw = presenter.getRegionsInView(cam);
-
+    // draws map grid
     g2.setColor(ColorsAndFonts.MAP_GRID);
     for (Line2D l : grid) g2.draw(l);
 
-    for (GUIRegion region : regionsToDraw)
-    {
-      region.draw(g2);
-    }
+    // set and draw all the background regions
+    // todo this feature might not really be needed.
+    Collection<GUIRegion> backgroundRegions = presenter.getBackgroundRegionsInView(cam);
+    for (GUIRegion region : backgroundRegions) region.draw(g2);
 
+
+    // draws all the 'logi' regions
+    Collection<GUIRegion> regionsToDraw = presenter.getRegionsInView(cam);
+    for (GUIRegion region : regionsToDraw) region.draw(g2);
+
+
+
+    // INSERT graph raster data here.
+
+
+
+    // draws names and/or flags
     double screenArea = cam.getViewBounds().getWidth() * cam.getViewBounds().getWidth();
-
     for (GUIRegion region : regionsToDraw)
     {
       double visibleRaio = screenArea / region.getSurfaceArea();
@@ -206,6 +212,7 @@ public class MapPane extends JPanel
       }
     }
 
+    
     if (drawMultiSelect)
     {
       g2.setTransform(new AffineTransform()); /* reset transform! */
