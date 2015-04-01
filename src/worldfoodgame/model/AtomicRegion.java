@@ -49,17 +49,6 @@ public class AtomicRegion extends AbstractCountryBorderData implements Region
     return mapSpacePoly.contains(point);
   }
 
-  // constructs a path object representing the Region.
-//  private Path2D makePath()
-//  {
-//    Path2D path = new Path2D.Double();
-//    for (MapPoint mapPoint : perimeter)
-//    {
-//      path.moveTo(mapPoint.getLon(), mapPoint.getLat());
-//    }
-//    path.closePath();
-//    return path;
-//  }
 
   @Override
   public RegionAttributes getAttributes()
