@@ -9,21 +9,8 @@ import java.awt.*;
 /**
  * Created by winston on 3/31/15.
  */
-public class PopulationView implements RegionView
+class PopulationView implements RegionView
 {
-  private static PopulationView populationView;
-
-  public static PopulationView getPopulationView()
-  {
-    if (populationView == null) populationView = new PopulationView();
-    return populationView;
-  }
-
-  private PopulationView()
-  {
-  }
-
-
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
   {

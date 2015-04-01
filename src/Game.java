@@ -37,7 +37,6 @@ public class Game
   private InfoPanel infoPanel;
   private WorldPresenter worldPresenter;
   private WorldFeedPanel worldFeedPanel;
-  private Timer worldTime;
   private final static int DEFAULT_TIME_SPEED = 2000;
   private Timer gameLoop;
   private JFrame frame;
@@ -108,7 +107,6 @@ public class Game
   public void start()
   {
     gameLoop.start();
-    worldTime.start();
   }
 
   /**
@@ -117,7 +115,6 @@ public class Game
   public void pause()
   {
     gameLoop.stop();
-    worldTime.stop();
   }
 
 

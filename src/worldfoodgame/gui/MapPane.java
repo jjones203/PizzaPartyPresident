@@ -2,7 +2,6 @@ package worldfoodgame.gui;
 
 import worldfoodgame.gui.regionlooks.RegionFlagDraw;
 import worldfoodgame.gui.regionlooks.RegionNameDraw;
-import worldfoodgame.gui.regionlooks.RegionViewFactory;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -59,40 +58,7 @@ public class MapPane extends JPanel
   private boolean doMultiSelect;
   private boolean dynamicNameDrawing;
 
-  /* Actions associated with the KeyBinding mapping framework */
-  private Action happyOverlay = new AbstractAction()
-  {
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-      presenter.setCurrentOverlay(RegionViewFactory.Overlay.HAPPINESS);
-    }
-  };
-  private Action defaultOverlay = new AbstractAction()
-  {
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-      presenter.setCurrentOverlay(RegionViewFactory.Overlay.NONE);
-    }
-  };
-  private Action plantingZoneOverlay = new AbstractAction()
-  {
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-      presenter.setCurrentOverlay(RegionViewFactory.Overlay.PLANTING_ZONE);
-    }
-  };
-  // test key binding
-  private Action stepWorld = new AbstractAction()
-  {
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-      presenter.setWorldForward(30);
-    }
-  };
+
   private Collection<Line2D> grid;
 
   /**
@@ -121,23 +87,6 @@ public class MapPane extends JPanel
     setMinimumSize(getPreferredSize());
     setDoubleBuffered(true);
 
-    // set up keybindings.
-    getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("1"), "default");
-    getActionMap().put("default", defaultOverlay);
-
-    getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("2"), "happy");
-    getActionMap().put("happy", happyOverlay);
-
-    getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("3"), "planting");
-    getActionMap().put("planting", plantingZoneOverlay);
-
-    /* OSX quirk, maybe: "4" does not fire repeatedly on hold, regardless of
-       modifiers (e.g. "pressed"). This holds for all single keys tested.
-       When modified by a "shift", holding will fire events repeatedly, and allow
-       for world stepping (and demise) at an accelerated rate */
-    getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("shift pressed 4"), "step");
-    getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("4"), "step");
-    getActionMap().put("step", stepWorld);
   }
 
   /**
