@@ -3,6 +3,7 @@ package worldfoodgame.IO;
 import worldfoodgame.model.CropZoneData;
 import worldfoodgame.model.LandTile;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,11 +13,8 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.math.BigDecimal;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.List;
 
@@ -149,12 +147,12 @@ public class CropZoneDataIO
     contentPane.repaint();
    }
   }).start();
-  
  }
  
+ 
+ /* hacky visual testing of data */
  private static class DataPanel extends JPanel
  {
-  public Rectangle2D.Double tileRect;
   public final int ELEV = 0;
   public final int DAY = 1;
   public final int NIGHT = 2;
@@ -170,20 +168,14 @@ public class CropZoneDataIO
   public int mode = ELEV;
   
   List<LandTile> tiles;
+  public final Dimension size = new Dimension(1440,780);
 
-  public final Color C_ELEV = new Color(155,155,155);
-  public final Color C_DAY = Color.pink;
-  public final Color C_NIGHT = Color.green;
-  public final Color C_MAX = Color.red;
-  public final Color C_MIN = Color.blue;
-  public final Color C_PREC = Color.cyan;
-
-  public final Rectangle R_ELEV = new Rectangle(20,560,100,20);
-  public final Rectangle R_DAY = new Rectangle(120,560,100,20);
-  public final Rectangle R_NIGHT = new Rectangle(220,560,100,20);
-  public final Rectangle R_MAX = new Rectangle(320,560,100,20);
-  public final Rectangle R_MIN = new Rectangle(420,560,100,20);
-  public final Rectangle R_PREC = new Rectangle(520,560,100,20);
+  public final Rectangle R_ELEV = new Rectangle(20,size.height-40,100,20);
+  public final Rectangle R_DAY = new Rectangle(120,size.height-40,100,20);
+  public final Rectangle R_NIGHT = new Rectangle(220,size.height-40,100,20);
+  public final Rectangle R_MAX = new Rectangle(320,size.height-40,100,20);
+  public final Rectangle R_MIN = new Rectangle(420,size.height-40,100,20);
+  public final Rectangle R_PREC = new Rectangle(520,size.height-40,100,20);
 
   MouseAdapter mouseAdapter = new MouseAdapter()
   {
@@ -219,7 +211,6 @@ public class CropZoneDataIO
    transform.scale(3, -3);
    addMouseListener(mouseAdapter);
    setLims();
-   Dimension size = new Dimension(1080,600);
    setPreferredSize(size);
    setMaximumSize(size);
    setMinimumSize(size);
@@ -267,7 +258,7 @@ public class CropZoneDataIO
   {
    super.paintComponent(g);
    Graphics2D g2 = (Graphics2D) g;
-   drawRects(g2);
+   drawButtons(g2);
    drawTiles(g2);
   }
 
@@ -275,16 +266,6 @@ public class CropZoneDataIO
   {
    Color c = new Color(0xffffff);
    Color toDraw = c;
-   
-   /* these colors don't really look great */
-//   switch(mode){
-//    case ELEV: c = C_ELEV; break;
-//    case DAY: c = C_DAY; break;
-//    case NIGHT: c = C_NIGHT; break;
-//    case MAX: c = C_MAX; break;
-//    case MIN: c = C_MIN; break;
-//    case PREC: c = C_PREC; break;
-//   }
    
    for (LandTile t : tiles)
    {
@@ -315,12 +296,13 @@ public class CropZoneDataIO
       toDraw = scaleColor(data, minPrec, maxPrec, c);
       break;
     }
-    Point2D p = new Point2D.Double(t.getLon(),t.getLat());
-    Point2D dst = new Point2D.Double();
-    transform.transform(p,dst);
-    tileRect = new Rectangle2D.Double(dst.getX(),dst.getY(),2,2);
     g2.setColor(toDraw);
-    g2.fill(tileRect);
+    int lonShift = 180;
+    int latShift = -90;
+    int lonScale = 4;
+    int latScale = -4;
+    g2.fillRect((int)(lonScale*(t.getLon()+lonShift)),
+      (int)(latScale*(t.getLat()+latShift)),1,1);
    }
   }
 
@@ -334,9 +316,20 @@ public class CropZoneDataIO
    return new Color(r, g, b);
   }
 
-  private void drawRects(Graphics2D g2)
+  private void drawButtons(Graphics2D g2)
   {
-   g2.setColor(Color.blue);
+   g2.setColor(new Color(166, 224, 255));
+   switch(mode)
+   {
+    case ELEV: g2.fill(R_ELEV); break;
+    case DAY: g2.fill(R_DAY); break;
+    case NIGHT: g2.fill(R_NIGHT); break;
+    case MAX: g2.fill(R_MAX); break;
+    case MIN: g2.fill(R_MIN); break;
+    case PREC: g2.fill(R_PREC); break;
+   }
+   
+   g2.setColor(Color.black);
    g2.draw(R_ELEV);
    g2.drawString("ELEV", (int) R_ELEV.getX() + 5, (int) R_ELEV.getMaxY() - 5);
    g2.draw(R_DAY);
