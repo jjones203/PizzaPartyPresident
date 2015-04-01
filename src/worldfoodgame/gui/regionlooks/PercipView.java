@@ -20,7 +20,9 @@ public class PercipView implements RegionView, RasterDataView
 
   private static int calculatedYear = 0;
 
-  private BufferedImage precipitationData;
+//  private BufferedImage precipitationData;
+
+  private Graphics2D graphicsContext;
 
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
@@ -29,11 +31,11 @@ public class PercipView implements RegionView, RasterDataView
 
     boolean imageOutDated =
          calculatedYear != World.getWorld().getCurrentYear()
-      || precipitationData == null;
+      || graphicsContext == null;
 
     if (imageOutDated)
     {
-      precipitationData = makeImage();
+      graphicsContext = makeImage(g);
       calculatedYear = World.getWorld().getCurrentYear();
     }
   }
