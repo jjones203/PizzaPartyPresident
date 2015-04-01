@@ -1,13 +1,16 @@
 package worldfoodgame.gui;
 
+import worldfoodgame.gui.regionlooks.RasterDataView;
 import worldfoodgame.gui.regionlooks.RegionFlagDraw;
 import worldfoodgame.gui.regionlooks.RegionNameDraw;
+import worldfoodgame.gui.regionlooks.RegionView;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 
 /**
@@ -136,7 +139,7 @@ public class MapPane extends JPanel
     for (GUIRegion region : backgroundRegions) region.draw(g2);
 
 
-    // draws all the 'logi' regions
+    // draws all the 'logic' regions
     Collection<GUIRegion> regionsToDraw = presenter.getRegionsInView(cam);
     for (GUIRegion region : regionsToDraw) region.draw(g2);
 
@@ -144,6 +147,15 @@ public class MapPane extends JPanel
 
     // INSERT graph raster data here.
 
+    g2.setColor(Color.GREEN);
+    g2.fillOval(0, 0, 10_000, 10_000);
+
+    RegionView regionView = presenter.getCurrentOverlay().getRegionView();
+    if (regionView instanceof RasterDataView)
+    {
+      BufferedImage image = ((RasterDataView) regionView).getRasterImage();
+      g2.drawImage(image, 0, 0, null);
+    }
 
 
     // draws names and/or flags

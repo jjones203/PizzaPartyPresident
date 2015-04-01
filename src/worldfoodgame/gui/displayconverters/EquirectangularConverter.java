@@ -18,7 +18,7 @@ public class EquirectangularConverter extends MapConverter
 {
 
   private static final MapPoint DEFAULT_REF = new MapPoint(0, 0);
-  private static final double SCALING_FACTOR = 1_000;
+  private static final double SCALING_FACTOR = 1000;
 
 
   /**
