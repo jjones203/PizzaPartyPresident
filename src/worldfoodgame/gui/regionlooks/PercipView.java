@@ -7,6 +7,7 @@ import worldfoodgame.model.LandTile;
 import worldfoodgame.model.World;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
@@ -14,15 +15,16 @@ import java.awt.image.BufferedImage;
  */
 public class PercipView implements RegionView, RasterDataView
 {
-  private static int TILE_SIZE = 500;
+  private static boolean DEBUG = true;
+
+  private static int TILE_SIZE = 6;
   private static MapConverter converter = new EquirectangularConverter();
   private static DefaultLook defaultLook = new DefaultLook();
 
   private static int calculatedYear = 0;
 
-//  private BufferedImage precipitationData;
+  private BufferedImage precipitationData;
 
-  private Graphics2D graphicsContext;
 
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
@@ -31,21 +33,31 @@ public class PercipView implements RegionView, RasterDataView
 
     boolean imageOutDated =
          calculatedYear != World.getWorld().getCurrentYear()
-      || graphicsContext == null;
+      || precipitationData == null;
 
     if (imageOutDated)
     {
-      graphicsContext = makeImage(g);
+      Graphics2D g2d = (Graphics2D) g;
+      precipitationData = makeImage(g2d.getTransform());
       calculatedYear = World.getWorld().getCurrentYear();
     }
   }
 
-  private BufferedImage makeImage()
+  private BufferedImage makeImage(AffineTransform affineTransform)
   {
-    BufferedImage image = new BufferedImage(66000, 78000, BufferedImage.TYPE_INT_ARGB);
+    int width = 900 * 4;
+    int height = 450 * 3;
+
+    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
     Graphics2D g2d = image.createGraphics();
-    System.out.println("do we get here?");
+//    g2d.setTransform(affineTransform);
+
+    g2d.translate(width/2, height/2);
+
+    System.out.println("starting game tiles!");
+
+    int counter = 0;
 
     for (LandTile tile : World.getWorld().getAllTheLand())
     {
@@ -59,14 +71,23 @@ public class PercipView implements RegionView, RasterDataView
       g2d.setColor(color);
       g2d.fillOval(point.x - TILE_SIZE / 2, point.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 
+
+      if (DEBUG)
+      {
+        counter++;
+        if (counter % 1_000 == 0)
+        {
+          System.out.print(".");
+          if (counter % 50_000 == 0)
+          {
+            counter = 0;
+            System.out.println();
+          }
+        }
+      }
     }
 
-
-    // for testing
-
-    g2d.setColor(Color.RED);
-    g2d.fillOval(0,0, 10_000, 10_000);
-    image.flush();
+    System.out.println("finished generating percip image");
 
     return image;
   }
