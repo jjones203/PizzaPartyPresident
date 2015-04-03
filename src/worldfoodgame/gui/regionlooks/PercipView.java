@@ -15,9 +15,9 @@ import java.awt.image.BufferedImage;
  */
 public class PercipView implements RegionView, RasterDataView
 {
-  private static boolean DEBUG = true;
+  private static boolean DEBUG = false;
 
-  private static int TILE_SIZE = 6;
+  private static int TILE_SIZE = 10;
   private static MapConverter converter = new EquirectangularConverter();
   private static DefaultLook defaultLook = new DefaultLook();
 
@@ -51,7 +51,6 @@ public class PercipView implements RegionView, RasterDataView
     BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
     Graphics2D g2d = image.createGraphics();
-//    g2d.setTransform(affineTransform);
 
     g2d.translate(width/2, height/2);
 
@@ -65,6 +64,10 @@ public class PercipView implements RegionView, RasterDataView
       float peripRatio = tile.getRainfall() / 1_000;
 
       if (peripRatio > 1) peripRatio = 1;
+
+      peripRatio *= .2f;
+
+      if (peripRatio < 0.001) continue;;
 
       Color color = new Color(0.09019608f, 0.28627452f, 0.5019608f, peripRatio);
 
