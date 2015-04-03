@@ -12,29 +12,23 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 /**
- * Created by winston on 3/31/15.
+ * This view Handels the visualization of Global precipitation data.
+ * <p/>
+ * this class should only be created once, to adjust look and feel of the class
+ * asjust the class constants.
  */
 public class PercipView implements RegionView, RasterDataView
 {
+  public static final float THRESHOLD_SCALE = .25f;
+  public static final double LIMI_VISABILITY = 0.007;
+  public static final Color RAIN_COLOR = new Color(0.09019608f, 0.28627452f, 0.5019608f);
   private static boolean DEBUG = false;
-
-  private static int TILE_SIZE = 4;
+  private static int TILE_SIZE = 6;
   private static MapConverter converter = new EquirectangularConverter();
   private static DefaultLook defaultLook = new DefaultLook();
   private static HashMap<MapPoint, Point> mapPtoP = new HashMap<>();
-
-  private static int calculatedYear = 0;
-
+  private static int calculatedYear = 0; // init value
   private BufferedImage precipitationData;
-  public static final Color RAIN_COLOR = new Color(0.09019608f, 0.28627452f, 0.5019608f);
-
-
-  float[] blrmatrix = {
-    0.111f, 0.111f, 0.111f,
-    0.111f, 0.111f, 0.111f,
-    0.111f, 0.111f, 0.111f,
-  };
-
 
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
@@ -42,8 +36,8 @@ public class PercipView implements RegionView, RasterDataView
     defaultLook.draw(g, gRegion);
 
     boolean imageOutDated =
-         calculatedYear != World.getWorld().getCurrentYear()
-      || precipitationData == null;
+      calculatedYear != World.getWorld().getCurrentYear()
+        || precipitationData == null;
 
     if (imageOutDated)
     {
@@ -61,8 +55,9 @@ public class PercipView implements RegionView, RasterDataView
     BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
     Graphics2D g2d = image.createGraphics();
+    g2d.translate(width / 2, height / 2);
+
     g2d.setColor(RAIN_COLOR);
-    g2d.translate(width/2, height/2);
 
     if (DEBUG) System.out.println("starting game tiles!");
 
@@ -71,10 +66,12 @@ public class PercipView implements RegionView, RasterDataView
       Point point = getPoint(tile.getCenter());
 
       float peripRatio = tile.getRainfall() / 1_000;
-      if (peripRatio > 1) peripRatio = 1;
-      peripRatio *= .25f;
 
-      if (peripRatio < 0.007) continue;
+      if (peripRatio > 1) peripRatio = 1;
+
+      peripRatio *= THRESHOLD_SCALE;
+
+      if (peripRatio < LIMI_VISABILITY) continue; // skip
 
       g2d.setComposite(
         AlphaComposite.getInstance(AlphaComposite.SRC_OVER, peripRatio));
