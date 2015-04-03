@@ -1,15 +1,11 @@
 package worldfoodgame.gui.regionlooks;
 
 import worldfoodgame.gui.GUIRegion;
-import worldfoodgame.gui.displayconverters.EquirectangularConverter;
-import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.model.LandTile;
-import worldfoodgame.model.MapPoint;
 import worldfoodgame.model.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 
 /**
  * This view Handels the visualization of Global precipitation data.
@@ -17,18 +13,12 @@ import java.util.HashMap;
  * this class should only be created once, to adjust look and feel of the class
  * asjust the class constants.
  */
-public class PercipView implements RegionView, RasterDataView
+public class PercipView extends RasterViz
 {
   public static final float THRESHOLD_SCALE = .25f;
   public static final double LIMI_VISABILITY = 0.007;
   public static final Color RAIN_COLOR = new Color(0.09019608f, 0.28627452f, 0.5019608f);
   private static boolean DEBUG = false;
-  private static int TILE_SIZE = 6;
-  private static MapConverter converter = new EquirectangularConverter();
-  private static DefaultLook defaultLook = new DefaultLook();
-  private static HashMap<MapPoint, Point> mapPtoP = new HashMap<>();
-  private static int calculatedYear = 0; // init value
-  private BufferedImage precipitationData;
 
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
@@ -41,7 +31,6 @@ public class PercipView implements RegionView, RasterDataView
 
     if (imageOutDated)
     {
-      Graphics2D g2d = (Graphics2D) g;
       precipitationData = makeImage();
       calculatedYear = World.getWorld().getCurrentYear();
     }
@@ -93,16 +82,4 @@ public class PercipView implements RegionView, RasterDataView
     return precipitationData;
   }
 
-  private Point getPoint(MapPoint mp)
-  {
-    Point point = mapPtoP.get(mp);
-
-    if (point == null)
-    {
-      point = converter.mapPointToPoint(mp);
-      mapPtoP.put(mp, point);
-    }
-
-    return point;
-  }
 }
