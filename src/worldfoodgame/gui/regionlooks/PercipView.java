@@ -64,9 +64,7 @@ public class PercipView implements RegionView, RasterDataView
 
     g2d.translate(width/2, height/2);
 
-    System.out.println("starting game tiles!");
-
-    int counter = 0;
+    if (DEBUG) System.out.println("starting game tiles!");
 
     for (LandTile tile : World.getWorld().getAllTheLand())
     {
@@ -78,33 +76,19 @@ public class PercipView implements RegionView, RasterDataView
 
       peripRatio *= .25f;
 
-      if (peripRatio < 0.01) continue;;
+      if (peripRatio < 0.01) continue;
 
       g2d.setComposite(
         AlphaComposite.getInstance(AlphaComposite.SRC_OVER, peripRatio));
 
       g2d.setColor(RAIN_COLOR);
-      g2d.fillRect(point.x - TILE_SIZE / 2, point.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
+      g2d.fillOval(point.x - TILE_SIZE / 2, point.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 
       g2d.setComposite(
         AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-
-//      if (DEBUG)
-//      {
-//        counter++;
-//        if (counter % 1_000 == 0)
-//        {
-//          System.out.print(".");
-//          if (counter % 50_000 == 0)
-//          {
-//            counter = 0;
-//            System.out.println();
-//          }
-//        }
-//      }
     }
 
-    System.out.println("finished generating percip image");
+    if (DEBUG) System.out.println("finished generating percip image");
 
     return image;
   }
