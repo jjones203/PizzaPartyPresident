@@ -26,10 +26,8 @@ public interface ColorsAndFonts
   Color SELECT_RECT_OUTLINE = new Color(94, 78, 114);
   Color SELECT_RECT_FILL = new Color(SELECT_RECT_OUTLINE.getRGB() & 0x50FFFFFF, true);
 
-
-  Color BACKGROUD_TEST_COLOR = new Color(255, 18, 19);
-
   Color PASSIVE_REGION = new Color(0xCCB79B);
+  Color BACKGROUD_TEST_COLOR = PASSIVE_REGION;
   Color PASSIVE_REGION_OUTLINE = new Color(0x767979);
 
   Color XML_ERROR = new Color(255, 129, 78, 212);

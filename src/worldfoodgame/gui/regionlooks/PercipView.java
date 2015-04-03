@@ -18,7 +18,7 @@ public class PercipView implements RegionView, RasterDataView
 {
   private static boolean DEBUG = false;
 
-  private static int TILE_SIZE = 5;
+  private static int TILE_SIZE = 4;
   private static MapConverter converter = new EquirectangularConverter();
   private static DefaultLook defaultLook = new DefaultLook();
   private static HashMap<MapPoint, Point> mapPtoP = new HashMap<>();
@@ -61,7 +61,7 @@ public class PercipView implements RegionView, RasterDataView
     BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
     Graphics2D g2d = image.createGraphics();
-
+    g2d.setColor(RAIN_COLOR);
     g2d.translate(width/2, height/2);
 
     if (DEBUG) System.out.println("starting game tiles!");
@@ -71,18 +71,15 @@ public class PercipView implements RegionView, RasterDataView
       Point point = getPoint(tile.getCenter());
 
       float peripRatio = tile.getRainfall() / 1_000;
-
       if (peripRatio > 1) peripRatio = 1;
-
       peripRatio *= .25f;
 
-      if (peripRatio < 0.01) continue;
+      if (peripRatio < 0.007) continue;
 
       g2d.setComposite(
         AlphaComposite.getInstance(AlphaComposite.SRC_OVER, peripRatio));
 
-      g2d.setColor(RAIN_COLOR);
-      g2d.fillOval(point.x - TILE_SIZE / 2, point.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
+      g2d.fillRect(point.x - TILE_SIZE / 2, point.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
 
       g2d.setComposite(
         AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));

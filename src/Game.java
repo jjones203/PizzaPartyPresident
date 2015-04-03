@@ -1,6 +1,7 @@
 import worldfoodgame.IO.CountryCSVLoader;
 import worldfoodgame.IO.CropZoneDataIO;
 import worldfoodgame.IO.XMLparsers.CountryXMLparser;
+import worldfoodgame.IO.XMLparsers.KMLParser;
 import worldfoodgame.gui.Camera;
 import worldfoodgame.gui.MapPane;
 import worldfoodgame.gui.WorldPresenter;
@@ -54,7 +55,7 @@ public class Game
    */
   private void init()
   {
-//    Collection<Region> background = KMLParser.getRegionsFromFile(BG_DATA_PATH);
+    Collection<Region> background = KMLParser.getRegionsFromFile(BG_DATA_PATH);
     Collection<Region> modelRegions = new CountryXMLparser().getRegionList();
 
     Collection<Country> noDataCountries = CountryXMLparser.RegionsToCountries(modelRegions);
@@ -75,7 +76,7 @@ public class Game
     MapConverter converter = new EquirectangularConverter();
 
     worldPresenter = new WorldPresenter(converter, world);
-//    worldPresenter.setBackgroundRegions(background);
+    worldPresenter.setBackgroundRegions(background);
 
 
 
