@@ -114,11 +114,15 @@ public class LabelFactory
 
   public GraphLabel getTotalLand()
   {
+    CountryDataHandler.DISPLAY_UNITE unite = CountryDataHandler.currentUnite;
+    double val = unite.convertKM(dataHandler.getLandTotal());
+    String formatter = "#,###,### " + unite.getDisplayLabel() + " sq";
+
     return new GraphLabel(
       "Total Land",
-      dataHandler.getLandTotal(),
-      dataHandler.getLandTotal(),
-      "#,###,### km sq");
+      val,
+      val,
+      formatter);
   }
 
   public GraphLabel getArableLand()

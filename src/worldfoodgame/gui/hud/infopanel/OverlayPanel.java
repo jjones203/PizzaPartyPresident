@@ -31,7 +31,37 @@ public class OverlayPanel extends JPanel implements ActionListener
 
 
     add(getRadioPanel());
+    add(getConverterPanel());
 
+  }
+
+  private JPanel getConverterPanel()
+  {
+    JPanel radioPanel = new JPanel();
+    radioPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    radioPanel.setLayout(new GridLayout(0, 1));
+    ButtonGroup group = new ButtonGroup();
+
+    for (final CountryDataHandler.DISPLAY_UNITE unite : CountryDataHandler.DISPLAY_UNITE.values())
+    {
+      JRadioButton radioButton = new JRadioButton();
+      radioButton.setText(unite.name());
+      radioButton.setActionCommand(unite.name());
+      radioButton.setIcon(new CustomIcon(radioButton));
+      group.add(radioButton); // adds to logical group
+      radioPanel.add(radioButton); // adds to panel
+      radioButton.setAction(new AbstractAction()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          System.out.println("firing action for unite conversion");
+          CountryDataHandler.currentUnite = unite;
+        }
+      });
+    }
+
+    return radioPanel;
   }
 
   private JPanel getRadioPanel()

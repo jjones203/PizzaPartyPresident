@@ -13,7 +13,7 @@ import java.util.List;
  */
 public abstract class CountryDataHandler
 {
-  public static DISPLAY_UNITE displayUnite = DISPLAY_UNITE.METRIC;
+  public static DISPLAY_UNITE currentUnite = DISPLAY_UNITE.US;
 
   public static CountryDataHandler getNullData()
   {
@@ -174,6 +174,26 @@ public abstract class CountryDataHandler
     DISPLAY_UNITE(String displayLabel)
     {
       this.displayLabel = displayLabel;
+    }
+
+    /**
+     * Converts the square kilometers the the currently specified Unite.
+     * @param klms
+     * @return
+     */
+    public double convertKM(double klms)
+    {
+      double val = -1;
+      switch (this)
+      {
+        case METRIC:
+          val = klms;
+          break;
+        case US:
+          val = klms * 0.38610; //todo check this.
+          break;
+      }
+      return val;
     }
 
     public String getDisplayLabel()
