@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  * this class should only be created once, to adjust look and feel of the class
  * asjust the class constants.
  */
-public class PrecipitationView extends RasterViz
+class PrecipitationView extends RasterViz
 {
   public static final float THRESHOLD_SCALE = .25f;
   public static final double LIMI_VISABILITY = 0.007;

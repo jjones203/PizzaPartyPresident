@@ -12,7 +12,7 @@ import java.awt.*;
  * Over lay view. Expresses the Planting zone in the below divergent color
  * spectrum.
  */
-public class PlantingZoneView implements RegionView
+class PlantingZoneView implements RegionView
 {
   // planting zone => 1 <= x <= 14
   private static Color[] PlantingZoneColors = ColorsAndFonts.PlantingZoneColors;

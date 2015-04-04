@@ -161,7 +161,7 @@ public class MapPane extends JPanel
 //      AffineTransform affineTransform = g2.getTransform();
 //      g2.setTransform(new AffineTransform());
 
-      g2.drawImage(image, (int)converter.getWidth()/2, (int) converter.getHeight()/2, null);
+      g2.drawImage(image, (int) -converter.getWidth()/2, (int) -converter.getHeight()/2, null);
 
 //      g2.setTransform(affineTransform);
 
