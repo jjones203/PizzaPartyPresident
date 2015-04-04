@@ -114,15 +114,11 @@ public class LabelFactory
 
   public GraphLabel getTotalLand()
   {
-    CountryDataHandler.DISPLAY_UNITE unite = CountryDataHandler.currentUnite;
-    double val = unite.convertKM(dataHandler.getLandTotal());
-    String formatter = "#,###,### " + unite.getDisplayLabel() + " sq";
-
     return new GraphLabel(
-      "Total Land",
-      val,
-      val,
-      formatter);
+      "Arable Land",
+      dataHandler.getLandTotal(),
+      dataHandler.getLandTotal(),
+      "#,###,### " + dataHandler.landUnite() + " sq");
   }
 
   public GraphLabel getArableLand()
@@ -130,8 +126,8 @@ public class LabelFactory
     return new GraphLabel(
       "Arable Land",
       dataHandler.getArableOpen(),
-      dataHandler.getArableOpen(),
-      "#,###,### km sq");
+      dataHandler.getLandTotal(),
+      "#,###,### " + dataHandler.landUnite() + " sq");
   }
 
   public GraphLabel getProductionLabel(final EnumCropType type)
@@ -193,7 +189,7 @@ public class LabelFactory
       "Open Land",
       dataHandler.getOpenLand(),
       dataHandler.getArableOpen(),
-      "#,###,### km sq");
+      "#,###,### " + dataHandler.landUnite() + " sq");
 
     updates.add(new Runnable()
     {

@@ -164,6 +164,11 @@ public abstract class CountryDataHandler
   public abstract double getNeed(EnumCropType type);
   public abstract double getOpenLand();
 
+  public String landUnite()
+  {
+    return currentUnite.getDisplayLabel();
+  }
+
   public enum DISPLAY_UNITE
   {
     METRIC("km"),
@@ -181,7 +186,7 @@ public abstract class CountryDataHandler
      * @param klms
      * @return
      */
-    public double convertKM(double klms)
+    public double convert2Display(double klms)
     {
       double val = -1;
       switch (this)

@@ -62,13 +62,13 @@ public class SingleCountryHandeler extends CountryDataHandler
   @Override
   public double getLandTotal()
   {
-    return country.getLandTotal(year);
+    return CountryDataHandler.currentUnite.convert2Display(country.getLandTotal(year));
   }
 
   @Override
   public double getArableOpen()
   {
-    return country.getArableLand(year);
+    return CountryDataHandler.currentUnite.convert2Display(country.getArableLand(year));
   }
 
   @Override
