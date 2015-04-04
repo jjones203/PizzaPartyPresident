@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 /**
  * Created by winston on 4/4/15.
  */
-public class MaxTemp extends RasterViz
+class MaxTemp extends RasterViz
 {
 
   @Override
