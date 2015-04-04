@@ -23,6 +23,11 @@ public class LandTile
     elevation = elev;
   }
 
+  public static void setYearsRemaining(int years)
+  {
+    yearsRemaining = years;
+  }
+
   public enum BYTE_DEF
   {
     LONGITUDE, LATITUDE, ELEVATION,
