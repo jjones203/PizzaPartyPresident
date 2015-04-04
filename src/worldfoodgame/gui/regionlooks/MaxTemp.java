@@ -1,5 +1,8 @@
 package worldfoodgame.gui.regionlooks;
 
+import worldfoodgame.model.LandTile;
+import worldfoodgame.model.World;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -8,6 +11,7 @@ import java.awt.image.BufferedImage;
  */
 public class MaxTemp extends RasterViz
 {
+
   @Override
   public BufferedImage getRasterImage()
   {
@@ -25,7 +29,26 @@ public class MaxTemp extends RasterViz
     g2d.translate(IMG_WIDTH / 2, IMG_HEIGHT / 2);
 
 
+    float S = .5f;
+    float L = .8f;
 
-    return null;
+    float lowerBound = 0f;
+    float upperBound = .197f;
+
+
+    for (LandTile tile : World.getWorld().dataTiles())
+    {
+      double maxTmpRatio = tile.getMaxAnnualTemp() / 50 ;
+      float scaled = (float) (maxTmpRatio * (upperBound - lowerBound)) + lowerBound;
+
+      Color color = Color.getHSBColor(scaled, S, L);
+      g2d.setColor(color);
+
+      Point point = getPoint(tile.getCenter());
+      g2d.fillOval(point.x, point.y, 4, 4);
+    }
+
+
+    return image;
   }
 }

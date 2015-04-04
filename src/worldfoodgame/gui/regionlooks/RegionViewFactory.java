@@ -51,6 +51,7 @@ public class RegionViewFactory
     CAPITAL(new CapitolView()),
     POPULATION(new PopulationView()),
     PERCIPITATION(new PrecipitationView()),
+    MAX_TMP(new MaxTemp()),
     MORTALITY(new MortalityRate()),
     ;
 
