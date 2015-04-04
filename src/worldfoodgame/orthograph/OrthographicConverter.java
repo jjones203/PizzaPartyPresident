@@ -5,10 +5,7 @@ import worldfoodgame.model.MapPoint;
 import worldfoodgame.model.Region;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
-import java.awt.geom.Path2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -237,5 +234,23 @@ public class OrthographicConverter extends MapConverter
   public List<Line2D> getLatLonGrid()
   {
     return null;
+  }
+
+  @Override
+  public Dimension2D getProjectionDimensions()
+  {
+    throw new RuntimeException("NOT IMPLEMENTED!");
+  }
+
+  @Override
+  public double getWidth()
+  {
+    throw new UnsupportedOperationException("Not implemented");
+  }
+
+  @Override
+  public double getHeight()
+  {
+    throw new UnsupportedOperationException("Not implemented");
   }
 }
