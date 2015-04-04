@@ -52,14 +52,18 @@ public class OverlayPanel extends JPanel implements ActionListener
       group.add(radioButton); // adds to logical group
       radioPanel.add(radioButton); // adds to panel
       radioButton.setAction(new changeUniteConverter(unite));
-    }
 
+      if (unite == CountryDataHandler.DISPLAY_UNITE.METRIC)
+      {
+        radioButton.setSelected(true); // this is the default starting value.
+      }
+    }
     return radioPanel;
   }
 
   /**
-   * private class to wrap up the logic of chaning the uniter conversion in the
-   * gui.
+   * private class to wrap up the logic of switching the display conversion in
+   * the gui.
    */
   private class changeUniteConverter extends AbstractAction
   {
@@ -73,7 +77,7 @@ public class OverlayPanel extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-      CountryDataHandler.currentUnite = this.unite;
+      CountryDataHandler.activeConverter = this.unite;
       //todo fix this, this is not updating
       worldPresenter.hasChanged();
       worldPresenter.notifyObservers();

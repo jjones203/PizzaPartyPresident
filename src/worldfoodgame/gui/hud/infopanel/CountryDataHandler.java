@@ -13,7 +13,7 @@ import java.util.List;
  */
 public abstract class CountryDataHandler
 {
-  public static DISPLAY_UNITE currentUnite = DISPLAY_UNITE.US;
+  public static DISPLAY_UNITE activeConverter = DISPLAY_UNITE.METRIC;
 
   public static CountryDataHandler getNullData()
   {
@@ -166,7 +166,7 @@ public abstract class CountryDataHandler
 
   public String landUnite()
   {
-    return currentUnite.getDisplayLabel();
+    return activeConverter.getDisplayLabel();
   }
 
   public enum DISPLAY_UNITE
@@ -203,6 +203,12 @@ public abstract class CountryDataHandler
       return val;
     }
 
+
+    /**
+     * Converts FROM the display unite to the Model space, which is metric.
+     * @param length
+     * @return
+     */
     public double convert2ModelSpace(double length)
     {
       double val = -1;

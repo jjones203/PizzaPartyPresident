@@ -50,7 +50,9 @@ public class RegionViewFactory
     HAPPINESS(new RegionHappyView()),
     CAPITAL(new CapitolView()),
     POPULATION(new PopulationView()),
-    PERCIPITATION(new PercipView()),;
+    PERCIPITATION(new PercipView()),
+    MORTALITY(new MortalityRate()),
+    ;
 
 
     /* class constructor and definition */

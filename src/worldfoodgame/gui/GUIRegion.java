@@ -2,6 +2,7 @@ package worldfoodgame.gui;
 
 import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.regionlooks.RegionView;
+import worldfoodgame.model.Country;
 import worldfoodgame.model.MapPoint;
 import worldfoodgame.model.Region;
 
@@ -108,6 +109,14 @@ public class GUIRegion
     return getPoly().intersects(r);
   }
 
+  /**
+   * Returns the country associated with a given guiRegion, deligation.
+   * @return
+   */
+  public Country getCountry()
+  {
+    return region.getCountry();
+  }
 
   public boolean contains(double x, double y)
   {
