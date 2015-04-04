@@ -10,7 +10,7 @@ import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.hud.WorldFeedPanel;
 import worldfoodgame.gui.hud.infopanel.InfoPanel;
 import worldfoodgame.model.Country;
-import worldfoodgame.model.CropZoneData;
+import worldfoodgame.model.TileManager;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
 
@@ -60,7 +60,7 @@ public class Game
 
     Collection<Country> noDataCountries = CountryXMLparser.RegionsToCountries(modelRegions);
 
-    CropZoneData cropZoneData = CropZoneDataIO.parseFile(CropZoneDataIO.DEFAULT_FILE, noDataCountries);
+    TileManager tileManager = CropZoneDataIO.parseFile(CropZoneDataIO.DEFAULT_FILE, noDataCountries);
 
     // add data from csv to noDataCountries
     CountryCSVLoader csvLoader = new CountryCSVLoader(noDataCountries);
@@ -70,14 +70,15 @@ public class Game
     Calendar startingDate = Calendar.getInstance();
     startingDate.set(Calendar.YEAR,  2014);
 
-    World.makeWorld(modelRegions, noDataCountries, cropZoneData.allTiles(), startingDate);
+    World.makeWorld(modelRegions, noDataCountries, tileManager, startingDate);
 
     World world = World.getWorld();
     MapConverter converter = new EquirectangularConverter();
+    
+    tileManager.setWorld(world);
 
     worldPresenter = new WorldPresenter(converter, world);
     worldPresenter.setBackgroundRegions(background);
-
 
 
     Camera cam = new Camera(converter);

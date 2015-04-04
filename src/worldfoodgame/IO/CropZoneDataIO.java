@@ -1,7 +1,7 @@
 package worldfoodgame.IO;
 
 import worldfoodgame.model.Country;
-import worldfoodgame.model.CropZoneData;
+import worldfoodgame.model.TileManager;
 import worldfoodgame.model.LandTile;
 
 import javax.swing.*;
@@ -31,9 +31,9 @@ public class CropZoneDataIO
 {
   public static final String DEFAULT_FILE = "resources/data/tiledata.bil";
 
-  public static CropZoneData parseFile(String filename, Collection<Country> countries)
+  public static TileManager parseFile(String filename, Collection<Country> countries)
   {
-    CropZoneData dataSet = new CropZoneData();
+    TileManager dataSet = new TileManager(null);
 
 
     try (FileInputStream in = new FileInputStream(filename))
@@ -56,7 +56,8 @@ public class CropZoneDataIO
 
         if (lastCountry != null && lastCountry.containsMapPoint(tile.getCenter()))
         {
-          lastCountry.addLandTime(tile);
+          lastCountry.addLandTile(tile);
+          dataSet.registerCountryTile(tile);
           continue;
         }
 
@@ -64,7 +65,8 @@ public class CropZoneDataIO
         {
           if (country.containsMapPoint(tile.getCenter()))
           {
-            country.addLandTime(tile);
+            country.addLandTile(tile);
+            dataSet.registerCountryTile(tile);
             lastCountry = country;
           }
         }
@@ -83,7 +85,7 @@ public class CropZoneDataIO
     return dataSet;
   }
 
-  public static void writeCropZoneData(CropZoneData data, String filename)
+  public static void writeCropZoneData(TileManager data, String filename)
   {
     try (FileOutputStream out = new FileOutputStream(filename))
     {
@@ -106,7 +108,7 @@ public class CropZoneDataIO
 
   private static void loadAndCheckTiles()
   {
-    CropZoneData data = parseFile(DEFAULT_FILE, null);
+    TileManager data = parseFile(DEFAULT_FILE, null);
 
 
     int noTiles = 0;
@@ -117,7 +119,7 @@ public class CropZoneDataIO
     {
       try
       {
-        if (t == CropZoneData.NO_TILE)
+        if (t == TileManager.NO_TILE)
         {
           noTiles++;
         }
@@ -158,7 +160,7 @@ public class CropZoneDataIO
 
   public static void loadAndViewTiles()
   {
-    final CropZoneData data = parseFile(DEFAULT_FILE, null);
+    final TileManager data = parseFile(DEFAULT_FILE, null);
     final JFrame win = new JFrame();
     win.setSize(1080, 600);
     win.setResizable(false);
@@ -259,7 +261,7 @@ public class CropZoneDataIO
       boolean set = true;
       for (LandTile t : tiles)
       {
-        if (t != CropZoneData.NO_TILE)
+        if (t != TileManager.NO_TILE)
         {
           if (set)
           {

@@ -40,7 +40,7 @@ public class Country extends AbstractCountry
     return landTiles;
   }
 
-  public void addLandTime(LandTile tile)
+  public void addLandTile(LandTile tile)
   {
     landTiles.add(tile);
   }

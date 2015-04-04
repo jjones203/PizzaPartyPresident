@@ -24,7 +24,7 @@ public class World
   private Random random = new Random(44);
   private Collection<Region> world;
   private Collection<Country> politicalWorld;
-  private Collection<LandTile> allTheLand;
+  private TileManager tileManager;
   private Calendar currentDate;
 
   /**
@@ -37,7 +37,7 @@ public class World
    */
   public static void makeWorld(Collection<Region> world,
                                Collection<Country> countries,
-                               Collection<LandTile> allTheLand,
+                               TileManager allTheLand,
                                Calendar cal)
   {
     if (theOneWorld != null)
@@ -45,7 +45,7 @@ public class World
       new RuntimeException("Make World can only be called once!");
     }
     theOneWorld = new World(world, countries, cal);
-    theOneWorld.allTheLand = allTheLand;
+    theOneWorld.tileManager = allTheLand;
   }
 
   /**
@@ -234,13 +234,15 @@ public class World
     new RuntimeException("NOT IMPLEMENTED");
   }
 
-  public Collection<LandTile> getAllTheLand()
+  public Collection<LandTile> getAllTiles()
   {
-    return allTheLand;
+    return tileManager.allTiles();
   }
+  
+  public Collection<LandTile> getAllCountrifiedTiles() { return tileManager.countryTiles(); }
 
-  public void setAllTheLand(Collection<LandTile> allTheLand)
+  public void setTileManager(TileManager mgr)
   {
-    this.allTheLand = allTheLand;
+    this.tileManager = mgr;
   }
 }
