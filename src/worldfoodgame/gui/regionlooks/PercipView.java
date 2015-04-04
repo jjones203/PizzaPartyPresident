@@ -33,7 +33,7 @@ public class PercipView extends RasterViz
 
     if (DEBUG) System.out.println("starting game tiles!");
 
-    for (LandTile tile : World.getWorld().getAllTiles())
+    for (LandTile tile : World.getWorld().dataTiles())
     {
       Point point = getPoint(tile.getCenter());
 
