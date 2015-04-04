@@ -197,8 +197,27 @@ public abstract class CountryDataHandler
         case US:
           val = klms * 0.38610; //todo check this.
           break;
+        default:
+          throw new RuntimeException("non-exhaustive pattern!");
       }
       return val;
+    }
+
+    public double convert2ModelSpace(double length)
+    {
+      double val = -1;
+      switch (this)
+      {
+        case METRIC:
+          val = length;
+          break;
+        case US:
+          val = length / 0.38610; //todo check this.
+          break;
+        default:
+          throw new RuntimeException("non-exhaustive pattern!");
+      }
+      return  val;
     }
 
     public String getDisplayLabel()
