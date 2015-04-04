@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 /**
  * Created by winston on 4/4/15.
  */
-class MaxTemp extends RasterViz
+class MinTemp extends RasterViz
 {
 
   @Override
@@ -32,13 +32,13 @@ class MaxTemp extends RasterViz
     float S = .5f;
     float L = .8f;
 
-    float lowerBound = .2f;
-    float upperBound = .0f;
+    float lowerBound = .677777778f;
+    float upperBound = .494444444f;
 
 
     for (LandTile tile : World.getWorld().dataTiles())
     {
-      double maxTmpRatio = tile.getMaxAnnualTemp() / 50 ;
+      double maxTmpRatio = tile.getMinAnnualTemp() / 50 ;
       float scaled = (float) (maxTmpRatio * (upperBound - lowerBound)) + lowerBound;
 
       Color color = Color.getHSBColor(Math.abs(scaled), S, L);
