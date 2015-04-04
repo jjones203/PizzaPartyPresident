@@ -12,7 +12,6 @@ import java.util.Collection;
  *
  * to get a label, call the corresponding getter method.
  * <p/>
- * todo add the idea of a unite converter here? or in the CountryDataHandler?
  */
 public class LabelFactory
 {
@@ -116,10 +115,10 @@ public class LabelFactory
   public GraphLabel getTotalLand()
   {
     return new GraphLabel(
-      "Total Land",
+      "Arable Land",
       dataHandler.getLandTotal(),
       dataHandler.getLandTotal(),
-      "#,###,### km sq");
+      "#,###,### " + dataHandler.landUnite() + " sq");
   }
 
   public GraphLabel getArableLand()
@@ -127,8 +126,8 @@ public class LabelFactory
     return new GraphLabel(
       "Arable Land",
       dataHandler.getArableOpen(),
-      dataHandler.getArableOpen(),
-      "#,###,### km sq");
+      dataHandler.getLandTotal(),
+      "#,###,### " + dataHandler.landUnite() + " sq");
   }
 
   public GraphLabel getProductionLabel(final EnumCropType type)
@@ -190,7 +189,7 @@ public class LabelFactory
       "Open Land",
       dataHandler.getOpenLand(),
       dataHandler.getArableOpen(),
-      "#,###,### km sq");
+      "#,###,### " + dataHandler.landUnite() + " sq");
 
     updates.add(new Runnable()
     {
