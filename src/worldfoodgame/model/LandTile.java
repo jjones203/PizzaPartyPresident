@@ -50,7 +50,7 @@ public class LandTile
  private float proj_rainfall = 0;      /* in cm */
  private MapPoint center;
  private EnumCropType currCrop;
- private EnumCropType previousCrop;
+ //private EnumCropType previousCrop;
 
  @Override
  public String toString()
@@ -231,6 +231,22 @@ public class LandTile
  }
 
  /**
+  * @return the currCrop
+  */
+ public EnumCropType getCurrCrop()
+ {
+   return currCrop;
+ }
+
+ /**
+  * @param currCrop the currCrop to set
+  */
+ public void setCurrCrop(EnumCropType currCrop)
+ {
+   this.currCrop = currCrop;
+ }
+
+/**
  * Rates tile's suitability for a particular crop.
  * @param   crop                  crop for which we want rating (wheat, corn, rice, or soy)
  * @return                        EnumCropZone (IDEAL, ACCEPTABLE, or POOR)
@@ -297,7 +313,37 @@ public EnumCropZone rateTileForOtherCrops(OtherCropsData otherCropsData)
    else return EnumCropZone.POOR;                                               // otherwise tile is POOR for crop
  }
 
- 
+  public double getTileYieldPercent(EnumCropType crop, EnumCropZone zone)
+  {
+    double zoneYield = 0;
+    // get yield based on EnumCropZone
+    switch (zone)
+    {
+      case IDEAL:
+        zoneYield = 1;
+        break;
+      case ACCEPTABLE:
+        zoneYield = 0.6;
+        break;
+      case POOR:
+        zoneYield = 0.25;
+        break;
+    }
+    double useYield = 0;
+    EnumCropType currUse = getCurrCrop();
+    if (currUse.equals(crop))
+    {
+      useYield = 1;
+    }
+    else if (currUse.equals(null))
+    {
+      useYield = 0.1;
+    }
+    else useYield = 0.5;
+    return zoneYield*useYield;
+  }
+
+
  private boolean isBetween(Number numToTest, Number lowVal, Number highVal)
  {
    if (numToTest.doubleValue() >= lowVal.doubleValue() && numToTest.doubleValue() <= highVal.doubleValue()) return true;
