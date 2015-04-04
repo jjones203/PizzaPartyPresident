@@ -5,6 +5,7 @@ import worldfoodgame.common.AbstractScenario;
 
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -245,7 +246,20 @@ public class World
   {
     return tileManager.allTiles();
   }
-  
+
+  /**
+   Returns a Collection of the tiles held by this TileManager that actually
+   contain data.  This, in effect, excludes tiles that would be over ocean and
+   those at the extremes of latitude.  For all tiles, use allTiles();
+
+   @return a Collection holding only those tiles for which there exists raster
+   data.
+   */
+  public List<LandTile> dataTiles()
+  {
+    return tileManager.dataTiles();
+  }
+
   public Collection<LandTile> getAllCountrifiedTiles() { return tileManager.countryTiles(); }
 
   public void setTileManager(TileManager mgr)

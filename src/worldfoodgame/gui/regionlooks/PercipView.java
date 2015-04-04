@@ -1,6 +1,5 @@
 package worldfoodgame.gui.regionlooks;
 
-import worldfoodgame.gui.GUIRegion;
 import worldfoodgame.model.LandTile;
 import worldfoodgame.model.World;
 
@@ -19,22 +18,6 @@ public class PercipView extends RasterViz
   public static final double LIMI_VISABILITY = 0.007;
   public static final Color RAIN_COLOR = new Color(0.09019608f, 0.28627452f, 0.5019608f);
   private static boolean DEBUG = false;
-
-  @Override
-  public void draw(Graphics g, GUIRegion gRegion)
-  {
-    defaultLook.draw(g, gRegion);
-
-    boolean imageOutDated =
-      calculatedYear != World.getWorld().getCurrentYear()
-        || precipitationData == null;
-
-    if (imageOutDated)
-    {
-      precipitationData = makeImage();
-      calculatedYear = World.getWorld().getCurrentYear();
-    }
-  }
 
   private BufferedImage makeImage()
   {
@@ -79,7 +62,8 @@ public class PercipView extends RasterViz
   @Override
   public BufferedImage getRasterImage()
   {
-    return precipitationData;
+    if (bufferedImage == null) bufferedImage = makeImage();
+    return bufferedImage;
   }
 
 }
