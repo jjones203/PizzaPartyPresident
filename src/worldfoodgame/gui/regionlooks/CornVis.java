@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 /**
  * Created by winston on 4/4/15.
  */
-class MinTemp extends RasterViz
+class CornVis extends RasterViz
 {
 
   @Override
@@ -37,13 +37,15 @@ class MinTemp extends RasterViz
 
     for (LandTile tile : World.getWorld().dataTiles())
     {
-      double maxTmpRatio = (tile.getMinAnnualTemp() + 40) / 50 ;
-      float scaled = (float) (maxTmpRatio * (upperBound - lowerBound)) + lowerBound;
 
-      Color color = Color.getHSBColor(Math.abs(scaled), S, L);
+
+
+      Color color = Color.red;
       g2d.setColor(color);
 
       Point point = getPoint(tile.getCenter());
+
+      // add conditional here
       g2d.fillRect(point.x, point.y, 1, 1);
     }
 
