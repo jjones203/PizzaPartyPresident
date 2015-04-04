@@ -21,6 +21,7 @@ public class OverlayPanel extends JPanel implements ActionListener
 
   private Overlay[] overlays = Overlay.values();
 
+
   public OverlayPanel(WorldPresenter worldPresenter)
   {
     this.worldPresenter = worldPresenter;
@@ -30,7 +31,7 @@ public class OverlayPanel extends JPanel implements ActionListener
     setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
 
 
-    add(getRadioPanel());
+    add(getOverlayRadio());
     add(getConverterPanel());
 
   }
@@ -38,6 +39,7 @@ public class OverlayPanel extends JPanel implements ActionListener
   private JPanel getConverterPanel()
   {
     JPanel radioPanel = new JPanel();
+
     radioPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     radioPanel.setLayout(new GridLayout(0, 1));
     ButtonGroup group = new ButtonGroup();
@@ -45,26 +47,42 @@ public class OverlayPanel extends JPanel implements ActionListener
     for (final CountryDataHandler.DISPLAY_UNITE unite : CountryDataHandler.DISPLAY_UNITE.values())
     {
       JRadioButton radioButton = new JRadioButton();
-      radioButton.setText(unite.name());
-      radioButton.setActionCommand(unite.name());
+      radioButton.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
       radioButton.setIcon(new CustomIcon(radioButton));
       group.add(radioButton); // adds to logical group
       radioPanel.add(radioButton); // adds to panel
-      radioButton.setAction(new AbstractAction()
-      {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-          System.out.println("firing action for unite conversion");
-          CountryDataHandler.currentUnite = unite;
-        }
-      });
+      radioButton.setAction(new changeUniteConverter(unite));
     }
 
     return radioPanel;
   }
 
-  private JPanel getRadioPanel()
+  /**
+   * private class to wrap up the logic of chaning the uniter conversion in the
+   * gui.
+   */
+  private class changeUniteConverter extends AbstractAction
+  {
+    private CountryDataHandler.DISPLAY_UNITE unite;
+    public changeUniteConverter(CountryDataHandler.DISPLAY_UNITE unite)
+    {
+      super(unite.name());
+      this.unite = unite;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+      CountryDataHandler.currentUnite = this.unite;
+      //todo fix this, this is not updating
+      worldPresenter.hasChanged();
+      worldPresenter.notifyObservers();
+    }
+  }
+
+
+  /* sets up and returns a get Overlay */
+  private JPanel getOverlayRadio()
   {
     JPanel radioPanel = new JPanel();
     radioPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
