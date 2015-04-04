@@ -50,6 +50,8 @@ public class World
     for (Country country:countries)
     {
       country.setOtherCropsData();
+      CropOptimizer optimizer = new CropOptimizer(AbstractScenario.START_YEAR, country);
+      optimizer.optimizeCrops();
     }
     
     theOneWorld = new World(world, countries, cal);

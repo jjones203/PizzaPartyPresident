@@ -46,6 +46,16 @@ public class CropOptimizer
    * Plant all the crops
    */
   public void optimizeCrops()
+  { 
+    plantingSetup();
+    // plant crops
+    for (CropBin bin:cropBins)
+    {
+      plantCrop(bin);
+    }
+  }
+  
+  private void plantingSetup()
   {
     // figure out how many tiles needed for each crop
     for (EnumCropType crop:EnumCropType.values())
@@ -64,12 +74,6 @@ public class CropOptimizer
     
     // sort crops by tiles needed, most to least
     Collections.sort(cropBins, Collections.reverseOrder());
-    // plant crops
-    for (CropBin bin:cropBins)
-    {
-      plantCrop(bin);
-    }
-    
   }
   
   /**
@@ -92,7 +96,10 @@ public class CropOptimizer
       tileYields.remove(tYield);                      // remove tile's tYield object because tile now NA
     }
     // after getting all the tiles we need, set total production for year
-    country.setCropProduction(year, crop, production);
+    if (year != AbstractScenario.START_YEAR)
+    {
+        country.setCropProduction(year, crop, production);
+    }
   }
   
   /**
@@ -116,7 +123,26 @@ public class CropOptimizer
         double ctryYield = ctryYields[crop.ordinal()];
         if (crop.equals(EnumCropType.OTHER_CROPS)) zone = tile.rateTileForOtherCrops(country.getOtherCropsData());
         else zone = tile.rateTileForCrop(crop);
-        double percentYield = tile.getTileYieldPercent(crop, zone);
+        double percentYield = 1;
+        // for years after START, calculate percentage of yield depending on zone & prior crop
+        if (year != AbstractScenario.START_YEAR)
+        {
+          percentYield = tile.getTileYieldPercent(crop, zone);
+        }
+        // for year 0, calculate percentage of yield based on zone only
+        else
+        {
+          switch (zone)
+          {
+            case IDEAL:
+              percentYield = 1;
+            case ACCEPTABLE:
+              percentYield = 0.6;
+            case POOR:
+              percentYield = 0.25;
+            default:
+          }
+        }
         yields[crop.ordinal()] = percentYield * ctryYield;
       }
     }
