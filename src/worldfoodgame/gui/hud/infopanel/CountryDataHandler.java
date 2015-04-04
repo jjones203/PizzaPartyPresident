@@ -13,7 +13,7 @@ import java.util.List;
  */
 public abstract class CountryDataHandler
 {
-  public static DISPLAY_UNITE currentUnite = DISPLAY_UNITE.US;
+  public static DISPLAY_UNITE activeConverter = DISPLAY_UNITE.US;
 
   public static CountryDataHandler getNullData()
   {
@@ -166,7 +166,7 @@ public abstract class CountryDataHandler
 
   public String landUnite()
   {
-    return currentUnite.getDisplayLabel();
+    return activeConverter.getDisplayLabel();
   }
 
   public enum DISPLAY_UNITE

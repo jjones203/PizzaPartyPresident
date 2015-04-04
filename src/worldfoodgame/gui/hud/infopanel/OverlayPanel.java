@@ -73,7 +73,7 @@ public class OverlayPanel extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-      CountryDataHandler.currentUnite = this.unite;
+      CountryDataHandler.activeConverter = this.unite;
       //todo fix this, this is not updating
       worldPresenter.hasChanged();
       worldPresenter.notifyObservers();
