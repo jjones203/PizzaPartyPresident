@@ -44,6 +44,13 @@ public class World
     {
       new RuntimeException("Make World can only be called once!");
     }
+    
+    // calculate OTHER_CROPS temp & rain requirements for each country
+    for (Country country:countries)
+    {
+      country.setOtherCropsData();
+    }
+    
     theOneWorld = new World(world, countries, cal);
     theOneWorld.tileManager = allTheLand;
   }

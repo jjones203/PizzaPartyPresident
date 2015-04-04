@@ -644,7 +644,12 @@ public class Country extends AbstractCountry
     this.otherCropsData = new OtherCropsData(maxTemp, minTemp, avgDayTemp, avgNightTemp, maxRain, minRain);
   }
 
-
+  public OtherCropsData getOtherCropsData()
+  {
+    return otherCropsData;
+  }
+  
+  
   /**
    * Class for storing each country's other crops climate requirements.
    *

@@ -18,6 +18,8 @@ public abstract class RasterViz implements RegionView, RasterDataView
   protected static MapConverter converter = new EquirectangularConverter();
   protected static DefaultLook defaultLook = new DefaultLook();
 
+  // this is static so that all subclasses can share the same mapping.
+  // no need for copies
   private static HashMap<MapPoint, Point> mapPtoP = new HashMap<>();
 
   protected int calculatedYear = 0; // init value

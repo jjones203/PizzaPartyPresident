@@ -18,6 +18,11 @@ public class LandTile
   
   private static int yearsRemaining = AbstractScenario.YEARS_OF_SIM;
 
+  public void setElev(float elev)
+  {
+    elevation = elev;
+  }
+
   public enum BYTE_DEF
   {
     LONGITUDE, LATITUDE, ELEVATION,
@@ -36,10 +41,9 @@ public class LandTile
     public static final int SIZE = values().length;
 
     public static final int SIZE_IN_BYTES = SIZE * Float.SIZE / Byte.SIZE;
-
   }
-  private float elevation = 0;     /* in meters above sea level */
 
+  private float elevation = 0;     /* in meters above sea level */
   private float maxAnnualTemp = 0; /* in degrees Celsius. */
   private float minAnnualTemp = 0; /* in degrees Celsius. */
   private float avgDayTemp = 0;    /* in degrees Celsius. */
@@ -53,6 +57,21 @@ public class LandTile
   private MapPoint center;
   private EnumCropType currCrop;
   private EnumCropType previousCrop;
+
+  @Override
+  public String toString()
+  {
+    return "LandTile{" +
+      "rainfall=" + rainfall +
+      ", avgNightTemp=" + avgNightTemp +
+      ", avgDayTemp=" + avgDayTemp +
+      ", minAnnualTemp=" + minAnnualTemp +
+      ", maxAnnualTemp=" + maxAnnualTemp +
+      ", elevation=" + elevation +
+      ", center=" + center +
+      '}';
+  }
+
   /**
    Constructor used for initial creation of data set
    @param lon longitude of this LandTile
@@ -116,25 +135,6 @@ public class LandTile
     return buf;
   }
 
-  public void stepTile()
-  {
-    maxAnnualTemp = interpolate(maxAnnualTemp, proj_maxAnnualTemp, yearsRemaining);
-    minAnnualTemp = interpolate(minAnnualTemp, proj_minAnnualTemp, yearsRemaining);
-    avgDayTemp = interpolate(avgDayTemp, proj_avgDayTemp, yearsRemaining);
-    avgNightTemp = interpolate(avgNightTemp, proj_avgNightTemp, yearsRemaining);
-    rainfall = interpolate(rainfall, proj_rainfall, yearsRemaining);
-  }
-  
-  public double distanceSq(LandTile t)
-  {
-    return center.distanceSq(t.center);
-  }
-  
-  public double distance(LandTile t)
-  {
-    return center.distance(t.center);
-  }
-
   public double getLon()
   {
     return center.getLon();
@@ -148,6 +148,15 @@ public class LandTile
   public MapPoint getCenter()
   {
     return center;
+  }
+  
+  public void stepTile()
+  {
+    maxAnnualTemp = interpolate(maxAnnualTemp, proj_maxAnnualTemp, yearsRemaining);
+    minAnnualTemp = interpolate(minAnnualTemp, proj_minAnnualTemp, yearsRemaining);
+    avgDayTemp = interpolate(avgDayTemp, proj_avgDayTemp, yearsRemaining);
+    avgNightTemp = interpolate(avgNightTemp, proj_avgNightTemp, yearsRemaining);
+    rainfall = interpolate(rainfall, proj_rainfall, yearsRemaining);
   }
 
   public float getElevation()
@@ -205,11 +214,6 @@ public class LandTile
     return proj_rainfall;
   }
 
-  public void setElev(float elev)
-  {
-    elevation = elev;
-  }
-
   public void setProj_rainfall(float proj_rainfall)
   {
     this.proj_rainfall = proj_rainfall;
@@ -258,6 +262,11 @@ public class LandTile
   public void setMaxAnnualTemp(float maxAnnualTemp)
   {
     this.maxAnnualTemp = maxAnnualTemp;
+  }
+
+  public void setCurrCrop(EnumCropType crop)
+  {
+    currCrop = crop;
   }
 
   /**
@@ -345,30 +354,44 @@ public class LandTile
     }
   }
 
+ /**
+   * Get percent of country's yield for crop tile will yield, base on its zone rating and
+   * current use
+   * @param crop    crop in question
+   * @param zone    tile's zone for that crop
+   * @return        percent of country's yield tile can yield
+   */
+  public double getTileYieldPercent(EnumCropType crop, EnumCropZone zone)
+  {
+    double zonePercent = 0;
+    double usePercent;
+    switch (zone)
+    {
+      case IDEAL:
+        zonePercent = 1;
+      case ACCEPTABLE:
+        zonePercent = 0.6;
+      case POOR:
+        zonePercent = 0.25;
+    }
+    if (currCrop == crop) usePercent = 1;
+    else if (currCrop == null) usePercent = 0.1;
+    else usePercent = 0.5;
+    return zonePercent * usePercent;
+  }
+
+
+
   private boolean isBetween(Number numToTest, Number lowVal, Number highVal)
   {
-    return numToTest.doubleValue() >= lowVal.doubleValue() && numToTest.doubleValue() <= highVal.doubleValue();
-  }
-
-
-  @Override
-  public String toString()
-  {
-    return "LandTile{" +
-      "rainfall=" + rainfall +
-      ", avgNightTemp=" + avgNightTemp +
-      ", avgDayTemp=" + avgDayTemp +
-      ", minAnnualTemp=" + minAnnualTemp +
-      ", maxAnnualTemp=" + maxAnnualTemp +
-      ", elevation=" + elevation +
-      ", center=" + center +
-      '}';
-  }
-
-  
-  static void setYearsRemaining(int years)
-  {
-    yearsRemaining = years;
+    if (numToTest.doubleValue() >= lowVal.doubleValue() && numToTest.doubleValue() <= highVal.doubleValue())
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
   
   static class NoDataException extends IllegalArgumentException
