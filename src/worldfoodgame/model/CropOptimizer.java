@@ -74,7 +74,7 @@ public class CropOptimizer
   
   /**
    * Plant a given crop
-   * @param bin   CropBin with crop to plant and tiles to plant
+   * @param bin   CropBin with crop to plant and tiles to plant\
    */
   private void plantCrop(CropBin bin)
   { 
