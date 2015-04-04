@@ -23,7 +23,7 @@ public class EquirectangularConverter extends MapConverter
   private static final double SCALING_FACTOR = 10;
   
   public static final double PROJECTION_HEIGHT = 180 * SCALING_FACTOR;
-  public static final double PROJECTION_WIDTH = 180 * SCALING_FACTOR;
+  public static final double PROJECTION_WIDTH = 360 * SCALING_FACTOR;
   public static final Dimension2D DIMENSION = new Dimension2D()
   {
     @Override
