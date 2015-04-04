@@ -1,6 +1,6 @@
 package worldfoodgame.IO;
 
-import worldfoodgame.model.CropZoneData;
+import worldfoodgame.model.TileManager;
 import worldfoodgame.model.LandTile;
 
 import java.io.FileInputStream;
@@ -55,7 +55,7 @@ public class BioClimDataParser
   }
 
   private final String root;
-  private final CropZoneData dataSet =
+  private final TileManager dataSet =
     CropZoneDataIO.parseFile("resources/data/tiledata.bil", null);
   private final Map<LandTile, AgrPoint> map = new HashMap<>();
 

@@ -13,8 +13,7 @@ import java.util.List;
  */
 public abstract class CountryDataHandler
 {
-
-  // todo add write method, that takes the values in the data handler and writes them to the country.
+  public static DISPLAY_UNITE currentUnite = DISPLAY_UNITE.US;
 
   public static CountryDataHandler getNullData()
   {
@@ -164,6 +163,68 @@ public abstract class CountryDataHandler
 
   public abstract double getNeed(EnumCropType type);
   public abstract double getOpenLand();
+
+  public String landUnite()
+  {
+    return currentUnite.getDisplayLabel();
+  }
+
+  public enum DISPLAY_UNITE
+  {
+    METRIC("km"),
+    US("mi");
+
+    private String displayLabel;
+
+    DISPLAY_UNITE(String displayLabel)
+    {
+      this.displayLabel = displayLabel;
+    }
+
+    /**
+     * Converts the square kilometers the the currently specified Unite.
+     * @param klms
+     * @return
+     */
+    public double convert2Display(double klms)
+    {
+      double val = -1;
+      switch (this)
+      {
+        case METRIC:
+          val = klms;
+          break;
+        case US:
+          val = klms * 0.38610; //todo check this.
+          break;
+        default:
+          throw new RuntimeException("non-exhaustive pattern!");
+      }
+      return val;
+    }
+
+    public double convert2ModelSpace(double length)
+    {
+      double val = -1;
+      switch (this)
+      {
+        case METRIC:
+          val = length;
+          break;
+        case US:
+          val = length / 0.38610; //todo check this.
+          break;
+        default:
+          throw new RuntimeException("non-exhaustive pattern!");
+      }
+      return  val;
+    }
+
+    public String getDisplayLabel()
+    {
+      return displayLabel;
+    }
+  }
 }
 
 

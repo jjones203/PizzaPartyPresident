@@ -24,7 +24,6 @@ public class InfoPanel extends JPanel implements Observer
   private final WorldPresenter worldPresenter;
   private CountryDataHandler dataHandler;
   private LabelFactory labelFactory;
-//  private final static Dimension SIZE = new Dimension(1, 224);
   private TabbedPanel OuterTabbedPanel;
   private DemographicPanel demographicPanel;
   private LandPanel landPanel;
@@ -41,9 +40,6 @@ public class InfoPanel extends JPanel implements Observer
     this.worldPresenter = worldPresenter;
     this.labelFactory = new LabelFactory(dataHandler);
     worldPresenter.addObserver(this);
-
-
-
 
     setLayout(new BorderLayout());
     viewBox = new MiniViewBox(" ");

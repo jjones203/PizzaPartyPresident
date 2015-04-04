@@ -1,6 +1,7 @@
 package worldfoodgame.orthograph;
 
 import worldfoodgame.IO.XMLparsers.KMLParser;
+import worldfoodgame.model.AtomicRegion;
 import worldfoodgame.model.Region;
 
 import javax.swing.*;
@@ -28,7 +29,7 @@ public class EarthViewer extends JPanel
 
  public EarthViewer()
  {
-  setPreferredSize(new Dimension(700,700));
+  setPreferredSize(new Dimension(1000,1000));
   setMinimumSize(getPreferredSize());
   addMouseListener(this);
   addMouseMotionListener(this);
@@ -48,6 +49,7 @@ public class EarthViewer extends JPanel
  {
   regions.addAll(col);
  }
+ public void addRegion(Region r) { regions.add(r);}
 
 
  @Override
@@ -62,7 +64,7 @@ public class EarthViewer extends JPanel
   g2.setColor(new Color(144,144,144));
   g2.fill(baseEarth);
   
-  g2.setColor(Color.white);
+  g2.setColor(Color.red);
   for(Path2D p : conv.convertRegions(regions)) g2.draw(p);
  }
 
@@ -72,8 +74,22 @@ public class EarthViewer extends JPanel
   
   OrthographicConverter conv = new OrthographicConverter(cam);
   cam.setConverter(conv);
+
+  Collection<Region> regionsFromFile = KMLParser.getRegionsFromFile("resources/countries_world.xml");
   
-  cam.addRegions(KMLParser.getRegionsFromFile("resources/countries_world.xml"));
+  Region lrg = null;
+  double max = -Double.MAX_VALUE;
+  for(Region r : regionsFromFile)
+  {
+   double tmp = r.getPerimeter().size();
+   if(tmp > max)
+   {
+    max =tmp;
+    lrg = r;
+   }
+  }
+  
+  cam.addRegion(lrg);
   
   JFrame win = new JFrame();
   win.add(cam);
