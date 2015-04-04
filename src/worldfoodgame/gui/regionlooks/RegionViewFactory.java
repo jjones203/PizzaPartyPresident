@@ -53,6 +53,7 @@ public class RegionViewFactory
     PERCIPITATION(new PrecipitationView()),
     MAX_TMP(new MaxTemp()),
     MIN_TMP(new MinTemp()),
+    CORN(new CornVis()),
     MORTALITY(new MortalityRate()),
     ;
 

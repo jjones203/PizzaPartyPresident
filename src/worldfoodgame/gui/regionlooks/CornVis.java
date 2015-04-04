@@ -28,24 +28,38 @@ class CornVis extends RasterViz
     Graphics2D g2d = image.createGraphics();
     g2d.translate(IMG_WIDTH / 2, IMG_HEIGHT / 2);
 
-    float S = .5f;
-    float L = .8f;
-
-    float lowerBound = 240.0f/360.0f;
-    float upperBound = 161.0f/360.0f;
-
 
     for (LandTile tile : World.getWorld().dataTiles())
     {
+      if (tile.getCurrentCrop() == null) continue;
 
+      switch (tile.getCurrentCrop())
+      {
+        case CORN:
+          g2d.setColor(Color.red);
+          break;
 
+        case OTHER_CROPS:
+          g2d.setColor(Color.green);
+          break;
 
-      Color color = Color.red;
-      g2d.setColor(color);
+        case RICE:
+          g2d.setColor(Color.white);
+          break;
 
+        case SOY:
+          g2d.setColor(Color.yellow);
+          break;
+
+        case WHEAT:
+          g2d.setColor(Color.blue);
+          break;
+
+        default:
+          System.out.println("got here some how?");
+          break;
+      }
       Point point = getPoint(tile.getCenter());
-
-      // add conditional here
       g2d.fillRect(point.x, point.y, 1, 1);
     }
 
