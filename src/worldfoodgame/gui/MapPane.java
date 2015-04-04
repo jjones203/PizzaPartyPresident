@@ -1,5 +1,6 @@
 package worldfoodgame.gui;
 
+import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.regionlooks.RasterDataView;
 import worldfoodgame.gui.regionlooks.RegionFlagDraw;
 import worldfoodgame.gui.regionlooks.RegionNameDraw;
@@ -56,6 +57,7 @@ public class MapPane extends JPanel
 
   private WorldPresenter presenter;
   private Camera cam;
+  private MapConverter converter;
   private Point2D dragFrom;
 
   private boolean doMultiSelect;
@@ -75,6 +77,7 @@ public class MapPane extends JPanel
   {
     this.cam = cam;
     this.presenter = presenter;
+    converter = presenter.getConverter();
     
     /* 'this' handles most of its controls, for convenience */
     addMouseListener(this);
@@ -158,7 +161,7 @@ public class MapPane extends JPanel
 //      AffineTransform affineTransform = g2.getTransform();
 //      g2.setTransform(new AffineTransform());
 
-      g2.drawImage(image, -1800, -675, null);
+      g2.drawImage(image, (int)converter.getWidth()/2, (int) converter.getHeight()/2, null);
 
 //      g2.setTransform(affineTransform);
 

@@ -4,6 +4,7 @@ import worldfoodgame.gui.GUIRegion;
 import worldfoodgame.gui.displayconverters.EquirectangularConverter;
 import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.model.MapPoint;
+import worldfoodgame.model.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,16 +18,31 @@ public abstract class RasterViz implements RegionView, RasterDataView
   protected static int TILE_SIZE = 6;
   protected static MapConverter converter = new EquirectangularConverter();
   protected static DefaultLook defaultLook = new DefaultLook();
+  protected static final int IMG_HEIGHT = (int) converter.getHeight();
+  protected static final int IMG_WIDTH = (int) converter.getWidth();
 
   // this is static so that all subclasses can share the same mapping.
   // no need for copies
   private static HashMap<MapPoint, Point> mapPtoP = new HashMap<>();
 
   protected int calculatedYear = 0; // init value
-  protected BufferedImage precipitationData;
+  protected BufferedImage bufferedImage;
 
   @Override
-  public abstract void draw(Graphics g, GUIRegion gRegion);
+  public void draw(Graphics g, GUIRegion gRegion)
+  {
+    defaultLook.draw(g, gRegion);
+
+    boolean imageOutDated =
+      calculatedYear != World.getWorld().getCurrentYear()
+        || bufferedImage == null;
+
+    if (imageOutDated)
+    {
+      bufferedImage = getRasterImage();
+      calculatedYear = World.getWorld().getCurrentYear();
+    }
+  }
 
   @Override
   public abstract BufferedImage getRasterImage();

@@ -1,6 +1,5 @@
 package worldfoodgame.gui.regionlooks;
 
-import worldfoodgame.gui.GUIRegion;
 import worldfoodgame.model.LandTile;
 import worldfoodgame.model.World;
 
@@ -13,44 +12,24 @@ import java.awt.image.BufferedImage;
  * this class should only be created once, to adjust look and feel of the class
  * asjust the class constants.
  */
-public class PercipView extends RasterViz
+public class PrecipitationView extends RasterViz
 {
   public static final float THRESHOLD_SCALE = .25f;
   public static final double LIMI_VISABILITY = 0.007;
   public static final Color RAIN_COLOR = new Color(0.09019608f, 0.28627452f, 0.5019608f);
   private static boolean DEBUG = false;
 
-  @Override
-  public void draw(Graphics g, GUIRegion gRegion)
-  {
-    defaultLook.draw(g, gRegion);
-
-    boolean imageOutDated =
-      calculatedYear != World.getWorld().getCurrentYear()
-        || precipitationData == null;
-
-    if (imageOutDated)
-    {
-      precipitationData = makeImage();
-      calculatedYear = World.getWorld().getCurrentYear();
-    }
-  }
-
   private BufferedImage makeImage()
   {
-    int width = 900 * 4;
-    int height = 450 * 3;
-
-    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
+    BufferedImage image = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2d = image.createGraphics();
-    g2d.translate(width / 2, height / 2);
+    g2d.translate(IMG_WIDTH / 2, IMG_HEIGHT / 2);
 
     g2d.setColor(RAIN_COLOR);
 
     if (DEBUG) System.out.println("starting game tiles!");
 
-    for (LandTile tile : World.getWorld().getAllTiles())
+    for (LandTile tile : World.getWorld().dataTiles())
     {
       Point point = getPoint(tile.getCenter());
 
@@ -79,7 +58,8 @@ public class PercipView extends RasterViz
   @Override
   public BufferedImage getRasterImage()
   {
-    return precipitationData;
+    if (bufferedImage == null) bufferedImage = makeImage();
+    return bufferedImage;
   }
 
 }

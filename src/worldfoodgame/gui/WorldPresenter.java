@@ -418,6 +418,11 @@ public class WorldPresenter extends Observable
     return world.getWorldHappinessPercent();
   }
 
+  public MapConverter getConverter()
+  {
+    return mpConverter;
+  }
+
   /**
    * Private class  that manages and the active/passive state of the region.
    * also deals the marking changes

@@ -1,10 +1,10 @@
 package worldfoodgame.model;
 
 
-//import sun.jvm.hotspot.CLHSDB;
 import worldfoodgame.common.AbstractClimateData;
 import static worldfoodgame.common.AbstractScenario.*;
 
+import java.awt.geom.Ellipse2D;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
@@ -27,15 +27,29 @@ public class TileManager extends AbstractClimateData
    */
 
   public static final LandTile NO_TILE = new LandTile(-180,0); /* in pacific */
-  
   public static final int ROWS = 1500;
+
   public static final int COLS = 4000;
   public static final int EARTH_CIRC = 40_000;
+  
+  public static final double MIN_LAT = -90;
+  public static final double MAX_LAT = 90;
+  public static final double MIN_LON = -180;
+  public static final double MAX_LON = 180;
+  public static final double LAT_RANGE = MAX_LAT - MIN_LAT;
+  public static final double LON_RANGE = MAX_LON - MIN_LON;
+  
+  public static final double DLON = LON_RANGE/COLS;
+  public static final double DLAT = LAT_RANGE/ROWS;
   
   /* these are fairly rough estimates for the distance between two tiles on the
    X and Y axes.  Should be acceptable for our purposes */
   public static final double DX = COLS/EARTH_CIRC;
   public static final double DY = ROWS/(2*EARTH_CIRC);
+  
+  public static final double NOISE_RANGE = 100; /* in km */
+  public static final Ellipse2D NOISE_CIRCLE = 
+    new Ellipse2D.Double(0,0,NOISE_RANGE*2, NOISE_RANGE*2);
 
   private World world;
 
@@ -88,17 +102,6 @@ public class TileManager extends AbstractClimateData
     int slices = END_YEAR - world.getCurrentYear();
     int sliceNum = year - world.getCurrentYear();
     return LandTile.interpolate(cur, proj, slices) * sliceNum;
-  }
-
-  /**
-
-   @param lat
-   @param lon
-   @return
-   */
-  public float getTemperatureMax(float lat, float lon) 
-  {
-    return getTemperatureMax(lat, lon, world.getCurrentYear());
   }
 
   /**
@@ -236,6 +239,23 @@ public class TileManager extends AbstractClimateData
     int sliceNum = year - world.getCurrentYear();
     return LandTile.interpolate(cur, proj, slices) * sliceNum;
   }
+  
+  public void stepYear()
+  {
+    LandTile.setYearsRemaining(END_YEAR - world.getCurrentYear());
+    List<LandTile> tiles = dataTiles();
+    for(LandTile tile : tiles) tile.stepTile();
+    Collections.shuffle(tiles);
+    for(LandTile tile : tiles.subList(0,tiles.size()/10))
+    {
+      addNoiseByTile(tile);
+    }
+  }
+
+  private void addNoiseByTile(LandTile tile)
+  {
+    
+  }
 
   /**
    Get a tile by longitude and latitude
@@ -288,7 +308,7 @@ public class TileManager extends AbstractClimateData
    
    @return Collection of those LandTiles that have been registered with a Country
    */
-  public Collection<LandTile> countryTiles()
+  public List<LandTile> countryTiles()
   {
     return countryTiles;
   }
@@ -301,7 +321,7 @@ public class TileManager extends AbstractClimateData
    @return  a Collection holding only those tiles for which there exists raster
             data.
    */
-  public Collection<LandTile> dataTiles()
+  public List<LandTile> dataTiles()
   {
     if(null == dataTiles)
     {
@@ -319,7 +339,11 @@ public class TileManager extends AbstractClimateData
    */
   public List<LandTile> allTiles()
   {
-    if(allTiles == null) for(LandTile[] arr : tiles) allTiles.addAll(Arrays.asList(arr));
+    if(allTiles == null)
+    {
+      allTiles = new ArrayList<>();
+      for(LandTile[] arr : tiles) allTiles.addAll(Arrays.asList(arr));
+    }
     return allTiles;
   }
 
@@ -373,22 +397,6 @@ public class TileManager extends AbstractClimateData
   }
 
 
-  /* intialize a new tileset with proper latitude and longitude center points.
-    This is really only used for making tiles for a new data set*/
-  private void initTiles()
-  {
-    for (int col = 0; col < COLS; col++)
-    {
-      for (int row = 0; row < ROWS; row++)
-      {
-        double lon = colToLon(col);
-        double lat = rowToLat(row);
-        tiles[col][row] = new LandTile(lon, lat);
-      }
-    }
-  }
-
-
   /* check given row and column indices for validity */
   private boolean indicesInBounds(int row, int col)
   {
@@ -398,31 +406,56 @@ public class TileManager extends AbstractClimateData
 
   /* given a longitude line, return the column index corresponding to tiles
     containing that line */
-  private int latToRow(double lat)
+  private static int latToRow(double lat)
   {
-    double sin = Math.sin(Math.toRadians(lat));
-    return (int)Math.min((ROWS * (sin + 1) / 2), ROWS - 1);
+    /* sine of latitude, shifted into [0,2] */
+    double sinShift = Math.sin(Math.toRadians(lat)) + 1;
+    double row = ROWS * sinShift / 2;
+    
+    /* take minimum of row and max row value, for the outlier lat = 90 */
+    return (int)Math.min(row, ROWS - 1);
   }
 
 
   /* given a longitude line, return the column index corresponding to tiles
     containing that line */
-  private int lonToCol(double lon)
+  private static int lonToCol(double lon)
   {
-    return (int)Math.min((COLS * (lon + 180) / 360), COLS - 1);
+    return (int)Math.min((COLS * (lon + MAX_LON) / LON_RANGE), COLS - 1);
   }
 
-  
+
   /* return the theoretical center latitude line of tiles in a given row */
-  public double rowToLat(int row)
+  public static double rowToLat(int row)
   {
-    return Math.toDegrees(Math.asin(((double)row)/ROWS * 2 - 1)) + 180/(ROWS * 2.0);
+    /* bring the row index into floating point range [-1,1] */
+    double measure = (row * 2d / ROWS) - 1;
+    
+    /* arcsin brings measure into spherical space.  Convert to degrees, and shift
+      by half of DLAT (~latitude lines covered per tile)  */
+    return Math.toDegrees(Math.asin(measure)) + 0.5 * DLAT;
   }
+
 
   /* return the theoretical center longitude line of tiles in a given column */
-  public double colToLon(int col)
+  public static double colToLon(int col)
   {
-    return 360 * ((double)col) / COLS - 180 + 360/(COLS * 2.0);
+    return LON_RANGE * ((double)col) / COLS - MAX_LON + 0.5*DLON;
+  }
+
+  /* intialize a new tileset with proper latitude and longitude center points.
+    This is really only used for making tiles for a new data set*/
+  private static void initTiles(LandTile [][] tileset)
+  {
+    for (int col = 0; col < COLS; col++)
+    {
+      for (int row = 0; row < ROWS; row++)
+      {
+        double lon = colToLon(col);
+        double lat = rowToLat(row);
+        tileset[col][row] = new LandTile(lon, lat);
+      }
+    }
   }
 
   /* Used to create and write a new tile set.
@@ -430,11 +463,12 @@ public class TileManager extends AbstractClimateData
      made, that data will be overwritten and must be re-generated from the raw
      data from www.worldclim.org (See BioClimDataParser)
    */
-  private static void initNewTileSet(String filepath)
+  private static void writeNewTileSet(String filePath)
   {
     TileManager data = new TileManager();
-    data.initTiles();
-    try(FileOutputStream out = new FileOutputStream(filepath))
+    initTiles(data.tiles);
+    
+    try(FileOutputStream out = new FileOutputStream(filePath))
     {
       for(LandTile t : data.allTiles())
       {
@@ -445,8 +479,8 @@ public class TileManager extends AbstractClimateData
     {
       e.printStackTrace();
     }
-
   }
+  
   
   
 }

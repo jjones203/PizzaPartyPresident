@@ -23,6 +23,11 @@ public class LandTile
     elevation = elev;
   }
 
+  public static void setYearsRemaining(int years)
+  {
+    yearsRemaining = years;
+  }
+
   public enum BYTE_DEF
   {
     LONGITUDE, LATITUDE, ELEVATION,
@@ -268,13 +273,11 @@ public class LandTile
   {
     currCrop = crop;
   }
-  
+
   /**
    Rates tile's suitability for a particular crop.
-
    @param crop
    crop for which we want rating (wheat, corn, rice, or soy)
-
    @return EnumCropZone (IDEAL, ACCEPTABLE, or POOR)
    @throws NullPointerException
    if called with argument EnumCropType.OTHER_CROPS, will throw an
@@ -354,7 +357,7 @@ public class LandTile
     }
   }
 
-  /**
+ /**
    * Get percent of country's yield for crop tile will yield, base on its zone rating and
    * current use
    * @param crop    crop in question

@@ -4,6 +4,7 @@ import worldfoodgame.model.MapPoint;
 import worldfoodgame.model.Region;
 
 import java.awt.*;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 
 /**
@@ -72,4 +73,26 @@ public abstract class MapConverter
    */
   public abstract java.util.List<Line2D> getLatLonGrid();
 
+  /**
+   Returns the dimensions of the projection of this converter.  This really only
+   makes sense for rectangular converters; Use accordingly.
+   @return  projection dimensions
+   */
+  public abstract Dimension2D getProjectionDimensions();
+
+
+  /**
+   Returns the width of the projection of this converter.  The implementation of
+   this may not be what is expected if the projection is non-rectangular.
+   @return  width of the projection
+   */
+  public abstract double getWidth();
+
+
+  /**
+   Returns the height of the projection of this converter.  The implementation of
+   this may not be what is expected if the projection is non-rectangular.
+   @return  height of the projection
+   */
+  public abstract double getHeight();
 }
