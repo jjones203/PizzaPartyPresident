@@ -18,6 +18,8 @@ public abstract class RasterViz implements RegionView, RasterDataView
   protected static int TILE_SIZE = 6;
   protected static MapConverter converter = new EquirectangularConverter();
   protected static DefaultLook defaultLook = new DefaultLook();
+  protected static final int IMG_HEIGHT = (int) converter.getHeight();
+  protected static final int IMG_WIDTH = (int) converter.getWidth();
 
   // this is static so that all subclasses can share the same mapping.
   // no need for copies

@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  * this class should only be created once, to adjust look and feel of the class
  * asjust the class constants.
  */
-public class PercipView extends RasterViz
+public class PrecipitationView extends RasterViz
 {
   public static final float THRESHOLD_SCALE = .25f;
   public static final double LIMI_VISABILITY = 0.007;
@@ -21,13 +21,9 @@ public class PercipView extends RasterViz
 
   private BufferedImage makeImage()
   {
-    int width = (int)converter.getWidth();
-    int height = (int)converter.getHeight();
-
-    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
+    BufferedImage image = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2d = image.createGraphics();
-    g2d.translate(width / 2, height / 2);
+    g2d.translate(IMG_WIDTH / 2, IMG_HEIGHT / 2);
 
     g2d.setColor(RAIN_COLOR);
 
