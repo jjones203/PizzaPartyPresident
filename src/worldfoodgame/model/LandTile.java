@@ -264,6 +264,11 @@ public class LandTile
     this.maxAnnualTemp = maxAnnualTemp;
   }
 
+  public void setCurrCrop(EnumCropType crop)
+  {
+    currCrop = crop;
+  }
+
   /**
    Rates tile's suitability for a particular crop.
 
@@ -348,6 +353,33 @@ public class LandTile
       return EnumCropZone.POOR;                                               // otherwise tile is POOR for crop
     }
   }
+
+ /**
+   * Get percent of country's yield for crop tile will yield, base on its zone rating and
+   * current use
+   * @param crop    crop in question
+   * @param zone    tile's zone for that crop
+   * @return        percent of country's yield tile can yield
+   */
+  public double getTileYieldPercent(EnumCropType crop, EnumCropZone zone)
+  {
+    double zonePercent = 0;
+    double usePercent;
+    switch (zone)
+    {
+      case IDEAL:
+        zonePercent = 1;
+      case ACCEPTABLE:
+        zonePercent = 0.6;
+      case POOR:
+        zonePercent = 0.25;
+    }
+    if (currCrop == crop) usePercent = 1;
+    else if (currCrop == null) usePercent = 0.1;
+    else usePercent = 0.5;
+    return zonePercent * usePercent;
+  }
+
 
 
   private boolean isBetween(Number numToTest, Number lowVal, Number highVal)
