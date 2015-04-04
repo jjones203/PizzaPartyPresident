@@ -211,15 +211,20 @@ public class World
   public void stepWorld()
   {
     updateEcoSystems();
-    allocateCrops();
-    harvestCrops();
+    plantAndHarvestCrops();
     shipAndReveice();
     adjustCountryDemographics();
   }
 
   private void adjustCountryDemographics()
   {
-    new RuntimeException("NOT IMPLEMENTED");
+    int year = getCurrentYear();
+    for (Country country:politicalWorld)
+    {
+      country.updateMortalityRate(year);
+      country.updatePopulation(year);
+      country.updateUndernourished(year);
+    }
   }
 
   private void shipAndReveice()
@@ -227,14 +232,14 @@ public class World
     new RuntimeException("NOT IMPLEMENTED");
   }
 
-  private void harvestCrops()
+  private void plantAndHarvestCrops()
   {
-    new RuntimeException("NOT IMPLEMENTED");
-  }
-
-  private void allocateCrops()
-  {
-    new RuntimeException("NOT IMPLEMENTED");
+    int year = getCurrentYear();
+    for (Country country:politicalWorld)
+    {
+      CropOptimizer optimizer = new CropOptimizer(year,country);
+      optimizer.optimizeCrops();
+    }
   }
 
   private void updateEcoSystems()

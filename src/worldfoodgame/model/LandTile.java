@@ -61,7 +61,7 @@ public class LandTile
   private float proj_rainfall = 0;      /* in cm */
   private MapPoint center;
   private EnumCropType currCrop;
-  private EnumCropType previousCrop;
+  //private EnumCropType previousCrop;
 
   @Override
   public String toString()
@@ -276,10 +276,8 @@ public class LandTile
 
   /**
    Rates tile's suitability for a particular crop.
-
    @param crop
    crop for which we want rating (wheat, corn, rice, or soy)
-
    @return EnumCropZone (IDEAL, ACCEPTABLE, or POOR)
    @throws NullPointerException
    if called with argument EnumCropType.OTHER_CROPS, will throw an
@@ -384,8 +382,6 @@ public class LandTile
     else usePercent = 0.5;
     return zonePercent * usePercent;
   }
-
-
 
   private boolean isBetween(Number numToTest, Number lowVal, Number highVal)
   {
