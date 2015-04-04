@@ -13,8 +13,7 @@ import java.util.List;
  */
 public abstract class CountryDataHandler
 {
-
-  // todo add write method, that takes the values in the data handler and writes them to the country.
+  public static DISPLAY_UNITE displayUnite = DISPLAY_UNITE.METRIC;
 
   public static CountryDataHandler getNullData()
   {
@@ -164,6 +163,24 @@ public abstract class CountryDataHandler
 
   public abstract double getNeed(EnumCropType type);
   public abstract double getOpenLand();
+
+  public enum DISPLAY_UNITE
+  {
+    METRIC("km"),
+    US("mi");
+
+    private String displayLabel;
+
+    DISPLAY_UNITE(String displayLabel)
+    {
+      this.displayLabel = displayLabel;
+    }
+
+    public String getDisplayLabel()
+    {
+      return displayLabel;
+    }
+  }
 }
 
 

@@ -12,7 +12,6 @@ import java.util.Collection;
  *
  * to get a label, call the corresponding getter method.
  * <p/>
- * todo add the idea of a unite converter here? or in the CountryDataHandler?
  */
 public class LabelFactory
 {
