@@ -56,7 +56,7 @@ public class BioClimDataParser
 
   private final String root;
   private final CropZoneData dataSet =
-    CropZoneDataIO.parseFile("resources/data/tiledata.bil");
+    CropZoneDataIO.parseFile("resources/data/tiledata.bil", null);
   private final Map<LandTile, AgrPoint> map = new HashMap<>();
 
 

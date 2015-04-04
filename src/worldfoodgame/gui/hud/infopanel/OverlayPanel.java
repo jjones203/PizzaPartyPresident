@@ -2,7 +2,7 @@ package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.WorldPresenter;
-import worldfoodgame.gui.regionlooks.RegionViewFactory;
+import worldfoodgame.gui.regionlooks.RegionViewFactory.Overlay;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +19,7 @@ public class OverlayPanel extends JPanel implements ActionListener
 {
   private WorldPresenter worldPresenter;
 
-  private RegionViewFactory.Overlay[] overlays = {
-    RegionViewFactory.Overlay.NONE,
-    RegionViewFactory.Overlay.HAPPINESS,
-    RegionViewFactory.Overlay.CAPITAL,
-  };
+  private Overlay[] overlays = Overlay.values();
 
   public OverlayPanel(WorldPresenter worldPresenter)
   {
@@ -47,7 +43,7 @@ public class OverlayPanel extends JPanel implements ActionListener
 
     for (int i = 0; i < overlays.length; i++)
     {
-      RegionViewFactory.Overlay overlay = overlays[i];
+      Overlay overlay = overlays[i];
       JRadioButton button = new JRadioButton(overlay.toString());
       button.setActionCommand(Integer.toString(overlay.ordinal()));
       button.setIcon(new CustomIcon(button));
@@ -68,8 +64,7 @@ public class OverlayPanel extends JPanel implements ActionListener
   @Override
   public void actionPerformed(ActionEvent e)
   {
-    RegionViewFactory.Overlay overlay =
-      RegionViewFactory.Overlay.values()[Integer.parseInt(e.getActionCommand())];
+    Overlay overlay = Overlay.values()[Integer.parseInt(e.getActionCommand())];
 
     if (worldPresenter != null)
     {

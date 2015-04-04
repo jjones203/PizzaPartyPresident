@@ -1,8 +1,5 @@
 package worldfoodgame.gui.regionlooks;
 
-import worldfoodgame.gui.Camera;
-
-
 /**
  * Created by winston on 1/31/15.
  * <p/>
@@ -14,7 +11,7 @@ public class RegionViewFactory
 
   /* view currently correspond to camera angles */
   private final static RegionView BG_VIEW = new backGroundLook();
-  private final static RegionView DEFAULT_LOOK = new defaultLook();
+  private final static RegionView DEFAULT_LOOK = new DefaultLook();
   private final static RegionView PLANTING_VIEW = new PlantingZoneView();
   private final static RegionView HAPPINESS_VIEW = new RegionHappyView();
   private final static RegionView RAIN_VIEW = new RainView();
@@ -45,36 +42,33 @@ public class RegionViewFactory
   }
 
 
-  public RegionView getViewFromDistance(Camera.CAM_DISTANCE distance)
-  {
-//    if (distance == Camera.CAM_DISTANCE.LONG) return BG_VIEW;
-    switch (currentOverlay)
-    {
-      case PLANTING_ZONE:
-        return PLANTING_VIEW;
-
-      case HAPPINESS:
-        return HAPPINESS_VIEW;
-
-      case YEARLY_RAIL_FALL:
-        return RAIN_VIEW;
-
-      case CAPITAL:
-        return new CapitolView();
-
-      default:
-        return DEFAULT_LOOK;
-    }
-  }
-
 
   //todo update overlays
   public enum Overlay
   {
-    NONE,
-    PLANTING_ZONE,
-    HAPPINESS,
-    YEARLY_RAIL_FALL,
-    CAPITAL,
+    NONE(new DefaultLook()),
+    HAPPINESS(new RegionHappyView()),
+    CAPITAL(new CapitolView()),
+    POPULATION(new PopulationView()),
+    PERCIPITATION(new PercipView()),;
+
+
+    /* class constructor and definition */
+
+    private RegionView regionView;
+    Overlay(RegionView regionView)
+    {
+      this.regionView = regionView;
+    }
+
+    public RegionView getRegionView()
+    {
+      return regionView;
+    }
+
+    public void setRegionView(RegionView regionView)
+    {
+      this.regionView = regionView;
+    }
   }
 }

@@ -16,21 +16,14 @@ public class GraphLabel extends JPanel
 {
   private static final int WIDTH = 1000;
   private static final int HEIGHT = 40;
-  private static final Color ROLLOVER_C = Color.RED;
-  private static final int BAR_MAX_LEN = 130;
+  private static final int BAR_MAX_LEN = 175;
   private static final Font labelTypeFace = ColorsAndFonts.GUI_FONT.deriveFont(13.5f);
   private final double LIMIT;
   private final double STEP;
   private final boolean isController;
-
-  public void setEffectRunnable(Runnable effectRunnable)
-  {
-    this.effectRunnable = effectRunnable;
-  }
-
+  private final Color barColor;
   private Runnable effectRunnable;
   private double value;
-  private final Color barColor;
   private DecimalFormat formatter;
   private JLabel valueLabel;
 
@@ -47,7 +40,6 @@ public class GraphLabel extends JPanel
   {
     this(label, value, limit, limit / 10.0, Color.red, false, new DecimalFormat(formatPattern));
   }
-
 
   /**
    * Create a new Graph Label object. Used to display country data and control
@@ -83,6 +75,7 @@ public class GraphLabel extends JPanel
   }
 
 
+  /* private constructor that exposes coloring information and step values*/
   private GraphLabel(String label, double value,
                      double limit, double step,
                      Color barColor, boolean isController, DecimalFormat formatter)
@@ -111,48 +104,40 @@ public class GraphLabel extends JPanel
     add(getBar(), BorderLayout.CENTER);
   }
 
-//  // FOR TESTING ONLY
-  // todo remove:
-//  public static void main(String[] args)
-//  {
-//    GraphLabel graphLabel = new GraphLabel("Population", 10.0, 100, .2, Color.red, true, "##,#000 tons");
-//
-//    final JFrame jFrame = new JFrame();
-//    jFrame.setLayout(new BoxLayout(jFrame.getContentPane(), BoxLayout.Y_AXIS));
-//
-//    double dtest = 20;
-//
-//
-//    jFrame.add(graphLabel);
-//    jFrame.add(new GraphLabel("corn", dtest, 1, 0.01, Color.red, false, "00"));
-//    jFrame.add(new GraphLabel("cornz", .20, 1, 0.01, Color.red, false, "00"));
-//    jFrame.add(new GraphLabel("cornz", dtest, 1, 0.01, Color.red, true, "00"));
-//
-//    jFrame.pack();
-//    jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//    jFrame.setVisible(true);
-//
-//    new Timer(10, new AbstractAction()
-//    {
-//      @Override
-//      public void actionPerformed(ActionEvent e)
-//      {
-//        jFrame.repaint();
-//      }
-//    }).start();
-//  }
+  /**
+   * The specivied runnable with be envoked when a control label has been modified.
+   * this is used to commuicate the the instaciating context what the effects
+   * of the controlls sould be.
+   * @param effectRunnable Runnable that is envoked when controlls are activated.
+   */
+  public void setEffectRunnable(Runnable effectRunnable)
+  {
+    this.effectRunnable = effectRunnable;
+  }
 
+  /**
+   * Returns the value stored in the label.
+   * Caller must keep track of the kind / maginitude of  value being represented.
+   *
+   * @return value being stored in label.
+   */
   public double getValue()
   {
     return value;
   }
 
+  /**
+   * sets the stored value. This value is used to Draw the bar graph, limiting
+   * values are value used at construction of object.
+   * @param value to be visualized.
+   */
   public void setValue(double value)
   {
     this.value = value;
     valueLabel.setText(formatter.format(value));
   }
 
+  /* sets up and returns the label and possible controlls */
   private JPanel getControlPanel(String label)
   {
     JPanel tempPanel = new JPanel();
@@ -171,28 +156,27 @@ public class GraphLabel extends JPanel
     return tempPanel;
   }
 
+  /* encapsulated the control interface logic */
   private JLabel makeControl(String sign, final double dx)
   {
     final JLabel control = new JLabel(sign);
     control.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     control.setFont(labelTypeFace);
+
+    /* this timer is turned on and off by pressing the controll buttons */
     control.addMouseListener(new MouseAdapter()
     {
-      final double epsilon = 0.001;
       final Timer timer = new Timer(10, new AbstractAction()
       {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-          if (!(value + (dx - epsilon) > LIMIT || value + (dx + epsilon) < 0))
+          value += dx;
+          if (value <= 0) value = 0;
+          valueLabel.setText(formatter.format(value));
+          if (effectRunnable != null)
           {
-            value += dx;
-            if (value < 0) value = 0.0;
-            valueLabel.setText(formatter.format(value));
-            if (effectRunnable != null)
-            {
-              effectRunnable.run();
-            }
+            effectRunnable.run();
           }
         }
       });
@@ -224,6 +208,7 @@ public class GraphLabel extends JPanel
     return control;
   }
 
+  /* bar that actually is painted to represent the value*/
   private JPanel getBar()
   {
     return new JPanel()

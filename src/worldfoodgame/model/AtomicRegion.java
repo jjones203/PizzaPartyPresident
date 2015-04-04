@@ -2,8 +2,10 @@ package worldfoodgame.model;
 
 
 import worldfoodgame.common.AbstractCountryBorderData;
-import worldfoodgame.gui.hud.infopanel.LandPanel;
+import worldfoodgame.gui.displayconverters.EquirectangularConverter;
+import worldfoodgame.gui.displayconverters.MapConverter;
 
+import java.awt.*;
 import java.util.List;
 
 
@@ -15,11 +17,15 @@ import java.util.List;
  */
 public class AtomicRegion extends AbstractCountryBorderData implements Region
 {
+  //todo clean up mapconverters
+  private static MapConverter mapConverter = new EquirectangularConverter();
   private Country country;
-  private List<LandPanel> landmass;
   private List<MapPoint> perimeter;
   private String name;
   private RegionAttributes attributes;
+
+  private Polygon mapSpacePoly;
+
 
   @Override
   public Country getCountry()
@@ -33,6 +39,16 @@ public class AtomicRegion extends AbstractCountryBorderData implements Region
     this.country = country;
     country.addRegion(this);
   }
+
+  @Override
+  public boolean containsMapPoint(MapPoint mapPoint)
+  {
+    if (mapSpacePoly == null) mapSpacePoly = mapConverter.regionToPolygon(this);
+
+    Point point = mapConverter.mapPointToPoint(mapPoint);
+    return mapSpacePoly.contains(point);
+  }
+
 
   @Override
   public RegionAttributes getAttributes()

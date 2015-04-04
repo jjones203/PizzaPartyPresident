@@ -30,21 +30,27 @@ public class World
   /**
    * This method is used to create the world object. The world object is a
    * singleton class, there is one and only one world.
-   * @param world the list of regions that make up the world.
+   *
+   * @param world     the list of regions that make up the world.
    * @param countries the countryies in the world
-   * @param cal the starting date of the world.
+   * @param cal       the starting date of the world.
    */
-  public static void makeWorld(Collection<Region> world, Collection<Country> countries, Calendar cal)
+  public static void makeWorld(Collection<Region> world,
+                               Collection<Country> countries,
+                               Collection<LandTile> allTheLand,
+                               Calendar cal)
   {
     if (theOneWorld != null)
     {
       new RuntimeException("Make World can only be called once!");
     }
     theOneWorld = new World(world, countries, cal);
+    theOneWorld.allTheLand = allTheLand;
   }
 
   /**
    * used to return the world => singleton design pattern.
+   *
    * @return
    */
   public static World getWorld()

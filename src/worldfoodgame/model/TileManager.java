@@ -1,9 +1,6 @@
 package worldfoodgame.model;
 
 
-import com.sun.scenario.effect.Crop;
-import worldfoodgame.IO.CropZoneDataIO;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CropZoneData
+public class TileManager
 {
   /*
     Tiles represent 100 sq. km areas on the globe, defined by the
@@ -34,7 +31,7 @@ public class CropZoneData
   public LandTile[][] tiles = new LandTile[COLS][ROWS];
 
 
-  public CropZoneData()
+  public TileManager()
   {
     for(LandTile[] arr : tiles) Arrays.fill(arr, NO_TILE);
   }
@@ -117,7 +114,7 @@ public class CropZoneData
 
   private static void initNewTileSet()
   {
-    CropZoneData data = new CropZoneData();
+    TileManager data = new TileManager();
     data.initTiles();
     try(FileOutputStream out = new FileOutputStream("resources/data/tiledata.bil"))
     {
