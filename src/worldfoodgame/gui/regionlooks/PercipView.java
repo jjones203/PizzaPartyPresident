@@ -38,8 +38,8 @@ public class PercipView extends RasterViz
 
   private BufferedImage makeImage()
   {
-    int width = 900 * 4;
-    int height = 450 * 3;
+    int width = (int)converter.getWidth();
+    int height = (int)converter.getHeight();
 
     BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 

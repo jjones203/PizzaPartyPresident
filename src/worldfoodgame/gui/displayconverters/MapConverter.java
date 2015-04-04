@@ -4,6 +4,7 @@ import worldfoodgame.model.MapPoint;
 import worldfoodgame.model.Region;
 
 import java.awt.*;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 
 /**
@@ -72,4 +73,10 @@ public abstract class MapConverter
    */
   public abstract java.util.List<Line2D> getLatLonGrid();
 
+  
+  public abstract Dimension2D getProjectionDimensions();
+
+  public abstract double getWidth();
+
+  public abstract double getHeight();
 }
