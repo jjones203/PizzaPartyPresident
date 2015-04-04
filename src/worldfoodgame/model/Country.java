@@ -275,6 +275,30 @@ public class Country extends AbstractCountry
     }
   }
 
+  /**
+   * Calculate % of undernourished people for year, update undernourished array.
+   * Translate formula from spec 1.7, p. 10, #6 to:
+   * -2 * ((tons available/per capita consumption) - population) = number undernourished for that crop
+   * Based on p. 16, #15, calculate number undernourished for each crop and take max of those 5 results.
+   * The number undernourished is the lower of the max result and the total population.
+   *
+   * @param year
+   */
+  public void updateUndernourished(int year)
+  {
+    double maxResult = 0; // maxResult is highest number of people undernourished based on 5 crop calculations
+    int population = getPopulation(year);
+    for (EnumCropType crop : EnumCropType.values())
+    {
+      double tonsAvail = getNetCropAvailable(year, crop);
+      double perCapCon = getCropNeedPerCapita(crop);
+      double result = -2 * (tonsAvail / perCapCon - population);
+      if (result > maxResult) maxResult = result;
+    }
+    double undernourished = Math.min(maxResult, population);
+    setUndernourished(year, undernourished / population);
+  }
+  
   public double getCropProduction(int year, EnumCropType crop)
   {
     return cropProduction[crop.ordinal()][year - START_YEAR];
@@ -587,31 +611,7 @@ public class Country extends AbstractCountry
     return available;
   }
 
-  /**
-   * Calculate % of undernourished people for year, update undernourished array.
-   * Translate formula from spec 1.7, p. 10, #6 to:
-   * -2 * ((tons available/per capita consumption) - population) = number undernourished for that crop
-   * Based on p. 16, #15, calculate number undernourished for each crop and take max of those 5 results.
-   * The number undernourished is the lower of the max result and the total population.
-   *
-   * @param year
-   */
-  public void updateUndernourished(int year)
-  {
-    double maxResult = 0; // maxResult is highest number of people undernourished based on 5 crop calculations
-    int population = getPopulation(year);
-    for (EnumCropType crop : EnumCropType.values())
-    {
-      double tonsAvail = getNetCropAvailable(year, crop);
-      double perCapCon = getCropNeedPerCapita(crop);
-      double result = -2 * (tonsAvail / perCapCon - population);
-      if (result > maxResult) maxResult = result;
-    }
-    double undernourished = Math.min(maxResult, population);
-    setUndernourished(year, undernourished / population);
-  }
-
-  /**
+    /**
    * Iterate through country's collection of land tiles. Based on their climate data,
    * create OtherCropsData object.
    */
@@ -642,6 +642,17 @@ public class Country extends AbstractCountry
     float avgNightTemp = sumNightTemp / numTiles;
 
     this.otherCropsData = new OtherCropsData(maxTemp, minTemp, avgDayTemp, avgNightTemp, maxRain, minRain);
+    
+    /*if (getName().equals("United States of America"))
+    {
+      System.out.println("Test in Country.setOtherCropsData for US");
+      System.out.println("max temp is "+maxTemp);
+      System.out.println("min temp is "+minTemp);
+      System.out.println("day temp is "+avgDayTemp);
+      System.out.println("night temp is "+avgNightTemp);
+      System.out.println("max rain is "+maxRain);
+      System.out.println("min rain is "+minRain);
+    }*/
   }
 
   public OtherCropsData getOtherCropsData()

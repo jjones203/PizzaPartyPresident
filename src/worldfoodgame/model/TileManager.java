@@ -1,7 +1,7 @@
 package worldfoodgame.model;
 
 
-import sun.jvm.hotspot.CLHSDB;
+//import sun.jvm.hotspot.CLHSDB;
 import worldfoodgame.common.AbstractClimateData;
 import static worldfoodgame.common.AbstractScenario.*;
 
