@@ -31,13 +31,12 @@ class MinTemp extends RasterViz
     float S = .5f;
     float L = .8f;
 
-    float upperBound = 243.0f/360.0f;
-    float lowerBound = 186.0f/360.0f;
+    float lowerBound = 240.0f/360.0f;
+    float upperBound = 161.0f/360.0f;
 
 
     for (LandTile tile : World.getWorld().dataTiles())
     {
-      System.out.println(tile.getMinAnnualTemp());
       double maxTmpRatio = (tile.getMinAnnualTemp() + 40) / 50 ;
       float scaled = (float) (maxTmpRatio * (upperBound - lowerBound)) + lowerBound;
 
