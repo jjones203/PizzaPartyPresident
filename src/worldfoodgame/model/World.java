@@ -231,7 +231,7 @@ public class World
 
   private void updateEcoSystems()
   {
-    new RuntimeException("NOT IMPLEMENTED");
+    tileManager.stepYear();
   }
 
   public Collection<LandTile> getAllTiles()

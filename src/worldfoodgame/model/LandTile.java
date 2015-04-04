@@ -18,11 +18,6 @@ public class LandTile
   
   private static int yearsRemaining = AbstractScenario.YEARS_OF_SIM;
 
-  public void setElev(float elev)
-  {
-    elevation = elev;
-  }
-
   public enum BYTE_DEF
   {
     LONGITUDE, LATITUDE, ELEVATION,
@@ -41,9 +36,10 @@ public class LandTile
     public static final int SIZE = values().length;
 
     public static final int SIZE_IN_BYTES = SIZE * Float.SIZE / Byte.SIZE;
-  }
 
+  }
   private float elevation = 0;     /* in meters above sea level */
+
   private float maxAnnualTemp = 0; /* in degrees Celsius. */
   private float minAnnualTemp = 0; /* in degrees Celsius. */
   private float avgDayTemp = 0;    /* in degrees Celsius. */
@@ -57,21 +53,6 @@ public class LandTile
   private MapPoint center;
   private EnumCropType currCrop;
   private EnumCropType previousCrop;
-
-  @Override
-  public String toString()
-  {
-    return "LandTile{" +
-      "rainfall=" + rainfall +
-      ", avgNightTemp=" + avgNightTemp +
-      ", avgDayTemp=" + avgDayTemp +
-      ", minAnnualTemp=" + minAnnualTemp +
-      ", maxAnnualTemp=" + maxAnnualTemp +
-      ", elevation=" + elevation +
-      ", center=" + center +
-      '}';
-  }
-
   /**
    Constructor used for initial creation of data set
    @param lon longitude of this LandTile
@@ -135,6 +116,25 @@ public class LandTile
     return buf;
   }
 
+  public void stepTile()
+  {
+    maxAnnualTemp = interpolate(maxAnnualTemp, proj_maxAnnualTemp, yearsRemaining);
+    minAnnualTemp = interpolate(minAnnualTemp, proj_minAnnualTemp, yearsRemaining);
+    avgDayTemp = interpolate(avgDayTemp, proj_avgDayTemp, yearsRemaining);
+    avgNightTemp = interpolate(avgNightTemp, proj_avgNightTemp, yearsRemaining);
+    rainfall = interpolate(rainfall, proj_rainfall, yearsRemaining);
+  }
+  
+  public double distanceSq(LandTile t)
+  {
+    return center.distanceSq(t.center);
+  }
+  
+  public double distance(LandTile t)
+  {
+    return center.distance(t.center);
+  }
+
   public double getLon()
   {
     return center.getLon();
@@ -148,15 +148,6 @@ public class LandTile
   public MapPoint getCenter()
   {
     return center;
-  }
-  
-  public void stepTile()
-  {
-    maxAnnualTemp = interpolate(maxAnnualTemp, proj_maxAnnualTemp, yearsRemaining);
-    minAnnualTemp = interpolate(minAnnualTemp, proj_minAnnualTemp, yearsRemaining);
-    avgDayTemp = interpolate(avgDayTemp, proj_avgDayTemp, yearsRemaining);
-    avgNightTemp = interpolate(avgNightTemp, proj_avgNightTemp, yearsRemaining);
-    rainfall = interpolate(rainfall, proj_rainfall, yearsRemaining);
   }
 
   public float getElevation()
@@ -212,6 +203,11 @@ public class LandTile
   public float getProj_rainfall()
   {
     return proj_rainfall;
+  }
+
+  public void setElev(float elev)
+  {
+    elevation = elev;
   }
 
   public void setProj_rainfall(float proj_rainfall)
@@ -349,17 +345,30 @@ public class LandTile
     }
   }
 
-
   private boolean isBetween(Number numToTest, Number lowVal, Number highVal)
   {
-    if (numToTest.doubleValue() >= lowVal.doubleValue() && numToTest.doubleValue() <= highVal.doubleValue())
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
+    return numToTest.doubleValue() >= lowVal.doubleValue() && numToTest.doubleValue() <= highVal.doubleValue();
+  }
+
+
+  @Override
+  public String toString()
+  {
+    return "LandTile{" +
+      "rainfall=" + rainfall +
+      ", avgNightTemp=" + avgNightTemp +
+      ", avgDayTemp=" + avgDayTemp +
+      ", minAnnualTemp=" + minAnnualTemp +
+      ", maxAnnualTemp=" + maxAnnualTemp +
+      ", elevation=" + elevation +
+      ", center=" + center +
+      '}';
+  }
+
+  
+  static void setYearsRemaining(int years)
+  {
+    yearsRemaining = years;
   }
   
   static class NoDataException extends IllegalArgumentException

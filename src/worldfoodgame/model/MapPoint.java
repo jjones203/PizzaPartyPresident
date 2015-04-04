@@ -1,6 +1,8 @@
 package worldfoodgame.model;
 
 
+import java.awt.geom.Point2D;
+
 /**
  * Data class representing long and lat on a map.
  */
@@ -39,6 +41,16 @@ public class MapPoint
   public void setLon(double lon)
   {
     this.lon = lon;
+  }
+  
+  public double distance(MapPoint p)
+  {
+    return Point2D.distance(p.lon, p.lat, lon, lat);
+  }
+  
+  public double distanceSq(MapPoint p)
+  {
+    return Point2D.distanceSq(p.lon, p.lat, lon, lat);
   }
 
   @Override
