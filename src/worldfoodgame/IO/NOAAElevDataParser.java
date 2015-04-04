@@ -1,6 +1,6 @@
 package worldfoodgame.IO;
 
-import worldfoodgame.model.CropZoneData;
+import worldfoodgame.model.TileManager;
 import worldfoodgame.model.LandTile;
 
 import java.io.*;
@@ -87,7 +87,7 @@ public class NOAAElevDataParser
 
   String root;
   Map<LandTile, ElevPoint> map = new HashMap<>();
-  CropZoneData dataSet = CropZoneDataIO.parseFile("resources/data/tiledata", null);
+  TileManager dataSet = CropZoneDataIO.parseFile("resources/data/tiledata", null);
 
   /**
    @param rootPath

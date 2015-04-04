@@ -14,7 +14,7 @@ import java.util.Collection;
  */
 public class PercipView implements RegionView, RasterDataView
 {
-  private static int TILE_SIZE = 500;
+  private static int TILE_SIZE = 2;
   private static RegionView view;
 
   private static MapConverter converter = new EquirectangularConverter();

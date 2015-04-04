@@ -27,7 +27,7 @@ public class Camera
 
   private static final double BASE_H = BASE_W / ASPECT_RATIO;
   
-  final double MIN_HEIGHT = 0;
+  final double MIN_HEIGHT = -10;
 
   /* determined by the scale of the Converter used to instantiate the Camera */
   final double MAX_HEIGHT;

@@ -1,6 +1,6 @@
 package worldfoodgame.common;
 
-import worldfoodgame.model.CropZoneData;
+import worldfoodgame.model.TileManager;
 
 public abstract class AbstractScenario
 {
@@ -19,7 +19,7 @@ public abstract class AbstractScenario
    * corresponding to each element of seaLevelByYear. */
   protected double[] seaLevelByYear = new double[YEARS_OF_SIM];
   
-  protected CropZoneData[] idealCropZone = new CropZoneData[EnumCropType.SIZE];
+  protected TileManager[] idealCropZone = new TileManager[EnumCropType.SIZE];
   
   protected AbstractAltitudeData altitudeData;
   protected AbstractClimateData climateData;
