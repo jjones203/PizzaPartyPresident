@@ -23,6 +23,7 @@ class PrecipitationView extends RasterViz
 
   private BufferedImage makeImage()
   {
+    System.out.println("starting to make image");
     BufferedImage image = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2d = image.createGraphics();
     g2d.translate(IMG_WIDTH / 2, IMG_HEIGHT / 2);
@@ -33,18 +34,9 @@ class PrecipitationView extends RasterViz
     float lowerBound = .130555556f;
     float upperBound = .663888889f;
 
-
     for (LandTile tile : World.getWorld().dataTiles())
     {
-
       double percipRatio = (Math.log(tile.getRainfall()) - 1) / 9;
-
-      if (percipRatio > 1)
-      {
-        System.out.println("from " + tile.getRainfall());
-        System.out.println("rounded to 1 " + percipRatio);
-        percipRatio = 1;
-      }
 
       float scaled = (float) (percipRatio * (upperBound - lowerBound)) + lowerBound;
 
@@ -52,9 +44,10 @@ class PrecipitationView extends RasterViz
       g2d.setColor(color);
 
       Point point = getPoint(tile.getCenter());
-      g2d.fillRect(point.x, point.y, 1, 1);
-    }
 
+      int height = scaleHeight(tile);
+      g2d.fillRect(point.x, point.y, 1, height);
+    }
 
     return image;
   }

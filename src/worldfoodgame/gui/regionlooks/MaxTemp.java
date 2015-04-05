@@ -35,7 +35,6 @@ class MaxTemp extends RasterViz
     float lowerBound = .2f;
     float upperBound = .0f;
 
-
     for (LandTile tile : World.getWorld().dataTiles())
     {
       double maxTmpRatio = tile.getMaxAnnualTemp() / 50 ;
@@ -45,7 +44,7 @@ class MaxTemp extends RasterViz
       g2d.setColor(color);
 
       Point point = getPoint(tile.getCenter());
-      g2d.fillOval(point.x, point.y, 4, 4);
+      g2d.fillRect(point.x, point.y, 1, scaleHeight(tile));
     }
 
 
