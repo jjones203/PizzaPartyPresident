@@ -346,7 +346,7 @@ public class TileManager extends AbstractClimateData
    */
   public float calcTileDelta(double min, double max, double r1, double r2)
   {
-    return (float)(2 * (max - min) * world.getRandomizationPercentage() * (r1 - r2));
+    return (float)(0.1 * (max - min) * world.getRandomizationPercentage() * (r1 - r2));
   }
 
 
