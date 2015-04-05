@@ -8,7 +8,7 @@ import java.awt.*;
 /**
  * Created by winston on 3/21/15.
  */
-class backGroundLook implements RegionView
+class BackGroundLook implements RegionView
 {
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
