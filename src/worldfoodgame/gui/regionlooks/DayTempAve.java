@@ -37,14 +37,7 @@ class DayTempAve extends RasterViz
 
     for (LandTile tile : World.getWorld().getAllCountrifiedTiles())
     {
-      double maxTmpRatio = tile.getAvgDayTemp() / 40 ;
-
-      if (maxTmpRatio > 1)
-      {
-        maxTmpRatio = 1;
-        System.out.print("maxed out day temp ");
-        System.out.println("on: " + tile.getAvgDayTemp());
-      }
+      double maxTmpRatio = tile.getAvgDayTemp() / 45 ;
 
       float scaled = (float) (maxTmpRatio * (upperBound - lowerBound)) + lowerBound;
 

@@ -37,6 +37,11 @@ class RegionHappyView implements RegionView
 
       double ratio = 1.0 - (unhappyPeople / totalPopulation);
 
+      if (ratio > 1)
+      {
+        ratio = 1;
+      }
+
       color = new Color((float)ratio, (float)ratio, 0.0f);
     }
 
