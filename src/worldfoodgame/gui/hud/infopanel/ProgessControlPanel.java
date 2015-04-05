@@ -178,15 +178,4 @@ public class ProgessControlPanel extends JPanel implements Observer
     }
   }
 
-  public static void main(String[] args)
-  {
-    ProgessControlPanel pcp = new ProgessControlPanel(null);
-
-    JFrame jFrame = new JFrame();
-
-    jFrame.add(pcp);
-    jFrame.setSize(900, 60);
-    jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    jFrame.setVisible(true);
-  }
 }
