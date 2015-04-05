@@ -26,6 +26,9 @@ import static worldfoodgame.IO.IOHelpers.getFilesInDir;
  */
 public class CountryXMLparser extends DefaultHandler
 {
+  // this flag should be turned on when development team receives finalized
+  // country xml data.
+  private static boolean REGION_VALIDATION = false;
   private static String COUNTRY_DIR = "resources/countries";
   private XMLEditor editor;
   private Collection<Region> regionList;
@@ -148,8 +151,7 @@ public class CountryXMLparser extends DefaultHandler
       // save and reset....
       tmpRegion.setPerimeter(new ArrayList<>(tmpPerimeterSet));
 
-//       todo add support for region validation.
-      regionValidator.validate(tmpRegion);
+      if (REGION_VALIDATION) regionValidator.validate(tmpRegion);
       regionList.add(tmpRegion);
       tmpPerimeterSet.clear();
     }
