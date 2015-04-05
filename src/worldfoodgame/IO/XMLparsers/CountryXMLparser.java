@@ -126,6 +126,13 @@ public class CountryXMLparser extends DefaultHandler
     if (name)
     {
       name = false;
+
+      if (countryName != null)
+      {
+        String msg = "(!) Duplicate name tag. no good.";
+        fatalError(new SAXParseException(msg, locator));
+      }
+
       countryName = new String(ch, start, length);
     }
   }
