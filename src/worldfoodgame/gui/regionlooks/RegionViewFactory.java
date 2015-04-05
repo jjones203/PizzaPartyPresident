@@ -38,8 +38,9 @@ public class RegionViewFactory
   }
 
 
-
-  //todo update overlays
+  /**
+   * This class defines the name hook for registering overlays with the gui.
+   */
   public enum Overlay
   {
     NONE(new DefaultLook()),

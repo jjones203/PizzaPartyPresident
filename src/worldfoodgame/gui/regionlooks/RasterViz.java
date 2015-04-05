@@ -3,6 +3,7 @@ package worldfoodgame.gui.regionlooks;
 import worldfoodgame.gui.GUIRegion;
 import worldfoodgame.gui.displayconverters.EquirectangularConverter;
 import worldfoodgame.gui.displayconverters.MapConverter;
+import worldfoodgame.model.LandTile;
 import worldfoodgame.model.MapPoint;
 import worldfoodgame.model.World;
 
@@ -62,8 +63,9 @@ public abstract class RasterViz implements RegionView, RasterDataView
 
   // simple linear function to trasform the pixle height to keep track with the
   // map projection.
-  protected int scaleHeight(double lat)
+  protected int scaleHeight(LandTile landTile)
   {
+    double lat = landTile.getLat();
     return (int) Math.floor( (Math.abs(lat) * 7 / 90) + 1);
   }
 

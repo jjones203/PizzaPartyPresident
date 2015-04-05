@@ -44,7 +44,7 @@ class MinTemp extends RasterViz
       g2d.setColor(color);
 
       Point point = getPoint(tile.getCenter());
-      g2d.fillRect(point.x, point.y, 1, 1);
+      g2d.fillRect(point.x, point.y, 1, scaleHeight(tile));
     }
 
 

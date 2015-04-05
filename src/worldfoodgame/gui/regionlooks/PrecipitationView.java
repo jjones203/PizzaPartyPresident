@@ -45,7 +45,7 @@ class PrecipitationView extends RasterViz
 
       Point point = getPoint(tile.getCenter());
 
-      int height = scaleHeight(tile.getCenter().getLat());
+      int height = scaleHeight(tile);
       g2d.fillRect(point.x, point.y, 1, height);
     }
 
