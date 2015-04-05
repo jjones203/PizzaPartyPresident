@@ -178,7 +178,7 @@ public class LabelFactory
       type.toString() + " land",
       dataHandler.getLand(type) / dataHandler.getArableOpen(), // this is a percent value that is returned.
       1,
-      "% #.#",
+      "% 00.0",
       null);
 
     foodControll.setEffectRunnable(new Runnable()
