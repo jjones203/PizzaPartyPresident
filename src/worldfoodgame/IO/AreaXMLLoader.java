@@ -31,6 +31,7 @@ import static worldfoodgame.IO.IOHelpers.getFilesInDir;
  * Class to encapsulate the Processing of a folder of XML Files containing
  * area data.
  */
+@Deprecated
 public class AreaXMLLoader
 {
   private RegionParserHandler handler;
