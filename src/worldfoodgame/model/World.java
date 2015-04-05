@@ -50,6 +50,8 @@ public class World
     for (Country country:countries)
     {
       country.setOtherCropsData();
+      CropOptimizer optimizer = new CropOptimizer(AbstractScenario.START_YEAR, country);
+      optimizer.optimizeCrops();
     }
     
     theOneWorld = new World(world, countries, cal);
@@ -173,7 +175,8 @@ public class World
     {
       unhappyPeople += country.getUnhappyPeople(year);
     }
-    double percentHappy = 1 - unhappyPeople / getWorldPopulation();
+    double percentUnhappy = unhappyPeople/(getWorldPopulation() * 1000000);
+    double percentHappy = 1 - percentUnhappy;
     return percentHappy;
   }
 
@@ -211,9 +214,9 @@ public class World
   public void stepWorld()
   {
     updateEcoSystems();
-    plantAndHarvestCrops();
+    plantAndHarvestCrops();       // implemented
     shipAndReveice();
-    adjustCountryDemographics();
+    adjustCountryDemographics();  // implemented
   }
 
   private void adjustCountryDemographics()

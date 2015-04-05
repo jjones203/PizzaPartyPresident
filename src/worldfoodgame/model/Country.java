@@ -273,6 +273,7 @@ public class Country extends AbstractCountry
     {
       System.err.println("Invalid argument for Country.setUndernourished method");
     }
+    
   }
 
   /**
@@ -422,7 +423,7 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setCropLand method");
+      System.err.println("Invalid argument for Country.setCropLand method for country "+getName()+" crop "+crop);
     }
   }
 
