@@ -224,7 +224,7 @@ public class CropOptimizer
       return diff;
     }
   }
-  /*
+  /* main for testing
   public static void main(String[] args)
   {
     Country testCountry = new Country("test");

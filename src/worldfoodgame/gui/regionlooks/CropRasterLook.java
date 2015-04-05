@@ -29,7 +29,7 @@ class CropRasterLook extends RasterViz
     g2d.translate(IMG_WIDTH / 2, IMG_HEIGHT / 2);
 
 
-    for (LandTile tile : World.getWorld().dataTiles())
+    for (LandTile tile : World.getWorld().getAllCountrifiedTiles())
     {
       if (tile.getCurrentCrop() == null) continue;
 
