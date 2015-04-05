@@ -55,18 +55,20 @@ public class ProgessControlPanel extends JPanel implements Observer
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
     setBorder(new CompoundBorder(ColorsAndFonts.HEADING_UNDERLINE, new EmptyBorder(3,3,3,3)));
 
+
+    // Controlls
     nextYear = new SingleClickButton("next");
     nextYear.setAction(worldStepper);
     controlls.add(nextYear);
 
     run = new SingleClickButton("run");
-
     controlls.add(run);
 
     pause = new SingleClickButton("pause");
     controlls.add(pause);
 
-    // todo change this so that i get the world population form the world presenter.
+
+    // Labels
     currentYear = new NumericalLabel("Current Year", null);
     add(currentYear);
 
