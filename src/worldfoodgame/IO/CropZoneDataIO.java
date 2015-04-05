@@ -91,7 +91,7 @@ public class CropZoneDataIO
     {
       for (LandTile t : data.allTiles())
       {
-        if (t == data.NO_TILE) continue;
+        if (t == data.NO_DATA) continue;
         byte[] array = t.toByteBuffer().array();
         out.write(array);
       }
@@ -119,7 +119,7 @@ public class CropZoneDataIO
     {
       try
       {
-        if (t == TileManager.NO_TILE)
+        if (t == TileManager.NO_DATA)
         {
           noTiles++;
         }
@@ -144,7 +144,7 @@ public class CropZoneDataIO
     tmpPM /= realTiles;
     tmpMax /= realTiles;
     tmpMin /= realTiles;
-    System.out.printf("tiles: %d, NO_TILE: %d%n" +
+    System.out.printf("tiles: %d, NO_DATA: %d%n" +
         "avg elev: %f%n" +
         "avg tmpAM: %f%n" +
         "avg tmpPM: %f%n" +
@@ -261,7 +261,7 @@ public class CropZoneDataIO
       boolean set = true;
       for (LandTile t : tiles)
       {
-        if (t != TileManager.NO_TILE)
+        if (t != TileManager.NO_DATA)
         {
           if (set)
           {
