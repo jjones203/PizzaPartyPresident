@@ -99,6 +99,7 @@ public class OverlayPanel extends JPanel implements ActionListener
       JRadioButton button = new JRadioButton(overlay.toString());
       button.setActionCommand(Integer.toString(overlay.ordinal()));
       button.setIcon(new CustomIcon(button));
+      button.setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
       button.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
       button.addActionListener(this);
