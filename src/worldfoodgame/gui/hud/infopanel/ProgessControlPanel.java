@@ -39,7 +39,11 @@ public class ProgessControlPanel extends JPanel implements Observer
     @Override
     public void run()
     {
+      ProgessControlPanel.this.getRootPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
       worldPresenter.stepWorld();
+
+      ProgessControlPanel.this.getRootPane().setCursor(null);
     }
   };
 

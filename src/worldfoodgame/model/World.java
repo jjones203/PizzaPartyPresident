@@ -30,13 +30,6 @@ public class World extends AbstractScenario
   private TileManager tileManager;
   private Calendar currentDate;
 
-  private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
-  {
-    this.world = world;
-    this.politicalWorld = countries;
-    this.currentDate = cal;
-  }
-
   /**
    * This method is used to create the world object. The world object is a
    * singleton class, there is one and only one world.
@@ -79,6 +72,13 @@ public class World extends AbstractScenario
       throw new RuntimeException("WORLD HAS NOT BEEN MADE YET!");
     }
     return theOneWorld;
+  }
+
+  private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
+  {
+    this.world = world;
+    this.politicalWorld = countries;
+    this.currentDate = cal;
   }
 
   /**
@@ -224,16 +224,12 @@ public class World extends AbstractScenario
     System.out.println("Mutating climate data...");
     updateEcoSystems();
     System.out.printf("climate data mutated in %dms%n", System.currentTimeMillis() - start);
-
-    currentDate.add(Calendar.YEAR, 1);
-
     start = System.currentTimeMillis();
     System.out.println("Planting tiles...");
     plantAndHarvestCrops();       // implemented
     System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
-
-    start = System.currentTimeMillis();
-    System.out.println("Adjusting population...");
+    currentDate.add(Calendar.YEAR, 1);
+    System.out.println("World done stepping. Date is now " + getCurrentYear());
     adjustPopulation(); // need this before shipping
     System.out.printf("population adjusted in %dms%n", System.currentTimeMillis() - start);
 
@@ -282,6 +278,11 @@ public class World extends AbstractScenario
     {
       CropOptimizer optimizer = new CropOptimizer(year,country);
       optimizer.optimizeCrops();
+      /*if (country.getName().equals("Brazil")) 
+      {
+          System.out.println("in world corn prod is "+country.getCropProduction(year, EnumCropType.CORN));
+          System.out.println("in world corn prod in yr-1 is "+country.getCropProduction(year+1, EnumCropType.CORN));
+      }*/
     }
   }
 
