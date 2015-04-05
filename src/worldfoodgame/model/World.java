@@ -52,6 +52,8 @@ public class World extends AbstractScenario
     for (Country country:countries)
     {
       country.setOtherCropsData();
+      CropOptimizer optimizer = new CropOptimizer(AbstractScenario.START_YEAR, country);
+      optimizer.optimizeCrops();
     }
     
     theOneWorld = new World(world, countries, cal);
@@ -175,7 +177,8 @@ public class World extends AbstractScenario
     {
       unhappyPeople += country.getUnhappyPeople(year);
     }
-    double percentHappy = 1 - unhappyPeople / getWorldPopulation();
+    double percentUnhappy = unhappyPeople/(getWorldPopulation() * 1000000);
+    double percentHappy = 1 - percentUnhappy;
     return percentHappy;
   }
 
@@ -213,17 +216,20 @@ public class World extends AbstractScenario
   public void stepWorld()
   {
     updateEcoSystems();
-    /* DON'T CALL THESE UNTIL IMPLEMENTED
-    allocateCrops();
-    harvestCrops();
+    plantAndHarvestCrops();       // implemented
     shipAndReceive();
-    adjustCountryDemographics();
-    */
+    adjustCountryDemographics();  // implemented
   }
 
   private void adjustCountryDemographics()
   {
-    new RuntimeException("NOT IMPLEMENTED");
+    int year = getCurrentYear();
+    for (Country country:politicalWorld)
+    {
+      country.updateMortalityRate(year);
+      country.updatePopulation(year);
+      country.updateUndernourished(year);
+    }
   }
 
   private void shipAndReceive()
@@ -231,14 +237,14 @@ public class World extends AbstractScenario
     new RuntimeException("NOT IMPLEMENTED");
   }
 
-  private void harvestCrops()
+  private void plantAndHarvestCrops()
   {
-    new RuntimeException("NOT IMPLEMENTED");
-  }
-
-  private void allocateCrops()
-  {
-    new RuntimeException("NOT IMPLEMENTED");
+    int year = getCurrentYear();
+    for (Country country:politicalWorld)
+    {
+      CropOptimizer optimizer = new CropOptimizer(year,country);
+      optimizer.optimizeCrops();
+    }
   }
 
   private void updateEcoSystems()

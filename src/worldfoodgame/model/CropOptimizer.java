@@ -34,6 +34,7 @@ public class CropOptimizer
     this.country = country;
     cropBins = new ArrayList<CropBin>();
     tileYields = new ArrayList<TileYield>();
+    ctryYields = new double[EnumCropType.SIZE];
     for (EnumCropType crop:EnumCropType.values())
     {
       int index = crop.ordinal();
@@ -46,6 +47,16 @@ public class CropOptimizer
    * Plant all the crops
    */
   public void optimizeCrops()
+  { 
+    plantingSetup();
+    // plant crops
+    for (CropBin bin:cropBins)
+    {
+      plantCrop(bin);
+    }
+  }
+  
+  private void plantingSetup()
   {
     // figure out how many tiles needed for each crop
     for (EnumCropType crop:EnumCropType.values())
@@ -64,17 +75,11 @@ public class CropOptimizer
     
     // sort crops by tiles needed, most to least
     Collections.sort(cropBins, Collections.reverseOrder());
-    // plant crops
-    for (CropBin bin:cropBins)
-    {
-      plantCrop(bin);
-    }
-    
   }
   
   /**
    * Plant a given crop
-   * @param bin   CropBin with crop to plant and tiles to plant
+   * @param bin   CropBin with crop to plant and tiles to plant\
    */
   private void plantCrop(CropBin bin)
   { 
@@ -82,17 +87,21 @@ public class CropOptimizer
     int tilesToPlant = bin.tilesNeeded;
     double production = 0;
     Comparator reverseComparator = Collections.reverseOrder(new TileYieldComparator(crop)); 
-    Collections.sort(tileYields, reverseComparator);  // sort tiles by descending yield 
-    for (int i = 0; i < tilesToPlant; i++)            // for top n tiles, where n = tilesNeeded for crop
+    Collections.sort(tileYields, reverseComparator);                     // sort tiles by descending yield 
+    while (tilesToPlant > 0 && tileYields.isEmpty() == false)            // for top n tiles, where n = tilesNeeded for crop
     {
-      TileYield tYield = tileYields.get(i);
+      TileYield tYield = tileYields.get(0);
       double yield = tYield.yields[crop.ordinal()];   // get the tile's yield for crop
       production += yield;                            // add tile's yield to total produced
       tYield.tile.setCurrCrop(crop);                  // set the tile's crop to this crop
       tileYields.remove(tYield);                      // remove tile's tYield object because tile now NA
+      tilesToPlant--;
     }
     // after getting all the tiles we need, set total production for year
-    country.setCropProduction(year, crop, production);
+    if (year != AbstractScenario.START_YEAR)
+    {
+        country.setCropProduction(year, crop, production);
+    }
   }
   
   /**
@@ -116,7 +125,26 @@ public class CropOptimizer
         double ctryYield = ctryYields[crop.ordinal()];
         if (crop.equals(EnumCropType.OTHER_CROPS)) zone = tile.rateTileForOtherCrops(country.getOtherCropsData());
         else zone = tile.rateTileForCrop(crop);
-        double percentYield = tile.getTileYieldPercent(crop, zone);
+        double percentYield = 1;
+        // for years after START, calculate percentage of yield depending on zone & prior crop
+        if (year != AbstractScenario.START_YEAR)
+        {
+          percentYield = tile.getTileYieldPercent(crop, zone);
+        }
+        // for year 0, calculate percentage of yield based on zone only
+        else
+        {
+          switch (zone)
+          {
+            case IDEAL:
+              percentYield = 1;
+            case ACCEPTABLE:
+              percentYield = 0.6;
+            case POOR:
+              percentYield = 0.25;
+            default:
+          }
+        }
         yields[crop.ordinal()] = percentYield * ctryYield;
       }
     }
