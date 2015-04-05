@@ -51,6 +51,7 @@ The greater of:
 - the country's land area * its region's average percentage (cultivated land + grassland + woodland and forest).
 - FAOSTAT 2011 Arable land and Permanent crops.
 Regional data from FAO SOLAW Background Report TR-02: Scarcity and abundance of land resources: competing uses and the shrinking land resource base
+Bangladesh changed to 130,000; otherwise arable land < sum(cornLand, riceLand, etc.) probably because a) FAO figures are manual estimates and b) some land may be planted with one crop in one season and a different crop in another season.
 
 organic
 FAOSTAT 2011 Agricultural area organic, total, divided by 2011 Arable land and Permanent crops area.
