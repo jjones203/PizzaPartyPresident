@@ -223,12 +223,12 @@ public class World extends AbstractScenario
     start = System.currentTimeMillis();
     plantAndHarvestCrops();       // implemented
     System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
-    System.out.println("World done stepping. Date is now " + getCurrentYear());
     currentDate.add(Calendar.YEAR, 1);
+    System.out.println("World done stepping. Date is now " + getCurrentYear());
 //    shipAndReceive();
 //    start = System.currentTimeMillis();
 //    adjustCountryDemographics();  // implemented
-//    System.out.printf("country demographics mutated in %dms", System.currentTimeMillis() - start);
+//    System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
 
   }
 

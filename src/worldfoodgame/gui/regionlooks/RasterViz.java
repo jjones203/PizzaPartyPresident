@@ -37,7 +37,6 @@ public abstract class RasterViz implements RegionView, RasterDataView
     boolean imageOutDated =
       calculatedYear != World.getWorld().getCurrentYear()
         || bufferedImage == null;
-
     if (imageOutDated)
     {
       bufferedImage = getRasterImage();
