@@ -115,7 +115,7 @@ public class LabelFactory
   public GraphLabel getTotalLand()
   {
     return new GraphLabel(
-      "Arable Land",
+      "Total Land",
       dataHandler.getLandTotal(),
       dataHandler.getLandTotal(),
       "#,###,### " + dataHandler.landUnite() + " sq");
