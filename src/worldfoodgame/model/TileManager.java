@@ -300,9 +300,15 @@ public class TileManager extends AbstractClimateData
       for (int c = minCol; c < maxCol; c++)
       {
         /* allow overlap in data to account for the sphere */
-        if(tiles[r%ROWS][c%COLS] == NO_DATA) continue;
+        int colIndex = c < 0 ? COLS + c : c%COLS;
+        int rowIndex = r < 0 ? ROWS + r : r%ROWS;
+        if (colIndex < 0 || rowIndex < 0)
+        {
+          System.out.printf("c: %d, colIndex: %d, r: %d, rowIndex: %d", c,colIndex,r,rowIndex);
+        }
+        if(tiles[colIndex][rowIndex] == NO_DATA) continue;
         
-        neighbor = tiles[r%ROWS][c%COLS];
+        neighbor = tiles[colIndex][rowIndex];
 
         double xDist = DX_KM * (centerCol - c);
         double yDist = DY_KM * (centerRow - r);
