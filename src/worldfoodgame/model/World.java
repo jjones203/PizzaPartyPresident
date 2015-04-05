@@ -223,12 +223,16 @@ public class World extends AbstractScenario
     start = System.currentTimeMillis();
     plantAndHarvestCrops();       // implemented
     System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
-    currentDate.add(Calendar.YEAR, 1);
-    System.out.println("World done stepping. Date is now " + getCurrentYear());
-//    shipAndReceive();
+    System.out.println("starting shipping and receiving...");
+    start = System.currentTimeMillis();
+    shipAndReceive();
+    System.out.printf("Done shipping and receiving in: %dms", System.currentTimeMillis() - start);
+    
 //    start = System.currentTimeMillis();
 //    adjustCountryDemographics();  // implemented
 //    System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
+    currentDate.add(Calendar.YEAR, 1);
+    System.out.println("World done stepping. Date is now " + getCurrentYear());
 
   }
 
@@ -245,7 +249,7 @@ public class World extends AbstractScenario
 
   private void shipAndReceive()
   {
-    new RuntimeException("NOT IMPLEMENTED");
+    new TradingOptimizer(politicalWorld, currentYear);
   }
 
   private void plantAndHarvestCrops()
