@@ -5,6 +5,7 @@ import worldfoodgame.common.EnumCropType;
 /**
  * Created by winston on 3/9/15.
  */
+@Deprecated
 public class PlantingTile
 {
   public double annualHighTemp;

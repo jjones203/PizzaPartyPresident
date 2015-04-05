@@ -2,6 +2,8 @@ package worldfoodgame.model;
 
 import worldfoodgame.IO.AttributeGenerator;
 import worldfoodgame.common.AbstractScenario;
+import worldfoodgame.common.EnumCropType;
+import worldfoodgame.common.EnumCropZone;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -19,7 +21,7 @@ import java.util.Random;
  * <p/>
  * - L. W.
  */
-public class World
+public class World extends AbstractScenario
 {
   private static World theOneWorld;
   private Random random = new Random(44);
@@ -211,10 +213,12 @@ public class World
   public void stepWorld()
   {
     updateEcoSystems();
+    /* DON'T CALL THESE UNTIL IMPLEMENTED
     allocateCrops();
     harvestCrops();
-    shipAndReveice();
+    shipAndReceive();
     adjustCountryDemographics();
+    */
   }
 
   private void adjustCountryDemographics()
@@ -222,7 +226,7 @@ public class World
     new RuntimeException("NOT IMPLEMENTED");
   }
 
-  private void shipAndReveice()
+  private void shipAndReceive()
   {
     new RuntimeException("NOT IMPLEMENTED");
   }
@@ -239,7 +243,7 @@ public class World
 
   private void updateEcoSystems()
   {
-    tileManager.stepYear();
+    tileManager.stepTileData();
   }
 
   public Collection<LandTile> getAllTiles()
@@ -265,5 +269,24 @@ public class World
   public void setTileManager(TileManager mgr)
   {
     this.tileManager = mgr;
+  }
+
+  public double getRandomizationPercentage()
+  {
+    return randomizationPercentage;
+  }
+
+  @Deprecated
+  @Override
+  public EnumCropZone classifyZone(EnumCropType crop, double minTemp, double maxTemp, double dayTemp, double nightTemp, double rain)
+  {
+    throw new UnsupportedOperationException("Call down to LandTile.rateTileForCrop");
+  }
+
+  @Deprecated
+  @Override
+  public double calculateSeaLevelRise(int year)
+  {
+    return getBaseSeaLevelRise(year);
   }
 }
