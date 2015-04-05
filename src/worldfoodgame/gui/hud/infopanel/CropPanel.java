@@ -89,6 +89,7 @@ public class CropPanel extends JPanel
     overView.add(labelFactory.getProductionLabel(type));
     overView.add(labelFactory.getExportedLabel(type));
     overView.add(labelFactory.getImportedLabel(type));
+    overView.add(labelFactory.getNeedLabel(type));
     return overView;
   }
 
