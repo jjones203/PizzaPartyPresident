@@ -28,17 +28,28 @@ class MinTemp extends RasterViz
     Graphics2D g2d = image.createGraphics();
     g2d.translate(IMG_WIDTH / 2, IMG_HEIGHT / 2);
 
-    float S = .5f;
+    float S = .8f;
     float L = .8f;
 
     float lowerBound = 240.0f/360.0f;
-    float upperBound = 188.0f/360.0f;
+    float upperBound = 225.0f/360.0f;
 
 
     for (LandTile tile : World.getWorld().dataTiles())
     {
-      double minTempRatio = (tile.getMinAnnualTemp() + 10) / 40;
+      double minTempRatio = (tile.getMinAnnualTemp() + 45) / 80;
       float scaled = (float) (minTempRatio * (upperBound - lowerBound)) + lowerBound;
+
+      if (minTempRatio < 0)
+      {
+        System.out.println("min temp is negative: " + tile.getMinAnnualTemp());
+      }
+
+      if (minTempRatio > 1)
+      {
+        System.out.println("min temp is about one: " + tile.getMinAnnualTemp());
+        minTempRatio = 1;
+      }
 
       Color color = Color.getHSBColor(Math.abs(scaled), S, L);
       g2d.setColor(color);
