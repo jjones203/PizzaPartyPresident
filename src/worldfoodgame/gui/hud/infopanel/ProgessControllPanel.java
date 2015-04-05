@@ -65,7 +65,7 @@ public class ProgessControllPanel extends JPanel implements Observer
     add(yearRemainng);
 
     population = new numbericalLabel("World Population",
-      popuLationFormatter.format(worldPresenter.getPoppulation()) + " Mill");
+      popuLationFormatter.format(worldPresenter.getWorldPopulationMil()) + " Mill");
     add(population);
 
     happiness = new numbericalLabel("Happiness",
@@ -80,7 +80,7 @@ public class ProgessControllPanel extends JPanel implements Observer
   {
     currentYear.setValString(Integer.toString(worldPresenter.getYear()));
     yearRemainng.setValString(Integer.toString(worldPresenter.yearRemaining()));
-    population.setValString(popuLationFormatter.format(worldPresenter.getPoppulation()) + " Mill");
+    population.setValString(popuLationFormatter.format(worldPresenter.getWorldPopulationMil()) + " Mill");
     happiness.setValString("% " + happinessP.format(worldPresenter.getHappinessP()));
   }
 
