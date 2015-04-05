@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 /**
  * Created by winston on 4/4/15.
  */
-class CornVis extends RasterViz
+class CropRasterLook extends RasterViz
 {
 
   @Override
