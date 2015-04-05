@@ -74,7 +74,7 @@ public class SingleCountryHandeler extends CountryDataHandler
   @Override
   public double getProduction(EnumCropType type)
   {
-    return country.getPopulation(year);
+    return country.getCropProduction(year,type);
   }
 
   @Override
