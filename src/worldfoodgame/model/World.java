@@ -30,6 +30,13 @@ public class World extends AbstractScenario
   private TileManager tileManager;
   private Calendar currentDate;
 
+  private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
+  {
+    this.world = world;
+    this.politicalWorld = countries;
+    this.currentDate = cal;
+  }
+
   /**
    * This method is used to create the world object. The world object is a
    * singleton class, there is one and only one world.
@@ -72,13 +79,6 @@ public class World extends AbstractScenario
       throw new RuntimeException("WORLD HAS NOT BEEN MADE YET!");
     }
     return theOneWorld;
-  }
-
-  private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
-  {
-    this.world = world;
-    this.politicalWorld = countries;
-    this.currentDate = cal;
   }
 
   /**
@@ -268,7 +268,7 @@ public class World extends AbstractScenario
 
   private void shipAndReceive()
   {
-    new TradingOptimizer(politicalWorld, currentYear);
+    new TradingOptimizer(politicalWorld, currentYear).optimizeAndImplementTrades();
   }
 
   private void plantAndHarvestCrops()
