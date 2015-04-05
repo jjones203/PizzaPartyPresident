@@ -220,10 +220,11 @@ public class World extends AbstractScenario
     System.out.println("starting world stepping in " + getCurrentYear());
     updateEcoSystems();
     System.out.printf("climate data mutated in %dms%n", System.currentTimeMillis() - start);
+    
+    currentDate.add(Calendar.YEAR, 1);
     start = System.currentTimeMillis();
     plantAndHarvestCrops();       // implemented
     System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
-    currentDate.add(Calendar.YEAR, 1);
     System.out.println("World done stepping. Date is now " + getCurrentYear());
     adjustPopulation(); // need this before shipping
 //    shipAndReceive();
@@ -264,6 +265,11 @@ public class World extends AbstractScenario
     {
       CropOptimizer optimizer = new CropOptimizer(year,country);
       optimizer.optimizeCrops();
+      /*if (country.getName().equals("Brazil")) 
+      {
+          System.out.println("in world corn prod is "+country.getCropProduction(year, EnumCropType.CORN));
+          System.out.println("in world corn prod in yr-1 is "+country.getCropProduction(year+1, EnumCropType.CORN));
+      }*/
     }
   }
 
