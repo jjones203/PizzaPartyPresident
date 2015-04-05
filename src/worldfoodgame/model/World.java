@@ -225,20 +225,29 @@ public class World extends AbstractScenario
     System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
     currentDate.add(Calendar.YEAR, 1);
     System.out.println("World done stepping. Date is now " + getCurrentYear());
+    adjustPopulation(); // need this before shipping
 //    shipAndReceive();
 //    start = System.currentTimeMillis();
-//    adjustCountryDemographics();  // implemented
+    adjustUndernourished();  // implemented
 //    System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
 
   }
 
-  private void adjustCountryDemographics()
+  private void adjustPopulation()
   {
     int year = getCurrentYear();
     for (Country country:politicalWorld)
     {
       country.updateMortalityRate(year);
       country.updatePopulation(year);
+    }
+  }
+  
+  private void adjustUndernourished()
+  {
+    int year = getCurrentYear();
+    for (Country country:politicalWorld)
+    {
       country.updateUndernourished(year);
     }
   }
