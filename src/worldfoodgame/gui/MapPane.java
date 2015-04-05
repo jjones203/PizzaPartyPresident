@@ -2,6 +2,10 @@ package worldfoodgame.gui;
 
 import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.regionlooks.*;
+import worldfoodgame.model.LandTile;
+import worldfoodgame.model.MapPoint;
+import worldfoodgame.model.TileManager;
+import worldfoodgame.model.World;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -89,7 +93,7 @@ public class MapPane extends JPanel
     setSize(getPreferredSize());
     setMinimumSize(getPreferredSize());
     setDoubleBuffered(true);
-
+    setToolTipText("");
   }
 
   /**
@@ -423,7 +427,6 @@ public class MapPane extends JPanel
       cam.translateRelativeToView(dx, dy);
       dragFrom = e.getPoint();
     }
-
   }
 
 
@@ -437,6 +440,19 @@ public class MapPane extends JPanel
   public void mouseMoved(MouseEvent e)
   {/* do nothing */}
 
+  @Override
+  public String getToolTipText(MouseEvent event)
+  {
+    if(!doMultiSelect)
+    {
+      Point2D loc = convertToMapSpace(event.getPoint());
+      MapPoint p = converter.pointToMapPoint(loc);
+      LandTile tile = World.getWorld().getTile(p.getLon(), p.getLat());
+      if(tile == TileManager.NO_DATA) return "";
+      return tile.debugToolTip();
+    }
+    else return "";
+  }
 
   /* helper function converts a point in screen-space to a point in map-space
      this encapsulates what is almost certainly unnecessary error handling,

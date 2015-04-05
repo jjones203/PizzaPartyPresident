@@ -306,4 +306,9 @@ public class World extends AbstractScenario
   {
     return getBaseSeaLevelRise(year);
   }
+
+  public LandTile getTile(double lon, double lat)
+  {
+    return tileManager.getTile(lon,lat);
+  }
 }

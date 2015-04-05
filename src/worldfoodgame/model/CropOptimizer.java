@@ -40,6 +40,10 @@ public class CropOptimizer
       int index = crop.ordinal();
       double yield = country.getCropYield(AbstractScenario.START_YEAR, crop);
       ctryYields[index] = yield;
+      /*if (country.getName().equals("United States of America"))
+      {
+        System.out.println("US yield for "+crop+" is "+yield);
+      }*/
     }
   }
   
@@ -199,5 +203,11 @@ public class CropOptimizer
       int diff = this.tilesNeeded - bin.tilesNeeded;
       return diff;
     }
+  }
+  
+  public static void main(String[] args)
+  {
+    Country testCountry = new Country("test");
+    
   }
 }
