@@ -422,7 +422,7 @@ public class Country extends AbstractCountry
   {
     if (kilomsq >= 0 && kilomsq <= getArableLand(year))
     {
-      landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
+      for (int i = 0; i < (YEARS_OF_SIM); i++) landCrop[crop.ordinal()][i] = kilomsq;
     }
     else
     {

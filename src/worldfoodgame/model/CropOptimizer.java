@@ -59,8 +59,12 @@ public class CropOptimizer
     {
       plantCrop(bin);
     }
+    clearUnusedTiles();
   }
   
+  /**
+   * Do calculations & sorting needed for planting.
+   */
   private void plantingSetup()
   {
     // figure out how many tiles needed for each crop
@@ -84,7 +88,7 @@ public class CropOptimizer
   
   /**
    * Plant a given crop
-   * @param bin   CropBin with crop to plant and tiles to plant\
+   * @param bin   CropBin with crop to plant and tiles to plant
    */
   private void plantCrop(CropBin bin)
   { 
@@ -106,6 +110,18 @@ public class CropOptimizer
     if (year != AbstractScenario.START_YEAR)
     {
         country.setCropProduction(year, crop, production);
+    }
+  }
+  
+  /**
+   * If we are not using a tile this year, we need to make sure its currCrop field is set to null.
+   */
+  private void clearUnusedTiles()
+  {
+    for (TileYield tYield:tileYields)
+    {
+      LandTile tile = tYield.tile; 
+      if (tile.getCurrentCrop() != null) tile.setCurrCrop(null);
     }
   }
   
@@ -208,7 +224,7 @@ public class CropOptimizer
       return diff;
     }
   }
-  /*
+  /* main for testing
   public static void main(String[] args)
   {
     Country testCountry = new Country("test");
