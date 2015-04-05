@@ -98,7 +98,11 @@ public class Country extends AbstractCountry
     {
       Polygon poly = converter.regionToPolygon(region);
       int area = (int) (poly.getBounds().getWidth() * poly.getBounds().getHeight());
-      if (area >= maxArea) largest = poly;
+      if (area >= maxArea)
+      {
+        largest = poly;
+        maxArea = area;
+      }
     }
 
     int x = (int) largest.getBounds().getCenterX();
