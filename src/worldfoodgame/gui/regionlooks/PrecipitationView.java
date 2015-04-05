@@ -24,7 +24,7 @@ class PrecipitationView extends RasterViz
     return bufferedImage;
   }
 
-  private BufferedImage makeImage()
+  protected BufferedImage makeImage()
   {
     System.out.println("making an image for: " + World.getWorld().getCurrentYear());
     BufferedImage image = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_INT_ARGB);
@@ -39,7 +39,7 @@ class PrecipitationView extends RasterViz
 
     for (LandTile tile : World.getWorld().dataTiles())
     {
-      double percipRatio = (Math.log(tile.getRainfall()) - 1) / 9;
+      double percipRatio = (Math.log(tile.getRainfall()) - 2) / 10;
 
       float scaled = (float) (percipRatio * (upperBound - lowerBound)) + lowerBound;
 
