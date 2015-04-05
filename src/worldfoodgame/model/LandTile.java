@@ -16,31 +16,6 @@ import java.nio.ByteBuffer;
 public class LandTile
 {
   
-  public void setElev(float elev)
-  {
-    elevation = elev;
-  }
-  
-  public enum BYTE_DEF
-  {
-    LONGITUDE, LATITUDE, ELEVATION,
-    MAX_ANNUAL_TEMP, MIN_ANNUAL_TEMP,
-    AVG_DAY_TEMP, AVG_NIGHT_TEMP,
-    RAINFALL,
-    PROJ_MAX_ANNUAL_TEMP, PROJ_MIN_ANNUAL_TEMP,
-    PROJ_AVG_DAY_TEMP, PROJ_AVG_NIGHT_TEMP,
-    PROJ_RAINFALL;
-
-    int index()
-    {
-      return ordinal() * Float.SIZE / Byte.SIZE;
-    }
-
-    public static final int SIZE = values().length;
-
-    public static final int SIZE_IN_BYTES = SIZE * Float.SIZE / Byte.SIZE;
-  }
-
   private float elevation = 0;     /* in meters above sea level */
   private float maxAnnualTemp = 0; /* in degrees Celsius. */
   private float minAnnualTemp = 0; /* in degrees Celsius. */
@@ -54,38 +29,14 @@ public class LandTile
   private float proj_rainfall = 0;      /* in cm */
   private MapPoint center;
   private EnumCropType currCrop;
-  //private EnumCropType previousCrop;
 
-  @Override
-  public String toString()
-  {
-    return "LandTile{" +
-      "rainfall=" + rainfall +
-      ", avgNightTemp=" + avgNightTemp +
-      ", avgDayTemp=" + avgDayTemp +
-      ", minAnnualTemp=" + minAnnualTemp +
-      ", maxAnnualTemp=" + maxAnnualTemp +
-      ", elevation=" + elevation +
-      ", center=" + center +
-      '}';
-  }
-
-  public String debugToolTip()
-  {
-    return String.format("<html>(lon:%.2f, lat:%.2f)<br>" +
-      "rainfall:%.6fcm<br>" +
-      "daily temp range: (%.2f C, %.2f C)<br>" +
-      "yearly temp range: (%.2f C, %.2f C)<br>" + 
-      "crop: %s</html>",
-      center.getLon(), center.getLat(), rainfall,
-      avgNightTemp, avgDayTemp, minAnnualTemp, maxAnnualTemp, currCrop);
-  }
-  
-  
   /**
    Constructor used for initial creation of data set
-   @param lon longitude of this LandTile
-   @param lat latitude of this LandTile
+
+   @param lon
+   longitude of this LandTile
+   @param lat
+   latitude of this LandTile
    */
   public LandTile(double lon, double lat)
   {
@@ -120,6 +71,44 @@ public class LandTile
     proj_rainfall = buf.getFloat(BYTE_DEF.PROJ_RAINFALL.index());
 
     center = new MapPoint(lon, lat);
+  }
+  //private EnumCropType previousCrop;
+
+  public static float interpolate(float start, float end, int slices, int n)
+  {
+    if (slices < 0) return end;
+    float stepSize = (end - start) / slices;
+    return n * stepSize + start;
+  }
+
+  public void setElev(float elev)
+  {
+    elevation = elev;
+  }
+
+  @Override
+  public String toString()
+  {
+    return "LandTile{" +
+      "rainfall=" + rainfall +
+      ", avgNightTemp=" + avgNightTemp +
+      ", avgDayTemp=" + avgDayTemp +
+      ", minAnnualTemp=" + minAnnualTemp +
+      ", maxAnnualTemp=" + maxAnnualTemp +
+      ", elevation=" + elevation +
+      ", center=" + center +
+      '}';
+  }
+
+  public String debugToolTip()
+  {
+    return String.format("<html>(lon:%.2f, lat:%.2f)<br>" +
+        "rainfall:%.6fcm<br>" +
+        "daily temp range: (%.2f C, %.2f C)<br>" +
+        "yearly temp range: (%.2f C, %.2f C)<br>" +
+        "crop: %s</html>",
+      center.getLon(), center.getLat(), rainfall,
+      avgNightTemp, avgDayTemp, minAnnualTemp, maxAnnualTemp, currCrop);
   }
 
   public ByteBuffer toByteBuffer()
@@ -179,9 +168,19 @@ public class LandTile
     return maxAnnualTemp;
   }
 
+  public void setMaxAnnualTemp(float maxAnnualTemp)
+  {
+    this.maxAnnualTemp = maxAnnualTemp;
+  }
+
   public float getMinAnnualTemp()
   {
     return minAnnualTemp;
+  }
+
+  public void setMinAnnualTemp(float minAnnualTemp)
+  {
+    this.minAnnualTemp = minAnnualTemp;
   }
 
   public float getAvgDayTemp()
@@ -189,9 +188,19 @@ public class LandTile
     return avgDayTemp;
   }
 
+  public void setAvgDayTemp(float avgDayTemp)
+  {
+    this.avgDayTemp = avgDayTemp;
+  }
+
   public float getAvgNightTemp()
   {
     return avgNightTemp;
+  }
+
+  public void setAvgNightTemp(float avgNightTemp)
+  {
+    this.avgNightTemp = avgNightTemp;
   }
 
   public float getRainfall()
@@ -199,9 +208,19 @@ public class LandTile
     return rainfall;
   }
 
+  public void setRainfall(float rainfall)
+  {
+    this.rainfall = Math.max(0, rainfall);
+  }
+
   public float getProj_maxAnnualTemp()
   {
     return proj_maxAnnualTemp;
+  }
+
+  public void setProj_maxAnnualTemp(float proj_maxAnnualTemp)
+  {
+    this.proj_maxAnnualTemp = proj_maxAnnualTemp;
   }
 
   public float getProj_minAnnualTemp()
@@ -209,14 +228,29 @@ public class LandTile
     return proj_minAnnualTemp;
   }
 
+  public void setProj_minAnnualTemp(float proj_minAnnualTemp)
+  {
+    this.proj_minAnnualTemp = proj_minAnnualTemp;
+  }
+
   public float getProj_avgDayTemp()
   {
     return proj_avgDayTemp;
   }
 
+  public void setProj_avgDayTemp(float proj_avgDayTemp)
+  {
+    this.proj_avgDayTemp = proj_avgDayTemp;
+  }
+
   public float getProj_avgNightTemp()
   {
     return proj_avgNightTemp;
+  }
+
+  public void setProj_avgNightTemp(float proj_avgNightTemp)
+  {
+    this.proj_avgNightTemp = proj_avgNightTemp;
   }
 
   public float getProj_rainfall()
@@ -227,51 +261,6 @@ public class LandTile
   public void setProj_rainfall(float proj_rainfall)
   {
     this.proj_rainfall = proj_rainfall;
-  }
-
-  public void setProj_avgNightTemp(float proj_avgNightTemp)
-  {
-    this.proj_avgNightTemp = proj_avgNightTemp;
-  }
-
-  public void setProj_avgDayTemp(float proj_avgDayTemp)
-  {
-    this.proj_avgDayTemp = proj_avgDayTemp;
-  }
-
-  public void setProj_minAnnualTemp(float proj_minAnnualTemp)
-  {
-    this.proj_minAnnualTemp = proj_minAnnualTemp;
-  }
-
-  public void setProj_maxAnnualTemp(float proj_maxAnnualTemp)
-  {
-    this.proj_maxAnnualTemp = proj_maxAnnualTemp;
-  }
-
-  public void setRainfall(float rainfall)
-  {
-    this.rainfall = Math.max(0,rainfall);
-  }
-
-  public void setAvgNightTemp(float avgNightTemp)
-  {
-    this.avgNightTemp = avgNightTemp;
-  }
-
-  public void setAvgDayTemp(float avgDayTemp)
-  {
-    this.avgDayTemp = avgDayTemp;
-  }
-
-  public void setMinAnnualTemp(float minAnnualTemp)
-  {
-    this.minAnnualTemp = minAnnualTemp;
-  }
-
-  public void setMaxAnnualTemp(float maxAnnualTemp)
-  {
-    this.maxAnnualTemp = maxAnnualTemp;
   }
 
   public void setCurrCrop(EnumCropType crop)
@@ -297,17 +286,17 @@ public class LandTile
     int cropMinR = crop.minRain;
     double tRange = cropDayT - cropNightT;                               // tempRange is crop's optimum day-night temp range
     double rRange = cropMaxR - cropMinR;                                 // rainRange is crop's optimum rainfall range
-    if (isBetween(avgDayTemp, cropNightT, cropDayT) &&               
-      isBetween(avgNightTemp, cropNightT, cropDayT) &&                                         
+    if (isBetween(avgDayTemp, cropNightT, cropDayT) &&
+      isBetween(avgNightTemp, cropNightT, cropDayT) &&
       isBetween(rainfall, cropMinR, cropMaxR) &&
-      maxAnnualTemp <= cropMaxT && minAnnualTemp >= cropMinT)                                 
-    {                                                                            
-      return EnumCropZone.IDEAL;                                                 
+      maxAnnualTemp <= cropMaxT && minAnnualTemp >= cropMinT)
+    {
+      return EnumCropZone.IDEAL;
     }
-    else if (isBetween(avgDayTemp, cropNightT-0.3*tRange, cropDayT+0.3*tRange) &&               
-        isBetween(avgNightTemp, cropNightT-0.3*tRange, cropDayT+0.3*tRange) &&                                         
-        isBetween(rainfall, cropMinR-0.3*rRange, cropMaxR+0.3*rRange) &&
-        maxAnnualTemp <= cropMaxT && minAnnualTemp >= cropMinT)                                 
+    else if (isBetween(avgDayTemp, cropNightT - 0.3 * tRange, cropDayT + 0.3 * tRange) &&
+      isBetween(avgNightTemp, cropNightT - 0.3 * tRange, cropDayT + 0.3 * tRange) &&
+      isBetween(rainfall, cropMinR - 0.3 * rRange, cropMaxR + 0.3 * rRange) &&
+      maxAnnualTemp <= cropMaxT && minAnnualTemp >= cropMinT)
     {                                                                                 
       return EnumCropZone.ACCEPTABLE;                                            
     }                                                                            
@@ -315,13 +304,6 @@ public class LandTile
     {
       return EnumCropZone.POOR;                                               // otherwise tile is POOR for crop
     }
-  }
-
-  public static float interpolate(float start, float end, int slices, int n)
-  {
-    if(slices < 0) return end;
-    float stepSize = (end - start) / slices;
-    return n * stepSize + start;
   }
 
   /**
@@ -339,19 +321,20 @@ public class LandTile
     float cropMinR = otherCropsData.minRain;
     float tRange = cropDayT - cropNightT;                               // tempRange is crop's optimum day-night temp range
     float rRange = cropMaxR - cropMinR;                                 // rainRange is crop's optimum rainfall range
-    if (isBetween(avgDayTemp, cropNightT, cropDayT) &&               
-        isBetween(avgNightTemp, cropNightT, cropDayT) &&                                         
-        isBetween(rainfall, cropMinR, cropMaxR) &&
-        minAnnualTemp >= cropMinT && maxAnnualTemp <= cropMaxT)                                                   
-    {                                                                            
-      return EnumCropZone.IDEAL;                                                     }
-    else if (isBetween(avgDayTemp, cropNightT-0.3*tRange, cropDayT+0.3*tRange) &&               
-        isBetween(avgNightTemp, cropNightT-0.3*tRange, cropDayT+0.3*tRange) &&                                         
-        isBetween(rainfall, cropMinR-0.3*rRange, cropMaxR+0.3*rRange) &&
-        minAnnualTemp >= cropMinT && maxAnnualTemp <= cropMaxT)                                 
-    {                                                                                 
-      return EnumCropZone.ACCEPTABLE;                                            
-    }                                                                            
+    if (isBetween(avgDayTemp, cropNightT, cropDayT) &&
+      isBetween(avgNightTemp, cropNightT, cropDayT) &&
+      isBetween(rainfall, cropMinR, cropMaxR) &&
+      minAnnualTemp >= cropMinT && maxAnnualTemp <= cropMaxT)
+    {
+      return EnumCropZone.IDEAL;
+    }
+    else if (isBetween(avgDayTemp, cropNightT - 0.3 * tRange, cropDayT + 0.3 * tRange) &&
+      isBetween(avgNightTemp, cropNightT - 0.3 * tRange, cropDayT + 0.3 * tRange) &&
+      isBetween(rainfall, cropMinR - 0.3 * rRange, cropMaxR + 0.3 * rRange) &&
+      minAnnualTemp >= cropMinT && maxAnnualTemp <= cropMaxT)
+    {
+      return EnumCropZone.ACCEPTABLE;
+    }
     else
     {
       return EnumCropZone.POOR;                                               // otherwise tile is POOR for crop
@@ -408,6 +391,24 @@ public class LandTile
     return currCrop;
   }
 
+  public enum BYTE_DEF
+  {
+    LONGITUDE, LATITUDE, ELEVATION,
+    MAX_ANNUAL_TEMP, MIN_ANNUAL_TEMP,
+    AVG_DAY_TEMP, AVG_NIGHT_TEMP,
+    RAINFALL,
+    PROJ_MAX_ANNUAL_TEMP, PROJ_MIN_ANNUAL_TEMP,
+    PROJ_AVG_DAY_TEMP, PROJ_AVG_NIGHT_TEMP,
+    PROJ_RAINFALL;
+
+    public static final int SIZE = values().length;
+    public static final int SIZE_IN_BYTES = SIZE * Float.SIZE / Byte.SIZE;
+
+    int index()
+    {
+      return ordinal() * Float.SIZE / Byte.SIZE;
+    }
+  }
 
   static class NoDataException extends IllegalArgumentException
   {

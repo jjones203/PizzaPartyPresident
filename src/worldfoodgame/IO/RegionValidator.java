@@ -29,7 +29,7 @@ public class RegionValidator
     Area area = new Area(CONVERTER.regionToPolygon(region));
     boolean isSingular = area.isSingular();
 
-    if (! isSingular)
+    if (!isSingular)
     {
       throw new SAXException("Invalid Region shape");
     }

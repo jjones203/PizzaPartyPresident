@@ -61,9 +61,9 @@ public class CropOptimizer
     }
     clearUnusedTiles();
   }
-  
+
   /**
-   * Do calculations & sorting needed for planting.
+   Do calculations & sorting needed for planting.
    */
   private void plantingSetup()
   {
@@ -118,13 +118,13 @@ public class CropOptimizer
    */
   private void clearUnusedTiles()
   {
-    for (TileYield tYield:tileYields)
+    for (TileYield tYield : tileYields)
     {
-      LandTile tile = tYield.tile; 
+      LandTile tile = tYield.tile;
       if (tile.getCurrentCrop() != null) tile.setCurrCrop(null);
     }
   }
-  
+
   /**
    * Class containing a LandTile and the amount that tile will yield of 
    * each crop for the current year (uses tile's currCrop for land use
