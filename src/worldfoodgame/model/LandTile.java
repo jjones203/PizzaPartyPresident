@@ -331,9 +331,10 @@ public class LandTile
     float cropMinR = otherCropsData.minRain;
     float tRange = cropDayT - cropNightT;                               // tempRange is crop's optimum day-night temp range
     float rRange = cropMaxR - cropMinR;                                 // rainRange is crop's optimum rainfall range
-    if (isBetween(avgDayTemp, cropNightT-0.2*tRange, cropDayT+0.2*tRange) &&               
-      isBetween(avgNightTemp, cropNightT-0.2*tRange, cropDayT+0.2*tRange) &&                                         
-      isBetween(rainfall, cropMinR-0.2*rRange, cropMaxR+0.2*rRange))                                 
+    if (isBetween(avgDayTemp, cropNightT, cropDayT) &&               
+        isBetween(avgNightTemp, cropNightT, cropDayT) &&                                         
+        isBetween(rainfall, cropMinR, cropMaxR) &&
+        minAnnualTemp > cropMinT && maxAnnualTemp < cropMaxT)                                                   
     {                                                                            
       return EnumCropZone.IDEAL;                                                     }
     else if (isBetween(avgDayTemp, cropNightT-0.4*tRange, cropDayT+0.4*tRange) &&               
