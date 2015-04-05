@@ -32,12 +32,12 @@ class MinTemp extends RasterViz
     float L = .8f;
 
     float lowerBound = 240.0f/360.0f;
-    float upperBound = 161.0f/360.0f;
+    float upperBound = 161.0f / 360.0f;
 
 
     for (LandTile tile : World.getWorld().getAllCountrifiedTiles())
     {
-      double minTempRatio = (tile.getMinAnnualTemp() + 40) / 50 ;
+      double minTempRatio = (tile.getMinAnnualTemp() + 40) / 50;
       float scaled = (float) (minTempRatio * (upperBound - lowerBound)) + lowerBound;
 
       Color color = Color.getHSBColor(Math.abs(scaled), S, L);

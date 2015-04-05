@@ -30,6 +30,13 @@ public class World extends AbstractScenario
   private TileManager tileManager;
   private Calendar currentDate;
 
+  private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
+  {
+    this.world = world;
+    this.politicalWorld = countries;
+    this.currentDate = cal;
+  }
+
   /**
    * This method is used to create the world object. The world object is a
    * singleton class, there is one and only one world.
@@ -47,7 +54,7 @@ public class World extends AbstractScenario
     {
       new RuntimeException("Make World can only be called once!");
     }
-    
+
     // calculate OTHER_CROPS temp & rain requirements for each country
     for (Country country:countries)
     {
@@ -55,7 +62,7 @@ public class World extends AbstractScenario
       CropOptimizer optimizer = new CropOptimizer(AbstractScenario.START_YEAR, country);
       optimizer.optimizeCrops();
     }
-    
+
     theOneWorld = new World(world, countries, cal);
     theOneWorld.tileManager = allTheLand;
   }
@@ -72,13 +79,6 @@ public class World extends AbstractScenario
       throw new RuntimeException("WORLD HAS NOT BEEN MADE YET!");
     }
     return theOneWorld;
-  }
-
-  private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
-  {
-    this.world = world;
-    this.politicalWorld = countries;
-    this.currentDate = cal;
   }
 
   /**
@@ -215,22 +215,35 @@ public class World extends AbstractScenario
   // stetck of top down look at world step:
   public void stepWorld()
   {
-    
+
+
+    System.out.println("\n\nStarting world stepping in " + getCurrentYear());
+
     long start = System.currentTimeMillis();
-    System.out.println("starting world stepping in " + getCurrentYear());
+
+    System.out.println("Mutating climate data...");
     updateEcoSystems();
     System.out.printf("climate data mutated in %dms%n", System.currentTimeMillis() - start);
-    
-    currentDate.add(Calendar.YEAR, 1);
     start = System.currentTimeMillis();
+    System.out.println("Planting tiles...");
     plantAndHarvestCrops();       // implemented
     System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
+    currentDate.add(Calendar.YEAR, 1);
     System.out.println("World done stepping. Date is now " + getCurrentYear());
     adjustPopulation(); // need this before shipping
-//    shipAndReceive();
-//    start = System.currentTimeMillis();
+    System.out.printf("population adjusted in %dms%n", System.currentTimeMillis() - start);
+
+    start = System.currentTimeMillis();
+    System.out.println("Shipping and recieving...");
+    shipAndReceive();
+    System.out.printf("Done shipping and receiving in: %dms%n", System.currentTimeMillis() - start);
+
+    start = System.currentTimeMillis();
+    System.out.println("Mutating country demographics...");
     adjustUndernourished();  // implemented
-//    System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
+    System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
+
+    System.out.println("World done stepping. Date is now " + getCurrentYear() + "\n\n");
 
   }
 
@@ -243,11 +256,11 @@ public class World extends AbstractScenario
       country.updatePopulation(year);
     }
   }
-  
+
   private void adjustUndernourished()
   {
     int year = getCurrentYear();
-    for (Country country:politicalWorld)
+    for (Country country : politicalWorld)
     {
       country.updateUndernourished(year);
     }
@@ -255,7 +268,7 @@ public class World extends AbstractScenario
 
   private void shipAndReceive()
   {
-    new RuntimeException("NOT IMPLEMENTED");
+    new TradingOptimizer(politicalWorld, currentYear).optimizeAndImplementTrades();
   }
 
   private void plantAndHarvestCrops()
@@ -324,11 +337,11 @@ public class World extends AbstractScenario
   {
     return getBaseSeaLevelRise(year);
   }
-  
+
   public LandTile getTile(double lon, double lat)
   {
-    return tileManager.getTile(lon,lat);
+    return tileManager.getTile(lon, lat);
   }
-  
-  
+
+
 }

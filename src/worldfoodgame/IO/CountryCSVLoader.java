@@ -47,7 +47,6 @@ public class CountryCSVLoader
   
   /**
    * Constructor takes list of country objects that need data from csv file (previously created from xml file)
-   * @param countries   list of Country objects
    */
   public CountryCSVLoader(Collection<Country> countriesToMerge)
   {
@@ -87,7 +86,7 @@ public class CountryCSVLoader
       if (countryFound == false)
       {
         //todo add method (String nameOf Country) -> offending xml file, -> load in XML editor.
-        System.err.print("CSV data not found for country "+xmlCountryName+"\n");
+        System.err.print("CSV data not found for country " + xmlCountryName + "\n");
       }
     }
     

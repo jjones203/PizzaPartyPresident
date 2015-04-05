@@ -18,15 +18,15 @@ public class LabelFactory
   private Collection<Runnable> updates;
   private CountryDataHandler dataHandler;
 
-  private void updateLabels()
-  {
-    for (Runnable update : updates) update.run();
-  }
-
   public LabelFactory(CountryDataHandler dataHandler)
   {
     this.dataHandler = dataHandler;
     this.updates = new ArrayList<>();
+  }
+
+  private void updateLabels()
+  {
+    for (Runnable update : updates) update.run();
   }
 
   public GraphLabel getPopulationLabel()

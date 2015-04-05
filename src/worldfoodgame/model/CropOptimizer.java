@@ -61,9 +61,9 @@ public class CropOptimizer
     }
     clearUnusedTiles();
   }
-  
+
   /**
-   * Do calculations & sorting needed for planting.
+   Do calculations & sorting needed for planting.
    */
   private void plantingSetup()
   {
@@ -101,7 +101,7 @@ public class CropOptimizer
     {
       TileYield tYield = tileYields.get(0);
       double yield = tYield.yields[crop.ordinal()];   // get the tile's yield for crop
-      production += yield*100;                        // add tile's yield to total produced
+      production += yield * 100;                        // add tile's yield to total produced
       tYield.tile.setCurrCrop(crop);                  // set the tile's crop to this crop
       tileYields.remove(tYield);                      // remove tile's tYield object because tile now NA
       tilesToPlant--;
@@ -119,13 +119,13 @@ public class CropOptimizer
    */
   private void clearUnusedTiles()
   {
-    for (TileYield tYield:tileYields)
+    for (TileYield tYield : tileYields)
     {
-      LandTile tile = tYield.tile; 
+      LandTile tile = tYield.tile;
       if (tile.getCurrentCrop() != null) tile.setCurrCrop(null);
     }
   }
-  
+
   /**
    * Class containing a LandTile and the amount that tile will yield of 
    * each crop for the current year (uses tile's currCrop for land use
