@@ -133,10 +133,10 @@ public class LabelFactory
   public GraphLabel getProductionLabel(final EnumCropType type)
   {
     final GraphLabel productionLabel = new GraphLabel(
-      "Prod.",
+      "Prod",
       dataHandler.getProduction(type),
-      dataHandler.getProduction(type), //todo choose the right graphical limit
-      "# metric Tons"
+      dataHandler.getNeed(type),
+      "#,###,### tons"
     );
 
     updates.add(new Runnable()
@@ -149,6 +149,27 @@ public class LabelFactory
     });
 
     return productionLabel;
+  }
+
+  public GraphLabel getNeedLabel(final EnumCropType type)
+  {
+    final GraphLabel needLabel = new GraphLabel(
+      "Need",
+      dataHandler.getNeed(type),
+      dataHandler.getNeed(type),
+      "#,###,### tons"
+    );
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        needLabel.setValue(dataHandler.getNeed(type));
+      }
+    });
+
+    return needLabel;
   }
 
   public GraphLabel getLandLabel(final EnumCropType type)
@@ -208,7 +229,7 @@ public class LabelFactory
     final GraphLabel exports = new GraphLabel(
       "Exported",
       dataHandler.getExports(type),
-      dataHandler.getProduction(type),
+      dataHandler.getNeed(type),
       "#,###,### tons");
 
     updates.add(new Runnable()
@@ -228,7 +249,7 @@ public class LabelFactory
     final GraphLabel imported = new GraphLabel(
       "Imported",
       dataHandler.getImports(type),
-      dataHandler.getProduction(type),
+      dataHandler.getNeed(type),
       "#,###,### tons");
 
     updates.add(new Runnable()

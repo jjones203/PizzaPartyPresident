@@ -105,7 +105,8 @@ public class SingleCountryHandeler extends CountryDataHandler
   @Override
   public double getNeed(EnumCropType type)
   {
-    return country.getCropNeedPerCapita(type);
+//    return country.getCropNeedPerCapita(type);
+    return country.getTotalCropNeed(year, type);
   }
 
   @Override
