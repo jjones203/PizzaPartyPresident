@@ -229,6 +229,7 @@ public class Country extends AbstractCountry
     double hungryChange = hungryNow - hungryStart;
     double mortalityNow = (mortalityRate[0] + 0.2 * hungryChange) / (popNow / 1000);
     mortalityRate[year - START_YEAR] = mortalityNow;
+    //if (getName().equals("United States of America")) System.out.println("updateMortality mortalityNow is "+mortalityNow);
   }
 
   public double getMigrationRate(int year)
@@ -442,22 +443,24 @@ public class Country extends AbstractCountry
     double unused = getArableLandUnused(year);
     double currCropLand = getCropLand(year, crop);
     double delta = kilomsq - currCropLand;
-
+    double valueToSet;
+    
     // if trying to decrease beyond 0, set to 0
     if ((currCropLand + delta) < 0)
     {
-      landCrop[crop.ordinal()][year - START_YEAR] = 0;
+      valueToSet = 0;
     }
     // else if trying to increase by amount greater than available, set to current + available
     else if (delta > unused)
     {
-      landCrop[crop.ordinal()][year - START_YEAR] = currCropLand + unused;
+      valueToSet = currCropLand + unused;
     }
     // else set to curr + delta
     else
     {
-      landCrop[crop.ordinal()][year - START_YEAR] = currCropLand + delta;
+      valueToSet = currCropLand + delta;
     }
+    for (int i = year-START_YEAR; i < YEARS_OF_SIM; i++) landCrop[crop.ordinal()][i] = valueToSet;
   }
 
 
