@@ -225,7 +225,7 @@ public class OrthographicConverter extends MapConverter
   }
 
   @Override
-  public MapPoint pointToMapPoint(Point p)
+  public MapPoint pointToMapPoint(Point2D p)
   {
     return null;
   }

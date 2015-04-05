@@ -3,6 +3,7 @@ package worldfoodgame.gui.regionlooks;
 import worldfoodgame.gui.GUIRegion;
 import worldfoodgame.gui.displayconverters.EquirectangularConverter;
 import worldfoodgame.gui.displayconverters.MapConverter;
+import worldfoodgame.model.LandTile;
 import worldfoodgame.model.MapPoint;
 import worldfoodgame.model.World;
 
@@ -33,19 +34,21 @@ public abstract class RasterViz implements RegionView, RasterDataView
   {
     defaultLook.draw(g, gRegion);
 
-    boolean imageOutDated =
-      calculatedYear != World.getWorld().getCurrentYear()
-        || bufferedImage == null;
+    boolean imageOutDated = calculatedYear != World.getWorld().getCurrentYear()
+                         || bufferedImage == null;
+
 
     if (imageOutDated)
     {
-      bufferedImage = getRasterImage();
+      bufferedImage = makeImage();
       calculatedYear = World.getWorld().getCurrentYear();
     }
   }
 
   @Override
   public abstract BufferedImage getRasterImage();
+
+  protected abstract BufferedImage makeImage();
 
   protected Point getPoint(MapPoint mp)
   {
@@ -59,4 +62,13 @@ public abstract class RasterViz implements RegionView, RasterDataView
 
     return point;
   }
+
+  // simple linear function to trasform the pixle height to keep track with the
+  // map projection.
+  protected int scaleHeight(LandTile landTile)
+  {
+    double lat = landTile.getLat();
+    return (int) Math.floor( (Math.abs(lat) * 7 / 90) + 1);
+  }
+
 }

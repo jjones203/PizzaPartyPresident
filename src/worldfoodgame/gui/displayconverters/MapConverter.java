@@ -6,6 +6,7 @@ import worldfoodgame.model.Region;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * Created by winston on 1/23/15.
@@ -63,7 +64,7 @@ public abstract class MapConverter
    * @param p point defined in worldfoodgame.gui space
    * @return converted point.
    */
-  public abstract MapPoint pointToMapPoint(Point p);
+  public abstract MapPoint pointToMapPoint(Point2D p);
 
   /**
    * Returns a conventional grid in latitude and longitude as defined by the

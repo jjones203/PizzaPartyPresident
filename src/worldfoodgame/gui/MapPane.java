@@ -1,10 +1,11 @@
 package worldfoodgame.gui;
 
 import worldfoodgame.gui.displayconverters.MapConverter;
-import worldfoodgame.gui.regionlooks.RasterDataView;
-import worldfoodgame.gui.regionlooks.RegionFlagDraw;
-import worldfoodgame.gui.regionlooks.RegionNameDraw;
-import worldfoodgame.gui.regionlooks.RegionView;
+import worldfoodgame.gui.regionlooks.*;
+import worldfoodgame.model.LandTile;
+import worldfoodgame.model.MapPoint;
+import worldfoodgame.model.TileManager;
+import worldfoodgame.model.World;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -92,7 +93,7 @@ public class MapPane extends JPanel
     setSize(getPreferredSize());
     setMinimumSize(getPreferredSize());
     setDoubleBuffered(true);
-
+    setToolTipText("");
   }
 
   /**
@@ -146,34 +147,19 @@ public class MapPane extends JPanel
     Collection<GUIRegion> regionsToDraw = presenter.getRegionsInView(cam);
     for (GUIRegion region : regionsToDraw) region.draw(g2);
 
-
-
-    // INSERT graph raster data here.
-
-//    g2.setColor(Color.GREEN);
-//    g2.fillOval(0, 0, 10_000, 10_000);
-
     RegionView regionView = presenter.getCurrentOverlay().getRegionView();
     if (regionView instanceof RasterDataView)
     {
       BufferedImage image = ((RasterDataView) regionView).getRasterImage();
-
-//      AffineTransform affineTransform = g2.getTransform();
-//      g2.setTransform(new AffineTransform());
-
       g2.drawImage(image, (int) -converter.getWidth()/2, (int) -converter.getHeight()/2, null);
 
-//      g2.setTransform(affineTransform);
-
-//      try
-//      {
-//        g2.getTransform().invert();
-//      }
-//      catch (NoninvertibleTransformException e)
-//      {
-//        e.printStackTrace();
-//      }
-
+      if (presenter.getActiveRegions() != null)
+      {
+        for (GUIRegion guiRegion : presenter.getActiveRegions())
+        {
+          OverlayOutLine.draw(g2, guiRegion);
+        }
+      }
     }
 
 
@@ -441,7 +427,6 @@ public class MapPane extends JPanel
       cam.translateRelativeToView(dx, dy);
       dragFrom = e.getPoint();
     }
-
   }
 
 
@@ -455,6 +440,19 @@ public class MapPane extends JPanel
   public void mouseMoved(MouseEvent e)
   {/* do nothing */}
 
+  @Override
+  public String getToolTipText(MouseEvent event)
+  {
+    if(!doMultiSelect)
+    {
+      Point2D loc = convertToMapSpace(event.getPoint());
+      MapPoint p = converter.pointToMapPoint(loc);
+      LandTile tile = World.getWorld().getTile(p.getLon(), p.getLat());
+      if(tile == TileManager.NO_DATA) return "";
+      return tile.debugToolTip();
+    }
+    else return "";
+  }
 
   /* helper function converts a point in screen-space to a point in map-space
      this encapsulates what is almost certainly unnecessary error handling,

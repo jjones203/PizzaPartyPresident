@@ -102,7 +102,7 @@ public class TileManager extends AbstractClimateData
     float proj = tile.getProj_maxAnnualTemp();
     int slices = END_YEAR - world.getCurrentYear();
     int sliceNum = year - world.getCurrentYear();
-    return LandTile.interpolate(cur, proj, slices) * sliceNum;
+    return LandTile.interpolate(cur, proj, slices, sliceNum);
   }
 
   /**
@@ -136,7 +136,7 @@ public class TileManager extends AbstractClimateData
     float proj = tile.getProj_minAnnualTemp();
     int slices = END_YEAR - world.getCurrentYear();
     int sliceNum = year - world.getCurrentYear();
-    return LandTile.interpolate(cur, proj, slices) * sliceNum;
+    return LandTile.interpolate(cur, proj, slices, sliceNum);
   }
 
   /**
@@ -170,7 +170,7 @@ public class TileManager extends AbstractClimateData
     float proj = tile.getProj_avgDayTemp();
     int slices = END_YEAR - world.getCurrentYear();
     int sliceNum = year - world.getCurrentYear();
-    return LandTile.interpolate(cur, proj, slices) * sliceNum;
+    return LandTile.interpolate(cur, proj, slices, sliceNum);
   }
 
   /**
@@ -204,7 +204,7 @@ public class TileManager extends AbstractClimateData
     float proj = tile.getProj_avgNightTemp();
     int slices = END_YEAR - world.getCurrentYear();
     int sliceNum = year - world.getCurrentYear();
-    return LandTile.interpolate(cur, proj, slices) * sliceNum;
+    return LandTile.interpolate(cur, proj, slices, sliceNum);
   }
 
   /**
@@ -238,7 +238,7 @@ public class TileManager extends AbstractClimateData
     float proj = tile.getProj_rainfall();
     int slices = END_YEAR - world.getCurrentYear();
     int sliceNum = year - world.getCurrentYear();
-    return LandTile.interpolate(cur, proj, slices) * sliceNum;
+    return LandTile.interpolate(cur, proj, slices, sliceNum);
   }
 
 
@@ -248,9 +248,8 @@ public class TileManager extends AbstractClimateData
    */
   public void stepTileData()
   {
-    LandTile.setYearsRemaining(END_YEAR - world.getCurrentYear());
     List<LandTile> tiles = dataTiles();
-    for(LandTile tile : tiles) tile.stepTile();
+    for(LandTile tile : tiles) tile.stepTile(END_YEAR - world.getCurrentYear());
     
     /* shuffle tiles before adding noise */
     Collections.shuffle(tiles);
@@ -300,9 +299,15 @@ public class TileManager extends AbstractClimateData
       for (int c = minCol; c < maxCol; c++)
       {
         /* allow overlap in data to account for the sphere */
-        if(tiles[r%ROWS][c%COLS] == NO_DATA) continue;
+        int colIndex = c < 0 ? COLS + c : c%COLS;
+        int rowIndex = r < 0 ? ROWS + r : r%ROWS;
+        if (colIndex < 0 || rowIndex < 0)
+        {
+          System.out.printf("c: %d, colIndex: %d, r: %d, rowIndex: %d", c, colIndex, r, rowIndex);
+        }
+        if(tiles[colIndex][rowIndex] == NO_DATA) continue;
         
-        neighbor = tiles[r%ROWS][c%COLS];
+        neighbor = tiles[colIndex][rowIndex];
 
         double xDist = DX_KM * (centerCol - c);
         double yDist = DY_KM * (centerRow - r);
@@ -599,7 +604,4 @@ public class TileManager extends AbstractClimateData
       e.printStackTrace();
     }
   }
-  
-  
-  
 }

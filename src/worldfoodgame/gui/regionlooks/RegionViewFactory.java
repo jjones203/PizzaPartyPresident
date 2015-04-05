@@ -10,10 +10,7 @@ public class RegionViewFactory
 {
 
   /* view currently correspond to camera angles */
-  private final static RegionView BG_VIEW = new backGroundLook();
-  private final static RegionView DEFAULT_LOOK = new DefaultLook();
-  private final static RegionView PLANTING_VIEW = new PlantingZoneView();
-  private final static RegionView HAPPINESS_VIEW = new RegionHappyView();
+  private final static RegionView BG_VIEW = new BackGroundLook();
   private Overlay currentOverlay;
 
   /**
@@ -41,8 +38,9 @@ public class RegionViewFactory
   }
 
 
-
-  //todo update overlays
+  /**
+   * This class defines the name hook for registering overlays with the gui.
+   */
   public enum Overlay
   {
     NONE(new DefaultLook()),
@@ -54,6 +52,8 @@ public class RegionViewFactory
     MIN_TMP(new MinTemp()),
     CROP_RASTER(new CropRasterLook()),
     MORTALITY(new MortalityRate()),
+    DAY_TEMP_AVE(new DayTempAve()),
+    NIGHT_AVE_TMP(new NightTempAve()),
     ;
 
 

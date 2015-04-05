@@ -215,10 +215,21 @@ public class World extends AbstractScenario
   // stetck of top down look at world step:
   public void stepWorld()
   {
+    
+    long start = System.currentTimeMillis();
+    System.out.println("starting world stepping in " + getCurrentYear());
     updateEcoSystems();
+    System.out.printf("climate data mutated in %dms%n", System.currentTimeMillis() - start);
+    start = System.currentTimeMillis();
     plantAndHarvestCrops();       // implemented
-    shipAndReceive();
-    adjustCountryDemographics();  // implemented
+    System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
+    currentDate.add(Calendar.YEAR, 1);
+    System.out.println("World done stepping. Date is now " + getCurrentYear());
+//    shipAndReceive();
+//    start = System.currentTimeMillis();
+//    adjustCountryDemographics();  // implemented
+//    System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
+
   }
 
   private void adjustCountryDemographics()
@@ -294,5 +305,10 @@ public class World extends AbstractScenario
   public double calculateSeaLevelRise(int year)
   {
     return getBaseSeaLevelRise(year);
+  }
+
+  public LandTile getTile(double lon, double lat)
+  {
+    return tileManager.getTile(lon,lat);
   }
 }

@@ -222,6 +222,7 @@ public class Country extends AbstractCountry
    */
   public void updateMortalityRate(int year)
   {
+
     double hungryStart = undernourished[0] * population[0];
     int popNow = population[year - START_YEAR - 1];
     double hungryNow = popNow * undernourished[year - START_YEAR - 1];

@@ -16,18 +16,11 @@ import java.nio.ByteBuffer;
 public class LandTile
 {
   
-  private static int yearsRemaining = AbstractScenario.YEARS_OF_SIM;
-
   public void setElev(float elev)
   {
     elevation = elev;
   }
-
-  public static void setYearsRemaining(int years)
-  {
-    yearsRemaining = years;
-  }
-
+  
   public enum BYTE_DEF
   {
     LONGITUDE, LATITUDE, ELEVATION,
@@ -77,6 +70,18 @@ public class LandTile
       '}';
   }
 
+  public String debugToolTip()
+  {
+    return String.format("<html>(lon:%.2f, lat:%.2f)<br>" +
+      "rainfall:%.6fcm<br>" +
+      "daily temp range: (%.2f C, %.2f C)<br>" +
+      "yearly temp range: (%.2f C, %.2f C)<br>" + 
+      "crop: %s</html>",
+      center.getLon(), center.getLat(), rainfall,
+      avgNightTemp, avgDayTemp, minAnnualTemp, maxAnnualTemp, currCrop);
+  }
+  
+  
   /**
    Constructor used for initial creation of data set
    @param lon longitude of this LandTile
@@ -155,13 +160,13 @@ public class LandTile
     return center;
   }
   
-  public void stepTile()
+  public void stepTile(int yearsRemaining)
   {
-    maxAnnualTemp = interpolate(maxAnnualTemp, proj_maxAnnualTemp, yearsRemaining);
-    minAnnualTemp = interpolate(minAnnualTemp, proj_minAnnualTemp, yearsRemaining);
-    avgDayTemp = interpolate(avgDayTemp, proj_avgDayTemp, yearsRemaining);
-    avgNightTemp = interpolate(avgNightTemp, proj_avgNightTemp, yearsRemaining);
-    rainfall = interpolate(rainfall, proj_rainfall, yearsRemaining);
+    maxAnnualTemp = interpolate(maxAnnualTemp, proj_maxAnnualTemp, yearsRemaining,1);
+    minAnnualTemp = interpolate(minAnnualTemp, proj_minAnnualTemp, yearsRemaining,1);
+    avgDayTemp = interpolate(avgDayTemp, proj_avgDayTemp, yearsRemaining,1);
+    avgNightTemp = interpolate(avgNightTemp, proj_avgNightTemp, yearsRemaining,1);
+    rainfall = interpolate(rainfall, proj_rainfall, yearsRemaining,1);
   }
 
   public float getElevation()
@@ -246,7 +251,7 @@ public class LandTile
 
   public void setRainfall(float rainfall)
   {
-    this.rainfall = rainfall;
+    this.rainfall = Math.max(0,rainfall);
   }
 
   public void setAvgNightTemp(float avgNightTemp)
@@ -311,9 +316,11 @@ public class LandTile
     }
   }
 
-  public static float interpolate(float start, float end, int slices)
+  public static float interpolate(float start, float end, int slices, int n)
   {
-    return (end - start)/slices;
+    if(slices < 0) return end;
+    float stepSize = (end - start) / slices;
+    return n * stepSize + start;
   }
 
   /**
