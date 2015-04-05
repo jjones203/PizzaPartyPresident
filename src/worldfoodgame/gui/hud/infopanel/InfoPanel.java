@@ -7,7 +7,6 @@ import worldfoodgame.model.Country;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
@@ -103,38 +102,5 @@ public class InfoPanel extends JPanel implements Observer
     }
   }
 
-
-  public static void main(String[] args)
-  {
-    final JFrame frame = new JFrame();
-    final InfoPanel infoPanel = new InfoPanel(null);
-    frame.add(infoPanel);
-
-    frame.pack();
-    frame.setVisible(true);
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-
-    new Timer(10, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        frame.repaint();
-      }
-    }).start();
-
-
-    new Timer(4000, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        infoPanel.update(null, null);
-        System.out.println("just updated!");
-      }
-    }).start();
-
-  }
 
 }

@@ -419,6 +419,15 @@ public class WorldPresenter extends Observable
   }
 
   /**
+   * This method tells the world presenter that something has changed. Probably
+   * not the best design really. this does not notify! 
+   */
+  public void registerChange()
+  {
+    setChanged();
+  }
+
+  /**
    * Private class  that manages and the active/passive state of the region.
    * also deals the marking changes
    *

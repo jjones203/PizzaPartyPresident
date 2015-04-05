@@ -33,7 +33,7 @@ public class Game
   private static boolean DEBUG = true;
 
   public static final String MODEL_DATA_PATH = "resources/ne_10m_admin_1_states_provinces.kml";
-  public static final String BG_DATA_PATH = "resources/ne_110m_land.kml";
+  public static final String BG_DATA_PATH = "resources/ne_50m_land.kml";
   private MapPane mapPane;
   private InfoPanel infoPanel;
   private WorldPresenter worldPresenter;
