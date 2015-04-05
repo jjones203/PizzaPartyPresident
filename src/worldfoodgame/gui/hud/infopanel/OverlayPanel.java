@@ -90,7 +90,7 @@ public class OverlayPanel extends JPanel implements ActionListener
   {
     JPanel radioPanel = new JPanel();
     radioPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    radioPanel.setLayout(new GridLayout(0, 1));
+    radioPanel.setLayout(new GridLayout(0, 2));
     ButtonGroup group = new ButtonGroup();
 
     for (int i = 0; i < overlays.length; i++)
