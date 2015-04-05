@@ -502,6 +502,11 @@ public class TileManager extends AbstractClimateData
   }
 
 
+  /**
+   set the World for this TileManager.  TileManager needs access to World-specific
+   data for current year and randomization percentages
+   @param world   world to set for the manager
+   */
   public void setWorld(World world)
   {
     this.world = world;
@@ -572,8 +577,6 @@ public class TileManager extends AbstractClimateData
     }
   }
 
-  
-  
   /* Used to create and write a new tile set.
      Be careful using this with the current data's filepath.  If a backup is not
      made, that data will be overwritten and must be re-generated from the raw
