@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 /**
  * Created by winston on 4/4/15.
  */
-class MinTemp extends RasterViz
+class NightTempAve extends RasterViz
 {
 
   @Override
@@ -32,12 +32,25 @@ class MinTemp extends RasterViz
     float L = .8f;
 
     float lowerBound = 240.0f/360.0f;
-    float upperBound = 188.0f/360.0f;
+    float upperBound = 161.0f/360.0f;
 
 
     for (LandTile tile : World.getWorld().dataTiles())
     {
-      double minTempRatio = (tile.getMinAnnualTemp() + 10) / 40;
+      double minTempRatio = tile.getAvgNightTemp() / 40;
+
+      if (minTempRatio > 1)
+      {
+        minTempRatio = 1;
+        System.out.println("minTempRatio is maxed out");
+        System.out.println("on: " + tile.getAvgNightTemp());
+      }
+
+      if (minTempRatio < 0)
+      {
+        System.out.println("is negative");
+      }
+
       float scaled = (float) (minTempRatio * (upperBound - lowerBound)) + lowerBound;
 
       Color color = Color.getHSBColor(Math.abs(scaled), S, L);

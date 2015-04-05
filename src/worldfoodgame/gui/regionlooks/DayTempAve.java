@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 /**
  * Created by winston on 4/4/15.
  */
-class MinTemp extends RasterViz
+class DayTempAve extends RasterViz
 {
 
   @Override
@@ -28,17 +28,25 @@ class MinTemp extends RasterViz
     Graphics2D g2d = image.createGraphics();
     g2d.translate(IMG_WIDTH / 2, IMG_HEIGHT / 2);
 
+
     float S = .5f;
     float L = .8f;
 
-    float lowerBound = 240.0f/360.0f;
-    float upperBound = 188.0f/360.0f;
-
+    float lowerBound = .2f;
+    float upperBound = .0f;
 
     for (LandTile tile : World.getWorld().dataTiles())
     {
-      double minTempRatio = (tile.getMinAnnualTemp() + 10) / 40;
-      float scaled = (float) (minTempRatio * (upperBound - lowerBound)) + lowerBound;
+      double maxTmpRatio = tile.getAvgDayTemp() / 40 ;
+
+      if (maxTmpRatio > 1)
+      {
+        maxTmpRatio = 1;
+        System.out.print("maxed out day temp ");
+        System.out.println("on: " + tile.getAvgDayTemp());
+      }
+
+      float scaled = (float) (maxTmpRatio * (upperBound - lowerBound)) + lowerBound;
 
       Color color = Color.getHSBColor(Math.abs(scaled), S, L);
       g2d.setColor(color);

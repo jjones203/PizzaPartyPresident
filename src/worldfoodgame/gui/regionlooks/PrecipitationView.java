@@ -39,7 +39,7 @@ class PrecipitationView extends RasterViz
 
     for (LandTile tile : World.getWorld().dataTiles())
     {
-      double percipRatio = (Math.log(tile.getRainfall()) - 1) / 9;
+      double percipRatio = (Math.log(tile.getRainfall()) - 2) / 10;
 
       float scaled = (float) (percipRatio * (upperBound - lowerBound)) + lowerBound;
 

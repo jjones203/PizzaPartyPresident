@@ -1,10 +1,7 @@
 package worldfoodgame.gui;
 
 import worldfoodgame.gui.displayconverters.MapConverter;
-import worldfoodgame.gui.regionlooks.RasterDataView;
-import worldfoodgame.gui.regionlooks.RegionFlagDraw;
-import worldfoodgame.gui.regionlooks.RegionNameDraw;
-import worldfoodgame.gui.regionlooks.RegionView;
+import worldfoodgame.gui.regionlooks.*;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -151,6 +148,14 @@ public class MapPane extends JPanel
     {
       BufferedImage image = ((RasterDataView) regionView).getRasterImage();
       g2.drawImage(image, (int) -converter.getWidth()/2, (int) -converter.getHeight()/2, null);
+
+      if (presenter.getActiveRegions() != null)
+      {
+        for (GUIRegion guiRegion : presenter.getActiveRegions())
+        {
+          OverlayOutLine.draw(g2, guiRegion);
+        }
+      }
     }
 
 
