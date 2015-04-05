@@ -98,7 +98,11 @@ public class Country extends AbstractCountry
     {
       Polygon poly = converter.regionToPolygon(region);
       int area = (int) (poly.getBounds().getWidth() * poly.getBounds().getHeight());
-      if (area >= maxArea) largest = poly;
+      if (area >= maxArea)
+      {
+        largest = poly;
+        maxArea = area;
+      }
     }
 
     int x = (int) largest.getBounds().getCenterX();
@@ -550,6 +554,8 @@ public class Country extends AbstractCountry
       double changeDeaths = numDeaths - (getPopulation(year - 1) * getMortalityRate(year - 1));
       formulaResult = 5 * numUndernourish + 2 * changeUndernourish + 10 * numDeaths + 5 * changeDeaths;
     }
+    
+    if (formulaResult < 0) formulaResult = 0;
     return Math.min(currentPop, formulaResult);
   }
 

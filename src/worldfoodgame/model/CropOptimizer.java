@@ -41,9 +41,9 @@ public class CropOptimizer
       int index = crop.ordinal();
       double yield = country.getCropYield(START_YEAR, crop);
       ctryYields[index] = yield;
-      /*if (country.getName().equals("United States of America"))
+      /*if (country.getName().equals("Brazil"))
       {
-        System.out.println("US yield for "+crop+" is "+yield);
+        System.out.println("Brazil yield for "+crop+" is "+yield);
       }*/
     }
   }
@@ -101,7 +101,7 @@ public class CropOptimizer
     {
       TileYield tYield = tileYields.get(0);
       double yield = tYield.yields[crop.ordinal()];   // get the tile's yield for crop
-      production += yield;                            // add tile's yield to total produced
+      production += yield*100;                        // add tile's yield to total produced
       tYield.tile.setCurrCrop(crop);                  // set the tile's crop to this crop
       tileYields.remove(tYield);                      // remove tile's tYield object because tile now NA
       tilesToPlant--;
@@ -111,6 +111,7 @@ public class CropOptimizer
     {
         country.setCropProduction(year, crop, production);
     }
+    //if (country.getName().equals("Brazil")) System.out.println(crop.toString()+" production "+production);
   }
   
   /**

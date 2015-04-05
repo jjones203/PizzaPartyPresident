@@ -220,17 +220,18 @@ public class World extends AbstractScenario
     System.out.println("starting world stepping in " + getCurrentYear());
     updateEcoSystems();
     System.out.printf("climate data mutated in %dms%n", System.currentTimeMillis() - start);
+    
+    currentDate.add(Calendar.YEAR, 1);
     start = System.currentTimeMillis();
     plantAndHarvestCrops();       // implemented
     System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
-    currentDate.add(Calendar.YEAR, 1);
-    System.out.println("World done stepping. Date is now " + getCurrentYear());
+    System.out.println("Date is now " + getCurrentYear());
     adjustPopulation(); // need this before shipping
 //    shipAndReceive();
 //    start = System.currentTimeMillis();
     adjustUndernourished();  // implemented
 //    System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
-
+    System.out.println("year stepping done");
   }
 
   private void adjustPopulation()
