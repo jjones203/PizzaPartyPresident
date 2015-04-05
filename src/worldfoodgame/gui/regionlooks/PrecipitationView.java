@@ -14,10 +14,12 @@ import java.awt.image.BufferedImage;
  */
 class PrecipitationView extends RasterViz
 {
-  public static final float THRESHOLD_SCALE = .25f;
-  public static final double LIMI_VISABILITY = 0.007;
-  public static final Color RAIN_COLOR = new Color(0.09019608f, 0.28627452f, 0.5019608f);
-  private static boolean DEBUG = false;
+  @Override
+  public BufferedImage getRasterImage()
+  {
+    if (bufferedImage == null) bufferedImage = makeImage();
+    return bufferedImage;
+  }
 
   private BufferedImage makeImage()
   {
@@ -25,41 +27,38 @@ class PrecipitationView extends RasterViz
     Graphics2D g2d = image.createGraphics();
     g2d.translate(IMG_WIDTH / 2, IMG_HEIGHT / 2);
 
-    g2d.setColor(RAIN_COLOR);
+    float S = .5f;
+    float L = .8f;
 
-    if (DEBUG) System.out.println("starting game tiles!");
+    float lowerBound = .113888889f;
+    float upperBound = .611538462f;
+
 
     for (LandTile tile : World.getWorld().dataTiles())
     {
+
+      double percipRatio = tile.getRainfall() / 900;
+
+      if (percipRatio < .11f) continue;
+
+      if (percipRatio > 1)
+      {
+        System.out.println("from " + tile.getRainfall());
+        System.out.println("rounded to 1 " + percipRatio);
+        percipRatio = 1;
+      }
+
+      float scaled = (float) (percipRatio * (upperBound - lowerBound)) + lowerBound;
+
+      Color color = Color.getHSBColor(Math.abs(scaled), S, L);
+      g2d.setColor(color);
+
       Point point = getPoint(tile.getCenter());
-
-      float peripRatio = tile.getRainfall() / 1_000;
-
-      if (peripRatio > 1) peripRatio = 1;
-
-      peripRatio *= THRESHOLD_SCALE;
-
-      if (peripRatio < LIMI_VISABILITY) continue; // skip
-
-      g2d.setComposite(
-        AlphaComposite.getInstance(AlphaComposite.SRC_OVER, peripRatio));
-
-      g2d.fillRect(point.x - TILE_SIZE / 2, point.y - TILE_SIZE / 2, TILE_SIZE, TILE_SIZE);
-
-      g2d.setComposite(
-        AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+      g2d.fillRect(point.x, point.y, 1, 1);
     }
 
-    if (DEBUG) System.out.println("finished generating percip image");
 
     return image;
-  }
-
-  @Override
-  public BufferedImage getRasterImage()
-  {
-    if (bufferedImage == null) bufferedImage = makeImage();
-    return bufferedImage;
   }
 
 }
