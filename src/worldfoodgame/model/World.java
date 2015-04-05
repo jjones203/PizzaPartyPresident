@@ -223,26 +223,37 @@ public class World extends AbstractScenario
     start = System.currentTimeMillis();
     plantAndHarvestCrops();       // implemented
     System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
+    currentDate.add(Calendar.YEAR, 1);
+    System.out.println("World done stepping. Date is now " + getCurrentYear());
+    adjustPopulation(); // need this before shipping
     System.out.println("starting shipping and receiving...");
     start = System.currentTimeMillis();
     shipAndReceive();
     System.out.printf("Done shipping and receiving in: %dms", System.currentTimeMillis() - start);
     
 //    start = System.currentTimeMillis();
-//    adjustCountryDemographics();  // implemented
+    adjustUndernourished();  // implemented
 //    System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
     currentDate.add(Calendar.YEAR, 1);
     System.out.println("World done stepping. Date is now " + getCurrentYear());
 
   }
 
-  private void adjustCountryDemographics()
+  private void adjustPopulation()
   {
     int year = getCurrentYear();
     for (Country country:politicalWorld)
     {
       country.updateMortalityRate(year);
       country.updatePopulation(year);
+    }
+  }
+  
+  private void adjustUndernourished()
+  {
+    int year = getCurrentYear();
+    for (Country country:politicalWorld)
+    {
       country.updateUndernourished(year);
     }
   }
@@ -302,6 +313,9 @@ public class World extends AbstractScenario
   public EnumCropZone classifyZone(EnumCropType crop, double minTemp, double maxTemp, double dayTemp, double nightTemp, double rain)
   {
     throw new UnsupportedOperationException("Call down to LandTile.rateTileForCrop");
+    /* Impossible to implement without a Country parameter because the temp and rain values for EnumCropType.OTHER_CROPS vary
+     * by country. See rateTileForCrop and rateTileForOtherCrops methods in LandTile class.
+     */
   }
 
   @Deprecated
@@ -310,9 +324,11 @@ public class World extends AbstractScenario
   {
     return getBaseSeaLevelRise(year);
   }
-
+  
   public LandTile getTile(double lon, double lat)
   {
     return tileManager.getTile(lon,lat);
   }
+  
+  
 }

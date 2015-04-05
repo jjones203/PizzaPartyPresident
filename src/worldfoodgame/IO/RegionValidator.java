@@ -1,8 +1,8 @@
 package worldfoodgame.IO;
 
+import org.xml.sax.SAXException;
 import worldfoodgame.gui.displayconverters.EquirectangularConverter;
 import worldfoodgame.gui.displayconverters.MapConverter;
-import org.xml.sax.SAXException;
 import worldfoodgame.model.MapPoint;
 import worldfoodgame.model.Region;
 
@@ -26,9 +26,13 @@ public class RegionValidator
     }
 
     // check to make sure all region polygons are simple.
-    boolean isSingular = new Area(CONVERTER.regionToPolygon(region)).isSingular();
+    Area area = new Area(CONVERTER.regionToPolygon(region));
+    boolean isSingular = area.isSingular();
 
-    if (! isSingular) throw new SAXException("Invalid Region shape");
+    if (! isSingular)
+    {
+      throw new SAXException("Invalid Region shape");
+    }
 
     return true;
   }

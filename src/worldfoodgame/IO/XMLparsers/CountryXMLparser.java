@@ -2,6 +2,8 @@ package worldfoodgame.IO.XMLparsers;
 
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
+import worldfoodgame.IO.RegionValidator;
+import worldfoodgame.gui.XMLEditor;
 import worldfoodgame.model.AtomicRegion;
 import worldfoodgame.model.Country;
 import worldfoodgame.model.MapPoint;
@@ -24,13 +26,17 @@ import static worldfoodgame.IO.IOHelpers.getFilesInDir;
  */
 public class CountryXMLparser extends DefaultHandler
 {
+  // this flag should be turned on when development team receives finalized
+  // country xml data.
+  private static boolean REGION_VALIDATION = false;
   private static String COUNTRY_DIR = "resources/countries";
-
+  private XMLEditor editor;
   private Collection<Region> regionList;
   private Locator locator;
   private String countryName;
   private AtomicRegion tmpRegion;
   private List<MapPoint> tmpPerimeterSet;
+  private RegionValidator regionValidator = new RegionValidator();
   private boolean name;
 
   /**
@@ -125,6 +131,13 @@ public class CountryXMLparser extends DefaultHandler
     if (name)
     {
       name = false;
+
+      if (countryName != null)
+      {
+        String msg = "(!) Duplicate name tag. no good.";
+        fatalError(new SAXParseException(msg, locator));
+      }
+
       countryName = new String(ch, start, length);
     }
   }
@@ -137,6 +150,8 @@ public class CountryXMLparser extends DefaultHandler
     {
       // save and reset....
       tmpRegion.setPerimeter(new ArrayList<>(tmpPerimeterSet));
+
+      if (REGION_VALIDATION) regionValidator.validate(tmpRegion);
       regionList.add(tmpRegion);
       tmpPerimeterSet.clear();
     }
@@ -169,16 +184,43 @@ public class CountryXMLparser extends DefaultHandler
     regionList = new ArrayList<>();
     XMLReader xmlReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
     xmlReader.setContentHandler(this);
-    for (String file : getFilesInDir(COUNTRY_DIR))
+
+    List<String> filesToRead = getFilesInDir(COUNTRY_DIR);
+
+    while (!filesToRead.isEmpty())
     {
+      String file = filesToRead.remove(0);
       try
       {
         xmlReader.parse(convertToFileURL(file));
       }
+      catch (SAXException e)
+      {
+        String errorMessage = "";
+        if (editor == null) editor = new XMLEditor(); // to be lazy
+        editor.loadFile(file);
+
+        Locator locator = getLocator();
+
+        if (locator.getLineNumber() != -1)
+        {
+          // we know the line that the error happened on
+          editor.highlightLine(locator.getLineNumber() - 1);
+          editor.setCaretToLine(locator.getLineNumber() - 1);
+          errorMessage = "line " + locator.getLineNumber() + ": ";
+        }
+        editor.setTitle("editing: " + file);
+        editor.setErrorMessage(errorMessage + e.getMessage());
+        editor.setVisible(true);
+
+        if (!editor.getIgnoreFile())
+        {
+          filesToRead.add(0, file);
+        }
+      }
       catch (IOException e)
       {
         e.printStackTrace();
-        // todo add Editor support here!
       }
     }
   }

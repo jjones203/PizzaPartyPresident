@@ -25,6 +25,7 @@ public class Country extends AbstractCountry
   private static MapConverter converter = new EquirectangularConverter();
   public OtherCropsData otherCropsData;
   private int START_YEAR = AbstractScenario.START_YEAR;
+  private int YEARS_OF_SIM = AbstractScenario.YEARS_OF_SIM;
   private List<Region> regions;
   private MapPoint capitolLocation;
   private Collection<LandTile> landTiles;
@@ -221,13 +222,14 @@ public class Country extends AbstractCountry
    */
   public void updateMortalityRate(int year)
   {
-    /* todo: check array indexing scheme */
-    double hungryStart = undernourished[START_YEAR] * population[START_YEAR];
+
+    double hungryStart = undernourished[0] * population[0];
     int popNow = population[year - START_YEAR - 1];
     double hungryNow = popNow * undernourished[year - START_YEAR - 1];
     double hungryChange = hungryNow - hungryStart;
-    double mortalityNow = (mortalityRate[START_YEAR] + 0.2 * hungryChange) / (popNow / 1000);
+    double mortalityNow = (mortalityRate[0] + 0.2 * hungryChange) / (popNow / 1000);
     mortalityRate[year - START_YEAR] = mortalityNow;
+    //if (getName().equals("United States of America")) System.out.println("updateMortality mortalityNow is "+mortalityNow);
   }
 
   public double getMigrationRate(int year)
@@ -361,7 +363,7 @@ public class Country extends AbstractCountry
   {
     if (kilomsq > 0)
     {
-      landTotal[year - START_YEAR] = kilomsq;
+      for (int i = 0; i < (YEARS_OF_SIM); i++) landTotal[i] = kilomsq;
     }
     else
     {
@@ -378,17 +380,12 @@ public class Country extends AbstractCountry
   {
     if (kilomsq >= 0)
     {
-      landArable[year - START_YEAR] = kilomsq;
+      for (int i = 0; i < (YEARS_OF_SIM); i++) landArable[i] = kilomsq;
     }
     else
     {
       System.err.println("Invalid argument for Country.setArableLand method for country " + getName());
     }
-  }
-
-  public double getCropLand(int year, EnumCropType crop)
-  {
-    return landCrop[crop.ordinal()][year - START_YEAR];
   }
 
   /**
@@ -409,6 +406,12 @@ public class Country extends AbstractCountry
   }
 
 
+  public double getCropLand(int year, EnumCropType crop)
+  {
+    return landCrop[crop.ordinal()][year - START_YEAR];
+  }
+
+
   /**
    * Set crop land value; use this method when initializing
    *
@@ -420,7 +423,7 @@ public class Country extends AbstractCountry
   {
     if (kilomsq >= 0 && kilomsq <= getArableLand(year))
     {
-      landCrop[crop.ordinal()][year - START_YEAR] = kilomsq;
+      for (int i = 0; i < (YEARS_OF_SIM); i++) landCrop[crop.ordinal()][i] = kilomsq;
     }
     else
     {
@@ -440,22 +443,24 @@ public class Country extends AbstractCountry
     double unused = getArableLandUnused(year);
     double currCropLand = getCropLand(year, crop);
     double delta = kilomsq - currCropLand;
-
+    double valueToSet;
+    
     // if trying to decrease beyond 0, set to 0
     if ((currCropLand + delta) < 0)
     {
-      landCrop[crop.ordinal()][year - START_YEAR] = 0;
+      valueToSet = 0;
     }
     // else if trying to increase by amount greater than available, set to current + available
     else if (delta > unused)
     {
-      landCrop[crop.ordinal()][year - START_YEAR] = currCropLand + unused;
+      valueToSet = currCropLand + unused;
     }
     // else set to curr + delta
     else
     {
-      landCrop[crop.ordinal()][year - START_YEAR] = currCropLand + delta;
+      valueToSet = currCropLand + delta;
     }
+    for (int i = year-START_YEAR; i < YEARS_OF_SIM; i++) landCrop[crop.ordinal()][i] = valueToSet;
   }
 
 
@@ -486,6 +491,10 @@ public class Country extends AbstractCountry
   public void setCropYield(int year, EnumCropType crop, double tonPerSqKilom)
   {
     cropYield[crop.ordinal()] = tonPerSqKilom;
+    /*if (getName().equals("United States of America"))
+    {
+      System.out.println("US yield for "+crop+" is "+tonPerSqKilom);
+    }*/
   }
 
   public double getCropNeedPerCapita(EnumCropType crop)
