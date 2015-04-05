@@ -4,9 +4,9 @@ import worldfoodgame.model.MapPoint;
 import worldfoodgame.model.Region;
 
 import java.awt.*;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,15 +128,15 @@ public class EquirectangularConverter extends MapConverter
    Convert a Point in graphics-space to a MapPoint assuming the parallel of no 
    distortion is  the equator.  This converts from a Plate-Caree projection back
    to lat and lon
-   @param p
-   Point to convert
    @return
    A MapPoint, reversing the projection defined by this class
+    @param p
+    Point to convert
    */
   @Override
-  public MapPoint pointToMapPoint(Point p)
+  public MapPoint pointToMapPoint(Point2D p)
   {
-    return new MapPoint(p.x / SCALING_FACTOR, - p.y / SCALING_FACTOR);
+    return new MapPoint(p.getX() / SCALING_FACTOR, - p.getY() / SCALING_FACTOR);
   }
   
 

@@ -70,6 +70,18 @@ public class LandTile
       '}';
   }
 
+  public String debugToolTip()
+  {
+    return String.format("<html>(lon:%.2f, lat:%.2f)<br>" +
+      "rainfall:%.6fcm<br>" +
+      "daily temp range: (%.2f C, %.2f C)<br>" +
+      "yearly temp range: (%.2f C, %.2f C)<br>" + 
+      "crop: %s</html>",
+      center.getLon(), center.getLat(), rainfall,
+      avgNightTemp, avgDayTemp, minAnnualTemp, maxAnnualTemp, currCrop);
+  }
+  
+  
   /**
    Constructor used for initial creation of data set
    @param lon longitude of this LandTile
@@ -239,7 +251,7 @@ public class LandTile
 
   public void setRainfall(float rainfall)
   {
-    this.rainfall = rainfall;
+    this.rainfall = Math.max(0,rainfall);
   }
 
   public void setAvgNightTemp(float avgNightTemp)

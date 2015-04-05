@@ -5,6 +5,10 @@ import worldfoodgame.gui.regionlooks.RasterDataView;
 import worldfoodgame.gui.regionlooks.RegionFlagDraw;
 import worldfoodgame.gui.regionlooks.RegionNameDraw;
 import worldfoodgame.gui.regionlooks.RegionView;
+import worldfoodgame.model.LandTile;
+import worldfoodgame.model.MapPoint;
+import worldfoodgame.model.TileManager;
+import worldfoodgame.model.World;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -92,7 +96,7 @@ public class MapPane extends JPanel
     setSize(getPreferredSize());
     setMinimumSize(getPreferredSize());
     setDoubleBuffered(true);
-
+    setToolTipText("");
   }
 
   /**
@@ -418,7 +422,6 @@ public class MapPane extends JPanel
       cam.translateRelativeToView(dx, dy);
       dragFrom = e.getPoint();
     }
-
   }
 
 
@@ -430,13 +433,28 @@ public class MapPane extends JPanel
 
   @Override
   public void mouseMoved(MouseEvent e)
-  {/* do nothing */}
+  {
+    /* do nothing */
+  }
 
+  @Override
+  public String getToolTipText(MouseEvent event)
+  {
+    if(!doMultiSelect)
+    {
+      Point2D loc = convertToMapSpace(event.getPoint());
+      MapPoint p = converter.pointToMapPoint(loc);
+      LandTile tile = World.getWorld().getTile(p.getLon(), p.getLat());
+      if(tile == TileManager.NO_DATA) return "";
+      return tile.debugToolTip();
+    }
+    else return "";
+  }
 
   /* helper function converts a point in screen-space to a point in map-space
-     this encapsulates what is almost certainly unnecessary error handling,
-     given usage of the AffineTransforms (checks NoninvertibleTransformExceptions)
-   */
+       this encapsulates what is almost certainly unnecessary error handling,
+       given usage of the AffineTransforms (checks NoninvertibleTransformExceptions)
+     */
   private Point2D convertToMapSpace(Point2D screenClick)
   {
     AffineTransform a = cam.getTransform();
