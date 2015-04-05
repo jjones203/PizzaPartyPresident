@@ -41,6 +41,8 @@ public class ProgessControlPanel extends JPanel implements Observer
     {
       ProgessControlPanel.this.getRootPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
+      JProgressBar jProgressBar = new JProgressBar(0, 100);
+
       worldPresenter.stepWorld();
 
       ProgessControlPanel.this.getRootPane().setCursor(null);
