@@ -67,23 +67,20 @@ public class ProgessControlPanel extends JPanel implements Observer
     controlls.add(pause);
 
     // todo change this so that i get the world population form the world presenter.
-    currentYear = new NumericalLabel("Current Year",
-      Integer.toString(worldPresenter.getYear()));
+    currentYear = new NumericalLabel("Current Year", null);
     add(currentYear);
 
-    yearRemainng = new NumericalLabel("Years Remaining",
-      Integer.toString(worldPresenter.yearRemaining()));
+    yearRemainng = new NumericalLabel("Years Remaining", null);
     add(yearRemainng);
 
-    population = new NumericalLabel("World Population",
-      popuLationFormatter.format(worldPresenter.getWorldPopulationMil()) + " Mill");
+    population = new NumericalLabel("World Population", null);
     add(population);
 
-    happiness = new NumericalLabel("Happiness",
-      "% " + happinessP.format(worldPresenter.getHappinessP() * 100));
+    happiness = new NumericalLabel("Happiness", null);
     add(happiness);
 
     this.add(controlls, BorderLayout.WEST);
+    this.update(null, null);
   }
 
   @Override
@@ -92,7 +89,7 @@ public class ProgessControlPanel extends JPanel implements Observer
     currentYear.setValString(Integer.toString(worldPresenter.getYear()));
     yearRemainng.setValString(Integer.toString(worldPresenter.yearRemaining()));
     population.setValString(popuLationFormatter.format(worldPresenter.getWorldPopulationMil()) + " Mill");
-    happiness.setValString("% " + happinessP.format(worldPresenter.getHappinessP()));
+    happiness.setValString("% " + happinessP.format(worldPresenter.getHappinessP() * 100));
   }
 
 

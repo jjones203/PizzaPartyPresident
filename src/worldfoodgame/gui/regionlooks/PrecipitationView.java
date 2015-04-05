@@ -30,14 +30,14 @@ class PrecipitationView extends RasterViz
     float S = .5f;
     float L = .8f;
 
-    float lowerBound = .113888889f;
-    float upperBound = .611538462f;
+    float lowerBound = .130555556f;
+    float upperBound = .663888889f;
 
 
     for (LandTile tile : World.getWorld().dataTiles())
     {
 
-      double percipRatio = tile.getRainfall() / 900;
+      double percipRatio = (Math.log(tile.getRainfall()) - 1) / 9;
 
       if (percipRatio > 1)
       {
