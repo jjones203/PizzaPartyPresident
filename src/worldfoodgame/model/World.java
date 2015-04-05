@@ -298,6 +298,9 @@ public class World extends AbstractScenario
   public EnumCropZone classifyZone(EnumCropType crop, double minTemp, double maxTemp, double dayTemp, double nightTemp, double rain)
   {
     throw new UnsupportedOperationException("Call down to LandTile.rateTileForCrop");
+    /* Impossible to implement without a Country parameter because the temp and rain values for EnumCropType.OTHER_CROPS vary
+     * by country. See rateTileForCrop and rateTileForOtherCrops methods in LandTile class.
+     */
   }
 
   @Deprecated
@@ -306,9 +309,11 @@ public class World extends AbstractScenario
   {
     return getBaseSeaLevelRise(year);
   }
-
+  
   public LandTile getTile(double lon, double lat)
   {
     return tileManager.getTile(lon,lat);
   }
+  
+  
 }

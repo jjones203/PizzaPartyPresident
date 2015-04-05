@@ -19,6 +19,7 @@ public class CropOptimizer
 {
   private static final int NUM_CROPS = EnumCropType.SIZE;
   private int year;
+  private int START_YEAR = AbstractScenario.START_YEAR;
   private Country country;
   private ArrayList<CropBin> cropBins;
   private ArrayList<TileYield> tileYields;
@@ -38,7 +39,7 @@ public class CropOptimizer
     for (EnumCropType crop:EnumCropType.values())
     {
       int index = crop.ordinal();
-      double yield = country.getCropYield(AbstractScenario.START_YEAR, crop);
+      double yield = country.getCropYield(START_YEAR, crop);
       ctryYields[index] = yield;
       /*if (country.getName().equals("United States of America"))
       {
@@ -58,8 +59,12 @@ public class CropOptimizer
     {
       plantCrop(bin);
     }
+    clearUnusedTiles();
   }
   
+  /**
+   * Do calculations & sorting needed for planting.
+   */
   private void plantingSetup()
   {
     // figure out how many tiles needed for each crop
@@ -83,7 +88,7 @@ public class CropOptimizer
   
   /**
    * Plant a given crop
-   * @param bin   CropBin with crop to plant and tiles to plant\
+   * @param bin   CropBin with crop to plant and tiles to plant
    */
   private void plantCrop(CropBin bin)
   { 
@@ -105,6 +110,18 @@ public class CropOptimizer
     if (year != AbstractScenario.START_YEAR)
     {
         country.setCropProduction(year, crop, production);
+    }
+  }
+  
+  /**
+   * If we are not using a tile this year, we need to make sure its currCrop field is set to null.
+   */
+  private void clearUnusedTiles()
+  {
+    for (TileYield tYield:tileYields)
+    {
+      LandTile tile = tYield.tile; 
+      if (tile.getCurrentCrop() != null) tile.setCurrCrop(null);
     }
   }
   
@@ -131,7 +148,7 @@ public class CropOptimizer
         else zone = tile.rateTileForCrop(crop);
         double percentYield = 1;
         // for years after START, calculate percentage of yield depending on zone & prior crop
-        if (year != AbstractScenario.START_YEAR)
+        if (year != START_YEAR)
         {
           percentYield = tile.getTileYieldPercent(crop, zone);
         }
@@ -142,10 +159,13 @@ public class CropOptimizer
           {
             case IDEAL:
               percentYield = 1;
+              break;
             case ACCEPTABLE:
               percentYield = 0.6;
+              break;
             case POOR:
               percentYield = 0.25;
+              break;
             default:
           }
         }
@@ -204,10 +224,68 @@ public class CropOptimizer
       return diff;
     }
   }
-  
+  /*
   public static void main(String[] args)
   {
     Country testCountry = new Country("test");
+    testCountry.setArableLand(0, 1000);
+    testCountry.setCropYield(AbstractScenario.START_YEAR, EnumCropType.RICE, 10);
+    testCountry.setCropYield(AbstractScenario.START_YEAR, EnumCropType.WHEAT, 100);
+    testCountry.setCropYield(AbstractScenario.START_YEAR, EnumCropType.CORN, 1000);
+    testCountry.setCropYield(AbstractScenario.START_YEAR, EnumCropType.SOY, 10000);
+    testCountry.setCropYield(AbstractScenario.START_YEAR, EnumCropType.OTHER_CROPS, 1);
     
+    LandTile tile1 = new LandTile(0,1);
+    LandTile tile2 = new LandTile(1,2);
+    LandTile tile3 = new LandTile(2,3);
+    LandTile tile4 = new LandTile(3,4);
+    LandTile tile5 = new LandTile(5,6);
+    LandTile tile6 = new LandTile(6,7);
+    
+    // set tile1 for rice
+    setLandTileVals(tile1, 200, 35, 20, 45, 10);
+    // set tile2 for wheat
+    setLandTileVals(tile2, 50, 20, 10, 45, -20);
+    // set tile3 for corn
+    setLandTileVals(tile3, 80, 29, 20, 45, 0);
+    // set tile4 for soy
+    setLandTileVals(tile4, 50, 35, 30, 45, 7);
+    // tile5 & tile6 are somewhere in middle
+    setLandTileVals(tile5, 70, 25, 20, 15, 40);
+    setLandTileVals(tile6, 80, 29, 23, 12, 43);
+    
+    testCountry.addLandTile(tile1);
+    testCountry.addLandTile(tile2);
+    testCountry.addLandTile(tile3);
+    testCountry.addLandTile(tile4);
+    testCountry.addLandTile(tile5);
+    testCountry.addLandTile(tile6);
+    testCountry.setOtherCropsData();
+    
+    testCountry.setCropLand(AbstractScenario.START_YEAR, EnumCropType.RICE, 100);
+    testCountry.setCropLand(AbstractScenario.START_YEAR, EnumCropType.WHEAT, 100);
+    testCountry.setCropLand(AbstractScenario.START_YEAR, EnumCropType.CORN, 300);
+    testCountry.setCropLand(AbstractScenario.START_YEAR, EnumCropType.SOY, 100);
+    testCountry.setCropLand(AbstractScenario.START_YEAR, EnumCropType.OTHER_CROPS, 0);
+    
+    CropOptimizer testOp = new CropOptimizer(AbstractScenario.START_YEAR, testCountry);
+    testOp.optimizeCrops();
+    
+    int tileNum = 1;
+    for (LandTile tile:testCountry.getLandTiles())
+    {
+      System.out.println("Tile #"+tileNum);
+      System.out.println(tile.getCurrentCrop().toString());
+      tileNum++;
+    }
   }
+  
+  private static void setLandTileVals(LandTile tile, float rain, float day, float night, float max, float min)
+  {
+    tile.setRainfall(rain);
+    tile.setAvgDayTemp(day);
+    tile.setAvgNightTemp(night);
+    tile.setMaxAnnualTemp(max);
+    tile.setMinAnnualTemp(min);
+  }*/
 }
