@@ -39,8 +39,6 @@ class PrecipitationView extends RasterViz
 
       double percipRatio = tile.getRainfall() / 900;
 
-      if (percipRatio < .11f) continue;
-
       if (percipRatio > 1)
       {
         System.out.println("from " + tile.getRainfall());

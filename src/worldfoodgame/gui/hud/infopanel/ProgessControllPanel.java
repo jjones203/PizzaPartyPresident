@@ -69,7 +69,7 @@ public class ProgessControllPanel extends JPanel implements Observer
     add(population);
 
     happiness = new numbericalLabel("Happiness",
-      "% " + happinessP.format(worldPresenter.getHappinessP()));
+      "% " + happinessP.format(worldPresenter.getHappinessP() * 100));
     add(happiness);
 
     this.add(controlls, BorderLayout.WEST);
