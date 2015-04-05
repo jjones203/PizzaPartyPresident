@@ -153,7 +153,7 @@ public class MapPane extends JPanel
       {
         for (GUIRegion guiRegion : presenter.getActiveRegions())
         {
-          OverlayOutLine.draw(g2, guiRegion);
+          OverlayOutline.draw(g2, guiRegion);
         }
       }
     }

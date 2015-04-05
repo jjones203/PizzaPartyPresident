@@ -35,7 +35,7 @@ class NightTempAve extends RasterViz
     float upperBound = 161.0f/360.0f;
 
 
-    for (LandTile tile : World.getWorld().dataTiles())
+    for (LandTile tile : World.getWorld().getAllCountrifiedTiles())
     {
       double minTempRatio = tile.getAvgNightTemp() / 40;
 
