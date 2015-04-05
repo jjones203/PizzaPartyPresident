@@ -215,16 +215,19 @@ public class World extends AbstractScenario
   // stetck of top down look at world step:
   public void stepWorld()
   {
+    
     long start = System.currentTimeMillis();
-    System.out.println("starting world stepping");
+    System.out.println("starting world stepping in " + getCurrentYear());
     updateEcoSystems();
     System.out.printf("climate data mutated in %dms%n", System.currentTimeMillis() - start);
     start = System.currentTimeMillis();
     plantAndHarvestCrops();       // implemented
     System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
+    System.out.println("World done stepping. Date is now" + getCurrentYear());
+    currentDate.add(Calendar.YEAR, 1);
 //    shipAndReceive();
 //    start = System.currentTimeMillis();
-    adjustCountryDemographics();  // implemented
+//    adjustCountryDemographics();  // implemented
 //    System.out.printf("country demographics mutated in %dms", System.currentTimeMillis() - start);
 
   }
