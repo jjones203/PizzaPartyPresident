@@ -44,7 +44,7 @@ public abstract class RasterViz implements RegionView, RasterDataView
 
     if (imageOutDated)
     {
-      bufferedImage = null; // to reset image
+      bufferedImage = null; // to reset image weird hack, im sorry.
       bufferedImage = getRasterImage();
       calculatedYear = World.getWorld().getCurrentYear();
     }
