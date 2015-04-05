@@ -61,30 +61,6 @@ public class OverlayPanel extends JPanel implements ActionListener
     return radioPanel;
   }
 
-  /**
-   * private class to wrap up the logic of switching the display conversion in
-   * the gui.
-   */
-  private class changeUniteConverter extends AbstractAction
-  {
-    private CountryDataHandler.DISPLAY_UNITE unite;
-    public changeUniteConverter(CountryDataHandler.DISPLAY_UNITE unite)
-    {
-      super(unite.name());
-      this.unite = unite;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-      CountryDataHandler.activeConverter = this.unite;
-      //todo fix this, this is not updating
-      worldPresenter.hasChanged();
-      worldPresenter.notifyObservers();
-    }
-  }
-
-
   /* sets up and returns a get Overlay */
   private JPanel getOverlayRadio()
   {
@@ -111,7 +87,6 @@ public class OverlayPanel extends JPanel implements ActionListener
 
     return radioPanel;
   }
-  
 
   @Override
   public void actionPerformed(ActionEvent e)
@@ -125,6 +100,30 @@ public class OverlayPanel extends JPanel implements ActionListener
     else
     {
       System.err.println("world Presenter is null!");
+    }
+  }
+
+  /**
+   private class to wrap up the logic of switching the display conversion in
+   the gui.
+   */
+  private class changeUniteConverter extends AbstractAction
+  {
+    private CountryDataHandler.DISPLAY_UNITE unite;
+
+    public changeUniteConverter(CountryDataHandler.DISPLAY_UNITE unite)
+    {
+      super(unite.name());
+      this.unite = unite;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+      CountryDataHandler.activeConverter = this.unite;
+      //todo fix this, this is not updating
+      worldPresenter.hasChanged();
+      worldPresenter.notifyObservers();
     }
   }
 

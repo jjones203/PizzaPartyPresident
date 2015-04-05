@@ -34,8 +34,8 @@ import static worldfoodgame.IO.IOHelpers.getFilesInDir;
 @Deprecated
 public class AreaXMLLoader
 {
-  private RegionParserHandler handler;
   private final static String AREA_DIR_PATH = "resources/areas";
+  private RegionParserHandler handler;
   private XMLEditor editor;
   private XMLReader xmlReader;
 

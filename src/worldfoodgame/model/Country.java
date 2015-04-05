@@ -59,7 +59,7 @@ public class Country extends AbstractCountry
   {
     if (capitolLocation == null)
     {
-      capitolLocation = calCapitalLocation();
+      capitolLocation = calCapitolLocation();
     }
     return capitolLocation;
   }
@@ -86,7 +86,7 @@ public class Country extends AbstractCountry
 
   // generate the capital by finding the center of the largest landmass.
   // this method can only be called after the Country's regions have been set.
-  private MapPoint calCapitalLocation()
+  private MapPoint calCapitolLocation()
   {
     if (regions == null) throw new RuntimeException("(!) regions not set!");
     if (regions.isEmpty()) throw new RuntimeException("(!) no regions !");
@@ -427,7 +427,8 @@ public class Country extends AbstractCountry
   {
     if (kilomsq >= 0 && kilomsq <= getArableLand(year))
     {
-      for (int i = 0; i < (YEARS_OF_SIM); i++) landCrop[crop.ordinal()][i] = kilomsq;
+      for (int i = 0; i < (YEARS_OF_SIM); i++)
+        landCrop[crop.ordinal()][i] = kilomsq;
     }
     else
     {
@@ -464,7 +465,8 @@ public class Country extends AbstractCountry
     {
       valueToSet = currCropLand + delta;
     }
-    for (int i = year-START_YEAR; i < YEARS_OF_SIM; i++) landCrop[crop.ordinal()][i] = valueToSet;
+    for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
+      landCrop[crop.ordinal()][i] = valueToSet;
   }
 
 
@@ -569,7 +571,7 @@ public class Country extends AbstractCountry
   public double getShippingDistance(MapPoint otherCapitol)
   {
     double radianConversion = (Math.PI) / 180;
-    double lon1 = capitolLocation.getLon() * radianConversion;
+    double lon1 = getCapitolLocation().getLon() * radianConversion;
     double lat1 = capitolLocation.getLat() * radianConversion;
     double lon2 = otherCapitol.getLon() * radianConversion;
     double lat2 = otherCapitol.getLat() * radianConversion;

@@ -19,8 +19,8 @@ class BackGroundLook implements RegionView
 
     LinearGradientPaint linePaint =
       new LinearGradientPaint(
-        0,0,
-        30,30,
+        0, 0,
+        30, 30,
         new float[]{0.0f, 1.0f},
         new Color[]{
           ColorsAndFonts.PASSIVE_REGION,

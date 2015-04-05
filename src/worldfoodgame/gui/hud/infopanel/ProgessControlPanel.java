@@ -39,7 +39,11 @@ public class ProgessControlPanel extends JPanel implements Observer
     @Override
     public void run()
     {
+      ProgessControlPanel.this.getRootPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
       worldPresenter.stepWorld();
+
+      ProgessControlPanel.this.getRootPane().setCursor(null);
     }
   };
 
@@ -85,6 +89,18 @@ public class ProgessControlPanel extends JPanel implements Observer
     this.update(null, null);
   }
 
+  public static void main(String[] args)
+  {
+    ProgessControlPanel pcp = new ProgessControlPanel(null);
+
+    JFrame jFrame = new JFrame();
+
+    jFrame.add(pcp);
+    jFrame.setSize(900, 60);
+    jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    jFrame.setVisible(true);
+  }
+
   @Override
   public void update(Observable o, Object arg)
   {
@@ -93,7 +109,6 @@ public class ProgessControlPanel extends JPanel implements Observer
     population.setValString(popuLationFormatter.format(worldPresenter.getWorldPopulationMil()) + " Mill");
     happiness.setValString("% " + happinessP.format(worldPresenter.getHappinessP() * 100));
   }
-
 
   private class NumericalLabel extends JPanel
   {
@@ -126,7 +141,6 @@ public class ProgessControlPanel extends JPanel implements Observer
       numbericalValue.setText(string);
     }
   }
-
 
   private class SingleClickButton extends JLabel
   {
@@ -172,17 +186,5 @@ public class ProgessControlPanel extends JPanel implements Observer
     {
       this.action = action;
     }
-  }
-
-  public static void main(String[] args)
-  {
-    ProgessControlPanel pcp = new ProgessControlPanel(null);
-
-    JFrame jFrame = new JFrame();
-
-    jFrame.add(pcp);
-    jFrame.setSize(900, 60);
-    jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    jFrame.setVisible(true);
   }
 }

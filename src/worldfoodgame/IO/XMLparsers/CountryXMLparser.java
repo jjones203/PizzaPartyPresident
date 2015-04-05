@@ -61,6 +61,10 @@ public class CountryXMLparser extends DefaultHandler
     return nameToCountry.values();
   }
 
+  public static void main(String[] args)
+  {
+    System.out.println(new CountryXMLparser().getCountries().size());
+  }
 
   public Locator getLocator()
   {
@@ -193,8 +197,7 @@ public class CountryXMLparser extends DefaultHandler
       try
       {
         xmlReader.parse(convertToFileURL(file));
-      }
-      catch (SAXException e)
+      } catch (SAXException e)
       {
         String errorMessage = "";
         if (editor == null) editor = new XMLEditor(); // to be lazy
@@ -235,11 +238,5 @@ public class CountryXMLparser extends DefaultHandler
   public Collection<Country> getCountries()
   {
     return RegionsToCountries(getRegionList());
-  }
-
-
-  public static void main(String[] args)
-  {
-    System.out.println(new CountryXMLparser().getCountries().size());
   }
 }
