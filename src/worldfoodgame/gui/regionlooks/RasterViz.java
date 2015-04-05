@@ -34,24 +34,21 @@ public abstract class RasterViz implements RegionView, RasterDataView
   {
     defaultLook.draw(g, gRegion);
 
-    boolean imageOutDated =
-      calculatedYear != World.getWorld().getCurrentYear()
-        || bufferedImage == null;
+    boolean imageOutDated = calculatedYear != World.getWorld().getCurrentYear()
+                         || bufferedImage == null;
 
-
-//    System.out.println("last year image calculated for: " + calculatedYear);
-//    System.out.println("image out of date? " + imageOutDated);
 
     if (imageOutDated)
     {
-      bufferedImage = null; // to reset image weird hack, im sorry.
-      bufferedImage = getRasterImage();
+      bufferedImage = makeImage();
       calculatedYear = World.getWorld().getCurrentYear();
     }
   }
 
   @Override
   public abstract BufferedImage getRasterImage();
+
+  protected abstract BufferedImage makeImage();
 
   protected Point getPoint(MapPoint mp)
   {

@@ -22,7 +22,7 @@ class MinTemp extends RasterViz
     return bufferedImage;
   }
 
-  private BufferedImage makeImage()
+  protected BufferedImage makeImage()
   {
     BufferedImage image = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2d = image.createGraphics();

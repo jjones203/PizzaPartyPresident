@@ -24,7 +24,7 @@ class PrecipitationView extends RasterViz
     return bufferedImage;
   }
 
-  private BufferedImage makeImage()
+  protected BufferedImage makeImage()
   {
     System.out.println("making an image for: " + World.getWorld().getCurrentYear());
     BufferedImage image = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_INT_ARGB);
