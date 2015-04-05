@@ -33,18 +33,9 @@ class PrecipitationView extends RasterViz
     float lowerBound = .130555556f;
     float upperBound = .663888889f;
 
-
     for (LandTile tile : World.getWorld().dataTiles())
     {
-
       double percipRatio = (Math.log(tile.getRainfall()) - 1) / 9;
-
-      if (percipRatio > 1)
-      {
-        System.out.println("from " + tile.getRainfall());
-        System.out.println("rounded to 1 " + percipRatio);
-        percipRatio = 1;
-      }
 
       float scaled = (float) (percipRatio * (upperBound - lowerBound)) + lowerBound;
 
@@ -52,9 +43,10 @@ class PrecipitationView extends RasterViz
       g2d.setColor(color);
 
       Point point = getPoint(tile.getCenter());
-      g2d.fillRect(point.x, point.y, 1, 1);
-    }
 
+      int height = scaleHeight(tile.getCenter().getLat());
+      g2d.fillRect(point.x, point.y, 1, height);
+    }
 
     return image;
   }
