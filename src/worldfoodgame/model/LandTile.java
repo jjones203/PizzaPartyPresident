@@ -1,12 +1,12 @@
 package worldfoodgame.model;
 
 
-import java.nio.ByteBuffer;
-
 import worldfoodgame.common.AbstractScenario;
 import worldfoodgame.common.CropZoneData.EnumCropZone;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.model.Country.OtherCropsData;
+
+import java.nio.ByteBuffer;
 
 /**
  @author david
@@ -385,7 +385,17 @@ public class LandTile
       return false;
     }
   }
-  
+
+  /**
+   * Retuns the crop currently planted on this tile.
+   * @return planted crop
+   */
+  public EnumCropType getCurrentCrop()
+  {
+    return currCrop;
+  }
+
+
   static class NoDataException extends IllegalArgumentException
   {
     public NoDataException(String msg)
@@ -393,5 +403,6 @@ public class LandTile
       super(msg);
     }
   }
+
 
 }
