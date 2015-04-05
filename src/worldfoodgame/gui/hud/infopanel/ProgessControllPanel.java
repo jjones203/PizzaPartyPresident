@@ -81,7 +81,7 @@ public class ProgessControllPanel extends JPanel implements Observer
     currentYear.setValString(Integer.toString(worldPresenter.getYear()));
     yearRemainng.setValString(Integer.toString(worldPresenter.yearRemaining()));
     population.setValString(popuLationFormatter.format(worldPresenter.getWorldPopulationMil()) + " Mill");
-    happiness.setValString("% " + happinessP.format(worldPresenter.getHappinessP()));
+    happiness.setValString("% " + happinessP.format(worldPresenter.getHappinessP() * 100));
   }
 
 
