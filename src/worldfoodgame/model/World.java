@@ -217,7 +217,7 @@ public class World extends AbstractScenario
   {
     updateEcoSystems();
     plantAndHarvestCrops();       // implemented
-    shipAndReceive();
+//    shipAndReceive();
     adjustCountryDemographics();  // implemented
   }
 

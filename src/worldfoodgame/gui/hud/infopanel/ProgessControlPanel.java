@@ -16,7 +16,7 @@ import java.util.Observer;
 /**
  * Created by winston on 3/23/15.
  */
-public class ProgessControllPanel extends JPanel implements Observer
+public class ProgessControlPanel extends JPanel implements Observer
 {
 
   private static DecimalFormat
@@ -31,10 +31,19 @@ public class ProgessControllPanel extends JPanel implements Observer
   private SingleClickButton
     nextYear, run, pause;
 
-  private numbericalLabel
+  private NumericalLabel
     currentYear, yearRemainng, population, happiness;
 
-  public ProgessControllPanel(WorldPresenter worldPresenter) throws HeadlessException
+  private Runnable worldStepper = new Runnable()
+  {
+    @Override
+    public void run()
+    {
+      worldPresenter.stepWorld();
+    }
+  };
+
+  public ProgessControlPanel(final WorldPresenter worldPresenter) throws HeadlessException
   {
     this.worldPresenter = worldPresenter;
     this.setLayout(new GridLayout(1, 6));
@@ -47,28 +56,30 @@ public class ProgessControllPanel extends JPanel implements Observer
     setBorder(new CompoundBorder(ColorsAndFonts.HEADING_UNDERLINE, new EmptyBorder(3,3,3,3)));
 
     nextYear = new SingleClickButton("next");
+    nextYear.setAction(worldStepper);
     controlls.add(nextYear);
 
     run = new SingleClickButton("run");
+
     controlls.add(run);
 
     pause = new SingleClickButton("pause");
     controlls.add(pause);
 
     // todo change this so that i get the world population form the world presenter.
-    currentYear = new numbericalLabel("Current Year",
+    currentYear = new NumericalLabel("Current Year",
       Integer.toString(worldPresenter.getYear()));
     add(currentYear);
 
-    yearRemainng = new numbericalLabel("Years Remaining",
+    yearRemainng = new NumericalLabel("Years Remaining",
       Integer.toString(worldPresenter.yearRemaining()));
     add(yearRemainng);
 
-    population = new numbericalLabel("World Population",
+    population = new NumericalLabel("World Population",
       popuLationFormatter.format(worldPresenter.getWorldPopulationMil()) + " Mill");
     add(population);
 
-    happiness = new numbericalLabel("Happiness",
+    happiness = new NumericalLabel("Happiness",
       "% " + happinessP.format(worldPresenter.getHappinessP() * 100));
     add(happiness);
 
@@ -85,12 +96,12 @@ public class ProgessControllPanel extends JPanel implements Observer
   }
 
 
-  private class numbericalLabel extends JPanel
+  private class NumericalLabel extends JPanel
   {
 
     private JLabel titleLabel, numbericalValue;
 
-    public numbericalLabel(String label, String valAsString)
+    public NumericalLabel(String label, String valAsString)
     {
       //init
       this.titleLabel = new JLabel(label);
@@ -157,11 +168,16 @@ public class ProgessControllPanel extends JPanel implements Observer
         }
       });
     }
+
+    void setAction(Runnable action)
+    {
+      this.action = action;
+    }
   }
 
   public static void main(String[] args)
   {
-    ProgessControllPanel pcp = new ProgessControllPanel(null);
+    ProgessControlPanel pcp = new ProgessControlPanel(null);
 
     JFrame jFrame = new JFrame();
 

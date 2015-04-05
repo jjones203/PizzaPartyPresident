@@ -334,8 +334,6 @@ public class WorldPresenter extends Observable
   {
     return getIntersectingRegions(r, modelRegions).size()
       + getIntersectingRegions(r, backgroundRegions).size();
-
-
   }
 
   public int countIntersectingPoints(Rectangle2D r)
@@ -367,16 +365,13 @@ public class WorldPresenter extends Observable
 
 
   /**
-   * advances the game world forward one month.
+   * advances the game world forward one year.
    */
-  @Deprecated
-  public void setWorldForward(int numOfdays)
+  public void stepWorld()
   {
-    if (world.setByDays(numOfdays))
-    {
-      setChanged();
-      notifyObservers();
-    }
+    world.stepWorld();
+    setChanged();
+    notifyObservers();
   }
 
   public Date getWorldDate()
