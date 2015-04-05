@@ -136,7 +136,7 @@ public class LabelFactory
       "Prod.",
       dataHandler.getProduction(type),
       dataHandler.getProduction(type), //todo choose the right graphical limit
-      "# metric Tons"
+      "#,###,### tons"
     );
 
     updates.add(new Runnable()
