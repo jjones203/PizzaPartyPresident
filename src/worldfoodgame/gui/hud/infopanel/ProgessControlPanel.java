@@ -39,7 +39,26 @@ public class ProgessControlPanel extends JPanel implements Observer
     @Override
     public void run()
     {
+      ProgessControlPanel.this.getRootPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+      JPanel glassPanel = new JPanel();
+      glassPanel.setBackground(Color.red);
+      glassPanel.add(new JLabel("hi mom!"));
+      glassPanel.setVisible(true);
+
+      ProgessControlPanel.this.getRootPane().setGlassPane(glassPanel);
+      ProgessControlPanel.this.getRootPane().setVisible(true);
+
+      ProgessControlPanel.this.getRootPane().repaint();
+
+      /*
+      * getRootPane().setGlassPane(s);
+        getRootPane().getGlassPane().setVisible(true);*/
+
       worldPresenter.stepWorld();
+
+      ProgessControlPanel.this.getRootPane().setCursor(null);
+      glassPanel.setVisible(false);
     }
   };
 
