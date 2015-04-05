@@ -405,7 +405,7 @@ public class WorldPresenter extends Observable
    */
   public double getPoppulation()
   {
-    return world.getWorldPopulation();
+    return world.getWorldPopulationMil();
   }
 
 
