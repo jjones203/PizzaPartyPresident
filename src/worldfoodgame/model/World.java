@@ -151,7 +151,7 @@ public class World
   /**
    * @return world population at current world time, in millions as a double.
    */
-  public double getWorldPopulation()
+  public double getWorldPopulationMil()
   {
     double totalPop = 0;
     int year = getCurrentYear();
@@ -175,7 +175,7 @@ public class World
     {
       unhappyPeople += country.getUnhappyPeople(year);
     }
-    double percentUnhappy = unhappyPeople/(getWorldPopulation() * 1000000);
+    double percentUnhappy = unhappyPeople/(getWorldPopulationMil() * 1000000);
     double percentHappy = 1 - percentUnhappy;
     return percentHappy;
   }

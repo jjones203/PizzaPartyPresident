@@ -133,7 +133,7 @@ public class LabelFactory
   public GraphLabel getProductionLabel(final EnumCropType type)
   {
     final GraphLabel productionLabel = new GraphLabel(
-      "Production",
+      "Prod.",
       dataHandler.getProduction(type),
       dataHandler.getProduction(type), //todo choose the right graphical limit
       "# metric Tons"

@@ -403,9 +403,9 @@ public class WorldPresenter extends Observable
    * Returns the population, in millions as a double.
    * @return
    */
-  public double getPoppulation()
+  public double getWorldPopulationMil()
   {
-    return world.getWorldPopulation();
+    return world.getWorldPopulationMil();
   }
 
 

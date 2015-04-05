@@ -37,8 +37,8 @@ class MinTemp extends RasterViz
 
     for (LandTile tile : World.getWorld().dataTiles())
     {
-      double maxTmpRatio = (tile.getMinAnnualTemp() + 40) / 50 ;
-      float scaled = (float) (maxTmpRatio * (upperBound - lowerBound)) + lowerBound;
+      double minTempRatio = (tile.getMinAnnualTemp() + 40) / 50 ;
+      float scaled = (float) (minTempRatio * (upperBound - lowerBound)) + lowerBound;
 
       Color color = Color.getHSBColor(Math.abs(scaled), S, L);
       g2d.setColor(color);

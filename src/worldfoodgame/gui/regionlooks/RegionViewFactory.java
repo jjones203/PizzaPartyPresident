@@ -14,7 +14,6 @@ public class RegionViewFactory
   private final static RegionView DEFAULT_LOOK = new DefaultLook();
   private final static RegionView PLANTING_VIEW = new PlantingZoneView();
   private final static RegionView HAPPINESS_VIEW = new RegionHappyView();
-  private final static RegionView RAIN_VIEW = new RainView();
   private Overlay currentOverlay;
 
   /**
