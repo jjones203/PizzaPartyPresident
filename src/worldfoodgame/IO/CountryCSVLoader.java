@@ -84,7 +84,11 @@ public class CountryCSVLoader
           break;
         }
       }
-      if (countryFound == false) System.err.print("CSV data not found for country "+xmlCountryName+"\n");
+      if (countryFound == false)
+      {
+        //todo add method (String nameOf Country) -> offending xml file, -> load in XML editor.
+        System.err.print("CSV data not found for country "+xmlCountryName+"\n");
+      }
     }
     
     // if not all csv data copied, print message

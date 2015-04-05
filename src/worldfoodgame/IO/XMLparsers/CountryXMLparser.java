@@ -2,6 +2,7 @@ package worldfoodgame.IO.XMLparsers;
 
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
+import worldfoodgame.IO.RegionValidator;
 import worldfoodgame.gui.XMLEditor;
 import worldfoodgame.model.AtomicRegion;
 import worldfoodgame.model.Country;
@@ -32,6 +33,7 @@ public class CountryXMLparser extends DefaultHandler
   private String countryName;
   private AtomicRegion tmpRegion;
   private List<MapPoint> tmpPerimeterSet;
+  private RegionValidator regionValidator = new RegionValidator();
   private boolean name;
 
   /**
@@ -145,6 +147,9 @@ public class CountryXMLparser extends DefaultHandler
     {
       // save and reset....
       tmpRegion.setPerimeter(new ArrayList<>(tmpPerimeterSet));
+
+//       todo add support for region validation.
+      regionValidator.validate(tmpRegion);
       regionList.add(tmpRegion);
       tmpPerimeterSet.clear();
     }
