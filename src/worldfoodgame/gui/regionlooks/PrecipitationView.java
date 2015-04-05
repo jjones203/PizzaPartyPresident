@@ -23,6 +23,7 @@ class PrecipitationView extends RasterViz
 
   private BufferedImage makeImage()
   {
+    System.out.println("starting to make image");
     BufferedImage image = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2d = image.createGraphics();
     g2d.translate(IMG_WIDTH / 2, IMG_HEIGHT / 2);

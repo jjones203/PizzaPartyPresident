@@ -365,7 +365,7 @@ public class WorldPresenter extends Observable
 
 
   /**
-   * advances the game world forward one year.
+   * Advances the game world forward one year.
    */
   public void stepWorld()
   {

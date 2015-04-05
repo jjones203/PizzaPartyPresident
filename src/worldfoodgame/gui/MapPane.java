@@ -146,34 +146,11 @@ public class MapPane extends JPanel
     Collection<GUIRegion> regionsToDraw = presenter.getRegionsInView(cam);
     for (GUIRegion region : regionsToDraw) region.draw(g2);
 
-
-
-    // INSERT graph raster data here.
-
-//    g2.setColor(Color.GREEN);
-//    g2.fillOval(0, 0, 10_000, 10_000);
-
     RegionView regionView = presenter.getCurrentOverlay().getRegionView();
     if (regionView instanceof RasterDataView)
     {
       BufferedImage image = ((RasterDataView) regionView).getRasterImage();
-
-//      AffineTransform affineTransform = g2.getTransform();
-//      g2.setTransform(new AffineTransform());
-
       g2.drawImage(image, (int) -converter.getWidth()/2, (int) -converter.getHeight()/2, null);
-
-//      g2.setTransform(affineTransform);
-
-//      try
-//      {
-//        g2.getTransform().invert();
-//      }
-//      catch (NoninvertibleTransformException e)
-//      {
-//        e.printStackTrace();
-//      }
-
     }
 
 
