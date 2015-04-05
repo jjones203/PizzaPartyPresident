@@ -387,11 +387,6 @@ public class Country extends AbstractCountry
     }
   }
 
-  public double getCropLand(int year, EnumCropType crop)
-  {
-    return landCrop[crop.ordinal()][year - START_YEAR];
-  }
-
   /**
    * Returns area available for planting: arable land - sum(area used for each crop)
    *
@@ -407,6 +402,12 @@ public class Country extends AbstractCountry
     }
     double unused = getArableLand(year) - used;
     return unused;
+  }
+
+
+  public double getCropLand(int year, EnumCropType crop)
+  {
+    return landCrop[crop.ordinal()][year - START_YEAR];
   }
 
 
