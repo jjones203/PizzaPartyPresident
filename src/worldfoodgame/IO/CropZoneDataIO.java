@@ -40,7 +40,7 @@ public class CropZoneDataIO
     {
       Country lastCountry = null;
 
-      System.out.println("starting tiledata loading");
+      //System.out.println("starting tiledata loading");
       byte bytes[] = new byte[LandTile.BYTE_DEF.SIZE_IN_BYTES];
       ByteBuffer buf = ByteBuffer.allocate(LandTile.BYTE_DEF.SIZE_IN_BYTES);
       LandTile tile;
@@ -72,7 +72,7 @@ public class CropZoneDataIO
         }
 
       }
-      System.out.printf("read %d tiles in %dms%n", tiles, System.currentTimeMillis() - start);
+      //System.out.printf("read %d tiles in %dms%n", tiles, System.currentTimeMillis() - start);
     }
     catch (FileNotFoundException e)
     {

@@ -27,6 +27,9 @@ public class CropView implements RegionView
   public void draw(Graphics g, GUIRegion gRegion)
   {
     Color color;
+    float lowerBound = .130555556f;
+    float upperBound = .663888889f;
+    
     if (gRegion.isActive())
     {
       color = ColorsAndFonts.ACTIVE_REGION;
@@ -38,6 +41,7 @@ public class CropView implements RegionView
       double arableLand = gRegion.getRegion().getCountry().getArableLand(yearOfInterest);
 
       double ratio = cropLand/arableLand;
+      float scaled = (float) (ratio * (upperBound - lowerBound)) + lowerBound;
       color = new Color(hueVal, (float)ratio, (float)ratio);
     }
 
