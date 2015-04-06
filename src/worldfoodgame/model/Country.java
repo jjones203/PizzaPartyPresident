@@ -22,6 +22,7 @@ import java.util.List;
  */
 public class Country extends AbstractCountry
 {
+  private static final boolean VERBOSE = false;
   private static MapConverter converter = new EquirectangularConverter();
   public OtherCropsData otherCropsData;
   private int START_YEAR = AbstractScenario.START_YEAR;
@@ -140,7 +141,10 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setPopulation method");
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setPopulation method");
+      }
     }
   }
 
@@ -176,7 +180,10 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setMedianAge method");
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setMedianAge method");
+      }
     }
   }
 
@@ -198,7 +205,10 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setBirthRate method");
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setBirthRate method");
+      }
     }
   }
 
@@ -215,7 +225,10 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setMortalityRate method");
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setMortalityRate method");
+      }
     }
   }
 
@@ -255,12 +268,16 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setMigrationRate method");
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setMigrationRate method");
+      }
     }
   }
 
   /**
    * returns
+   *
    * @param year
    * @return
    */
@@ -283,13 +300,17 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setUndernourished method");
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setUndernourished method");
+      }
     }
-    
+
   }
 
   /**
    * Update % undernourished using formula in spec.
+   *
    * @param year
    */
   public void updateUndernourished(int year)
@@ -298,11 +319,11 @@ public class Country extends AbstractCountry
     double population = getPopulation(year);
     double[] netCropsAvail = new double[EnumCropType.SIZE];
     int numCropsAvail = 0;
-    for (EnumCropType crop:EnumCropType.values())
+    for (EnumCropType crop : EnumCropType.values())
     {
       double netAvail = getNetCropAvailable(year, crop);
       netCropsAvail[crop.ordinal()] = netAvail;
-      if (netAvail >= 0) numCropsAvail++; 
+      if (netAvail >= 0) numCropsAvail++;
     }
     if (numCropsAvail == 5)
     {
@@ -311,19 +332,19 @@ public class Country extends AbstractCountry
     else
     {
       double maxResult = 0;
-      for (EnumCropType crop:EnumCropType.values())
+      for (EnumCropType crop : EnumCropType.values())
       {
         double need = getCropNeedPerCapita(crop);
-        double result = (netCropsAvail[crop.ordinal()])/(0.5*need*population);
+        double result = (netCropsAvail[crop.ordinal()]) / (0.5 * need * population);
         if (result > maxResult) maxResult = result;
       }
-      numUndernourished = Math.min(population,maxResult);
+      numUndernourished = Math.min(population, maxResult);
     }
-    setUndernourished(year, numUndernourished/population);
-    
+    setUndernourished(year, numUndernourished / population);
+
     //System.out.println("in "+getName()+" "+undernourished/population+"% undernourished");
   }
-  
+
   public double getCropProduction(int year, EnumCropType crop)
   {
     return cropProduction[crop.ordinal()][year - START_YEAR];
@@ -354,7 +375,10 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setCropExport method");
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setCropExport method");
+      }
     }
   }
 
@@ -371,7 +395,10 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setCropImport method");
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setCropImport method");
+      }
     }
   }
 
@@ -388,7 +415,10 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setLandTotal method");
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setLandTotal method");
+      }
     }
   }
 
@@ -405,7 +435,10 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setArableLand method for country " + getName());
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setArableLand method for country " + getName());
+      }
     }
   }
 
@@ -449,7 +482,10 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setCropLand method for country "+getName()+" crop "+crop);
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setCropLand method for country " + getName() + " crop " + crop);
+      }
     }
   }
 
@@ -466,7 +502,7 @@ public class Country extends AbstractCountry
     double currCropLand = getCropLand(year, crop);
     double delta = kilomsq - currCropLand;
     double valueToSet;
-    
+
     // if trying to decrease beyond 0, set to 0
     if ((currCropLand + delta) < 0)
     {
@@ -500,7 +536,10 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setMethodPercentage method");
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setMethodPercentage method");
+      }
     }
   }
 
@@ -514,10 +553,6 @@ public class Country extends AbstractCountry
   public void setCropYield(int year, EnumCropType crop, double tonPerSqKilom)
   {
     cropYield[crop.ordinal()] = tonPerSqKilom;
-    /*if (getName().equals("United States of America"))
-    {
-      System.out.println("US yield for "+crop+" is "+tonPerSqKilom);
-    }*/
   }
 
   public double getCropNeedPerCapita(EnumCropType crop)
@@ -573,7 +608,7 @@ public class Country extends AbstractCountry
       double changeDeaths = numDeaths - (getPopulation(year - 1) * getMortalityRate(year - 1));
       formulaResult = 5 * numUndernourish + 2 * changeUndernourish + 10 * numDeaths + 5 * changeDeaths;
     }
-    
+
     if (formulaResult < 0) formulaResult = 0;
     return Math.min(currentPop, formulaResult);
   }
@@ -647,7 +682,7 @@ public class Country extends AbstractCountry
     return available;
   }
 
-    /**
+  /**
    * Iterate through country's collection of land tiles. Based on their climate data,
    * create OtherCropsData object.
    */
@@ -695,8 +730,8 @@ public class Country extends AbstractCountry
   {
     return otherCropsData;
   }
-  
-  
+
+
   /**
    * Class for storing each country's other crops climate requirements.
    *
