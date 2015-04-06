@@ -112,11 +112,7 @@ public class GroupCountryHandler extends CountryDataHandler
     {
       arableLand += country.getArableLand(World.getWorld().getCurrentYear());
     }
-    //todo for debugging.
-    double val = activeConverter.convert2Display(arableLand);
-    System.out.println("arable land: " + val);
-
-    return val;
+    return activeConverter.convert2Display(arableLand);
   }
 
   @Override
@@ -161,10 +157,6 @@ public class GroupCountryHandler extends CountryDataHandler
       cropLand += country.getCropLand(World.getWorld().getCurrentYear(), type);
     }
 
-    //todo for debugging.
-    double val = activeConverter.convert2Display(cropLand);
-    System.out.println("value for " + type.toString() + " is: " + val);
-
     return activeConverter.convert2Display(cropLand);
   }
 
@@ -174,9 +166,34 @@ public class GroupCountryHandler extends CountryDataHandler
     int year = World.getWorld().getCurrentYear();
     for (Country country : countries)
     {
-      double val = activeConverter.convert2ModelSpace(kilom);
-      country.updateCropLand(year, type, val);
+      CountryDataHandler handler = extractData(country, year);
+      double oldV = getLandTotal();
+
+      double dx = kilom - oldV;
+      handler.setLand(type, (dx * handler.getArable() / oldV) + oldV);
     }
+
+
+//    int year = World.getWorld().getCurrentYear();
+//    for (Country country : countries)
+//    {
+//      double val = activeConverter.convert2ModelSpace(kilom);
+//      country.updateCropLand(year, type, val);
+//
+//      CountryDataHandler countryHandeler = extractData(country, year);
+//      double cropLand = countryHandeler.getCropLand(type);
+//
+//
+//
+//
+//
+//    }
+//
+//    double ratio = getCropLand(type) / getArable();
+//
+//
+
+
   }
 
   @Override

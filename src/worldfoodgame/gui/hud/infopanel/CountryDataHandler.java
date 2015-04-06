@@ -128,7 +128,7 @@ public abstract class CountryDataHandler
     }
   }
 
-  private static CountryDataHandler extractData(Country country, int year)
+  protected static CountryDataHandler extractData(Country country, int year)
   {
 
     return new SingleCountryHandeler(country, year);
