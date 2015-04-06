@@ -70,7 +70,7 @@ public abstract class CountryDataHandler
       @Override
       public double getArable()
       {
-        return 0;
+        return Double.MIN_VALUE; // hack to smooth out default gui display
       }
 
       @Override

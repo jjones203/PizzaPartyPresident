@@ -33,7 +33,8 @@ public class Country extends AbstractCountry
 
   /**
    * Country constructor
-   * @param name    country name
+   *
+   * @param name country name
    */
   public Country(String name)
   {
@@ -42,7 +43,7 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @return    country's collection of 100km2 tiles
+   * @return country's collection of 100km2 tiles
    */
   public Collection<LandTile> getLandTiles()
   {
@@ -50,7 +51,7 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param tile    LandTile to add to country
+   * @param tile LandTile to add to country
    */
   public void addLandTile(LandTile tile)
   {
@@ -123,7 +124,7 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param region    region (i.e., area contained in vertices) to add to country
+   * @param region region (i.e., area contained in vertices) to add to country
    */
   public void addRegion(Region region)
   {
@@ -132,7 +133,7 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @return  regions
+   * @return regions
    */
   public List<Region> getRegions()
   {
@@ -140,7 +141,7 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @return  country name
+   * @return country name
    */
   public String getName()
   {
@@ -148,8 +149,8 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param year    year in question
-   * @return        population in that year
+   * @param year year in question
+   * @return population in that year
    */
   public int getPopulation(int year)
   {
@@ -157,8 +158,8 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param year    year in question
-   * @param n       population in that year
+   * @param year year in question
+   * @param n    population in that year
    */
   public void setPopulation(int year, int n)
   {
@@ -177,6 +178,7 @@ public class Country extends AbstractCountry
 
   /**
    * Updates population for given year based on formula in spec
+   *
    * @param year year for which to calculate population
    */
   public void updatePopulation(int year)
@@ -189,8 +191,8 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param year    year in question
-   * @return        median age
+   * @param year year in question
+   * @return median age
    */
   public double getMedianAge(int year)
   {
@@ -199,6 +201,7 @@ public class Country extends AbstractCountry
 
   /**
    * Populate medianAge array with given age; assumes median age remains constant.
+   *
    * @param years median age
    */
   public void setMedianAge(double years)
@@ -217,8 +220,8 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param year    year in question
-   * @return        birth rate
+   * @param year year in question
+   * @return birth rate
    */
   public double getBirthRate(int year)
   {
@@ -274,7 +277,7 @@ public class Country extends AbstractCountry
   {
     double mortalityNow;
     double hungryStart = undernourished[0] * population[0];
-    double mortalityStart = mortalityRate[0]; 
+    double mortalityStart = mortalityRate[0];
     int popNow = population[year - START_YEAR - 1];
     double hungryNow = popNow * undernourished[year - START_YEAR - 1];
     if (hungryNow <= hungryStart)
@@ -286,7 +289,7 @@ public class Country extends AbstractCountry
       double hungryChange = hungryNow - hungryStart;
       mortalityNow = (mortalityStart + 0.2 * hungryChange) / (popNow / 1000);
     }
-    setMortalityRate(year,mortalityNow);
+    setMortalityRate(year, mortalityNow);
   }
 
   public double getMigrationRate(int year)
@@ -317,7 +320,7 @@ public class Country extends AbstractCountry
 
   /**
    * @param year
-   * @return  % undernourished
+   * @return % undernourished
    */
   public double getUndernourished(int year)
   {
@@ -348,6 +351,7 @@ public class Country extends AbstractCountry
 
   /**
    * Update % undernourished using formula in spec.
+   *
    * @param year
    */
   public void updateUndernourished(int year)
@@ -377,13 +381,13 @@ public class Country extends AbstractCountry
       }
       numUndernourished = Math.min(population, maxResult);
     }
-    setUndernourished(year, numUndernourished/population);
+    setUndernourished(year, numUndernourished / population);
   }
-  
+
   /**
-   * @param year    year in question
-   * @param crop    crop in question
-   * @return        tons produced
+   * @param year year in question
+   * @param crop crop in question
+   * @return tons produced
    */
   public double getCropProduction(int year, EnumCropType crop)
   {
@@ -403,14 +407,17 @@ public class Country extends AbstractCountry
     }
     else
     {
-      System.err.println("Invalid argument for Country.setCropProduction method");
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Country.setCropProduction method");
+      }
     }
   }
 
   /**
-   * @param year    year in question
-   * @param crop    crop in question
-   * @return        tons exported
+   * @param year year in question
+   * @param crop crop in question
+   * @return tons exported
    */
   public double getCropExport(int year, EnumCropType crop)
   {
@@ -438,9 +445,9 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param year    year in question
-   * @param crop    crop in question
-   * @return        tons imported
+   * @param year year in question
+   * @param crop crop in question
+   * @return tons imported
    */
   public double getCropImport(int year, EnumCropType crop)
   {
@@ -473,8 +480,8 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param year    
-   * @param kilomsq   total land area
+   * @param year
+   * @param kilomsq total land area
    */
   public void setLandTotal(int year, double kilomsq)
   {
@@ -493,7 +500,7 @@ public class Country extends AbstractCountry
 
   /**
    * @param year
-   * @return  area of arable land
+   * @return area of arable land
    */
   public double getArableLand(int year)
   {
@@ -537,9 +544,9 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param year  year in question
-   * @param crop  crop in question
-   * @return      square km planted with crop
+   * @param year year in question
+   * @param crop crop in question
+   * @return square km planted with crop
    */
   public double getCropLand(int year, EnumCropType crop)
   {
@@ -605,9 +612,9 @@ public class Country extends AbstractCountry
 
 
   /**
-   * @param year    year in question
-   * @param method  cultivation method
-   * @return        % land cultivated by method
+   * @param year   year in question
+   * @param method cultivation method
+   * @return % land cultivated by method
    */
   public double getMethodPercentage(int year, EnumGrowMethod method)
   {
@@ -615,9 +622,9 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param year        year in question
-   * @param method      cultivation method
-   * @param percentage  % land cultivated by method
+   * @param year       year in question
+   * @param method     cultivation method
+   * @param percentage % land cultivated by method
    */
   public void setMethodPercentage(int year, EnumGrowMethod method, double percentage)
   {
@@ -635,7 +642,7 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param year (passing year might be useful in the next milestone?)    
+   * @param year (passing year might be useful in the next milestone?)
    * @param crop
    * @return yield for crop
    */
@@ -645,9 +652,9 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param year  (passing year might be useful in the next milestone?)
-   * @param crop          
-   * @param tonPerSqKilom   yield for crop
+   * @param year          (passing year might be useful in the next milestone?)
+   * @param crop
+   * @param tonPerSqKilom yield for crop
    */
   public void setCropYield(int year, EnumCropType crop, double tonPerSqKilom)
   {
@@ -656,7 +663,7 @@ public class Country extends AbstractCountry
 
   /**
    * @param crop
-   * @return  tons of crop needed per person
+   * @return tons of crop needed per person
    */
   public double getCropNeedPerCapita(EnumCropType crop)
   {
@@ -665,6 +672,7 @@ public class Country extends AbstractCountry
 
   /**
    * Method for calculating & setting crop need
+   *
    * @param crop                  EnumCropType
    * @param tonsConsumed          2014 production + imports - exports
    * @param percentUndernourished 2014 % of population undernourished
@@ -678,6 +686,7 @@ public class Country extends AbstractCountry
 
   /**
    * Method for setting crop need when already known (e.g., when copying).
+   *
    * @param crop         EnumCropType
    * @param tonPerPerson 2014 ton/person
    */
@@ -689,6 +698,7 @@ public class Country extends AbstractCountry
   /**
    * Calculates number of unhappy people in country for a given year based on formula in specifications.
    * For START_YEAR, returns undernourished population to avoid null pointer.
+   *
    * @param year
    * @return number of unhappy people for that year
    */
@@ -703,12 +713,12 @@ public class Country extends AbstractCountry
     else
     {
       double numUndernourish = getUndernourished(year) * currentPop;
-      double numDeaths = getMortalityRate(year)/1000 * currentPop;    // mortality is per 1000, so divide to get %
+      double numDeaths = getMortalityRate(year) / 1000 * currentPop;    // mortality is per 1000, so divide to get %
       double changeUndernourish = numUndernourish - (getPopulation(year - 1) * getUndernourished(year - 1));
-      double changeDeaths = numDeaths - (getPopulation(year - 1) * getMortalityRate(year - 1)/1000);
+      double changeDeaths = numDeaths - (getPopulation(year - 1) * getMortalityRate(year - 1) / 1000);
       formulaResult = 5 * numUndernourish + 2 * changeUndernourish + 10 * numDeaths + 5 * changeDeaths;
     }
-    
+
     if (formulaResult < 0) formulaResult = 0;
     return Math.min(currentPop, formulaResult);
   }
@@ -716,6 +726,7 @@ public class Country extends AbstractCountry
   /**
    * Calculate great circle distance from country's capitolLocation to another MapPoint.
    * Formula from http://www.gcmap.com/faq/gccalc
+   *
    * @param otherCapitol
    * @return great circle distance in km
    */
@@ -738,6 +749,7 @@ public class Country extends AbstractCountry
    * Returns difference between country's production and need for a crop for the specified year.
    * If a positive value is returned, country has a surplus available for export.
    * If a negative value is returned, country has unmet need to be satisfied by imports.
+   *
    * @param year year in question
    * @param type type of crop
    * @return surplus/shortfall of crop
@@ -749,6 +761,7 @@ public class Country extends AbstractCountry
 
   /**
    * Returns how many tons of crop country needs for specified year
+   *
    * @param year year in question
    * @param crop crop in question
    * @return total tons needed to meet population's need
@@ -759,7 +772,7 @@ public class Country extends AbstractCountry
     int population = getPopulation(year);
     return tonsPerPerson * population;
   }
- 
+
   /**
    * Calculates net crop available using formula from p. 15 of spec 1.7
    *
@@ -773,7 +786,7 @@ public class Country extends AbstractCountry
     return available;
   }
 
-    /**
+  /**
    * Iterate through country's collection of land tiles. Based on their climate data,
    * create OtherCropsData object.
    */
@@ -807,16 +820,17 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @return  OtherCropsData object for country
+   * @return OtherCropsData object for country
    */
   OtherCropsData getOtherCropsData()
   {
     return otherCropsData;
   }
-  
-  
+
+
   /**
    * Class for storing each country's other crops climate requirements.
+   *
    * @author jessica
    * @version 29-March-2015
    */
