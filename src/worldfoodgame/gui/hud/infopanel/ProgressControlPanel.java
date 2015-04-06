@@ -94,9 +94,9 @@ public class ProgressControlPanel extends JPanel implements Observer
     this.worldPresenter = worldPresenter;
     this.setLayout(new GridLayout(1, 6));
     worldPresenter.addObserver(this);
-    JPanel controlls = new JPanel();
-    controlls.setLayout(new GridLayout(1, 3));
-    controlls.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    JPanel controls = new JPanel();
+    controls.setLayout(new GridLayout(1, 3));
+    controls.setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
     setBorder(new CompoundBorder(ColorsAndFonts.HEADING_UNDERLINE, new EmptyBorder(3,3,3,3)));
@@ -105,15 +105,15 @@ public class ProgressControlPanel extends JPanel implements Observer
     // Controls
     nextYear = new SingleClickButton("next");
     nextYear.setAction(nextAction);
-    controlls.add(nextYear);
+    controls.add(nextYear);
 
     run = new SingleClickButton("run");
     run.setAction(runGameAction);
-    controlls.add(run);
+    controls.add(run);
 
     pause = new SingleClickButton("pause");
     pause.setAction(pauseGameAction);
-    controlls.add(pause);
+    controls.add(pause);
 
 
     // Labels
@@ -129,7 +129,7 @@ public class ProgressControlPanel extends JPanel implements Observer
     happiness = new NumericalLabel("Happiness", null);
     add(happiness);
 
-    this.add(controlls, BorderLayout.WEST);
+    this.add(controls, BorderLayout.WEST);
     this.update(null, null);
   }
 
