@@ -48,6 +48,10 @@ public class LandTile
     center = new MapPoint(lon, lat);
   }
 
+  /**
+   * Constructor using custom binary file
+   * @param buf   custom binary file
+   */
   public LandTile(ByteBuffer buf)
   {
     int len = buf.array().length;
@@ -97,11 +101,17 @@ public class LandTile
   }
 
   
+  /**
+   * @param elev  tile's elevation
+   */
   public void setElev(float elev)
   {
     elevation = elev;
   }
 
+  /**
+   * @return  tool tip text when cursor over tile
+   */
   public String toolTipText()
   {
     return String.format("<html>(lon:%.2f, lat:%.2f)<br>" +
@@ -151,6 +161,10 @@ public class LandTile
     return center;
   }
 
+  /**
+   * Mutates tile's values when year changes
+   * @param yearsRemaining  years remaining in game
+   */
   public void stepTile(int yearsRemaining)
   {
     maxAnnualTemp = interpolate(maxAnnualTemp, proj_maxAnnualTemp, yearsRemaining,1);
