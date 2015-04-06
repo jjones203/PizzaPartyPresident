@@ -7,6 +7,8 @@ import java.util.List;
  * Phase_01
  * CS 351 spring 2015
  *
+ *
+ * this Interface was useless.
  */
 public interface Region
 {

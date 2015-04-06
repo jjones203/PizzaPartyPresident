@@ -15,6 +15,11 @@ public abstract class CountryDataHandler
 {
   public static DISPLAY_UNITE activeConverter = DISPLAY_UNITE.METRIC;
 
+  /**
+   * this is used when there in nothing selected in the info panel,
+   * representing a kind of null data.
+   * @return zero data set.
+   */
   public static CountryDataHandler getNullData()
   {
     return new CountryDataHandler()
@@ -70,7 +75,7 @@ public abstract class CountryDataHandler
       @Override
       public double getArable()
       {
-        return Double.MIN_VALUE; // hack to smooth out default gui display
+        return 0;
       }
 
       @Override
