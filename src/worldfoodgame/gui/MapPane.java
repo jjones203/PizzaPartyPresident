@@ -91,6 +91,8 @@ public class MapPane extends JPanel
     setMinimumSize(getPreferredSize());
     setDoubleBuffered(true);
     setToolTipText("");
+    UIManager.put("ToolTip.background", ColorsAndFonts.GUI_BACKGROUND);
+    UIManager.put("ToolTip.foreground", ColorsAndFonts.GUI_TEXT_COLOR);
   }
 
 
