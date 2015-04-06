@@ -1,4 +1,4 @@
-# CS 351 DLP_phase01
+# CS 351 World Food Game - second phase
 by 
 Jessica Jones, Winston Riley, and David Ringo
 
@@ -32,7 +32,7 @@ The game time mechanism can be controlled via buttons on the control panel
 
 ### Info Panel
 
-use the tabs of the info panel to display information about the currently selected countries 
+use the tabs of the info panel to display information about and control the currently selected countries 
 
 * "demographic" shows country demographic data
 * "land" shows a summary of land usage and provides buttons for modification
@@ -46,10 +46,12 @@ text editor for XML editing was build using [RSyntaxTextArea](https://github.com
 csv parsing is done with the help of the [Apache Commons CSV](https://commons.apache.org/proper/commons-csv/) library. 
 country border data from [Natural Earth](http://www.naturalearthdata.com). 
 current and future raw climate data was found at [WorldClim](http://worldclim.org/). 
-initial values for country data underlying our models were found from multiple resources: 
 
-* population, birth rate, mortality, migration
+#####initial values for country data underlying our models were found from multiple resources: 
+
+* population, birth rate, mortality, migration 
     * [Population Reference Bureau](http://www.prb.org/DataFinder/)
+
 * median age
     * [UN data](http://data.un.org/) and [CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/)
 * undernourishment, land dedication, production, imports, and exports
@@ -58,5 +60,15 @@ initial values for country data underlying our models were found from multiple r
     * [ISAAA Brief 49-2014](http://www.isaaa.org/resources/publications/briefs/49/executivesummary/default.asp)
 
 
+##### crop preferred ranges were pulled from the following resources:
 
-
+* [Fundamentals of Rice Crop Science](http://www.amazon.com/Fundamentals-Rice-Science-Shouichi-Yoshida/dp/B000NZ7ZS2) by Shouichi Yoshida
+* Progress in Upland Rice Research: Proceedings of the 1985 Jakarta Conference. "An Overview of Upland Rice in the World" by Tran Van Dat.
+* ["Wheat growth and physiology"](http://www.fao.org/docrep/006/y4011e/y4011e06.htm) by E. Acevedo, P. Silva, H. Silva.
+* ["Crop Water Information: Wheat"](http://www.fao.org/nr/water/cropinfo_wheat.html) FAO Land & Water Division
+* ["Water requirements of major crops for different agro-climatic zones of Balochistan"](http://cmsdata.iucn.org/downloads/pk_water_req.pdf) by Muhammad Ashraf and Abdul Majeed
+* ["Growing Season Characteristics and Requirements in the Corn Belt"](https://www.extension.purdue.edu/extmedia/nch/nch-40.html) by Ralph E. Neild and James E. Newman.
+* ["Soybean Yield Formation: What Controls It and How It Can Be Improved"](https://www.lsuagcenter.com/NR/rdonlyres/84746337-8BFE-4903-BEB8-420D0D2B7271/82639/InTechSoybean_yield_formation_what_controls_it_and.pdf)
+by James E. Board and Charanjit S. Kahlon.
+* ["Crop Water Information: Soybean"](http://www.fao.org/nr/water/cropinfo_soybean.html) FAO Land & Water Division 
+ 
