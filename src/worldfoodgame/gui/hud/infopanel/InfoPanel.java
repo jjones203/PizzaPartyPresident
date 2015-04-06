@@ -73,17 +73,19 @@ public class InfoPanel extends JPanel implements Observer
   @Override
   public void update(Observable o, Object arg)
   {
-    // this would change to convets an active list of countries
-    // taken from the wordpresenter into a country data object
-    // todo find a way to issure read and write commands from the GUI....
-
     java.util.List<Country> countryList = worldPresenter.getActiveCountries();
 
-    if (countryList.size() == 0) return;
-
-    dataHandler = CountryDataHandler.getData(countryList, worldPresenter.getYear());
-
-    viewBox.setTitle(dataHandler.getName());
+    if (countryList.size() == 0)
+    {
+      dataHandler = CountryDataHandler.getNullData();
+      viewBox.setTitle(" ");
+    }
+    else
+    {
+      dataHandler = CountryDataHandler.getData(countryList, worldPresenter.getYear());
+      viewBox.setTitle(dataHandler.getName());
+    }
+    
     viewBox.setDrawableRegions(worldPresenter.getActiveRegions());
 
     labelFactory = new LabelFactory(dataHandler);
