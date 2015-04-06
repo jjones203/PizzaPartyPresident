@@ -54,6 +54,7 @@ public class RegionViewFactory
     MORTALITY(new MortalityRate()),
     DAY_TEMP_AVE(new DayTempAve()),
     NIGHT_AVE_TMP(new NightTempAve()),
+    MALNUTRITION(new Malnutrition()),
     ;
 
 
