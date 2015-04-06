@@ -10,6 +10,10 @@ import java.awt.geom.AffineTransform;
 
 /**
  * Created by winston on 3/29/15.
+ * 
+ * description:
+ * CapitolView is a RegionView displaying "capitol" locations for the countries
+ * of the world, as calculated in the Country class.
  */
 class CapitolView implements RegionView
 {
@@ -25,14 +29,14 @@ class CapitolView implements RegionView
     {
       Graphics2D g2d = (Graphics2D) g;
     
-    /* save and temporarily reset the graphics transform */
+      /* save and temporarily reset the graphics transform */
       AffineTransform at = g2d.getTransform();
       g2d.setTransform(new AffineTransform());
-
-
+      
       MapPoint capitol = gRegion.getRegion().getCountry().getCapitolLocation();
       Point convertedPoint = converter.mapPointToPoint(capitol);
 
+      /* find the location on the map of the capital */
       Point dst = new Point();
       at.transform(convertedPoint, dst);
 
@@ -44,8 +48,8 @@ class CapitolView implements RegionView
       {
         g2d.setColor(Color.RED);
       }
-
-
+      
+      /* indicate the capital location with an ellipse independent of the transform */
       g2d.fillOval(dst.x, dst.y, 5, 5);
 
       g2d.setTransform(at);
