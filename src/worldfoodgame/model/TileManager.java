@@ -10,6 +10,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ @author: david
+ cs351
+ WorldFoodGame project
+ 
+ description:
+ 
+ TileManager wraps the collection of LandTiles and encapsulates the
+ equal area projection used to define the tile space.
+ It provides an interface for mutating the climate data in the tiles by year and
+ obtaining various useful subsets of tiles and/or individual tiles and data by
+ coordinates.
+ */
+
 public class TileManager extends AbstractClimateData
 {
   /*
@@ -93,7 +107,7 @@ public class TileManager extends AbstractClimateData
     LandTile tile = getTile(lon, lat);
     if(tile == NO_DATA)
     {
-      throw new LandTile.NoDataException(
+      throw new NoDataException(
         String.format("No data for longitude: %f, latitude: %f)", lon, lat));
     }
     if (year == world.getCurrentYear()) return tile.getMaxAnnualTemp();
@@ -127,7 +141,7 @@ public class TileManager extends AbstractClimateData
     LandTile tile = getTile(lon, lat);
     if(tile == NO_DATA)
     {
-      throw new LandTile.NoDataException(
+      throw new NoDataException(
         String.format("No data for longitude: %f, latitude: %f)", lon, lat));
     }
     if (year == world.getCurrentYear()) return tile.getMinAnnualTemp();
@@ -161,7 +175,7 @@ public class TileManager extends AbstractClimateData
     LandTile tile = getTile(lon, lat);
     if(tile == NO_DATA)
     {
-      throw new LandTile.NoDataException(
+      throw new NoDataException(
         String.format("No data for longitude: %f, latitude: %f)", lon, lat));
     }
     if (year == world.getCurrentYear()) return tile.getAvgDayTemp();
@@ -195,7 +209,7 @@ public class TileManager extends AbstractClimateData
     LandTile tile = getTile(lon, lat);
     if(tile == NO_DATA)
     {
-      throw new LandTile.NoDataException(
+      throw new NoDataException(
         String.format("No data for longitude: %f, latitude: %f)", lon, lat));
     }
     if (year == world.getCurrentYear()) return tile.getAvgNightTemp();
@@ -229,7 +243,7 @@ public class TileManager extends AbstractClimateData
     LandTile tile = getTile(lon, lat);
     if(tile == NO_DATA)
     {
-      throw new LandTile.NoDataException(
+      throw new NoDataException(
         String.format("No data for longitude: %f, latitude: %f)", lon, lat));
     }
     if (year == world.getCurrentYear()) return tile.getRainfall();
@@ -602,6 +616,19 @@ public class TileManager extends AbstractClimateData
     } catch (IOException e)
     {
       e.printStackTrace();
+    }
+  }
+
+  /**
+   Exception used if accessors from the AbstractClimateData class are given
+   invalid coordinates
+   */
+  static class NoDataException extends IllegalArgumentException
+  {
+
+    public NoDataException(String msg)
+    {
+      super(msg);
     }
   }
 }
