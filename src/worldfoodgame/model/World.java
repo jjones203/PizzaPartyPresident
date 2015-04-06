@@ -4,10 +4,7 @@ import worldfoodgame.common.AbstractScenario;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumCropZone;
 
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by winston on 1/23/15.
@@ -256,8 +253,8 @@ public class World extends AbstractScenario
   
   private void plantAndHarvestCrops()
   {
-    int year = getCurrentYear();
-    for (Country country:politicalWorld)
+    final int year = getCurrentYear();
+    for (final Country country:politicalWorld)
     {
       CropOptimizer optimizer = new CropOptimizer(year,country);
       optimizer.optimizeCrops();
