@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 
 /**
  * Created by winston on 4/4/15.
+ * Raster-type RegionView used for visualizing the crop planting locations across
+ * the globe.  This is more for debug purposes than for actual gameplay.
  */
 class CropRasterLook extends RasterViz
 {
@@ -56,14 +58,12 @@ class CropRasterLook extends RasterViz
           break;
 
         default:
-          System.out.println("got here some how?");
+          System.err.println("non exhaustive case in CropRasterLook switch");
           break;
       }
       Point point = getPoint(tile.getCenter());
-      g2d.fillRect(point.x, point.y, 1, 1);
+      g2d.fillRect(point.x, point.y, 1, scaleHeight(tile));
     }
-
-
     return image;
   }
 }

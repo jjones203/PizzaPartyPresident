@@ -63,7 +63,7 @@ public abstract class RasterViz implements RegionView, RasterDataView
     return point;
   }
 
-  // simple linear function to trasform the pixle height to keep track with the
+  // simple linear function to transform the pixel height to keep track with the
   // map projection.
   protected int scaleHeight(LandTile landTile)
   {
