@@ -69,8 +69,7 @@ public class World extends AbstractScenario
 
   /**
    * used to return the world => singleton design pattern.
-   *
-   * @return
+   * @return  the world
    */
   public static World getWorld()
   {
@@ -158,8 +157,6 @@ public class World extends AbstractScenario
     {
       unhappyPeople += country.getUnhappyPeople(year);
     }
-    /*System.out.println("in world unhappy people "+unhappyPeople);
-    System.out.println("in world people "+getWorldPopulationMil() * 1000000);*/
     double percentUnhappy = unhappyPeople/(getWorldPopulationMil() * 1000000);
     double percentHappy = 1 - percentUnhappy;
     return percentHappy;
