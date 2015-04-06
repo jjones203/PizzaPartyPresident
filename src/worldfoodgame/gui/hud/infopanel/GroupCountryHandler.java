@@ -166,10 +166,12 @@ public class GroupCountryHandler extends CountryDataHandler
     int year = World.getWorld().getCurrentYear();
     double STEP = (1 * kilom) / 10;
 
-    double oldValue = getLandTotal();
+    double oldValue = getCropLand(type);
     double dx = activeConverter.convert2ModelSpace(kilom) - oldValue;
 
-    STEP = dx < 0 ? STEP : -STEP;
+    System.out.println("dx is negative? " + (dx < 0));
+
+    STEP = dx > 0 ? STEP : -STEP;
     for (Country country : countries)
     {
       double currentVal = country.getCropLand(year, type);
