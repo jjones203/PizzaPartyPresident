@@ -36,6 +36,7 @@ public class CropOptimizer
     cropBins = new ArrayList<CropBin>();
     tileYields = new ArrayList<TileYield>();
     ctryYields = new double[EnumCropType.SIZE];
+    
     for (EnumCropType crop:EnumCropType.values())
     {
       int index = crop.ordinal();

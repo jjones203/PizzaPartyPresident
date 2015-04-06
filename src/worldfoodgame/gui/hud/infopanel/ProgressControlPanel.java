@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
@@ -15,61 +16,104 @@ import java.util.Observer;
 
 /**
  * Created by winston on 3/23/15.
+ * 
+ * description:
+ * ProgressControlPanel describes the panel through which a user can control the
+ * game stepping functions.  By default, the game is paused. If the "run" button
+ * is clicked, the game will step a year once every 30 seconds. 
  */
-public class ProgessControlPanel extends JPanel implements Observer
+public class ProgressControlPanel extends JPanel implements Observer
 {
-
+  private final static int MS_PER_YEAR = 30_000;
+ 
   private static DecimalFormat
-    happinessP = new DecimalFormat("#.00"),
-    popuLationFormatter = new DecimalFormat("0.0");
+  happinessP = new DecimalFormat("#.00"),
+  popuLationFormatter = new DecimalFormat("0.0");
+  
   private static Color
-    DEFAULT_FONT_COL = ColorsAndFonts.GUI_TEXT_COLOR,
-    ROLLOVER_COLOR = Color.red;
-
+  DEFAULT_FONT_COL = ColorsAndFonts.GUI_TEXT_COLOR,
+  ROLLOVER_COLOR = Color.red;
 
   private WorldPresenter worldPresenter;
+
   private SingleClickButton
     nextYear, run, pause;
-
   private NumericalLabel
     currentYear, yearRemainng, population, happiness;
 
-  private Runnable worldStepper = new Runnable()
+  
+  /* Game stepping and running objects defined here */
+  private Timer gameStepper = new Timer(MS_PER_YEAR, new AbstractAction()
+  {
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+      nextAction.run();
+    }
+  });
+
+  private Runnable nextAction = new Runnable()
   {
     @Override
     public void run()
     {
-      ProgessControlPanel.this.getRootPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+      ProgressControlPanel.this.getRootPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
       worldPresenter.stepWorld();
 
-      ProgessControlPanel.this.getRootPane().setCursor(null);
+      ProgressControlPanel.this.getRootPane().setCursor(null);
+    }
+  };
+  
+  private Runnable runGameAction = new Runnable()
+  {
+    @Override
+    public void run()
+    {
+      gameStepper.start();
+    }
+  };
+  
+  private Runnable pauseGameAction = new Runnable()
+  {
+    @Override
+    public void run()
+    {
+      gameStepper.stop();
     }
   };
 
-  public ProgessControlPanel(final WorldPresenter worldPresenter) throws HeadlessException
+  /**
+   Construct a new ProgressControlPanel with a given WorldPresenter
+   
+   @param worldPresenter  WorldPresenter to construct this panel with.
+   @throws HeadlessException
+   */
+  public ProgressControlPanel(final WorldPresenter worldPresenter) throws HeadlessException
   {
     this.worldPresenter = worldPresenter;
     this.setLayout(new GridLayout(1, 6));
     worldPresenter.addObserver(this);
-    JPanel controlls = new JPanel();
-    controlls.setLayout(new GridLayout(1, 3));
-    controlls.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    JPanel controls = new JPanel();
+    controls.setLayout(new GridLayout(1, 3));
+    controls.setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
     setBorder(new CompoundBorder(ColorsAndFonts.HEADING_UNDERLINE, new EmptyBorder(3,3,3,3)));
 
 
-    // Controlls
+    // Controls
     nextYear = new SingleClickButton("next");
-    nextYear.setAction(worldStepper);
-    controlls.add(nextYear);
+    nextYear.setAction(nextAction);
+    controls.add(nextYear);
 
     run = new SingleClickButton("run");
-    controlls.add(run);
+    run.setAction(runGameAction);
+    controls.add(run);
 
     pause = new SingleClickButton("pause");
-    controlls.add(pause);
+    pause.setAction(pauseGameAction);
+    controls.add(pause);
 
 
     // Labels
@@ -85,10 +129,15 @@ public class ProgessControlPanel extends JPanel implements Observer
     happiness = new NumericalLabel("Happiness", null);
     add(happiness);
 
-    this.add(controlls, BorderLayout.WEST);
+    this.add(controls, BorderLayout.WEST);
     this.update(null, null);
   }
 
+  /**
+   Called by the WorldPresent upon update of data/display
+   @param o   Obeservable calling the method
+   @param arg Optional data carrying Object
+   */
   @Override
   public void update(Observable o, Object arg)
   {

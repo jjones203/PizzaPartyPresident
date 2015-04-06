@@ -67,7 +67,7 @@ public class InfoPanel extends JPanel implements Observer
     OuterTabbedPanel.addTab("crops", innerTabbedPanel);
     OuterTabbedPanel.addTab("overlays", new OverlayPanel(worldPresenter));
 
-    add(new ProgessControlPanel(worldPresenter), BorderLayout.NORTH);
+    add(new ProgressControlPanel(worldPresenter), BorderLayout.NORTH);
   }
 
   @Override

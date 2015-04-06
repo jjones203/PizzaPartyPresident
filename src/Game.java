@@ -87,7 +87,6 @@ public class Game
 
     infoPanel = new InfoPanel(worldPresenter);
 
-
     worldFeedPanel = new WorldFeedPanel(worldPresenter);
     worldPresenter.addObserver(worldFeedPanel);
 
