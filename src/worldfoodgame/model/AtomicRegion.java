@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class AtomicRegion extends AbstractCountryBorderData implements Region
 {
-  //todo clean up mapconverters
+  //todo someday make the mapconverter a singleton class.
   private static MapConverter mapConverter = new EquirectangularConverter();
   private Country country;
   private List<MapPoint> perimeter;

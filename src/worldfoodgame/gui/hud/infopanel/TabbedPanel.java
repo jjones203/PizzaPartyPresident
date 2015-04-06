@@ -10,18 +10,12 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
 /**
- * Created by winston on 3/10/15.
- */
-
-/*
- todo clean up padding logic...?
- todo add consturtor support for animation handeling ?
- todo cleanup selection logic and handelers.
- todo add handler for border color and most importantly width.
+ * A reimplementation of a tabbed panel.
+ * Used to organize the GUI.
+ * @author winston riley
  */
 public class TabbedPanel extends JPanel
 {
-
   public static final Color ROLLOVER_C = Color.WHITE;
   public static final Color SELECTED_C = Color.RED.darker();
   public static final Color TEXT_DEFAULT_COLOR = ColorsAndFonts.GUI_TEXT_COLOR;
@@ -110,6 +104,7 @@ public class TabbedPanel extends JPanel
     super.paintComponent(g);
   }
 
+  /* encapsulates the logic of a 'tab' for the tab panel*/
   private class Tab extends JLabel
   {
     public Tab(String text)

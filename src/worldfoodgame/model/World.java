@@ -28,7 +28,7 @@ public class World extends AbstractScenario
   private Collection<Country> politicalWorld;
   private TileManager tileManager;
   private Calendar currentDate;
-  private boolean DEBUG = true;
+  private boolean DEBUG = false;
 
   private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
   {

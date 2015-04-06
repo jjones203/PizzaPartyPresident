@@ -15,6 +15,11 @@ public abstract class CountryDataHandler
 {
   public static DISPLAY_UNIT activeConverter = DISPLAY_UNIT.METRIC;
 
+  /**
+   * this is used when there in nothing selected in the info panel,
+   * representing a kind of null data.
+   * @return zero data set.
+   */
   public static CountryDataHandler getNullData()
   {
     return new CountryDataHandler()
@@ -70,7 +75,7 @@ public abstract class CountryDataHandler
       @Override
       public double getArable()
       {
-        return Double.MIN_VALUE; // hack to smooth out default gui display
+        return 0;
       }
 
       @Override
@@ -137,20 +142,20 @@ public abstract class CountryDataHandler
     }
   }
 
+  /* given a country and a year, extracts a data handler */
   protected static CountryDataHandler extractData(Country country, int year)
   {
     return new SingleCountryHandeler(country, year);
   }
 
-
+  /* given a  list of countries and a year, extracts a data handler */
   private static CountryDataHandler summationData(List<Country> activeCountries, int year)
   {
-//    System.err.println("summationData is not implemented yet!");
     return new GroupCountryHandler(activeCountries);
   }
 
 
-
+  /* all the acessor method... */
   public abstract String getName();
   public abstract double getPopulation();
   public abstract double getMedianAge();
@@ -163,12 +168,8 @@ public abstract class CountryDataHandler
   public abstract double getProduction(EnumCropType type);
   public abstract double getImports(EnumCropType type);
   public abstract double getExports(EnumCropType type);
-
   public abstract double getCropLand(EnumCropType type);
-
-
   public abstract void setLand(EnumCropType type, double p);
-
   public abstract double getNeed(EnumCropType type);
   public abstract double getOpenLand();
 
@@ -177,6 +178,10 @@ public abstract class CountryDataHandler
     return activeConverter.getDisplayLabel();
   }
 
+  /**
+   * The enum is the converter for the display. handels the logic on converting
+   * between the model unite space and the user specifiec gui space.
+   */
   public enum DISPLAY_UNIT
   {
     METRIC("km"),

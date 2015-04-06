@@ -27,7 +27,6 @@ public class CropView implements RegionView
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
   {
-
     int year = World.getWorld().getCurrentYear();
 
     float ratio = (float) gRegion.getCountry().getCropLand(year, crop)
@@ -44,8 +43,5 @@ public class CropView implements RegionView
 
     g.setColor(ColorsAndFonts.PASSIVE_REGION_OUTLINE);
     g.drawPolygon(gRegion.getPoly());
-
   }
-
-
 }

@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
  * <p/>
  * presents the user with the controlls to select different overlays for visualizing
  * the state of the world.
+ *
+ * this panel also contains a selector for displaying different unite converters.
  */
 public class OverlayPanel extends JPanel implements ActionListener
 {
@@ -21,7 +23,11 @@ public class OverlayPanel extends JPanel implements ActionListener
 
   private Overlay[] overlays = Overlay.values();
 
-
+  /**
+   * Constructor for the OverlayPanel. This Panel contains a set of radio
+   * buttons, selecting different overlays and visualizations.
+   * @param worldPresenter
+   */
   public OverlayPanel(WorldPresenter worldPresenter)
   {
     this.worldPresenter = worldPresenter;
@@ -36,6 +42,7 @@ public class OverlayPanel extends JPanel implements ActionListener
 
   }
 
+  /* returns the panel containing the Unite converters*/
   private JPanel getConverterPanel()
   {
     JPanel radioPanel = new JPanel();
@@ -85,7 +92,7 @@ public class OverlayPanel extends JPanel implements ActionListener
   }
 
 
-  /* sets up and returns a get Overlay */
+  /* sets up container for all the different overlays*/
   private JPanel getOverlayRadio()
   {
     JPanel radioPanel = new JPanel();
@@ -129,6 +136,7 @@ public class OverlayPanel extends JPanel implements ActionListener
     }
   }
 
+  /* customizes the look of the radio button*/
   private class CustomIcon implements Icon
   {
     private JRadioButton button;

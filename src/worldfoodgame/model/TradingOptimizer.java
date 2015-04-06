@@ -29,7 +29,7 @@ public class TradingOptimizer
 {
   private final int year;
   private final Collection<Country> countries;
-
+  private static final boolean DEBUG = false;
   
   /**
    Construct a new TradingOptimizer with the set of countries to trade between.
@@ -165,7 +165,7 @@ public class TradingOptimizer
       during the multiple runs of the algorithm */
       master = new TradePairList(pairs, countries, crop, year);
 
-      System.out.printf("Trader for %s setup:%n" +
+      if (DEBUG) System.out.printf("Trader for %s setup:%n" +
           "net availability: %.3f tons, importers.size(): %d, exporters.size(): %d%n",
         crop.toString(), net, importers.size(), exporters.size());
     }
@@ -215,7 +215,7 @@ public class TradingOptimizer
       best.implementTrades();
 
       long end = System.currentTimeMillis();
-      System.out.printf("Trader for %s done in %dms%n" +
+      if (DEBUG) System.out.printf("Trader for %s done in %dms%n" +
         "best result: %.3f, avg: %.3f%n", crop.toString(), end - start, bestResult, sum / TRIALS);
     }
   }

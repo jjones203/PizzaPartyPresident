@@ -174,9 +174,13 @@ public class LabelFactory
 
   public GraphLabel getLandLabel(final EnumCropType type)
   {
+    double val;
+    if (dataHandler.getArable()<= 0) val = 0;
+    else val = dataHandler.getCropLand(type) / dataHandler.getArable();
+
     final GraphLabel foodControll = new GraphLabel(
       type.toString() + " land",
-      dataHandler.getCropLand(type) / dataHandler.getArable(),
+      val,
       1,
       "% 00.0",
       null);
