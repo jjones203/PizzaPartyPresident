@@ -770,7 +770,7 @@ public class Country extends AbstractCountry
   /**
    * @return  OtherCropsData object for country
    */
-  public OtherCropsData getOtherCropsData()
+  OtherCropsData getOtherCropsData()
   {
     return otherCropsData;
   }
@@ -781,7 +781,7 @@ public class Country extends AbstractCountry
    * @author jessica
    * @version 29-March-2015
    */
-  private class OtherCropsData
+  class OtherCropsData
   {
     public final float maxTemp;
     public final float minTemp;
