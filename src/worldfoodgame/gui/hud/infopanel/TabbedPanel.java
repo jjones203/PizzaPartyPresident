@@ -1,12 +1,10 @@
 package worldfoodgame.gui.hud.infopanel;
 
-import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -67,66 +65,6 @@ public class TabbedPanel extends JPanel
     add(tabpabel, BorderLayout.NORTH);
     add(contentArea, BorderLayout.CENTER);
   }
-
-  // for testin only
-  public static void main(String[] args)
-  {
-    TabbedPanel tabbedPanel = new TabbedPanel();
-
-    JPanel greenPanel = new JPanel();
-    greenPanel.setBackground(Color.green);
-    JPanel bluePanel = new JPanel();
-    bluePanel.setBackground(Color.blue);
-
-    CountryDataHandler dataHandler = CountryDataHandler.getNullData();
-
-    LabelFactory labelFactory = new LabelFactory(dataHandler);
-
-    tabbedPanel.addTab("demographic", new DemographicPanel(labelFactory));
-    tabbedPanel.addTab("land", new LandPanel(labelFactory));
-
-
-
-    TabbedPanel tabbedPanel2 = new TabbedPanel();
-    tabbedPanel2.fontSize = 12;
-
-
-    tabbedPanel2.addTab("corn",
-      new CropPanel(labelFactory, EnumCropType.CORN));
-
-    tabbedPanel2.addTab("wheat",
-      new CropPanel(labelFactory, EnumCropType.WHEAT));
-
-    tabbedPanel2.addTab("rice",
-      new CropPanel(labelFactory, EnumCropType.RICE));
-
-    tabbedPanel2.addTab("soy",
-      new CropPanel(labelFactory, EnumCropType.SOY));
-
-    tabbedPanel2.addTab("other",
-      new CropPanel(labelFactory, EnumCropType.OTHER_CROPS));
-
-
-    tabbedPanel.addTab("crops", tabbedPanel2);
-
-    final JFrame frame = new JFrame();
-    frame.add(tabbedPanel);
-    frame.setSize(670, 250);
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.setVisible(true);
-
-
-    System.out.println("testing repainting at 10 ms");
-    new Timer(10, new AbstractAction()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        frame.repaint();
-      }
-    }).start();
-  }
-
 
 
   /* Extending JPanel to animation */

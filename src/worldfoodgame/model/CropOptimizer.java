@@ -13,6 +13,14 @@ import worldfoodgame.common.AbstractScenario;
 /**
  * CropOptimizer plants all crops for a given country in a given year in an
  * optimal way.
+ * We conceived of the problem as the Generalized Assignment Problem, with each
+ * crop being a 0-1 Knapsack Problem. Our approach was inspired by:
+ * http://www.cs.technion.ac.il/~lirank/pubs/2006-IPL-Generalized-Assignment-Problem.pdf
+ * 
+ * Since all the items (Land Tiles) are of identical size, we start with the largest knapsack
+ * (crop with largest area allocated to it) and sort the tiles by their yield for that crop.
+ * We proceed to the other crops in descending order of area allocated, resorting the tiles
+ * by their yield for the crop and taking the number required from the top of the list.
  * @author jessica
  */
 public class CropOptimizer
@@ -112,7 +120,6 @@ public class CropOptimizer
     {
         country.setCropProduction(year, crop, production);
     }
-    //if (country.getName().equals("Brazil")) System.out.println(crop.toString()+" production "+production);
   }
   
   /**
@@ -226,68 +233,4 @@ public class CropOptimizer
       return diff;
     }
   }
-  /* main for testing
-  public static void main(String[] args)
-  {
-    Country testCountry = new Country("test");
-    testCountry.setArableLand(0, 1000);
-    testCountry.setCropYield(AbstractScenario.START_YEAR, EnumCropType.RICE, 10);
-    testCountry.setCropYield(AbstractScenario.START_YEAR, EnumCropType.WHEAT, 100);
-    testCountry.setCropYield(AbstractScenario.START_YEAR, EnumCropType.CORN, 1000);
-    testCountry.setCropYield(AbstractScenario.START_YEAR, EnumCropType.SOY, 10000);
-    testCountry.setCropYield(AbstractScenario.START_YEAR, EnumCropType.OTHER_CROPS, 1);
-    
-    LandTile tile1 = new LandTile(0,1);
-    LandTile tile2 = new LandTile(1,2);
-    LandTile tile3 = new LandTile(2,3);
-    LandTile tile4 = new LandTile(3,4);
-    LandTile tile5 = new LandTile(5,6);
-    LandTile tile6 = new LandTile(6,7);
-    
-    // set tile1 for rice
-    setLandTileVals(tile1, 200, 35, 20, 45, 10);
-    // set tile2 for wheat
-    setLandTileVals(tile2, 50, 20, 10, 45, -20);
-    // set tile3 for corn
-    setLandTileVals(tile3, 80, 29, 20, 45, 0);
-    // set tile4 for soy
-    setLandTileVals(tile4, 50, 35, 30, 45, 7);
-    // tile5 & tile6 are somewhere in middle
-    setLandTileVals(tile5, 70, 25, 20, 15, 40);
-    setLandTileVals(tile6, 80, 29, 23, 12, 43);
-    
-    testCountry.addLandTile(tile1);
-    testCountry.addLandTile(tile2);
-    testCountry.addLandTile(tile3);
-    testCountry.addLandTile(tile4);
-    testCountry.addLandTile(tile5);
-    testCountry.addLandTile(tile6);
-    testCountry.setOtherCropsData();
-    
-    testCountry.setCropLand(AbstractScenario.START_YEAR, EnumCropType.RICE, 100);
-    testCountry.setCropLand(AbstractScenario.START_YEAR, EnumCropType.WHEAT, 100);
-    testCountry.setCropLand(AbstractScenario.START_YEAR, EnumCropType.CORN, 300);
-    testCountry.setCropLand(AbstractScenario.START_YEAR, EnumCropType.SOY, 100);
-    testCountry.setCropLand(AbstractScenario.START_YEAR, EnumCropType.OTHER_CROPS, 0);
-    
-    CropOptimizer testOp = new CropOptimizer(AbstractScenario.START_YEAR, testCountry);
-    testOp.optimizeCrops();
-    
-    int tileNum = 1;
-    for (LandTile tile:testCountry.getLandTiles())
-    {
-      System.out.println("Tile #"+tileNum);
-      System.out.println(tile.getCurrentCrop().toString());
-      tileNum++;
-    }
-  }
-  
-  private static void setLandTileVals(LandTile tile, float rain, float day, float night, float max, float min)
-  {
-    tile.setRainfall(rain);
-    tile.setAvgDayTemp(day);
-    tile.setAvgNightTemp(night);
-    tile.setMaxAnnualTemp(max);
-    tile.setMinAnnualTemp(min);
-  }*/
 }

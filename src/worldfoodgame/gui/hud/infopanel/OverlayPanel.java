@@ -47,6 +47,7 @@ public class OverlayPanel extends JPanel implements ActionListener
     for (final CountryDataHandler.DISPLAY_UNIT unite : CountryDataHandler.DISPLAY_UNIT.values())
     {
       JRadioButton radioButton = new JRadioButton();
+      radioButton.setBackground(ColorsAndFonts.GUI_BACKGROUND);
       radioButton.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
       radioButton.setIcon(new CustomIcon(radioButton));
       group.add(radioButton); // adds to logical group
@@ -89,7 +90,7 @@ public class OverlayPanel extends JPanel implements ActionListener
   {
     JPanel radioPanel = new JPanel();
     radioPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    radioPanel.setLayout(new GridLayout(0, 2));
+    radioPanel.setLayout(new GridLayout(5, 3));
     ButtonGroup group = new ButtonGroup();
 
     for (int i = 0; i < overlays.length; i++)

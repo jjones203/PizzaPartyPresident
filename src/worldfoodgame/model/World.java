@@ -28,6 +28,7 @@ public class World extends AbstractScenario
   private Collection<Country> politicalWorld;
   private TileManager tileManager;
   private Calendar currentDate;
+  private boolean DEBUG = true;
 
   private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
   {
@@ -68,8 +69,7 @@ public class World extends AbstractScenario
 
   /**
    * used to return the world => singleton design pattern.
-   *
-   * @return
+   * @return  the world
    */
   public static World getWorld()
   {
@@ -157,8 +157,6 @@ public class World extends AbstractScenario
     {
       unhappyPeople += country.getUnhappyPeople(year);
     }
-    /*System.out.println("in world unhappy people "+unhappyPeople);
-    System.out.println("in world people "+getWorldPopulationMil() * 1000000);*/
     double percentUnhappy = unhappyPeople/(getWorldPopulationMil() * 1000000);
     double percentHappy = 1 - percentUnhappy;
     return percentHappy;
@@ -194,35 +192,38 @@ public class World extends AbstractScenario
   }
 
 
+  /**
+   * performs operations needed when stepping from 1 year to next
+   */
   public void stepWorld()
   {
-    System.out.println("\n\nStarting world stepping in " + getCurrentYear());
+    if (DEBUG) System.out.println("\n\nStarting world stepping in " + getCurrentYear());
 
     long start = System.currentTimeMillis();
 
-    System.out.println("Mutating climate data...");
+    if (DEBUG) System.out.println("Mutating climate data...");
     updateEcoSystems();
-    System.out.printf("climate data mutated in %dms%n", System.currentTimeMillis() - start);
+    if (DEBUG) System.out.printf("climate data mutated in %dms%n", System.currentTimeMillis() - start);
     
     currentDate.add(Calendar.YEAR, 1);
     start = System.currentTimeMillis();
-    System.out.println("Planting tiles...");
+    if (DEBUG) System.out.println("Planting tiles...");
     plantAndHarvestCrops();       // implemented
-    System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
-    System.out.println("Date is now " + getCurrentYear());
+    if (DEBUG) System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
+    if (DEBUG) System.out.println("Date is now " + getCurrentYear());
 
     adjustPopulation(); // need this before shipping
 
     start = System.currentTimeMillis();
-    System.out.println("Shipping and recieving...");
+    if (DEBUG) System.out.println("Shipping and recieving...");
     shipAndReceive();
-    System.out.printf("Done shipping and receiving in: %dms%n", System.currentTimeMillis() - start);
+    if (DEBUG) System.out.printf("Done shipping and receiving in: %dms%n", System.currentTimeMillis() - start);
 
     start = System.currentTimeMillis();
-    System.out.println("Mutating country demographics...");
+    if (DEBUG) System.out.println("Mutating country demographics...");
     adjustUndernourished();  // implemented
-    System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
-    System.out.println("year stepping done");
+    if (DEBUG) System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
+    if (DEBUG) System.out.println("year stepping done");
   }
 
   private void adjustPopulation()
@@ -260,11 +261,6 @@ public class World extends AbstractScenario
     {
       CropOptimizer optimizer = new CropOptimizer(year,country);
       optimizer.optimizeCrops();
-      /*if (country.getName().equals("Brazil")) 
-      {
-          System.out.println("in world corn prod is "+country.getCropProduction(year, EnumCropType.CORN));
-          System.out.println("in world corn prod in yr-1 is "+country.getCropProduction(year+1, EnumCropType.CORN));
-      }*/
     }
   }
 
@@ -278,21 +274,20 @@ public class World extends AbstractScenario
   }
 
   /**
-   @return a Collection holding all the LandTiles in the world, including those
-   not assigned to countries and those without data
+   * @return a Collection holding all the LandTiles in the world, including those
+   * not assigned to countries and those without data
    */
   public Collection<LandTile> getAllTiles()
   {
     return tileManager.allTiles();
   }
 
+  
   /**
-   Returns a Collection of the tiles held by this TileManager that actually
-   contain data.  This, in effect, excludes tiles that would be over ocean and
-   those at the extremes of latitude.  For all tiles, use allTiles();
-
-   @return a Collection holding only those tiles for which there exists raster
-   data.
+   * Returns a Collection of the tiles held by this TileManager that actually
+   * contain data.  This, in effect, excludes tiles that would be over ocean and
+   * those at the extremes of latitude.  For all tiles, use allTiles();
+   * @return  a Collection holding only those tiles for which there exists raster data.
    */
   public List<LandTile> dataTiles()
   {
@@ -301,14 +296,14 @@ public class World extends AbstractScenario
 
 
   /**
-   @return a Collection of all the tiles registered with Countries.
+   * @return a Collection of all the tiles registered with Countries.
    */
   public Collection<LandTile> getAllCountrifiedTiles() { return tileManager.countryTiles(); }
 
 
   /**
-   Set the TileManager for the World
-   @param mgr TileManager to set to this World
+   * Set the TileManager for the World
+   * @param mgr TileManager to set to this World
    */
   public void setTileManager(TileManager mgr)
   {
@@ -316,8 +311,7 @@ public class World extends AbstractScenario
   }
 
   /**
-   @return  the randomization percentage for the World (inherited from 
-            AbstractScenario)
+   * @return  the randomization percentage for the World (inherited from AbstractScenario)
    */
   public double getRandomizationPercentage()
   {
@@ -325,12 +319,11 @@ public class World extends AbstractScenario
   }
 
   /**
-   Return the LandTile containing given longitude and latitude coordinates.
-   See TileManager.getTile()
-   
-   @param lon longitude of coord
-   @param lat latitude of coord
-   @return    LandTile containing the coordinates
+   * Return the LandTile containing given longitude and latitude coordinates.
+   * See TileManager.getTile()
+   *@param lon longitude of coord
+   *@param lat latitude of coord
+   *@return    LandTile containing the coordinates
    */
   public LandTile getTile(double lon, double lat)
   {
