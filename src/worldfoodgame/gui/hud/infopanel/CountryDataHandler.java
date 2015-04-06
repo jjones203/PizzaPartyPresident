@@ -13,7 +13,7 @@ import java.util.List;
  */
 public abstract class CountryDataHandler
 {
-  public static DISPLAY_UNITE activeConverter = DISPLAY_UNITE.METRIC;
+  public static DISPLAY_UNIT activeConverter = DISPLAY_UNIT.METRIC;
 
   public static CountryDataHandler getNullData()
   {
@@ -116,6 +116,15 @@ public abstract class CountryDataHandler
     };
   }
 
+
+  /**
+   Create a CountryDataHandler to handle the data of the List of countries
+   passed to it.
+   
+   @param activeCountries List of countries the Handler is need for
+   @param year            year the Handler will be managing
+   @return      A CountryDataHandler with accessors to data from the countries given
+   */
   public static CountryDataHandler getData(List<Country> activeCountries, int year)
   {
     if (activeCountries.size() == 1)
@@ -130,7 +139,6 @@ public abstract class CountryDataHandler
 
   protected static CountryDataHandler extractData(Country country, int year)
   {
-
     return new SingleCountryHandeler(country, year);
   }
 
@@ -169,14 +177,14 @@ public abstract class CountryDataHandler
     return activeConverter.getDisplayLabel();
   }
 
-  public enum DISPLAY_UNITE
+  public enum DISPLAY_UNIT
   {
     METRIC("km"),
     US("mi");
 
     private String displayLabel;
 
-    DISPLAY_UNITE(String displayLabel)
+    DISPLAY_UNIT(String displayLabel)
     {
       this.displayLabel = displayLabel;
     }

@@ -62,8 +62,6 @@ public class MapPane extends JPanel
   private Point2D dragFrom;
 
   private boolean doMultiSelect;
-  private boolean dynamicNameDrawing;
-
 
   private Collection<Line2D> grid;
 
@@ -87,7 +85,6 @@ public class MapPane extends JPanel
     addKeyListener(this);
 
     setBackground(ColorsAndFonts.OCEANS);
-    dynamicNameDrawing = true; /* more like sexyNameDrawing */
 
     setPreferredSize(cam.getTargetSize());
     setSize(getPreferredSize());
@@ -96,26 +93,6 @@ public class MapPane extends JPanel
     setToolTipText("");
   }
 
-  /**
-   * @return if MapPane is drawing names dynamically (based on heuristic estimate
-   * of screen space occupied by a region
-   */
-  public boolean isDynamicNameDrawing()
-  {
-    return dynamicNameDrawing;
-  }
-
-  /**
-   * Set the name drawing mode for regions.  True -> names are drawn when regions
-   * occupy a reasonable proportion of the screen, False -> constant name drawing
-   * based simply on Camera height
-   *
-   * @param dynamicNameDrawing True if names are to be drawn dynamically
-   */
-  public void setDynamicNameDrawing(boolean dynamicNameDrawing)
-  {
-    this.dynamicNameDrawing = dynamicNameDrawing;
-  }
 
 
   /**
@@ -323,7 +300,7 @@ public class MapPane extends JPanel
     }
     else
     {
-      if (e.isMetaDown())
+      if (e.isShiftDown())
       {
         presenter.appendClickAt(mapClick.getX(), mapClick.getY(), cam);
       }
@@ -345,7 +322,7 @@ public class MapPane extends JPanel
   @Override
   public void mousePressed(MouseEvent e)
   {
-    doMultiSelect = isSHIFTdepressed;
+    doMultiSelect = e.isShiftDown();
     if (doMultiSelect) presenter.setActivelyDragging(true);
     multiSelectFrom = e.getPoint();
     dragFrom = e.getPoint();

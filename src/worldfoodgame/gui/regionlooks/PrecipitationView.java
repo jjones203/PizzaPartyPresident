@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * This view Handels the visualization of Global precipitation data.
+ * This view Handles the visualization of Global precipitation data.
  * <p/>
  * this class should only be created once, to adjust look and feel of the class
  * asjust the class constants.
