@@ -68,7 +68,7 @@ public abstract class CountryDataHandler
       }
 
       @Override
-      public double getArableOpen()
+      public double getArable()
       {
         return 0;
       }
@@ -92,7 +92,7 @@ public abstract class CountryDataHandler
       }
 
       @Override
-      public double getLand(EnumCropType type)
+      public double getCropLand(EnumCropType type)
       {
         return 0;
       }
@@ -137,8 +137,8 @@ public abstract class CountryDataHandler
 
   private static CountryDataHandler summationData(List<Country> activeCountries, int year)
   {
-    System.err.println("summationData is not implemented yet!");
-    return extractData(activeCountries.get(0), year);
+//    System.err.println("summationData is not implemented yet!");
+    return new GroupCountryHandler(activeCountries);
   }
 
 
@@ -151,12 +151,12 @@ public abstract class CountryDataHandler
   public abstract double getMigrationRate();
   public abstract double getUndernourished();
   public abstract double getLandTotal();
-  public abstract double getArableOpen();
+  public abstract double getArable();
   public abstract double getProduction(EnumCropType type);
   public abstract double getImports(EnumCropType type);
   public abstract double getExports(EnumCropType type);
 
-  public abstract double getLand(EnumCropType type);
+  public abstract double getCropLand(EnumCropType type);
 
 
   public abstract void setLand(EnumCropType type, double p);
