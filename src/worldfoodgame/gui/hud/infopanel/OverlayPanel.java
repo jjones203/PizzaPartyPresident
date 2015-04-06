@@ -47,6 +47,7 @@ public class OverlayPanel extends JPanel implements ActionListener
     for (final CountryDataHandler.DISPLAY_UNITE unite : CountryDataHandler.DISPLAY_UNITE.values())
     {
       JRadioButton radioButton = new JRadioButton();
+      radioButton.setBackground(ColorsAndFonts.GUI_BACKGROUND);
       radioButton.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
       radioButton.setIcon(new CustomIcon(radioButton));
       group.add(radioButton); // adds to logical group
