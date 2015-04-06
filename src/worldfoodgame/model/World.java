@@ -224,14 +224,14 @@ public class World extends AbstractScenario
     System.out.println("Mutating climate data...");
     updateEcoSystems();
     System.out.printf("climate data mutated in %dms%n", System.currentTimeMillis() - start);
+    currentDate.add(Calendar.YEAR, 1);
+
     start = System.currentTimeMillis();
     System.out.println("Planting tiles...");
     plantAndHarvestCrops();       // implemented
     System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
-    currentDate.add(Calendar.YEAR, 1);
-    System.out.println("World done stepping. Date is now " + getCurrentYear());
+
     adjustPopulation(); // need this before shipping
-    System.out.printf("population adjusted in %dms%n", System.currentTimeMillis() - start);
 
     start = System.currentTimeMillis();
     System.out.println("Shipping and recieving...");
@@ -266,11 +266,15 @@ public class World extends AbstractScenario
     }
   }
 
+  /*
+    implements the benevolent trading between countries with surpluses and
+    deficits by crop through the TradingOptimizer. */
   private void shipAndReceive()
   {
-    new TradingOptimizer(politicalWorld, currentYear).optimizeAndImplementTrades();
+    new TradingOptimizer(politicalWorld, getCurrentYear()).optimizeAndImplementTrades();
   }
 
+  
   private void plantAndHarvestCrops()
   {
     int year = getCurrentYear();
@@ -286,11 +290,19 @@ public class World extends AbstractScenario
     }
   }
 
+  /*
+    Mutate the LandTile data through the TileManger.  This steps climate data,
+    interpolating based on 2050 predictions with random noise added.
+   */
   private void updateEcoSystems()
   {
     tileManager.stepTileData();
   }
 
+  /**
+   @return a Collection holding all the LandTiles in the world, including those
+   not assigned to countries and those without data
+   */
   public Collection<LandTile> getAllTiles()
   {
     return tileManager.allTiles();
@@ -309,16 +321,42 @@ public class World extends AbstractScenario
     return tileManager.dataTiles();
   }
 
+
+  /**
+   @return a Collection of all the tiles registered with Countries.
+   */
   public Collection<LandTile> getAllCountrifiedTiles() { return tileManager.countryTiles(); }
 
+
+  /**
+   Set the TileManager for the World
+   @param mgr TileManager to set to this World
+   */
   public void setTileManager(TileManager mgr)
   {
     this.tileManager = mgr;
   }
 
+  /**
+   @return  the randomization percentage for the World (inherited from 
+            AbstractScenario)
+   */
   public double getRandomizationPercentage()
   {
     return randomizationPercentage;
+  }
+
+  /**
+   Return the LandTile containing given longitude and latitude coordinates.
+   See TileManager.getTile()
+   
+   @param lon longitude of coord
+   @param lat latitude of coord
+   @return    LandTile containing the coordinates
+   */
+  public LandTile getTile(double lon, double lat)
+  {
+    return tileManager.getTile(lon, lat);
   }
 
   @Deprecated
@@ -336,11 +374,6 @@ public class World extends AbstractScenario
   public double calculateSeaLevelRise(int year)
   {
     return getBaseSeaLevelRise(year);
-  }
-
-  public LandTile getTile(double lon, double lat)
-  {
-    return tileManager.getTile(lon, lat);
   }
 
 

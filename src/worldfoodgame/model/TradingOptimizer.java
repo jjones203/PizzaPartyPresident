@@ -30,6 +30,7 @@ public class TradingOptimizer
   private final int year;
   private final Collection<Country> countries;
 
+  
   /**
    Construct a new TradingOptimizer with the set of countries to trade between.
 
@@ -319,7 +320,6 @@ public class TradingOptimizer
         /* values in import map are deficits (as postive numbers) */
         result -= importerMap.get(im);
       }
-
       return result;
     }
 
