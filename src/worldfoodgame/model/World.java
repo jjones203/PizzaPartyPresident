@@ -194,6 +194,9 @@ public class World extends AbstractScenario
   }
 
 
+  /**
+   * performs operations needed when stepping from 1 year to next
+   */
   public void stepWorld()
   {
     System.out.println("\n\nStarting world stepping in " + getCurrentYear());
