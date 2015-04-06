@@ -66,7 +66,7 @@ public class SingleCountryHandeler extends CountryDataHandler
   }
 
   @Override
-  public double getArableOpen()
+  public double getArable()
   {
     return CountryDataHandler.activeConverter.convert2Display(country.getArableLand(year));
   }
@@ -90,9 +90,10 @@ public class SingleCountryHandeler extends CountryDataHandler
   }
 
   @Override
-  public double getLand(EnumCropType type)
+  public double getCropLand(EnumCropType type)
   {
-    return CountryDataHandler.activeConverter.convert2Display(country.getCropLand(year, type));
+    double val = CountryDataHandler.activeConverter.convert2Display(country.getCropLand(year, type));
+    return val;
   }
 
   @Override
@@ -105,7 +106,6 @@ public class SingleCountryHandeler extends CountryDataHandler
   @Override
   public double getNeed(EnumCropType type)
   {
-//    return country.getCropNeedPerCapita(type);
     return country.getTotalCropNeed(year, type);
   }
 
