@@ -30,7 +30,7 @@ import java.util.Collection;
  */
 public class Game
 {
-  private static boolean DEBUG = true;
+  private static boolean DEBUG = false;
 
   public static final String MODEL_DATA_PATH = "resources/ne_10m_admin_1_states_provinces.kml";
   public static final String BG_DATA_PATH = "resources/ne_50m_land.kml";
