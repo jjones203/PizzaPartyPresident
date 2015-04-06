@@ -284,27 +284,39 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * Calculate % of undernourished people for year, update undernourished array.
-   * Translate formula from spec 1.7, p. 10, #6 to:
-   * -2 * ((tons available/per capita consumption) - population) = number undernourished for that crop
-   * Based on p. 16, #15, calculate number undernourished for each crop and take max of those 5 results.
-   * The number undernourished is the lower of the max result and the total population.
-   *
+   * Update % undernourished using formula in spec.
    * @param year
    */
   public void updateUndernourished(int year)
   {
-    double maxResult = 0; // maxResult is highest number of people undernourished based on 5 crop calculations
-    int population = getPopulation(year);
-    for (EnumCropType crop : EnumCropType.values())
+    double numUndernourished;
+    double population = getPopulation(year);
+    double[] netCropsAvail = new double[EnumCropType.SIZE];
+    int numCropsAvail = 0;
+    for (EnumCropType crop:EnumCropType.values())
     {
-      double tonsAvail = getNetCropAvailable(year, crop);
-      double perCapCon = getCropNeedPerCapita(crop);
-      double result = -2 * (tonsAvail / perCapCon - population);
-      if (result > maxResult) maxResult = result;
+      double netAvail = getNetCropAvailable(year, crop);
+      netCropsAvail[crop.ordinal()] = netAvail;
+      if (netAvail >= 0) numCropsAvail++; 
     }
-    double undernourished = Math.min(maxResult, population);
-    setUndernourished(year, undernourished / population);
+    if (numCropsAvail == 5)
+    {
+      numUndernourished = 0;
+    }
+    else
+    {
+      double maxResult = 0;
+      for (EnumCropType crop:EnumCropType.values())
+      {
+        double need = getCropNeedPerCapita(crop);
+        double result = (netCropsAvail[crop.ordinal()])/(0.5*need*population);
+        if (result > maxResult) maxResult = result;
+      }
+      numUndernourished = Math.min(population,maxResult);
+    }
+    setUndernourished(year, numUndernourished/population);
+    
+    //System.out.println("in "+getName()+" "+undernourished/population+"% undernourished");
   }
   
   public double getCropProduction(int year, EnumCropType crop)
