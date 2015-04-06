@@ -46,18 +46,18 @@ public class RegionViewFactory
   public enum Overlay
   {
     NONE(new DefaultLook()),
-    HAPPINESS(new RegionHappyView()),
+    CORN(new CropView(EnumCropType.CORN,(float)0.3)),
     POPULATION(new PopulationView()),
     MORTALITY(new MortalityRate()),
     CAPITAL(new CapitolView()),
     MALNUTRITION(new Malnutrition()),
 
-    CORN(new CropView(EnumCropType.CORN,(float)0.3)),
     SOY(new CropView(EnumCropType.SOY,(float)0.5)),
     RICE(new CropView(EnumCropType.RICE,(float)0.9)),
     WHEAT(new CropView(EnumCropType.WHEAT,(float)0.1)),
     OTHER_CROPS(new CropView(EnumCropType.OTHER_CROPS,(float)0.25)),
 
+    HAPPINESS(new RegionHappyView()),
     PERCIPITATION(new PrecipitationView()),
     MAX_TMP(new MaxTemp()),
     MIN_TMP(new MinTemp()),
