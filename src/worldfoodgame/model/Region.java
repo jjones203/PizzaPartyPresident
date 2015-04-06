@@ -18,12 +18,7 @@ public interface Region
 
   void setPerimeter(List<MapPoint> perimeter);
 
-  public RegionAttributes getAttributes();
-
-  public void setAttributes(RegionAttributes attributes);
-
   void setCountry(Country country);
-
 
   boolean containsMapPoint(MapPoint mapPoint);
   Country getCountry();

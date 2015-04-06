@@ -1,6 +1,5 @@
 package worldfoodgame.model;
 
-import worldfoodgame.IO.AttributeGenerator;
 import worldfoodgame.common.AbstractScenario;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumCropZone;
@@ -111,25 +110,6 @@ public class World extends AbstractScenario
     return getCurrentDate().get(Calendar.YEAR);
   }
 
-  /**
-   * Advances the world forward by the given number of days. Every new month
-   * the worlds attributes are randomly modulated.
-   *
-   * @param numOfDays number of days to travel in the future too.
-   * @return true - the world was change, false otherwise.
-   */
-  @Deprecated
-  public boolean setByDays(int numOfDays)
-  {
-    int previousMonth = currentDate.get(Calendar.MONTH);
-    currentDate.add(Calendar.DATE, numOfDays);
-
-    boolean isNewMonth = previousMonth != currentDate.get(Calendar.MONTH);
-    if (isNewMonth) AttributeGenerator.stepAttributes(random, world);
-
-    return isNewMonth;
-  }
-
   public Collection<Region> getWorldRegions()
   {
     return world;
@@ -214,11 +194,8 @@ public class World extends AbstractScenario
   }
 
 
-  // stetck of top down look at world step:
   public void stepWorld()
   {
-
-
     System.out.println("\n\nStarting world stepping in " + getCurrentYear());
 
     long start = System.currentTimeMillis();

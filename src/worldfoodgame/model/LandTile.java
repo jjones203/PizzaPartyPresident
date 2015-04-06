@@ -1,7 +1,5 @@
 package worldfoodgame.model;
 
-
-import worldfoodgame.common.AbstractScenario;
 import worldfoodgame.common.CropZoneData.EnumCropZone;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.model.Country.OtherCropsData;
@@ -12,7 +10,15 @@ import java.nio.ByteBuffer;
  @author david
  created: 2015-03-21
 
- description: */
+ description: 
+ LandTile class describes a single section of the equal area projection of the
+ world map.  It holds elevation, climate and climate projection data found
+ at www.worldclim.org.  The class also describes a ByteBuffer format for a
+ custom binary file.  This allows the data from the raw sets to be parsed, projected
+ and averaged across equal-area sections of the globe once.  This data can then
+ simply be loaded in at the program start. (see CropZoneDataIO class)
+ */
+
 public class LandTile
 {
   
@@ -32,7 +38,6 @@ public class LandTile
 
   /**
    Constructor used for initial creation of data set
-
    @param lon
    longitude of this LandTile
    @param lat
@@ -72,35 +77,32 @@ public class LandTile
 
     center = new MapPoint(lon, lat);
   }
-  //private EnumCropType previousCrop;
 
-  public static float interpolate(float start, float end, int slices, int n)
+  /**
+   Find an interpolated value given extremes of the range across which to
+   interpolate, the number of steps to divide that range into and the step of
+   the range to find.
+   
+   @param start   beginning (min) of the range
+   @param end     end (max) of the range
+   @param slices  slices to divide range into
+   @param n       slice desired from interpolation
+   @return        interpolated value
+   */
+  public static float interpolate(float start, float end, float slices, float n)
   {
     if (slices < 0) return end;
     float stepSize = (end - start) / slices;
     return n * stepSize + start;
   }
 
+  
   public void setElev(float elev)
   {
     elevation = elev;
   }
 
-  @Override
-  public String toString()
-  {
-    return "LandTile{" +
-      "rainfall=" + rainfall +
-      ", avgNightTemp=" + avgNightTemp +
-      ", avgDayTemp=" + avgDayTemp +
-      ", minAnnualTemp=" + minAnnualTemp +
-      ", maxAnnualTemp=" + maxAnnualTemp +
-      ", elevation=" + elevation +
-      ", center=" + center +
-      '}';
-  }
-
-  public String debugToolTip()
+  public String toolTipText()
   {
     return String.format("<html>(lon:%.2f, lat:%.2f)<br>" +
         "rainfall:%.6fcm<br>" +
@@ -148,7 +150,7 @@ public class LandTile
   {
     return center;
   }
-  
+
   public void stepTile(int yearsRemaining)
   {
     maxAnnualTemp = interpolate(maxAnnualTemp, proj_maxAnnualTemp, yearsRemaining,1);
@@ -391,6 +393,9 @@ public class LandTile
     return currCrop;
   }
 
+  /**
+   BYTE_DEF enum generalizes the binary format the LandTiles can be stored in
+   */
   public enum BYTE_DEF
   {
     LONGITUDE, LATITUDE, ELEVATION,
@@ -402,20 +407,27 @@ public class LandTile
     PROJ_RAINFALL;
 
     public static final int SIZE = values().length;
-    public static final int SIZE_IN_BYTES = SIZE * Float.SIZE / Byte.SIZE;
 
+    public static final int SIZE_IN_BYTES = SIZE * Float.SIZE / Byte.SIZE;
     int index()
     {
       return ordinal() * Float.SIZE / Byte.SIZE;
     }
-  }
 
-  static class NoDataException extends IllegalArgumentException
+  }
+  
+  @Override
+  public String toString()
   {
-    public NoDataException(String msg)
-    {
-      super(msg);
-    }
+    return "LandTile{" +
+      "rainfall=" + rainfall +
+      ", avgNightTemp=" + avgNightTemp +
+      ", avgDayTemp=" + avgDayTemp +
+      ", minAnnualTemp=" + minAnnualTemp +
+      ", maxAnnualTemp=" + maxAnnualTemp +
+      ", elevation=" + elevation +
+      ", center=" + center +
+      '}';
   }
 
 

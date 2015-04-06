@@ -22,7 +22,6 @@ public class AtomicRegion extends AbstractCountryBorderData implements Region
   private Country country;
   private List<MapPoint> perimeter;
   private String name;
-  private RegionAttributes attributes;
 
   private Polygon mapSpacePoly;
 
@@ -49,18 +48,6 @@ public class AtomicRegion extends AbstractCountryBorderData implements Region
     return mapSpacePoly.contains(point);
   }
 
-
-  @Override
-  public RegionAttributes getAttributes()
-  {
-    return attributes;
-  }
-
-  @Override
-  public void setAttributes(RegionAttributes attributes)
-  {
-    this.attributes = attributes;
-  }
 
   @Override
   public String getName()

@@ -450,7 +450,7 @@ public class MapPane extends JPanel
       MapPoint p = converter.pointToMapPoint(loc);
       LandTile tile = World.getWorld().getTile(p.getLon(), p.getLat());
       if(tile == TileManager.NO_DATA) return "";
-      return tile.debugToolTip();
+      return tile.toolTipText();
     }
     else return "";
   }
