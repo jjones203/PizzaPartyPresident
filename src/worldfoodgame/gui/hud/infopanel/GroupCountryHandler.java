@@ -164,35 +164,17 @@ public class GroupCountryHandler extends CountryDataHandler
   public void setLand(EnumCropType type, double kilom)
   {
     int year = World.getWorld().getCurrentYear();
+    double STEP = (1 * kilom) / 10;
+
+    double oldValue = getLandTotal();
+    double dx = activeConverter.convert2ModelSpace(kilom) - oldValue;
+
+    STEP = dx < 0 ? STEP : -STEP;
     for (Country country : countries)
     {
-      CountryDataHandler handler = extractData(country, year);
-      double oldV = getLandTotal();
-
-      double dx = kilom - oldV;
-      handler.setLand(type, (dx * handler.getArable() / oldV) + oldV);
+      double currentVal = country.getCropLand(year, type);
+      country.updateCropLand(year, type, currentVal + STEP);
     }
-
-
-//    int year = World.getWorld().getCurrentYear();
-//    for (Country country : countries)
-//    {
-//      double val = activeConverter.convert2ModelSpace(kilom);
-//      country.updateCropLand(year, type, val);
-//
-//      CountryDataHandler countryHandeler = extractData(country, year);
-//      double cropLand = countryHandeler.getCropLand(type);
-//
-//
-//
-//
-//
-//    }
-//
-//    double ratio = getCropLand(type) / getArable();
-//
-//
-
 
   }
 
