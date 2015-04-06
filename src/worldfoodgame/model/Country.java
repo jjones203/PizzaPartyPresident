@@ -264,13 +264,21 @@ public class Country extends AbstractCountry
    */
   public void updateMortalityRate(int year)
   {
-
+    double mortalityNow;
     double hungryStart = undernourished[0] * population[0];
+    double mortalityStart = mortalityRate[0]; 
     int popNow = population[year - START_YEAR - 1];
     double hungryNow = popNow * undernourished[year - START_YEAR - 1];
-    double hungryChange = hungryNow - hungryStart;
-    double mortalityNow = (mortalityRate[0] + 0.2 * hungryChange) / (popNow / 1000);
-    mortalityRate[year - START_YEAR] = mortalityNow;
+    if (hungryNow <= hungryStart)
+    {
+      mortalityNow = mortalityStart;
+    }
+    else
+    {
+      double hungryChange = hungryNow - hungryStart;
+      mortalityNow = (mortalityStart + 0.2 * hungryChange) / (popNow / 1000);
+    }
+    setMortalityRate(year,mortalityNow);
   }
 
   /**
@@ -770,7 +778,7 @@ public class Country extends AbstractCountry
   /**
    * @return  OtherCropsData object for country
    */
-  public OtherCropsData getOtherCropsData()
+  OtherCropsData getOtherCropsData()
   {
     return otherCropsData;
   }
@@ -781,7 +789,7 @@ public class Country extends AbstractCountry
    * @author jessica
    * @version 29-March-2015
    */
-  private class OtherCropsData
+  class OtherCropsData
   {
     public final float maxTemp;
     public final float minTemp;
