@@ -61,6 +61,7 @@ public class RegionViewFactory
     RICE(new CropView(EnumCropType.RICE,(float)0.9)),
     WHEAT(new CropView(EnumCropType.WHEAT,(float)0.1)),
     OTHER_CROPS(new CropView(EnumCropType.OTHER_CROPS,(float)0.25)),
+    MALNUTRITION(new Malnutrition()),
     ;
 
 
