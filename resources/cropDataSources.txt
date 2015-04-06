@@ -1,0 +1,47 @@
+a) Annual maximum temperature (in degrees Celsius).
+b) Annual minimum temperature (in degrees Celsius).
+c) Average annual daytime temperature (in degrees Celsius).
+d) Average annual nighttime temperature (in degrees Celsius).
+e) Total annual precipitation (in centimeters of rainfall).
+
+Rice
+a) 45
+b) 10
+c) 35
+d) 20
+e) 70-400 cm
+a-d from page 72 of Fundamentals of Rice Crop Science by Shouichi Yoshida, The International Rice Research Institute, 1981.
+e from page 58 of Progress in Upland Rice Research: Proceedings of the 1985 Jakarta Conference. "An Overview of Upland Rice in the World"
+by Tran Van Dat.
+
+Wheat
+a) 45
+b) -20
+c) 20
+d) 10
+e) 25-78 cm
+a from "Wheat growth and physiology" by E. Acevedo, P. Silva, H. Silva. http://www.fao.org/docrep/006/y4011e/y4011e06.htm
+b-d from FAO Land & Water Division, "Crop Water Information: Wheat" http://www.fao.org/nr/water/cropinfo_wheat.html
+e) "Water requirements of major crops for different agro-climatic zones of Balochistan" by Muhammad Ashraf and Abdul Majeed,
+World Conservation Union. http://cmsdata.iucn.org/downloads/pk_water_req.pdf
+"Comparing Water Use of Wheat and Corn" by David Boehm and Greg Fox. Prairie Grains, issue 84.
+http://www.smallgrains.org/springwh/Mar07/water/water.html
+
+Corn
+a) 45
+b) 0
+c) 29
+d) 20
+e) 60-100 cm
+"Growing Season Characteristics and Requirements in the Corn Belt" by Ralph E. Neild and James E. Newman. Purdue University Cooperative Extension Service
+https://www.extension.purdue.edu/extmedia/nch/nch-40.html
+
+Soy
+a) 45 
+b) 7
+c) 35
+d) 30
+e) 45-70 cm
+a-d from "Soybean Yield Formation: What Controls It and How It Can Be Improved" by James E. Board and Charanjit S. Kahlon.
+https://www.lsuagcenter.com/NR/rdonlyres/84746337-8BFE-4903-BEB8-420D0D2B7271/82639/InTechSoybean_yield_formation_what_controls_it_and.pdf
+e from FAO Land & Water Division, "Crop Water Information: Soybean" http://www.fao.org/nr/water/cropinfo_soybean.html
