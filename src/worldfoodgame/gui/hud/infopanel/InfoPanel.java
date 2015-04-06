@@ -85,7 +85,7 @@ public class InfoPanel extends JPanel implements Observer
       dataHandler = CountryDataHandler.getData(countryList, worldPresenter.getYear());
       viewBox.setTitle(dataHandler.getName());
     }
-    
+
     viewBox.setDrawableRegions(worldPresenter.getActiveRegions());
 
     labelFactory = new LabelFactory(dataHandler);
