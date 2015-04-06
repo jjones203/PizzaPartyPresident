@@ -272,14 +272,21 @@ public class Country extends AbstractCountry
    */
   public void updateMortalityRate(int year)
   {
-
+    double mortalityNow;
     double hungryStart = undernourished[0] * population[0];
+    double mortalityStart = mortalityRate[0]; 
     int popNow = population[year - START_YEAR - 1];
     double hungryNow = popNow * undernourished[year - START_YEAR - 1];
-    double hungryChange = hungryNow - hungryStart;
-    double mortalityNow = (mortalityRate[0] + 0.2 * hungryChange) / (popNow / 1000);
-    mortalityRate[year - START_YEAR] = mortalityNow;
-    //if (getName().equals("United States of America")) System.out.println("updateMortality mortalityNow is "+mortalityNow);
+    if (hungryNow <= hungryStart)
+    {
+      mortalityNow = mortalityStart;
+    }
+    else
+    {
+      double hungryChange = hungryNow - hungryStart;
+      mortalityNow = (mortalityStart + 0.2 * hungryChange) / (popNow / 1000);
+    }
+    setMortalityRate(year,mortalityNow);
   }
 
   public double getMigrationRate(int year)
