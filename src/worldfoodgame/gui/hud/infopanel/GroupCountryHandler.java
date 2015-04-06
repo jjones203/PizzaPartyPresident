@@ -7,8 +7,10 @@ import worldfoodgame.model.World;
 import java.util.List;
 
 /**
- * Holds a collection of Country object in the gui simultaneously. Managies the
+ * Holds a collection of Country object in the gui simultaneously. Manages the
  * logic for applying state changes to the allocated crops.
+ *
+ * All the method basically return either summations or averages.
  * Created by winston on 4/5/15.
  */
 public class GroupCountryHandler extends CountryDataHandler
@@ -164,12 +166,10 @@ public class GroupCountryHandler extends CountryDataHandler
   public void setLand(EnumCropType type, double kilom)
   {
     int year = World.getWorld().getCurrentYear();
-    double STEP = (1 * kilom) / 10;
+    double STEP = getLandTotal() / 100;
 
     double oldValue = getCropLand(type);
     double dx = activeConverter.convert2ModelSpace(kilom) - oldValue;
-
-    System.out.println("dx is negative? " + (dx < 0));
 
     STEP = dx > 0 ? STEP : -STEP;
     for (Country country : countries)
