@@ -39,7 +39,7 @@ public class ProgressControlPanel extends JPanel implements Observer
   private SingleClickButton
     nextYear, run, pause;
   private NumericalLabel
-    currentYear, yearRemainng, population, happiness;
+    currentYear, yearRemaining, population, happiness;
 
   
   /* Game stepping and running objects defined here */
@@ -57,20 +57,29 @@ public class ProgressControlPanel extends JPanel implements Observer
     @Override
     public void run()
     {
+      running = false;
+      updateLabels();
+      
       ProgressControlPanel.this.getRootPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
+      
       worldPresenter.stepWorld();
 
       ProgressControlPanel.this.getRootPane().setCursor(null);
     }
   };
+  private boolean running  = false;
   
   private Runnable runGameAction = new Runnable()
   {
     @Override
     public void run()
     {
-      gameStepper.start();
+      if(!running)
+      {
+        gameStepper.start();
+        running = true;
+      }
+      updateLabels();
     }
   };
   
@@ -80,8 +89,28 @@ public class ProgressControlPanel extends JPanel implements Observer
     public void run()
     {
       gameStepper.stop();
+      running = false;
+      updateLabels();
     }
   };
+
+  private void updateLabels()
+  {
+    if(running)
+    {
+      run.setText("running");
+      run.setForeground(ColorsAndFonts.GUI_TEXT_HIGHLIGHT);
+      pause.setText("pause");
+      pause.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+    }
+    else
+    {
+      run.setText("run");
+      run.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+      pause.setText("paused");
+      pause.setForeground(ColorsAndFonts.GUI_TEXT_HIGHLIGHT);
+    }
+  }
 
   /**
    Construct a new ProgressControlPanel with a given WorldPresenter
@@ -115,13 +144,14 @@ public class ProgressControlPanel extends JPanel implements Observer
     pause.setAction(pauseGameAction);
     controls.add(pause);
 
+    updateLabels();
 
     // Labels
     currentYear = new NumericalLabel("Current Year", null);
     add(currentYear);
 
-    yearRemainng = new NumericalLabel("Years Remaining", null);
-    add(yearRemainng);
+    yearRemaining = new NumericalLabel("Years Remaining", null);
+    add(yearRemaining);
 
     population = new NumericalLabel("World Population", null);
     add(population);
@@ -142,7 +172,7 @@ public class ProgressControlPanel extends JPanel implements Observer
   public void update(Observable o, Object arg)
   {
     currentYear.setValString(Integer.toString(worldPresenter.getYear()));
-    yearRemainng.setValString(Integer.toString(worldPresenter.yearRemaining()));
+    yearRemaining.setValString(Integer.toString(worldPresenter.yearRemaining()));
     population.setValString(popuLationFormatter.format(worldPresenter.getWorldPopulationMil()) + " Mill");
     happiness.setValString("% " + happinessP.format(worldPresenter.getHappinessP() * 100));
   }
@@ -151,13 +181,13 @@ public class ProgressControlPanel extends JPanel implements Observer
   private class NumericalLabel extends JPanel
   {
 
-    private JLabel titleLabel, numbericalValue;
+    private JLabel titleLabel, numericalValue;
 
     public NumericalLabel(String label, String valAsString)
     {
       //init
       this.titleLabel = new JLabel(label);
-      this.numbericalValue = new JLabel(valAsString);
+      this.numericalValue = new JLabel(valAsString);
 
       //config
       this.setLayout(new BorderLayout());
@@ -166,30 +196,29 @@ public class ProgressControlPanel extends JPanel implements Observer
       titleLabel.setFont(ColorsAndFonts.GUI_FONT.deriveFont(11f));
       titleLabel.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
 
-      numbericalValue.setFont(ColorsAndFonts.GUI_FONT.deriveFont(16f));
-      numbericalValue.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+      numericalValue.setFont(ColorsAndFonts.GUI_FONT.deriveFont(16f));
+      numericalValue.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
 
       //wire up
       this.add(titleLabel, BorderLayout.NORTH);
-      this.add(numbericalValue, BorderLayout.CENTER);
+      this.add(numericalValue, BorderLayout.CENTER);
     }
 
     public void setValString(String string)
     {
-      numbericalValue.setText(string);
+      numericalValue.setText(string);
     }
   }
 
 
   private class SingleClickButton extends JLabel
   {
-    private String label;
     private Runnable action;
-
+    
+    
     public SingleClickButton(String text)
     {
       super(text);
-      this.label = text;
       this.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
 
       addMouseListener(new MouseAdapter()
@@ -216,7 +245,8 @@ public class ProgressControlPanel extends JPanel implements Observer
         @Override
         public void mouseExited(MouseEvent e)
         {
-          SingleClickButton.this.setForeground(DEFAULT_FONT_COL);
+          SingleClickButton.this.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+          updateLabels();
         }
       });
     }
@@ -226,5 +256,4 @@ public class ProgressControlPanel extends JPanel implements Observer
       this.action = action;
     }
   }
-
 }
