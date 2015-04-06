@@ -43,6 +43,8 @@ class PrecipitationView extends RasterViz
 
       float scaled = (float) (percipRatio * (upperBound - lowerBound)) + lowerBound;
 
+      if (scaled <= 0) scaled = Float.MIN_VALUE;
+
       Color color = Color.getHSBColor(Math.abs(scaled), S, L);
       g2d.setColor(color);
 
