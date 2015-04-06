@@ -10,9 +10,13 @@ import java.awt.*;
  * Visualizes world wide Malnutrition.
  * Created by winston on 4/5/15.
  */
- class Malnutrition implements RegionView
+class Malnutrition implements RegionView
 {
-  private float HUE = .0555f;
+  private static float HUE = .0555f;
+  private static float LUMINOSITY = .7f;
+  private static float SCALE = 2.5f;
+  private static float OFFSET = 0.01f;
+
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
   {
@@ -22,14 +26,17 @@ import java.awt.*;
       .getUndernourished(World.getWorld().getCurrentYear());
 
 
-    float nurDx = (float) malNur * 2.5f;
+    float nurDx = (float) malNur * SCALE;
 
-    if (nurDx > 1)
+    if (nurDx > 1) nurDx = 1;
+
+    Color color = Color.getHSBColor(HUE, nurDx, LUMINOSITY - (nurDx/50));
+
+    if (gRegion.isActive())
     {
-      nurDx = 1;
+      color = color.brighter();
     }
 
-    Color color = Color.getHSBColor(HUE, .7f, nurDx);
     g.setColor(color);
     g.fillPolygon(gRegion.getPoly());
 
