@@ -1,22 +1,23 @@
 package worldfoodgame.gui.regionlooks;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.GUIRegion;
 import worldfoodgame.model.World;
 
+import java.awt.*;
+
 /**
  * Overlay for % of land planted with given crop
+ *
  * @author jessica
  */
 public class CropView implements RegionView
 {
-  EnumCropType crop;
-  float hueVal;
-  
+  private float LUMINOSITY = .7f;
+  private EnumCropType crop;
+  private float hueVal;
+
   public CropView(EnumCropType crop, float hueVal)
   {
     this.crop = crop;
@@ -26,32 +27,21 @@ public class CropView implements RegionView
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
   {
-    Color color;
-    float lowerBound = .130555556f;
-    float upperBound = .663888889f;
-    
-    if (gRegion.isActive())
-    {
-      color = ColorsAndFonts.ACTIVE_REGION;
-    }
-    else
-    {
-      int yearOfInterest = World.getWorld().getCurrentYear();
-      double cropLand = gRegion.getRegion().getCountry().getCropLand(yearOfInterest,crop);
-      double arableLand = gRegion.getRegion().getCountry().getArableLand(yearOfInterest);
+    int year = World.getWorld().getCurrentYear();
 
-      double ratio = cropLand/arableLand;
-      float scaled = (float) (ratio * (upperBound - lowerBound)) + lowerBound;
-      color = new Color(hueVal, (float)ratio, (float)ratio);
-    }
+    float ratio = (float) gRegion.getCountry().getCropLand(year, crop)
+                / (float) gRegion.getCountry().getArableLand(year);
+
+    ratio *= 100;
+
+    if (ratio > 1) ratio = 1;
+
+    Color color = Color.getHSBColor(hueVal, ratio, LUMINOSITY);
 
     g.setColor(color);
     g.fillPolygon(gRegion.getPoly());
 
     g.setColor(ColorsAndFonts.PASSIVE_REGION_OUTLINE);
     g.drawPolygon(gRegion.getPoly());
-
   }
-  
-  
 }

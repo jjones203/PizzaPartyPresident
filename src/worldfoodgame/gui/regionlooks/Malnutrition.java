@@ -25,7 +25,6 @@ class Malnutrition implements RegionView
       .getCountry()
       .getUndernourished(World.getWorld().getCurrentYear());
 
-
     float nurDx = (float) malNur * SCALE;
 
     if (nurDx > 1) nurDx = 1;

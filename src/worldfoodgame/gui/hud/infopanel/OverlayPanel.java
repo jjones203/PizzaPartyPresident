@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
  * <p/>
  * presents the user with the controlls to select different overlays for visualizing
  * the state of the world.
+ *
+ * this panel also contains a selector for displaying different unite converters.
  */
 public class OverlayPanel extends JPanel implements ActionListener
 {
@@ -21,7 +23,11 @@ public class OverlayPanel extends JPanel implements ActionListener
 
   private Overlay[] overlays = Overlay.values();
 
-
+  /**
+   * Constructor for the OverlayPanel. This Panel contains a set of radio
+   * buttons, selecting different overlays and visualizations.
+   * @param worldPresenter
+   */
   public OverlayPanel(WorldPresenter worldPresenter)
   {
     this.worldPresenter = worldPresenter;
@@ -36,6 +42,7 @@ public class OverlayPanel extends JPanel implements ActionListener
 
   }
 
+  /* returns the panel containing the Unite converters*/
   private JPanel getConverterPanel()
   {
     JPanel radioPanel = new JPanel();
@@ -44,7 +51,7 @@ public class OverlayPanel extends JPanel implements ActionListener
     radioPanel.setLayout(new GridLayout(0, 1));
     ButtonGroup group = new ButtonGroup();
 
-    for (final CountryDataHandler.DISPLAY_UNITE unite : CountryDataHandler.DISPLAY_UNITE.values())
+    for (final CountryDataHandler.DISPLAY_UNIT unite : CountryDataHandler.DISPLAY_UNIT.values())
     {
       JRadioButton radioButton = new JRadioButton();
       radioButton.setBackground(ColorsAndFonts.GUI_BACKGROUND);
@@ -54,7 +61,7 @@ public class OverlayPanel extends JPanel implements ActionListener
       radioPanel.add(radioButton); // adds to panel
       radioButton.setAction(new changeUniteConverter(unite));
 
-      if (unite == CountryDataHandler.DISPLAY_UNITE.METRIC)
+      if (unite == CountryDataHandler.DISPLAY_UNIT.METRIC)
       {
         radioButton.setSelected(true); // this is the default starting value.
       }
@@ -68,8 +75,8 @@ public class OverlayPanel extends JPanel implements ActionListener
    */
   private class changeUniteConverter extends AbstractAction
   {
-    private CountryDataHandler.DISPLAY_UNITE unite;
-    public changeUniteConverter(CountryDataHandler.DISPLAY_UNITE unite)
+    private CountryDataHandler.DISPLAY_UNIT unite;
+    public changeUniteConverter(CountryDataHandler.DISPLAY_UNIT unite)
     {
       super(unite.name());
       this.unite = unite;
@@ -85,12 +92,12 @@ public class OverlayPanel extends JPanel implements ActionListener
   }
 
 
-  /* sets up and returns a get Overlay */
+  /* sets up container for all the different overlays*/
   private JPanel getOverlayRadio()
   {
     JPanel radioPanel = new JPanel();
     radioPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    radioPanel.setLayout(new GridLayout(0, 2));
+    radioPanel.setLayout(new GridLayout(5, 3));
     ButtonGroup group = new ButtonGroup();
 
     for (int i = 0; i < overlays.length; i++)
@@ -129,6 +136,7 @@ public class OverlayPanel extends JPanel implements ActionListener
     }
   }
 
+  /* customizes the look of the radio button*/
   private class CustomIcon implements Icon
   {
     private JRadioButton button;
