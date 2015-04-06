@@ -168,9 +168,7 @@ public class GroupCountryHandler extends CountryDataHandler
 
     double oldValue = getCropLand(type);
     double dx = activeConverter.convert2ModelSpace(kilom) - oldValue;
-
-    System.out.println("dx is negative? " + (dx < 0));
-
+    
     STEP = dx > 0 ? STEP : -STEP;
     for (Country country : countries)
     {
