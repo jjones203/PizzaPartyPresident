@@ -51,7 +51,7 @@ public class OverlayPanel extends JPanel implements ActionListener
     radioPanel.setLayout(new GridLayout(0, 1));
     ButtonGroup group = new ButtonGroup();
 
-    for (final CountryDataHandler.DISPLAY_UNITE unite : CountryDataHandler.DISPLAY_UNITE.values())
+    for (final CountryDataHandler.DISPLAY_UNIT unite : CountryDataHandler.DISPLAY_UNIT.values())
     {
       JRadioButton radioButton = new JRadioButton();
       radioButton.setBackground(ColorsAndFonts.GUI_BACKGROUND);
@@ -61,7 +61,7 @@ public class OverlayPanel extends JPanel implements ActionListener
       radioPanel.add(radioButton); // adds to panel
       radioButton.setAction(new changeUniteConverter(unite));
 
-      if (unite == CountryDataHandler.DISPLAY_UNITE.METRIC)
+      if (unite == CountryDataHandler.DISPLAY_UNIT.METRIC)
       {
         radioButton.setSelected(true); // this is the default starting value.
       }
@@ -75,8 +75,8 @@ public class OverlayPanel extends JPanel implements ActionListener
    */
   private class changeUniteConverter extends AbstractAction
   {
-    private CountryDataHandler.DISPLAY_UNITE unite;
-    public changeUniteConverter(CountryDataHandler.DISPLAY_UNITE unite)
+    private CountryDataHandler.DISPLAY_UNIT unite;
+    public changeUniteConverter(CountryDataHandler.DISPLAY_UNIT unite)
     {
       super(unite.name());
       this.unite = unite;
