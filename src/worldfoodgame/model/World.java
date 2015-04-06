@@ -224,12 +224,13 @@ public class World extends AbstractScenario
     System.out.println("Mutating climate data...");
     updateEcoSystems();
     System.out.printf("climate data mutated in %dms%n", System.currentTimeMillis() - start);
+    
     currentDate.add(Calendar.YEAR, 1);
-
     start = System.currentTimeMillis();
     System.out.println("Planting tiles...");
     plantAndHarvestCrops();       // implemented
     System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
+    System.out.println("Date is now " + getCurrentYear());
 
     adjustPopulation(); // need this before shipping
 
@@ -242,9 +243,7 @@ public class World extends AbstractScenario
     System.out.println("Mutating country demographics...");
     adjustUndernourished();  // implemented
     System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
-
-    System.out.println("World done stepping. Date is now " + getCurrentYear() + "\n\n");
-
+    System.out.println("year stepping done");
   }
 
   private void adjustPopulation()

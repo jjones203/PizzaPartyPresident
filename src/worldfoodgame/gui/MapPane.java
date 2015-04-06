@@ -31,7 +31,7 @@ public class MapPane extends JPanel
   implements MouseWheelListener, MouseInputListener, KeyListener
 {
 
-  private final static double NAME_VIS_SCALE = 40;
+  private final static double NAME_VIS_SCALE = 80;
   private final static double FLAG_VIS_SCALE = 250;
   private final static int CAMERA_STEP = 10;
   private final static double ZOOM_STEP = .05;
@@ -138,7 +138,6 @@ public class MapPane extends JPanel
     for (Line2D l : grid) g2.draw(l);
 
     // set and draw all the background regions
-    // todo this feature might not really be needed.
     Collection<GUIRegion> backgroundRegions = presenter.getBackgroundRegionsInView(cam);
     for (GUIRegion region : backgroundRegions) region.draw(g2);
 
@@ -168,11 +167,13 @@ public class MapPane extends JPanel
     for (GUIRegion region : regionsToDraw)
     {
       double visibleRaio = screenArea / region.getSurfaceArea();
-      if (visibleRaio < NAME_VIS_SCALE)
+      boolean isPrimaryAndActive = region.isActive() && region.isPrimaryRegion();
+
+      if (visibleRaio < NAME_VIS_SCALE || isPrimaryAndActive)
       {
         RegionNameDraw.draw(g2, region);
       }
-      if (visibleRaio < FLAG_VIS_SCALE)
+      if (visibleRaio < FLAG_VIS_SCALE || isPrimaryAndActive)
       {
         RegionFlagDraw.draw(g2, region);
       }
