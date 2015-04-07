@@ -271,7 +271,7 @@ public class LabelFactory
   public GraphLabel getMalnurished()
   {
     final GraphLabel malnurishedLab = new GraphLabel(
-      "Malnurished",
+      "Malnourished",
       dataHandler.getUndernourished(),
       1,
       "% 00.0"
