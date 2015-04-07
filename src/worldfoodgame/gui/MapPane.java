@@ -2,10 +2,7 @@ package worldfoodgame.gui;
 
 import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.regionlooks.*;
-import worldfoodgame.model.LandTile;
-import worldfoodgame.model.MapPoint;
-import worldfoodgame.model.TileManager;
-import worldfoodgame.model.World;
+import worldfoodgame.model.*;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -96,7 +93,6 @@ public class MapPane extends JPanel
   }
 
 
-
   /**
    * Overridden paintComponent handles all map drawing.  Model-dependent drawing
    * is handled by the GUIRegions and their associated RegionViews.  Interface
@@ -129,7 +125,7 @@ public class MapPane extends JPanel
     if (regionView instanceof RasterDataView)
     {
       BufferedImage image = ((RasterDataView) regionView).getRasterImage();
-      g2.drawImage(image, (int) -converter.getWidth()/2, (int) -converter.getHeight()/2, null);
+      g2.drawImage(image, (int) -converter.getWidth() / 2, (int) -converter.getHeight() / 2, null);
 
       if (presenter.getActiveRegions() != null)
       {
@@ -142,11 +138,28 @@ public class MapPane extends JPanel
 
 
     // draws names and/or flags
+    boolean singularSelection = false;
+    if (presenter.getActiveRegions() != null && !presenter.getActiveRegions().isEmpty())
+    {
+      singularSelection = true;
+      Country country = presenter.getActiveRegions().get(0).getCountry();
+      for (GUIRegion guiRegion : presenter.getActiveRegions())
+      {
+        if (guiRegion.getCountry() != country)
+        {
+          singularSelection = false;
+          break;
+        }
+      }
+    }
+
     double screenArea = cam.getViewBounds().getWidth() * cam.getViewBounds().getWidth();
     for (GUIRegion region : regionsToDraw)
     {
       double visibleRaio = screenArea / region.getSurfaceArea();
-      boolean isPrimaryAndActive = region.isActive() && region.isPrimaryRegion();
+
+      boolean isPrimaryAndActive = region.isActive()
+        && region.isPrimaryRegion() && singularSelection;
 
       if (visibleRaio < NAME_VIS_SCALE || isPrimaryAndActive)
       {
@@ -423,15 +436,18 @@ public class MapPane extends JPanel
   @Override
   public String getToolTipText(MouseEvent event)
   {
-    if(!doMultiSelect)
+    if (!doMultiSelect)
     {
       Point2D loc = convertToMapSpace(event.getPoint());
       MapPoint p = converter.pointToMapPoint(loc);
       LandTile tile = World.getWorld().getTile(p.getLon(), p.getLat());
-      if(tile == TileManager.NO_DATA) return "";
+      if (tile == TileManager.NO_DATA) return "";
       return tile.toolTipText();
     }
-    else return "";
+    else
+    {
+      return "";
+    }
   }
 
   /* helper function converts a point in screen-space to a point in map-space
