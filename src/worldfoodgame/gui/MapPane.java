@@ -138,6 +138,7 @@ public class MapPane extends JPanel
 
 
     // draws names and/or flags
+    // some kinda messy logic for displaying a single region if it is selected.
     boolean singularSelection = false;
     if (presenter.getActiveRegions() != null && !presenter.getActiveRegions().isEmpty())
     {
