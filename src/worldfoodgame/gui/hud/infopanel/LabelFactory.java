@@ -267,4 +267,24 @@ public class LabelFactory
 
     return  imported;
   }
+
+  public GraphLabel getMalnurished()
+  {
+    final GraphLabel malnurishedLab = new GraphLabel(
+      "Malnurished",
+      dataHandler.getUndernourished(),
+      1,
+      "% 00.0"
+    );
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        malnurishedLab.setValue(dataHandler.getUndernourished());
+      }
+    });
+    return malnurishedLab;
+  }
 }

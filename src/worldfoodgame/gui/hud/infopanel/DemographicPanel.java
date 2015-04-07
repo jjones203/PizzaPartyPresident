@@ -54,6 +54,7 @@ public class DemographicPanel extends JPanel
     panel.add(labelFactory.getMedianAge());
     panel.add(labelFactory.getBirthRate());
     panel.add(labelFactory.getMortalityRate());
+    panel.add(labelFactory.getMalnurished());
 
     return panel;
   }
