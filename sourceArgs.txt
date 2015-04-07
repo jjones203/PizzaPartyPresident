@@ -58,6 +58,7 @@
 ./src/worldfoodgame/gui/regionlooks/RegionNameDraw.java
 ./src/worldfoodgame/gui/regionlooks/RegionView.java
 ./src/worldfoodgame/gui/regionlooks/RegionViewFactory.java
+./src/worldfoodgame/gui/regionlooks/TradingRouteOverlay.java
 ./src/worldfoodgame/gui/WorldPresenter.java
 ./src/worldfoodgame/gui/XMLEditor.java
 ./src/worldfoodgame/IO/BioClimDataParser.java
