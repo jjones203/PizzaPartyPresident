@@ -25,6 +25,7 @@ public class World extends AbstractScenario
   private Collection<Country> politicalWorld;
   private TileManager tileManager;
   private Calendar currentDate;
+  private List<TradingOptimizer.TradePair>[] lastTrades;
   private boolean DEBUG = false;
 
   private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
@@ -247,7 +248,10 @@ public class World extends AbstractScenario
     deficits by crop through the TradingOptimizer. */
   private void shipAndReceive()
   {
-    new TradingOptimizer(politicalWorld, getCurrentYear()).optimizeAndImplementTrades();
+    TradingOptimizer optimizer = new TradingOptimizer(politicalWorld, getCurrentYear());
+    optimizer.optimizeAndImplementTrades();
+    while(!optimizer.doneTrading());
+    lastTrades = optimizer.getAllTrades();
   }
 
   
@@ -345,4 +349,8 @@ public class World extends AbstractScenario
   }
 
 
+  public List<TradingOptimizer.TradePair>[] getTrades()
+  {
+   return lastTrades;
+  }
 }

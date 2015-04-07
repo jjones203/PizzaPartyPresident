@@ -20,6 +20,9 @@ public interface ColorsAndFonts
 
   Color ACTIVE_REGION = new Color(0xDEB564);
   
+  Color CAPITAL_PASSIVE = new Color(255, 98, 0);
+  Color CAPITAL_ACTIVE = new Color(84, 231, 76);
+  
   /* changed from 0xE37956, now is same as PASSIVE_REGION_OUTLINE */
   Color ACTIVE_REGION_OUTLINE = new Color(0x767979); 
 
@@ -47,6 +50,19 @@ public interface ColorsAndFonts
 
   Color MINI_BOX_REGION = new Color(222, 183, 106);
 
+  Color WHEAT_COLOR = new Color(123, 80, 9, 220);
+  Color RICE_COLOR = new Color(199, 220, 214, 220);
+  Color CORN_COLOR = new Color(244, 210, 17, 220);
+  Color OTHER_CROP_COLOR = new Color(132, 49, 51,220);
+  Color SOY_COLOR = new Color(70, 148, 36, 220);
+
+  Color[] CROP_COLORS = new Color[]{
+    WHEAT_COLOR, RICE_COLOR, CORN_COLOR, SOY_COLOR, OTHER_CROP_COLOR
+  };
+
+
+
+
   Color[] PlantingZoneColors = {
     new Color(0x404040),
     new Color(0x67001f),
@@ -65,7 +81,6 @@ public interface ColorsAndFonts
     new Color(0x053061),
   };
 
-
   Color[] RAIN_FALL = {
     new Color(0xf7fbff),
     new Color(0xdeebf7),
@@ -77,8 +92,6 @@ public interface ColorsAndFonts
     new Color(0x08519c),
     new Color(0x08306b),
   };
-
-
   Color[] POPULATION_COLORS = {
     new Color(0xfff5f0),
     new Color(0xfee0d2),
@@ -90,7 +103,6 @@ public interface ColorsAndFonts
     new Color(0xa50f15),
     new Color(0x67000d),
   };
-
   Color BAR_GRAPH_NEG = Color.cyan;
   MatteBorder HEADING_UNDERLINE = BorderFactory.createMatteBorder(0, 0, 2, 0, ColorsAndFonts.GUI_TEXT_COLOR.darker());
 

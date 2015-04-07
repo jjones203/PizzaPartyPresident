@@ -2,6 +2,7 @@ package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.WorldPresenter;
+import worldfoodgame.gui.regionlooks.RegionViewFactory;
 import worldfoodgame.gui.regionlooks.RegionViewFactory.Overlay;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by winston on 3/29/15.
  * <p/>
- * presents the user with the controlls to select different overlays for visualizing
+ * presents the user with the controls to select different overlays for visualizing
  * the state of the world.
  *
  * this panel also contains a selector for displaying different unite converters.
@@ -96,27 +97,58 @@ public class OverlayPanel extends JPanel implements ActionListener
   private JPanel getOverlayRadio()
   {
     JPanel radioPanel = new JPanel();
+    
+    int rows = 10;
+    int cols = 4;
+
+    Overlay[][] all = new Overlay[][]{
+      Overlay.getRasterOverlays(), 
+      Overlay.getDemographicOverlays(), 
+      Overlay.getCropDedicationOverlays()}; 
+    
     radioPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    radioPanel.setLayout(new GridLayout(5, 3));
+    radioPanel.setLayout(new GridLayout(0, cols));
     ButtonGroup group = new ButtonGroup();
 
-    for (int i = 0; i < overlays.length; i++)
+    for (int i = 0; i < cols; i++)
     {
-      Overlay overlay = overlays[i];
-      JRadioButton button = new JRadioButton(overlay.toString());
-      button.setActionCommand(Integer.toString(overlay.ordinal()));
-      button.setIcon(new CustomIcon(button));
-      button.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+      JPanel subPanel = new JPanel();
+      subPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+      subPanel.setLayout(new GridLayout(rows, 1));
+      Overlay overlay;
+      
+      for (int j = 0; j < rows; j++)
+      {
+        JPanel noButton = new JPanel();
+        noButton.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+        if(i == 0)
+        {
+          if(j != 0) { subPanel.add(noButton); continue; }
+          else overlay = Overlay.NONE;
+        }
+        else
+        {
+          if(j < all[i-1].length) overlay = all[i-1][j];
+          else { subPanel.add(noButton); continue; }
+        }
+        
+        JRadioButton button = new JRadioButton(overlay.toString().replace("_", " "));
+        
+        button.setActionCommand(Integer.toString(overlay.ordinal()));
+        button.setIcon(new CustomIcon(button));
+        
+        button.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+        button.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
 
-      button.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
-      button.addActionListener(this);
+        button.addActionListener(this);
 
-      radioPanel.add(button);
-      group.add(button);
-
-      if (i == 0) button.setSelected(true);
+        subPanel.add(button);
+        group.add(button);
+        
+        if(i == 0 && j == 0) button.setSelected(true);
+      }
+      radioPanel.add(subPanel);
     }
-
     return radioPanel;
   }
   

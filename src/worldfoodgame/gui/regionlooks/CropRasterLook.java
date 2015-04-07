@@ -1,5 +1,6 @@
 package worldfoodgame.gui.regionlooks;
 
+import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.model.LandTile;
 import worldfoodgame.model.World;
 
@@ -38,23 +39,23 @@ class CropRasterLook extends RasterViz
       switch (tile.getCurrentCrop())
       {
         case CORN:
-          g2d.setColor(Color.red);
+          g2d.setColor(ColorsAndFonts.CORN_COLOR);
           break;
 
         case OTHER_CROPS:
-          g2d.setColor(Color.green);
+          g2d.setColor(ColorsAndFonts.OTHER_CROP_COLOR);
           break;
 
         case RICE:
-          g2d.setColor(Color.white);
+          g2d.setColor(ColorsAndFonts.RICE_COLOR);
           break;
 
         case SOY:
-          g2d.setColor(Color.yellow);
+          g2d.setColor(ColorsAndFonts.SOY_COLOR);
           break;
 
         case WHEAT:
-          g2d.setColor(Color.blue);
+          g2d.setColor(ColorsAndFonts.WHEAT_COLOR);
           break;
 
         default:

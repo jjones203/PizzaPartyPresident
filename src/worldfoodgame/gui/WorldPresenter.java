@@ -3,6 +3,7 @@ package worldfoodgame.gui;
 import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.regionlooks.RegionView;
 import worldfoodgame.gui.regionlooks.RegionViewFactory;
+import worldfoodgame.gui.regionlooks.TradingRouteOverlay;
 import worldfoodgame.model.Country;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
@@ -370,6 +371,7 @@ public class WorldPresenter extends Observable
   public void stepWorld()
   {
     world.stepWorld();
+    TradingRouteOverlay.updateTrades(world.getTrades());
     setChanged();
     notifyObservers();
   }
@@ -452,14 +454,14 @@ public class WorldPresenter extends Observable
      */
     public List<Country> getActiveCountries()
     {
-      Collection<Country> coutries = new HashSet<>();
+      Collection<Country> active = new HashSet<>();
 
       for (GUIRegion guiRegion : activeRegions)
       {
-        coutries.add(guiRegion.getRegion().getCountry());
+        active.add(guiRegion.getRegion().getCountry());
       }
 
-      return new ArrayList<>(coutries);
+      return new ArrayList<>(active);
     }
 
     /**

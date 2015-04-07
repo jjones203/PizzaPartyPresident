@@ -30,6 +30,11 @@ public class TradingOptimizer
   private final int year;
   private final Collection<Country> countries;
   private static final boolean DEBUG = false;
+  private final List<TradePair>[] allTrades = new ArrayList[]{
+    new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList()
+  };
+  
+  private List<SingleCropTrader> traders;
   
   /**
    Construct a new TradingOptimizer with the set of countries to trade between.
@@ -52,11 +57,21 @@ public class TradingOptimizer
    */
   public void optimizeAndImplementTrades()
   {
+    traders = new ArrayList<>();
     for(EnumCropType crop : EnumCropType.values())
     {
-      new SingleCropTrader(crop).start();
+      traders.add(new SingleCropTrader(crop));
     }
+    for(SingleCropTrader trader : traders) trader.start();
   }
+  
+  public boolean doneTrading()
+  {
+    for(SingleCropTrader t : traders) if (!t.isDone()) return false;
+    return true;
+  }
+  
+  public List<TradePair>[] getAllTrades(){ return allTrades; }
 
   /**
    TradePair class represents a potential pairing between an importer and
@@ -65,11 +80,13 @@ public class TradingOptimizer
    calculation and the Country references.  They may be instantiated from an
    existing TradePair to mitigate computational complexity.
    */
-  private static class TradePair
+  public static class TradePair implements Comparable<TradePair>
   {
-    private final Country importer;
-    private final Country exporter;
-    private final double efficiency;
+    public final Country importer;
+    public final Country exporter;
+    public final double efficiency;
+    private double amount = 0;
+
 
     private TradePair(Country exporter, Country importer)
     {
@@ -98,9 +115,9 @@ public class TradingOptimizer
       The trade will only be implemented if both the importer still has a need
       for the crop and if the exporter can supply the crop.  The amount traded
       is bounded by both the need and the surplus of importer and exporter,
-      respectively.
+      respectively.  Returns true if a trade is made, false otherwise.
      */
-    private void implementTrade(EnumCropType crop, int year)
+    private boolean implementTrade(EnumCropType crop, int year)
     {
       double need = -(importer.getNetCropAvailable(year, crop) - importer.getTotalCropNeed(year, crop));
       double supply = exporter.getNetCropAvailable(year, crop) - exporter.getTotalCropNeed(year, crop);
@@ -113,9 +130,24 @@ public class TradingOptimizer
         double toGive = Math.min(need / efficiency, supply);
         double toReceive = toGive * efficiency;
 
+        amount = toReceive;
         exporter.setCropExport(year, crop, toGive + curExport);
         importer.setCropImport(year, crop, toReceive + curImport);
+        
+        return true;
       }
+      return false;
+    }
+
+    @Override
+    public int compareTo(TradePair o)
+    {
+      return o.efficiency > efficiency? 1 : efficiency > o.efficiency ? -1 : 0;
+    }
+
+    public double getAmountTraded()
+    {
+      return amount;
     }
   }
 
@@ -125,6 +157,7 @@ public class TradingOptimizer
    */
   private class SingleCropTrader extends Thread
   {
+    private boolean isDone = false;
     private static final int TRIALS = 50;
     private final EnumCropType crop;
     private final List<TradePair> pairs = new ArrayList<>();
@@ -171,13 +204,29 @@ public class TradingOptimizer
     }
 
     /**
-     Defines the running behavior of the SingleCropTrader.  Multiple runs
-     of the GAP algorithm are run, the best result of which is saved, along with
-     the TradePair ordering that produced it.
-     This ordering is them implemented in the actual country objects.
+     Defines the running behavior of the SingleCropTrader.
      */
     @Override
     public void run()
+    {
+      tradeDeterministic();
+//      tradeProbablistic();
+      isDone = true;
+    }
+    
+    public boolean isDone() { return isDone; }
+
+    private void tradeDeterministic()
+    {
+      Collections.sort(master);
+      allTrades[crop.ordinal()].addAll(master.implementTrades());
+    }
+
+
+    /* Multiple runs of the GAP algorithm are run, the best result of which is
+    saved, along with the TradePair ordering that produced it.
+    This ordering is them implemented in the actual country objects. */
+    private void tradeProbablistic()
     {
       long start = System.currentTimeMillis();
       TradePairList tmp;
@@ -212,7 +261,7 @@ public class TradingOptimizer
         }
       }
 
-      best.implementTrades();
+      allTrades[crop.ordinal()].addAll(best.implementTrades());
 
       long end = System.currentTimeMillis();
       if (DEBUG) System.out.printf("Trader for %s done in %dms%n" +
@@ -326,12 +375,14 @@ public class TradingOptimizer
     /* implement the trades in this TradePairList at the country level.  This
       mutates the underlying data used to calculate undernourishment, happiness,
       etc.  */
-    private void implementTrades()
+    private List<TradePair> implementTrades()
     {
+      List<TradePair> list = new ArrayList<>();
       for(TradePair pair: this)
       {
-        pair.implementTrade(crop, year);
+        if(pair.implementTrade(crop, year)) list.add(pair);
       }
+      return list;
     }
 
     /* sort this list based first on importer Eculidean distance from a randomly

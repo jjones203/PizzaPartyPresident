@@ -1,5 +1,6 @@
 package worldfoodgame.gui.regionlooks;
 
+import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.GUIRegion;
 import worldfoodgame.gui.displayconverters.EquirectangularConverter;
 import worldfoodgame.gui.displayconverters.MapConverter;
@@ -18,12 +19,12 @@ import java.awt.geom.AffineTransform;
 class CapitolView implements RegionView
 {
   private MapConverter converter = new EquirectangularConverter();
-  private RegionView defalt = new DefaultLook();
+  private RegionView defaultLook = new DefaultLook();
 
   @Override
   public void draw(Graphics g, GUIRegion gRegion)
   {
-    defalt.draw(g, gRegion);
+    defaultLook.draw(g, gRegion);
 
     if (gRegion.isPrimaryRegion())
     {
@@ -42,15 +43,15 @@ class CapitolView implements RegionView
 
       if (gRegion.isActive())
       {
-        g2d.setColor(Color.GREEN);
+        g2d.setColor(ColorsAndFonts.CAPITAL_ACTIVE);
       }
       else
       {
-        g2d.setColor(Color.RED);
+        g2d.setColor(ColorsAndFonts.CAPITAL_PASSIVE);
       }
       
       /* indicate the capital location with an ellipse independent of the transform */
-      g2d.fillOval(dst.x, dst.y, 5, 5);
+      g2d.fillOval(dst.x, dst.y, 4, 4);
 
       g2d.setTransform(at);
     }
