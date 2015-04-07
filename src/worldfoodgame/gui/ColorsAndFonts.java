@@ -119,5 +119,10 @@ public interface ColorsAndFonts
       double y = (299 * color.getRed() + 587 * color.getGreen() + 114 * color.getBlue()) / 1000;
       return y >= 128 ? Color.black : Color.white;
     }
+
+    public static float extractHue(Color color)
+    {
+      return Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null)[0];
+    }
   }
 }

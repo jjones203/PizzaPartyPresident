@@ -123,7 +123,7 @@ public class GroupCountryHandler extends CountryDataHandler
     double tons = 0;
     for (Country country : countries)
     {
-      tons = country.getCropProduction(World.getWorld().getCurrentYear(), type);
+      tons += country.getCropProduction(World.getWorld().getCurrentYear(), type);
     }
     return tons;
   }
@@ -134,7 +134,7 @@ public class GroupCountryHandler extends CountryDataHandler
     double tons = 0;
     for (Country country : countries)
     {
-      tons = country.getCropImport(World.getWorld().getCurrentYear(), type);
+      tons += country.getCropImport(World.getWorld().getCurrentYear(), type);
     }
     return tons;
   }
@@ -145,7 +145,7 @@ public class GroupCountryHandler extends CountryDataHandler
     double tons = 0;
     for (Country country : countries)
     {
-      tons = country.getCropExport(World.getWorld().getCurrentYear(), type);
+      tons += country.getCropExport(World.getWorld().getCurrentYear(), type);
     }
     return tons;
   }

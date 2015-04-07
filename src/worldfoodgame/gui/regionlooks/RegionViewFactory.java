@@ -1,6 +1,7 @@
 package worldfoodgame.gui.regionlooks;
 
 import worldfoodgame.common.EnumCropType;
+import worldfoodgame.gui.ColorsAndFonts;
 
 /**
  * Created by winston on 1/31/15.
@@ -54,11 +55,25 @@ public class RegionViewFactory
     CAPITAL(new CapitolView()),
     TRADING(new TradingRouteOverlay()),
 
-    CORN(new CropView(EnumCropType.CORN,(float)0.3)),
-    SOY(new CropView(EnumCropType.SOY,(float)0.5)),
-    RICE(new CropView(EnumCropType.RICE,(float)0.9)),
-    WHEAT(new CropView(EnumCropType.WHEAT,(float)0.1)),
-    OTHER_CROPS(new CropView(EnumCropType.OTHER_CROPS,(float)0.25)),
+    CORN(new CropView(
+      EnumCropType.CORN,
+      ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.CORN_COLOR))),
+
+    SOY(new CropView(
+      EnumCropType.SOY,
+      ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.SOY_COLOR))),
+
+    RICE(new CropView(
+      EnumCropType.RICE,
+      ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.RICE_COLOR))),
+
+    WHEAT(new CropView(
+      EnumCropType.WHEAT,
+      ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.WHEAT_COLOR))),
+
+    OTHER_CROPS(new CropView(
+      EnumCropType.OTHER_CROPS,
+      ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.OTHER_CROP_COLOR))),
 
     PRECIPITATION(new PrecipitationView()),
     MAX_TMP(new MaxTemp()),

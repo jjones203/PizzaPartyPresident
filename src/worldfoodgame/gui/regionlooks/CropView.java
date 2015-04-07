@@ -38,6 +38,8 @@ public class CropView implements RegionView
 
     Color color = Color.getHSBColor(hueVal, ratio, LUMINOSITY);
 
+    if (gRegion.isActive()) color = color.brighter();
+
     g.setColor(color);
     g.fillPolygon(gRegion.getPoly());
 
