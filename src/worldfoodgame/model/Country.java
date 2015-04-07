@@ -356,32 +356,32 @@ public class Country extends AbstractCountry
    */
   public void updateUndernourished(int year)
   {
-    double numUndernourished;
+    double percentUndernourished;
     double population = getPopulation(year);
     double[] netCropsAvail = new double[EnumCropType.SIZE];
     int numCropsAvail = 0;
     for (EnumCropType crop : EnumCropType.values())
     {
-      double netAvail = getNetCropAvailable(year, crop);
-      netCropsAvail[crop.ordinal()] = netAvail;
-      if (netAvail >= 0) numCropsAvail++;
+      double surplus = getNetCropAvailable(year, crop) - getTotalCropNeed(year, crop);
+      netCropsAvail[crop.ordinal()] = getNetCropAvailable(year, crop);
+      if (surplus >= 0) numCropsAvail++;
     }
     if (numCropsAvail == 5)
     {
-      numUndernourished = 0;
+      percentUndernourished = 0;
     }
     else
     {
       double maxResult = 0;
       for (EnumCropType crop : EnumCropType.values())
       {
-        double need = getCropNeedPerCapita(crop);
-        double result = (netCropsAvail[crop.ordinal()]) / (0.5 * need * population);
+        double totalnNeed = getTotalCropNeed(year,crop);
+        double result = netCropsAvail[crop.ordinal()] / totalnNeed;
         if (result > maxResult) maxResult = result;
       }
-      numUndernourished = Math.min(population, maxResult);
+      percentUndernourished = Math.min(1, maxResult);
     }
-    setUndernourished(year, numUndernourished / population);
+    setUndernourished(year, percentUndernourished);
   }
 
   /**
@@ -717,10 +717,10 @@ public class Country extends AbstractCountry
       double changeUndernourish = numUndernourish - (getPopulation(year - 1) * getUndernourished(year - 1));
       double changeDeaths = numDeaths - (getPopulation(year - 1) * getMortalityRate(year - 1) / 1000);
       formulaResult = 5 * numUndernourish + 2 * changeUndernourish + 10 * numDeaths + 5 * changeDeaths;
-    }
 
-    if (formulaResult < 0) formulaResult = 0;
-    return Math.min(currentPop, formulaResult);
+      if (formulaResult < 0) formulaResult = 0;
+      return Math.min(currentPop, formulaResult);
+    }
   }
 
   /**
