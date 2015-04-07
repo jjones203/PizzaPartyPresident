@@ -217,9 +217,12 @@ public class World extends AbstractScenario
     shipAndReceive();
     if (DEBUG) System.out.printf("Done shipping and receiving in: %dms%n", System.currentTimeMillis() - start);
 
-    start = System.currentTimeMillis();
-    if (DEBUG) System.out.println("Mutating country demographics...");
     adjustUndernourished();  // implemented
+    start = System.currentTimeMillis();
+
+    if (DEBUG) System.out.println("Mutating country demographics...");
+
+
     if (DEBUG) System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
     if (DEBUG) System.out.println("year stepping done");
   }
