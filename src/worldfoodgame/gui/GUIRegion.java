@@ -41,7 +41,7 @@ public class GUIRegion
     {
       MapPoint mapPoint = getRegion().getCountry().getCapitolLocation();
       Point point = converter.mapPointToPoint(mapPoint);
-      isPrimaryRegion = getPoly().contains(point);
+      isPrimaryRegion = getPoly().getBounds().contains(point);
     }
     return isPrimaryRegion;
   }
