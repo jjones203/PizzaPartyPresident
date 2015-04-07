@@ -157,8 +157,8 @@ public class MapPane extends JPanel
     double screenArea = cam.getViewBounds().getWidth() * cam.getViewBounds().getWidth();
     for (GUIRegion region : regionsToDraw)
     {
+      // we only care about primary regions
       double visibleRaio = screenArea / region.getSurfaceArea();
-
       boolean isPrimaryAndActive = region.isActive()
         && region.isPrimaryRegion() && singularSelection;
 

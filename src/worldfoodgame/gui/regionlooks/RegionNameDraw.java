@@ -26,6 +26,7 @@ public class RegionNameDraw
    */
   public static void draw(Graphics g, GUIRegion gRegion)
   {
+    
     Graphics2D g2d = (Graphics2D) g;
 
     g2d.setRenderingHint(
