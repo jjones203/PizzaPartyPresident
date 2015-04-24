@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
+import javax.swing.JFrame;
 
 import static worldfoodgame.gui.Camera.CAM_DISTANCE;
 
@@ -371,7 +372,9 @@ public class WorldPresenter extends Observable
   public void stepWorld()
   {
     world.stepWorld();
-    TradingRouteOverlay.updateTrades(world.getTrades());
+    JFrame trade = new JFrame();
+    System.out.println("Finishing user trading, about to let AI trade.");
+    //TradingRouteOverlay.updateTrades(world.getTrades());
     setChanged();
     notifyObservers();
   }
