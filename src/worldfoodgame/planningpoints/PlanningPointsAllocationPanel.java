@@ -30,5 +30,7 @@ public class PlanningPointsAllocationPanel
     this.playerPlanningPoints = playerPlanningPoints;
   }
   
+  
+  
 
 }
