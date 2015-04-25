@@ -3,6 +3,7 @@ package worldfoodgame.gui.hud.infopanel;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.WorldPresenter;
 import worldfoodgame.gui.hud.MiniViewBox;
+import worldfoodgame.gui.hud.PieChart;
 import worldfoodgame.model.Country;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ import java.util.Observer;
  */
 public class InfoPanel extends JPanel implements Observer
 {
-  public static final Dimension VIEW_BOX_DIM = new Dimension(220, 240);
+  public static final Dimension CHART_DIM = new Dimension(220, 240);
   public static final Dimension TABP_DIM = new Dimension(620, 240);
 
 
@@ -28,6 +29,7 @@ public class InfoPanel extends JPanel implements Observer
   private LandPanel landPanel;
 
   private MiniViewBox viewBox;
+  private PieChart pieChart;
 
   private TabbedPanel innerTabbedPanel;
   private HashMap<EnumCropType, CropPanel> cropPanels;
@@ -41,9 +43,13 @@ public class InfoPanel extends JPanel implements Observer
     worldPresenter.addObserver(this);
 
     setLayout(new BorderLayout());
-    viewBox = new MiniViewBox(" ");
-    viewBox.setPreferredSize(VIEW_BOX_DIM);
-    add(viewBox, BorderLayout.WEST);
+    //viewBox = new MiniViewBox(" ");
+    //viewBox.setPreferredSize(VIEW_BOX_DIM);
+    //add(viewBox, BorderLayout.WEST);
+
+    pieChart = new PieChart(" ");
+    pieChart.setPreferredSize(CHART_DIM);
+    add(pieChart, BorderLayout.WEST);
 
     OuterTabbedPanel = new TabbedPanel();
     OuterTabbedPanel.setPreferredSize(TABP_DIM);
@@ -78,15 +84,18 @@ public class InfoPanel extends JPanel implements Observer
     if (countryList.size() == 0)
     {
       dataHandler = CountryDataHandler.getNullData();
-      viewBox.setTitle(" ");
+      //viewBox.setTitle(" ");
+      pieChart.setTitle(" ");
     }
     else
     {
       dataHandler = CountryDataHandler.getData(countryList, worldPresenter.getYear());
-      viewBox.setTitle(dataHandler.getName());
+      //viewBox.setTitle(dataHandler.getName());
+      pieChart.setTitle(dataHandler.getName());
     }
 
-    viewBox.setDrawableRegions(worldPresenter.getActiveRegions());
+    //viewBox.setDrawableRegions(worldPresenter.getActiveRegions());
+    pieChart.setRegions(worldPresenter.getActiveRegions());
 
     labelFactory = new LabelFactory(dataHandler);
 
