@@ -14,4 +14,5 @@ package worldfoodgame.planningpoints;
 public interface PlanningPointsInteractableRegion
 {
 
+
 }

@@ -169,4 +169,21 @@ public enum PlanningPointsLevel
     return effeciency;
   }
   
+  public static PlanningPointsLevel pointsToLevel(int points)
+  {
+    if (points>PlanningPointConstants.MAX_POINTS) System.out.println("Too many planning points probblem\n");
+    points = Math.min(PlanningPointConstants.MAX_POINTS, points); //restricts to max
+    
+    int level = points/PlanningPointConstants.POINTS_PER_TIER;  // range from 0 to 5
+    
+    if(level==0) return PlanningPointsLevel.Tier1;
+    else if(level==1) return PlanningPointsLevel.Tier2;
+    else if(level==2) return PlanningPointsLevel.Tier3;
+    else if(level==3) return PlanningPointsLevel.Tier4;
+    else if(level==4) return PlanningPointsLevel.Tier5;
+    else System.out.println("Level is out of bounds problem");
+    
+    return PlanningPointsLevel.Tier1;
+  }
+  
 }
