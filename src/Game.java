@@ -13,6 +13,7 @@ import worldfoodgame.model.Country;
 import worldfoodgame.model.TileManager;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
+import worldfoodgame.model.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,10 +75,10 @@ public class Game
 
     World world = World.getWorld();
     MapConverter converter = new EquirectangularConverter();
-    
+
     tileManager.setWorld(world);
 
-    worldPresenter = new WorldPresenter(converter, world);
+    worldPresenter = new WorldPresenter(converter, world, new Player (world.getCountry("Canada")));
     worldPresenter.setBackgroundRegions(background);
 
 
