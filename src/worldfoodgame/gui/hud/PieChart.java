@@ -178,19 +178,29 @@ public class PieChart extends JPanel
 
         double currentValue = 0.0D;
         int startAngle = 0;
-        for (int i = 0; i < slices.size(); i++)
+        int arcAngle = 0;
+        for (CropSlice cs : slices)
         {
-          if (slices.get(i).actual >= slices.get(i).needed)
+          if (cs.actual >= cs.needed)
           {
             startAngle = (int) (currentValue * 360 / needTotal);
-            int arcAngle = (int) (slices.get(i).needed * 360 / needTotal);
-            g.setColor(slices.get(i).color);
+            arcAngle = (int) (cs.needed * 360 / needTotal);
+            g.setColor(cs.color);
             g.fillArc(5, 5, (int) boxW, (int) boxH, startAngle, arcAngle);
-            currentValue += slices.get(i).needed;
+            currentValue += cs.needed;
           }
           else
           {
-            
+            g.setColor(cs.color);
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+            startAngle = (int) (currentValue * 360 / needTotal);
+            arcAngle = (int) (cs.needed * 360 / needTotal);
+            g.fillArc(5, 5, (int) boxW, (int) boxH, startAngle, arcAngle);
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+            startAngle = (int) (currentValue * 360 / needTotal);
+            arcAngle = (int) (cs.actual * 360 / needTotal);
+            g.fillArc(5, 5, (int) boxW, (int) boxH, startAngle, arcAngle);
+            currentValue += cs.needed;
           }
         }
       }

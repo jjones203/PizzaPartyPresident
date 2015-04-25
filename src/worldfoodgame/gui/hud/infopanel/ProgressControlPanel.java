@@ -35,6 +35,7 @@ public class ProgressControlPanel extends JPanel implements Observer
   ROLLOVER_COLOR = Color.red;
 
   private WorldPresenter worldPresenter;
+  private InfoPanel infoPanel;
 
   private SingleClickButton
     nextYear, run, pause;
@@ -63,7 +64,7 @@ public class ProgressControlPanel extends JPanel implements Observer
       ProgressControlPanel.this.getRootPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
       
       worldPresenter.stepWorld();
-
+      infoPanel.incrementYear();
       ProgressControlPanel.this.getRootPane().setCursor(null);
     }
   };
@@ -118,9 +119,10 @@ public class ProgressControlPanel extends JPanel implements Observer
    @param worldPresenter  WorldPresenter to construct this panel with.
    @throws HeadlessException
    */
-  public ProgressControlPanel(final WorldPresenter worldPresenter) throws HeadlessException
+  public ProgressControlPanel(final WorldPresenter worldPresenter, final InfoPanel infoPanel) throws HeadlessException
   {
     this.worldPresenter = worldPresenter;
+    this.infoPanel = infoPanel;
     this.setLayout(new GridLayout(1, 6));
     worldPresenter.addObserver(this);
     JPanel controls = new JPanel();
