@@ -1,6 +1,8 @@
 package worldfoodgame.gui.TradeWindow;
 
 import worldfoodgame.gui.ColorsAndFonts;
+import worldfoodgame.gui.hud.infopanel.SingleCountryHandeler;
+import worldfoodgame.model.Country;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -8,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Created by Tim on 4/24/15.
@@ -30,7 +33,7 @@ public class ContinentPanel extends JPanel
   private float alpha;
   private Tab currentTab;
 
-  public ContinentPanel()
+  public ContinentPanel(ArrayList<Country> countries, ArrayList<SingleCountryHandeler> handlers, Dimension dimension)
   {
     //init
     alpha = 0;
@@ -43,6 +46,7 @@ public class ContinentPanel extends JPanel
     vPadding = 0;
     hPadding = 7;
 
+    setPreferredSize(dimension);
     setLayout(new BorderLayout());
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
 

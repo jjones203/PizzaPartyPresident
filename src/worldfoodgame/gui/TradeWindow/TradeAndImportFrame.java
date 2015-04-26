@@ -3,10 +3,14 @@ package worldfoodgame.gui.TradeWindow;
 import javax.swing.*;
 
 import worldfoodgame.common.EnumCropType;
+import worldfoodgame.gui.hud.infopanel.LabelFactory;
 import worldfoodgame.gui.hud.infopanel.SingleCountryHandeler;
 import worldfoodgame.model.Player;
 import worldfoodgame.model.Country;
+
+import java.awt.*;
 import java.util.*;
+
 /**
  * Created by Tim on 4/24/15. Needs a english/metric, reset, and continue button.
  * Needs 6 tabs with pictures and gradient colors for either deficient or surplus,
@@ -15,13 +19,22 @@ import java.util.*;
 
 public class TradeAndImportFrame extends JFrame
 {
+  private static final Dimension CONT_DIM = new Dimension(620, 270);
+  private static final Dimension PLAYER_DIM = new Dimension(620, 220);
+  private static final Dimension TRADE_DIM = new Dimension(620, 150);
+  private static final Dimension BUTTON_DIM = new Dimension(620, 100);
   private Player player;
-  private Collection<Country> countries; //Soon to be continents
+  private ArrayList<Country> countries; //Soon to be continents
   private LinkedList<ContinentState> savedStates;
   private double savedImportBudget;
   private ArrayList<SingleCountryHandeler> handlers;
+  private ArrayList<LabelFactory> labelFactories;
+  private ContinentPanel continentPanel;
+  private PlayerPanel playerPanel;
+  private TradeBar tradeBar;
+  private ButtonPanel buttonPanel;
 
-  public TradeAndImportFrame(Player player, Collection<Country> countries, int year)
+  public TradeAndImportFrame(Player player, ArrayList<Country> countries, int year)
   {
     this.player = player;
     this.countries = countries;
@@ -31,6 +44,15 @@ public class TradeAndImportFrame extends JFrame
       handlers.add(new SingleCountryHandeler(c, year));
     }
     saveInitialStates();
+    continentPanel = new ContinentPanel(countries, handlers, CONT_DIM);
+    playerPanel = new PlayerPanel(player, PLAYER_DIM);
+    tradeBar = new TradeBar(TRADE_DIM);
+    buttonPanel = new ButtonPanel(BUTTON_DIM);
+    setLayout(new GridLayout(0, 4));
+    add(continentPanel);
+    add(tradeBar);
+    add(playerPanel);
+    add(buttonPanel);
   }
 
   private void saveInitialStates()
