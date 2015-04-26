@@ -6,15 +6,17 @@ import worldfoodgame.temp.Continent;
 public class CropDisease extends Catastrophe
 {
   private Continent continent;
-  private String diseaseStory =  " ";
+  private String diseaseStory;
 
 
   public CropDisease()
   {
     continent = getRandContinent();
+    setStory();
     initCatastrophe();
     popUpDialog();
   }
+
 
   @Override
   // Displays window that explains to user what catastrophe occurred
@@ -32,10 +34,15 @@ public class CropDisease extends Catastrophe
 
   }
 
-
+  
   private Continent getRandContinent()
   {
     // TODO Auto-generated method stub
-    return null;
+    return new Continent();
+  }
+  
+  private void setStory()
+  {
+    // TODO Auto-generated method stub    
   }
 }
