@@ -2,6 +2,8 @@ package worldfoodgame.planningpoints;
 
 import java.util.Collection;
 
+import javax.swing.JFrame;
+
 import worldfoodgame.model.Region;
 
 /**
@@ -12,7 +14,7 @@ import worldfoodgame.model.Region;
  *have for allocating planning points at the end of each
  *harvest/year.
  */
-public class PlanningPointsAllocationPanel
+public class PlanningPointsAllocationPanel extends JFrame
 {
   private PlanningPointsInteractableRegion playerRegion;
   private Collection<PlanningPointsInteractableRegion> otherRegions;
@@ -28,7 +30,18 @@ public class PlanningPointsAllocationPanel
     this.playerRegion = playerRegion;
     this.otherRegions = otherRegions;
     this.playerPlanningPoints = playerPlanningPoints;
+    
+    this.setTitle("Planning Points Allocation");
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setLocation(200, 200);
+    this.setResizable(false);
+    //this.setContentPane(mainPanel);
+    this.pack();
+    this.setVisible(true);
+    
   }
+  
+  
   
 
 }
