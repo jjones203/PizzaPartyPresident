@@ -24,7 +24,7 @@ public class TradeAndImportFrame extends JFrame
   private static final Dimension TRADE_DIM = new Dimension(620, 150);
   private static final Dimension BUTTON_DIM = new Dimension(620, 100);
   private Player player;
-  private ArrayList<Country> countries; //Soon to be continents
+  private Collection<Country> countries; //Soon to be continents
   private LinkedList<ContinentState> savedStates;
   private double savedImportBudget;
   private ArrayList<SingleCountryHandeler> handlers;
@@ -34,7 +34,7 @@ public class TradeAndImportFrame extends JFrame
   private TradeBar tradeBar;
   private ButtonPanel buttonPanel;
 
-  public TradeAndImportFrame(Player player, ArrayList<Country> countries, int year)
+  public TradeAndImportFrame(Player player, Collection<Country> countries, int year)
   {
     this.player = player;
     this.countries = countries;

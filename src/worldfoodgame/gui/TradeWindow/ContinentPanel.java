@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class ContinentPanel extends JPanel
   private float alpha;
   private Tab currentTab;
 
-  public ContinentPanel(ArrayList<Country> countries, ArrayList<SingleCountryHandeler> handlers, Dimension dimension)
+  public ContinentPanel(Collection<Country> countries, ArrayList<SingleCountryHandeler> handlers, Dimension dimension)
   {
     //init
     alpha = 0;
