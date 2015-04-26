@@ -1,6 +1,8 @@
 package worldfoodgame.gui.TradeWindow;
-import javax.swing.JPanel;
+import javax.swing.*;
 
+import worldfoodgame.common.EnumCropType;
+import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.hud.infopanel.LabelFactory;
 import worldfoodgame.gui.hud.infopanel.SingleCountryHandeler;
 import worldfoodgame.model.Country;
@@ -10,7 +12,7 @@ import worldfoodgame.model.Country;
 public class ContinentPanel extends JPanel
 {
   private Country country;
-  private SingleCountryHandeler handler;
+  private SingleCountryHandeler handler; //do I need this?
   private LabelFactory labelFactory;
 
   public ContinentPanel (Country country, SingleCountryHandeler handler, LabelFactory labelFactory)
@@ -18,10 +20,32 @@ public class ContinentPanel extends JPanel
     this.country= country;
     this.handler = handler;
     this.labelFactory = labelFactory;
+    redraw();
   }
 
   public Country getCountry()
   {
     return country;
+  }
+
+  public void redraw()
+  {
+    this.removeAll();
+    this.add(getCropPanel());
+    this.validate();
+  }
+
+  private JPanel getCropPanel()
+  {
+    JPanel cropPanel = new JPanel();
+    cropPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    cropPanel.setLayout(new BoxLayout(cropPanel, BoxLayout.Y_AXIS));
+
+    for (EnumCropType crop : EnumCropType.values())
+    {
+      cropPanel.add(labelFactory.getTradeProdLabel(crop));
+    }
+
+    return cropPanel;
   }
 }
