@@ -1,6 +1,9 @@
 package worldfoodgame.model;
 
 import worldfoodgame.common.AbstractScenario;
+import worldfoodgame.catastrophes.Flood;
+import worldfoodgame.catastrophes.Drought;
+import worldfoodgame.catastrophes.CropDisease;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumCropZone;
 
@@ -20,13 +23,12 @@ import java.util.*;
 public class World extends AbstractScenario
 {
   private static World theOneWorld;
-  private Random random = new Random(44);
   private Collection<Region> world;
   private Collection<Country> politicalWorld;
   private TileManager tileManager;
   private Calendar currentDate;
   private List<TradingOptimizer.TradePair>[] lastTrades;
-  private boolean DEBUG = false;
+  private boolean DEBUG = true;
 
   private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
   {
@@ -44,9 +46,9 @@ public class World extends AbstractScenario
    * @param cal       the starting date of the world.
    */
   public static void makeWorld(Collection<Region> world,
-                               Collection<Country> countries,
-                               TileManager allTheLand,
-                               Calendar cal)
+      Collection<Country> countries,
+      TileManager allTheLand,
+      Calendar cal)
   {
     if (theOneWorld != null)
     {
@@ -202,9 +204,12 @@ public class World extends AbstractScenario
     if (DEBUG) System.out.println("Mutating climate data...");
     updateEcoSystems();
     if (DEBUG) System.out.printf("climate data mutated in %dms%n", System.currentTimeMillis() - start);
-    
+
     currentDate.add(Calendar.YEAR, 1);
     start = System.currentTimeMillis();
+
+    rollCatastropheDie();
+
     if (DEBUG) System.out.println("Planting tiles...");
     plantAndHarvestCrops();       // implemented
     if (DEBUG) System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
@@ -225,6 +230,32 @@ public class World extends AbstractScenario
 
     if (DEBUG) System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
     if (DEBUG) System.out.println("year stepping done");
+  }
+
+  /*
+    Chooses random number from 1 to 100, giving a 30% chance that
+    a catastrophe will occur */
+  private void rollCatastropheDie()
+  {
+    if (DEBUG) System.out.println("Rolling catastrophe die...");
+    
+    Random ran = new Random();
+    int die = ran.nextInt(100)+1;
+
+    if (DEBUG) System.out.println("Die says "+die);
+    
+    if (die>0 && die<11) // 10% chance of drought catastrophe
+    {
+      new Drought();
+    }
+    else if(die>10 && die<21) // 10% chance of flood catastrophe
+    {
+      new Flood();
+    }
+    else if(die>20 && die<31) // 10% chance of crop disease catastrophe
+    {
+      new CropDisease();
+    }
   }
 
   private void adjustPopulation()
@@ -257,7 +288,7 @@ public class World extends AbstractScenario
     lastTrades = optimizer.getAllTrades();
   }
 
-  
+
   private void plantAndHarvestCrops()
   {
     final int year = getCurrentYear();
@@ -286,7 +317,7 @@ public class World extends AbstractScenario
     return tileManager.allTiles();
   }
 
-  
+
   /**
    * Returns a Collection of the tiles held by this TileManager that actually
    * contain data.  This, in effect, excludes tiles that would be over ocean and
@@ -354,7 +385,7 @@ public class World extends AbstractScenario
 
   public List<TradingOptimizer.TradePair>[] getTrades()
   {
-   return lastTrades;
+    return lastTrades;
   }
 
   public Country getCountry(String name)

@@ -6,12 +6,13 @@ import worldfoodgame.temp.Continent;
 public class Flood extends Catastrophe
 {
   private Continent continent;
-  private String floodStory =  " ";
+  private String floodStory;
 
 
   public Flood()
   {
     continent = getRandContinent();
+    setStory();
     initCatastrophe();
     popUpDialog();
   }
@@ -36,6 +37,12 @@ public class Flood extends Catastrophe
   private Continent getRandContinent()
   {
     // TODO Auto-generated method stub
-    return null;
+    return new Continent();
+  }
+
+  private void setStory()
+  {
+    // TODO Auto-generated method stub
+
   }
 }
