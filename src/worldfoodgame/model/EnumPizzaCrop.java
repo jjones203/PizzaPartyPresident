@@ -22,10 +22,10 @@ public enum EnumPizzaCrop implements CropClimateData
   public final Integer nightTemp;
   public final Integer maxRain;
   public final Integer minRain;
-  public final Long waterUse;
+  public final Double waterUse;
 
 
-  EnumPizzaCrop(String name, int maxTemp, int minTemp, int dayTemp, int nightTemp, int maxRain, int minRain, long waterUse)
+  EnumPizzaCrop(String name, int maxTemp, int minTemp, int dayTemp, int nightTemp, int maxRain, int minRain, double waterUse)
   {
     this.name = name;
     this.maxTemp = maxTemp;
