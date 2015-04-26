@@ -376,7 +376,7 @@ public class WorldPresenter extends Observable
   public void stepWorld()
   {
     world.stepWorld();
-    JFrame trade = new TradeAndImportFrame(player, countries);
+    JFrame trade = new TradeAndImportFrame(player, countries, getYear());
     System.out.println("Finishing user trading, about to let AI trade.");
     //TradingRouteOverlay.updateTrades(world.getTrades());
     setChanged();

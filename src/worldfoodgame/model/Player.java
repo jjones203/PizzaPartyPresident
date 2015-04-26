@@ -24,4 +24,9 @@ public class Player
   {
     return importBudget;
   }
+
+  public Country getCountry()
+  {
+    return country;
+  }
 }

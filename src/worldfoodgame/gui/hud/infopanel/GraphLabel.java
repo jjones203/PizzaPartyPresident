@@ -137,7 +137,7 @@ public class GraphLabel extends JPanel
     valueLabel.setText(formatter.format(value));
   }
 
-  /* sets up and returns the label and possible controlls */
+  /* sets up and returns the label and possible controls */
   private JPanel getControlPanel(String label)
   {
     JPanel tempPanel = new JPanel();
