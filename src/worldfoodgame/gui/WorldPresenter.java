@@ -1,5 +1,6 @@
 package worldfoodgame.gui;
 
+import worldfoodgame.gui.TradeWindow.TradeAndImportFrame;
 import worldfoodgame.gui.displayconverters.MapConverter;
 import worldfoodgame.gui.regionlooks.RegionView;
 import worldfoodgame.gui.regionlooks.RegionViewFactory;
@@ -7,6 +8,7 @@ import worldfoodgame.gui.regionlooks.TradingRouteOverlay;
 import worldfoodgame.model.Country;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
+import worldfoodgame.model.Player;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -36,6 +38,7 @@ public class WorldPresenter extends Observable
   private World world;
   private boolean activelyDraging;
   private RegionViewFactory regionViewFactory;
+  private Player player;
 
 
   /**
@@ -45,7 +48,7 @@ public class WorldPresenter extends Observable
    * @param mpConverter converter that defies the rules of the map projection.
    * @param world       set of game regions (in opposition to worldfoodgame.gui only regions).
    */
-  public WorldPresenter(MapConverter mpConverter, World world)
+  public WorldPresenter(MapConverter mpConverter, World world, Player player)
   {
     this.modelRegions = new ArrayList<>();
     this.backgroundRegions = new ArrayList<>();
@@ -54,6 +57,7 @@ public class WorldPresenter extends Observable
     this.lastDistance = CAM_DISTANCE.LONG;
     this.world = world;
     this.activelyDraging = false;
+    this.player = player;
 
     setModelRegions(world.getWorldRegions());
     countries = world.getCountries();
@@ -372,7 +376,7 @@ public class WorldPresenter extends Observable
   public void stepWorld()
   {
     world.stepWorld();
-    JFrame trade = new JFrame();
+    JFrame trade = new TradeAndImportFrame(player, countries, getYear());
     System.out.println("Finishing user trading, about to let AI trade.");
     //TradingRouteOverlay.updateTrades(world.getTrades());
     setChanged();

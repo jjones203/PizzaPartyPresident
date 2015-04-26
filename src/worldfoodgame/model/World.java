@@ -356,4 +356,16 @@ public class World extends AbstractScenario
   {
    return lastTrades;
   }
+
+  public Country getCountry(String name)
+  {
+    for (Country c: politicalWorld)
+    {
+      if (c.getName().equals(name))
+      {
+        return c;
+      }
+    }
+    return null;
+  }
 }

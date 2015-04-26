@@ -4,7 +4,7 @@ import worldfoodgame.common.EnumCropType;
 import worldfoodgame.model.Country;
 
 /**
- * Handle the presentation state and controll interface for a single Country.
+ * Handle the presentation state and control interface for a single Country.
  * Created by winston on 3/29/15.
  *
  * (!) note, all land values must be wrapped in the converter!

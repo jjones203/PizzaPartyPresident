@@ -1,6 +1,7 @@
 package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.common.EnumCropType;
+import worldfoodgame.gui.TradeWindow.TradeGraphLabel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -149,6 +150,27 @@ public class LabelFactory
     });
 
     return productionLabel;
+  }
+
+  public TradeGraphLabel getTradeProdLabel(final EnumCropType type)
+  {
+    final TradeGraphLabel prodLabel = new TradeGraphLabel(
+            type.toString(),
+            dataHandler.getProduction(type),
+            dataHandler.getNeed(type),
+            "#,###,### tons"
+    );
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        prodLabel.setValue(dataHandler.getProduction(type));
+      }
+    });
+
+    return prodLabel;
   }
 
   public GraphLabel getNeedLabel(final EnumCropType type)

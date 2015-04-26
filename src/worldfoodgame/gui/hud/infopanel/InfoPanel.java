@@ -28,7 +28,7 @@ public class InfoPanel extends JPanel implements Observer
   private DemographicPanel demographicPanel;
   private LandPanel landPanel;
 
-  private MiniViewBox viewBox;
+  //private MiniViewBox viewBox;
   private PieChart pieChart;
 
   private TabbedPanel innerTabbedPanel;
