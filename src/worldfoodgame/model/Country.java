@@ -30,6 +30,7 @@ public class Country extends AbstractCountry
   private List<Region> regions;
   private MapPoint capitolLocation;
   private Collection<LandTile> landTiles;
+  protected double waterAllowance;
 
   /**
    * Country constructor
@@ -382,6 +383,20 @@ public class Country extends AbstractCountry
       percentUndernourished = Math.min(1, maxResult);
     }
     setUndernourished(year, percentUndernourished);
+  }
+
+  /**
+   * Gives access to a country's annual water allowance for growing food
+   * @return a double value indicating the water allowance in gallons.
+   */
+  public double getWaterAllowance()
+  {
+    return waterAllowance;
+  }
+
+  private void setWaterAllowance()
+  {
+
   }
 
   /**
