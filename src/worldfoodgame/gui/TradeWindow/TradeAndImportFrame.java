@@ -27,9 +27,9 @@ public class TradeAndImportFrame extends JFrame
   private Collection<Country> countries; //Soon to be continents
   private LinkedList<ContinentState> savedStates;
   private double savedImportBudget;
-  private ArrayList<SingleCountryHandeler> handlers;
-  private ArrayList<LabelFactory> labelFactories;
-  private ArrayList<ContinentPanel> continentPanels;
+  private ArrayList<SingleCountryHandeler> handlers = new ArrayList<>();
+  private ArrayList<LabelFactory> labelFactories = new ArrayList<>();
+  private ArrayList<ContinentPanel> continentPanels = new ArrayList<>();
   private ContinentTabPanel continentTabPanel;
   private PlayerPanel playerPanel;
   private TradeBar tradeBar;
