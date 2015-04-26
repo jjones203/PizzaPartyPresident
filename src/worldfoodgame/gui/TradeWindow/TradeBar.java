@@ -22,4 +22,14 @@ public class TradeBar extends JPanel
     setPreferredSize(dimension);
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
   }
+
+  public void setPlayerBar()
+  {
+
+  }
+
+  public void setContinentBar()
+  {
+
+  }
 }

@@ -53,7 +53,7 @@ public class TradeAndImportFrame extends JFrame
     playerPanel = new PlayerPanel(player, PLAYER_DIM);
     tradeBar = new TradeBar(TRADE_DIM);
     buttonPanel = new ButtonPanel(BUTTON_DIM);
-    setLayout(new GridLayout(0, 4));
+    setLayout(new GridLayout(4, 0));
     add(continentTabPanel);
     for (ContinentPanel cP : continentPanels)
     {
