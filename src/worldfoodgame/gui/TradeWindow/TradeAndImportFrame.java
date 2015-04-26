@@ -29,7 +29,8 @@ public class TradeAndImportFrame extends JFrame
   private double savedImportBudget;
   private ArrayList<SingleCountryHandeler> handlers;
   private ArrayList<LabelFactory> labelFactories;
-  private ContinentPanel continentPanel;
+  private ArrayList<ContinentPanel> continentPanels;
+  private ContinentTabPanel continentTabPanel;
   private PlayerPanel playerPanel;
   private TradeBar tradeBar;
   private ButtonPanel buttonPanel;
@@ -41,15 +42,23 @@ public class TradeAndImportFrame extends JFrame
     savedImportBudget = player.getImportBudget();
     for (Country c : countries)
     {
-      handlers.add(new SingleCountryHandeler(c, year));
+      SingleCountryHandeler tempSH = new SingleCountryHandeler(c, year);
+      LabelFactory temp = new LabelFactory(tempSH);
+      handlers.add(tempSH);
+      labelFactories.add(temp);
+      continentPanels.add(new ContinentPanel(c, tempSH, temp));
     }
     saveInitialStates();
-    continentPanel = new ContinentPanel(countries, handlers, CONT_DIM);
+    continentTabPanel = new ContinentTabPanel(countries, handlers, CONT_DIM);
     playerPanel = new PlayerPanel(player, PLAYER_DIM);
     tradeBar = new TradeBar(TRADE_DIM);
     buttonPanel = new ButtonPanel(BUTTON_DIM);
     setLayout(new GridLayout(0, 4));
-    add(continentPanel);
+    add(continentTabPanel);
+    for (ContinentPanel cP : continentPanels)
+    {
+      continentTabPanel.addTab(cP.getCountry().getName(), cP);
+    }
     add(tradeBar);
     add(playerPanel);
     add(buttonPanel);
@@ -82,6 +91,26 @@ public class TradeAndImportFrame extends JFrame
   }
 
   public void reset()
+  {
+
+  }
+
+  public void trade()
+  {
+
+  }
+
+  public void newPlayerCrop()
+  {
+
+  }
+
+  public void newContinentCrop()
+  {
+
+  }
+
+  public void updateUnits()
   {
 
   }
