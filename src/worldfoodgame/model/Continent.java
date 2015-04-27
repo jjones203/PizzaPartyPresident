@@ -16,7 +16,7 @@ public class Continent
 {
   private static boolean VERBOSE = false;
   
-  protected String name;
+  private EnumContinentNames name;
   private int START_YEAR = AbstractScenario.START_YEAR;
   private int YEARS_OF_SIM = AbstractScenario.YEARS_OF_SIM;
   private List<Country> countries;
@@ -25,7 +25,7 @@ public class Continent
   protected int[] population = new int[YEARS_OF_SIM];       //in people
   protected double[] undernourished = new double[YEARS_OF_SIM];  // percentage of population. 0.50 is 50%.
   
-  protected double[] cropYield = new double[EnumCropType.SIZE]; //metric tons per square kilometer
+  protected double[] cropYield = new double[EnumPizzaCrop.SIZE]; //metric tons per square kilometer
   protected double[] pizzaPreference = new double[EnumPizzaCrop.SIZE]; // % of population wanting each kind of pizza
   
   protected double[][] cropProduction = new double[EnumPizzaCrop.SIZE][YEARS_OF_SIM]; //in metric tons.
@@ -43,7 +43,7 @@ public class Continent
    *
    * @param name continent name
    */
-  public Continent(String name)
+  public Continent(EnumContinentNames name)
   {
     this.name = name;
     this.countries = new ArrayList<>();
@@ -66,9 +66,14 @@ public class Continent
     landTiles.addAll(country.getLandTiles());
   }
   
-  public String getName()
+  public EnumContinentNames getName()
   {
     return name;
+  }
+  
+  public String getNameString()
+  {
+    return name.toString();
   }
   
   public List<Country> getCountries()

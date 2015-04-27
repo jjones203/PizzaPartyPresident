@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVFormat;
 import worldfoodgame.model.Country;
+import worldfoodgame.model.EnumContinentNames;
 import worldfoodgame.IO.CSVhelpers.CSVParsingException;
 import worldfoodgame.IO.CSVhelpers.CountryCSVDataGenerator;
 import worldfoodgame.common.EnumCropType;
@@ -35,7 +36,7 @@ import java.lang.Double;
 public class CountryCSVLoader
 {
   private static final String DATA_DIR_PATH = "resources/data/";
-  private static final String DATA_FILE = "countryData2.csv";
+  private static final String DATA_FILE = "countryData2test.csv";
   private static final int START_YEAR = AbstractScenario.START_YEAR;
   
   
@@ -142,7 +143,7 @@ public class CountryCSVLoader
   
    
   /**
-   * Set population and land area
+   * Set population, land area, continent
    * @param country   country object
    * @param record    country's CSVRecord
    */
@@ -167,6 +168,17 @@ public class CountryCSVLoader
     catch (IllegalArgumentException e)
     {
       throw new CSVParsingException("landArea", record, this.csvFile);
+    }
+    try
+    {
+      String value = record.get("continent");
+      EnumContinentNames continentName = EnumContinentNames.findContinentName(value);
+      if (continentName != null) country.setContinentName(continentName);
+      else throw new IllegalArgumentException();
+    }
+    catch (IllegalArgumentException e)
+    {
+      throw new CSVParsingException("continent", record, this.csvFile);
     }
   }
 
@@ -427,6 +439,7 @@ public class CountryCSVLoader
      double undernourished = countryTemp.getUndernourished(START_YEAR);
      double landTotal = countryTemp.getLandTotal(START_YEAR);
      double landArable = countryTemp.getArableLand(START_YEAR);
+     EnumContinentNames continentName = countryTemp.getContinentName();
      
      // copy everything
      countryFinal.setPopulation(START_YEAR, population);
@@ -437,6 +450,7 @@ public class CountryCSVLoader
      countryFinal.setUndernourished(START_YEAR, undernourished);
      countryFinal.setLandTotal(START_YEAR, landTotal);
      countryFinal.setArableLand(START_YEAR, landArable);
+     countryFinal.setContinentName(continentName);
      
      copyCropValues(countryFinal, countryTemp);
     
@@ -485,7 +499,7 @@ public class CountryCSVLoader
     fakeXmlList.add(new Country("Afghanistan"));
     fakeXmlList.add(new Country("Albania"));
     fakeXmlList.add(new Country("Algeria"));
-    fakeXmlList.add(new Country("Vatican City"));
+    //fakeXmlList.add(new Country("Vatican City"));
     CountryCSVLoader testLoader = new CountryCSVLoader(fakeXmlList);
     Collection<Country> countryList;
     //List<Country> countryList = new ArrayList<Country>();
@@ -495,6 +509,7 @@ public class CountryCSVLoader
     {
       //System.out.println(ctry.getName()+" "+ctry.getMethodPercentage(START_YEAR,EnumGrowMethod.ORGANIC));
       System.out.println(ctry.getName()+" "+ctry.getPopulation(2015));
+      System.out.println(ctry.getContinentName().toString());
       //System.out.println(ctry.getName()+" "+ctry.getCropProduction(START_YEAR,EnumCropType.WHEAT));
     }
   }*/
