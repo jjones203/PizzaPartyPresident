@@ -13,9 +13,9 @@ import java.text.DecimalFormat;
  */
 public class TradeGraphLabel extends JPanel
 {
-  private static final int WIDTH = 1000;
+  private static final int WIDTH = 2000;
   private static final int HEIGHT = 40;
-  private static final int BAR_MAX_LEN = 175;
+  private static final int BAR_MAX_LEN = 170;
   private static final Font labelTypeFace = ColorsAndFonts.GUI_FONT.deriveFont(13.5f);
   private final double LIMIT;
   private final double STEP;
@@ -98,7 +98,7 @@ public class TradeGraphLabel extends JPanel
     //config
     setLayout(new BorderLayout());
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    setMaximumSize(new Dimension(WIDTH, HEIGHT));
+    //setMaximumSize(new Dimension(WIDTH, HEIGHT));
 
     //wire
     add(getControlPanel(label), BorderLayout.NORTH);
@@ -149,10 +149,10 @@ public class TradeGraphLabel extends JPanel
     text.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     text.setFont(labelTypeFace);
 
-    if (isController) tempPanel.add(makeControl("-", -STEP));
+    tempPanel.add(makeControl("Select", 0));
     tempPanel.add(text);
     tempPanel.add(valueLabel);
-    if (isController) tempPanel.add(makeControl("+", STEP));
+    tempPanel.add(makeControl("S", 0));
 
     return tempPanel;
   }
@@ -218,16 +218,22 @@ public class TradeGraphLabel extends JPanel
       protected void paintComponent(Graphics g)
       {
         int barLen;
+        int [] xs = new int[]{(BAR_MAX_LEN/2) + 6, (BAR_MAX_LEN/2), (BAR_MAX_LEN/2) + 12};
+        int [] ys = new int[]{0,12,12};
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.black);
+        g2d.fillRect(6, -3, BAR_MAX_LEN, 15);
+        g2d.setColor(Color.blue);
+        g2d.fillPolygon(xs, ys, 3);
         if (value > LIMIT)
         {
-          barLen = (int) (((value - LIMIT) / LIMIT * BAR_MAX_LEN) + BAR_MAX_LEN);
+          barLen = (int) (((value - LIMIT) / LIMIT * (BAR_MAX_LEN/2)) + (BAR_MAX_LEN/2));
           g2d.setColor(surplusBarColor);
           g2d.fillRect(6, -4, barLen, 14);
         }
         else
         {
-          barLen = (int) (value / LIMIT * BAR_MAX_LEN);
+          barLen = (int) (value / LIMIT * (BAR_MAX_LEN/2));
           g2d.setColor(deficientBarColor);
           g2d.fillRect(6, -4, barLen, 14);
         }

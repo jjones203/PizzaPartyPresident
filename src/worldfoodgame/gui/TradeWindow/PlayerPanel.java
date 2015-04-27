@@ -1,10 +1,12 @@
 package worldfoodgame.gui.TradeWindow;
 
+import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.hud.infopanel.LabelFactory;
 import worldfoodgame.gui.hud.infopanel.SingleCountryHandeler;
 import worldfoodgame.model.Player;
-import javax.swing.JPanel;
+
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -26,5 +28,33 @@ public class PlayerPanel extends JPanel
     this.player = player;
     setPreferredSize(dimension);
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    setLayout(new GridLayout(0, 3));
+  }
+
+  public void setLabelFactory(LabelFactory labelFactory)
+  {
+    this.labelFactory = labelFactory;
+    redraw();
+  }
+
+  public void redraw()
+  {
+    this.removeAll();
+    this.add(getCropPanel());
+    this.validate();
+  }
+
+  private JPanel getCropPanel()
+  {
+    JPanel cropPanel = new JPanel();
+    cropPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    cropPanel.setLayout(new BoxLayout(cropPanel, BoxLayout.Y_AXIS));
+
+    for (EnumCropType crop : EnumCropType.values())
+    {
+      cropPanel.add(labelFactory.getTradeProdLabel(crop));
+    }
+
+    return cropPanel;
   }
 }
