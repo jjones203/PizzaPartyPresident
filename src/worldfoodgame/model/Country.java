@@ -159,7 +159,7 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * @param continent the continent to set
+   * @param continentName the continent to set
    */
   public void setContinentName(EnumContinentNames continentName)
   {
@@ -411,8 +411,22 @@ public class Country extends AbstractCountry
     return waterAllowance;
   }
 
-  private void setWaterAllowance()
+  /**
+   * This sets up the country's initial water allowance, by calculating how much
+   * water they used to grow their initial crops at the beginning of the game, and
+   * adding a growth cushion so they canuse more water without penalty if needed.
+   * @param cushion a percentage of total water use used to give the country a
+   *                "cushion" to grow into.  For example: to give the country a
+   *                cushion of 25% over their usage needed for the crops they
+   *                produced, set cushion to 0.25.
+   */
+  private void setWaterAllowance(float cushion)
   {
+    for(EnumCropType crop: EnumCropType.values())
+    {
+      waterAllowance += this.getCropProduction(2014, crop) * crop.waterUse;
+    }
+    waterAllowance += waterAllowance * cushion;
 
   }
 
