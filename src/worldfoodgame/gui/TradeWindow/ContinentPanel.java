@@ -14,18 +14,25 @@ public class ContinentPanel extends JPanel
   private Country country;
   private SingleCountryHandeler handler; //do I need this?
   private LabelFactory labelFactory;
+  public final TradeAndImportFrame parent;
 
-  public ContinentPanel (Country country, SingleCountryHandeler handler, LabelFactory labelFactory)
+  public ContinentPanel (Country country, SingleCountryHandeler handler, LabelFactory labelFactory, TradeAndImportFrame parent)
   {
     this.country= country;
     this.handler = handler;
     this.labelFactory = labelFactory;
+    this.parent = parent;
     redraw();
   }
 
   public Country getCountry()
   {
     return country;
+  }
+
+  public void chooseCrop(EnumCropType crop)
+  {
+    parent.newContinentCrop(labelFactory.getTradeContLabel(crop));
   }
 
   public void redraw()
@@ -43,7 +50,9 @@ public class ContinentPanel extends JPanel
 
     for (EnumCropType crop : EnumCropType.values())
     {
-      cropPanel.add(labelFactory.getTradeProdLabel(crop));
+      TradeGraphLabel temp = labelFactory.getTradeProdLabel(crop);
+      temp.setExternalPanel(this);
+      cropPanel.add(temp);
     }
 
     return cropPanel;

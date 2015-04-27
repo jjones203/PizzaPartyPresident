@@ -30,6 +30,7 @@ public class Country extends AbstractCountry
   private List<Region> regions;
   private MapPoint capitolLocation;
   private Collection<LandTile> landTiles;
+  private EnumContinentNames continentName;
   protected double waterAllowance;
 
   /**
@@ -147,6 +148,22 @@ public class Country extends AbstractCountry
   public String getName()
   {
     return name;
+  }
+
+  /**
+   * @return the continent
+   */
+  public EnumContinentNames getContinentName()
+  {
+    return continentName;
+  }
+
+  /**
+   * @param continent the continent to set
+   */
+  public void setContinentName(EnumContinentNames continentName)
+  {
+    this.continentName = continentName;
   }
 
   /**

@@ -24,6 +24,7 @@ public class World extends AbstractScenario
 {
   private static World theOneWorld;
   private Collection<Region> world;
+  private Collection<Continent> continents;
   private Collection<Country> politicalWorld;
   private TileManager tileManager;
   private Calendar currentDate;
@@ -35,6 +36,7 @@ public class World extends AbstractScenario
     this.world = world;
     this.politicalWorld = countries;
     this.currentDate = cal;
+    this.continents = new ArrayList<Continent>();
   }
 
   /**
@@ -62,8 +64,9 @@ public class World extends AbstractScenario
       CropOptimizer optimizer = new CropOptimizer(AbstractScenario.START_YEAR, country);
       optimizer.optimizeCrops();
     }
-
+    
     theOneWorld = new World(world, countries, cal);
+    theOneWorld.populateContinents();
     theOneWorld.tileManager = allTheLand;
   }
 
@@ -399,4 +402,22 @@ public class World extends AbstractScenario
     }
     return null;
   }
+  
+  private void populateContinents()
+  {
+    for (EnumContinentNames continentName:EnumContinentNames.values())
+    {
+      Continent continent = new Continent(continentName);
+      continents.add(continent);
+      for (Country country:politicalWorld)
+      {
+        if (country.getContinentName() == continentName)
+        {
+          continent.addCountry(country);
+        }
+      }
+    }
+  }
+  
+  
 }

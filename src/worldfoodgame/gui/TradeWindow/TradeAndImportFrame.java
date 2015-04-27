@@ -3,12 +3,15 @@ package worldfoodgame.gui.TradeWindow;
 import javax.swing.*;
 
 import worldfoodgame.common.EnumCropType;
+import worldfoodgame.gui.hud.infopanel.GraphLabel;
 import worldfoodgame.gui.hud.infopanel.LabelFactory;
 import worldfoodgame.gui.hud.infopanel.SingleCountryHandeler;
 import worldfoodgame.model.Player;
 import worldfoodgame.model.Country;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 /**
@@ -17,7 +20,7 @@ import java.util.*;
  * so the more green, the higher the surplus.
  */
 
-public class TradeAndImportFrame extends JFrame
+public class TradeAndImportFrame extends JFrame implements ActionListener
 {
   private static final Dimension CONT_DIM = new Dimension(620, 270);
   private static final Dimension PLAYER_DIM = new Dimension(620, 220);
@@ -41,9 +44,9 @@ public class TradeAndImportFrame extends JFrame
     this.countries = countries;
     savedImportBudget = player.getImportBudget();
     continentTabPanel = new ContinentTabPanel(countries, handlers, CONT_DIM);
-    playerPanel = new PlayerPanel(player, PLAYER_DIM);
-    tradeBar = new TradeBar(TRADE_DIM);
-    buttonPanel = new ButtonPanel(BUTTON_DIM);
+    playerPanel = new PlayerPanel(player, PLAYER_DIM, this);
+    tradeBar = new TradeBar(TRADE_DIM, this);
+    buttonPanel = new ButtonPanel(BUTTON_DIM, this);
     for (Country c : countries)
     {
       SingleCountryHandeler tempSH = new SingleCountryHandeler(c, year);
@@ -52,12 +55,12 @@ public class TradeAndImportFrame extends JFrame
       labelFactories.add(temp);
       if (c == player.getCountry())
       {
-        System.out.println("Setting player's country.");
+        //System.out.println("Setting player's country.");
         playerPanel.setLabelFactory(temp);
       }
       else
       {
-        continentPanels.add(new ContinentPanel(c, tempSH, temp));
+        continentPanels.add(new ContinentPanel(c, tempSH, temp, this));
       }
     }
     saveInitialStates();
@@ -108,17 +111,23 @@ public class TradeAndImportFrame extends JFrame
     //redraws
   }
 
-  public void newPlayerCrop()
+  public void newPlayerCrop(GraphLabel gl)
   {
-
+    tradeBar.setPlayerBar(gl);
   }
 
-  public void newContinentCrop()
+  public void newContinentCrop(GraphLabel gl)
   {
-
+    tradeBar.setContinentBar(gl);
   }
 
   public void updateUnits()
+  {
+
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e)
   {
 
   }

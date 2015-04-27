@@ -1,4 +1,5 @@
 package worldfoodgame.gui.TradeWindow;
+import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.hud.infopanel.GraphLabel;
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class TradeGraphLabel extends JPanel
   private static final int HEIGHT = 40;
   private static final int BAR_MAX_LEN = 170;
   private static final Font labelTypeFace = ColorsAndFonts.GUI_FONT.deriveFont(13.5f);
+  private static final Font selectType = ColorsAndFonts.SELECT_FONT.deriveFont(13.5f);
   private final double LIMIT;
   private final double STEP;
   private final boolean isController;
@@ -26,6 +28,10 @@ public class TradeGraphLabel extends JPanel
   private double value;
   private DecimalFormat formatter;
   private JLabel valueLabel;
+  private EnumCropType crop;
+  private PlayerPanel outerPlayer;
+  private ContinentPanel outerContinent;
+  private boolean continent = true;
 
   /**
    * Create a new Graph Label object. Used to display country data and control
@@ -36,9 +42,9 @@ public class TradeGraphLabel extends JPanel
    * @param limit         represents what a full bar would be. (used to scale the bar)
    * @param formatPattern defines how to display the numerical information.
    */
-  public TradeGraphLabel(String label, double value, double limit, String formatPattern)
+  public TradeGraphLabel(String label, double value, double limit, String formatPattern, EnumCropType crop)
   {
-    this(label, value, limit, limit / 10.0, Color.green, Color.red, false, new DecimalFormat(formatPattern));
+    this(label, value, limit, limit / 10.0, Color.green, Color.red, false, new DecimalFormat(formatPattern), crop);
   }
 
   /**
@@ -50,9 +56,9 @@ public class TradeGraphLabel extends JPanel
    * @param limit         represents what a full bar would be. (used to scale the bar)
    * @param decimalFormat Formatter that determines how the label is printed.
    */
-  public TradeGraphLabel(String label, double value, double limit, DecimalFormat decimalFormat)
+  public TradeGraphLabel(String label, double value, double limit, DecimalFormat decimalFormat, EnumCropType crop)
   {
-    this(label, value, limit, limit / 10.0, Color.green, Color.red, false, decimalFormat);
+    this(label, value, limit, limit / 10.0, Color.green, Color.red, false, decimalFormat, crop);
   }
 
 
@@ -68,9 +74,9 @@ public class TradeGraphLabel extends JPanel
    *                      engaged.
    */
   public TradeGraphLabel(String label, double value,
-                    double limit, String formatPattern, Runnable runnable)
+                    double limit, String formatPattern, Runnable runnable, EnumCropType crop)
   {
-    this(label, value, limit, limit / 100.0, Color.green, Color.red, true, new DecimalFormat(formatPattern));
+    this(label, value, limit, limit / 100.0, Color.green, Color.red, true, new DecimalFormat(formatPattern), crop);
     this.effectRunnable = runnable;
   }
 
@@ -78,7 +84,7 @@ public class TradeGraphLabel extends JPanel
   /* private constructor that exposes coloring information and step values*/
   private TradeGraphLabel(String label, double value,
                      double limit, double step, Color surplusBarColor,
-                     Color deficientBarColor, boolean isController, DecimalFormat formatter)
+                     Color deficientBarColor, boolean isController, DecimalFormat formatter, EnumCropType crop)
   {
     this.value = value;
     this.deficientBarColor = deficientBarColor;
@@ -88,6 +94,7 @@ public class TradeGraphLabel extends JPanel
     this.LIMIT = limit;
     this.STEP = step;
     this.isController = isController;
+    this.crop = crop;
 
 
     //init
@@ -103,6 +110,20 @@ public class TradeGraphLabel extends JPanel
     //wire
     add(getControlPanel(label), BorderLayout.NORTH);
     add(getBar(), BorderLayout.CENTER);
+  }
+
+  public void setExternalPanel(PlayerPanel outer)
+  {
+    outerPlayer = outer;
+    outerContinent = null;
+    continent = false;
+  }
+
+  public void setExternalPanel(ContinentPanel outer)
+  {
+    outerContinent = outer;
+    outerPlayer = null;
+    continent = true;
   }
 
   /**
@@ -149,39 +170,23 @@ public class TradeGraphLabel extends JPanel
     text.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     text.setFont(labelTypeFace);
 
-    tempPanel.add(makeControl("Select", 0));
     tempPanel.add(text);
     tempPanel.add(valueLabel);
-    tempPanel.add(makeControl("S", 0));
+    tempPanel.add(makeControl("(Select)"));
 
     return tempPanel;
   }
 
   /* encapsulated the control interface logic */
-  private JLabel makeControl(String sign, final double dx)
+  private JLabel makeControl(String sign)
   {
     final JLabel control = new JLabel(sign);
     control.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
-    control.setFont(labelTypeFace);
+    control.setFont(selectType);
 
-    /* this timer is turned on and off by pressing the control buttons */
+
     control.addMouseListener(new MouseAdapter()
     {
-      final Timer timer = new Timer(10, new AbstractAction()
-      {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-          value += dx;
-          if (value <= 0) value = 0;
-          valueLabel.setText(formatter.format(value));
-          if (effectRunnable != null)
-          {
-            effectRunnable.run();
-          }
-        }
-      });
-
       @Override
       public void mouseEntered(MouseEvent e)
       {
@@ -195,15 +200,19 @@ public class TradeGraphLabel extends JPanel
       }
 
       @Override
-      public void mousePressed(MouseEvent e)
-      {
-        timer.start();
-      }
+      public void mousePressed(MouseEvent e) {}
 
       @Override
       public void mouseReleased(MouseEvent e)
       {
-        timer.stop();
+        if (continent)
+        {
+          outerContinent.chooseCrop(crop);
+        }
+        else
+        {
+          outerPlayer.chooseCrop(crop);
+        }
       }
     });
     return control;
