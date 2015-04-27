@@ -377,7 +377,7 @@ public class WorldPresenter extends Observable
   {
     world.stepWorld();
     JFrame trade = new TradeAndImportFrame(player, countries, getYear());
-    trade.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    trade.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     trade.pack();
     trade.setResizable(false);
     trade.setVisible(true);

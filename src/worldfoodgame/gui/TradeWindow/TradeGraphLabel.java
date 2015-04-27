@@ -149,9 +149,10 @@ public class TradeGraphLabel extends JPanel
     text.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     text.setFont(labelTypeFace);
 
+    tempPanel.add(makeControl("Select", 0));
     tempPanel.add(text);
     tempPanel.add(valueLabel);
-    tempPanel.add(makeControl("Select", 0));
+    tempPanel.add(makeControl("S", 0));
 
     return tempPanel;
   }
