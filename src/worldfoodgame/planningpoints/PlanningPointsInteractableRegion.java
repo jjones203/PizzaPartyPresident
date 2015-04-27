@@ -27,6 +27,7 @@ public interface PlanningPointsInteractableRegion
   public int getWaterEfficiencyPlanningPoints();
   public int getYieldEfficiencyPlanningPoints();
   public int getTradeEfficiencyPlanningPoints();
+  public String getContName();
   
   // used by planning points allocation panel
   // should be bounded by [0 and PlanningPointsConstants.MAX_POINTS]
