@@ -52,11 +52,14 @@ public class Continent
 
   public void addCountry(Country country)
   {
+    countries.add(country);
+    
     // add population
     for (int i = 0; i < YEARS_OF_SIM; i++)
     {
       population[i] += country.getPopulation(i+START_YEAR);
     }
+    undernourished[0] = country.getUndernourished(START_YEAR);
     
     // add land
     landTotal += country.getLandTotal(START_YEAR);

@@ -36,7 +36,7 @@ import java.lang.Double;
 public class CountryCSVLoader
 {
   private static final String DATA_DIR_PATH = "resources/data/";
-  private static final String DATA_FILE = "countryData2test.csv";
+  private static final String DATA_FILE = "countryData2.csv";
   private static final int START_YEAR = AbstractScenario.START_YEAR;
   
   

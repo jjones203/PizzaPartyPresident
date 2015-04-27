@@ -93,6 +93,8 @@ public class CSVEditor extends JDialog implements ActionListener
     this.setContentPane(contentPane);
     this.pack();
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);  // reset resize mode to get horizontal scrolling to work
+    //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    //scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     
     this.setVisible(true);
     
