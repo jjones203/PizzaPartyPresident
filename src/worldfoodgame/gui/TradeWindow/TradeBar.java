@@ -4,11 +4,13 @@ import worldfoodgame.gui.ColorsAndFonts;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Tim on 4/24/15.
  */
-public class TradeBar extends JPanel
+public class TradeBar extends JPanel implements ActionListener
 {
   private JButton makeTrade = new JButton("Trade");
   public static final Color ROLLOVER_C = Color.WHITE;
@@ -29,6 +31,12 @@ public class TradeBar extends JPanel
   }
 
   public void setContinentBar()
+  {
+
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e)
   {
 
   }

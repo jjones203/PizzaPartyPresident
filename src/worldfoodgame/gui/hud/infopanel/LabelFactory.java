@@ -158,7 +158,7 @@ public class LabelFactory
             type.toString(),
             dataHandler.getProduction(type),
             dataHandler.getNeed(type),
-            "#,###,### tons"
+            "#,###,### tons", type
     );
 
     updates.add(new Runnable()

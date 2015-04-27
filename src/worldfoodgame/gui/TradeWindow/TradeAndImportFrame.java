@@ -9,6 +9,8 @@ import worldfoodgame.model.Player;
 import worldfoodgame.model.Country;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 /**
@@ -17,7 +19,7 @@ import java.util.*;
  * so the more green, the higher the surplus.
  */
 
-public class TradeAndImportFrame extends JFrame
+public class TradeAndImportFrame extends JFrame implements ActionListener
 {
   private static final Dimension CONT_DIM = new Dimension(620, 270);
   private static final Dimension PLAYER_DIM = new Dimension(620, 220);
@@ -52,7 +54,7 @@ public class TradeAndImportFrame extends JFrame
       labelFactories.add(temp);
       if (c == player.getCountry())
       {
-        System.out.println("Setting player's country.");
+        //System.out.println("Setting player's country.");
         playerPanel.setLabelFactory(temp);
       }
       else
@@ -119,6 +121,12 @@ public class TradeAndImportFrame extends JFrame
   }
 
   public void updateUnits()
+  {
+
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e)
   {
 
   }
