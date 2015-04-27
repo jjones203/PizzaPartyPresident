@@ -274,9 +274,9 @@ public class CountryCSVLoader
       Double imports = null;
       Double land = null;
       String cropString;
-      if (crop == EnumCropType.OTHER_CROPS) cropString = "other"; 
-      else cropString = crop.toString().toLowerCase();
-
+      /*if (crop == EnumCropType.OTHER_CROPS) cropString = "other"; 
+      else cropString = crop.toString().toLowerCase();*/
+      cropString = crop.getOldName();
       for (int i = 0; i < cropFields.length; i++)
       {
         // concatenate to cornProduction, cornExports, etc.
