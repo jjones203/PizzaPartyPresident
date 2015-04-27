@@ -1,5 +1,9 @@
 package worldfoodgame.model;
 
+/**
+ * Holds names of continent groups; use when reading csv and initializing continents
+ * @author jessica
+ */
 public enum EnumContinentNames
 {
   N_AMERICA, S_AMERICA, EUROPE, AFRICA, OCEANIA, ASIA, MIDDLE_EAST;
@@ -25,9 +29,14 @@ public enum EnumContinentNames
         retString = name.charAt(0)+substring;
         break;
     }
-    return retString; 
+    return retString;
   }
   
+  /**
+   * Get enum value from string; use when parsing csv.
+   * @param string    string representing continent name
+   * @return          corresponding enum value
+   */
   public static EnumContinentNames findContinentName(String string)
   {
     for (EnumContinentNames continentName:EnumContinentNames.values())
