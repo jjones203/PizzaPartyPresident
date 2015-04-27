@@ -40,20 +40,28 @@ public class TradeAndImportFrame extends JFrame
     this.player = player;
     this.countries = countries;
     savedImportBudget = player.getImportBudget();
+    continentTabPanel = new ContinentTabPanel(countries, handlers, CONT_DIM);
+    playerPanel = new PlayerPanel(player, PLAYER_DIM);
+    tradeBar = new TradeBar(TRADE_DIM);
+    buttonPanel = new ButtonPanel(BUTTON_DIM);
     for (Country c : countries)
     {
       SingleCountryHandeler tempSH = new SingleCountryHandeler(c, year);
       LabelFactory temp = new LabelFactory(tempSH);
       handlers.add(tempSH);
       labelFactories.add(temp);
-      continentPanels.add(new ContinentPanel(c, tempSH, temp));
+      if (c == player.getCountry())
+      {
+        System.out.println("Setting player's country.");
+        playerPanel.setLabelFactory(temp);
+      }
+      else
+      {
+        continentPanels.add(new ContinentPanel(c, tempSH, temp));
+      }
     }
     saveInitialStates();
-    continentTabPanel = new ContinentTabPanel(countries, handlers, CONT_DIM);
-    playerPanel = new PlayerPanel(player, PLAYER_DIM);
-    tradeBar = new TradeBar(TRADE_DIM);
-    buttonPanel = new ButtonPanel(BUTTON_DIM);
-    setLayout(new GridLayout(4, 0));
+    setLayout(new GridLayout(3, 0));
     add(continentTabPanel);
     for (ContinentPanel cP : continentPanels)
     {
@@ -97,7 +105,7 @@ public class TradeAndImportFrame extends JFrame
 
   public void trade()
   {
-
+    //redraws
   }
 
   public void newPlayerCrop()
