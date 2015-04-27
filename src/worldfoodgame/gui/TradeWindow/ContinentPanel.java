@@ -28,6 +28,11 @@ public class ContinentPanel extends JPanel
     return country;
   }
 
+  public void chooseCrop(EnumCropType crop)
+  {
+
+  }
+
   public void redraw()
   {
     this.removeAll();
@@ -43,7 +48,9 @@ public class ContinentPanel extends JPanel
 
     for (EnumCropType crop : EnumCropType.values())
     {
-      cropPanel.add(labelFactory.getTradeProdLabel(crop));
+      TradeGraphLabel temp = labelFactory.getTradeProdLabel(crop);
+      temp.setExternalPanel(this);
+      cropPanel.add(temp);
     }
 
     return cropPanel;

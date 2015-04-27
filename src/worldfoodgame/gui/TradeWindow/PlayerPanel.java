@@ -8,6 +8,8 @@ import worldfoodgame.model.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Tim on 4/24/15.
@@ -37,6 +39,11 @@ public class PlayerPanel extends JPanel
     redraw();
   }
 
+  public void chooseCrop(EnumCropType crop)
+  {
+
+  }
+
   public void redraw()
   {
     this.removeAll();
@@ -52,7 +59,9 @@ public class PlayerPanel extends JPanel
 
     for (EnumCropType crop : EnumCropType.values())
     {
-      cropPanel.add(labelFactory.getTradeProdLabel(crop));
+      TradeGraphLabel temp = labelFactory.getTradeProdLabel(crop);
+      temp.setExternalPanel(this);
+      cropPanel.add(temp);
     }
 
     return cropPanel;
