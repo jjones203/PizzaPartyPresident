@@ -424,7 +424,7 @@ public class Country extends AbstractCountry
   {
     for(EnumCropType crop: EnumCropType.values())
     {
-      waterAllowance += this.getCropProduction(2014, crop) * crop.waterUse;
+      waterAllowance += this.getCropProduction(START_YEAR, crop) * crop.waterUse;
     }
     waterAllowance += waterAllowance * cushion;
 
