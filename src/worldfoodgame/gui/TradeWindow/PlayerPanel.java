@@ -43,7 +43,7 @@ public class PlayerPanel extends JPanel
 
   public void chooseCrop(EnumCropType crop)
   {
-    //parent.newPlayerCrop(crop);
+    parent.newPlayerCrop(labelFactory.getTradePlayLabel(crop));
   }
 
   public void chooseCrop()

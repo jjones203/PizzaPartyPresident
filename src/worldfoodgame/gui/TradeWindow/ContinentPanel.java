@@ -32,7 +32,7 @@ public class ContinentPanel extends JPanel
 
   public void chooseCrop(EnumCropType crop)
   {
-    parent.newContinentCrop(labelFactory.getProductionLabel(crop)); //incorrect label
+    parent.newContinentCrop(labelFactory.getTradeContLabel(crop));
   }
 
   public void redraw()

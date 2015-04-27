@@ -15,6 +15,8 @@ public class TradeBar extends JPanel implements ActionListener
 {
   private JButton makeTrade = new JButton("Trade");
   private final TradeAndImportFrame parent;
+  private GraphLabel playerGL;
+  private GraphLabel contGL;
   private boolean continentCrop = false;
   private boolean playerCrop = false;
   public static final Color ROLLOVER_C = Color.WHITE;
@@ -34,11 +36,36 @@ public class TradeBar extends JPanel implements ActionListener
   public void setPlayerBar(GraphLabel gl)
   {
     playerCrop = true;
+    playerGL = gl;
+    if (continentCrop)
+    {
+      contGL.setValue(0);
+    }
   }
 
   public void setContinentBar(GraphLabel gl)
   {
     continentCrop = true;
+    contGL = gl;
+    if (playerCrop)
+    {
+      playerGL.setValue(0);
+      playerGL.setLimit(contGL.getLimit());
+    }
+  }
+
+  public void redraw ()
+  {
+    removeAll();
+    if (playerCrop)
+    {
+      add(playerGL);
+    }
+    if (continentCrop)
+    {
+      add(contGL);
+    }
+    validate();
   }
 
   @Override
@@ -46,7 +73,7 @@ public class TradeBar extends JPanel implements ActionListener
   {
     if (playerCrop && continentCrop)
     {
-
+      parent.trade();
     }
   }
 }

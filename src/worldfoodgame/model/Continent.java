@@ -355,8 +355,4 @@ public class Continent
       }
     }
   }
-
-  
-  
-  
 }
