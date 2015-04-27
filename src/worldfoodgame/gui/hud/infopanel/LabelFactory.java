@@ -309,4 +309,63 @@ public class LabelFactory
     });
     return malnurishedLab;
   }
+
+  public GraphLabel getTradePlayLabel(final EnumCropType type)
+  {
+    double val;
+    if (dataHandler.getProduction(type) <= 0) val = 0;
+    else val = dataHandler.getProduction(type);
+
+    final GraphLabel foodControl = new GraphLabel(
+            type.toString(),
+            0,
+            val,
+            "#,###,### tons",
+            null);
+
+    foodControl.setEffectRunnable(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        //dataHandler.setLand(type, foodControl.getValue() * dataHandler.getArable());
+        updateLabels();
+      }
+    });
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        foodControl.setValue(0);
+      }
+    });
+
+    return foodControl;
+  }
+
+  public GraphLabel getTradeContLabel(final EnumCropType type)
+  {
+    double val;
+    if ((dataHandler.getProduction(type) - dataHandler.getNeed(type)) <= 0) val = 0;
+    else val = dataHandler.getProduction(type) - dataHandler.getNeed(type);
+
+    final GraphLabel foodControl = new GraphLabel(
+            type.toString(),
+            0,
+            val,
+            "#,###,### tons");
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        foodControl.setValue(0);
+      }
+    });
+
+    return foodControl;
+  }
 }

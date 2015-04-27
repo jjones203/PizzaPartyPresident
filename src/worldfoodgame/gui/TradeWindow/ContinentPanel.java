@@ -14,12 +14,14 @@ public class ContinentPanel extends JPanel
   private Country country;
   private SingleCountryHandeler handler; //do I need this?
   private LabelFactory labelFactory;
+  public final TradeAndImportFrame parent;
 
-  public ContinentPanel (Country country, SingleCountryHandeler handler, LabelFactory labelFactory)
+  public ContinentPanel (Country country, SingleCountryHandeler handler, LabelFactory labelFactory, TradeAndImportFrame parent)
   {
     this.country= country;
     this.handler = handler;
     this.labelFactory = labelFactory;
+    this.parent = parent;
     redraw();
   }
 
@@ -30,7 +32,7 @@ public class ContinentPanel extends JPanel
 
   public void chooseCrop(EnumCropType crop)
   {
-
+    parent.newContinentCrop(labelFactory.getProductionLabel(crop)); //incorrect label
   }
 
   public void redraw()
