@@ -55,7 +55,13 @@ public interface ColorsAndFonts
   Color CORN_COLOR = new Color(244, 210, 17, 220);
   Color OTHER_CROP_COLOR = new Color(132, 49, 51,220);
   Color SOY_COLOR = new Color(70, 148, 36, 220);
-
+  
+  Color PEPPERS_COLOR = new Color(24, 199, 68, 220);
+  Color TOMATOES_COLOR = new Color(247, 32, 32, 220);
+  Color MUSHROOMS_COLOR = new Color(237, 221, 187, 220);
+  Color PEPPERONI_COLOR = new Color(204, 78, 29,220);
+  Color PINEAPPLE_COLOR = new Color(239, 255, 94, 220);
+  
   Color[] CROP_COLORS = new Color[]{
     WHEAT_COLOR, RICE_COLOR, CORN_COLOR, SOY_COLOR, OTHER_CROP_COLOR
   };

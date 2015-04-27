@@ -1,12 +1,12 @@
-package worldfoodgame.model;
+ package worldfoodgame.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+ import java.util.ArrayList;
+ import java.util.Collection;
+ import java.util.List;
 
-import worldfoodgame.common.AbstractScenario;
-import worldfoodgame.common.EnumCropType;
-import worldfoodgame.common.EnumGrowMethod;
+ import worldfoodgame.common.AbstractScenario;
+ import worldfoodgame.common.EnumCropType;
+ import worldfoodgame.common.EnumGrowMethod;
 
 /**
  * @author jessica
@@ -175,233 +175,237 @@ public class Continent implements PizzaCropData
     return cropProduction[crop.ordinal()][year - START_YEAR];
   }
 
-  /**
-   * @param year    year in question
-   * @param crop    crop in question
-   * @param metTons tons produced
-   */
-  public void setCropProduction(int year, EnumPizzaCrop crop, double metTons)
-  {
-    if (metTons >= 0)
-    {
-      cropProduction[crop.ordinal()][year - START_YEAR] = metTons;
-    }
-    else
-    {
-      if (VERBOSE)
-      {
-        System.err.println("Invalid argument for Continent.setCropProduction method");
-      }
-    }
-  }
+   /**
+    * @param year    year in question
+    * @param crop    crop in question
+    * @param metTons tons produced
+    */
+   public void setCropProduction(int year, EnumPizzaCrop crop, double metTons)
+   {
+     if (metTons >= 0)
+     {
+       cropProduction[crop.ordinal()][year - START_YEAR] = metTons;
+     }
+     else
+     {
+       if (VERBOSE)
+       {
+         System.err.println("Invalid argument for Continent.setCropProduction method");
+       }
+     }
+   }
 
-  /**
-   * @param year year in question
-   * @param crop crop in question
-   * @return tons exported
-   */
-  public double getCropExport(int year, EnumPizzaCrop crop)
-  {
-    return cropExport[crop.ordinal()][year - START_YEAR];
-  }
+   /**
+    * @param year year in question
+    * @param crop crop in question
+    * @return tons exported
+    */
+   public double getCropExport(int year, EnumPizzaCrop crop)
+   {
+     return cropExport[crop.ordinal()][year - START_YEAR];
+   }
 
-  /**
-   * @param year    year in question
-   * @param crop    crop in question
-   * @param metTons tons exported
-   */
-  public void setCropExport(int year, EnumPizzaCrop crop, double metTons)
-  {
-    if (metTons >= 0)
-    {
-      cropExport[crop.ordinal()][year - START_YEAR] = metTons;
-    }
-    else
-    {
-      if (VERBOSE)
-      {
-        System.err.println("Invalid argument for Continent.setCropExport method");
-      }
-    }
-  }
+   /**
+    * @param year    year in question
+    * @param crop    crop in question
+    * @param metTons tons exported
+    */
+   public void setCropExport(int year, EnumPizzaCrop crop, double metTons)
+   {
+     if (metTons >= 0)
+     {
+       cropExport[crop.ordinal()][year - START_YEAR] = metTons;
+     }
+     else
+     {
+       if (VERBOSE)
+       {
+         System.err.println("Invalid argument for Continent.setCropExport method");
+       }
+     }
+   }
 
-  /**
-   * @param year year in question
-   * @param crop crop in question
-   * @return tons imported
-   */
-  public double getCropImport(int year, EnumPizzaCrop crop)
-  {
-    return cropImport[crop.ordinal()][year - START_YEAR];
-  }
+   /**
+    * @param year year in question
+    * @param crop crop in question
+    * @return tons imported
+    */
+   public double getCropImport(int year, EnumPizzaCrop crop)
+   {
+     return cropImport[crop.ordinal()][year - START_YEAR];
+   }
 
-  /**
-   * @param year    year in question
-   * @param crop    crop in question
-   * @param metTons tons imported
-   */
-  public void setCropImport(int year, EnumPizzaCrop crop, double metTons)
-  {
-    if (metTons >= 0)
-    {
-      cropImport[crop.ordinal()][year - START_YEAR] = metTons;
-    }
-    else
-    {
-      if (VERBOSE)
-      {
-        System.err.println("Invalid argument for Continent.setCropImport method");
-      }
-    }
-  }
+   /**
+    * @param year    year in question
+    * @param crop    crop in question
+    * @param metTons tons imported
+    */
+   public void setCropImport(int year, EnumPizzaCrop crop, double metTons)
+   {
+     if (metTons >= 0)
+     {
+       cropImport[crop.ordinal()][year - START_YEAR] = metTons;
+     }
+     else
+     {
+       if (VERBOSE)
+       {
+         System.err.println("Invalid argument for Continent.setCropImport method");
+       }
+     }
+   }
 
-  public double getLandTotal(int year)
-  {
-    return landTotal;
-  }
-  
-  /**
-   * @param year
-   * @return area of arable land
-   */
-  public double getArableLand(int year)
-  {
-    return landArable[year - START_YEAR];
-  }
+   public double getLandTotal(int year)
+   {
+     return landTotal;
+   }
+   
+   /**
+    * @param year
+    * @return area of arable land
+    */
+   public double getArableLand(int year)
+   {
+     return landArable[year - START_YEAR];
+   }
 
-  /**
-   * @param year
-   * @param kilomsq area of arable land
-   */
-  public void setArableLand(int year, double kilomsq)
-  {
-    if (kilomsq >= 0)
-    {
-      for (int i = 0; i < (YEARS_OF_SIM); i++) landArable[i] = kilomsq;
-    }
-    else
-    {
-      if (VERBOSE)
-      {
-        System.err.println("Invalid argument for Continent.setArableLand method for " + getName());
-      }
-    }
-  }
-  
-  /**
-   * Returns area available for planting: arable land - sum(area used for each crop)
-   *
-   * @param year year to check
-   * @return arable area unused
-   */
-  public double getArableLandUnused(int year)
-  {
-    double used = 0;
-    for (EnumPizzaCrop crop : EnumPizzaCrop.values())
-    {
-      used += getCropLand(year, crop);
-    }
-    double unused = getArableLand(year) - used;
-    return unused;
-  }
-  
+   /**
+    * @param year
+    * @param kilomsq area of arable land
+    */
+   public void setArableLand(int year, double kilomsq)
+   {
+     if (kilomsq >= 0)
+     {
+       for (int i = 0; i < (YEARS_OF_SIM); i++) landArable[i] = kilomsq;
+     }
+     else
+     {
+       if (VERBOSE)
+       {
+         System.err.println("Invalid argument for Continent.setArableLand method for " + getName());
+       }
+     }
+   }
+   
+   /**
+    * Returns area available for planting: arable land - sum(area used for each crop)
+    *
+    * @param year year to check
+    * @return arable area unused
+    */
+   public double getArableLandUnused(int year)
+   {
+     double used = 0;
+     for (EnumPizzaCrop crop : EnumPizzaCrop.values())
+     {
+       used += getCropLand(year, crop);
+     }
+     double unused = getArableLand(year) - used;
+     return unused;
+   }
+   
 
-  /**
-   * @param year year in question
-   * @param crop crop in question
-   * @return square km planted with crop
-   */
-  public double getCropLand(int year, EnumPizzaCrop crop)
-  {
-    return landCrop[crop.ordinal()][year - START_YEAR];
-  }
-
-
-  /**
-   * Set crop land value; use this method when initializing
-   *
-   * @param year    year in question
-   * @param crop    crop in question
-   * @param kilomsq area to set
-   */
-  public void setCropLand(int year, EnumPizzaCrop crop, double kilomsq)
-  {
-    if (kilomsq >= 0 && kilomsq <= getArableLand(year))
-    {
-      for (int i = 0; i < (YEARS_OF_SIM); i++)
-        landCrop[crop.ordinal()][i] = kilomsq;
-    }
-    else
-    {
-      if (VERBOSE)
-      {
-        System.err.println("Invalid argument for Continent.setCropLand method for continent " + getName() + " crop " + crop);
-      }
-    }
-  }
-
-  /**
-   * Sets area to be planted with given crop in given year based on user input
-   *
-   * @param year    year in question
-   * @param crop    crop in question
-   * @param kilomsq number square km user wants to plant with that crop
-   */
-  public void updateCropLand(int year, EnumPizzaCrop crop, double kilomsq)
-  {
-    double unused = getArableLandUnused(year);
-    double currCropLand = getCropLand(year, crop);
-    double delta = kilomsq - currCropLand;
-    double valueToSet;
-
-    // if trying to decrease beyond 0, set to 0
-    if ((currCropLand + delta) < 0)
-    {
-      valueToSet = 0;
-    }
-    // else if trying to increase by amount greater than available, set to current + available
-    else if (delta > unused)
-    {
-      valueToSet = currCropLand + unused;
-    }
-    // else set to curr + delta
-    else
-    {
-      valueToSet = currCropLand + delta;
-    }
-    for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
-      landCrop[crop.ordinal()][i] = valueToSet;
-  }
+   /**
+    * @param year year in question
+    * @param crop crop in question
+    * @return square km planted with crop
+    */
+   public double getCropLand(int year, EnumPizzaCrop crop)
+   {
+     return landCrop[crop.ordinal()][year - START_YEAR];
+   }
 
 
-  /**
-   * @param year   year in question
-   * @param method cultivation method
-   * @return % land cultivated by method
-   */
-  public double getMethodPercentage(int year, EnumGrowMethod method)
-  {
-    return cultivationMethod[method.ordinal()][year - START_YEAR];
-  }
+   /**
+    * Set crop land value; use this method when initializing
+    *
+    * @param year    year in question
+    * @param crop    crop in question
+    * @param kilomsq area to set
+    */
+   public void setCropLand(int year, EnumPizzaCrop crop, double kilomsq)
+   {
+     if (kilomsq >= 0 && kilomsq <= getArableLand(year))
+     {
+       for (int i = 0; i < (YEARS_OF_SIM); i++)
+         landCrop[crop.ordinal()][i] = kilomsq;
+     }
+     else
+     {
+       if (VERBOSE)
+       {
+         System.err.println("Invalid argument for Continent.setCropLand method for continent " + getName() + " crop " + crop);
+       }
+     }
+   }
 
-  /**
-   * @param year       year in question
-   * @param method     cultivation method
-   * @param percentage % land cultivated by method
-   */
-  public void setMethodPercentage(int year, EnumGrowMethod method, double percentage)
-  {
-    if (percentage >= 0)
-    {
-      cultivationMethod[method.ordinal()][year - START_YEAR] = percentage;
-    }
-    else
-    {
-      if (VERBOSE)
-      {
-        System.err.println("Invalid argument for Continent.setMethodPercentage method");
-      }
-    }
-  }
- 
-}
+   /**
+    * Sets area to be planted with given crop in given year based on user input
+    *
+    * @param year    year in question
+    * @param crop    crop in question
+    * @param kilomsq number square km user wants to plant with that crop
+    */
+   public void updateCropLand(int year, EnumPizzaCrop crop, double kilomsq)
+   {
+     double unused = getArableLandUnused(year);
+     double currCropLand = getCropLand(year, crop);
+     double delta = kilomsq - currCropLand;
+     double valueToSet;
+
+     // if trying to decrease beyond 0, set to 0
+     if ((currCropLand + delta) < 0)
+     {
+       valueToSet = 0;
+     }
+     // else if trying to increase by amount greater than available, set to current + available
+     else if (delta > unused)
+     {
+       valueToSet = currCropLand + unused;
+     }
+     // else set to curr + delta
+     else
+     {
+       valueToSet = currCropLand + delta;
+     }
+     for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
+       landCrop[crop.ordinal()][i] = valueToSet;
+   }
+
+
+   /**
+    * @param year   year in question
+    * @param method cultivation method
+    * @return % land cultivated by method
+    */
+   public double getMethodPercentage(int year, EnumGrowMethod method)
+   {
+     return cultivationMethod[method.ordinal()][year - START_YEAR];
+   }
+
+   /**
+    * @param year       year in question
+    * @param method     cultivation method
+    * @param percentage % land cultivated by method
+    */
+   public void setMethodPercentage(int year, EnumGrowMethod method, double percentage)
+   {
+     if (percentage >= 0)
+     {
+       cultivationMethod[method.ordinal()][year - START_YEAR] = percentage;
+     }
+     else
+     {
+       if (VERBOSE)
+       {
+         System.err.println("Invalid argument for Continent.setMethodPercentage method");
+       }
+     }
+   }
+
+   
+   
+   
+ }
+
