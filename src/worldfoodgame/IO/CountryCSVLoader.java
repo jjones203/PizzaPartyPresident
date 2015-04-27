@@ -35,7 +35,7 @@ import java.lang.Double;
 public class CountryCSVLoader
 {
   private static final String DATA_DIR_PATH = "resources/data/";
-  private static final String DATA_FILE = "countryData.csv";
+  private static final String DATA_FILE = "countryData2.csv";
   private static final int START_YEAR = AbstractScenario.START_YEAR;
   
   
@@ -125,6 +125,7 @@ public class CountryCSVLoader
         else throw new CSVParsingException("country", record, this.csvFile);
         setEssentialFields(country,record);
         setNonessentialFields(country,record);
+        setPopulationProjections(country,record);
         tempCountryList.add(country);
         
       }
@@ -344,6 +345,24 @@ public class CountryCSVLoader
   }
 
   /**
+   * Set population values for 2015-2050.
+   * @param country     country object
+   * @param recordMap   map of strings (key=field name, value=field value) generated from
+   *                    country's CSVRecord
+   */
+  private void setPopulationProjections(Country country, CSVRecord record)
+  {
+    for (int year = 2015; year <= 2050; year++)
+    {
+      int value = 0;
+      String yearStr = Integer.toString(year);
+      value = Integer.parseInt(record.get(yearStr));
+      value = value * 1000; // projections are in 1000's
+      country.setPopulation(year, value);
+    }
+  }
+  
+  /**
    * Creates CSVEditor when CSVParsingException thrown.
    * @param exception   the exception thrown
    */
@@ -426,6 +445,14 @@ public class CountryCSVLoader
        double percentage = countryTemp.getMethodPercentage(START_YEAR,method);
        countryFinal.setMethodPercentage(START_YEAR, method, percentage);
      }
+     
+     int estPopulation;
+     for (int year = 2015; year <= 2050; year++)
+     {
+        estPopulation = countryTemp.getPopulation(year);
+        countryFinal.setPopulation(year, estPopulation);
+     }
+     
      return countryFinal;
   }
   
@@ -456,7 +483,7 @@ public class CountryCSVLoader
   { 
     ArrayList<Country> fakeXmlList = new ArrayList<Country>();
     fakeXmlList.add(new Country("Afghanistan"));
-    //fakeXmlList.add(new Country("Albania"));
+    fakeXmlList.add(new Country("Albania"));
     fakeXmlList.add(new Country("Algeria"));
     fakeXmlList.add(new Country("Vatican City"));
     CountryCSVLoader testLoader = new CountryCSVLoader(fakeXmlList);
@@ -466,8 +493,8 @@ public class CountryCSVLoader
     System.out.println("Testing - main method in CountryCSVLoader");
     for (Country ctry:countryList)
     {
-      System.out.println(ctry.getName()+" "+ctry.getMethodPercentage(START_YEAR,EnumGrowMethod.ORGANIC));
-      //System.out.println(ctry.getName()+" "+ctry.getPopulation(START_YEAR));
+      //System.out.println(ctry.getName()+" "+ctry.getMethodPercentage(START_YEAR,EnumGrowMethod.ORGANIC));
+      System.out.println(ctry.getName()+" "+ctry.getPopulation(2015));
       //System.out.println(ctry.getName()+" "+ctry.getCropProduction(START_YEAR,EnumCropType.WHEAT));
     }
   }*/
