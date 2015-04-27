@@ -32,7 +32,8 @@ public class CropOptimizer
   private ArrayList<CropBin> cropBins;
   private ArrayList<TileYield> tileYields;
   private double[] ctryYields;
-  
+  private boolean occurCatastrophe = false;
+
   /**
    * @param year      year of planting
    * @param country   country to plant
@@ -44,7 +45,7 @@ public class CropOptimizer
     cropBins = new ArrayList<CropBin>();
     tileYields = new ArrayList<TileYield>();
     ctryYields = new double[EnumCropType.SIZE];
-    
+
     for (EnumCropType crop:EnumCropType.values())
     {
       int index = crop.ordinal();
@@ -56,7 +57,7 @@ public class CropOptimizer
       }*/
     }
   }
-  
+
   /**
    * Plant all the crops
    */
@@ -83,18 +84,18 @@ public class CropOptimizer
       CropBin bin = new CropBin(crop, (int) cropLand/100);
       cropBins.add(bin);
     }
-    
+
     // calculate yield for each tile for each crop
     for (LandTile tile:country.getLandTiles())
     {
       TileYield tYield = new TileYield(tile,country);
       tileYields.add(tYield);
     }
-    
+
     // sort crops by tiles needed, most to least
     Collections.sort(cropBins, Collections.reverseOrder());
   }
-  
+
   /**
    * Plant a given crop
    * @param bin   CropBin with crop to plant and tiles to plant
@@ -118,10 +119,16 @@ public class CropOptimizer
     // after getting all the tiles we need, set total production for year
     if (year != AbstractScenario.START_YEAR)
     {
+      if(occurCatastrophe)
+      {
+       //production = 
+      }
+
         country.setCropProduction(year, crop, production);
+
     }
   }
-  
+
   /**
    * If we are not using a tile this year, we need to make sure its currCrop field is set to null.
    */
@@ -134,6 +141,12 @@ public class CropOptimizer
     }
   }
 
+
+  public void setOccurCatastrophe(boolean occurCatastrophe)
+  {
+    this.occurCatastrophe = occurCatastrophe;
+  }
+
   /**
    * Class containing a LandTile and the amount that tile will yield of 
    * each crop for the current year (uses tile's currCrop for land use
@@ -144,7 +157,7 @@ public class CropOptimizer
   {
     private LandTile tile;
     private double[] yields;
-    
+
     private TileYield(LandTile tile, Country country)
     {
       this.tile = tile;
@@ -181,9 +194,9 @@ public class CropOptimizer
         yields[crop.ordinal()] = percentYield * ctryYield;
       }
     }
-    
+
   }
-  
+
   /**
    * Comparator for TileYield class; compares based on their yield for the
    * crop given in the comparator's initializer.
@@ -192,7 +205,7 @@ public class CropOptimizer
   private class TileYieldComparator implements Comparator<TileYield>
   {
     EnumCropType crop;
-    
+
     private TileYieldComparator(EnumCropType crop)
     {
       this.crop = crop;
@@ -209,7 +222,7 @@ public class CropOptimizer
       else return 0;
     }
   }
-  
+
   /**
    * Class that allows us to sort crops by number of tiles needed.
    * Note: this class has a natural ordering that is inconsistent with equals.
@@ -219,7 +232,7 @@ public class CropOptimizer
   {
     private EnumCropType crop;
     private int tilesNeeded;
-    
+
     CropBin(EnumCropType crop, int tilesNeeded)
     {
       this.crop = crop;

@@ -3,6 +3,14 @@ package worldfoodgame.catastrophes;
 import javax.swing.JOptionPane;
 import worldfoodgame.temp.Continent;
 
+/*********************
+ * Flood catastrophe
+ *  provides water surplus
+ *  and wipes out crops
+ *  
+ * created on 04/25/15
+ * @author Valarie
+ ************************/
 public class Flood extends Catastrophe
 {
   private Continent continent;

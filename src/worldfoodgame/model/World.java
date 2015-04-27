@@ -1,9 +1,9 @@
 package worldfoodgame.model;
 
 import worldfoodgame.common.AbstractScenario;
+import worldfoodgame.catastrophes.Blight;
 import worldfoodgame.catastrophes.Flood;
 import worldfoodgame.catastrophes.Drought;
-import worldfoodgame.catastrophes.CropDisease;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumCropZone;
 
@@ -254,7 +254,7 @@ public class World extends AbstractScenario
     }
     else if(die>20 && die<31) // 10% chance of crop disease catastrophe
     {
-      new CropDisease();
+      new Blight();
     }
   }
 

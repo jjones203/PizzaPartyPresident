@@ -3,13 +3,22 @@ package worldfoodgame.catastrophes;
 import javax.swing.JOptionPane;
 import worldfoodgame.temp.Continent;
 
-public class CropDisease extends Catastrophe
+
+/****************************************
+ * Blight catastrophe
+ *  Disease wipes out crops and
+ *  decreases production of the remaining
+ *  
+ * created on 04/25/15
+ * @author Valarie 
+ ****************************************/
+public class Blight extends Catastrophe
 {
   private Continent continent;
-  private String diseaseStory;
+  private String blightStory;
 
 
-  public CropDisease()
+  public Blight()
   {
     continent = getRandContinent();
     setStory();
@@ -22,7 +31,7 @@ public class CropDisease extends Catastrophe
   // Displays window that explains to user what catastrophe occurred
   public void popUpDialog()
   {
-    JOptionPane.showMessageDialog(null,diseaseStory,"A Global Catastrophe has Struck!",JOptionPane.WARNING_MESSAGE);
+    JOptionPane.showMessageDialog(null,blightStory,"A Global Catastrophe has Struck!",JOptionPane.WARNING_MESSAGE);
   }
 
 

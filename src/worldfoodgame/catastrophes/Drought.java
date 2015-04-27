@@ -4,6 +4,15 @@ import javax.swing.JOptionPane;
 
 import worldfoodgame.temp.Continent;
 
+
+/****************************************
+ * Drought catastrophe
+ *  decreases stored water due to lack
+ *  of rain and wipes out crops
+ *  
+ *  created on 04/25/15
+ * @author Valarie
+ ****************************************/
 public class Drought extends Catastrophe
 {
   private Continent continent;
