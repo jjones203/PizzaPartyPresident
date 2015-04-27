@@ -22,7 +22,8 @@ public class Continent implements PizzaCropData
   private List<Country> countries;
   private int numCountries;
   private Collection<LandTile> landTiles;
-  
+
+  protected double waterAllowance;
   protected int[] population = new int[YEARS_OF_SIM];       //in people
   protected double[] undernourished = new double[YEARS_OF_SIM];  // percentage of population. 0.50 is 50%.
   
@@ -88,6 +89,8 @@ public class Continent implements PizzaCropData
         // total yields so we can average them
         cropYieldTotals[crop.ordinal()] += country.getCropYield(START_YEAR, crop);
       }
+      waterAllowance += country.getWaterAllowance();
+
       organicTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.ORGANIC);
       gmoTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.GMO);
       undernourishedTotal += country.getUndernourished(START_YEAR); 
@@ -163,6 +166,11 @@ public class Continent implements PizzaCropData
     {
       pizzaPreference[pizzaType.ordinal()] = percent;
     }
+  }
+
+  public double getWaterAllowance()
+  {
+    return waterAllowance;
   }
   
   /**
