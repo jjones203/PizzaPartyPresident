@@ -45,7 +45,39 @@ public enum EnumCropType implements CropClimateData
     this.minRain = null;
     this.waterUse = null;
   }
-  
+  /**
+   * This method allows us to get the old crop names when doing things like parsing
+   * csv files.  Use in place of the toString method when you need the old names.
+   * @return  The original crop toString names from Milestone 2
+   */
+  public String getOldName()
+  {
+    switch(name)
+    {
+      case "tomatoes":
+      {
+        return "wheat";
+      }
+      case "pineapples":
+      {
+        return "rice";
+      }
+      case "peppers":
+      {
+        return "corn";
+      }
+      case "'shrooms":
+      {
+        return "soy";
+      }
+      default:
+      {
+        return "other";
+      }
+    }
+  }
+
+
   public String toString()
   {
     return name;
