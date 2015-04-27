@@ -18,7 +18,7 @@ public class GraphLabel extends JPanel
   private static final int HEIGHT = 40;
   private static final int BAR_MAX_LEN = 175;
   private static final Font labelTypeFace = ColorsAndFonts.GUI_FONT.deriveFont(13.5f);
-  private final double LIMIT;
+  private double LIMIT;
   private final double STEP;
   private final boolean isController;
   private final Color barColor;
@@ -135,6 +135,16 @@ public class GraphLabel extends JPanel
   {
     this.value = value;
     valueLabel.setText(formatter.format(value));
+  }
+
+  public void setLimit(double limit)
+  {
+    this.LIMIT = limit;
+  }
+
+  public double getLimit()
+  {
+    return LIMIT;
   }
 
   /* sets up and returns the label and possible controls */

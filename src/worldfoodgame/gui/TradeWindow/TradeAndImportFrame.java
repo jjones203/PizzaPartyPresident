@@ -3,6 +3,7 @@ package worldfoodgame.gui.TradeWindow;
 import javax.swing.*;
 
 import worldfoodgame.common.EnumCropType;
+import worldfoodgame.gui.hud.infopanel.GraphLabel;
 import worldfoodgame.gui.hud.infopanel.LabelFactory;
 import worldfoodgame.gui.hud.infopanel.SingleCountryHandeler;
 import worldfoodgame.model.Player;
@@ -43,9 +44,9 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
     this.countries = countries;
     savedImportBudget = player.getImportBudget();
     continentTabPanel = new ContinentTabPanel(countries, handlers, CONT_DIM);
-    playerPanel = new PlayerPanel(player, PLAYER_DIM);
-    tradeBar = new TradeBar(TRADE_DIM);
-    buttonPanel = new ButtonPanel(BUTTON_DIM);
+    playerPanel = new PlayerPanel(player, PLAYER_DIM, this);
+    tradeBar = new TradeBar(TRADE_DIM, this);
+    buttonPanel = new ButtonPanel(BUTTON_DIM, this);
     for (Country c : countries)
     {
       SingleCountryHandeler tempSH = new SingleCountryHandeler(c, year);
@@ -59,7 +60,7 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
       }
       else
       {
-        continentPanels.add(new ContinentPanel(c, tempSH, temp));
+        continentPanels.add(new ContinentPanel(c, tempSH, temp, this));
       }
     }
     saveInitialStates();
@@ -110,14 +111,14 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
     //redraws
   }
 
-  public void newPlayerCrop()
+  public void newPlayerCrop(GraphLabel gl)
   {
-
+    tradeBar.setPlayerBar(gl);
   }
 
-  public void newContinentCrop()
+  public void newContinentCrop(GraphLabel gl)
   {
-
+    tradeBar.setContinentBar(gl);
   }
 
   public void updateUnits()
