@@ -32,6 +32,7 @@ public class Country extends AbstractCountry
   private Collection<LandTile> landTiles;
   private EnumContinentNames continentName;
   protected double waterAllowance;
+  private Continent continent;
 
   /**
    * Country constructor
@@ -164,6 +165,16 @@ public class Country extends AbstractCountry
   public void setContinentName(EnumContinentNames continentName)
   {
     this.continentName = continentName;
+  }
+
+  public void setContinent(Continent continent)
+  {
+    this.continent = continent;
+  }
+
+  public Continent getContinent()
+  {
+    return continent;
   }
 
   /**

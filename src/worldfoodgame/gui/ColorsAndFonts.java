@@ -62,6 +62,14 @@ public interface ColorsAndFonts
   Color PEPPERONI_COLOR = new Color(204, 78, 29, 220);
   Color PINEAPPLE_COLOR = new Color(239, 255, 94, 220);
 
+  Color N_AMERICA   = new Color(24, 199, 68, 220);
+  Color S_AMERICA  = new Color(247, 32, 32, 220);
+  Color ASIA = new Color(255, 51, 153, 220);
+  Color OCEANIA = new Color(255, 255, 32, 220);
+  Color AFRICA = new Color(102, 1, 204, 220);
+  Color EUROPE = new Color(255, 153, 51, 220);
+  Color M_EAST = new Color(160, 160, 160, 220);
+
   Color[] CROP_COLORS = new Color[]{
                                      WHEAT_COLOR, RICE_COLOR, CORN_COLOR, SOY_COLOR, OTHER_CROP_COLOR
   };
