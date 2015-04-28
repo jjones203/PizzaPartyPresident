@@ -51,7 +51,7 @@ public class PlanningPointsAllocationPanel extends JPanel
     FRAME.setResizable(false);
     
     JPanel bgPanel = new JPanel();
-    bgPanel.setLayout(new GridLayout(2,0));
+    bgPanel.setLayout(new GridLayout(0,1));
     bgPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     bgPanel.setPreferredSize(new Dimension(WIDTH,HEIGHT));
     bgPanel.setFocusable(true);
@@ -62,13 +62,19 @@ public class PlanningPointsAllocationPanel extends JPanel
     PlanningPointContinentSelector selector = new PlanningPointContinentSelector(allRegions);
     bgPanel.add(selector);
     
+    PlanningPointsInvestmentPanel investment = new PlanningPointsInvestmentPanel(allRegions.get(0),PlanningPointCategory.TradeEfficiency,0);
+    bgPanel.add(investment);
+    
+    PlanningPointsFooterPanel footer = new PlanningPointsFooterPanel();
+    bgPanel.add(footer);
+    
     
     FRAME.setContentPane(bgPanel);
     FRAME.pack();
     FRAME.setVisible(true);
   }
 
- /* public static void main(String[] args)
+  /*public static void main(String[] args)
   {
     List<PlanningPointsInteractableRegion> otherTestConts = new ArrayList<PlanningPointsInteractableRegion>();
     PlanningPointsInteractableRegion myCont = new TestContinent(EnumContinentNames.N_AMERICA.toString());
