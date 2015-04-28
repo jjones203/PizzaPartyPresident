@@ -124,6 +124,27 @@ public class World extends AbstractScenario
     return politicalWorld;
   }
 
+  public ArrayList<Continent> getRelevantContinents(List<Country> activeCountries)
+  {
+    ArrayList<Continent> temp = new ArrayList<>();
+    while (activeCountries.size() > 0)
+    {
+      for (Continent cont : continents)
+      {
+        if (cont.contains(activeCountries.get(0)))
+        {
+          for (Country c : cont.getCountries())
+          {
+            activeCountries.remove(c);
+          }
+          temp.add(cont);
+          break;
+        }
+      }
+    }
+    return temp;
+  }
+
   /**
    * Returns the number of year remaining in the model as an int.
    *

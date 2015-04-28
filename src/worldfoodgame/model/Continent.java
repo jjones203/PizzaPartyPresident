@@ -423,5 +423,19 @@ public class Continent implements PizzaCropData
        }
      }
    }
-}
+
+   public boolean contains(Country country)
+   {
+     for (Country c : countries)
+     {
+       if (c == country)
+       {
+         return true;
+       }
+     }
+     return false;
+   }
+   
+   
+ }
 

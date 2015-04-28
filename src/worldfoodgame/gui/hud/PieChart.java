@@ -120,18 +120,6 @@ public class PieChart extends JPanel
           alpha += 0.10f;
         }
 
-
-        /*
-        Here is the algorithm for shifting and scaling polygons for the region
-        summation view.
-        The algorithm constructs a minimum rectangle that contains all the
-        polygons to be drawn and, based on its aspect ratio relative to that
-        of the MiniViewBox, sets a scaling factor and shift that can be used
-        to define an AffineTransform that will convert all the points of the
-        polygons into centered, scaled versions for the region summation
-        graphic in the MiniViewBox
-        */
-        //double scaleValue;
         int inset = 5;
 
         double boxW = getWidth() - 2 * inset;
