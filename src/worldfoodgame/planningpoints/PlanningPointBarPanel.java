@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class PlanningPointBarPanel extends JPanel
 {
   private final int BAR_HEIGHT=20;
-  private final int BAR_LENGTH=100;
+  private final int BAR_LENGTH=200;
   private final Color BACKGROUND_BAR_COLOR = new Color(211,236,237);
   private final Color FOREGROUND_BAR_COLOR = new Color(237,237,71);
   private int numPoints=0;
@@ -28,7 +28,7 @@ public class PlanningPointBarPanel extends JPanel
     g.setColor(BACKGROUND_BAR_COLOR);
     g.fillRect(0,this.getBounds().height/2-BAR_HEIGHT/2, BAR_LENGTH, BAR_HEIGHT);
     g.setColor(FOREGROUND_BAR_COLOR);
-    g.fillRect(0,this.getBounds().height/2-BAR_HEIGHT/2, numPoints, BAR_HEIGHT);
+    g.fillRect(0,this.getBounds().height/2-BAR_HEIGHT/2, BAR_LENGTH-(int) (((double)numPoints/PlanningPointConstants.MAX_POINTS)*BAR_LENGTH), BAR_HEIGHT);
   }
   
   public void updateBar(int points)

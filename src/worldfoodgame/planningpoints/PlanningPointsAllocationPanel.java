@@ -25,8 +25,7 @@ import worldfoodgame.model.Region;
  */
 public class PlanningPointsAllocationPanel extends JPanel
 {
-  private PlanningPointsInteractableRegion playerRegion;
-  private Collection<PlanningPointsInteractableRegion> otherRegions;
+  private List<PlanningPointsInteractableRegion> allRegions;
   private int playerPlanningPoints;
   private final JFrame FRAME = new JFrame("PlanningPointsAllocation");
   private final int HEIGHT=620;
@@ -34,13 +33,11 @@ public class PlanningPointsAllocationPanel extends JPanel
   
   public PlanningPointsAllocationPanel
   (
-      PlanningPointsInteractableRegion playerRegion,
-      Collection<PlanningPointsInteractableRegion> otherRegions,
+      List<PlanningPointsInteractableRegion> otherRegions,
       int playerPlanningPoints
   )
   {
-    this.playerRegion = playerRegion;
-    this.otherRegions = otherRegions;
+    this.allRegions = otherRegions;
     this.playerPlanningPoints = playerPlanningPoints;
     
     buildGUI();
@@ -48,6 +45,7 @@ public class PlanningPointsAllocationPanel extends JPanel
   
   private void buildGUI()
   {
+    //FRAME.setUndecorated(true);
     FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     FRAME.setLocation(200, 200);
     FRAME.setResizable(false);
@@ -58,19 +56,21 @@ public class PlanningPointsAllocationPanel extends JPanel
     bgPanel.setPreferredSize(new Dimension(WIDTH,HEIGHT));
     bgPanel.setFocusable(true);
     
-    PlanningPointsHeaderPanel header = new PlanningPointsHeaderPanel(0);
+    PlanningPointsHeaderPanel header = new PlanningPointsHeaderPanel(playerPlanningPoints);
     bgPanel.add(header);
+    
+    PlanningPointContinentSelector selector = new PlanningPointContinentSelector(allRegions);
+    bgPanel.add(selector);
+    
+    
     FRAME.setContentPane(bgPanel);
     FRAME.pack();
     FRAME.setVisible(true);
-    
-    
-    header.addPoints(15);
   }
 
-  /*public static void main(String[] args)
+ /* public static void main(String[] args)
   {
-    Collection<PlanningPointsInteractableRegion> otherTestConts = new ArrayList<PlanningPointsInteractableRegion>();
+    List<PlanningPointsInteractableRegion> otherTestConts = new ArrayList<PlanningPointsInteractableRegion>();
     PlanningPointsInteractableRegion myCont = new TestContinent(EnumContinentNames.N_AMERICA.toString());
     PlanningPointsInteractableRegion c1 = new TestContinent(EnumContinentNames.AFRICA.toString());
     PlanningPointsInteractableRegion c2 = new TestContinent(EnumContinentNames.ASIA.toString());
@@ -78,13 +78,14 @@ public class PlanningPointsAllocationPanel extends JPanel
     PlanningPointsInteractableRegion c4= new TestContinent(EnumContinentNames.MIDDLE_EAST.toString());
     PlanningPointsInteractableRegion c5= new TestContinent(EnumContinentNames.OCEANIA.toString());
     PlanningPointsInteractableRegion c6= new TestContinent(EnumContinentNames.S_AMERICA.toString());
+    otherTestConts.add(myCont);
     otherTestConts.add(c1);
     otherTestConts.add(c2);
     otherTestConts.add(c3);
     otherTestConts.add(c4);
     otherTestConts.add(c5);
     otherTestConts.add(c6);
-    new PlanningPointsAllocationPanel(myCont,otherTestConts,100);
+    new PlanningPointsAllocationPanel(otherTestConts,75);
   }*/
 }
 

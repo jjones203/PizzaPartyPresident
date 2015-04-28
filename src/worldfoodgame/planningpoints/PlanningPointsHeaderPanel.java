@@ -25,7 +25,7 @@ public class PlanningPointsHeaderPanel extends JPanel
     this.numPoints = numPoints;
     this.setLayout(new GridLayout(0, 2));
     this.setBackground(Color.LIGHT_GRAY);
-    title=new JLabel("Planning Points: "+numPoints);
+    title=new JLabel("Planning Points Remaining: "+numPoints+" ");
     title.setHorizontalAlignment(SwingConstants.RIGHT);
     planningPointsIndicator = new PlanningPointBarPanel();
     addGUIComponents();
@@ -44,7 +44,7 @@ public class PlanningPointsHeaderPanel extends JPanel
   {
     numPoints+=pointsToAdd;
     numPoints=Math.min(PlanningPointConstants.MAX_POINTS_PER_YEAR, numPoints);
-    title.setText("Planning Points: "+numPoints);
+    title.setText("Planning Points Remaining: "+numPoints+" ");
     planningPointsIndicator.updateBar(numPoints);
   }
   
@@ -52,7 +52,7 @@ public class PlanningPointsHeaderPanel extends JPanel
   {
     numPoints-=pointsToSubtract;
     numPoints=Math.max(0, numPoints);
-    title.setText("Planning Points: "+numPoints);
+    title.setText("Planning Points Remaining: "+numPoints+" ");
     planningPointsIndicator.updateBar(numPoints);
   }
   
