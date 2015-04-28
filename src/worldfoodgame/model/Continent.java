@@ -436,6 +436,5 @@ public class Continent implements PizzaCropData
      return false;
    }
    
-   
  }
 

@@ -382,6 +382,7 @@ public class WorldPresenter extends Observable
     trade.pack();
     trade.setResizable(false);
     trade.setVisible(true);
+    
     System.out.println("Finishing user trading, about to let AI trade.");
     //TradingRouteOverlay.updateTrades(world.getTrades());
     setChanged();
