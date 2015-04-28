@@ -3,6 +3,7 @@ package worldfoodgame.gui.hud;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.GUIRegion;
+import worldfoodgame.model.Continent;
 import worldfoodgame.model.Country;
 
 import javax.swing.*;
@@ -129,7 +130,8 @@ public class PieChart extends JPanel
         double [] actualTotals = new double [5];
 
         ArrayList<CropSlice> slices = new ArrayList<>();
-
+        ArrayList<Continent> continents = new ArrayList<>();
+/*
         for (GUIRegion gr : regions)
         {
           needTotals[0] = needTotals[0] + gr.getCountry().getTotalCropNeed(year, EnumCropType.CORN);
@@ -148,7 +150,32 @@ public class PieChart extends JPanel
         slices.add(new CropSlice(needTotals[2], actualTotals[2], EnumCropType.SOY, Color.YELLOW));
         slices.add(new CropSlice(needTotals[3], actualTotals[3], EnumCropType.RICE, Color.RED));
         slices.add(new CropSlice(needTotals[4], actualTotals[4], EnumCropType.OTHER_CROPS, Color.WHITE));
-
+*/
+        for (GUIRegion gr : regions)
+        {
+          if (!continents.contains(gr.getCountry().getContinent()))
+          {
+            continents.add(gr.getCountry().getContinent());
+          }
+        }
+        for (Continent cont : continents)
+        {
+          needTotals[0] = needTotals[0] + cont.getTotalCropNeed(year, EnumCropType.CORN);
+          actualTotals[0] = actualTotals[0] + cont.getProduction(year, EnumCropType.CORN);
+          needTotals[1] = needTotals[1] + cont.getTotalCropNeed(year, EnumCropType.WHEAT);
+          actualTotals[1] = actualTotals[1] + cont.getProduction(year, EnumCropType.WHEAT);
+          needTotals[2] = needTotals[2] + cont.getTotalCropNeed(year, EnumCropType.SOY);
+          actualTotals[2] = actualTotals[2] + cont.getProduction(year, EnumCropType.SOY);
+          needTotals[3] = needTotals[3] + cont.getTotalCropNeed(year, EnumCropType.RICE);
+          actualTotals[3] = actualTotals[3] + cont.getProduction(year, EnumCropType.RICE);
+          needTotals[4] = needTotals[4] + cont.getTotalCropNeed(year, EnumCropType.OTHER_CROPS);
+          actualTotals[4] = actualTotals[4] + cont.getProduction(year, EnumCropType.OTHER_CROPS);
+        }
+        slices.add(new CropSlice(needTotals[0], actualTotals[0], EnumCropType.CORN, Color.BLUE));
+        slices.add(new CropSlice(needTotals[1], actualTotals[1], EnumCropType.WHEAT, Color.GREEN));
+        slices.add(new CropSlice(needTotals[2], actualTotals[2], EnumCropType.SOY, Color.YELLOW));
+        slices.add(new CropSlice(needTotals[3], actualTotals[3], EnumCropType.RICE, Color.RED));
+        slices.add(new CropSlice(needTotals[4], actualTotals[4], EnumCropType.OTHER_CROPS, Color.WHITE));
         double needTotal = 0;
         double actualTotal = 0;
         for (int i = 0; i < 5; i++)

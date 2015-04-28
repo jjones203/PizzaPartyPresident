@@ -314,6 +314,26 @@ public class Continent implements PizzaCropData
    {
      return landTotal;
    }
+
+   public double getTotalCropNeed(int year, EnumCropType crop)
+   {
+     double temp = 0;
+     for (Country c : countries)
+     {
+       temp = temp + c.getTotalCropNeed(year, crop);
+     }
+     return temp;
+   }
+
+   public double getProduction(int year, EnumCropType crop)
+   {
+     double temp = 0;
+     for (Country c : countries)
+     {
+       temp = temp + c.getCropProduction(year, crop);
+     }
+     return temp;
+   }
    
    /**
     * @param year
