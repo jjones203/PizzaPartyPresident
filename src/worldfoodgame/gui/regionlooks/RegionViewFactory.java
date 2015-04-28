@@ -55,38 +55,69 @@ public class RegionViewFactory
     CAPITAL(new CapitolView()),
     TRADING(new TradingRouteOverlay()),
 
-    CORN(new CropView(
-      EnumCropType.CORN,
-      ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.CORN_COLOR))),
+    PEPPERS(new CropView(
+            //CORN(new CropView(
+            EnumCropType.CORN,
+            ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.CORN_COLOR))),
 
-    SOY(new CropView(
-      EnumCropType.SOY,
-      ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.SOY_COLOR))),
+    MUSHROOMS(new CropView(
+    //SOY(new CropView(
+                      EnumCropType.SOY,
+        ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.SOY_COLOR)
 
-    RICE(new CropView(
-      EnumCropType.RICE,
-      ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.RICE_COLOR))),
+    )),
 
-    WHEAT(new CropView(
-      EnumCropType.WHEAT,
-      ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.WHEAT_COLOR))),
+    PINEAPPLE(new CropView(
+    //RICE(new CropView(
+                       EnumCropType.RICE,
+         ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.RICE_COLOR)
 
-    OTHER_CROPS(new CropView(
-      EnumCropType.OTHER_CROPS,
-      ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.OTHER_CROP_COLOR))),
+    )),
 
-    PRECIPITATION(new PrecipitationView()),
-    MAX_TMP(new MaxTemp()),
-    MIN_TMP(new MinTemp()),
-    DAY_TEMP_AVE(new DayTempAve()),
-    NIGHT_AVE_TMP(new NightTempAve()),
-    CROP_RASTER(new CropRasterLook()),
+    TOMATOES(new CropView(
+    //WHEAT(new CropView(
+                        EnumCropType.WHEAT,
+          ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.WHEAT_COLOR)
+
+    )),
+
+    PEPPERONI(new CropView(
+    //OTHER_CROPS(new CropView(
+                              EnumCropType.OTHER_CROPS,
+                ColorsAndFonts.colorConverter.extractHue(ColorsAndFonts.OTHER_CROP_COLOR)
+
+    )),
+
+    PRECIPITATION(new PrecipitationView()
+
+    ),
+
+    MAX_TMP(new MaxTemp()
+
+    ),
+
+    MIN_TMP(new MinTemp()
+
+    ),
+
+    DAY_TEMP_AVE(new DayTempAve()
+
+    ),
+
+    NIGHT_AVE_TMP(new NightTempAve()
+
+    ),
+
+    CROP_RASTER(new CropRasterLook()
+
+    ),
     ;
 
 
     /* class constructor and definition */
 
     private RegionView regionView;
+
     Overlay(RegionView regionView)
     {
       this.regionView = regionView;
@@ -102,16 +133,16 @@ public class RegionViewFactory
       this.regionView = regionView;
     }
 
-    
+
     /**
-     @return  all Overlays that correspond to LandTile (raster) data
+     @return all Overlays that correspond to LandTile (raster) data
      */
     public static Overlay[] getRasterOverlays()
     {
       return new Overlay[]{
-        PRECIPITATION,
-        MAX_TMP,
-        MIN_TMP,
+                            PRECIPITATION,
+                            MAX_TMP,
+                            MIN_TMP,
         DAY_TEMP_AVE,
         NIGHT_AVE_TMP,
         CROP_RASTER};
@@ -138,12 +169,22 @@ public class RegionViewFactory
      */
     public static Overlay[] getCropDedicationOverlays()
     {
+      return new Overlay[]
+               {
+                 TOMATOES,
+                 PINEAPPLE,
+                 PEPPERS,
+                 MUSHROOMS,
+                 PEPPERONI
+               };
+/*
       return new Overlay[]{
         CORN,
         SOY,
         RICE,
         WHEAT,
         OTHER_CROPS};
+*/
     }
   }
 }
