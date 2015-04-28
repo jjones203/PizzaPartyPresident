@@ -35,7 +35,7 @@ public interface ColorsAndFonts
 
   Color XML_ERROR = new Color(255, 129, 78, 212);
 
-  Color MAP_GRID = new Color(255, 255, 255, 70);
+  Color MAP_GRID = new Color(255, 255, 255, 0);
 
   Color GUI_BACKGROUND     = new Color(58, 56, 56);
   Color GUI_TEXT_COLOR     = new Color(235, 235, 235);
