@@ -14,7 +14,7 @@
  * @author jessica
  * @version 4/26/15
  */
-public class Continent implements PizzaCropData
+public class Continent implements CropClimateData
 {
   private static boolean VERBOSE = false;
   
@@ -30,7 +30,7 @@ public class Continent implements PizzaCropData
   protected int[] population = new int[YEARS_OF_SIM];       //in people
   protected double[] undernourished = new double[YEARS_OF_SIM];  // percentage of population. 0.50 is 50%.
   
-  protected double[] cropYield = new double[EnumCropType.SIZE]; //metric tons per square kilometer
+  protected double[][] cropYield = new double[EnumCropType.SIZE][EnumGrowMethod.SIZE]; //metric tons per square kilometer
   protected double[] pizzaPreference = new double[EnumCropType.SIZE]; // % of population wanting each kind of pizza
   
   protected double[][] cropProduction = new double[EnumCropType.SIZE][YEARS_OF_SIM]; //in metric tons.
@@ -136,9 +136,15 @@ public class Continent implements PizzaCropData
     }
     
     // set continent fields using average of country values
-    for (int i = 0; i < EnumCropType.SIZE; i++)
+    for (EnumCropType crop:EnumCropType.values())
     {
-      cropYield[i] = cropYieldTotals[i]/numCountries;
+      int cropIndex = crop.ordinal();
+      // continent's conventional yield is average of country's yields
+      double conventionalYield = cropYieldTotals[cropIndex]/numCountries;
+      cropYield[cropIndex][EnumGrowMethod.CONVENTIONAL.ordinal()] = conventionalYield;
+      // gmo and organic yields are calculated based on conventional yield
+      cropYield[cropIndex][EnumGrowMethod.ORGANIC.ordinal()] = conventionalYield * ORGANIC_YIELD_PERCENT;
+      cropYield[cropIndex][EnumGrowMethod.GMO.ordinal()] = conventionalYield * GMO_YIELD_PERCENT;
     }
     double organicAvg = organicTotal/numCountries;
     double gmoAvg = gmoTotal/numCountries;
@@ -194,12 +200,12 @@ public class Continent implements PizzaCropData
     }
   }
   
-  public double getPizzaPreference(EnumPizzaCrop pizzaType)
+  public double getPizzaPreference(EnumCropType pizzaType)
   {
     return pizzaPreference[pizzaType.ordinal()];
   }
   
-  public void setPizzaPreference(EnumPizzaCrop pizzaType, double percent)
+  public void setPizzaPreference(EnumCropType pizzaType, double percent)
   {
     if (percent >= 0 && percent <= 1)
     {
@@ -225,7 +231,7 @@ public class Continent implements PizzaCropData
    * @param crop crop in question
    * @return tons produced
    */
-  public double getCropProduction(int year, EnumPizzaCrop crop)
+  public double getCropProduction(int year, EnumCropType crop)
   {
     return cropProduction[crop.ordinal()][year - START_YEAR];
   }
@@ -235,7 +241,7 @@ public class Continent implements PizzaCropData
     * @param crop    crop in question
     * @param metTons tons produced
     */
-   public void setCropProduction(int year, EnumPizzaCrop crop, double metTons)
+   public void setCropProduction(int year, EnumCropType crop, double metTons)
    {
      if (metTons >= 0)
      {
@@ -255,7 +261,7 @@ public class Continent implements PizzaCropData
     * @param crop crop in question
     * @return tons exported
     */
-   public double getCropExport(int year, EnumPizzaCrop crop)
+   public double getCropExport(int year, EnumCropType crop)
    {
      return cropExport[crop.ordinal()][year - START_YEAR];
    }
@@ -265,7 +271,7 @@ public class Continent implements PizzaCropData
     * @param crop    crop in question
     * @param metTons tons exported
     */
-   public void setCropExport(int year, EnumPizzaCrop crop, double metTons)
+   public void setCropExport(int year, EnumCropType crop, double metTons)
    {
      if (metTons >= 0)
      {
@@ -285,7 +291,7 @@ public class Continent implements PizzaCropData
     * @param crop crop in question
     * @return tons imported
     */
-   public double getCropImport(int year, EnumPizzaCrop crop)
+   public double getCropImport(int year, EnumCropType crop)
    {
      return cropImport[crop.ordinal()][year - START_YEAR];
    }
@@ -295,7 +301,7 @@ public class Continent implements PizzaCropData
     * @param crop    crop in question
     * @param metTons tons imported
     */
-   public void setCropImport(int year, EnumPizzaCrop crop, double metTons)
+   public void setCropImport(int year, EnumCropType crop, double metTons)
    {
      if (metTons >= 0)
      {
@@ -372,7 +378,7 @@ public class Continent implements PizzaCropData
    public double getArableLandUnused(int year)
    {
      double used = 0;
-     for (EnumPizzaCrop crop : EnumPizzaCrop.values())
+     for (EnumCropType crop : EnumCropType.values())
      {
        used += getCropLand(year, crop);
      }
@@ -386,7 +392,7 @@ public class Continent implements PizzaCropData
     * @param crop crop in question
     * @return square km planted with crop
     */
-   public double getCropLand(int year, EnumPizzaCrop crop)
+   public double getCropLand(int year, EnumCropType crop)
    {
      return landCrop[crop.ordinal()][year - START_YEAR];
    }
@@ -399,7 +405,7 @@ public class Continent implements PizzaCropData
     * @param crop    crop in question
     * @param kilomsq area to set
     */
-   public void setCropLand(int year, EnumPizzaCrop crop, double kilomsq)
+   public void setCropLand(int year, EnumCropType crop, double kilomsq)
    {
      if (kilomsq >= 0 && kilomsq <= getArableLand(year))
      {
@@ -422,7 +428,7 @@ public class Continent implements PizzaCropData
     * @param crop    crop in question
     * @param kilomsq number square km user wants to plant with that crop
     */
-   public void updateCropLand(int year, EnumPizzaCrop crop, double kilomsq)
+   public void updateCropLand(int year, EnumCropType crop, double kilomsq)
    {
      double unused = getArableLandUnused(year);
      double currCropLand = getCropLand(year, crop);
@@ -448,7 +454,49 @@ public class Continent implements PizzaCropData
        landCrop[crop.ordinal()][i] = valueToSet;
    }
 
+   /**
+    * @param year (passing year might be useful in the next milestone?)
+    * @param crop
+    * @return yield for crop
+    */
+   public double getCropYield(int year, EnumCropType crop)
+   {
+     return cropYield[crop.ordinal()][EnumGrowMethod.CONVENTIONAL.ordinal()];
+   }
+   
+   /**
+    * @param year (passing year might be useful in the next milestone?)
+    * @param crop
+    * @param grow method
+    * @return yield for crop
+    */
+   public double getCropYield(int year, EnumCropType crop, EnumGrowMethod method)
+   {
+     return cropYield[crop.ordinal()][method.ordinal()];
+   }
+   
 
+   /**
+    * @param year          (passing year might be useful in the next milestone?)
+    * @param crop
+    * @param tonPerSqKilom yield for crop
+    */
+   public void setCropYield(int year, EnumCropType crop, double tonPerSqKilom)
+   {
+     cropYield[crop.ordinal()][EnumGrowMethod.CONVENTIONAL.ordinal()] = tonPerSqKilom;
+   }
+   
+   /**
+    * @param year          (passing year might be useful in the next milestone?)
+    * @param crop
+    * @param grow method
+    * @param tonPerSqKilom yield for crop
+    */
+   public void setCropYield(int year, EnumCropType crop, EnumGrowMethod method, double tonPerSqKilom)
+   {
+     cropYield[crop.ordinal()][method.ordinal()] = tonPerSqKilom;
+   }
+   
    /**
     * @param year   year in question
     * @param method cultivation method

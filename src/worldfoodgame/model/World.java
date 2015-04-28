@@ -439,6 +439,7 @@ public class World extends AbstractScenario
           country.setContinent(continent);
         }
       }
+      continent.initializeData();
     }
   } 
   
