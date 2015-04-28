@@ -127,19 +127,11 @@ public class World extends AbstractScenario
   public ArrayList<Continent> getRelevantContinents(List<Country> activeCountries)
   {
     ArrayList<Continent> temp = new ArrayList<>();
-    while (activeCountries.size() > 0)
+    for (Country c : activeCountries)
     {
-      for (Continent cont : continents)
+      if (!temp.contains(c.getContinent()))
       {
-        if (cont.contains(activeCountries.get(0)))
-        {
-          for (Country c : cont.getCountries())
-          {
-            activeCountries.remove(c);
-          }
-          temp.add(cont);
-          break;
-        }
+        temp.add(c.getContinent());
       }
     }
     return temp;
@@ -444,6 +436,7 @@ public class World extends AbstractScenario
         if (country.getContinentName() == continentName)
         {
           continent.addCountry(country);
+          country.setContinent(continent);
         }
       }
     }

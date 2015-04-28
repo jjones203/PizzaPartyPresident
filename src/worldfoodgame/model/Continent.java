@@ -3,12 +3,14 @@
  import java.util.ArrayList;
  import java.util.Collection;
  import java.util.List;
+ import java.awt.Color;
 
  import worldfoodgame.common.AbstractScenario;
  import worldfoodgame.common.EnumCropType;
  import worldfoodgame.common.EnumGrowMethod;
+ import worldfoodgame.gui.ColorsAndFonts;
 
-/**
+ /**
  * @author jessica
  * @version 4/26/15
  */
@@ -22,6 +24,7 @@ public class Continent implements PizzaCropData
   private List<Country> countries;
   private int numCountries;
   private Collection<LandTile> landTiles;
+  private Color color;
 
   protected double waterAllowance;
   protected int[] population = new int[YEARS_OF_SIM];       //in people
@@ -51,9 +54,41 @@ public class Continent implements PizzaCropData
   public Continent(EnumContinentNames name)
   {
     this.name = name;
+    switch (name)
+    {
+      case N_AMERICA:
+        color = ColorsAndFonts.N_AMERICA;
+        break;
+      case S_AMERICA:
+        color = ColorsAndFonts.S_AMERICA;
+        break;
+      case AFRICA:
+        color = ColorsAndFonts.AFRICA;
+        break;
+      case ASIA:
+        color = ColorsAndFonts.ASIA;
+        break;
+      case EUROPE:
+        color = ColorsAndFonts.EUROPE;
+        break;
+      case MIDDLE_EAST:
+        color = ColorsAndFonts.M_EAST;
+        break;
+      case OCEANIA:
+        color = ColorsAndFonts.OCEANIA;
+        break;
+      default:
+        color = ColorsAndFonts.PASSIVE_REGION;
+        break;
+    }
     countries = new ArrayList<>();
     numCountries = 0;
     landTiles = new ArrayList<>();
+  }
+
+  public Color getColor()
+  {
+    return color;
   }
 
   /**
@@ -278,6 +313,26 @@ public class Continent implements PizzaCropData
    public double getLandTotal(int year)
    {
      return landTotal;
+   }
+
+   public double getTotalCropNeed(int year, EnumCropType crop)
+   {
+     double temp = 0;
+     for (Country c : countries)
+     {
+       temp = temp + c.getTotalCropNeed(year, crop);
+     }
+     return temp;
+   }
+
+   public double getProduction(int year, EnumCropType crop)
+   {
+     double temp = 0;
+     for (Country c : countries)
+     {
+       temp = temp + c.getCropProduction(year, crop);
+     }
+     return temp;
    }
    
    /**
