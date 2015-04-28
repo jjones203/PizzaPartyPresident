@@ -40,6 +40,10 @@ public class Continent implements PizzaCropData
   
   protected double[][] cultivationMethod = new double[EnumGrowMethod.SIZE][YEARS_OF_SIM]; //percentage
   
+  protected int approvalRating;
+  protected int diplomacyRating;
+  
+  
   /**
    * Continent constructor
    * @param name continent name
@@ -173,6 +177,14 @@ public class Continent implements PizzaCropData
     return waterAllowance;
   }
   
+  /**
+   * @param waterAllowance the waterAllowance to set
+   */
+  public void setWaterAllowance(double waterAllowance)
+  {
+    this.waterAllowance = waterAllowance;
+  }
+
   /**
    * @param year year in question
    * @param crop crop in question
@@ -411,9 +423,5 @@ public class Continent implements PizzaCropData
        }
      }
    }
-
-   
-   
-   
- }
+}
 

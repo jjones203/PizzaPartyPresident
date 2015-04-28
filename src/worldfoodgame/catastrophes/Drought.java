@@ -1,8 +1,8 @@
 package worldfoodgame.catastrophes;
 
+import java.util.Collection;
 import javax.swing.JOptionPane;
-
-import worldfoodgame.temp.Continent;
+import worldfoodgame.model.Continent;
 
 
 /****************************************
@@ -17,11 +17,12 @@ public class Drought extends Catastrophe
 {
   private Continent continent;
   private String droughtStory;
+  private double waterAllowance;
 
 
-  public Drought ()
+  public Drought (Collection<Continent> continents)
   {
-    continent = getRandContinent();
+    continent = getRandContinent(continents);
     setStory();
     initCatastrophe();
     popUpDialog();
@@ -30,34 +31,40 @@ public class Drought extends Catastrophe
 
   @Override
   // Displays window that explains to user what catastrophe occurred
-  public void popUpDialog()
+  protected void popUpDialog()
   {
     JOptionPane.showMessageDialog(null,droughtStory,"A Global Catastrophe has Struck!",JOptionPane.WARNING_MESSAGE);
   }
 
 
   @Override
-  // Performs catastrophe changes i.e. by changing crop values,etc.
-  public void initCatastrophe()
+  // Decreases water for the year
+  protected void initCatastrophe()
   {
-    // TODO Auto-generated method stub
-
-  }
-
-  private Continent getRandContinent()
-  {
-    return new Continent();
+    waterAllowance = continent.getWaterAllowance();
+    continent.setWaterAllowance(waterAllowance/3);
   }
 
-  private void setStory()
+
+  @Override
+  //Creates story for dialog pop-up
+  protected void setStory()
   {
     droughtStory =  "The year started with a beautiful sunny day. This made the citizens of \n"+
-                     continent.getName()+" happy. The next day was just as beautiful. As was \n"+
-                    "the next day, and the next day, and the one after that. Smiles began to\n"+
-                    "diappear as plants shrivel and ordinances are called. "+ continent.getName()+
-                    "\n is experiencing a severe drought. As its countries try to preserve water\n"+
-                    "and well-being, citizens turn to the Pizza Party Presidents of world to see\n"+
-                    "how they will act. What will you do now that the world is watching?";
+        continent.getName()+" happy. The next day was just as beautiful. As was \n"+
+        "the next day, and the next day, and the one after that. Smiles began to\n"+
+        "diappear as plants shrivel and ordinances are called. "+ continent.getName()+
+        "\n is experiencing a severe drought. As its countries try to preserve water\n"+
+        "and well-being, citizens turn to the Pizza Party Presidents of world to see\n"+
+        "how they will act. What will you do now that the world is watching?";
+  }
+
+
+  @Override
+  // Recovers continent to usual water allowance
+  public void recuperateAfterCatastrophe()
+  {
+    continent.setWaterAllowance(waterAllowance);    
   }
 }
 

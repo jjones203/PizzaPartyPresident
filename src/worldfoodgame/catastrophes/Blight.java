@@ -1,7 +1,8 @@
 package worldfoodgame.catastrophes;
 
+import java.util.Collection;
 import javax.swing.JOptionPane;
-import worldfoodgame.temp.Continent;
+import worldfoodgame.model.Continent;
 
 
 /****************************************
@@ -18,9 +19,9 @@ public class Blight extends Catastrophe
   private String blightStory;
 
 
-  public Blight()
+  public Blight(Collection<Continent> continents)
   {
-    continent = getRandContinent();
+    continent = getRandContinent(continents);
     setStory();
     initCatastrophe();
     popUpDialog();
@@ -29,7 +30,7 @@ public class Blight extends Catastrophe
 
   @Override
   // Displays window that explains to user what catastrophe occurred
-  public void popUpDialog()
+  protected void popUpDialog()
   {
     JOptionPane.showMessageDialog(null,blightStory,"A Global Catastrophe has Struck!",JOptionPane.WARNING_MESSAGE);
   }
@@ -37,21 +38,26 @@ public class Blight extends Catastrophe
 
   @Override
   // Performs catastrophe changes i.e. by changing crop values,etc.
-  public void initCatastrophe()
+  protected void initCatastrophe()
   {
     // TODO Auto-generated method stub
 
-  }
+  }  
 
   
-  private Continent getRandContinent()
-  {
-    // TODO Auto-generated method stub
-    return new Continent();
-  }
-  
-  private void setStory()
+  @Override
+  //Creates story for dialog pop-up
+  protected void setStory()
   {
     // TODO Auto-generated method stub    
+  }
+
+
+  @Override
+  // Recovers continent to a less harsh post-catastrophe state 
+  public void recuperateAfterCatastrophe()
+  {
+    // TODO Auto-generated method stub
+    
   }
 }

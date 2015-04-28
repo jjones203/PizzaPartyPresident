@@ -1,7 +1,9 @@
 package worldfoodgame.catastrophes;
 
+import java.util.Collection;
 import javax.swing.JOptionPane;
-import worldfoodgame.temp.Continent;
+import worldfoodgame.model.Continent;
+
 
 /*********************
  * Flood catastrophe
@@ -17,9 +19,9 @@ public class Flood extends Catastrophe
   private String floodStory;
 
 
-  public Flood()
+  public Flood(Collection<Continent> continents)
   {
-    continent = getRandContinent();
+    continent = getRandContinent(continents);
     setStory();
     initCatastrophe();
     popUpDialog();
@@ -27,7 +29,7 @@ public class Flood extends Catastrophe
 
   @Override
   // Displays window that explains to user what catastrophe occurred
-  public void popUpDialog()
+  protected void popUpDialog()
   {
     JOptionPane.showMessageDialog(null,floodStory,"A Global Catastrophe has Struck!",JOptionPane.WARNING_MESSAGE);
   }
@@ -35,20 +37,23 @@ public class Flood extends Catastrophe
 
   @Override
   // Performs catastrophe changes i.e. by changing crop values,etc.
-  public void initCatastrophe()
+  protected void initCatastrophe()
   {
     // TODO Auto-generated method stub
 
   }
 
 
-  private Continent getRandContinent()
+  @Override
+  //Creates story for dialog pop-up
+  protected void setStory()
   {
-    // TODO Auto-generated method stub
-    return new Continent();
+    // TODO Auto-generated method stub    
   }
 
-  private void setStory()
+  @Override
+  // Recovers continent to a less harsh post-catastrophe state 
+  public void recuperateAfterCatastrophe()
   {
     // TODO Auto-generated method stub
 

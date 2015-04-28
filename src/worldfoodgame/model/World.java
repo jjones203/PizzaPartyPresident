@@ -1,7 +1,8 @@
 package worldfoodgame.model;
 
 import worldfoodgame.common.AbstractScenario;
-//import worldfoodgame.catastrophes.Blight;
+import worldfoodgame.catastrophes.Blight;
+import worldfoodgame.catastrophes.Catastrophe;
 import worldfoodgame.catastrophes.Flood;
 import worldfoodgame.catastrophes.Drought;
 import worldfoodgame.common.EnumCropType;
@@ -44,7 +45,7 @@ public class World extends AbstractScenario
    * singleton class, there is one and only one world.
    *
    * @param world     the list of regions that make up the world.
-   * @param countries the countryies in the world
+   * @param countries the countries in the world
    * @param cal       the starting date of the world.
    */
   public static void makeWorld(Collection<Region> world,
@@ -211,10 +212,10 @@ public class World extends AbstractScenario
     currentDate.add(Calendar.YEAR, 1);
     start = System.currentTimeMillis();
 
-    rollCatastropheDie();
-
     if (DEBUG) System.out.println("Planting tiles...");
-    plantAndHarvestCrops();       // implemented
+    
+    rollCatastropheDie(continents); // planting and harvesting occurs in here.
+    
     if (DEBUG) System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
     if (DEBUG) System.out.println("Date is now " + getCurrentYear());
 
@@ -225,12 +226,11 @@ public class World extends AbstractScenario
     shipAndReceive();
     if (DEBUG) System.out.printf("Done shipping and receiving in: %dms%n", System.currentTimeMillis() - start);
 
-    adjustUndernourished();  // implemented
+    adjustUndernourished();  // implemented    
+    
     start = System.currentTimeMillis();
 
     if (DEBUG) System.out.println("Mutating country demographics...");
-
-
     if (DEBUG) System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
     if (DEBUG) System.out.println("year stepping done");
   }
@@ -238,26 +238,35 @@ public class World extends AbstractScenario
   /*
     Chooses random number from 1 to 100, giving a 30% chance that
     a catastrophe will occur */
-  private void rollCatastropheDie()
+  private void rollCatastropheDie(Collection<Continent> continents)
   {
     if (DEBUG) System.out.println("Rolling catastrophe die...");
     
     Random ran = new Random();
     int die = ran.nextInt(100)+1;
 
-    if (DEBUG) System.out.println("Die says "+die);
-    
+    if (DEBUG) System.out.println("Die says "+die);    
+       
     if (die>0 && die<11) // 10% chance of drought catastrophe
     {
-      new Drought();
+      Catastrophe Drought = new Drought(continents);
+      plantAndHarvestCrops(); 
+      Drought.recuperateAfterCatastrophe();
     }
     else if(die>10 && die<21) // 10% chance of flood catastrophe
     {
-      new Flood();
+      Catastrophe Flood = new Flood(continents);
+      plantAndHarvestCrops(); 
+      Flood.recuperateAfterCatastrophe();
     }
     else if(die>20 && die<31) // 10% chance of crop disease catastrophe
     {
-      //new Blight();
+      Catastrophe Blight = new Blight(continents);
+      plantAndHarvestCrops(); 
+    }
+    else
+    {
+      plantAndHarvestCrops(); 
     }
   }
 
@@ -416,9 +425,7 @@ public class World extends AbstractScenario
           continent.addCountry(country);
         }
       }
-      continent.initializeData();
     }
-  }
-  
+  } 
   
 }
