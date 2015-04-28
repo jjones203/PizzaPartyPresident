@@ -5,12 +5,14 @@ import worldfoodgame.gui.WorldPresenter;
 import worldfoodgame.gui.hud.MiniViewBox;
 import worldfoodgame.gui.hud.PieChart;
 import worldfoodgame.model.Country;
+import worldfoodgame.model.Continent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.ArrayList;
 
 /**
  * Created by winston on 3/21/15.
@@ -21,7 +23,7 @@ public class InfoPanel extends JPanel implements Observer
   public static final Dimension TABP_DIM = new Dimension(620, 240);
 
 
-  private final WorldPresenter worldPresenter;
+  private WorldPresenter worldPresenter;
   private CountryDataHandler dataHandler;
   private LabelFactory labelFactory;
   private TabbedPanel OuterTabbedPanel;
@@ -79,17 +81,26 @@ public class InfoPanel extends JPanel implements Observer
   @Override
   public void update(Observable o, Object arg)
   {
-    java.util.List<Country> countryList = worldPresenter.getActiveCountries();
-
-    if (countryList.size() == 0)
+    ArrayList<Continent> continentArrayList = worldPresenter.getActiveCont();
+    ArrayList<Country> activeCountries = new ArrayList<>();
+    for (Continent cont : continentArrayList)
+    {
+      activeCountries.addAll(cont.getCountries());
+    }
+    if (continentArrayList.size() == 0)
     {
       dataHandler = CountryDataHandler.getNullData();
       //viewBox.setTitle(" ");
       pieChart.setTitle(" ");
     }
+    else if (continentArrayList.size() == 1)
+    {
+      dataHandler = CountryDataHandler.getData(activeCountries, worldPresenter.getYear());
+      pieChart.setTitle(continentArrayList.get(0).getName().toString());
+    }
     else
     {
-      dataHandler = CountryDataHandler.getData(countryList, worldPresenter.getYear());
+      dataHandler = CountryDataHandler.getData(activeCountries, worldPresenter.getYear());
       //viewBox.setTitle(dataHandler.getName());
       pieChart.setTitle(dataHandler.getName());
     }

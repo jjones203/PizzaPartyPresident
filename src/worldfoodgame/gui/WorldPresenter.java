@@ -9,6 +9,7 @@ import worldfoodgame.model.Country;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
 import worldfoodgame.model.Player;
+import worldfoodgame.model.Continent;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -438,6 +439,11 @@ public class WorldPresenter extends Observable
   public void registerChange()
   {
     setChanged();
+  }
+
+  public ArrayList<Continent> getActiveCont()
+  {
+    return new ArrayList<>(world.getRelevantContinents(new ArrayList<>(getActiveCountries())));
   }
 
   /**
