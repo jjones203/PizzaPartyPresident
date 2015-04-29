@@ -1,14 +1,16 @@
  package worldfoodgame.model;
 
  import java.util.ArrayList;
- import java.util.Collection;
- import java.util.List;
- import java.awt.Color;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.awt.Color;
 
  import worldfoodgame.common.AbstractScenario;
- import worldfoodgame.common.EnumCropType;
- import worldfoodgame.common.EnumGrowMethod;
- import worldfoodgame.gui.ColorsAndFonts;
+import worldfoodgame.common.EnumCropType;
+import worldfoodgame.common.EnumGrowMethod;
+import worldfoodgame.gui.ColorsAndFonts;
 
  /**
  * @author jessica
@@ -163,6 +165,8 @@ public class Continent implements CropClimateData
     }
     // set undernourished
     setUndernourished(START_YEAR, undernourishedTotal/numCountries);
+    
+    initializePizzaPreference();
   }
   
   public EnumContinentNames getName()
@@ -600,5 +604,38 @@ public class Continent implements CropClimateData
        }
      }
    }
+   
+   private void initializePizzaPreference()
+   {
+     ArrayList<EnumCropType> cropsToSet = new ArrayList<EnumCropType>();
+     cropsToSet.addAll(Arrays.asList(EnumCropType.values()));
+     double limit = 1;
+     double sumPercents = 0;
+     while (cropsToSet.size() > 1)
+     {
+       Collections.shuffle(cropsToSet);
+       EnumCropType crop = cropsToSet.get(0);
+       double percent = Math.random()*limit;
+       setPizzaPreference(crop,percent);
+       limit = percent;
+       sumPercents += percent;
+       cropsToSet.remove(0);
+     }
+     EnumCropType crop = cropsToSet.get(0);
+     double remainingPercent = 1 - sumPercents;
+     setPizzaPreference(crop,remainingPercent);
+     cropsToSet.clear();
+   }
+   /*
+   public static void main(String[] args)
+   {
+     Continent testContinent = new Continent(EnumContinentNames.AFRICA);
+     testContinent.initializePizzaPreference();
+     for (EnumCropType crop:EnumCropType.values())
+     {
+       double percent = testContinent.getPizzaPreference(crop);
+       System.out.println("For "+crop+" "+percent);
+     }
+   }*/
  }
 
