@@ -40,6 +40,8 @@ public class PlanningPointsAllocationPanel extends JPanel
     this.allRegions = otherRegions;
     this.playerPlanningPoints = playerPlanningPoints;
     
+    PlanningPointsData.initData(allRegions, playerPlanningPoints);
+    
     buildGUI();
   }
   
@@ -74,7 +76,7 @@ public class PlanningPointsAllocationPanel extends JPanel
     FRAME.setVisible(true);
   }
 
-  /*public static void main(String[] args)
+  public static void main(String[] args)
   {
     List<PlanningPointsInteractableRegion> otherTestConts = new ArrayList<PlanningPointsInteractableRegion>();
     PlanningPointsInteractableRegion myCont = new TestContinent(EnumContinentNames.N_AMERICA.toString());
@@ -92,7 +94,7 @@ public class PlanningPointsAllocationPanel extends JPanel
     otherTestConts.add(c5);
     otherTestConts.add(c6);
     new PlanningPointsAllocationPanel(otherTestConts,75);
-  }*/
+  }
 }
 
 //for testing
@@ -111,12 +113,14 @@ class TestContinent implements PlanningPointsInteractableRegion
     return name;
   }
 
+
   @Override
   public int getGMOResistancePlanningPoints()
   {
     // TODO Auto-generated method stub
     return 0;
   }
+
 
   @Override
   public int getWaterEfficiencyPlanningPoints()
@@ -125,12 +129,14 @@ class TestContinent implements PlanningPointsInteractableRegion
     return 0;
   }
 
+
   @Override
   public int getYieldEfficiencyPlanningPoints()
   {
     // TODO Auto-generated method stub
     return 0;
   }
+
 
   @Override
   public int getTradeEfficiencyPlanningPoints()
@@ -139,33 +145,38 @@ class TestContinent implements PlanningPointsInteractableRegion
     return 0;
   }
 
+
   @Override
-  public void addGMOResistancePlanningPoints(int numPoints)
+  public void setGMOResistancePlanningPoints(int numPoints)
   {
     // TODO Auto-generated method stub
     
   }
 
+
   @Override
-  public void addWaterEfficiencyPlanningPoints(int numPoints)
+  public void setWaterEfficiencyPlanningPoints(int numPoints)
   {
     // TODO Auto-generated method stub
     
   }
 
+
   @Override
-  public void addYieldEfficiencyPlanningPoints(int numPoints)
+  public void setYieldEfficiencyPlanningPoints(int numPoints)
   {
     // TODO Auto-generated method stub
     
   }
 
+
   @Override
-  public void addTradeEfficiencyPlanningPoints(int numPoints)
+  public void setTradeEfficiencyPlanningPoints(int numPoints)
   {
     // TODO Auto-generated method stub
     
   }
+
 
   @Override
   public PlanningPointsLevel getGMOResistanceLevel()
@@ -174,12 +185,14 @@ class TestContinent implements PlanningPointsInteractableRegion
     return null;
   }
 
+
   @Override
   public PlanningPointsLevel getWaterEfficiencyLevel()
   {
     // TODO Auto-generated method stub
     return null;
   }
+
 
   @Override
   public PlanningPointsLevel getYieldEfficiencyLevel()
@@ -188,12 +201,14 @@ class TestContinent implements PlanningPointsInteractableRegion
     return null;
   }
 
+
   @Override
   public PlanningPointsLevel getTradeEfficiencyLevel()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  
+
+ 
 }
 

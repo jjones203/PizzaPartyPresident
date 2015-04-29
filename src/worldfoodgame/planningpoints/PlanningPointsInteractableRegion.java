@@ -31,10 +31,10 @@ public interface PlanningPointsInteractableRegion
   
   // used by planning points allocation panel
   // should be bounded by [0 and PlanningPointsConstants.MAX_POINTS]
-  public void addGMOResistancePlanningPoints(int numPoints);
-  public void addWaterEfficiencyPlanningPoints(int numPoints);
-  public void addYieldEfficiencyPlanningPoints(int numPoints);
-  public void addTradeEfficiencyPlanningPoints(int numPoints);
+  public void setGMOResistancePlanningPoints(int numPoints);
+  public void setWaterEfficiencyPlanningPoints(int numPoints);
+  public void setYieldEfficiencyPlanningPoints(int numPoints);
+  public void setTradeEfficiencyPlanningPoints(int numPoints);
   
   /**
    * The following should be straightforward to implement with my

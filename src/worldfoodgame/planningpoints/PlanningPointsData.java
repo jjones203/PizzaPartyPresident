@@ -6,18 +6,24 @@ import java.util.Map;
 
 public class PlanningPointsData
 {
-  public static Map<PlanningPointsInteractableRegion, Integer> initialTradeEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
-  public static Map<PlanningPointsInteractableRegion, Integer> initialYieldEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
-  public static Map<PlanningPointsInteractableRegion, Integer> initialWaterEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
-  public static Map<PlanningPointsInteractableRegion, Integer> initialGMOResistancePoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
+  private static Map<PlanningPointsInteractableRegion, Integer> initialTradeEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
+  private static Map<PlanningPointsInteractableRegion, Integer> initialYieldEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
+  private static Map<PlanningPointsInteractableRegion, Integer> initialWaterEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
+  private static Map<PlanningPointsInteractableRegion, Integer> initialGMOResistancePoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
   
-  public static Map<PlanningPointsInteractableRegion, Integer> additionalTradeEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
-  public static Map<PlanningPointsInteractableRegion, Integer> additionalYieldEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
-  public static Map<PlanningPointsInteractableRegion, Integer> additionalWaterEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
-  public static Map<PlanningPointsInteractableRegion, Integer> additionalGMOResistancePoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
+  private static Map<PlanningPointsInteractableRegion, Integer> additionalTradeEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
+  private static Map<PlanningPointsInteractableRegion, Integer> additionalYieldEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
+  private static Map<PlanningPointsInteractableRegion, Integer> additionalWaterEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
+  private static Map<PlanningPointsInteractableRegion, Integer> additionalGMOResistancePoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
   
-  public static void initData(List<PlanningPointsInteractableRegion> regions)
+  private static List <PlanningPointsInteractableRegion> allRegions;
+  private static int pointsToInvest;
+  
+  public static void initData(List<PlanningPointsInteractableRegion> regions, int yearlyPlanningPoints)
   {
+   
+    
+    allRegions.clear();
     initialTradeEffPoints.clear();    
     initialYieldEffPoints.clear();
     initialWaterEffPoints.clear();
@@ -27,6 +33,9 @@ public class PlanningPointsData
     additionalYieldEffPoints.clear();
     additionalWaterEffPoints.clear();
     additionalGMOResistancePoints.clear();
+    
+    pointsToInvest=yearlyPlanningPoints;
+    allRegions=regions;
     
     for (PlanningPointsInteractableRegion r:regions)
     {
@@ -40,6 +49,102 @@ public class PlanningPointsData
       additionalWaterEffPoints.put(r, 0);
       additionalGMOResistancePoints.put(r, 0);
     }
+  }
+  
+  public static void addAdditionalPoints(PlanningPointsInteractableRegion region,PlanningPointCategory category, int pointsToAdd)
+  {
+    pointsToInvest+=pointsToAdd;
+    switch(category)
+    {
+    case GMOResistance:
+      pointsToAdd+=additionalGMOResistancePoints.get(region);
+      additionalGMOResistancePoints.put(region, pointsToAdd);
+      break;
+    case WaterEfficiency:
+      pointsToAdd+=additionalWaterEffPoints.get(region);
+      additionalWaterEffPoints.put(region, pointsToAdd);
+      break;
+    case YieldEffeciency:
+      pointsToAdd+=additionalYieldEffPoints.get(region);
+      additionalYieldEffPoints.put(region, pointsToAdd);
+      break;
+    case TradeEfficiency:
+      pointsToAdd+=additionalTradeEffPoints.get(region);
+      additionalTradeEffPoints.put(region, pointsToAdd);
+      break;
+    default:
+      System.out.println(region.toString()+" not recgnized");
+      break;
+    }
+  }
+  
+  public static void getOriginalIvestment(PlanningPointsInteractableRegion region,PlanningPointCategory category)
+  {
+    switch(category)
+    {
+    case GMOResistance:
+      initialGMOResistancePoints.get(region);
+      break;
+    case WaterEfficiency:
+      initialWaterEffPoints.get(region);
+      break;
+    case YieldEffeciency:
+      initialYieldEffPoints.get(region);
+      break;
+    case TradeEfficiency:
+      initialTradeEffPoints.get(region);
+      break;
+    default:
+      System.out.println(region.toString()+" not recgnized");
+      break;
+    }
+  }
+  
+  public static void getTempIvestment(PlanningPointsInteractableRegion region,PlanningPointCategory category)
+  {
+    switch(category)
+    {
+    case GMOResistance:
+      additionalGMOResistancePoints.get(region);
+      break;
+    case WaterEfficiency:
+      additionalWaterEffPoints.get(region);
+      break;
+    case YieldEffeciency:
+      additionalYieldEffPoints.get(region);
+      break;
+    case TradeEfficiency:
+      additionalTradeEffPoints.get(region);
+      break;
+    default:
+      System.out.println(region.toString()+" not recgnized");
+      break;
+    }
+  }
+  
+  public static void submitInvestment()
+  {
+    int initPoints,additionalPoints;
+    for (PlanningPointsInteractableRegion r:allRegions)
+    {
+      initPoints = initialGMOResistancePoints.get(r);
+      additionalPoints = additionalGMOResistancePoints.get(r);
+      r.setGMOResistancePlanningPoints(initPoints+additionalPoints);
+      
+      initPoints = initialWaterEffPoints.get(r);
+      additionalPoints = additionalWaterEffPoints.get(r);
+      r.setWaterEfficiencyPlanningPoints(initPoints+additionalPoints);
+      
+      initPoints = initialYieldEffPoints.get(r);
+      additionalPoints = additionalYieldEffPoints.get(r);
+      r.setYieldEfficiencyPlanningPoints(initPoints+additionalPoints);
+      
+      
+      initPoints = initialTradeEffPoints.get(r);
+      additionalPoints = additionalTradeEffPoints.get(r);
+      r.setTradeEfficiencyPlanningPoints(initPoints+additionalPoints);     
+    }
+    
   }
   
   
