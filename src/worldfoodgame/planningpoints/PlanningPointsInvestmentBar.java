@@ -5,17 +5,17 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-public class PlanningPointsInvestmentBar extends PlanningPointBarPanel
+public class PlanningPointsInvestmentBar 
 {
-  int initalPoints;
+  //int initalPoints;
   PlanningPointsInvestmentBar(int initialPoints)
   {
-    super();
-    this.initalPoints=initialPoints;
+    //super();
+    //this.initalPoints=initialPoints;
   }
   
-  /**
-   */
+  /*/**
+   
   @Override
   public void paintComponent(Graphics g)
   {
@@ -25,8 +25,8 @@ public class PlanningPointsInvestmentBar extends PlanningPointBarPanel
     g.setColor(BACKGROUND_BAR_COLOR);
     g.fillRect(0,this.getBounds().height/2-BAR_HEIGHT/2, BAR_LENGTH, BAR_HEIGHT);
     g.setColor(FOREGROUND_BAR_COLOR);
-    g.fillRect(0,this.getBounds().height/2-BAR_HEIGHT/2, BAR_LENGTH-(int) (((double)numPoints/PlanningPointConstants.MAX_POINTS)*BAR_LENGTH), BAR_HEIGHT);
-  }
+    g.fillRect(0,this.getBounds().height/2-BAR_HEIGHT/2, BAR_LENGTH-(int) (((double)PlanningPointsData.getPlanningPointsAvalable()/PlanningPointConstants.MAX_POINTS)*BAR_LENGTH), BAR_HEIGHT);
+  }*/
  
   
   
