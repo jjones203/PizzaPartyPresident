@@ -27,6 +27,11 @@ public class ContinentCropAllocator
     updateProduction();
   }
   
+  public void setOccurCatastrope(boolean occurCatastrophe)
+  {
+    this.occurCatastrophe = occurCatastrophe;
+  }
+  
   private void calculateTilesNeeded()
   {
     for (EnumCropType crop:EnumCropType.values())
@@ -34,6 +39,11 @@ public class ContinentCropAllocator
       double cropLand = continent.getCropLand(year, crop);
       tilesNeeded[crop.ordinal()] = (int) cropLand/100;
     }
+  }
+  
+  private int getTilesNeeded(EnumCropType crop)
+  {
+    return tilesNeeded[crop.ordinal()];
   }
   
   private void plantCrops()
@@ -45,7 +55,7 @@ public class ContinentCropAllocator
     while (tileItr.hasNext() && cropIndex < EnumCropType.SIZE)
     {
       EnumCropType crop = EnumCropType.values()[cropIndex];
-      int tilesToPlant = tilesNeeded[cropIndex];
+      int tilesToPlant = getTilesNeeded(crop);
       // plant as many tiles as needed for crop
       while (tilesToPlant > 0 && tileItr.hasNext())
       {
@@ -71,7 +81,15 @@ public class ContinentCropAllocator
     
     for (EnumCropType crop:EnumCropType.values())
     {
-      
+      double convYield = continent.getCropYield(year, crop, EnumGrowMethod.CONVENTIONAL);
+      double gmoYield = continent.getCropYield(year, crop, EnumGrowMethod.GMO);
+      double orgYield = continent.getCropYield(year, crop, EnumGrowMethod.ORGANIC);
+      // calculate yield per tile; *100 because tile is 100 sq km
+      double yieldPerTile = (convPercent * convYield + gmoPercent * gmoYield + orgPercent * orgYield) * 100;
+      // if catastrophe, reduce yield 50%
+      if (occurCatastrophe) yieldPerTile *= 0.5;
+      double production = yieldPerTile * getTilesNeeded(crop);
+      continent.setCropProduction(year, crop, production);
     }
   }
   

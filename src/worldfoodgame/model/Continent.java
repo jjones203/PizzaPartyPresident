@@ -334,6 +334,13 @@ public class Continent implements CropClimateData
      return temp;
    }
 
+   /**
+    * Use getCropProduction(int year, EnumCropType crop) instead
+    * @param year
+    * @param crop
+    * @return tons of crop produced in year
+    */
+   @Deprecated
    public double getProduction(int year, EnumCropType crop)
    {
      double temp = 0;
