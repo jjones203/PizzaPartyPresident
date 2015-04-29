@@ -76,7 +76,7 @@ public class PlanningPointsAllocationPanel extends JPanel
     FRAME.setVisible(true);
   }
 
-  public static void main(String[] args)
+ /* public static void main(String[] args)
   {
     List<PlanningPointsInteractableRegion> otherTestConts = new ArrayList<PlanningPointsInteractableRegion>();
     PlanningPointsInteractableRegion myCont = new TestContinent(EnumContinentNames.N_AMERICA.toString());
@@ -94,7 +94,7 @@ public class PlanningPointsAllocationPanel extends JPanel
     otherTestConts.add(c5);
     otherTestConts.add(c6);
     new PlanningPointsAllocationPanel(otherTestConts,75);
-  }
+  }*/
 }
 
 //for testing
