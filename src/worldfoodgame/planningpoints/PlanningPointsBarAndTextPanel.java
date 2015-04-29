@@ -12,12 +12,18 @@ import worldfoodgame.gui.ColorsAndFonts;
 
 public class PlanningPointsBarAndTextPanel extends JPanel implements DynamicTextInteractable
 {
-  private InteractableLable decreaseInvestment = new InteractableLable(" - ",this,false);
+  private InteractableLable decreaseInvestment = new InteractableLable(" - ",this,false,100,Color.WHITE,Color.RED);
   private PlanningPointsInvestmentBar investmentBar = new PlanningPointsInvestmentBar(0);
-  private InteractableLable increaseInvestment = new InteractableLable(" + ",this,true);
+  private InteractableLable increaseInvestment = new InteractableLable(" + ",this,true,100,Color.WHITE,Color.RED);
   
-  PlanningPointsBarAndTextPanel()
+  private PlanningPointsInteractableRegion region;
+  private PlanningPointCategory category;
+  
+  PlanningPointsBarAndTextPanel(PlanningPointsInteractableRegion region,PlanningPointCategory category)
   {
+    this.region=region;
+    this.category=category;
+
     initPanel();
   }
   
@@ -27,7 +33,7 @@ public class PlanningPointsBarAndTextPanel extends JPanel implements DynamicText
     this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     this.add(decreaseInvestment);
     decreaseInvestment.setHorizontalAlignment(SwingConstants.RIGHT);
-    this.add(investmentBar);
+    //this.add(investmentBar);
     this.add(increaseInvestment);
     
     
@@ -38,6 +44,15 @@ public class PlanningPointsBarAndTextPanel extends JPanel implements DynamicText
   @Override
   public void interact(boolean positive)
   {
+    if(positive)
+    {
+      PlanningPointsData.addAdditionalPoints(region, category, 1);
+    }
+    else
+    {
+      PlanningPointsData.addAdditionalPoints(region, category, -1);
+    }
+    
     
   }
 

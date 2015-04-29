@@ -58,13 +58,13 @@ public class PlanningPointsAllocationPanel extends JPanel
     bgPanel.setPreferredSize(new Dimension(WIDTH,HEIGHT));
     bgPanel.setFocusable(true);
     
-    PlanningPointsHeaderPanel header = new PlanningPointsHeaderPanel(playerPlanningPoints);
+    PlanningPointsHeaderPanel header = new PlanningPointsHeaderPanel();
     bgPanel.add(header);
     
     PlanningPointContinentSelector selector = new PlanningPointContinentSelector(allRegions);
     bgPanel.add(selector);
     
-    PlanningPointsInvestmentPanel investment = new PlanningPointsInvestmentPanel(allRegions.get(0),PlanningPointCategory.TradeEfficiency,0);
+    PlanningPointsInvestmentPanel investment = new PlanningPointsInvestmentPanel(allRegions.get(0),PlanningPointCategory.TradeEfficiency);
     bgPanel.add(investment);
     
     PlanningPointsFooterPanel footer = new PlanningPointsFooterPanel();
@@ -76,7 +76,7 @@ public class PlanningPointsAllocationPanel extends JPanel
     FRAME.setVisible(true);
   }
 
- /* public static void main(String[] args)
+  /*public static void main(String[] args)
   {
     List<PlanningPointsInteractableRegion> otherTestConts = new ArrayList<PlanningPointsInteractableRegion>();
     PlanningPointsInteractableRegion myCont = new TestContinent(EnumContinentNames.N_AMERICA.toString());

@@ -25,7 +25,7 @@ public class PlanningPointContinentSelector extends JPanel implements DynamicTex
     this.setLayout(new GridLayout(1, 3));
     this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     
-    previous=new InteractableLable("Previous",this,false);
+    previous=new InteractableLable("Previous",this,false,200, Color.WHITE,Color.BLUE);
     previous.setHorizontalAlignment(SwingConstants.RIGHT);
     this.add(previous);
     
@@ -34,7 +34,7 @@ public class PlanningPointContinentSelector extends JPanel implements DynamicTex
     currentCountry.setForeground(Color.WHITE);
     this.add(currentCountry);
     
-    next=new InteractableLable("Next",this,true);
+    next=new InteractableLable("Next",this,true,200,Color.WHITE,Color.BLUE);
     next.setHorizontalAlignment(SwingConstants.LEFT);
     this.add(next);
   }

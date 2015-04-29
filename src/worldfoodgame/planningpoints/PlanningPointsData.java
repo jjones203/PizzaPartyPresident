@@ -1,5 +1,6 @@
 package worldfoodgame.planningpoints;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ public class PlanningPointsData
   private static Map<PlanningPointsInteractableRegion, Integer> additionalWaterEffPoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
   private static Map<PlanningPointsInteractableRegion, Integer> additionalGMOResistancePoints = new HashMap<PlanningPointsInteractableRegion, Integer>();
   
-  private static List <PlanningPointsInteractableRegion> allRegions;
+  private static List <PlanningPointsInteractableRegion> allRegions = new ArrayList<PlanningPointsInteractableRegion>();
   private static int pointsToInvest;
   
   public static void initData(List<PlanningPointsInteractableRegion> regions, int yearlyPlanningPoints)
@@ -53,6 +54,7 @@ public class PlanningPointsData
   
   public static void addAdditionalPoints(PlanningPointsInteractableRegion region,PlanningPointCategory category, int pointsToAdd)
   {
+    //System.out.println(region.toString()+""+category.toString());
     pointsToInvest+=pointsToAdd;
     switch(category)
     {
@@ -145,6 +147,11 @@ public class PlanningPointsData
       r.setTradeEfficiencyPlanningPoints(initPoints+additionalPoints);     
     }
     
+  }
+  
+  public static int getPlanningPointsAvalable()
+  {
+    return pointsToInvest;
   }
   
   
