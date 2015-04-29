@@ -30,7 +30,10 @@ public class Continent implements CropClimateData
   protected int[] population = new int[YEARS_OF_SIM];       //in people
   protected double[] undernourished = new double[YEARS_OF_SIM];  // percentage of population. 0.50 is 50%.
   
-  protected double[][] cropYield = new double[EnumCropType.SIZE][EnumGrowMethod.SIZE]; //metric tons per square kilometer
+  protected double[][] conventionalYield = new double[EnumCropType.SIZE][YEARS_OF_SIM]; //metric tons per square kilometer
+  protected double[][] organicYield = new double[EnumCropType.SIZE][YEARS_OF_SIM]; //metric tons per square kilometer
+  protected double[][] gmoYield = new double[EnumCropType.SIZE][YEARS_OF_SIM]; //metric tons per square kilometer
+  
   protected double[] pizzaPreference = new double[EnumCropType.SIZE]; // % of population wanting each kind of pizza
   
   protected double[][] cropProduction = new double[EnumCropType.SIZE][YEARS_OF_SIM]; //in metric tons.
@@ -110,7 +113,7 @@ public class Continent implements CropClimateData
   }
   
   /**
-   * Initialize fields that depend on average of all countries values
+   * Initialize fields that depend on average of all countries' values
    */
   public void initializeData()
   {
@@ -132,7 +135,7 @@ public class Continent implements CropClimateData
 
       organicTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.ORGANIC);
       gmoTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.GMO);
-      undernourishedTotal += country.getUndernourished(START_YEAR); 
+      undernourishedTotal += country.getUndernourished(START_YEAR);
     }
     
     // set continent fields using average of country values
@@ -141,25 +144,25 @@ public class Continent implements CropClimateData
       int cropIndex = crop.ordinal();
       // continent's conventional yield is average of country's yields
       double conventionalYield = cropYieldTotals[cropIndex]/numCountries;
-      cropYield[cropIndex][EnumGrowMethod.CONVENTIONAL.ordinal()] = conventionalYield;
-      // gmo and organic yields are calculated based on conventional yield
-      cropYield[cropIndex][EnumGrowMethod.ORGANIC.ordinal()] = conventionalYield * ORGANIC_YIELD_PERCENT;
-      cropYield[cropIndex][EnumGrowMethod.GMO.ordinal()] = conventionalYield * GMO_YIELD_PERCENT;
+      initializeYield(crop, conventionalYield);
     }
+    
+    // set percentages for gmo, organic, conventional
     double organicAvg = organicTotal/numCountries;
     double gmoAvg = gmoTotal/numCountries;
-    cultivationMethod[EnumGrowMethod.ORGANIC.ordinal()][0] = organicAvg;
-    cultivationMethod[EnumGrowMethod.GMO.ordinal()][0] = gmoAvg;
+    setMethodPercentage(START_YEAR, EnumGrowMethod.ORGANIC, organicAvg);
+    setMethodPercentage(START_YEAR, EnumGrowMethod.GMO, gmoAvg);
     if ((organicAvg + gmoAvg) < 0 || (organicAvg + gmoAvg) > 1)
     {
-      System.err.println("gmo + organic % for continent "+this.toString()+" not between 0 and 1");
+      if (VERBOSE) System.err.println("gmo + organic % for continent "+this.toString()+" not between 0 and 1");
     }
     else
     {
       double conventionalAvg = 1 - (organicAvg + gmoAvg);
-      cultivationMethod[EnumGrowMethod.CONVENTIONAL.ordinal()][0] = conventionalAvg;
+      setMethodPercentage(START_YEAR, EnumGrowMethod.CONVENTIONAL, conventionalAvg);
     }
-    undernourished[0] = undernourishedTotal/numCountries;
+    // set undernourished
+    setUndernourished(START_YEAR, undernourishedTotal/numCountries);
   }
   
   public EnumContinentNames getName()
@@ -455,38 +458,57 @@ public class Continent implements CropClimateData
    }
 
    /**
-    * @param year (passing year might be useful in the next milestone?)
+    * Returns conventional crop yield; 
+    * use getCropYield(int year, EnumCropType crop, EnumGrowMethod method) instead
+    * @param year
     * @param crop
     * @return yield for crop
     */
+   @Deprecated
    public double getCropYield(int year, EnumCropType crop)
    {
-     return cropYield[crop.ordinal()][EnumGrowMethod.CONVENTIONAL.ordinal()];
+     return conventionalYield[crop.ordinal()][year-START_YEAR];
    }
    
    /**
-    * @param year (passing year might be useful in the next milestone?)
+    * Returns specified crop yield
+    * @param year
     * @param crop
     * @param grow method
     * @return yield for crop
     */
    public double getCropYield(int year, EnumCropType crop, EnumGrowMethod method)
    {
-     return cropYield[crop.ordinal()][method.ordinal()];
+     switch (method)
+     {
+       case CONVENTIONAL:
+         return conventionalYield[crop.ordinal()][year-START_YEAR];
+       case GMO:
+         return gmoYield[crop.ordinal()][year-START_YEAR];
+       case ORGANIC:
+         return organicYield[crop.ordinal()][year-START_YEAR];
+       default:
+         if (VERBOSE) System.err.println("Invalid method argument for Continent.getCropYield");
+         return -1;
+     }
    }
    
 
    /**
+    * Sets conventional yield for year and crop; 
+    * use setCropYield(int year, EnumCropType crop, EnumGrowMethod method, double tonPerSqKilom) instead
     * @param year          (passing year might be useful in the next milestone?)
     * @param crop
     * @param tonPerSqKilom yield for crop
     */
+   @Deprecated
    public void setCropYield(int year, EnumCropType crop, double tonPerSqKilom)
    {
-     cropYield[crop.ordinal()][EnumGrowMethod.CONVENTIONAL.ordinal()] = tonPerSqKilom;
+     conventionalYield[crop.ordinal()][year-START_YEAR] = tonPerSqKilom;
    }
    
    /**
+    * Sets specified crop yield
     * @param year          (passing year might be useful in the next milestone?)
     * @param crop
     * @param grow method
@@ -494,7 +516,21 @@ public class Continent implements CropClimateData
     */
    public void setCropYield(int year, EnumCropType crop, EnumGrowMethod method, double tonPerSqKilom)
    {
-     cropYield[crop.ordinal()][method.ordinal()] = tonPerSqKilom;
+     switch (method)
+     {
+       case CONVENTIONAL:
+         conventionalYield[crop.ordinal()][year-START_YEAR] = tonPerSqKilom;
+         break;
+       case GMO:
+         gmoYield[crop.ordinal()][year-START_YEAR] = tonPerSqKilom;
+         break;
+       case ORGANIC:
+         organicYield[crop.ordinal()][year-START_YEAR] = tonPerSqKilom;
+         break;
+       default:
+         if (VERBOSE) System.err.println("Invalid method argument for Continent.setCropYield");
+         break;
+     }
    }
    
    /**
@@ -539,6 +575,23 @@ public class Continent implements CropClimateData
      return false;
    }
    
-   
+   private void initializeYield(EnumCropType crop, double startYield)
+   {
+     // assign calculated yield for year 0 to conventional; adjust for gmo and organic
+     setCropYield(START_YEAR, crop, EnumGrowMethod.CONVENTIONAL, startYield);
+     setCropYield(START_YEAR, crop, EnumGrowMethod.GMO, startYield * GMO_YIELD_PERCENT);
+     setCropYield(START_YEAR, crop, EnumGrowMethod.ORGANIC, startYield * ORGANIC_YIELD_PERCENT);
+     
+     // set remaining years' yield to decline to account for climate change
+     for (EnumGrowMethod method:EnumGrowMethod.values())
+     {
+       for (int year = START_YEAR + 1; year < START_YEAR + YEARS_OF_SIM; year++)
+       {
+         double priorYield = getCropYield(year-1, crop, method);
+         double adjustedYield = priorYield * (1 - ANNUAL_YIELD_DECLINE);
+         setCropYield(year, crop, method, adjustedYield);
+       }
+     }
+   }
  }
 

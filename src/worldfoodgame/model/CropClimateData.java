@@ -48,5 +48,6 @@ public interface CropClimateData
   double CONVENTIONAL_YIELD_PERCENT = 1;
   double ORGANIC_YIELD_PERCENT = 0.8;             // organic cultivation produces 80% as much as conventional
   double GMO_YIELD_PERCENT = 1.25;                // gmo cultivation produces 125% as much as conventional
+  double ANNUAL_YIELD_DECLINE = 0.002;            // annual decline in yield to account for climate change
 
 }
