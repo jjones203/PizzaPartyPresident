@@ -9,10 +9,11 @@ import worldfoodgame.common.EnumGrowMethod;
 
 public class ContinentCropAllocator
 {
-  int year;
-  Continent continent;
+  private int year;
+  private Continent continent;
   private boolean occurCatastrophe = false;
-  int[] tilesNeeded = new int[EnumCropType.SIZE];
+  private double[] areaToPlant = new double[EnumCropType.SIZE];
+  private int[] tilesNeeded = new int[EnumCropType.SIZE];
   
   ContinentCropAllocator(int year, Continent continent)
   {
@@ -25,6 +26,7 @@ public class ContinentCropAllocator
     calculateTilesNeeded();
     plantCrops();
     updateProduction();
+    updateDeforestation();
   }
   
   public void setOccurCatastrope(boolean occurCatastrophe)
@@ -37,6 +39,7 @@ public class ContinentCropAllocator
     for (EnumCropType crop:EnumCropType.values())
     {
       double cropLand = continent.getCropLand(year, crop);
+      areaToPlant[crop.ordinal()] = cropLand;
       tilesNeeded[crop.ordinal()] = (int) cropLand/100;
     }
   }
@@ -86,11 +89,23 @@ public class ContinentCropAllocator
       double orgYield = continent.getCropYield(year, crop, EnumGrowMethod.ORGANIC);
       // calculate yield per tile; *100 because tile is 100 sq km
       double yieldPerTile = (convPercent * convYield + gmoPercent * gmoYield + orgPercent * orgYield) * 100;
-      // if catastrophe, reduce yield 50%
-      if (occurCatastrophe) yieldPerTile *= 0.5;
+      
       double production = yieldPerTile * getTilesNeeded(crop);
       continent.setCropProduction(year, crop, production);
     }
+  }
+  
+  private void updateDeforestation()
+  {
+    double startAreaPlanted = continent.getStartAreaPlanted();
+    double currAreaPlanted = 0;
+    for (Double area:areaToPlant)
+    {
+      currAreaPlanted += area;
+    }
+    double areaDeforested = currAreaPlanted - startAreaPlanted;
+    if (areaDeforested < 0) areaDeforested = 0;
+    continent.setDeforestation(year, areaDeforested);
   }
   
 }

@@ -46,6 +46,9 @@ public class Continent implements CropClimateData
   protected double[] landArable = new double[YEARS_OF_SIM];  //in square kilometers
   protected double[][] landCrop = new double[EnumCropType.SIZE][YEARS_OF_SIM];  //in square kilometers
   
+  private double startAreaPlanted; // in sq km
+  private double[] areaDeforested = new double[YEARS_OF_SIM]; // in sq km 
+  
   protected double[][] cultivationMethod = new double[EnumGrowMethod.SIZE][YEARS_OF_SIM]; //percentage
   
   protected int approvalRating;
@@ -88,6 +91,7 @@ public class Continent implements CropClimateData
     }
     countries = new ArrayList<>();
     numCountries = 0;
+    startAreaPlanted = 0;
     landTiles = new ArrayList<>();
   }
 
@@ -109,7 +113,22 @@ public class Continent implements CropClimateData
     {
       population[i] += country.getPopulation(i+START_YEAR);
     }
-    
+    // add crop info
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      double areaPlanted = country.getCropLand(START_YEAR, crop);
+      addToCropLand(START_YEAR, crop, areaPlanted);
+      startAreaPlanted += areaPlanted;
+      
+      double cropProduced = country.getCropProduction(START_YEAR, crop);
+      addToCropProduction(START_YEAR, crop, cropProduced);
+      
+      double cropImported = country.getCropImport(START_YEAR, crop);
+      addToCropImports(START_YEAR, crop, cropImported);
+      
+      double cropExported = country.getCropExport(START_YEAR, crop);
+      addToCropExports(START_YEAR, crop, cropExported);
+    }
     // add tiles
     landTiles.addAll(country.getLandTiles());
   }
@@ -120,7 +139,14 @@ public class Continent implements CropClimateData
   public void initializeData()
   {
     // using old crop data, get avg yield from countries, assign to continent
-    double[] cropYieldTotals = new double[EnumCropType.SIZE];
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      double totalProduced = getCropProduction(START_YEAR, crop);
+      double totalLand = getCropLand(START_YEAR, crop);
+      double conventionalYield = totalProduced/totalLand;
+      initializeYield(crop, conventionalYield);
+    }
+    
     double organicTotal = 0;
     double gmoTotal = 0;
     double undernourishedTotal = 0;
@@ -128,11 +154,6 @@ public class Continent implements CropClimateData
     // loop through countries, total values
     for (Country country:countries)
     {
-      for (EnumCropType crop:EnumCropType.values())
-      { 
-        // total yields so we can average them
-        cropYieldTotals[crop.ordinal()] += country.getCropYield(START_YEAR, crop);
-      }
       waterAllowance += country.getWaterAllowance();
 
       organicTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.ORGANIC);
@@ -141,13 +162,6 @@ public class Continent implements CropClimateData
     }
     
     // set continent fields using average of country values
-    for (EnumCropType crop:EnumCropType.values())
-    {
-      int cropIndex = crop.ordinal();
-      // continent's conventional yield is average of country's yields
-      double conventionalYield = cropYieldTotals[cropIndex]/numCountries;
-      initializeYield(crop, conventionalYield);
-    }
     
     // set percentages for gmo, organic, conventional
     double organicAvg = organicTotal/numCountries;
@@ -207,6 +221,11 @@ public class Continent implements CropClimateData
     }
   }
   
+  public void updateUndernourished(int year)
+  {
+    
+  }
+  
   public double getPizzaPreference(EnumCropType pizzaType)
   {
     return pizzaPreference[pizzaType.ordinal()];
@@ -220,6 +239,21 @@ public class Continent implements CropClimateData
     }
   }
 
+  public double getStartAreaPlanted()
+  {
+    return startAreaPlanted;
+  }
+  
+  public void setDeforestation(int year, double area)
+  {
+    areaDeforested[year - START_YEAR] = area;
+  }
+  
+  public double getDeforestation(int year)
+  {
+    return areaDeforested[year - START_YEAR];
+  }
+  
   public double getWaterAllowance()
   {
     return waterAllowance;
@@ -465,7 +499,9 @@ public class Continent implements CropClimateData
        valueToSet = currCropLand + delta;
      }
      for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
+     {
        landCrop[crop.ordinal()][i] = valueToSet;
+     }
    }
 
    /**
@@ -626,6 +662,29 @@ public class Continent implements CropClimateData
      setPizzaPreference(crop,remainingPercent);
      cropsToSet.clear();
    }
+   
+   private void addToCropLand(int year, EnumCropType crop, double area)
+   {
+     landCrop[crop.ordinal()][year-START_YEAR] += area;
+   }
+   
+   private void addToCropProduction(int year, EnumCropType crop, double production)
+   {
+     cropProduction[crop.ordinal()][year-START_YEAR] += production;
+   }
+   
+   private void addToCropImports(int year, EnumCropType crop, double imports)
+   {
+     cropImport[crop.ordinal()][year-START_YEAR] += imports;
+   }
+   
+   private void addToCropExports(int year, EnumCropType crop, double exports)
+   {
+     cropExport[crop.ordinal()][year-START_YEAR] += exports;
+   }
+   
+   
+   
    /*
    public static void main(String[] args)
    {
