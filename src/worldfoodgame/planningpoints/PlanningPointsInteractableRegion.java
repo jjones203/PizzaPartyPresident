@@ -21,6 +21,9 @@ package worldfoodgame.planningpoints;
  */
 public interface PlanningPointsInteractableRegion
 {
+  //occurs at start of game
+  public void setInitialPlanningPoints();
+  
   
   // used by planning points allocation panel
   public int getGMOResistancePlanningPoints();
