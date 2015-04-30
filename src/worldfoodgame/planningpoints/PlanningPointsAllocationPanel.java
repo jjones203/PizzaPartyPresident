@@ -197,8 +197,12 @@ class TestContinent implements PlanningPointsInteractableRegion
   @Override
   public PlanningPointsLevel getGMOResistanceLevel()
   {
+    //PlanningPointsLevel level = PlanningPointsLevel.pointsToLevel(GMOplanningPoints);
+    
+    //PlanningPointsLevel.getGMOResistance(level);
 
-    return null;
+    
+    return null; //PlanningPointsLevel.pointsToLevel(GMOplanningPoints);
   }
 
 
