@@ -622,7 +622,6 @@ public class Continent implements CropClimateData
      return false;
    }
    
-
    private void initializeYield(EnumCropType crop, double startYield)
    {
      // assign calculated yield for year 0 to conventional; adjust for gmo and organic
@@ -697,6 +696,5 @@ public class Continent implements CropClimateData
        System.out.println("For "+crop+" "+percent);
      }
    }*/
-
  }
 
