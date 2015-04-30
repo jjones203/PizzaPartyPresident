@@ -21,9 +21,11 @@ import worldfoodgame.gui.ColorsAndFonts;
 public class PlanningPointsFooterPanel extends JPanel
 {
   private JButton investButton;
+  private JFrame mainReference;
   
   PlanningPointsFooterPanel(JFrame investmentPanel)
   {
+    mainReference=investmentPanel;
     investButton = new JButton("Invest");
     this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     investButton.addActionListener(new ActionListener() 
@@ -33,7 +35,7 @@ public class PlanningPointsFooterPanel extends JPanel
       {
         PlanningPointsData.submitInvestment();
         PlanningPointsData.stopRunning();
-        investmentPanel.dispose();
+        mainReference.dispose();
       }
     });
     investButton.setPreferredSize(new Dimension(100,50));
