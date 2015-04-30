@@ -62,8 +62,6 @@ public class World extends AbstractScenario
     for (Country country:countries)
     {
       country.setOtherCropsData();
-      CropOptimizer optimizer = new CropOptimizer(AbstractScenario.START_YEAR, country);
-      optimizer.optimizeCrops();
     }
     
     theOneWorld = new World(world, countries, cal);
@@ -325,11 +323,11 @@ public class World extends AbstractScenario
 
   private void plantAndHarvestCrops()
   {
-    final int year = getCurrentYear();
-    for (final Country country:politicalWorld)
+    int year = getCurrentYear();
+    for (Continent continent:continents)
     {
-      CropOptimizer optimizer = new CropOptimizer(year,country);
-      optimizer.optimizeCrops();
+      ContinentCropAllocator allocator = new ContinentCropAllocator(year,continent);
+      allocator.allocateCrops();
     }
   }
 
@@ -447,6 +445,9 @@ public class World extends AbstractScenario
           continent.addCountry(country);
         }
       }
+      continent.initializeData();
+      ContinentCropAllocator allocator = new ContinentCropAllocator(START_YEAR, continent);
+      allocator.allocateCrops();
     }
   } 
   

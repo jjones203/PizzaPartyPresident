@@ -21,16 +21,20 @@ import worldfoodgame.model.Region;
  *
  *Represents the main gui interface that the player will
  *have for allocating planning points at the end of each
- *harvest/year.
+ *harvest/year. This works closely in conjunction with the
+ *PlanningPointsData class which has static members to
+ *communicate to alll GUI components
  */
 public class PlanningPointsAllocationPanel extends JPanel
 {
   private List<PlanningPointsInteractableRegion> allRegions;
-  private int playerPlanningPoints;
-  private final JFrame FRAME = new JFrame("PlanningPointsAllocation");
-  private final int HEIGHT=620;
-  private final int WIDTH=620;
+  private final JFrame FRAME = new JFrame("Planning Points Allocation");
   
+  /**
+   * 
+   * @param otherRegions all regions with player's first
+   * @param playerPlanningPoints points allotted for player to invest
+   */
   public PlanningPointsAllocationPanel
   (
       List<PlanningPointsInteractableRegion> otherRegions,
@@ -38,34 +42,35 @@ public class PlanningPointsAllocationPanel extends JPanel
   )
   {
     this.allRegions = otherRegions;
-    this.playerPlanningPoints = playerPlanningPoints;
-    
+    PlanningPointsData.initData(allRegions, playerPlanningPoints);
     buildGUI();
   }
   
   private void buildGUI()
   {
-    //FRAME.setUndecorated(true);
     FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    FRAME.setLocation(200, 200);
+    FRAME.setLocation(100, 100);
     FRAME.setResizable(false);
     
     JPanel bgPanel = new JPanel();
-    bgPanel.setLayout(new GridLayout(0,1));
+    bgPanel.setLayout(new BoxLayout(bgPanel, BoxLayout.Y_AXIS));
     bgPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    bgPanel.setPreferredSize(new Dimension(WIDTH,HEIGHT));
+    bgPanel.setPreferredSize(new Dimension(PlanningPointConstants.WINDOW_WIDTH,PlanningPointConstants.WINDOW_HEIGHT));
     bgPanel.setFocusable(true);
     
-    PlanningPointsHeaderPanel header = new PlanningPointsHeaderPanel(playerPlanningPoints);
+    PlanningPointsHeaderPanel header = new PlanningPointsHeaderPanel();
     bgPanel.add(header);
     
     PlanningPointContinentSelector selector = new PlanningPointContinentSelector(allRegions);
     bgPanel.add(selector);
     
-    PlanningPointsInvestmentPanel investment = new PlanningPointsInvestmentPanel(allRegions.get(0),PlanningPointCategory.TradeEfficiency,0);
-    bgPanel.add(investment);
+    for(PlanningPointCategory category: PlanningPointCategory.values())
+    {
+      PlanningPointsInvestmentPanel investment = new PlanningPointsInvestmentPanel(category);
+      bgPanel.add(investment);
+    }
     
-    PlanningPointsFooterPanel footer = new PlanningPointsFooterPanel();
+    PlanningPointsFooterPanel footer = new PlanningPointsFooterPanel(FRAME);
     bgPanel.add(footer);
     
     
@@ -74,6 +79,10 @@ public class PlanningPointsAllocationPanel extends JPanel
     FRAME.setVisible(true);
   }
 
+  /**
+   * 
+   * testing
+   */
   /*public static void main(String[] args)
   {
     List<PlanningPointsInteractableRegion> otherTestConts = new ArrayList<PlanningPointsInteractableRegion>();
@@ -91,18 +100,27 @@ public class PlanningPointsAllocationPanel extends JPanel
     otherTestConts.add(c4);
     otherTestConts.add(c5);
     otherTestConts.add(c6);
-    new PlanningPointsAllocationPanel(otherTestConts,75);
+    new PlanningPointsAllocationPanel(otherTestConts,70);
   }*/
 }
 
 //for testing
-
+/**
+ * 
+ * @author Stephen
+ * for testing
+ */
 class TestContinent implements PlanningPointsInteractableRegion
 {
   private String name;
+  private int GMOplanningPoints;
+  private int waterEff;
+  private int yieldEff;
+  private int tradeEff;
   TestContinent(String name)
   {
     this.name=name;
+    setInitialPlanningPoints();
   }
   
 
@@ -111,89 +129,113 @@ class TestContinent implements PlanningPointsInteractableRegion
     return name;
   }
 
+
   @Override
   public int getGMOResistancePlanningPoints()
   {
     // TODO Auto-generated method stub
-    return 0;
+    return GMOplanningPoints;
   }
+
 
   @Override
   public int getWaterEfficiencyPlanningPoints()
   {
     // TODO Auto-generated method stub
-    return 0;
+    return waterEff;
   }
+
 
   @Override
   public int getYieldEfficiencyPlanningPoints()
   {
     // TODO Auto-generated method stub
-    return 0;
+    return yieldEff;
   }
+
 
   @Override
   public int getTradeEfficiencyPlanningPoints()
   {
     // TODO Auto-generated method stub
-    return 0;
+    return tradeEff;
   }
 
-  @Override
-  public void addGMOResistancePlanningPoints(int numPoints)
-  {
-    // TODO Auto-generated method stub
-    
-  }
 
   @Override
-  public void addWaterEfficiencyPlanningPoints(int numPoints)
+  public void setGMOResistancePlanningPoints(int numPoints)
   {
     // TODO Auto-generated method stub
-    
+    GMOplanningPoints=numPoints;
   }
 
-  @Override
-  public void addYieldEfficiencyPlanningPoints(int numPoints)
-  {
-    // TODO Auto-generated method stub
-    
-  }
 
   @Override
-  public void addTradeEfficiencyPlanningPoints(int numPoints)
+  public void setWaterEfficiencyPlanningPoints(int numPoints)
   {
     // TODO Auto-generated method stub
-    
+    waterEff=numPoints;
   }
+
+
+  @Override
+  public void setYieldEfficiencyPlanningPoints(int numPoints)
+  {
+    // TODO Auto-generated method stub
+    yieldEff=numPoints;
+  }
+
+
+  @Override
+  public void setTradeEfficiencyPlanningPoints(int numPoints)
+  {
+
+    tradeEff=numPoints;
+  }
+
 
   @Override
   public PlanningPointsLevel getGMOResistanceLevel()
   {
-    // TODO Auto-generated method stub
+
     return null;
   }
+
 
   @Override
   public PlanningPointsLevel getWaterEfficiencyLevel()
   {
-    // TODO Auto-generated method stub
     return null;
   }
+
 
   @Override
   public PlanningPointsLevel getYieldEfficiencyLevel()
   {
-    // TODO Auto-generated method stub
+
     return null;
   }
+
 
   @Override
   public PlanningPointsLevel getTradeEfficiencyLevel()
   {
-    // TODO Auto-generated method stub
+
     return null;
   }
-  
+
+
+  @Override
+  public void setInitialPlanningPoints()
+  {
+    GMOplanningPoints=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+    waterEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+    yieldEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+    tradeEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+    // TODO Auto-generated method stub
+    
+  }
+
+ 
 }
 

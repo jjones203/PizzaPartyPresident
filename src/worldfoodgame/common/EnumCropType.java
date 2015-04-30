@@ -84,4 +84,5 @@ public enum EnumCropType implements CropClimateData
   }
   
   public static final int SIZE = values().length;
+  
 }
