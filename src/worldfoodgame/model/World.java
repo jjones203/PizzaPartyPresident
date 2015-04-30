@@ -127,11 +127,19 @@ public class World extends AbstractScenario
   public ArrayList<Continent> getRelevantContinents(List<Country> activeCountries)
   {
     ArrayList<Continent> temp = new ArrayList<>();
-    for (Country c : activeCountries)
+    while (activeCountries.size() > 0)
     {
-      if (!temp.contains(c.getContinent()))
+      for (Continent cont : continents)
       {
-        temp.add(c.getContinent());
+        if (cont.contains(activeCountries.get(0)))
+        {
+          for (Country c : cont.getCountries())
+          {
+            activeCountries.remove(c);
+          }
+          temp.add(cont);
+          break;
+        }
       }
     }
     return temp;
@@ -276,6 +284,7 @@ public class World extends AbstractScenario
     {
       Catastrophe Blight = new Blight(continents);
       plantAndHarvestCrops(); 
+      Blight.recuperateAfterCatastrophe();
     }
     else
     {
@@ -436,7 +445,6 @@ public class World extends AbstractScenario
         if (country.getContinentName() == continentName)
         {
           continent.addCountry(country);
-          country.setContinent(continent);
         }
       }
     }
