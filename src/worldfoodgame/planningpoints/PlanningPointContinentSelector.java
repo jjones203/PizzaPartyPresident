@@ -11,27 +11,42 @@ import javax.swing.SwingConstants;
 
 import worldfoodgame.gui.ColorsAndFonts;
 
-public class PlanningPointContinentSelector extends JPanel implements DynamicTextInteractable
+/**
+ * 
+ * @author Stephen Stromberg on 4/29/15
+ * 
+ * This panel is the control that allows the user
+ * to choose which continent to be investing into.
+ *
+ */
+public class PlanningPointContinentSelector extends JPanel 
+                                          implements DynamicTextInteractable
 {
-  int currentCountryIndex=0;
+  int currentCountryIndex=0; 
+  
   InteractableLable next;
   InteractableLable previous;
+  
   JLabel currentCountry;
   List <PlanningPointsInteractableRegion> regions;
-  PlanningPointContinentSelector(List <PlanningPointsInteractableRegion> regions)
+  PlanningPointContinentSelector(
+      List <PlanningPointsInteractableRegion> regions)
   {
     this.regions=regions;
     
     this.setLayout(new GridLayout(1, 3));
-    this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    this.setBackground(Color.LIGHT_GRAY);
     
-    previous=new InteractableLable("Previous",this,false,200, Color.WHITE,Color.BLUE);
+    previous=new InteractableLable(
+        "Previous",this,false,200,Color.WHITE,Color.BLUE);
     previous.setHorizontalAlignment(SwingConstants.RIGHT);
     this.add(previous);
     
-    currentCountry=new JLabel(regions.get(currentCountryIndex).getContName());
+    currentCountry=new JLabel(
+        regions.get(currentCountryIndex).getContName());
     currentCountry.setHorizontalAlignment(SwingConstants.CENTER);
-    currentCountry.setForeground(Color.WHITE);
+    currentCountry.setForeground(new Color(103,171,245,220));
+    currentCountry.setFont (currentCountry.getFont ().deriveFont (24.0f));
     this.add(currentCountry);
     
     next=new InteractableLable("Next",this,true,200,Color.WHITE,Color.BLUE);
@@ -40,17 +55,29 @@ public class PlanningPointContinentSelector extends JPanel implements DynamicTex
   }
   
 
+  /**
+   * Defined in implemented interface. This
+   * method iterates through the countries
+   * list.
+   * 
+   */
   public void interact(boolean increment)
   {
     currentCountryIndex+= (increment) ? 1 : -1;
     if(currentCountryIndex<0) currentCountryIndex=regions.size()-1;
     else if (!(currentCountryIndex<regions.size())) currentCountryIndex=0;
-    updateLabel();
+    updateCurrentCountry();
   } 
   
-  private void updateLabel()
+  /**
+   * Calls static method in PlanningPointsData
+   * that all GUI components use for getting
+   * the active region
+   */
+  private void updateCurrentCountry()
   {
-    currentCountry.setText(regions.get(currentCountryIndex).getContName());
+    PlanningPointsData.setActiveRegion(regions.get(currentCountryIndex));
+    currentCountry.setText(PlanningPointsData.getActiveRegion().getContName());
   }
   
 }

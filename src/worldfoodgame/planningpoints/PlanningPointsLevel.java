@@ -1,5 +1,12 @@
 package worldfoodgame.planningpoints;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
 import worldfoodgame.common.EnumCropType;
 /**
  * 
@@ -169,12 +176,22 @@ public enum PlanningPointsLevel
     return effeciency;
   }
   
+  /**
+   * 
+   * @param points invested
+   * @return the tier this translates to
+   */
   public static PlanningPointsLevel pointsToLevel(int points)
   {
-    if (points>PlanningPointConstants.MAX_POINTS) System.out.println("Too many planning points probblem\n");
-    points = Math.min(PlanningPointConstants.MAX_POINTS, points); //restricts to max
+    if (points>PlanningPointConstants.MAX_POINTS) 
+    {
+      System.out.println("Too many planning points probblem\n");
+    }
+    points = Math.min(PlanningPointConstants.MAX_POINTS, points);
+    //restricts to max
     
-    int level = points/PlanningPointConstants.POINTS_PER_TIER;  // range from 0 to 5
+    int level = points/PlanningPointConstants.POINTS_PER_TIER;  
+    // range from 0 to 5
     
     if(level==0) return PlanningPointsLevel.Tier1;
     else if(level==1) return PlanningPointsLevel.Tier2;
@@ -185,5 +202,26 @@ public enum PlanningPointsLevel
     
     return PlanningPointsLevel.Tier1;
   }
+  
+  /**
+   * 
+   * @param level of investment
+   * @return icon representing this tier
+   */
+  public static BufferedImage levelToIcon(PlanningPointsLevel level)
+  {
+    BufferedImage image = null;
+    try
+    {
+      image=ImageIO.read(new File(
+          "./src/worldfoodgame/planningpoints/TierGraphics/"
+      +level.toString()+".png"));
+    } catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    return image;
+  }
+  
   
 }
