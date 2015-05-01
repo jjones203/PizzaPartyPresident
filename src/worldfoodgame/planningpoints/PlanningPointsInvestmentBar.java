@@ -50,6 +50,7 @@ public class PlanningPointsInvestmentBar  extends JPanel
   PlanningPointsInvestmentBar(PlanningPointCategory category, 
       JLabel pointsLabel,JLabel startTier,JLabel endTier)
   {
+    this.activeRegion=PlanningPointsData.getActiveRegion();
     this.category=category;
     this.startTier=startTier;
     this.endTier=endTier;
@@ -76,6 +77,7 @@ public class PlanningPointsInvestmentBar  extends JPanel
     
     double pixPerPoint = (double)BAR_LENGTH/
         (double)PlanningPointConstants.POINTS_PER_TIER;
+    
     int totalPoints = 
         PlanningPointsData.getOriginalIvestment(activeRegion, category)
         +PlanningPointsData.getTempIvestment(activeRegion, category);

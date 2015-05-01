@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import worldfoodgame.gui.ColorsAndFonts;
+import worldfoodgame.model.Continent;
 import worldfoodgame.model.EnumContinentNames;
 import worldfoodgame.model.Region;
 
@@ -37,11 +38,11 @@ public class PlanningPointsAllocationPanel extends JPanel
    */
   public PlanningPointsAllocationPanel
   (
-      List<PlanningPointsInteractableRegion> otherRegions,
+      Collection<Continent> otherRegions,
       int playerPlanningPoints
   )
   {
-    this.allRegions = otherRegions;
+    this.allRegions = new ArrayList<PlanningPointsInteractableRegion>(otherRegions);
     PlanningPointsData.initData(allRegions, playerPlanningPoints);
     buildGUI();
   }
@@ -78,7 +79,7 @@ public class PlanningPointsAllocationPanel extends JPanel
     FRAME.pack();
     FRAME.setVisible(true);
   }
-
+}
   /**
    * 
    * testing
@@ -101,7 +102,7 @@ public class PlanningPointsAllocationPanel extends JPanel
     otherTestConts.add(c5);
     otherTestConts.add(c6);
     new PlanningPointsAllocationPanel(otherTestConts,70);
-  }*/
+  }
 }
 
 //for testing
@@ -110,7 +111,7 @@ public class PlanningPointsAllocationPanel extends JPanel
  * @author Stephen
  * for testing
  */
-class TestContinent implements PlanningPointsInteractableRegion
+/*class TestContinent implements PlanningPointsInteractableRegion
 {
   private String name;
   private int GMOPlanningPoints;
@@ -137,7 +138,6 @@ class TestContinent implements PlanningPointsInteractableRegion
     waterEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
     yieldEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
     tradeEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
-    // TODO Auto-generated method stub
   }
 
 
@@ -212,5 +212,5 @@ class TestContinent implements PlanningPointsInteractableRegion
   }
 
  
-}
+}*/
 

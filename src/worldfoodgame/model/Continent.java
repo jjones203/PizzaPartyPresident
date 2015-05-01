@@ -11,12 +11,16 @@ import java.awt.Color;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumGrowMethod;
 import worldfoodgame.gui.ColorsAndFonts;
+import worldfoodgame.planningpoints.PlanningPointCategory;
+import worldfoodgame.planningpoints.PlanningPointConstants;
+import worldfoodgame.planningpoints.PlanningPointsInteractableRegion;
+import worldfoodgame.planningpoints.PlanningPointsLevel;
 
  /**
  * @author jessica
  * @version 4/26/15
  */
-public class Continent implements CropClimateData
+public class Continent implements CropClimateData, PlanningPointsInteractableRegion
 {
   private static boolean VERBOSE = false;
   
@@ -54,6 +58,11 @@ public class Continent implements CropClimateData
   protected int approvalRating;
   protected int diplomacyRating;
   
+  //planning points
+  private int GMOPlanningPoints=0;
+  private int waterEff=0;
+  private int yieldEff=0;
+  private int tradeEff=0;
   
   /**
    * Continent constructor
@@ -138,6 +147,7 @@ public class Continent implements CropClimateData
    */
   public void initializeData()
   {
+    setInitialPlanningPoints();
     // using old crop data, get avg yield from countries, assign to continent
     for (EnumCropType crop:EnumCropType.values())
     {
@@ -181,6 +191,7 @@ public class Continent implements CropClimateData
     setUndernourished(START_YEAR, undernourishedTotal/numCountries);
     
     initializePizzaPreference();
+
   }
   
   public EnumContinentNames getName()
@@ -683,6 +694,118 @@ public class Continent implements CropClimateData
      cropExport[crop.ordinal()][year-START_YEAR] += exports;
    }
    
+   /********************************/
+   /** Start Planning Points      **/
+   /********************************/
+
+  @Override
+  /**
+   * called once on initialization
+   */
+  public void setInitialPlanningPoints()
+  {
+    GMOPlanningPoints=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+    waterEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+    yieldEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+    tradeEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+  }
+
+  @Override
+  /**
+   * Called once when creating point allocation panel
+   */
+  public int getPlanningPointsInCategory(PlanningPointCategory category)
+  {
+    int pointsInCat=0;
+    switch(category)
+    {
+      case GMOResistance: return GMOPlanningPoints;
+      case WaterEfficiency: return waterEff;
+      case YieldEffeciency: return yieldEff;
+      case TradeEfficiency: return tradeEff;
+      default:
+        System.out.println(category.toString()+" not recgnized");
+      break;
+    }
+    return 0;
+  }
+
+  @Override
+  /**
+   * called by allocation panel
+   */
+  public String getContName()
+  {
+    return this.getName().toString();
+  }
+
+  @Override
+  /**
+   * Adds numPoints to category. The category
+   * is represented as an integer within
+   * this class
+   */
+  public void setPlanningPointsInCategory(PlanningPointCategory category,
+      int numPoints)
+  {
+    switch(category)
+    {
+      case GMOResistance:
+        GMOPlanningPoints=numPoints;
+      break;
+      case WaterEfficiency:
+        waterEff=numPoints;
+      break;
+      case YieldEffeciency:
+        yieldEff=numPoints;
+      break;
+      case TradeEfficiency:
+        tradeEff=numPoints;
+      break;
+      default:
+        System.out.println(category.toString()+" not recgnized");
+      break;
+    }
+  }
+
+  @Override
+  /**
+   * Gets the factor usually [0 1] to be used in
+   * calculations for a certain category.
+   * See the PlanningPointsLevel
+   * class for more information on the 
+   * factors that are returned.
+   */
+  public double getPlanningPointsFactor(PlanningPointCategory category)
+  {
+    PlanningPointsLevel level=null;
+    switch(category)
+    {
+      case GMOResistance:
+        level=PlanningPointsLevel.pointsToLevel(GMOPlanningPoints);
+        PlanningPointsLevel.getGMOResistance(level);
+      break;
+      case WaterEfficiency:
+        level=PlanningPointsLevel.pointsToLevel(waterEff);
+        PlanningPointsLevel.getWaterEfficiency(level);
+      break;
+      case YieldEffeciency:
+        level=PlanningPointsLevel.pointsToLevel(yieldEff);
+        PlanningPointsLevel.getYieldEfficiency(level);
+      break;
+      case TradeEfficiency:
+        level=PlanningPointsLevel.pointsToLevel(tradeEff);
+        PlanningPointsLevel.getTradeEfficiency(level);
+      break;
+      default:
+        System.out.println(category.toString()+" not recgnized");
+      break;
+    }
+    return 0;
+  }
+  /********************************/
+  /** End Planning Points        **/
+  /********************************/
    
    
    /*

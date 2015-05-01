@@ -10,11 +10,14 @@ import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
 import worldfoodgame.model.Player;
 import worldfoodgame.model.Continent;
+import worldfoodgame.planningpoints.PlanningPointConstants;
+import worldfoodgame.planningpoints.PlanningPointsAllocationPanel;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
+
 import javax.swing.*;
 
 import static worldfoodgame.gui.Camera.CAM_DISTANCE;
@@ -377,12 +380,28 @@ public class WorldPresenter extends Observable
   public void stepWorld()
   {
     world.stepWorld();
+    System.out.println("Starting Player's Turn \n");
     JFrame trade = new TradeAndImportFrame(player, countries, getYear());
     trade.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     trade.pack();
     trade.setResizable(false);
     trade.setVisible(true);
     System.out.println("Finishing user trading, about to let AI trade.");
+    
+    System.out.println("AI starts trading");
+    //AI trade goes here
+    System.out.println("AI has theoreticall traded..");
+    System.out.println("User can donate food now");
+    //User donate panel goes here
+    System.out.println("User finished donating food");
+    System.out.println("Planning points allocation begins");
+    
+    int randomYearlyPoints = (int)(Math.random()*PlanningPointConstants.MAX_POINTS_PER_YEAR);
+    new PlanningPointsAllocationPanel(world.getContinents(),randomYearlyPoints);
+    
+    System.out.println("Planning points allocation ends");
+    System.out.println("Finished the player's turn ");
+    System.out.println("PS these print statments are in WorldPresenter stepWorld()\n");
     //TradingRouteOverlay.updateTrades(world.getTrades());
     setChanged();
     notifyObservers();

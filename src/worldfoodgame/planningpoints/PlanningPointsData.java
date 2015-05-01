@@ -71,7 +71,6 @@ public class PlanningPointsData
     
     pointsToInvest=yearlyPlanningPoints;
     allRegions=regions;
-    
     setActiveRegion(regions.get(0));
     
     for (PlanningPointsInteractableRegion r:regions)

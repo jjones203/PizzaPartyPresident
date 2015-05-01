@@ -423,6 +423,11 @@ public class World extends AbstractScenario
     return null;
   }
   
+  public Collection<Continent> getContinents()
+  {
+    return continents;
+  }
+  
   private void populateContinents()
   {
     for (EnumContinentNames continentName:EnumContinentNames.values())
