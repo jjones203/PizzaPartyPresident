@@ -76,10 +76,10 @@ public class PlanningPointsData
     
     for (PlanningPointsInteractableRegion r:regions)
     {
-      initialTradeEffPoints.put(r, r.getTradeEfficiencyPlanningPoints());
-      initialYieldEffPoints.put(r, r.getYieldEfficiencyPlanningPoints());
-      initialWaterEffPoints.put(r, r.getWaterEfficiencyPlanningPoints());
-      initialGMOResistancePoints.put(r, r.getGMOResistancePlanningPoints());
+      initialTradeEffPoints.put(r, r.getPlanningPointsInCategory(PlanningPointCategory.TradeEfficiency));
+      initialYieldEffPoints.put(r, r.getPlanningPointsInCategory(PlanningPointCategory.YieldEffeciency));
+      initialWaterEffPoints.put(r, r.getPlanningPointsInCategory(PlanningPointCategory.WaterEfficiency));
+      initialGMOResistancePoints.put(r, r.getPlanningPointsInCategory(PlanningPointCategory.GMOResistance));
       
       additionalTradeEffPoints.put(r, 0);
       additionalYieldEffPoints.put(r, 0);
@@ -211,25 +211,29 @@ public class PlanningPointsData
    */
   public static void submitInvestment()
   {
-    int initPoints,additionalPoints;
+    int initPoints,additionalPoints,total;
     for (PlanningPointsInteractableRegion r:allRegions)
     {
       initPoints = initialGMOResistancePoints.get(r);
       additionalPoints = additionalGMOResistancePoints.get(r);
-      r.setGMOResistancePlanningPoints(initPoints+additionalPoints);
+      total=initPoints+additionalPoints;
+      r.setPlanningPointsInCategory(PlanningPointCategory.GMOResistance, total);
       
       initPoints = initialWaterEffPoints.get(r);
       additionalPoints = additionalWaterEffPoints.get(r);
-      r.setWaterEfficiencyPlanningPoints(initPoints+additionalPoints);
+      total=initPoints+additionalPoints;
+      r.setPlanningPointsInCategory(PlanningPointCategory.WaterEfficiency, total);
       
       initPoints = initialYieldEffPoints.get(r);
       additionalPoints = additionalYieldEffPoints.get(r);
-      r.setYieldEfficiencyPlanningPoints(initPoints+additionalPoints);
+      total=initPoints+additionalPoints;
+      r.setPlanningPointsInCategory(PlanningPointCategory.YieldEffeciency, total);
       
       
       initPoints = initialTradeEffPoints.get(r);
       additionalPoints = additionalTradeEffPoints.get(r);
-      r.setTradeEfficiencyPlanningPoints(initPoints+additionalPoints);     
+      total=initPoints+additionalPoints;
+      r.setPlanningPointsInCategory(PlanningPointCategory.TradeEfficiency, total);
     }
     
   }

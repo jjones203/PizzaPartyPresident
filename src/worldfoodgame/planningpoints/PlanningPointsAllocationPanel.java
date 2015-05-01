@@ -113,7 +113,7 @@ public class PlanningPointsAllocationPanel extends JPanel
 class TestContinent implements PlanningPointsInteractableRegion
 {
   private String name;
-  private int GMOplanningPoints;
+  private int GMOPlanningPoints;
   private int waterEff;
   private int yieldEff;
   private int tradeEff;
@@ -131,113 +131,84 @@ class TestContinent implements PlanningPointsInteractableRegion
 
 
   @Override
-  public int getGMOResistancePlanningPoints()
-  {
-    // TODO Auto-generated method stub
-    return GMOplanningPoints;
-  }
-
-
-  @Override
-  public int getWaterEfficiencyPlanningPoints()
-  {
-    // TODO Auto-generated method stub
-    return waterEff;
-  }
-
-
-  @Override
-  public int getYieldEfficiencyPlanningPoints()
-  {
-    // TODO Auto-generated method stub
-    return yieldEff;
-  }
-
-
-  @Override
-  public int getTradeEfficiencyPlanningPoints()
-  {
-    // TODO Auto-generated method stub
-    return tradeEff;
-  }
-
-
-  @Override
-  public void setGMOResistancePlanningPoints(int numPoints)
-  {
-    // TODO Auto-generated method stub
-    GMOplanningPoints=numPoints;
-  }
-
-
-  @Override
-  public void setWaterEfficiencyPlanningPoints(int numPoints)
-  {
-    // TODO Auto-generated method stub
-    waterEff=numPoints;
-  }
-
-
-  @Override
-  public void setYieldEfficiencyPlanningPoints(int numPoints)
-  {
-    // TODO Auto-generated method stub
-    yieldEff=numPoints;
-  }
-
-
-  @Override
-  public void setTradeEfficiencyPlanningPoints(int numPoints)
-  {
-
-    tradeEff=numPoints;
-  }
-
-
-  @Override
-  public PlanningPointsLevel getGMOResistanceLevel()
-  {
-    //PlanningPointsLevel level = PlanningPointsLevel.pointsToLevel(GMOplanningPoints);
-    
-    //PlanningPointsLevel.getGMOResistance(level);
-
-    
-    return null; //PlanningPointsLevel.pointsToLevel(GMOplanningPoints);
-  }
-
-
-  @Override
-  public PlanningPointsLevel getWaterEfficiencyLevel()
-  {
-    return null;
-  }
-
-
-  @Override
-  public PlanningPointsLevel getYieldEfficiencyLevel()
-  {
-
-    return null;
-  }
-
-
-  @Override
-  public PlanningPointsLevel getTradeEfficiencyLevel()
-  {
-
-    return null;
-  }
-
-
-  @Override
   public void setInitialPlanningPoints()
   {
-    GMOplanningPoints=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+    GMOPlanningPoints=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
     waterEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
     yieldEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
     tradeEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
     // TODO Auto-generated method stub
+  }
+
+
+  @Override
+  public double getPlanningPointsFactor(PlanningPointCategory category)
+  {
+    PlanningPointsLevel level=null;
+    switch(category)
+    {
+      case GMOResistance:
+        level=PlanningPointsLevel.pointsToLevel(GMOPlanningPoints);
+        PlanningPointsLevel.getGMOResistance(level);
+      break;
+      case WaterEfficiency:
+        level=PlanningPointsLevel.pointsToLevel(waterEff);
+        PlanningPointsLevel.getWaterEfficiency(level);
+      break;
+      case YieldEffeciency:
+        level=PlanningPointsLevel.pointsToLevel(yieldEff);
+        PlanningPointsLevel.getYieldEfficiency(level);
+      break;
+      case TradeEfficiency:
+        level=PlanningPointsLevel.pointsToLevel(tradeEff);
+        PlanningPointsLevel.getTradeEfficiency(level);
+      break;
+      default:
+        System.out.println(category.toString()+" not recgnized");
+      break;
+    }
     
+    return 0;
+    
+  }
+
+  @Override
+  public int getPlanningPointsInCategory(PlanningPointCategory category)
+  {
+    switch(category)
+    {
+      case GMOResistance: return GMOPlanningPoints;
+      case WaterEfficiency: return waterEff;
+      case YieldEffeciency: return yieldEff;
+      case TradeEfficiency: return tradeEff;
+      default:
+        System.out.println(category.toString()+" not recgnized");
+      break;
+    }
+    return 0;
+  }
+
+  @Override
+  public void setPlanningPointsInCategory(PlanningPointCategory category,int numPoints)
+  {
+    switch(category)
+    {
+      case GMOResistance:
+        GMOPlanningPoints=numPoints;
+      break;
+      case WaterEfficiency:
+        waterEff=numPoints;
+      break;
+      case YieldEffeciency:
+        yieldEff=numPoints;
+      break;
+      case TradeEfficiency:
+        tradeEff=numPoints;
+      break;
+      default:
+        System.out.println(category.toString()+" not recgnized");
+      break;
+    }
   }
 
  

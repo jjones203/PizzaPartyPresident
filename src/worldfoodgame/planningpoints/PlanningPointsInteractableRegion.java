@@ -24,20 +24,13 @@ public interface PlanningPointsInteractableRegion
   //occurs at start of game
   public void setInitialPlanningPoints();
   
-  
   // used by planning points allocation panel
-  public int getGMOResistancePlanningPoints();
-  public int getWaterEfficiencyPlanningPoints();
-  public int getYieldEfficiencyPlanningPoints();
-  public int getTradeEfficiencyPlanningPoints();
+  public int getPlanningPointsInCategory(PlanningPointCategory category);
   public String getContName();
   
   // used by planning points allocation panel
   // should be bounded by [0 and PlanningPointsConstants.MAX_POINTS]
-  public void setGMOResistancePlanningPoints(int numPoints);
-  public void setWaterEfficiencyPlanningPoints(int numPoints);
-  public void setYieldEfficiencyPlanningPoints(int numPoints);
-  public void setTradeEfficiencyPlanningPoints(int numPoints);
+  public void setPlanningPointsInCategory(PlanningPointCategory category, int numPoints);
   
   /**
    * The following should be straightforward to implement with my
@@ -54,9 +47,6 @@ public interface PlanningPointsInteractableRegion
    * found in PlanningPointsLevel with the returned level to get a 
    * quantifiable factor to implement within an equation.
    */
-  public PlanningPointsLevel getGMOResistanceLevel();
-  public PlanningPointsLevel getWaterEfficiencyLevel();
-  public PlanningPointsLevel getYieldEfficiencyLevel();
-  public PlanningPointsLevel getTradeEfficiencyLevel();
+  public double getPlanningPointsFactor(PlanningPointCategory category);
   
 }
