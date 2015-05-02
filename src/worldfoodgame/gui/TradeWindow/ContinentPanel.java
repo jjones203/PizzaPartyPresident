@@ -3,31 +3,33 @@ import javax.swing.*;
 
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
+import worldfoodgame.gui.hud.infopanel.GroupCountryHandler;
 import worldfoodgame.gui.hud.infopanel.LabelFactory;
 import worldfoodgame.gui.hud.infopanel.SingleCountryHandeler;
 import worldfoodgame.model.Country;
+import worldfoodgame.model.Continent;
 /**
  * Created by Tim on 4/25/15.
  */
 public class ContinentPanel extends JPanel
 {
   private Country country;
+  private Continent continent;
   private SingleCountryHandeler handler; //do I need this?
   private LabelFactory labelFactory;
   public final TradeAndImportFrame parent;
 
-  public ContinentPanel (Country country, SingleCountryHandeler handler, LabelFactory labelFactory, TradeAndImportFrame parent)
+  public ContinentPanel (Continent continent, LabelFactory labelFactory, TradeAndImportFrame parent)
   {
-    this.country= country;
-    this.handler = handler;
+    this.continent = continent;
     this.labelFactory = labelFactory;
     this.parent = parent;
     redraw();
   }
 
-  public Country getCountry()
+  public Continent getContinent()
   {
-    return country;
+    return continent;
   }
 
   public void chooseCrop(EnumCropType crop)

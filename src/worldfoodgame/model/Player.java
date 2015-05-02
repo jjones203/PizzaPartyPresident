@@ -9,13 +9,13 @@ package worldfoodgame.model;
  */
 public class Player
 {
-  private Country country;
+  private Continent continent;
   private double importBudget; //double?
   private int planningPoints;
 
-  public Player (Country country)
+  public Player (Continent continent)
   {
-    this.country = country;
+    this.continent = continent;
     planningPoints = 0;
     importBudget = 4000000000.0D;
   }
@@ -25,8 +25,8 @@ public class Player
     return importBudget;
   }
 
-  public Country getCountry()
+  public Continent getContinent()
   {
-    return country;
+    return continent;
   }
 }

@@ -25,7 +25,7 @@ public class World extends AbstractScenario
 {
   private static World theOneWorld;
   private Collection<Region> world;
-  private Collection<Continent> continents;
+  private ArrayList<Continent> continents;
   private Collection<Country> politicalWorld;
   private TileManager tileManager;
   private Calendar currentDate;
@@ -423,7 +423,7 @@ public class World extends AbstractScenario
     return null;
   }
   
-  public Collection<Continent> getContinents()
+  public ArrayList<Continent> getContinents()
   {
     return continents;
   }

@@ -78,7 +78,7 @@ public class Game
 
     tileManager.setWorld(world);
 
-    worldPresenter = new WorldPresenter(converter, world, new Player (world.getCountry("Canada")));
+    worldPresenter = new WorldPresenter(converter, world, new Player (world.getContinents().get(0)));
     worldPresenter.setBackgroundRegions(background);
 
 

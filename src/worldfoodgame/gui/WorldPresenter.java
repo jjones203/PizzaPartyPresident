@@ -381,7 +381,7 @@ public class WorldPresenter extends Observable
   {
     world.stepWorld();
     System.out.println("Starting Player's Turn \n");
-    JFrame trade = new TradeAndImportFrame(player, countries, getYear());
+    JFrame trade = new TradeAndImportFrame(player, world.getContinents(), getYear());
     trade.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     trade.pack();
     trade.setResizable(false);
