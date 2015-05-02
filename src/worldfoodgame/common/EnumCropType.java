@@ -43,7 +43,8 @@ public enum EnumCropType implements CropClimateData
     this.nightTemp = null;
     this.maxRain = null;
     this.minRain = null;
-    this.waterUse = null;
+    this.waterUse = 1.0e6; // a made-up value to represent pepperoni water use.
+    //this.waterUse = null;
   }
   /**
    * This method allows us to get the old crop names when doing things like parsing
