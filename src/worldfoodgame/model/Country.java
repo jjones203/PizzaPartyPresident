@@ -22,17 +22,19 @@ import java.util.List;
  */
 public class Country extends AbstractCountry
 {
-  private static final boolean VERBOSE = false;
-  private static MapConverter converter = new EquirectangularConverter();
+  private static final boolean      VERBOSE   = false;
+  private static       MapConverter converter = new EquirectangularConverter();
   public OtherCropsData otherCropsData;
-  private int START_YEAR = AbstractScenario.START_YEAR;
+  private int START_YEAR   = AbstractScenario.START_YEAR;
   private int YEARS_OF_SIM = AbstractScenario.YEARS_OF_SIM;
-  private List<Region> regions;
-  private MapPoint capitolLocation;
-  private Collection<LandTile> landTiles;
-  private EnumContinentNames continentName;
-  protected double waterAllowance;
-  private Continent continent;
+  private   List<Region>         regions;
+  private   MapPoint             capitolLocation;
+  private   Collection<LandTile> landTiles;
+  private   EnumContinentNames   continentName;
+  protected double               waterAllowance;
+  private   Continent            continent;
+
+  protected final double WATER_CUSHION = 0.2;
 
   /**
    * Country constructor
@@ -423,22 +425,15 @@ public class Country extends AbstractCountry
   }
 
   /**
-   * This sets up the country's initial water allowance, by calculating how much
-   * water they used to grow their initial crops at the beginning of the game, and
-   * adding a growth cushion so they canuse more water without penalty if needed.
-   * @param cushion a percentage of total water use used to give the country a
-   *                "cushion" to grow into.  For example: to give the country a
-   *                cushion of 25% over their usage needed for the crops they
-   *                produced, set cushion to 0.25.
+   * This sets up the country's initial water allowance for a crop by calculating how much
+   * water they used to grow their initial crop at the beginning of the game, and
+   * adding a growth cushion so they can use more water without penalty if needed.
+   * @param crop The crop the water allowance is being calculated for.
+   * @param cropProduced The amount of crop that was produced at the start of the game.
    */
-  private void setWaterAllowance(float cushion)
+  protected void setWaterAllowance(EnumCropType crop, double cropProduced)
   {
-    for(EnumCropType crop: EnumCropType.values())
-    {
-      waterAllowance += this.getCropProduction(START_YEAR, crop) * crop.waterUse;
-    }
-    waterAllowance += waterAllowance * cushion;
-
+    waterAllowance += cropProduced * crop.waterUse * WATER_CUSHION;
   }
 
   /**
