@@ -31,36 +31,45 @@ class CropRasterLook extends RasterViz
     Graphics2D g2d = image.createGraphics();
     g2d.translate(IMG_WIDTH / 2, IMG_HEIGHT / 2);
 
-
     for (LandTile tile : World.getWorld().getAllCountrifiedTiles())
     {
-      if (tile.getCurrentCrop() == null) continue;
-
-      switch (tile.getCurrentCrop())
+      if (tile.isArable() == false)
       {
-        case CORN:
-          g2d.setColor(ColorsAndFonts.CORN_COLOR);
-          break;
+        g2d.setColor(ColorsAndFonts.NONARABLE_COLOR);
+      }
+      else if (tile.getCurrentCrop() == null)
+      {
+        g2d.setColor(ColorsAndFonts.UNPLANTED_COLOR);
+      }
+      
+      else
+      {
+        switch (tile.getCurrentCrop())
+        {
+          case CORN:
+            g2d.setColor(ColorsAndFonts.CORN_COLOR);
+            break;
 
-        case OTHER_CROPS:
-          g2d.setColor(ColorsAndFonts.OTHER_CROP_COLOR);
-          break;
+          case OTHER_CROPS:
+            g2d.setColor(ColorsAndFonts.OTHER_CROP_COLOR);
+            break;
 
-        case RICE:
-          g2d.setColor(ColorsAndFonts.RICE_COLOR);
-          break;
+          case RICE:
+            g2d.setColor(ColorsAndFonts.RICE_COLOR);
+            break;
 
-        case SOY:
-          g2d.setColor(ColorsAndFonts.SOY_COLOR);
-          break;
+          case SOY:
+            g2d.setColor(ColorsAndFonts.SOY_COLOR);
+            break;
 
-        case WHEAT:
-          g2d.setColor(ColorsAndFonts.WHEAT_COLOR);
-          break;
-
-        default:
-          System.err.println("non exhaustive case in CropRasterLook switch");
-          break;
+          case WHEAT:
+            g2d.setColor(ColorsAndFonts.WHEAT_COLOR);
+            break;
+            
+          default:
+            System.err.println("non exhaustive case in CropRasterLook switch");
+            break;
+        }
       }
       Point point = getPoint(tile.getCenter());
       g2d.fillRect(point.x, point.y, 1, scaleHeight(tile));

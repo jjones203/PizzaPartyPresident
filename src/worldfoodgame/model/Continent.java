@@ -4,6 +4,7 @@
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.awt.Color;
 
@@ -184,6 +185,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     initializePizzaPreference();
     initializeTotalCropNeed();
     initializeLandUse();
+    initializeTiles();
     //System.out.println("For continent: " + this.getName() + ", the water allowance is: " + this.getWaterAllowance());
 
     // set continent fields using average of country values
@@ -840,10 +842,19 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    }
    
    
-   private void initializeArableTiles()
+   private void initializeTiles()
    {
-     int numArableTiles = (int) getArableLand(START_YEAR)/1000;
+     List<LandTile> tileList = new ArrayList<LandTile>(landTiles);
+     Collections.sort(tileList, new LonComparator());
+     Collections.sort(tileList, new LatComparator());
      
+     int numArableTiles = (int) getArableLand(START_YEAR)/100;
+     
+     for (int i = 0; i < numArableTiles; i++)
+     {
+       LandTile tile = tileList.get(i);
+       tile.setArable(true);
+     }
    }
    
    private void addToCropLand(int year, EnumCropType crop, double area)
@@ -1039,5 +1050,38 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
        System.out.println("For "+crop+" "+percent);
      }
    }*/
+  
+  /**
+   * Class for sorting land tiles by longitude
+   * (unsorted, they are grouped by country)
+   * @author jessica
+   */
+  class LonComparator implements Comparator<LandTile>
+  {
+    public int compare(LandTile tile1, LandTile tile2)
+    {
+      double diff = tile1.getLon() - tile2.getLon();
+      if (diff > 0) return 1;
+      else if (diff < 0) return -1;
+      else return 0;
+    } 
+  }
+  
+  /**
+   * Class for sorting land tiles by latitude
+   * (unsorted, they are grouped by country)
+   * @author jessica
+   */
+  class LatComparator implements Comparator<LandTile>
+  {
+    public int compare(LandTile tile1, LandTile tile2)
+    {
+      double diff = tile1.getLat() - tile2.getLat();
+      if (diff > 0) return 1;
+      else if (diff < 0) return -1;
+      else return 0;
+    } 
+  }
+  
  }
 
