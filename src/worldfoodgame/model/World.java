@@ -448,4 +448,16 @@ public class World extends AbstractScenario
     }
   } 
   
+  public void initializeNonPlayerContinents(Player player)
+  {
+    EnumContinentNames playerContinent = player.getContinent().getName();
+    for (Continent continent:continents)
+    {
+      if (continent.getName() != playerContinent)
+      {
+        continent.initializeNonPlayerLandUse();
+      }
+    }
+  }
+  
 }

@@ -42,6 +42,7 @@ public class Game
   private final static int DEFAULT_TIME_SPEED = 2000;
   private Timer gameLoop;
   private JFrame frame;
+  
 
   /**
    * Constructor for game, handles all init logic.
@@ -78,7 +79,9 @@ public class Game
 
     tileManager.setWorld(world);
 
-    worldPresenter = new WorldPresenter(converter, world, new Player (world.getContinents().get(0)));
+    Player player = new Player (world.getContinents().get(0));    // added player variable for initializing non-player continents
+    world.initializeNonPlayerContinents(player);
+    worldPresenter = new WorldPresenter(converter, world, player);
     worldPresenter.setBackgroundRegions(background);
 
 

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import worldfoodgame.common.AbstractScenario;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumGrowMethod;
 
@@ -101,6 +102,11 @@ public class ContinentCropAllocator
    */
   private void updateDeforestation()
   {
+    if (year == AbstractScenario.START_YEAR)
+    {
+      continent.setDeforestation(year, 0);
+      return;
+    }
     double startAreaPlanted = continent.getStartAreaPlanted();
     double lastYearDeforested = continent.getDeforestation(year); //Was originally (year-1), but caused an ArrayIndexOutOfBoundsException
     double currAreaPlanted = 0;
