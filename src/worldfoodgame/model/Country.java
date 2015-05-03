@@ -69,9 +69,15 @@ public class Country extends AbstractCountry
    * (!) note: this method can only be called after the Country's regions have
    * been set.
    *
+   * Deprecated.  Use continent.getCapitolLocation() instead.
+   *
+   * The new method returns the pre-defined continent shipping point, as laid out
+   * in ContinentShipData, implemented in EnumContinentNames.
+   *
    * @return map point representing the lat and lon location of the Country's
    * capitol.
    */
+  @Deprecated
   public MapPoint getCapitolLocation()
   {
     if (capitolLocation == null)
