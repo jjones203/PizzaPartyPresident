@@ -22,7 +22,7 @@ import worldfoodgame.planningpoints.PlanningPointsLevel;
  */
 public class Continent implements CropClimateData, PlanningPointsInteractableRegion
 {
-  private static boolean VERBOSE = false;
+  private static boolean VERBOSE = true;
   
   private EnumContinentNames name;
   private int START_YEAR = AbstractScenario.START_YEAR;
@@ -186,20 +186,37 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     // set percentages for gmo, organic, conventional for START_YEAR
     double organicAvg = countriesOrganicTotal/numCountries;
     double gmoAvg = countriesGmoTotal/numCountries;
-    setMethodPercentage(START_YEAR, EnumGrowMethod.ORGANIC, organicAvg);
-    setMethodPercentage(START_YEAR, EnumGrowMethod.GMO, gmoAvg);
+    double conventionalAvg = 0;
     if ((organicAvg + gmoAvg) < 0 || (organicAvg + gmoAvg) > 1)
     {
       if (VERBOSE) System.err.println("gmo + organic % for continent "+this.toString()+" not between 0 and 1");
     }
     else
     {
-      double conventionalAvg = 1 - (organicAvg + gmoAvg);
-      setMethodPercentage(START_YEAR, EnumGrowMethod.CONVENTIONAL, conventionalAvg);
+      conventionalAvg = 1 - (organicAvg + gmoAvg);
     }
+    
+    setMethodPercentage(EnumGrowMethod.ORGANIC, organicAvg);
+    setMethodPercentage(EnumGrowMethod.GMO, gmoAvg);
+    setMethodPercentage(EnumGrowMethod.CONVENTIONAL, conventionalAvg);
+    
     // set undernourished value for START_YEAR
     setUndernourished(START_YEAR, countriesUndernourishedTotal/numCountries);
     
+  }
+  
+  /* 
+   * for non-player continents, plant all arable land; divide according to
+   * pizza preferences
+   */
+  public void initializeNonPlayerLandUse()
+  {
+    double arableLand = getArableLand(START_YEAR);
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      double percent = getPizzaPreference(crop);
+      setCropLand(crop, percent * arableLand);
+    }
   }
   
   public EnumContinentNames getName()
@@ -505,14 +522,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
    /**
     * Set crop land value; use this method when initializing
-    *
-    * @param year    year in question
     * @param crop    crop in question
     * @param kilomsq area to set
     */
-   public void setCropLand(int year, EnumCropType crop, double kilomsq)
+   private void setCropLand(EnumCropType crop, double kilomsq)
    {
-     if (kilomsq >= 0 && kilomsq <= getArableLand(year))
+     if (kilomsq >= 0 && kilomsq <= getArableLand(START_YEAR))
      {
        for (int i = 0; i < (YEARS_OF_SIM); i++)
          landCrop[crop.ordinal()][i] = kilomsq;
@@ -648,15 +663,18 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    }
 
    /**
-    * @param year       year in question
+    * Set cultivation method %; use when initializing
     * @param method     cultivation method
     * @param percentage % land cultivated by method
     */
-   public void setMethodPercentage(int year, EnumGrowMethod method, double percentage)
+   public void setMethodPercentage(EnumGrowMethod method, double percentage)
    {
-     if (percentage >= 0)
+     if (percentage >= 0 && percentage <= 1)
      {
-       cultivationMethod[method.ordinal()][year - START_YEAR] = percentage;
+       for (int i = 0; i < (YEARS_OF_SIM); i++)
+       {
+         cultivationMethod[method.ordinal()][i] = percentage;
+       }
      }
      else
      {
@@ -666,17 +684,53 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
        }
      }
    }
+   
+   public void updateMethodPercentage(int year, EnumGrowMethod method, double percentage)
+   {
+     // what % of land under other cultivation methods, this method
+     double sumOtherMethods = 0;
+     double currentThisMethod = 0;
+     for (EnumGrowMethod growMethod:EnumGrowMethod.values())
+     {
+       if (growMethod == method) currentThisMethod =  getMethodPercentage(year,growMethod);
+       else sumOtherMethods += getMethodPercentage(year,growMethod);
+     }
+     double delta = percentage - currentThisMethod;
+     double maxPossible = 1 - sumOtherMethods;
+     double valueToSet;
+     
+     // if trying to decrease beyond 0, set to 0
+     if ((currentThisMethod + delta) < 0)
+     {
+       valueToSet = 0;
+     }
+     // else if trying to increase by amount greater than maxPossible, set to maxPossible
+     else if ((currentThisMethod + delta) > maxPossible)
+     {
+       valueToSet = maxPossible;
+     }
+     // else set to current + delta
+     else
+     {
+       valueToSet = currentThisMethod + delta;
+     }
+     for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
+     {
+       cultivationMethod[method.ordinal()][i] = valueToSet;
+     }
+   }
 
    public boolean contains(Country country)
    {
-     for (Country c : countries)
+     /*for (Country c : countries)
      {
        if (c == country)
        {
          return true;
        }
      }
-     return false;
+     return false;*/
+     return countries.contains(country);
    }
    
    private void initializeYield(EnumCropType crop, double startYield)
@@ -734,6 +788,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
      }
    }
    
+   
+   
    private void addToCropLand(int year, EnumCropType crop, double area)
    {
      landCrop[crop.ordinal()][year-START_YEAR] += area;
@@ -753,6 +809,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    {
      cropExport[crop.ordinal()][year-START_YEAR] += exports;
    }
+   
    
    /********************************/
    /** Start Planning Points      **/
@@ -867,6 +924,14 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   /** End Planning Points        **/
   /********************************/
    
+  
+  public void testGetterMethods(int year)
+  {
+    System.out.println("Continent name is "+toString());
+    System.out.println("Population "+getPopulation(year));
+    System.out.println("Undernourished % is "+getUndernourished(year));
+    
+  }
    
    /*
    public static void main(String[] args)
