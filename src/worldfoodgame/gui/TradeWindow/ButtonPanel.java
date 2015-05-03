@@ -1,7 +1,7 @@
 package worldfoodgame.gui.TradeWindow;
 import worldfoodgame.gui.ColorsAndFonts;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -9,7 +9,11 @@ import java.awt.*;
  */
 public class ButtonPanel extends JPanel
 {
-  public final TradeAndImportFrame parent;
+  private final TradeAndImportFrame parent;
+  private JButton reset = new JButton("Reset All Trades");
+  private JButton cont = new JButton("Done Trading");
+  //This isn't important right now.
+  //private JRadioButton units = new JRadioButton();
   public static final Color ROLLOVER_C = Color.WHITE;
   public static final Color SELECTED_C = Color.RED.darker();
   public static final Color TEXT_DEFAULT_COLOR = ColorsAndFonts.GUI_TEXT_COLOR;
@@ -21,5 +25,8 @@ public class ButtonPanel extends JPanel
     this.parent = parent;
     setPreferredSize(dimension);
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    setLayout(new FlowLayout());
+    add(reset);
+    add(cont);
   }
 }

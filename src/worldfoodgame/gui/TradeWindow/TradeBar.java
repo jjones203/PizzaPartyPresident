@@ -29,8 +29,10 @@ public class TradeBar extends JPanel implements ActionListener
   {
     setPreferredSize(dimension);
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    setLayout(new BorderLayout());
     this.parent = parent;
     makeTrade.addActionListener(this);
+    redraw();
   }
 
   public void setPlayerBar(GraphLabel gl)
@@ -41,6 +43,7 @@ public class TradeBar extends JPanel implements ActionListener
     {
       contGL.setValue(0);
     }
+    redraw();
   }
 
   public void setContinentBar(GraphLabel gl)
@@ -52,6 +55,7 @@ public class TradeBar extends JPanel implements ActionListener
       playerGL.setValue(0);
       playerGL.setLimit(contGL.getLimit());
     }
+    redraw();
   }
 
   public void redraw ()
@@ -59,12 +63,13 @@ public class TradeBar extends JPanel implements ActionListener
     removeAll();
     if (playerCrop)
     {
-      add(playerGL);
+      add(playerGL, BorderLayout.EAST);
     }
     if (continentCrop)
     {
-      add(contGL);
+      add(contGL, BorderLayout.WEST);
     }
+    add(makeTrade, BorderLayout.CENTER);
     validate();
   }
 

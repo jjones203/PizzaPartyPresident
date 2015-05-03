@@ -4,6 +4,7 @@ import javax.swing.*;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.hud.infopanel.GroupCountryHandler;
+import worldfoodgame.gui.hud.infopanel.GraphLabel;
 import worldfoodgame.gui.hud.infopanel.LabelFactory;
 import worldfoodgame.gui.hud.infopanel.SingleCountryHandeler;
 import worldfoodgame.model.Country;
