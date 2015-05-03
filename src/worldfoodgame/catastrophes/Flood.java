@@ -17,11 +17,13 @@ public class Flood extends Catastrophe
 {
   private Continent continent;
   private String floodStory;
+  private int year;
 
 
-  public Flood(Collection<Continent> continents)
+  public Flood(Collection<Continent> continents, int year)
   {
     continent = getRandContinent(continents);
+    this.year = year;
     setStory();
     initCatastrophe();
     popUpDialog();

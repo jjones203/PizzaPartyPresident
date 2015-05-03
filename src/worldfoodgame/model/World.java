@@ -255,6 +255,8 @@ public class World extends AbstractScenario
   {
     if (DEBUG) System.out.println("Rolling catastrophe die...");
     
+    int year = getCurrentYear();
+    
     Random ran = new Random();
     int die = ran.nextInt(100)+1;
 
@@ -262,20 +264,21 @@ public class World extends AbstractScenario
        
     if (die>0 && die<11) // 10% chance of drought catastrophe
     {
-      Catastrophe Drought = new Drought(continents);
+      Catastrophe Drought = new Drought(continents, year);
       plantAndHarvestCrops(); 
       Drought.recuperateAfterCatastrophe();
     }
     else if(die>10 && die<21) // 10% chance of flood catastrophe
     {
-      Catastrophe Flood = new Flood(continents);
+      Catastrophe Flood = new Flood(continents, year);
       plantAndHarvestCrops(); 
       Flood.recuperateAfterCatastrophe();
     }
     else if(die>20 && die<31) // 10% chance of crop disease catastrophe
     {
-      Catastrophe Blight = new Blight(continents);
+      Catastrophe Blight = new Blight(continents, year);
       plantAndHarvestCrops(); 
+      Blight.recuperateAfterCatastrophe();
     }
     else
     {
