@@ -7,15 +7,13 @@ import worldfoodgame.gui.hud.infopanel.GraphLabel;
 import worldfoodgame.gui.hud.infopanel.LabelFactory;
 import worldfoodgame.gui.hud.infopanel.CountryDataHandler;
 import worldfoodgame.gui.hud.infopanel.GroupCountryHandler;
-import worldfoodgame.model.EnumContinentNames;
-import worldfoodgame.model.Player;
-import worldfoodgame.model.Country;
-import worldfoodgame.model.Continent;
+import worldfoodgame.model.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.awt.event.WindowEvent;
 
 /**
  * Created by Tim on 4/24/15. Needs a english/metric, reset, and continue button.
@@ -69,7 +67,7 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
         continentPanels.add(new ContinentPanel(c, temp, this));
       }
     }
-    saveInitialStates(year);
+    saveInitialStates(year - 1);
     //setLayout(new GridLayout(3, 0));
     setLayout(new BorderLayout());
     add(continentTabPanel, BorderLayout.WEST);
@@ -93,7 +91,7 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
       tempActual[2] = c.getCropProduction(year, EnumCropType.SOY);
       tempActual[3] = c.getCropProduction(year, EnumCropType.RICE);
       tempActual[4] = c.getCropProduction(year, EnumCropType.OTHER_CROPS);
-      savedStates.add(new ContinentState(c.getName(), tempActual));
+      savedStates.add(new ContinentState(c, tempActual));
     }
     /* This uses getNetCropAvailable. Is this wrong?
     for (Country cH : countries)
@@ -110,27 +108,65 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
 
   public void reset()
   {
-
+    for (ContinentState cS : savedStates)
+    {
+      cS.reset();
+    }
+    for (ContinentPanel cP : continentPanels)
+    {
+      cP.redraw();
+    }
+    playerPanel.redraw();
+    tradeBar.redraw();
   }
 
-  public void trade()
+  public void trade(Continent continent, EnumCropType contCrop, EnumCropType playerCrop)
   {
-    //redraws
+    int year = World.getWorld().getCurrentYear() - 1;
+    double temp = 0;
+    temp = player.getContinent().getCropProduction(year, playerCrop) - tradeBar.getCurrentTrade();
+    if (temp < 0)
+    {
+      System.out.println("Trying to set player crop prod to less than 0...");
+      temp = 0;
+    }
+    player.getContinent().setCropProduction(year, playerCrop, temp);
+    player.getContinent().setCropProduction(year, contCrop,
+            player.getContinent().getCropProduction(year, contCrop) + tradeBar.getCurrentTrade());
+    continent.setCropProduction(year, playerCrop,
+            continent.getCropProduction(year, playerCrop) + tradeBar.getCurrentTrade());
+    temp = continent.getCropProduction(year, contCrop) - tradeBar.getCurrentTrade();
+    if (temp < 0)
+    {
+      System.out.println("Trying to set continent crop prod to less than 0...");
+      temp = 0;
+    }
+    continent.setCropProduction(year, contCrop, temp);
+    for (ContinentPanel cP : continentPanels)
+    {
+      cP.redraw();
+    }
+    playerPanel.redraw();
   }
 
-  public void newPlayerCrop(GraphLabel gl)
+  public void newPlayerCrop(LabelFactory lf, EnumCropType crop)
   {
-    tradeBar.setPlayerBar(gl);
+    tradeBar.setPlayerBar(lf, crop);
   }
 
-  public void newContinentCrop(GraphLabel gl)
+  public void newContinentCrop(LabelFactory lf, EnumCropType crop)
   {
-    tradeBar.setContinentBar(gl);
+    tradeBar.setContinentBar(lf, crop);
   }
 
   public void updateUnits()
   {
 
+  }
+
+  public void endTrading()
+  {
+    this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
   }
 
   @Override
@@ -141,13 +177,22 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
 
   private class ContinentState
   {
-    private EnumContinentNames name;
+    private Continent continent;
     private double [] actualCrops;
 
-    public ContinentState(EnumContinentNames name, double [] tempActual)
+    public ContinentState(Continent continent, double [] tempActual)
     {
-      this.name = name;
+      this.continent = continent;
       actualCrops = tempActual;
+    }
+
+    public void reset()
+    {
+      continent.setCropProduction(World.getWorld().getCurrentYear()-1, EnumCropType.CORN, actualCrops[0]);
+      continent.setCropProduction(World.getWorld().getCurrentYear()-1, EnumCropType.WHEAT, actualCrops[1]);
+      continent.setCropProduction(World.getWorld().getCurrentYear()-1, EnumCropType.SOY, actualCrops[2]);
+      continent.setCropProduction(World.getWorld().getCurrentYear()-1, EnumCropType.RICE, actualCrops[3]);
+      continent.setCropProduction(World.getWorld().getCurrentYear()-1, EnumCropType.OTHER_CROPS, actualCrops[4]);
     }
   }
 }

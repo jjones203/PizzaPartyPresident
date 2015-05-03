@@ -25,6 +25,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   private static boolean VERBOSE = true;
   
   private EnumContinentNames name;
+  private EnumContinentShipPoints continentShipPoint;
+  private MapPoint shipPoint;
   private int START_YEAR = AbstractScenario.START_YEAR;
   private int YEARS_OF_SIM = AbstractScenario.YEARS_OF_SIM;
   private double ANNUAL_TONS_PER_PERSON = CropClimateData.ANNUAL_TONS_PER_PERSON; 
@@ -58,8 +60,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   
   protected double[][] cultivationMethod = new double[EnumGrowMethod.SIZE][YEARS_OF_SIM]; //percentage
   
-  protected int approvalRating;
-  protected int diplomacyRating;
+  protected double approvalRating;
+  protected double diplomacyRating;
   
   //planning points
   private int GMOPlanningPoints=0;
@@ -75,11 +77,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   
   /**
    * Continent constructor
-   * @param name continent name
+   * @param name1 continent name
    */
-  public Continent(EnumContinentNames name)
+  public Continent(EnumContinentNames name1)
   {
-    this.name = name;
+
+    this.name = name1;
     switch (name)
     {
       case N_AMERICA:
@@ -441,6 +444,33 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
        }
      }
    }
+
+  public double getNetCropAvailable(int year, EnumCropType crop)
+  {
+
+    double available = this.getCropProduction(year, crop)
+                       + this.getCropImport(year, crop)
+                       - this.getCropExport(year, crop);
+    return available;
+  }
+
+  public double getSurplus(int year, EnumCropType crop)
+  {
+    return this.getCropProduction(year, crop) - this.getTotalCropNeed(year, crop);
+  }
+
+  /**
+   * Designed to pull the MapPoint location of the shipping city defined in
+   * ContinentShipData, using EnumContinentShipPoints to get it.  This method is
+   * used in the trading optimizer, "worldfoodgame.model.TradeOptimizer.java"
+   * @return A MapPoint object holding the latitude and longitude of the continent's
+   *         shipping city.
+   */
+  public MapPoint getCapitolLocation()
+  {
+    shipPoint = continentShipPoint.shipPoint;
+    return shipPoint;
+  }
 
    public double getLandTotal(int year)
    {

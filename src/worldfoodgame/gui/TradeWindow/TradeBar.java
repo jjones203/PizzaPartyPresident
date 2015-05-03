@@ -1,7 +1,10 @@
 package worldfoodgame.gui.TradeWindow;
 
+import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.hud.infopanel.GraphLabel;
+import worldfoodgame.gui.hud.infopanel.LabelFactory;
+import worldfoodgame.model.World;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +20,14 @@ public class TradeBar extends JPanel implements ActionListener
   private final TradeAndImportFrame parent;
   private GraphLabel playerGL;
   private GraphLabel contGL;
-  private boolean continentCrop = false;
-  private boolean playerCrop = false;
+  private LabelFactory playerLF;
+  private LabelFactory contLF;
+  private EnumCropType playerCrop;
+  private EnumCropType contCrop;
+  private double currentTrade = 0;
+  private double currentLimit = 0;
+  private boolean hasContinent = false;
+  private boolean hasPlayer = false;
   public static final Color ROLLOVER_C = Color.WHITE;
   public static final Color SELECTED_C = Color.RED.darker();
   public static final Color TEXT_DEFAULT_COLOR = ColorsAndFonts.GUI_TEXT_COLOR;
@@ -35,37 +44,48 @@ public class TradeBar extends JPanel implements ActionListener
     redraw();
   }
 
-  public void setPlayerBar(GraphLabel gl)
+  public void setPlayerBar(LabelFactory playerLF, EnumCropType crop)
   {
-    playerCrop = true;
-    playerGL = gl;
-    if (continentCrop)
+    this.playerLF = playerLF;
+    playerCrop = crop;
+    hasPlayer = true;
+    if (hasContinent)
     {
-      contGL.setValue(0);
+      contGL = contLF.getTradeContLabel(contCrop, this, currentLimit);
     }
+    playerGL = playerLF.getTradePlayLabel(crop, this, currentLimit);
+    currentTrade = 0;
     redraw();
   }
 
-  public void setContinentBar(GraphLabel gl)
+  public void setContinentBar(LabelFactory contLF, EnumCropType crop)
   {
-    continentCrop = true;
-    contGL = gl;
-    if (playerCrop)
+    this.contLF = contLF;
+    contCrop = crop;
+    hasContinent = true;
+    currentLimit = contLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, crop);
+    currentLimit = currentLimit - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear() - 1, crop);
+    if (currentLimit < 0)
     {
-      playerGL.setValue(0);
-      playerGL.setLimit(contGL.getLimit());
+      currentLimit = 0;
     }
+    if (hasPlayer)
+    {
+      playerGL = playerLF.getTradePlayLabel(playerCrop, this, currentLimit);
+    }
+    contGL = contLF.getTradeContLabel(crop, this, currentLimit);
+    currentTrade = 0;
     redraw();
   }
 
   public void redraw ()
   {
     removeAll();
-    if (playerCrop)
+    if (hasPlayer)
     {
       add(playerGL, BorderLayout.EAST);
     }
-    if (continentCrop)
+    if (hasContinent)
     {
       add(contGL, BorderLayout.WEST);
     }
@@ -73,12 +93,47 @@ public class TradeBar extends JPanel implements ActionListener
     validate();
   }
 
+  public void setCurrentTrade(double input)
+  {
+    if (input < 0)
+    {
+      currentTrade = 0;
+      contGL.setValue(0);
+    }
+    else if (input > currentLimit)
+    {
+      currentTrade = currentLimit;
+      contGL.setValue(currentLimit);
+    }
+    else
+    {
+      currentTrade = input;
+      contGL.setValue(input);
+    }
+  }
+
+  public double getCurrentTrade()
+  {
+    return currentTrade;
+  }
+
   @Override
   public void actionPerformed(ActionEvent e)
   {
-    if (playerCrop && continentCrop)
+    if (hasPlayer && hasContinent && e.getSource() == makeTrade)
     {
-      parent.trade();
+      parent.trade(contLF.getContinent(), contCrop, playerCrop);
+
+      currentLimit = contLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, contCrop);
+      currentLimit = currentLimit - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear() - 1, contCrop);
+      if (currentLimit < 0)
+      {
+        currentLimit = 0;
+      }
+      playerGL = playerLF.getTradePlayLabel(playerCrop, this, currentLimit);
+      contGL = contLF.getTradeContLabel(contCrop, this, currentLimit);
+      currentTrade = 0;
+      redraw();
     }
   }
 }

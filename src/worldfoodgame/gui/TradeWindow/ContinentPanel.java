@@ -26,6 +26,7 @@ public class ContinentPanel extends JPanel
     this.labelFactory = labelFactory;
     this.parent = parent;
     labelFactory.setContinent(continent);
+    setBackground(ColorsAndFonts.GUI_BACKGROUND);
     redraw();
   }
 
@@ -36,7 +37,7 @@ public class ContinentPanel extends JPanel
 
   public void chooseCrop(EnumCropType crop)
   {
-    parent.newContinentCrop(labelFactory.getTradeContLabel(crop));
+    parent.newContinentCrop(labelFactory, crop);
   }
 
   public void redraw()

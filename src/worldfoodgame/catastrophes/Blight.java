@@ -1,7 +1,12 @@
 package worldfoodgame.catastrophes;
 
 import java.util.Collection;
+import java.util.Random;
+
 import javax.swing.JOptionPane;
+
+import worldfoodgame.common.EnumCropType;
+import worldfoodgame.common.EnumGrowMethod;
 import worldfoodgame.model.Continent;
 
 
@@ -17,11 +22,13 @@ public class Blight extends Catastrophe
 {
   private Continent continent;
   private String blightStory;
+  private int year;
 
 
-  public Blight(Collection<Continent> continents)
+  public Blight(Collection<Continent> continents, int year)
   {
     continent = getRandContinent(continents);
+    this.year = year;
     setStory();
     initCatastrophe();
     popUpDialog();
@@ -37,27 +44,76 @@ public class Blight extends Catastrophe
 
 
   @Override
-  // Performs catastrophe changes i.e. by changing crop values,etc.
+  // Wipes out a crop entirely and weakens others
   protected void initCatastrophe()
-  {
-    // TODO Auto-generated method stub
-
+  {  
+    EnumCropType randomCrop = selectRandomCrop();
+    //  System.out.println("The random crop is "+randomCrop);  
+    weakenCrops();   
+    wipeOutCrop(randomCrop);    
   }  
 
-  
+
   @Override
   //Creates story for dialog pop-up
   protected void setStory()
   {
-    // TODO Auto-generated method stub    
+    blightStory =  "First it was little things like spots and fading leaves. The farmers of "+continent.getName()+"\n"+ 
+        "watched and waited nervously. Then entire toppings just frooze mid-growth. \n"+
+        "When the webs if cheese formed, the farmers knew it was over. "+continent.getName()+"'s\n"+ 
+        "disease consel was notified. A blight had occurred. Many toppings will not survive the \n"+
+        "illness. As families scrap pots for food, citizens turn to the Pizza Party Presidents \n"+
+        "of world to see how they will act. What will you do now that the world is watching?";
   }
 
 
   @Override
+  public
   // Recovers continent to a less harsh post-catastrophe state 
-  public void recuperateAfterCatastrophe()
+  void recuperateAfterCatastrophe()
   {
-    // TODO Auto-generated method stub
-    
+    // Nothing to set
+  }
+
+
+  // Decreases yield for all crops
+  private void weakenCrops()
+  {
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      double convYield = continent.getCropYield(year, crop, EnumGrowMethod.CONVENTIONAL);
+      double gmoYield = continent.getCropYield(year, crop, EnumGrowMethod.GMO);
+      double orgYield = continent.getCropYield(year, crop, EnumGrowMethod.ORGANIC);
+
+      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/2000);
+      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/1000);
+      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/3000);
+
+       System.out.println(crop+" has a conventional yield of "+convYield/2000);
+       System.out.println(crop+" has a GMO yield of "+gmoYield/1000);
+       System.out.println(crop+" has a organic yield of "+orgYield/3000);
+    }
+  }
+
+
+  // Selects a random crop type
+  private EnumCropType selectRandomCrop()
+  {
+    Random ran = new Random();
+    int cropIndex = ran.nextInt(EnumCropType.SIZE);
+    EnumCropType[] cropArray = EnumCropType.values();
+
+    EnumCropType type = cropArray[cropIndex];
+    //System.out.println("The crop index is "+cropIndex);
+    return type;
+  }
+
+
+  // Wipes out crop's yield to zero
+  private void wipeOutCrop(EnumCropType randomCrop)
+  {
+    continent.setCropYield(year, randomCrop, EnumGrowMethod.CONVENTIONAL, 0);
+    continent.setCropYield(year, randomCrop, EnumGrowMethod.GMO, 0);
+    continent.setCropYield(year, randomCrop, EnumGrowMethod.ORGANIC, 0);
   }
 }
