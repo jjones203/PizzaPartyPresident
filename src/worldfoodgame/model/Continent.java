@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.awt.Color;
 
@@ -36,8 +37,11 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   private Color color;
 
   protected double waterAllowance;
+  protected double rainfall;
+  protected double GAL_CM_CUBED = 2641.720524;
+
   protected int[] population = new int[YEARS_OF_SIM];       //in people
-  protected double[] hungry = new double[YEARS_OF_SIM];  // percentage of population. 0.50 is 50%.
+  protected double[] undernourish = new double[YEARS_OF_SIM];  // percentage of population. 0.50 is 50%.
 
   protected double[][] conventionalYield = new double[EnumCropType.SIZE][YEARS_OF_SIM]; //metric tons per square kilometer
   protected double[][] organicYield = new double[EnumCropType.SIZE][YEARS_OF_SIM]; //metric tons per square kilometer
@@ -159,8 +163,13 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     // add tiles
     landTiles.addAll(country.getLandTiles());
 
-    landTotal += country.getLandTotal(START_YEAR);
+    rainfall = calcRainfall();
     waterAllowance += country.getWaterAllowance();
+    System.out.println("Avg rainfall is: " + rainfall + "gals per land tile."
+                       + "\nCrop water allowance is: " + waterAllowance + "gallons.");
+    landTotal += country.getLandTotal(START_YEAR);
+    waterAllowance -=  rainfall;
+    System.out.println("\tAdjusted water allowance is: " + waterAllowance);
     countriesOrganicTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.ORGANIC);
     countriesGmoTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.GMO);
     countriesUndernourishedTotal += country.getUndernourished(START_YEAR);
@@ -184,6 +193,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     initializePizzaPreference();
     initializeTotalCropNeed();
     initializeLandUse();
+    initializeTiles();
     //System.out.println("For continent: " + this.getName() + ", the water allowance is: " + this.getWaterAllowance());
 
     // set continent fields using average of country values
@@ -205,10 +215,25 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     setMethodPercentage(EnumGrowMethod.CONVENTIONAL, conventionalAvg);
 
     // set undernourished value for START_YEAR
-    setHungry(START_YEAR, countriesUndernourishedTotal/numCountries);
+    setUndernourished(START_YEAR, countriesUndernourishedTotal/numCountries);
     calculateApprovalRating(START_YEAR); 
     calculateDiplomacyRating(START_YEAR);
   }
+ 
+
+  // calculate average rainfall over the continent
+  private double calcRainfall()
+  {
+    double rain = 0.0;
+    int tileNum = landTiles.size();
+    for(LandTile tile: landTiles)
+    {
+      rain += (double)tile.getRainfall();
+    }
+
+    return (rain / tileNum) * GAL_CM_CUBED;
+  }
+  
 
   public EnumContinentNames getName()
   {
@@ -242,14 +267,14 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
   public double getHungry(int year)
   {
-    return hungry[year - START_YEAR];
+    return undernourish[year - START_YEAR];
   }
 
-  public void setHungry(int year, double percentage)
+  public void setUndernourished(int year, double percentage)
   {
     if (percentage >= 0 && percentage <= 1)
     {
-      hungry[year - START_YEAR] = percentage;
+      undernourish[year - START_YEAR] = percentage;
     }
   }
 
@@ -285,9 +310,9 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
       }
       else unmetNeed = deficitTons;
     }
-    double hungryPeople = unmetNeed/ANNUAL_TONS_PER_PERSON;
-    double percent = hungryPeople/(getPopulation(year));
-    setHungry(year,percent);
+    double undernourished = unmetNeed/ANNUAL_TONS_PER_PERSON;
+    double percent = undernourished/(getPopulation(year));
+    setUndernourished(year,percent);
   }
 
   public double getPizzaPreference(EnumCropType pizzaType)
@@ -840,10 +865,19 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    }
    
    
-   private void initializeArableTiles()
+   private void initializeTiles()
    {
-     int numArableTiles = (int) getArableLand(START_YEAR)/1000;
+     List<LandTile> tileList = new ArrayList<LandTile>(landTiles);
+     Collections.sort(tileList, new LonComparator());
+     Collections.sort(tileList, new LatComparator());
      
+     int numArableTiles = (int) getArableLand(START_YEAR)/100;
+     
+     for (int i = 0; i < numArableTiles; i++)
+     {
+       LandTile tile = tileList.get(i);
+       tile.setArable(true);
+     }
    }
    
    private void addToCropLand(int year, EnumCropType crop, double area)
@@ -1042,7 +1076,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    **/
   public void calculateApprovalRating(int year)
   {
-    this.approvalRating = 1 - (.5*hungry[year - START_YEAR] + .5*(areaDeforested[year - START_YEAR]/landTotal));
+    this.approvalRating = 1 - (.5*undernourish[year - START_YEAR] + .5*(areaDeforested[year - START_YEAR]/landTotal));
   }
 
 
@@ -1060,7 +1094,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public void calculateDiplomacyRating(int year)
   {
     
-    this.diplomacyRating  = 1 - (.5*hungry[year - START_YEAR] + .5*(areaDeforested[year - START_YEAR]/landTotal));
+    this.diplomacyRating  = 1 - (.5*undernourish[year - START_YEAR] + .5*(areaDeforested[year - START_YEAR]/landTotal));
   }
   /*
    public static void main(String[] args)
@@ -1073,5 +1107,39 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
        System.out.println("For "+crop+" "+percent);
      }
    }*/
-}
+
+  
+  /**
+   * Class for sorting land tiles by longitude
+   * (unsorted, they are grouped by country)
+   * @author jessica
+   */
+  class LonComparator implements Comparator<LandTile>
+  {
+    public int compare(LandTile tile1, LandTile tile2)
+    {
+      double diff = tile1.getLon() - tile2.getLon();
+      if (diff > 0) return 1;
+      else if (diff < 0) return -1;
+      else return 0;
+    } 
+  }
+  
+  /**
+   * Class for sorting land tiles by latitude
+   * (unsorted, they are grouped by country)
+   * @author jessica
+   */
+  class LatComparator implements Comparator<LandTile>
+  {
+    public int compare(LandTile tile1, LandTile tile2)
+    {
+      double diff = tile1.getLat() - tile2.getLat();
+      if (diff > 0) return 1;
+      else if (diff < 0) return -1;
+      else return 0;
+    } 
+  }
+  
+ }
 
