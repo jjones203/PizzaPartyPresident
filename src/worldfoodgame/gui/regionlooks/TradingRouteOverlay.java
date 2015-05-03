@@ -2,7 +2,8 @@ package worldfoodgame.gui.regionlooks;
 
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
-import worldfoodgame.model.TradingOptimizer;
+import worldfoodgame.model.TradeOptimizer;
+//import worldfoodgame.model.TradingOptimizer;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class TradingRouteOverlay extends RasterViz
 {
- private static List<TradingOptimizer.TradePair>[] tradePairs = new ArrayList[]{
+ private static List<TradeOptimizer.TradePair>[] tradePairs = new ArrayList[]{
    new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList()
  };
 
@@ -70,7 +71,7 @@ public class TradingRouteOverlay extends RasterViz
   for(EnumCropType crop : EnumCropType.values())
   {
    g2.setColor(ColorsAndFonts.CROP_COLORS[crop.ordinal()]);
-   for(TradingOptimizer.TradePair pair : tradePairs[crop.ordinal()])
+   for(TradeOptimizer.TradePair pair : tradePairs[crop.ordinal()])
    {
     drawPair(pair, g2);
    }
@@ -80,7 +81,7 @@ public class TradingRouteOverlay extends RasterViz
 
  /* draw a section of the line between the two countries in the TradePair
     based on the current step in the animation  */
- private void drawPair(TradingOptimizer.TradePair pair, Graphics2D g2)
+ private void drawPair(TradeOptimizer.TradePair pair, Graphics2D g2)
  {
   Point2D expPoint = getPoint(pair.exporter.getCapitolLocation());
   Point2D impPoint = getPoint(pair.importer.getCapitolLocation());
@@ -108,7 +109,7 @@ public class TradingRouteOverlay extends RasterViz
   with each step of the world to keep information accurate
   @param pairs Array of TradePair lists to use for Overlay
   */
- public static void updateTrades(List<TradingOptimizer.TradePair>[] pairs)
+ public static void updateTrades(List<TradeOptimizer.TradePair>[] pairs)
  {
   if (pairs != null)
   {
@@ -121,7 +122,7 @@ public class TradingRouteOverlay extends RasterViz
   else
   {
    /* make empty lists */
-   for(List<TradingOptimizer.TradePair> l : pairs) l = new ArrayList<>();
+   for(List<TradeOptimizer.TradePair> l : pairs) l = new ArrayList<>();
   }
  }
 

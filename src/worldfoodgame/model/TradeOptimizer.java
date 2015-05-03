@@ -180,7 +180,7 @@ public class TradeOptimizer
       double net = 0;
 
       /* Divide the continents in the parent class into importers and exporters
-      based on the crop surplus for each country */
+      based on the crop surplus for each continent */
       for(Continent c : continents)
       {
         double surplus = c.getSurplus(year, crop);
