@@ -33,7 +33,7 @@ public class FlagLoader
   }
 
   /**
-   * Returns the countries associated flag as a biffered image
+   * Returns the countries associated flag as a buffered image
    * @param countryName
    * @return
    */

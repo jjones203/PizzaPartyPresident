@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -31,6 +32,7 @@ public class LabelFactory
   private Collection<Runnable> updates;
   private CountryDataHandler dataHandler;
   private Continent continent;
+  private BufferedImage image;
 
   public LabelFactory(CountryDataHandler dataHandler)
   {
@@ -384,50 +386,85 @@ public class LabelFactory
     return prodLabel;
   }
 
-//  public BufferedImage getApprovalRating()
-//  {
-//    String face = "okay.png";
-//    BufferedImage image = null;
-//
-//    if(continent != null)
-//    {
-//      double rating = continent.getApprovalRating();
-//
-//      if (rating<.21)
-//      {
-//        face = "distress.png";
-//        System.out.println("distress");
-//      }
-//      else if(rating>.2 && rating<.41)
-//      {
-//        face = "upset.png";
-//        System.out.println("upset");
-//      }
-//      else if(rating>.4 && rating<.61)
-//      {
-//        face = "okay.png";
-//        System.out.println("okay");
-//      }
-//      else if(rating>.6 && rating<.81)
-//      {
-//        face = "good.png";
-//        System.out.println("good");
-//      }
-//      else if(rating>.8)
-//      {
-//        face = "excellent.png";
-//        System.out.println("excellent");
-//      }
-//
-//      try
-//      {
-//        image = ImageIO.read(getClass().getResource("/resources/ratings/"+face));
-//      }
-//      catch (IOException e)
-//      {
-//        e.printStackTrace();
-//      }
-//    }   
-//    return image;
-//  }
+  public GraphLabel getApprovalBar()
+  {
+    final GraphLabel approvalLab;
+    if (continent != null)
+    {
+      approvalLab = new GraphLabel(
+          " The Pizza President's Approval Rating",
+          continent.getApprovalRating(),
+          1,
+          "% 00.0"
+          );
+    }
+    else
+    {
+      approvalLab = new GraphLabel(
+          " The Pizza President's Approval Rating",
+          .5,
+          1,
+          "% 00.0"
+          );
+    }
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        approvalLab.setValue(continent.getApprovalRating());
+      }
+    });
+    return approvalLab;
+  }
+
+  public BufferedImage getApprovalRating()
+  {
+    String face = "okay.png";
+
+    if(continent != null)
+    {
+      System.out.println(continent);
+
+      double rating = continent.getApprovalRating();
+
+      if (rating<.21)
+      {
+        face = "distress.png";
+        System.out.println("distress");
+      }
+      else if(rating>.2 && rating<.41)
+      {
+        face = "upset.png";
+        System.out.println("upset");
+      }
+      else if(rating>.4 && rating<.61)
+      {
+        face = "okay.png";
+        System.out.println("okay");
+      }
+      else if(rating>.6 && rating<.81)
+      {
+        face = "good.png";
+        System.out.println("good");
+      }
+      else if(rating>.8)
+      {
+        face = "excellent.png";
+        System.out.println("excellent");
+      }
+    }
+    try
+    {
+      String fileLocation = "resources/ratings/"+face;
+      image = ImageIO.read(new File(fileLocation));
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+
+    return image;
+  }
 }

@@ -1,6 +1,7 @@
 package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.gui.ColorsAndFonts;
+import worldfoodgame.model.Continent;
 
 import javax.swing.*;
 
@@ -23,7 +24,6 @@ public class DemographicPanel extends JPanel
     this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     this.setLayout(new GridLayout(0, 3));
 
-
     redraw();
   }
 
@@ -43,36 +43,48 @@ public class DemographicPanel extends JPanel
   {
     this.removeAll();
     this.add(getDemoPanel());
+    this.add(getRatingPanel());
     this.validate();
   }
 
+  private JPanel getRatingPanel()
+  {
+    JPanel panel = new JPanel();
+
+    panel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+
+    BufferedImage smile = labelFactory.getApprovalRating();
+    
+    if(smile != null)
+    {
+      JLabel pic = new JLabel(new ImageIcon(smile));
+      panel.add(pic);
+    }   
+    else
+    {
+      System.out.println("Approval image is NULL");
+    }
+
+    JLabel label = new JLabel("The Pizza President's Approval Rating");
+    label.setFont(ColorsAndFonts.GUI_FONT);
+    panel.add(labelFactory.getApprovalBar());
+    
+    return panel;
+  }  
+  
   private JPanel getDemoPanel()
   {
     JPanel panel = new JPanel();
-    JPanel leftPanel = new JPanel();
-    JPanel rightPanel = new JPanel();
 
-    leftPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+    panel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-    leftPanel.add(labelFactory.getPopulationLabel());
-    leftPanel.add(labelFactory.getMedianAge());
-    leftPanel.add(labelFactory.getBirthRate());
-    leftPanel.add(labelFactory.getMortalityRate());
-    leftPanel.add(labelFactory.getMalnurished());
+    panel.add(labelFactory.getPopulationLabel());
+    panel.add(labelFactory.getMedianAge());
+    panel.add(labelFactory.getBirthRate());
+    panel.add(labelFactory.getMortalityRate());
+    panel.add(labelFactory.getMalnurished());
 
-//    BufferedImage smile = labelFactory.getApprovalRating();
-//    if(smile != null)
-//    {
-//      rightPanel.setPreferredSize(new Dimension(smile.getWidth(null),
-//          smile.getHeight(null)));
-//    }
-//    panel.setLayout(new GridLayout(1,4));
-//    panel.add(leftPanel);
-//    panel.add(new JPanel());
-//    panel.add(new JPanel());
-//    panel.add(rightPanel);
-
-    return leftPanel;
+    return panel;
   }
 }
