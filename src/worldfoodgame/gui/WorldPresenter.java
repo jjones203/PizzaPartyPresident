@@ -39,6 +39,7 @@ public class WorldPresenter extends Observable
 
   private Collection<GUIRegion> backgroundRegions;
   private ActiveRegionList activeRegions;
+  private ArrayList<Continent> activeContinents;
   private World world;
   private boolean activelyDraging;
   private RegionViewFactory regionViewFactory;
@@ -69,6 +70,7 @@ public class WorldPresenter extends Observable
     // this must be constructed last..
     // it depends on the setModelRegions being called
     this.activeRegions = new ActiveRegionList();
+    activeContinents = new ArrayList<>();
   }
 
   /**
@@ -154,7 +156,12 @@ public class WorldPresenter extends Observable
     for (GUIRegion r : regionsInView)
     {
       activeRegions.add(r);
+      if (!activeContinents.contains(r.getCountry().getContinent()))
+      {
+        activeContinents.add(r.getCountry().getContinent());
+      }
     }
+    setActiveByContinent(camera);
   }
 
   /**
@@ -183,16 +190,22 @@ public class WorldPresenter extends Observable
         if (activeRegions.contains(guir))
         {
           activeRegions.remove(guir);
+          activeContinents.remove(guir.getCountry().getContinent());
+          setActiveByContinent(camera);
         }
         else
         {
           activeRegions.clear();
+          activeContinents.clear();
           activeRegions.add(guir);
+          activeContinents.add(guir.getCountry().getContinent());
+          setActiveByContinent(camera);
         }
         return; //for early loop termination.
       }
     }
     activeRegions.clear(); // deselects all regions when mouse click on ocean.
+    activeContinents.clear();
   }
 
   /**
@@ -216,10 +229,14 @@ public class WorldPresenter extends Observable
         if (activeRegions.contains(guir))
         {
           activeRegions.remove(guir);
+          activeContinents.remove(guir.getCountry().getContinent());
+          setActiveByContinent(camera);
         }
         else
         {
           activeRegions.add(guir);
+          activeContinents.add(guir.getCountry().getContinent());
+          setActiveByContinent(camera);
         }
         return; //for early loop termination.
       }
@@ -370,6 +387,22 @@ public class WorldPresenter extends Observable
     else
     {
       return activeRegions.getList();
+    }
+  }
+
+  private void setActiveByContinent(Camera camera)
+  {
+    activeRegions.clear();
+    for (GUIRegion gr: getRegionsInView(camera))
+    {
+      if(activeContinents.contains(gr.getCountry().getContinent()))
+      {
+        activeRegions.add(gr);
+      }
+      else
+      {
+        activeRegions.remove(gr);
+      }
     }
   }
 
