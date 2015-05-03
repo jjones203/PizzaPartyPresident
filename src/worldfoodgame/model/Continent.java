@@ -442,6 +442,13 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
      }
    }
 
+  public double getNetCropAvailable(int year, EnumCropType crop)
+  {
+
+    double available = this.getCropProduction(year, crop) + getCropImport(year, crop) - getCropExport(year, crop);
+    return available;
+  }
+
    public double getLandTotal(int year)
    {
      return landTotal;
