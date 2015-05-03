@@ -190,7 +190,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     
     initializePizzaPreference();
     initializeTotalCropNeed();
-    
+    initializeLandUse();
     //System.out.println("For continent: " + this.getName() + ", the water allowance is: " + this.getWaterAllowance());
 
     // set continent fields using average of country values
@@ -216,19 +216,6 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     
   }
   
-  /* 
-   * for non-player continents, plant all arable land; divide according to
-   * pizza preferences
-   */
-  public void initializeNonPlayerLandUse()
-  {
-    double arableLand = getArableLand(START_YEAR);
-    for (EnumCropType crop:EnumCropType.values())
-    {
-      double percent = getPizzaPreference(crop);
-      setCropLand(crop, percent * arableLand);
-    }
-  }
 
   // calculate average rainfall over the continent
   private double calcRainfall()
@@ -242,7 +229,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
     return (rain / tileNum) * GAL_CM_CUBED;
   }
-  
+
   public EnumContinentNames getName()
   {
     return name;
@@ -843,8 +830,40 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
        }
      }
    }
+  
+   /* populate cropLand array so values don't go to 0 after START_YEAR */ 
+   private void initializeLandUse()
+   {
+     for (EnumCropType crop:EnumCropType.values())
+     {
+       double cropLand = getCropLand(START_YEAR, crop);
+       for (int year = START_YEAR + 1; year < START_YEAR + YEARS_OF_SIM; year++)
+       {
+         setCropLand(crop, cropLand);
+       }
+     }
+   }
+   
+   /* 
+    * for non-player continents, plant all arable land; divide according to
+    * pizza preferences
+    */
+   public void initializeNonPlayerLandUse()
+   {
+     double arableLand = getArableLand(START_YEAR);
+     for (EnumCropType crop:EnumCropType.values())
+     {
+       double percent = getPizzaPreference(crop);
+       setCropLand(crop, percent * arableLand);
+     }
+   }
    
    
+   private void initializeArableTiles()
+   {
+     int numArableTiles = (int) getArableLand(START_YEAR)/1000;
+     
+   }
    
    private void addToCropLand(int year, EnumCropType crop, double area)
    {
