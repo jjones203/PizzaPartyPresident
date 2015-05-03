@@ -92,6 +92,7 @@ public class ContinentCropAllocator
       double yieldPerTile = (convPercent * convYield + gmoPercent * gmoYield + orgPercent * orgYield) * 100;
       
       double production = yieldPerTile * getTilesNeeded(crop);
+      System.out.println(continent.getName()+" has a production of "+production+"of"+crop);
       continent.setCropProduction(year, crop, production);
     }
   }

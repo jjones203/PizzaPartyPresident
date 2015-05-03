@@ -122,7 +122,7 @@ public abstract class CountryDataHandler
     };
   }
 
-
+  
   /**
    Create a CountryDataHandler to handle the data of the List of countries
    passed to it.

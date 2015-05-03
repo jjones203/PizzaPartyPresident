@@ -162,19 +162,18 @@ public class World extends AbstractScenario
 
 
   /**
-   * @return percent of world's population that is happy at current world time
+   * @return percent of world's population that is hungry at current world time
    */
-  public double getWorldHappinessPercent()
+  public double getWorldHungerPercent()
   {
-    double unhappyPeople = 0;
+    double hungryPeople = 0;
     int year = getCurrentYear();
     for (Country country : politicalWorld)
     {
-      unhappyPeople += country.getUnhappyPeople(year);
+      hungryPeople += country.getUnhappyPeople(year);
     }
-    double percentUnhappy = unhappyPeople/(getWorldPopulationMil() * 1000000);
-    double percentHappy = 1 - percentUnhappy;
-    return percentHappy;
+    double percentHungry = hungryPeople/(getWorldPopulationMil() * 1000000);
+    return percentHungry;
   }
 
   /**
@@ -259,7 +258,7 @@ public class World extends AbstractScenario
     
     Random ran = new Random();
     int die = ran.nextInt(100)+1;
-    die =1;
+    
     if (DEBUG) System.out.println("Die says "+die);    
        
     if (die>0 && die<11) // 10% chance of drought catastrophe

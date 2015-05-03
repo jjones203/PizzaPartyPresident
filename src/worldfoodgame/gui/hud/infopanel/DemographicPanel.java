@@ -3,7 +3,9 @@ package worldfoodgame.gui.hud.infopanel;
 import worldfoodgame.gui.ColorsAndFonts;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by winston on 3/17/15.
@@ -47,15 +49,30 @@ public class DemographicPanel extends JPanel
   private JPanel getDemoPanel()
   {
     JPanel panel = new JPanel();
-    panel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    JPanel leftPanel = new JPanel();
+    JPanel rightPanel = new JPanel();
 
-    panel.add(labelFactory.getPopulationLabel());
-    panel.add(labelFactory.getMedianAge());
-    panel.add(labelFactory.getBirthRate());
-    panel.add(labelFactory.getMortalityRate());
-    panel.add(labelFactory.getMalnurished());
+    leftPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
-    return panel;
+    leftPanel.add(labelFactory.getPopulationLabel());
+    leftPanel.add(labelFactory.getMedianAge());
+    leftPanel.add(labelFactory.getBirthRate());
+    leftPanel.add(labelFactory.getMortalityRate());
+    leftPanel.add(labelFactory.getMalnurished());
+
+//    BufferedImage smile = labelFactory.getApprovalRating();
+//    if(smile != null)
+//    {
+//      rightPanel.setPreferredSize(new Dimension(smile.getWidth(null),
+//          smile.getHeight(null)));
+//    }
+//    panel.setLayout(new GridLayout(1,4));
+//    panel.add(leftPanel);
+//    panel.add(new JPanel());
+//    panel.add(new JPanel());
+//    panel.add(rightPanel);
+
+    return leftPanel;
   }
 }

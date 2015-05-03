@@ -6,11 +6,13 @@ import worldfoodgame.gui.WorldPresenter;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -27,7 +29,7 @@ public class ProgressControlPanel extends JPanel implements Observer
   private final static int MS_PER_YEAR = 30_000;
  
   private static DecimalFormat
-  happinessP = new DecimalFormat("#.00"),
+  hungryP = new DecimalFormat("#.00"),
   popuLationFormatter = new DecimalFormat("0.0");
   
   private static Color
@@ -40,7 +42,7 @@ public class ProgressControlPanel extends JPanel implements Observer
   private SingleClickButton
     nextYear, run, pause;
   private NumericalLabel
-    currentYear, yearRemaining, population, happiness;
+    currentYear, yearRemaining, population, hungry;
 
   
   /* Game stepping and running objects defined here */
@@ -158,8 +160,8 @@ public class ProgressControlPanel extends JPanel implements Observer
     population = new NumericalLabel("World Population", null);
     add(population);
 
-    happiness = new NumericalLabel("Happiness", null);
-    add(happiness);
+    hungry = new NumericalLabel("Hungry", null);
+    add(hungry);
 
     this.add(controls, BorderLayout.WEST);
     this.update(null, null);
@@ -176,7 +178,7 @@ public class ProgressControlPanel extends JPanel implements Observer
     currentYear.setValString(Integer.toString(worldPresenter.getYear()));
     yearRemaining.setValString(Integer.toString(worldPresenter.yearRemaining()));
     population.setValString(popuLationFormatter.format(worldPresenter.getWorldPopulationMil()) + " Mill");
-    happiness.setValString("% " + happinessP.format(worldPresenter.getHappinessP() * 100));
+    hungry.setValString("% " + hungryP.format(worldPresenter.getHungryPercent() * 100));
   }
 
 

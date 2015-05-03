@@ -52,13 +52,13 @@ public class Flood extends Catastrophe
       double gmoYield = continent.getCropYield(year, crop, EnumGrowMethod.GMO);
       double orgYield = continent.getCropYield(year, crop, EnumGrowMethod.ORGANIC);
 
-      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/2*convYield);
-      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/2*gmoYield);
-      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/2*orgYield);
+      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/4*convYield);
+      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/4*gmoYield);
+      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/4*orgYield);
 
-      System.out.println(crop+" has a conventional yield of "+convYield/2*convYield);
-      System.out.println(crop+" has a GMO yield of "+gmoYield/2*gmoYield);
-      System.out.println(crop+" has a organic yield of "+ orgYield/2*orgYield);
+      System.out.println(crop+" has a conventional yield of "+convYield/4*convYield);
+      System.out.println(crop+" has a GMO yield of "+gmoYield/4*gmoYield);
+      System.out.println(crop+" has a organic yield of "+ orgYield/4*orgYield);
 
     }
 
