@@ -95,17 +95,22 @@ public class ContinentCropAllocator
     }
   }
   
+  /* Sets deforestation to whichever is larger: difference between this year's area planted
+   * and year 0 area planted, or last year's deforestation. (Even if you plant less area
+   * this year than last year, land can't be re-forested.)
+   */
   private void updateDeforestation()
   {
     double startAreaPlanted = continent.getStartAreaPlanted();
+    double lastYearDeforested = continent.getDeforestation(year-1);
     double currAreaPlanted = 0;
     for (Double area:areaToPlant)
     {
       currAreaPlanted += area;
     }
     double areaDeforested = currAreaPlanted - startAreaPlanted;
-    if (areaDeforested < 0) areaDeforested = 0;
-    continent.setDeforestation(year, areaDeforested);
+    if (areaDeforested > lastYearDeforested) continent.setDeforestation(year, areaDeforested);
+    else continent.setDeforestation(year, lastYearDeforested);
   }
   
 }
