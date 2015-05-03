@@ -35,6 +35,7 @@ public class LandTile
   private float proj_rainfall = 0;      /* in cm */
   private MapPoint center;
   private EnumCropType currCrop;
+  private boolean arable;
 
   /**
    Constructor used for initial creation of data set
@@ -282,6 +283,22 @@ public class LandTile
   public void setCurrCrop(EnumCropType crop)
   {
     currCrop = crop;
+  }
+  
+  /**
+   * @return whether arable
+   */
+  public boolean isArable()
+  {
+    return arable;
+  }
+
+  /**
+   * @param arable  whether tile is arable land
+   */
+  public void setArable(boolean arable)
+  {
+    this.arable = arable;
   }
 
   /**
