@@ -305,19 +305,19 @@ public class LabelFactory
 
   public GraphLabel getTradePlayLabel(final EnumCropType type, final TradeBar trade, double limit)
   {
-    final GraphLabel foodControl = new GraphLabel(
+    final GraphLabel foodPlayControl = new GraphLabel(
             type.toString(),
             0,
             limit,
             "#,###,### tons",
             null);
 
-    foodControl.setEffectRunnable(new Runnable()
+    foodPlayControl.setEffectRunnable(new Runnable()
     {
       @Override
       public void run()
       {
-        trade.setCurrentTrade(foodControl.getValue());
+        trade.setCurrentTrade(foodPlayControl.getValue());
         updateLabels();
       }
     });
@@ -327,11 +327,11 @@ public class LabelFactory
       @Override
       public void run()
       {
-        foodControl.setValue(trade.getCurrentTrade());
+        foodPlayControl.setValue(trade.getCurrentTrade());
       }
     });
 
-    return foodControl;
+    return foodPlayControl;
   }
 
   public GraphLabel getTradeContLabel(final EnumCropType type, final TradeBar trade, double limit)
@@ -347,7 +347,6 @@ public class LabelFactory
       @Override
       public void run()
       {
-
         foodControl.setValue(trade.getCurrentTrade());
       }
     });

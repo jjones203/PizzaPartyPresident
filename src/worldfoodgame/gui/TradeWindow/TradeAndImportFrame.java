@@ -67,7 +67,7 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
         continentPanels.add(new ContinentPanel(c, temp, this));
       }
     }
-    saveInitialStates(year);
+    saveInitialStates(year - 1);
     //setLayout(new GridLayout(3, 0));
     setLayout(new BorderLayout());
     add(continentTabPanel, BorderLayout.WEST);
@@ -112,6 +112,12 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
     {
       cS.reset();
     }
+    for (ContinentPanel cP : continentPanels)
+    {
+      cP.redraw();
+    }
+    playerPanel.redraw();
+    tradeBar.redraw();
   }
 
   public void trade(Continent continent, EnumCropType contCrop, EnumCropType playerCrop)

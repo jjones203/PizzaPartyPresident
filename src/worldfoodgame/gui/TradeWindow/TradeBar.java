@@ -98,14 +98,17 @@ public class TradeBar extends JPanel implements ActionListener
     if (input < 0)
     {
       currentTrade = 0;
+      contGL.setValue(0);
     }
     else if (input > currentLimit)
     {
       currentTrade = currentLimit;
+      contGL.setValue(currentLimit);
     }
     else
     {
       currentTrade = input;
+      contGL.setValue(input);
     }
   }
 

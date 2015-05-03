@@ -16,7 +16,7 @@ public class TradeGraphLabel extends JPanel
 {
   private static final int WIDTH = 2000;
   private static final int HEIGHT = 40;
-  private static final int BAR_MAX_LEN = 170;
+  private static final int BAR_MAX_LEN = 250;
   private static final Font labelTypeFace = ColorsAndFonts.GUI_FONT.deriveFont(13.5f);
   private static final Font selectType = ColorsAndFonts.SELECT_FONT.deriveFont(13.5f);
   private final double LIMIT;
@@ -234,7 +234,12 @@ public class TradeGraphLabel extends JPanel
         g2d.fillRect(6, -3, BAR_MAX_LEN, 15);
         g2d.setColor(Color.blue);
         g2d.fillPolygon(xs, ys, 3);
-        if (value > LIMIT)
+        if (value > (LIMIT * 2))
+        {
+          g2d.setColor(surplusBarColor);
+          g2d.fillRect(6, -4, BAR_MAX_LEN, 14);
+        }
+        else if (value > LIMIT)
         {
           barLen = (int) ((((value - LIMIT) / LIMIT) * (BAR_MAX_LEN/2)) + (BAR_MAX_LEN/2));
           g2d.setColor(surplusBarColor);
