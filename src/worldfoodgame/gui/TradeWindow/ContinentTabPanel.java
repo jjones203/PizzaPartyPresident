@@ -30,7 +30,7 @@ public class ContinentTabPanel extends JPanel
   public int hPadding;  // padding must be set before adding tabs.
   private JPanel tabpabel;
   private JPanel contentArea;
-  private HashMap<Tab, Component> tabmap;
+  private HashMap<Tab, ContinentPanel> tabmap;
   private float alpha;
   private Tab currentTab;
 
@@ -47,7 +47,7 @@ public class ContinentTabPanel extends JPanel
     vPadding = 0;
     hPadding = 7;
 
-    setPreferredSize(dimension);
+    //setPreferredSize(dimension);
     setLayout(new BorderLayout());
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
@@ -75,9 +75,11 @@ public class ContinentTabPanel extends JPanel
         if (alpha < 1)
         {
           Graphics2D g2d = (Graphics2D) g;
-          g2d.setComposite(
-                  AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+          //g2d.setComposite(
+           //       AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
           alpha += ALPHA_STEP;
+          g2d.setColor(Color.CYAN);
+          g2d.fillRect(0,0,50,50);
           super.paint(g2d);
         }
         else
@@ -92,12 +94,12 @@ public class ContinentTabPanel extends JPanel
    * Adds a tab and a corresponding JComponent (generally a Jpanel) to the tab
    * panel.
    * @param label string to be displayed in the Tab Panel
-   * @param component component that is displayed when tab is selected.
+   * @param contPanel component that is displayed when tab is selected.
    */
-  public void addTab(String label, Component component)
+  public void addTab(String label, ContinentPanel contPanel)
   {
     Tab tab = new Tab(label);
-    tabmap.put(tab, component);
+    tabmap.put(tab, contPanel);
     tabpabel.add(tab);
   }
 
@@ -140,6 +142,7 @@ public class ContinentTabPanel extends JPanel
 
           getRootPane().revalidate();
           getRootPane().repaint();
+          tabmap.get(Tab.this).redraw();
         }
 
         @Override

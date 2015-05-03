@@ -70,15 +70,16 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
       }
     }
     saveInitialStates(year);
-    setLayout(new GridLayout(3, 0));
-    add(continentTabPanel);
+    //setLayout(new GridLayout(3, 0));
+    setLayout(new BorderLayout());
+    add(continentTabPanel, BorderLayout.WEST);
     for (ContinentPanel cP : continentPanels)
     {
       continentTabPanel.addTab(cP.getContinent().getName().toString(), cP);
     }
-    add(tradeBar);
-    add(playerPanel);
-    add(buttonPanel);
+    add(tradeBar, BorderLayout.CENTER);
+    add(playerPanel, BorderLayout.EAST);
+    add(buttonPanel, BorderLayout.SOUTH);
   }
 
   private void saveInitialStates(int year)

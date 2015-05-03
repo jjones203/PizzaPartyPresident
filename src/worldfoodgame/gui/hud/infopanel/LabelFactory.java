@@ -152,27 +152,6 @@ public class LabelFactory
     return productionLabel;
   }
 
-  public TradeGraphLabel getTradeProdLabel(final EnumCropType type)
-  {
-    final TradeGraphLabel prodLabel = new TradeGraphLabel(
-            type.toString(),
-            dataHandler.getProduction(type),
-            dataHandler.getNeed(type),
-            "#,###,### tons", type
-    );
-
-    updates.add(new Runnable()
-    {
-      @Override
-      public void run()
-      {
-        prodLabel.setValue(dataHandler.getProduction(type));
-      }
-    });
-
-    return prodLabel;
-  }
-
   public GraphLabel getNeedLabel(final EnumCropType type)
   {
     final GraphLabel needLabel = new GraphLabel(
@@ -338,6 +317,7 @@ public class LabelFactory
       @Override
       public void run()
       {
+        System.out.println("Set TradePlayLabel to 0");
         foodControl.setValue(0);
       }
     });
@@ -362,10 +342,32 @@ public class LabelFactory
       @Override
       public void run()
       {
+        System.out.println("Set TradeContLabel to 0");
         foodControl.setValue(0);
       }
     });
 
     return foodControl;
+  }
+
+  public TradeGraphLabel getTradeProdLabel(final EnumCropType type)
+  {
+    final TradeGraphLabel prodLabel = new TradeGraphLabel(
+            type.toString(),
+            dataHandler.getProduction(type),
+            dataHandler.getNeed(type),
+            "#,###,### tons", type
+    );
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        prodLabel.setValue(dataHandler.getProduction(type));
+      }
+    });
+
+    return prodLabel;
   }
 }
