@@ -794,7 +794,11 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
      }
    }
    
-   
+   private void initializeArableTiles()
+   {
+     int numArableTiles = (int) getArableLand(START_YEAR)/1000;
+     
+   }
    
    private void addToCropLand(int year, EnumCropType crop, double area)
    {
