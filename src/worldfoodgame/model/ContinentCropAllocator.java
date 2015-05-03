@@ -102,7 +102,7 @@ public class ContinentCropAllocator
   private void updateDeforestation()
   {
     double startAreaPlanted = continent.getStartAreaPlanted();
-    double lastYearDeforested = continent.getDeforestation(year-1);
+    double lastYearDeforested = continent.getDeforestation(year); //Was originally (year-1), but caused an ArrayIndexOutOfBoundsException
     double currAreaPlanted = 0;
     for (Double area:areaToPlant)
     {

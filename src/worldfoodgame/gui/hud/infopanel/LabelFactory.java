@@ -2,6 +2,8 @@ package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.TradeWindow.TradeGraphLabel;
+import worldfoodgame.model.Continent;
+import worldfoodgame.model.World;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,11 +20,17 @@ public class LabelFactory
 {
   private Collection<Runnable> updates;
   private CountryDataHandler dataHandler;
+  private Continent continent;
 
   public LabelFactory(CountryDataHandler dataHandler)
   {
     this.dataHandler = dataHandler;
     this.updates = new ArrayList<>();
+  }
+
+  public void setContinent(Continent continent)
+  {
+    this.continent = continent;
   }
 
   private void updateLabels()
@@ -354,8 +362,8 @@ public class LabelFactory
   {
     final TradeGraphLabel prodLabel = new TradeGraphLabel(
             type.toString(),
-            dataHandler.getProduction(type),
-            dataHandler.getNeed(type),
+            continent.getCropProduction(World.getWorld().getCurrentYear(), type),
+            continent.getTotalCropNeed(World.getWorld().getCurrentYear(), type),
             "#,###,### tons", type
     );
 
@@ -364,7 +372,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        prodLabel.setValue(dataHandler.getProduction(type));
+        prodLabel.setValue(continent.getCropProduction(World.getWorld().getCurrentYear(), type));
       }
     });
 

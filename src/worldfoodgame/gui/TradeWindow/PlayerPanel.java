@@ -38,6 +38,7 @@ public class PlayerPanel extends JPanel
   public void setLabelFactory(LabelFactory labelFactory)
   {
     this.labelFactory = labelFactory;
+    labelFactory.setContinent(player.getContinent());
     redraw();
   }
 

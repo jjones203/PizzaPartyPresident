@@ -25,6 +25,7 @@ public class ContinentPanel extends JPanel
     this.continent = continent;
     this.labelFactory = labelFactory;
     this.parent = parent;
+    labelFactory.setContinent(continent);
     redraw();
   }
 
