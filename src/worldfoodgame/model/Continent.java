@@ -741,7 +741,14 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
        else sumOtherMethods += getMethodPercentage(year,growMethod);
      }
      double delta = percentage - currentThisMethod;
-     double maxPossible = 1 - sumOtherMethods;
+     double maxPossible;
+     // GMO research affects how much GMO you can plant
+     if (method == EnumGrowMethod.GMO)
+     {  
+       double limit = getPlanningPointsFactor(PlanningPointCategory.GMOResistance); 
+       maxPossible = Math.min(limit, 1 - sumOtherMethods);
+     }
+     else maxPossible = 1 - sumOtherMethods;
      double valueToSet;
      
      // if trying to decrease beyond 0, set to 0
@@ -863,11 +870,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    
    private void initializeTiles()
    {
-     //List<LandTile> tileList = new ArrayList<LandTile>(landTiles);
-     //Collections.sort(tileList, new LatComparator());
-     Collections.sort(landTiles, new LonComparator());
-     
-     
+     Collections.sort(landTiles, new LonComparator()); 
      int numArableTiles = (int) getArableLand(START_YEAR)/100;
      
      for (int i = 0; i < numArableTiles; i++)
@@ -1081,22 +1084,6 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     public int compare(LandTile tile1, LandTile tile2)
     {
       double diff = tile1.getLon() - tile2.getLon();
-      if (diff > 0) return 1;
-      else if (diff < 0) return -1;
-      else return 0;
-    } 
-  }
-  
-  /**
-   * Class for sorting land tiles by latitude
-   * (unsorted, they are grouped by country)
-   * @author jessica
-   */
-  class LatComparator implements Comparator<LandTile>
-  {
-    public int compare(LandTile tile1, LandTile tile2)
-    {
-      double diff = tile1.getLat() - tile2.getLat();
       if (diff > 0) return 1;
       else if (diff < 0) return -1;
       else return 0;
