@@ -1,6 +1,7 @@
 package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.common.EnumCropType;
+import worldfoodgame.common.EnumGrowMethod;
 import worldfoodgame.gui.ColorsAndFonts;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,7 @@ public class CropPanel extends JPanel
 {
   private final EnumCropType type;
   private LabelFactory labelFactory;
+  private boolean hasPlayer = false;
 
   public CropPanel(LabelFactory labelFactory, EnumCropType type)
   {
@@ -33,6 +35,11 @@ public class CropPanel extends JPanel
   public LabelFactory getLabelFactory()
   {
     return labelFactory;
+  }
+
+  public void setHasPlayer(boolean input)
+  {
+    hasPlayer = input;
   }
 
   public void setLabelFactory(LabelFactory labelFactory)
@@ -75,8 +82,21 @@ public class CropPanel extends JPanel
     JPanel landUse = new JPanel();
     landUse.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     landUse.setLayout(new BoxLayout(landUse, BoxLayout.Y_AXIS));
-    landUse.add(labelFactory.getLandLabel(type));
-    landUse.add(labelFactory.getOpenLandLabel());
+    if (hasPlayer)
+    {
+      landUse.add(labelFactory.getStaticLandLabel(type));
+      landUse.add(labelFactory.getGrowMethodLabel(EnumGrowMethod.CONVENTIONAL));
+      landUse.add(labelFactory.getGrowMethodLabel(EnumGrowMethod.GMO));
+      landUse.add(labelFactory.getGrowMethodLabel(EnumGrowMethod.ORGANIC));
+      //landUse.add(labelFactory.getOpenLandLabel());
+    }
+    else
+    {
+      landUse.add(labelFactory.getStaticLandLabel(type));
+      landUse.add(labelFactory.getStaticGrowMethodLabel(EnumGrowMethod.CONVENTIONAL));
+      landUse.add(labelFactory.getStaticGrowMethodLabel(EnumGrowMethod.GMO));
+      landUse.add(labelFactory.getStaticGrowMethodLabel(EnumGrowMethod.ORGANIC));
+    }
     return landUse;
   }
 

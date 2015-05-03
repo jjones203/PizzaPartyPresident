@@ -15,7 +15,7 @@ public interface CropClimateData
   int RICE_NIGHT_TEMP = 20;
   int RICE_MAX_RAIN = 400;
   int RICE_MIN_RAIN = 70;
-  double RICE_WATER_USE = 264276959;
+  double RICE_WATER_USE = 264276959; //amount of water (gals) per km2
   
   int WHEAT_MAX_TEMP = 45; 
   int WHEAT_MIN_TEMP = -20;

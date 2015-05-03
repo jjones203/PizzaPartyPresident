@@ -1,6 +1,7 @@
 package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.common.EnumCropType;
+import worldfoodgame.common.EnumGrowMethod;
 import worldfoodgame.gui.TradeWindow.TradeGraphLabel;
 import worldfoodgame.model.Continent;
 import worldfoodgame.model.Country;
@@ -198,6 +199,100 @@ public class LabelFactory
     return needLabel;
   }
 
+  public GraphLabel getGrowMethodLabel(final EnumGrowMethod grow)
+  {
+    double val;
+    if (continent == null)
+    {
+      val = 0;
+    }
+    else
+    {
+      val = continent.getMethodPercentage(World.getWorld().getCurrentYear(), grow);
+    }
+    if (val < 0) val = 0;
+
+    final GraphLabel methodControll = new GraphLabel(
+            grow.toString(),
+            val,
+            1,
+            "% 00.0",
+            null);
+
+    methodControll.setEffectRunnable(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        if (continent == null)
+        {
+          //do nothing?
+        }
+        else
+        {
+          continent.updateMethodPercentage(World.getWorld().getCurrentYear(), grow, methodControll.getValue());
+        }
+        updateLabels();
+      }
+    });
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        if (continent == null)
+        {
+          methodControll.setValue(0);
+        }
+        else
+        {
+          methodControll.setValue(continent.getMethodPercentage(World.getWorld().getCurrentYear(), grow));
+        }
+      }
+    });
+
+    return methodControll;
+  }
+
+  public GraphLabel getStaticGrowMethodLabel(final EnumGrowMethod grow)
+  {
+    double val;
+    if (continent == null)
+    {
+      val = 0;
+    }
+    else
+    {
+      val = continent.getMethodPercentage(World.getWorld().getCurrentYear(), grow);
+    }
+    if (val < 0) val = 0;
+
+    final GraphLabel methodControll = new GraphLabel(
+            grow.toString(),
+            val,
+            1,
+            "% 00.0");
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        if (continent == null)
+        {
+          methodControll.setValue(0);
+        }
+        else
+        {
+          methodControll.setValue(continent.getMethodPercentage(World.getWorld().getCurrentYear(), grow));
+        }
+      }
+    });
+
+    return methodControll;
+  }
+
   public GraphLabel getLandLabel(final EnumCropType type)
   {
     double val;
@@ -253,6 +348,34 @@ public class LabelFactory
 
     return openLandLabel;
   }
+
+  public GraphLabel getStaticLandLabel(final EnumCropType type)
+  {
+    final GraphLabel foodControll = new GraphLabel(
+            type.toString() + " land",
+            dataHandler.getCropLand(type),
+            dataHandler.getArable(),
+            "#,###,### " + "sq");
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        foodControll.setValue(dataHandler.getCropLand(type));
+      }
+    });
+
+    return foodControll;
+  }
+/*
+  public GraphLabel getWaterLabel()
+  {
+    final GraphLabel waterControll = new GraphLabel(
+            "Water Allowance Remaining",
+            continent.getWaterAllowance()
+    )
+  }*/
 
   public GraphLabel getExportedLabel(final EnumCropType type)
   {

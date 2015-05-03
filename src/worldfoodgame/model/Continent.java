@@ -37,8 +37,10 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   private Color color;
 
   protected double waterAllowance;
-  protected double rainfall;
+  protected double avgRainfall;
+  protected double continentRainfall;
   protected double GAL_CM_CUBED = 2641.720524;
+  protected double continentLandTileNum;
 
   protected int[] population = new int[YEARS_OF_SIM];       //in people
   protected double[] undernourish = new double[YEARS_OF_SIM];  // percentage of population. 0.50 is 50%.
@@ -161,18 +163,44 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     }
 
     // add tiles
+    continentLandTileNum += country.getLandTiles().size();
     landTiles.addAll(country.getLandTiles());
 
-    rainfall = calcRainfall();
+    // calculate average rainfall for the country
+
+    double rain = 0.0;
+    for(LandTile tile: country.getLandTiles())
+    {
+      rain += (double)tile.getRainfall();
+    }
+    continentRainfall += (rain * GAL_CM_CUBED);
+    avgRainfall = (rain / continentLandTileNum) * GAL_CM_CUBED;
+
     waterAllowance += country.getWaterAllowance();
-    System.out.println("Avg rainfall is: " + rainfall + "gals per land tile."
+    System.out.println("Avg rainfall is: " + avgRainfall + "gals per land tile."
                        + "\nCrop water allowance is: " + waterAllowance + "gallons.");
     landTotal += country.getLandTotal(START_YEAR);
-    waterAllowance -=  rainfall;
+    waterAllowance -=  avgRainfall;
     System.out.println("\tAdjusted water allowance is: " + waterAllowance);
     countriesOrganicTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.ORGANIC);
     countriesGmoTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.GMO);
     countriesUndernourishedTotal += country.getUndernourished(START_YEAR);
+
+    // calculate average rainfall over the country
+/*
+    private double calcRainfall()
+    {
+      double rain = 0.0;
+      int tileNum = landTiles.size();
+      for(LandTile tile: landTiles)
+      {
+        rain += (double)tile.getRainfall();
+      }
+
+      return (rain / tileNum) * GAL_CM_CUBED;
+    }
+*/
+
   }
 
   /**
@@ -220,20 +248,6 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     calculateDiplomacyRating(START_YEAR);
   }
  
-
-  // calculate average rainfall over the continent
-  private double calcRainfall()
-  {
-    double rain = 0.0;
-    int tileNum = landTiles.size();
-    for(LandTile tile: landTiles)
-    {
-      rain += (double)tile.getRainfall();
-    }
-
-    return (rain / tileNum) * GAL_CM_CUBED;
-  }
-  
 
   public EnumContinentNames getName()
   {
@@ -365,6 +379,15 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public void setWaterAllowance(double waterAllowance)
   {
     this.waterAllowance = waterAllowance;
+  }
+
+  /**
+   * Allows the gui to pull the continent's annual rainfall, to use in planting crops.
+   * @return  The total gallons of water provided to the continent annually.
+   */
+  public double getRainfall()
+  {
+    return continentRainfall;
   }
 
   /**
@@ -602,27 +625,72 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double currCropLand = getCropLand(year, crop);
     double delta = kilomsq - currCropLand;
     double valueToSet;
-
-    // if trying to decrease beyond 0, set to 0
-    if ((currCropLand + delta) < 0)
-    {
-      valueToSet = 0;
-    }
-    // else if trying to increase by amount greater than available, set to current + available
-    else if (delta > unused)
-    {
-      valueToSet = currCropLand + unused;
-    }
-    // else set to curr + delta
-    else
-    {
-      valueToSet = currCropLand + delta;
-    }
-    for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
-    {
-      landCrop[crop.ordinal()][i] = valueToSet;
-    }
   }
+  
+   /**
+    * Set cultivation method %; use when initializing
+    * @param method     cultivation method
+    * @param percentage % land cultivated by method
+    */
+   public void setMethodPercentage(EnumGrowMethod method, double percentage)
+   {
+     if (percentage >= 0 && percentage <= 1)
+     {
+       for (int i = 0; i < (YEARS_OF_SIM); i++)
+       {
+         cultivationMethod[method.ordinal()][i] = percentage;
+       }
+     }
+     else
+     {
+       if (VERBOSE)
+       {
+         System.err.println("Invalid argument for Continent.setMethodPercentage method");
+       }
+     }
+   }
+   
+   public void updateMethodPercentage(int year, EnumGrowMethod method, double percentage)
+   {
+     // what % of land under other cultivation methods, this method
+     double sumOtherMethods = 0;
+     double currentThisMethod = 0;
+     for (EnumGrowMethod growMethod:EnumGrowMethod.values())
+     {
+       if (growMethod == method) currentThisMethod =  getMethodPercentage(year,growMethod);
+       else sumOtherMethods += getMethodPercentage(year,growMethod);
+     }
+     double delta = percentage - currentThisMethod;
+     double maxPossible;
+     // GMO research affects how much GMO you can plant
+     if (method == EnumGrowMethod.GMO)
+     {  
+       double limit = getPlanningPointsFactor(PlanningPointCategory.GMOResistance); 
+       maxPossible = Math.min(limit, 1 - sumOtherMethods);
+     }
+     else maxPossible = 1 - sumOtherMethods;
+     double valueToSet;
+     
+     // if trying to decrease beyond 0, set to 0
+     if ((currentThisMethod + delta) < 0)
+     {
+       valueToSet = 0;
+     }
+     // else if trying to increase by amount greater than maxPossible, set to maxPossible
+     else if ((currentThisMethod + delta) > maxPossible)
+     {
+       valueToSet = maxPossible;
+     }
+     // else set to current + delta
+     else
+     {
+       valueToSet = currentThisMethod + delta;
+     }
+     for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
+     {
+       cultivationMethod[method.ordinal()][i] = valueToSet;
+     }
+   }
 
   /**
    * Returns conventional crop yield; 
@@ -710,64 +778,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     return cultivationMethod[method.ordinal()][year - START_YEAR];
   }
 
-  /**
-   * Set cultivation method %; use when initializing
-   * @param method     cultivation method
-   * @param percentage % land cultivated by method
-   */
-  public void setMethodPercentage(EnumGrowMethod method, double percentage)
-  {
-    if (percentage >= 0 && percentage <= 1)
-    {
-      for (int i = 0; i < (YEARS_OF_SIM); i++)
-      {
-        cultivationMethod[method.ordinal()][i] = percentage;
-      }
-    }
-    else
-    {
-      if (VERBOSE)
-      {
-        System.err.println("Invalid argument for Continent.setMethodPercentage method");
-      }
-    }
-  }
-
-  public void updateMethodPercentage(int year, EnumGrowMethod method, double percentage)
-  {
-    // what % of land under other cultivation methods, this method
-    double sumOtherMethods = 0;
-    double currentThisMethod = 0;
-    for (EnumGrowMethod growMethod:EnumGrowMethod.values())
-    {
-      if (growMethod == method) currentThisMethod =  getMethodPercentage(year,growMethod);
-      else sumOtherMethods += getMethodPercentage(year,growMethod);
-    }
-    double delta = percentage - currentThisMethod;
-    double maxPossible = 1 - sumOtherMethods;
-    double valueToSet;
-
-    // if trying to decrease beyond 0, set to 0
-    if ((currentThisMethod + delta) < 0)
-    {
-      valueToSet = 0;
-    }
-    // else if trying to increase by amount greater than maxPossible, set to maxPossible
-    else if ((currentThisMethod + delta) > maxPossible)
-    {
-      valueToSet = maxPossible;
-    }
-    // else set to current + delta
-    else
-    {
-      valueToSet = currentThisMethod + delta;
-    }
-    for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
-    {
-      cultivationMethod[method.ordinal()][i] = valueToSet;
-    }
-  }
-
+  
   public boolean contains(Country country)
   {
     /*for (Country c : countries)
@@ -867,11 +878,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    
    private void initializeTiles()
    {
-     //List<LandTile> tileList = new ArrayList<LandTile>(landTiles);
-     //Collections.sort(tileList, new LatComparator());
-     Collections.sort(landTiles, new LonComparator());
-     
-     
+     Collections.sort(landTiles, new LonComparator()); 
      int numArableTiles = (int) getArableLand(START_YEAR)/100;
      
      for (int i = 0; i < numArableTiles; i++)
@@ -1120,22 +1127,6 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     public int compare(LandTile tile1, LandTile tile2)
     {
       double diff = tile1.getLon() - tile2.getLon();
-      if (diff > 0) return 1;
-      else if (diff < 0) return -1;
-      else return 0;
-    } 
-  }
-  
-  /**
-   * Class for sorting land tiles by latitude
-   * (unsorted, they are grouped by country)
-   * @author jessica
-   */
-  class LatComparator implements Comparator<LandTile>
-  {
-    public int compare(LandTile tile1, LandTile tile2)
-    {
-      double diff = tile1.getLat() - tile2.getLat();
       if (diff > 0) return 1;
       else if (diff < 0) return -1;
       else return 0;

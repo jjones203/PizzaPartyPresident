@@ -15,6 +15,7 @@ import java.awt.*;
 public class LandPanel extends JPanel
 {
   private CountryDataHandler dataHandler;
+  private boolean hasPlayer = false;
 
   public LabelFactory getLabelFactory()
   {
@@ -39,6 +40,11 @@ public class LandPanel extends JPanel
     redraw();
   }
 
+  public void setHasPlayer(boolean input)
+  {
+    hasPlayer = input;
+  }
+
   public void redraw()
   {
     this.removeAll();
@@ -52,12 +58,20 @@ public class LandPanel extends JPanel
     JPanel cropView = new JPanel();
     cropView.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     cropView.setLayout(new BoxLayout(cropView, BoxLayout.Y_AXIS));
-
-    for (EnumCropType crop : EnumCropType.values())
+    if (hasPlayer)
     {
-      cropView.add(labelFactory.getLandLabel(crop));
+      for (EnumCropType crop : EnumCropType.values())
+      {
+        cropView.add(labelFactory.getLandLabel(crop));
+      }
     }
-
+    else
+    {
+      for (EnumCropType crop : EnumCropType.values())
+      {
+        cropView.add(labelFactory.getStaticLandLabel(crop));
+      }
+    }
     return cropView;
   }
 
