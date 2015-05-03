@@ -6,6 +6,7 @@ import worldfoodgame.gui.hud.MiniViewBox;
 import worldfoodgame.gui.hud.PieChart;
 import worldfoodgame.model.Country;
 import worldfoodgame.model.Continent;
+import worldfoodgame.model.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +30,7 @@ public class InfoPanel extends JPanel implements Observer
   private TabbedPanel OuterTabbedPanel;
   private DemographicPanel demographicPanel;
   private LandPanel landPanel;
+  private Player player;
 
   //private MiniViewBox viewBox;
   private PieChart pieChart;
@@ -36,9 +38,9 @@ public class InfoPanel extends JPanel implements Observer
   private TabbedPanel innerTabbedPanel;
   private HashMap<EnumCropType, CropPanel> cropPanels;
 
-  public InfoPanel(WorldPresenter worldPresenter)
+  public InfoPanel(WorldPresenter worldPresenter, Player player)
   {
-
+    this.player = player;
     this.dataHandler = CountryDataHandler.getNullData();
     this.worldPresenter = worldPresenter;
     this.labelFactory = new LabelFactory(dataHandler);
@@ -109,7 +111,23 @@ public class InfoPanel extends JPanel implements Observer
     pieChart.setRegions(worldPresenter.getActiveRegions());
 
     labelFactory = new LabelFactory(dataHandler);
-
+    if(continentArrayList.size() == 1)
+    {
+      labelFactory.setContinent(continentArrayList.get(0));
+      if (continentArrayList.get(0) == player.getContinent())
+      {
+        landPanel.setHasPlayer(true);
+      }
+      else
+      {
+        landPanel.setHasPlayer(false);
+      }
+    }
+    else if (continentArrayList.size() > 1)
+    {
+      System.out.println("ERROR: Trying to select multiple continents!!");
+      labelFactory.setContinent(continentArrayList.get(0));
+    }
     landPanel.setLabelFactory(labelFactory);
     landPanel.redraw();
 
@@ -120,6 +138,17 @@ public class InfoPanel extends JPanel implements Observer
     {
       CropPanel panel = cropPanels.get(type);
       panel.setLabelFactory(labelFactory);
+      if(continentArrayList.size() == 1)
+      {
+        if (continentArrayList.get(0) == player.getContinent())
+        {
+          panel.setHasPlayer(true);
+        }
+        else
+        {
+          panel.setHasPlayer(false);
+        }
+      }
       panel.redraw();
     }
   }

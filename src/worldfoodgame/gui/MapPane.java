@@ -254,7 +254,7 @@ public class MapPane extends JPanel
         isRIGHTdepressed = true;
         break;
       case SHIFT:
-        isSHIFTdepressed = true;
+        //isSHIFTdepressed = true;
         break;
       default:
         /* do nothing.  Other keys are interpreted by keybindings
