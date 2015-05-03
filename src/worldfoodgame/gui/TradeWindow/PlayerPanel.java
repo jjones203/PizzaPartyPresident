@@ -32,7 +32,7 @@ public class PlayerPanel extends JPanel
     this.parent = parent;
     setPreferredSize(dimension);
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    setLayout(new GridLayout(0, 3));
+    setLayout(new FlowLayout());
   }
 
   public void setLabelFactory(LabelFactory labelFactory)
@@ -44,7 +44,7 @@ public class PlayerPanel extends JPanel
 
   public void chooseCrop(EnumCropType crop)
   {
-    parent.newPlayerCrop(labelFactory.getTradePlayLabel(crop));
+    parent.newPlayerCrop(labelFactory, crop);
   }
 
   public void chooseCrop()

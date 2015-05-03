@@ -161,15 +161,15 @@ public class PieChart extends JPanel
         for (Continent cont : continents)
         {
           needTotals[0] = needTotals[0] + cont.getTotalCropNeed(year, EnumCropType.CORN);
-          actualTotals[0] = actualTotals[0] + cont.getProduction(year, EnumCropType.CORN);
+          actualTotals[0] = actualTotals[0] + cont.getCropProduction(year, EnumCropType.CORN);
           needTotals[1] = needTotals[1] + cont.getTotalCropNeed(year, EnumCropType.WHEAT);
-          actualTotals[1] = actualTotals[1] + cont.getProduction(year, EnumCropType.WHEAT);
+          actualTotals[1] = actualTotals[1] + cont.getCropProduction(year, EnumCropType.WHEAT);
           needTotals[2] = needTotals[2] + cont.getTotalCropNeed(year, EnumCropType.SOY);
-          actualTotals[2] = actualTotals[2] + cont.getProduction(year, EnumCropType.SOY);
+          actualTotals[2] = actualTotals[2] + cont.getCropProduction(year, EnumCropType.SOY);
           needTotals[3] = needTotals[3] + cont.getTotalCropNeed(year, EnumCropType.RICE);
-          actualTotals[3] = actualTotals[3] + cont.getProduction(year, EnumCropType.RICE);
+          actualTotals[3] = actualTotals[3] + cont.getCropProduction(year, EnumCropType.RICE);
           needTotals[4] = needTotals[4] + cont.getTotalCropNeed(year, EnumCropType.OTHER_CROPS);
-          actualTotals[4] = actualTotals[4] + cont.getProduction(year, EnumCropType.OTHER_CROPS);
+          actualTotals[4] = actualTotals[4] + cont.getCropProduction(year, EnumCropType.OTHER_CROPS);
         }
         slices.add(new CropSlice(needTotals[0], actualTotals[0], EnumCropType.CORN, Color.BLUE));
         slices.add(new CropSlice(needTotals[1], actualTotals[1], EnumCropType.WHEAT, Color.GREEN));

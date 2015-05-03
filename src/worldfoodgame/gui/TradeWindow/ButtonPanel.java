@@ -3,22 +3,19 @@ import worldfoodgame.gui.ColorsAndFonts;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Tim on 4/24/15.
  */
-public class ButtonPanel extends JPanel
+public class ButtonPanel extends JPanel implements ActionListener
 {
   private final TradeAndImportFrame parent;
   private JButton reset = new JButton("Reset All Trades");
   private JButton cont = new JButton("Done Trading");
   //This isn't important right now.
   //private JRadioButton units = new JRadioButton();
-  public static final Color ROLLOVER_C = Color.WHITE;
-  public static final Color SELECTED_C = Color.RED.darker();
-  public static final Color TEXT_DEFAULT_COLOR = ColorsAndFonts.GUI_TEXT_COLOR;
-  public static final Color BACKGROUND_COLOR = ColorsAndFonts.GUI_BACKGROUND;
-  public static final Font TAB_FONT = ColorsAndFonts.GUI_FONT;
 
   public ButtonPanel (Dimension dimension, TradeAndImportFrame parent)
   {
@@ -28,5 +25,20 @@ public class ButtonPanel extends JPanel
     setLayout(new FlowLayout());
     add(reset);
     add(cont);
+    reset.addActionListener(this);
+    cont.addActionListener(this);
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e)
+  {
+    if (e.getSource() == reset)
+    {
+      parent.reset();
+    }
+    else if (e.getSource() == cont)
+    {
+      parent.endTrading();
+    }
   }
 }

@@ -236,13 +236,13 @@ public class TradeGraphLabel extends JPanel
         g2d.fillPolygon(xs, ys, 3);
         if (value > LIMIT)
         {
-          barLen = (int) (((value - LIMIT) / LIMIT * (BAR_MAX_LEN/2)) + (BAR_MAX_LEN/2));
+          barLen = (int) ((((value - LIMIT) / LIMIT) * (BAR_MAX_LEN/2)) + (BAR_MAX_LEN/2));
           g2d.setColor(surplusBarColor);
           g2d.fillRect(6, -4, barLen, 14);
         }
         else
         {
-          barLen = (int) (value / LIMIT * (BAR_MAX_LEN/2));
+          barLen = (int) ((value / LIMIT) * (BAR_MAX_LEN/2));
           g2d.setColor(deficientBarColor);
           g2d.fillRect(6, -4, barLen, 14);
         }

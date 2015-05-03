@@ -1,7 +1,10 @@
 package worldfoodgame.gui.TradeWindow;
 
+import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.hud.infopanel.GraphLabel;
+import worldfoodgame.gui.hud.infopanel.LabelFactory;
+import worldfoodgame.model.World;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +20,13 @@ public class TradeBar extends JPanel implements ActionListener
   private final TradeAndImportFrame parent;
   private GraphLabel playerGL;
   private GraphLabel contGL;
-  private boolean continentCrop = false;
-  private boolean playerCrop = false;
+  private LabelFactory playerLF;
+  private LabelFactory contLF;
+  private EnumCropType playerCrop;
+  private EnumCropType contCrop;
+  private double currentTrade = 0;
+  private boolean hasContinent = false;
+  private boolean hasPlayer = false;
   public static final Color ROLLOVER_C = Color.WHITE;
   public static final Color SELECTED_C = Color.RED.darker();
   public static final Color TEXT_DEFAULT_COLOR = ColorsAndFonts.GUI_TEXT_COLOR;
@@ -35,37 +43,49 @@ public class TradeBar extends JPanel implements ActionListener
     redraw();
   }
 
-  public void setPlayerBar(GraphLabel gl)
+  public void setPlayerBar(LabelFactory playerLF, EnumCropType crop)
   {
-    playerCrop = true;
-    playerGL = gl;
-    if (continentCrop)
+    hasPlayer = true;
+    playerGL = playerLF.getTradePlayLabel(crop, this);
+    if (hasContinent)
     {
       contGL.setValue(0);
+      playerGL.setLimit(contGL.getLimit());
     }
+    currentTrade = 0;
     redraw();
   }
 
-  public void setContinentBar(GraphLabel gl)
+  public void setContinentBar(LabelFactory contLF, EnumCropType crop)
   {
-    continentCrop = true;
-    contGL = gl;
-    if (playerCrop)
+    this.contLF = contLF;
+    contCrop = crop;
+    hasContinent = true;
+    contGL = contLF.getTradeContLabel(crop, this);
+    double temp = contLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, crop);
+    temp = temp - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear()-1, crop);
+    if (temp < 0)
+    {
+      temp = 0;
+    }
+    contGL.setLimit(temp);
+    if (hasPlayer)
     {
       playerGL.setValue(0);
       playerGL.setLimit(contGL.getLimit());
     }
+    currentTrade = 0;
     redraw();
   }
 
   public void redraw ()
   {
     removeAll();
-    if (playerCrop)
+    if (hasPlayer)
     {
       add(playerGL, BorderLayout.EAST);
     }
-    if (continentCrop)
+    if (hasContinent)
     {
       add(contGL, BorderLayout.WEST);
     }
@@ -73,12 +93,41 @@ public class TradeBar extends JPanel implements ActionListener
     validate();
   }
 
+  public void setCurrentTrade(double input)
+  {
+    if (input < 0)
+    {
+      currentTrade = 0;
+    }
+    else
+    {
+      currentTrade = input;
+    }
+  }
+
+  public double getCurrentTrade()
+  {
+    return currentTrade;
+  }
+
   @Override
   public void actionPerformed(ActionEvent e)
   {
-    if (playerCrop && continentCrop)
+    if (hasPlayer && hasContinent && e.getSource() == makeTrade)
     {
-      parent.trade();
+      parent.trade(contLF.getContinent(), contCrop, playerCrop);
+      playerGL = playerLF.getTradePlayLabel(playerCrop, this);
+      contGL = contLF.getTradeContLabel(contCrop, this);
+      double temp = contLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, contCrop);
+      temp = temp - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear()-1, contCrop);
+      if (temp < 0)
+      {
+        temp = 0;
+      }
+      contGL.setLimit(temp);
+      playerGL.setLimit(contGL.getLimit());
+      currentTrade = 0;
+      redraw();
     }
   }
 }

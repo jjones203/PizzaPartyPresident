@@ -4,6 +4,7 @@ import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.TradeWindow.TradeGraphLabel;
 import worldfoodgame.model.Continent;
 import worldfoodgame.model.World;
+import worldfoodgame.gui.TradeWindow.TradeBar;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +32,11 @@ public class LabelFactory
   public void setContinent(Continent continent)
   {
     this.continent = continent;
+  }
+
+  public Continent getContinent()
+  {
+    return continent;
   }
 
   private void updateLabels()
@@ -297,7 +303,7 @@ public class LabelFactory
     return malnurishedLab;
   }
 
-  public GraphLabel getTradePlayLabel(final EnumCropType type)
+  public GraphLabel getTradePlayLabel(final EnumCropType type, final TradeBar trade)
   {
     double val;
     if (dataHandler.getProduction(type) <= 0) val = 0;
@@ -316,6 +322,8 @@ public class LabelFactory
       public void run()
       {
         //dataHandler.setLand(type, foodControl.getValue() * dataHandler.getArable());
+        //continent.setCropProduction(World.getWorld().getCurrentYear()-1, type, foodControl.getValue());
+        trade.setCurrentTrade(foodControl.getValue());
         updateLabels();
       }
     });
@@ -325,15 +333,14 @@ public class LabelFactory
       @Override
       public void run()
       {
-        System.out.println("Set TradePlayLabel to 0");
-        foodControl.setValue(0);
+        foodControl.setValue(trade.getCurrentTrade());
       }
     });
 
     return foodControl;
   }
 
-  public GraphLabel getTradeContLabel(final EnumCropType type)
+  public GraphLabel getTradeContLabel(final EnumCropType type, final TradeBar trade)
   {
     double val;
     if ((dataHandler.getProduction(type) - dataHandler.getNeed(type)) <= 0) val = 0;
@@ -350,8 +357,8 @@ public class LabelFactory
       @Override
       public void run()
       {
-        System.out.println("Set TradeContLabel to 0");
-        foodControl.setValue(0);
+
+        foodControl.setValue(trade.getCurrentTrade());
       }
     });
 
@@ -362,8 +369,8 @@ public class LabelFactory
   {
     final TradeGraphLabel prodLabel = new TradeGraphLabel(
             type.toString(),
-            continent.getCropProduction(World.getWorld().getCurrentYear(), type),
-            continent.getTotalCropNeed(World.getWorld().getCurrentYear(), type),
+            continent.getCropProduction(World.getWorld().getCurrentYear()-1, type),
+            continent.getTotalCropNeed(World.getWorld().getCurrentYear()-1, type),
             "#,###,### tons", type
     );
 
@@ -372,7 +379,7 @@ public class LabelFactory
       @Override
       public void run()
       {
-        prodLabel.setValue(continent.getCropProduction(World.getWorld().getCurrentYear(), type));
+        prodLabel.setValue(continent.getCropProduction(World.getWorld().getCurrentYear()-1, type));
       }
     });
 
