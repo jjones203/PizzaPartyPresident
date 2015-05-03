@@ -265,7 +265,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     return population[year - START_YEAR];
   }
 
-  public double getHungry(int year)
+  public double getUndernourished(int year)
   {
     return undernourish[year - START_YEAR];
   }
@@ -278,7 +278,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     }
   }
 
-  public void updateHungry(int year)
+  public void updateUndernourished(int year)
   {
     double surplusTons = 0;
     double deficitTons = 0;
@@ -1021,7 +1021,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     System.out.println("Continent name is "+toString());
     System.out.println("Total land is "+getTotalLand());
     System.out.println("Population "+getPopulation(year));
-    System.out.println("Hungry % is "+getHungry(year));
+    System.out.println("Hungry % is "+getUndernourished(year));
     for (EnumCropType crop:EnumCropType.values())
     {
       System.out.println("Pizza preference for "+crop+" is "+getPizzaPreference(crop));
