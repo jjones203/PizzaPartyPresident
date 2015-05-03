@@ -49,19 +49,31 @@ public interface ColorsAndFonts
   Font SELECT_FONT = new Font("Dialog", Font.ITALIC, 11);
 
   Color MINI_BOX_REGION = new Color(222, 183, 106);
-
+  
+  /* see below for new values
   Color WHEAT_COLOR      = new Color(123, 80, 9, 220);
   Color RICE_COLOR       = new Color(199, 220, 214, 220);
   Color CORN_COLOR       = new Color(244, 210, 17, 220);
   Color OTHER_CROP_COLOR = new Color(132, 49, 51, 220);
   Color SOY_COLOR        = new Color(70, 148, 36, 220);
-
+  */  
+  
   Color PEPPERS_COLOR   = new Color(24, 199, 68, 220);
   Color TOMATOES_COLOR  = new Color(247, 32, 32, 220);
   Color MUSHROOMS_COLOR = new Color(237, 221, 187, 220);
   Color PEPPERONI_COLOR = new Color(204, 78, 29, 220);
   Color PINEAPPLE_COLOR = new Color(239, 255, 94, 220);
+  Color UNPLANTED_COLOR = new Color(255, 178, 102, 220);
+  Color NONARABLE_COLOR = new Color(160, 160, 160, 220);
+  
 
+  // adjust color settings for new crops
+  Color WHEAT_COLOR      = TOMATOES_COLOR;
+  Color RICE_COLOR       = PINEAPPLE_COLOR;
+  Color CORN_COLOR       = PEPPERS_COLOR;
+  Color OTHER_CROP_COLOR = PEPPERONI_COLOR;
+  Color SOY_COLOR        = MUSHROOMS_COLOR;
+  
   Color N_AMERICA   = new Color(24, 199, 68, 220);
   Color S_AMERICA  = new Color(247, 32, 32, 220);
   Color ASIA = new Color(255, 51, 153, 220);

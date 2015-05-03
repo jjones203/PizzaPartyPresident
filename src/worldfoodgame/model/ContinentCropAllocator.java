@@ -64,8 +64,11 @@ public class ContinentCropAllocator
       while (tilesToPlant > 0 && tileItr.hasNext())
       {
         LandTile tile = (LandTile) tileItr.next();
-        tile.setCurrCrop(crop);
-        tilesToPlant--;
+        if (tile.isArable())
+        {
+          tile.setCurrCrop(crop);
+          tilesToPlant--;
+        }
       }
       cropIndex++;
     }
