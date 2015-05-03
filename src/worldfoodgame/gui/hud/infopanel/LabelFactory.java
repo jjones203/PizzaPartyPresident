@@ -303,16 +303,12 @@ public class LabelFactory
     return malnurishedLab;
   }
 
-  public GraphLabel getTradePlayLabel(final EnumCropType type, final TradeBar trade)
+  public GraphLabel getTradePlayLabel(final EnumCropType type, final TradeBar trade, double limit)
   {
-    double val;
-    if (dataHandler.getProduction(type) <= 0) val = 0;
-    else val = dataHandler.getProduction(type);
-
     final GraphLabel foodControl = new GraphLabel(
             type.toString(),
             0,
-            val,
+            limit,
             "#,###,### tons",
             null);
 
@@ -321,8 +317,6 @@ public class LabelFactory
       @Override
       public void run()
       {
-        //dataHandler.setLand(type, foodControl.getValue() * dataHandler.getArable());
-        //continent.setCropProduction(World.getWorld().getCurrentYear()-1, type, foodControl.getValue());
         trade.setCurrentTrade(foodControl.getValue());
         updateLabels();
       }
@@ -340,16 +334,12 @@ public class LabelFactory
     return foodControl;
   }
 
-  public GraphLabel getTradeContLabel(final EnumCropType type, final TradeBar trade)
+  public GraphLabel getTradeContLabel(final EnumCropType type, final TradeBar trade, double limit)
   {
-    double val;
-    if ((dataHandler.getProduction(type) - dataHandler.getNeed(type)) <= 0) val = 0;
-    else val = dataHandler.getProduction(type) - dataHandler.getNeed(type);
-
     final GraphLabel foodControl = new GraphLabel(
             type.toString(),
             0,
-            val,
+            limit,
             "#,###,### tons");
 
     updates.add(new Runnable()

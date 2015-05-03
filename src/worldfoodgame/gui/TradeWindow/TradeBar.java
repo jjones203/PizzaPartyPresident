@@ -45,13 +45,21 @@ public class TradeBar extends JPanel implements ActionListener
 
   public void setPlayerBar(LabelFactory playerLF, EnumCropType crop)
   {
+    this.playerLF = playerLF;
+    playerCrop = crop;
     hasPlayer = true;
-    playerGL = playerLF.getTradePlayLabel(crop, this);
+    double temp = 0;
     if (hasContinent)
     {
-      contGL.setValue(0);
-      playerGL.setLimit(contGL.getLimit());
+      temp = contLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, contCrop);
+      temp = temp - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear() - 1, contCrop);
+      if (temp < 0)
+      {
+        temp = 0;
+      }
+      contGL = contLF.getTradeContLabel(contCrop, this, temp);
     }
+    playerGL = playerLF.getTradePlayLabel(crop, this, temp);
     currentTrade = 0;
     redraw();
   }
@@ -61,19 +69,17 @@ public class TradeBar extends JPanel implements ActionListener
     this.contLF = contLF;
     contCrop = crop;
     hasContinent = true;
-    contGL = contLF.getTradeContLabel(crop, this);
     double temp = contLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, crop);
-    temp = temp - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear()-1, crop);
+    temp = temp - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear() - 1, crop);
     if (temp < 0)
     {
       temp = 0;
     }
-    contGL.setLimit(temp);
     if (hasPlayer)
     {
-      playerGL.setValue(0);
-      playerGL.setLimit(contGL.getLimit());
+      playerGL = playerLF.getTradePlayLabel(playerCrop, this, temp);
     }
+    contGL = contLF.getTradeContLabel(crop, this, temp);
     currentTrade = 0;
     redraw();
   }
@@ -116,16 +122,15 @@ public class TradeBar extends JPanel implements ActionListener
     if (hasPlayer && hasContinent && e.getSource() == makeTrade)
     {
       parent.trade(contLF.getContinent(), contCrop, playerCrop);
-      playerGL = playerLF.getTradePlayLabel(playerCrop, this);
-      contGL = contLF.getTradeContLabel(contCrop, this);
+
       double temp = contLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, contCrop);
-      temp = temp - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear()-1, contCrop);
+      temp = temp - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear() - 1, contCrop);
       if (temp < 0)
       {
         temp = 0;
       }
-      contGL.setLimit(temp);
-      playerGL.setLimit(contGL.getLimit());
+      playerGL = playerLF.getTradePlayLabel(playerCrop, this, temp);
+      contGL = contLF.getTradeContLabel(contCrop, this, temp);
       currentTrade = 0;
       redraw();
     }
