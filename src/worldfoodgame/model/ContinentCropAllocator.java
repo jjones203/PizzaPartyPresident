@@ -7,6 +7,7 @@ import java.util.List;
 import worldfoodgame.common.AbstractScenario;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumGrowMethod;
+import worldfoodgame.planningpoints.PlanningPointCategory;
 
 public class ContinentCropAllocator
 {
@@ -93,7 +94,8 @@ public class ContinentCropAllocator
       double orgYield = continent.getCropYield(year, crop, EnumGrowMethod.ORGANIC);
       // calculate yield per tile; *100 because tile is 100 sq km
       double yieldPerTile = (convPercent * convYield + gmoPercent * gmoYield + orgPercent * orgYield) * 100;
-      
+      // adjust for continent's yield efficiency
+      double adjYieldPerTile = yieldPerTile * (1 + continent.getPlanningPointsFactor(PlanningPointCategory.YieldEffeciency)/10);
       double production = yieldPerTile * getTilesNeeded(crop);
       continent.setCropProduction(year, crop, production);
     }

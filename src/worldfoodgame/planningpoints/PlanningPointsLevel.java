@@ -43,19 +43,19 @@ public enum PlanningPointsLevel
     switch(level)
     {
       case Tier1: 
-        resistance=1;
+        resistance=.2;
       break;
       case Tier2: 
-        resistance=.8;
+        resistance=.4;
       break;
       case Tier3: 
         resistance=.6;
       break;
       case Tier4: 
-        resistance=.4;
+        resistance=.8;
       break;
       case Tier5: 
-        resistance=.2;
+        resistance=1;
       break;
       default: 
         
