@@ -156,6 +156,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     // add tiles
     landTiles.addAll(country.getLandTiles());
     
+    landTotal += country.getLandTotal(START_YEAR);
     waterAllowance += country.getWaterAllowance();
     countriesOrganicTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.ORGANIC);
     countriesGmoTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.GMO);
@@ -237,6 +238,11 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public Collection<LandTile> getLandTiles()
   {
     return landTiles;
+  }
+  
+  public double getTotalLand()
+  {
+    return landTotal;
   }
   
   public int getPopulation(int year)
@@ -927,10 +933,49 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   
   public void testGetterMethods(int year)
   {
+    System.out.println("Year is "+year);
     System.out.println("Continent name is "+toString());
+    System.out.println("Total land is "+getTotalLand());
     System.out.println("Population "+getPopulation(year));
     System.out.println("Undernourished % is "+getUndernourished(year));
-    
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      System.out.println("Pizza preference for "+crop+" is "+getPizzaPreference(crop));
+    }
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      System.out.println("Total need for "+crop+" is "+getTotalCropNeed(year,crop));
+    }
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      System.out.println("Production for "+crop+" is "+getCropProduction(year, crop));
+    }
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      System.out.println("Imports for "+crop+" is "+getCropImport(year, crop));
+    }
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      System.out.println("Exports for "+crop+" is "+getCropExport(year, crop));
+    }
+    System.out.println("Arable land is "+getArableLand(year));
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      System.out.println("Land for "+crop+" is "+getCropLand(year, crop));
+    }
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      for (EnumGrowMethod method:EnumGrowMethod.values())
+      {
+        System.out.println("Yield for "+method+" "+crop+" is "+getCropYield(year, crop, method));
+      }
+    }
+    for (EnumGrowMethod method:EnumGrowMethod.values())
+    {
+      System.out.println("Percent for "+method+" is "+getMethodPercentage(year, method));
+    }
+    System.out.println("Deforestation is "+getDeforestation(year));
+    System.out.println("Water allowance is "+getWaterAllowance());
   }
    
    /*

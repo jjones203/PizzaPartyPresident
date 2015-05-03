@@ -244,6 +244,8 @@ public class World extends AbstractScenario
     if (DEBUG) System.out.println("Mutating country demographics...");
     if (DEBUG) System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
     if (DEBUG) System.out.println("year stepping done");
+    
+    //getContinents().get(0).testGetterMethods(AbstractScenario.START_YEAR); // for testing
   }
 
   /*
@@ -281,6 +283,7 @@ public class World extends AbstractScenario
     }
   }
 
+  @Deprecated
   private void adjustPopulation()
   {
     int year = getCurrentYear();
@@ -291,12 +294,13 @@ public class World extends AbstractScenario
     }
   }
 
+  // changed from country to continent
   private void adjustUndernourished()
   {
     int year = getCurrentYear();
-    for (Country country : politicalWorld)
+    for (Continent continent:continents)
     {
-      country.updateUndernourished(year);
+      continent.updateUndernourished(year);
     }
   }
 
@@ -458,6 +462,8 @@ public class World extends AbstractScenario
         continent.initializeNonPlayerLandUse();
       }
     }
+    
+    // getContinents().get(0).testGetterMethods(AbstractScenario.START_YEAR); // for testing
   }
   
 }

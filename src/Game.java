@@ -2,6 +2,7 @@ import worldfoodgame.IO.CountryCSVLoader;
 import worldfoodgame.IO.CropZoneDataIO;
 import worldfoodgame.IO.XMLparsers.CountryXMLparser;
 import worldfoodgame.IO.XMLparsers.KMLParser;
+
 import worldfoodgame.gui.Camera;
 import worldfoodgame.gui.MapPane;
 import worldfoodgame.gui.WorldPresenter;
@@ -83,8 +84,7 @@ public class Game
     world.initializeNonPlayerContinents(player);
     worldPresenter = new WorldPresenter(converter, world, player);
     worldPresenter.setBackgroundRegions(background);
-
-
+    
     Camera cam = new Camera(converter);
     mapPane = new MapPane(cam, worldPresenter);
     mapPane.setGrid(converter.getLatLonGrid());
