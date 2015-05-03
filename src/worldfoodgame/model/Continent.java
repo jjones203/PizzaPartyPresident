@@ -456,6 +456,18 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     return this.getCropProduction(year, crop) - this.getTotalCropNeed(year, crop);
   }
 
+  /**
+   * Designed to pull the MapPoint location of the shipping city defined in
+   * ContinentShipData, using EnumContinentShipPoints to get it.  This method is
+   * used in the trading optimizer, "worldfoodgame.model.TradeOptimizer.java"
+   * @return A MapPoint object holding the latitude and longitude of the continent's
+   *         shipping city.
+   */
+  public MapPoint getCapitolLocation()
+  {
+    return null;
+  }
+
    public double getLandTotal(int year)
    {
      return landTotal;
