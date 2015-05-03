@@ -168,9 +168,9 @@ public class World extends AbstractScenario
   {
     double hungryPeople = 0;
     int year = getCurrentYear();
-    for (Country country : politicalWorld)
+    for (Continent continent : continents)
     {
-      hungryPeople += country.getUnhappyPeople(year);
+      hungryPeople += continent.getHungry(year);
     }
     double percentHungry = hungryPeople/(getWorldPopulationMil() * 1000000);
     return percentHungry;
@@ -236,7 +236,7 @@ public class World extends AbstractScenario
     shipAndReceive();
     if (DEBUG) System.out.printf("Done shipping and receiving in: %dms%n", System.currentTimeMillis() - start);
 
-    adjustUndernourished();  // implemented    
+    adjustHungry();  // implemented    
     
     start = System.currentTimeMillis();
 
@@ -258,7 +258,7 @@ public class World extends AbstractScenario
     
     Random ran = new Random();
     int die = ran.nextInt(100)+1;
-    
+
     if (DEBUG) System.out.println("Die says "+die);    
        
     if (die>0 && die<11) // 10% chance of drought catastrophe
@@ -297,12 +297,12 @@ public class World extends AbstractScenario
   }
 
   // changed from country to continent
-  private void adjustUndernourished()
+  private void adjustHungry()
   {
     int year = getCurrentYear();
     for (Continent continent:continents)
     {
-      continent.updateUndernourished(year);
+      continent.getHungry(year);
     }
   }
 

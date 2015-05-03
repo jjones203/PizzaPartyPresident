@@ -253,7 +253,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     }
   }
 
-  public void updateUndernourished(int year)
+  public void updateHungry(int year)
   {
     double surplusTons = 0;
     double deficitTons = 0;

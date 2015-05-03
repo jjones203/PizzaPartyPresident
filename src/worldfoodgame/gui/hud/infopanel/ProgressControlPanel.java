@@ -160,7 +160,7 @@ public class ProgressControlPanel extends JPanel implements Observer
     population = new NumericalLabel("World Population", null);
     add(population);
 
-    hungry = new NumericalLabel("Hungry", null);
+    hungry = new NumericalLabel("World Hunger", null);
     add(hungry);
 
     this.add(controls, BorderLayout.WEST);
