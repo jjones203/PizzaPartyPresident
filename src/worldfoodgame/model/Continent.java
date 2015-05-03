@@ -33,7 +33,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   private double ANNUAL_TONS_PER_PERSON = CropClimateData.ANNUAL_TONS_PER_PERSON; 
   private List<Country> countries;
   private int numCountries;
-  private Collection<LandTile> landTiles;
+  private List<LandTile> landTiles;
   private Color color;
 
   protected double waterAllowance;
@@ -867,15 +867,16 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    
    private void initializeTiles()
    {
-     List<LandTile> tileList = new ArrayList<LandTile>(landTiles);
-     Collections.sort(tileList, new LonComparator());
-     Collections.sort(tileList, new LatComparator());
+     //List<LandTile> tileList = new ArrayList<LandTile>(landTiles);
+     //Collections.sort(tileList, new LatComparator());
+     Collections.sort(landTiles, new LonComparator());
+     
      
      int numArableTiles = (int) getArableLand(START_YEAR)/100;
      
      for (int i = 0; i < numArableTiles; i++)
      {
-       LandTile tile = tileList.get(i);
+       LandTile tile = landTiles.get(i);
        tile.setArable(true);
      }
    }

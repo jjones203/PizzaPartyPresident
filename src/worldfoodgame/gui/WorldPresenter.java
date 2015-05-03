@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
+import java.util.HashMap;
 
 import javax.swing.*;
 
@@ -44,6 +45,7 @@ public class WorldPresenter extends Observable
   private boolean activelyDraging;
   private RegionViewFactory regionViewFactory;
   private Player player;
+  private HashMap<Continent, ArrayList<GUIRegion>> contMap;
 
 
   /**
@@ -71,6 +73,25 @@ public class WorldPresenter extends Observable
     // it depends on the setModelRegions being called
     this.activeRegions = new ActiveRegionList();
     activeContinents = new ArrayList<>();
+    contMap = new HashMap<>();
+    setContinentMap();
+  }
+
+  private void setContinentMap()
+  {
+    ArrayList<GUIRegion> temp;
+    for (Continent c : world.getContinents())
+    {
+      temp = new ArrayList<>();
+      for (GUIRegion r : modelRegions)
+      {
+        if (r.getCountry().getContinent() == c)
+        {
+          temp.add(r);
+        }
+      }
+      contMap.put(c, temp);
+    }
   }
 
   /**
@@ -189,17 +210,25 @@ public class WorldPresenter extends Observable
       {
         if (activeRegions.contains(guir))
         {
-          activeRegions.remove(guir);
+          //activeRegions.remove(guir);
           activeContinents.remove(guir.getCountry().getContinent());
-          setActiveByContinent(camera);
+          for (GUIRegion gR : contMap.get(guir.getCountry().getContinent()))
+          {
+            activeRegions.add(gR);
+          }
+          //setActiveByContinent(camera);
         }
         else
         {
           activeRegions.clear();
           activeContinents.clear();
-          activeRegions.add(guir);
+          //activeRegions.add(guir);
           activeContinents.add(guir.getCountry().getContinent());
-          setActiveByContinent(camera);
+          for (GUIRegion gR : contMap.get(guir.getCountry().getContinent()))
+          {
+            activeRegions.add(gR);
+          }
+          //setActiveByContinent(camera);
         }
         return; //for early loop termination.
       }
@@ -228,15 +257,23 @@ public class WorldPresenter extends Observable
       {
         if (activeRegions.contains(guir))
         {
-          activeRegions.remove(guir);
+          //activeRegions.remove(guir);
           activeContinents.remove(guir.getCountry().getContinent());
-          setActiveByContinent(camera);
+          for (GUIRegion gR : contMap.get(guir.getCountry().getContinent()))
+          {
+            activeRegions.remove(gR);
+          }
+          //setActiveByContinent(camera);
         }
         else
         {
-          activeRegions.add(guir);
+          //activeRegions.add(guir);
           activeContinents.add(guir.getCountry().getContinent());
-          setActiveByContinent(camera);
+          for (GUIRegion gR : contMap.get(guir.getCountry().getContinent()))
+          {
+            activeRegions.add(gR);
+          }
+          //setActiveByContinent(camera);
         }
         return; //for early loop termination.
       }
