@@ -1,7 +1,11 @@
 package worldfoodgame.catastrophes;
 
 import java.util.Collection;
+
 import javax.swing.JOptionPane;
+
+import worldfoodgame.common.EnumCropType;
+import worldfoodgame.common.EnumGrowMethod;
 import worldfoodgame.model.Continent;
 
 
@@ -17,12 +21,14 @@ public class Drought extends Catastrophe
 {
   private Continent continent;
   private String droughtStory;
+  private int year;
   private double waterAllowance;
 
 
-  public Drought (Collection<Continent> continents)
+  public Drought (Collection<Continent> continents, int year)
   {
     continent = getRandContinent(continents);
+    this.year = year;
     setStory();
     initCatastrophe();
     popUpDialog();
@@ -40,9 +46,21 @@ public class Drought extends Catastrophe
   @Override
   // Decreases water for the year
   protected void initCatastrophe()
-  {
-    waterAllowance = continent.getWaterAllowance();
-    continent.setWaterAllowance(waterAllowance/3);
+  {    
+    // Cuts yield to a third, temporary effect until water is implemented
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      double convYield = continent.getCropYield(year, crop, EnumGrowMethod.CONVENTIONAL);
+      double gmoYield = continent.getCropYield(year, crop, EnumGrowMethod.GMO);
+      double orgYield = continent.getCropYield(year, crop, EnumGrowMethod.ORGANIC);
+      
+      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/3);
+      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/3);
+      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/3);
+    }
+    
+    waterAllowance = continent.getWaterAllowance(); // currently has no effect since we haven't implemented water-influence on yield yet
+    continent.setWaterAllowance(waterAllowance/3); // currently has no effect since we haven't implemented water-influence on yield yet
   }
 
 
@@ -64,7 +82,7 @@ public class Drought extends Catastrophe
   // Recovers continent to usual water allowance
   public void recuperateAfterCatastrophe()
   {
-    continent.setWaterAllowance(waterAllowance);    
+    continent.setWaterAllowance(waterAllowance); // currently has no effect since we haven't implemented water-influence on yield yet   
   }
 }
 

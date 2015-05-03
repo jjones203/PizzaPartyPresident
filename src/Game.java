@@ -2,7 +2,6 @@ import worldfoodgame.IO.CountryCSVLoader;
 import worldfoodgame.IO.CropZoneDataIO;
 import worldfoodgame.IO.XMLparsers.CountryXMLparser;
 import worldfoodgame.IO.XMLparsers.KMLParser;
-
 import worldfoodgame.gui.Camera;
 import worldfoodgame.gui.MapPane;
 import worldfoodgame.gui.WorldPresenter;
@@ -17,6 +16,7 @@ import worldfoodgame.model.World;
 import worldfoodgame.model.Player;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,13 +43,13 @@ public class Game
   private final static int DEFAULT_TIME_SPEED = 2000;
   private Timer gameLoop;
   private JFrame frame;
-  
+
 
   /**
    * Constructor for game, handles all init logic.
    */
   public Game()
-  {
+  {    
     init();
   }
 
@@ -84,7 +84,7 @@ public class Game
     world.initializeNonPlayerContinents(player);
     worldPresenter = new WorldPresenter(converter, world, player);
     worldPresenter.setBackgroundRegions(background);
-    
+
     Camera cam = new Camera(converter);
     mapPane = new MapPane(cam, worldPresenter);
     mapPane.setGrid(converter.getLatLonGrid());
