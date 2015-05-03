@@ -89,7 +89,7 @@ public class Game
     mapPane = new MapPane(cam, worldPresenter);
     mapPane.setGrid(converter.getLatLonGrid());
 
-    infoPanel = new InfoPanel(worldPresenter);
+    infoPanel = new InfoPanel(worldPresenter, player);
 
     worldFeedPanel = new WorldFeedPanel(worldPresenter);
     worldPresenter.addObserver(worldFeedPanel);
