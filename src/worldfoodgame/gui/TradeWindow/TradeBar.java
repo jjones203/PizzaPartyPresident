@@ -25,6 +25,7 @@ public class TradeBar extends JPanel implements ActionListener
   private EnumCropType playerCrop;
   private EnumCropType contCrop;
   private double currentTrade = 0;
+  private double currentLimit = 0;
   private boolean hasContinent = false;
   private boolean hasPlayer = false;
   public static final Color ROLLOVER_C = Color.WHITE;
@@ -48,18 +49,11 @@ public class TradeBar extends JPanel implements ActionListener
     this.playerLF = playerLF;
     playerCrop = crop;
     hasPlayer = true;
-    double temp = 0;
     if (hasContinent)
     {
-      temp = contLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, contCrop);
-      temp = temp - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear() - 1, contCrop);
-      if (temp < 0)
-      {
-        temp = 0;
-      }
-      contGL = contLF.getTradeContLabel(contCrop, this, temp);
+      contGL = contLF.getTradeContLabel(contCrop, this, currentLimit);
     }
-    playerGL = playerLF.getTradePlayLabel(crop, this, temp);
+    playerGL = playerLF.getTradePlayLabel(crop, this, currentLimit);
     currentTrade = 0;
     redraw();
   }
@@ -69,17 +63,17 @@ public class TradeBar extends JPanel implements ActionListener
     this.contLF = contLF;
     contCrop = crop;
     hasContinent = true;
-    double temp = contLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, crop);
-    temp = temp - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear() - 1, crop);
-    if (temp < 0)
+    currentLimit = contLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, crop);
+    currentLimit = currentLimit - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear() - 1, crop);
+    if (currentLimit < 0)
     {
-      temp = 0;
+      currentLimit = 0;
     }
     if (hasPlayer)
     {
-      playerGL = playerLF.getTradePlayLabel(playerCrop, this, temp);
+      playerGL = playerLF.getTradePlayLabel(playerCrop, this, currentLimit);
     }
-    contGL = contLF.getTradeContLabel(crop, this, temp);
+    contGL = contLF.getTradeContLabel(crop, this, currentLimit);
     currentTrade = 0;
     redraw();
   }
@@ -105,6 +99,10 @@ public class TradeBar extends JPanel implements ActionListener
     {
       currentTrade = 0;
     }
+    else if (input > currentLimit)
+    {
+      currentTrade = currentLimit;
+    }
     else
     {
       currentTrade = input;
@@ -123,14 +121,14 @@ public class TradeBar extends JPanel implements ActionListener
     {
       parent.trade(contLF.getContinent(), contCrop, playerCrop);
 
-      double temp = contLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, contCrop);
-      temp = temp - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear() - 1, contCrop);
-      if (temp < 0)
+      currentLimit = contLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, contCrop);
+      currentLimit = currentLimit - contLF.getContinent().getTotalCropNeed(World.getWorld().getCurrentYear() - 1, contCrop);
+      if (currentLimit < 0)
       {
-        temp = 0;
+        currentLimit = 0;
       }
-      playerGL = playerLF.getTradePlayLabel(playerCrop, this, temp);
-      contGL = contLF.getTradeContLabel(contCrop, this, temp);
+      playerGL = playerLF.getTradePlayLabel(playerCrop, this, currentLimit);
+      contGL = contLF.getTradeContLabel(contCrop, this, currentLimit);
       currentTrade = 0;
       redraw();
     }
