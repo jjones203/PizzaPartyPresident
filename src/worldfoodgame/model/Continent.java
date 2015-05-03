@@ -25,6 +25,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   private static boolean VERBOSE = true;
   
   private EnumContinentNames name;
+  private EnumContinentShipPoints continentShipPoint;
+  private MapPoint shipPoint;
   private int START_YEAR = AbstractScenario.START_YEAR;
   private int YEARS_OF_SIM = AbstractScenario.YEARS_OF_SIM;
   private double ANNUAL_TONS_PER_PERSON = CropClimateData.ANNUAL_TONS_PER_PERSON; 
@@ -75,11 +77,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   
   /**
    * Continent constructor
-   * @param name continent name
+   * @param name1 continent name
    */
-  public Continent(EnumContinentNames name)
+  public Continent(EnumContinentNames name1)
   {
-    this.name = name;
+
+    this.name = name1;
     switch (name)
     {
       case N_AMERICA:
@@ -465,7 +468,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    */
   public MapPoint getCapitolLocation()
   {
-    return null;
+    shipPoint = continentShipPoint.shipPoint;
+    return shipPoint;
   }
 
    public double getLandTotal(int year)

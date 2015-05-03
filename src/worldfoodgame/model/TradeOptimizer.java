@@ -229,7 +229,7 @@ public class TradeOptimizer
 
     /* Multiple runs of the GAP algorithm are run, the best result of which is
     saved, along with the TradePair ordering that produced it.
-    This ordering is then implemented in the actual country objects. */
+    This ordering is then implemented in the actual continent objects. */
     private void tradeProbablistic()
     {
       long start = System.currentTimeMillis();
