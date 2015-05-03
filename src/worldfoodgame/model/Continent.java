@@ -37,8 +37,10 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   private Color color;
 
   protected double waterAllowance;
-  protected double rainfall;
+  protected double avgRainfall;
+  protected double continentRainfall;
   protected double GAL_CM_CUBED = 2641.720524;
+  protected double continentLandTileNum;
 
   protected int[] population = new int[YEARS_OF_SIM];       //in people
   protected double[] undernourished = new double[YEARS_OF_SIM];  // percentage of population. 0.50 is 50%.
@@ -161,17 +163,43 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     }
 
     // add tiles
+    continentLandTileNum += country.getLandTiles().size();
     landTiles.addAll(country.getLandTiles());
-    rainfall = calcRainfall();
+    // calculate average rainfall for the country
+
+    double rain = 0.0;
+    for(LandTile tile: country.getLandTiles())
+    {
+      rain += (double)tile.getRainfall();
+    }
+    continentRainfall += (rain * GAL_CM_CUBED);
+    avgRainfall = (rain / continentLandTileNum) * GAL_CM_CUBED;
+
     waterAllowance += country.getWaterAllowance();
-    System.out.println("Avg rainfall is: " + rainfall + "gals per land tile."
+    System.out.println("Avg rainfall is: " + avgRainfall + "gals per land tile."
                        + "\nCrop water allowance is: " + waterAllowance + "gallons.");
     landTotal += country.getLandTotal(START_YEAR);
-    waterAllowance -=  rainfall;
+    waterAllowance -=  avgRainfall;
     System.out.println("\tAdjusted water allowance is: " + waterAllowance);
     countriesOrganicTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.ORGANIC);
     countriesGmoTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.GMO);
     countriesUndernourishedTotal += country.getUndernourished(START_YEAR);
+
+    // calculate average rainfall over the country
+/*
+    private double calcRainfall()
+    {
+      double rain = 0.0;
+      int tileNum = landTiles.size();
+      for(LandTile tile: landTiles)
+      {
+        rain += (double)tile.getRainfall();
+      }
+
+      return (rain / tileNum) * GAL_CM_CUBED;
+    }
+*/
+
   }
   
   /**
@@ -219,18 +247,6 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   }
   
 
-  // calculate average rainfall over the continent
-  private double calcRainfall()
-  {
-    double rain = 0.0;
-    int tileNum = landTiles.size();
-    for(LandTile tile: landTiles)
-    {
-      rain += (double)tile.getRainfall();
-    }
-
-    return (rain / tileNum) * GAL_CM_CUBED;
-  }
 
   public EnumContinentNames getName()
   {
@@ -362,6 +378,15 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public void setWaterAllowance(double waterAllowance)
   {
     this.waterAllowance = waterAllowance;
+  }
+
+  /**
+   * Allows the gui to pull the continent's annual rainfall, to use in planting crops.
+   * @return  The total gallons of water provided to the continent annually.
+   */
+  public double getRainfall()
+  {
+    return continentRainfall;
   }
 
   /**
