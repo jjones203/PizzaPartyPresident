@@ -47,16 +47,20 @@ public class Drought extends Catastrophe
   // Decreases water for the year
   protected void initCatastrophe()
   {    
-    // Cuts yield to a third, temporary effect until water is implemented
+    // Cuts yield, temporary effect until water is implemented
     for (EnumCropType crop:EnumCropType.values())
     {
       double convYield = continent.getCropYield(year, crop, EnumGrowMethod.CONVENTIONAL);
       double gmoYield = continent.getCropYield(year, crop, EnumGrowMethod.GMO);
       double orgYield = continent.getCropYield(year, crop, EnumGrowMethod.ORGANIC);
       
-      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/3);
-      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/3);
-      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/3);
+      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/(3*convYield));
+      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/(3*gmoYield));
+      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/(3*orgYield));
+      
+      System.out.println(crop+" has a conventional yield of "+convYield/(3*convYield));
+      System.out.println(crop+" has a GMO yield of "+gmoYield/(3*gmoYield));
+      System.out.println(crop+" has a organic yield of "+ orgYield/(3*orgYield));
     }
     
     waterAllowance = continent.getWaterAllowance(); // currently has no effect since we haven't implemented water-influence on yield yet

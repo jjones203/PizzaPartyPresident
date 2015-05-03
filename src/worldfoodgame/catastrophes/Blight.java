@@ -48,7 +48,7 @@ public class Blight extends Catastrophe
   protected void initCatastrophe()
   {  
     EnumCropType randomCrop = selectRandomCrop();
-  //  System.out.println("The random crop is "+randomCrop);  
+    //  System.out.println("The random crop is "+randomCrop);  
     weakenCrops();   
     wipeOutCrop(randomCrop);    
   }  
@@ -58,9 +58,12 @@ public class Blight extends Catastrophe
   //Creates story for dialog pop-up
   protected void setStory()
   {
-    blightStory =  " As its countries try to preserve water\n"+
-        "and well-being, citizens turn to the Pizza Party Presidents of world to see\n"+
-        "how they will act. What will you do now that the world is watching?";
+    blightStory =  "First it was little things like spots and fading leaves. The farmers of "+continent.getName()+"\n"+ 
+        "watched and waited nervously. Then entire toppings just frooze mid-growth. \n"+
+        "When the webs if cheese formed, the farmers knew it was over. "+continent.getName()+"'s\n"+ 
+        "disease consel was notified. A blight had occurred. Many toppings will not survive the \n"+
+        "illness. As families scrap pots for food, citizens turn to the Pizza Party Presidents \n"+
+        "of world to see how they will act. What will you do now that the world is watching?";
   }
 
 
@@ -69,10 +72,10 @@ public class Blight extends Catastrophe
   // Recovers continent to a less harsh post-catastrophe state 
   void recuperateAfterCatastrophe()
   {
-   // Nothing to set
+    // Nothing to set
   }
 
-  
+
   // Decreases yield for all crops
   private void weakenCrops()
   {
@@ -82,13 +85,17 @@ public class Blight extends Catastrophe
       double gmoYield = continent.getCropYield(year, crop, EnumGrowMethod.GMO);
       double orgYield = continent.getCropYield(year, crop, EnumGrowMethod.ORGANIC);
 
-      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/20);
-      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/10);
-      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/30);
+      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/2000);
+      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/1000);
+      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/3000);
+
+       System.out.println(crop+" has a conventional yield of "+convYield/2000);
+       System.out.println(crop+" has a GMO yield of "+gmoYield/1000);
+       System.out.println(crop+" has a organic yield of "+orgYield/3000);
     }
   }
 
-  
+
   // Selects a random crop type
   private EnumCropType selectRandomCrop()
   {
@@ -101,7 +108,7 @@ public class Blight extends Catastrophe
     return type;
   }
 
-  
+
   // Wipes out crop's yield to zero
   private void wipeOutCrop(EnumCropType randomCrop)
   {

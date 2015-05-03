@@ -52,13 +52,14 @@ public class Flood extends Catastrophe
       double gmoYield = continent.getCropYield(year, crop, EnumGrowMethod.GMO);
       double orgYield = continent.getCropYield(year, crop, EnumGrowMethod.ORGANIC);
 
-      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/50);
-      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/50);
-      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/50);
+      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/2*convYield);
+      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/2*gmoYield);
+      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/2*orgYield);
 
-      //  System.out.println(crop+" has a conventional yield of "+convYield/50);
-      //   System.out.println(crop+" has a GMO yield of "+gmoYield/50);
-      //  System.out.println(crop+" has a organic yield of "+orgYield/50);
+      System.out.println(crop+" has a conventional yield of "+convYield/2*convYield);
+      System.out.println(crop+" has a GMO yield of "+gmoYield/2*gmoYield);
+      System.out.println(crop+" has a organic yield of "+ orgYield/2*orgYield);
+
     }
 
     waterAllowance = continent.getWaterAllowance(); // currently has no effect since we haven't implemented water-influence on yield yet
@@ -70,13 +71,13 @@ public class Flood extends Catastrophe
   //Creates story for dialog pop-up
   protected void setStory()
   {
-    floodStory =  "The year started with a beautiful sunny day. This made the citizens of \n"+
-        continent.getName()+" happy. The next day was just as beautiful. As was \n"+
-        "the next day, and the next day, and the one after that. Smiles began to\n"+
-        "diappear as plants shrivel and ordinances are called. "+ continent.getName()+
-        "\n is experiencing a severe drought. As its countries try to preserve water\n"+
-        "and well-being, citizens turn to the Pizza Party Presidents of world to see\n"+
-        "how they will act. What will you do now that the world is watching?";
+    floodStory = continent.getName()+" expected some sort of warning. A message or ark or something.\n"+
+        "Instead they got clouds and relentless rain. It was less than 40 days, felt close \n"+
+        "to 40 nights. The citizens of "+continent.getName()+" occupied themselves with board \n" +
+        " games and warm drinks. When the rainbow finally arrived, the stir-crazy beings were free. But\n" +
+        "the toppings were severly damaged. As infrastructure is repaired, citizens turn to \n" +
+        "the Pizza Party Presidents of world to see how they will act. What will you do \n"+
+        "now that the world is watching?";
   }
 
   @Override

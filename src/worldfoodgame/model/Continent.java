@@ -60,8 +60,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   
   protected double[][] cultivationMethod = new double[EnumGrowMethod.SIZE][YEARS_OF_SIM]; //percentage
   
-  protected int approvalRating;
-  protected int diplomacyRating;
+  protected double approvalRating;
+  protected double diplomacyRating;
   
   //planning points
   private int GMOPlanningPoints=0;
