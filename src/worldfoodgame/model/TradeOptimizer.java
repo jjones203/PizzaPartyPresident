@@ -96,7 +96,7 @@ public class TradeOptimizer
     {
       this.exporter = exporter;
       this.importer = importer;
-      this.efficiency = calcEfficiency(exporter, importer);
+      this.efficiency = 1 - calcEfficiency(exporter, importer);
     }
 
     private TradePair(TradePair t)
