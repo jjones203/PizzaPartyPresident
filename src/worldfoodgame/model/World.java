@@ -259,7 +259,7 @@ public class World extends AbstractScenario
     
     Random ran = new Random();
     int die = ran.nextInt(100)+1;
-
+    
     if (DEBUG) System.out.println("Die says "+die);    
        
     if (die>0 && die<11) // 10% chance of drought catastrophe

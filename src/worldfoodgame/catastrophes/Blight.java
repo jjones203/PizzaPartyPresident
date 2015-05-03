@@ -47,7 +47,8 @@ public class Blight extends Catastrophe
   // Wipes out a crop entirely and weakens others
   protected void initCatastrophe()
   {  
-    EnumCropType randomCrop = selectRandomCrop();    
+    EnumCropType randomCrop = selectRandomCrop();
+  //  System.out.println("The random crop is "+randomCrop);  
     weakenCrops();   
     wipeOutCrop(randomCrop);    
   }  
@@ -57,7 +58,9 @@ public class Blight extends Catastrophe
   //Creates story for dialog pop-up
   protected void setStory()
   {
-    // TODO Auto-generated method stub    
+    blightStory =  " As its countries try to preserve water\n"+
+        "and well-being, citizens turn to the Pizza Party Presidents of world to see\n"+
+        "how they will act. What will you do now that the world is watching?";
   }
 
 
@@ -79,9 +82,9 @@ public class Blight extends Catastrophe
       double gmoYield = continent.getCropYield(year, crop, EnumGrowMethod.GMO);
       double orgYield = continent.getCropYield(year, crop, EnumGrowMethod.ORGANIC);
 
-      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/2);
-      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield);
-      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/3);
+      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/20);
+      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/10);
+      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/30);
     }
   }
 
@@ -94,6 +97,7 @@ public class Blight extends Catastrophe
     EnumCropType[] cropArray = EnumCropType.values();
 
     EnumCropType type = cropArray[cropIndex];
+    //System.out.println("The crop index is "+cropIndex);
     return type;
   }
 
