@@ -1,7 +1,7 @@
 package worldfoodgame.gui.TradeWindow;
 
 import worldfoodgame.gui.ColorsAndFonts;
-import worldfoodgame.gui.hud.infopanel.SingleCountryHandeler;
+import worldfoodgame.gui.hud.infopanel.CountryDataHandler;
 import worldfoodgame.model.Country;
 
 import javax.swing.*;
@@ -34,7 +34,7 @@ public class ContinentTabPanel extends JPanel
   private float alpha;
   private Tab currentTab;
 
-  public ContinentTabPanel(Collection<Country> countries, ArrayList<SingleCountryHandeler> handlers, Dimension dimension)
+  public ContinentTabPanel(Collection<Country> countries, ArrayList<CountryDataHandler> handlers, Dimension dimension)
   {
     //init
     alpha = 0;

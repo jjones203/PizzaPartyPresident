@@ -142,14 +142,16 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
       
       double cropProduced = country.getCropProduction(START_YEAR, crop);
       addToCropProduction(START_YEAR, crop, cropProduced);
-      
+      //System.out.println("Amount of " + crop.name + " produced is: " + cropProduced);
+
       double cropImported = country.getCropImport(START_YEAR, crop);
       addToCropImports(START_YEAR, crop, cropImported);
       
       double cropExported = country.getCropExport(START_YEAR, crop);
       addToCropExports(START_YEAR, crop, cropExported);
+      // calculate water allowance for the crop being instantiated
+      country.setWaterAllowance(crop, cropProduced);
     }
-    
 
     // add tiles
     landTiles.addAll(country.getLandTiles());
@@ -178,6 +180,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     initializePizzaPreference();
     initializeTotalCropNeed();
     
+    //System.out.println("For continent: " + this.getName() + ", the water allowance is: " + this.getWaterAllowance());
+
     // set continent fields using average of country values
     // set percentages for gmo, organic, conventional for START_YEAR
     double organicAvg = countriesOrganicTotal/numCountries;
@@ -574,7 +578,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     * Returns specified crop yield
     * @param year
     * @param crop
-    * @param grow method
+    * @param method
     * @return yield for crop
     */
    public double getCropYield(int year, EnumCropType crop, EnumGrowMethod method)
@@ -611,7 +615,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     * Sets specified crop yield
     * @param year          (passing year might be useful in the next milestone?)
     * @param crop
-    * @param grow method
+    * @param method
     * @param tonPerSqKilom yield for crop
     */
    public void setCropYield(int year, EnumCropType crop, EnumGrowMethod method, double tonPerSqKilom)

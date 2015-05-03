@@ -5,9 +5,12 @@ import javax.swing.*;
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.hud.infopanel.GraphLabel;
 import worldfoodgame.gui.hud.infopanel.LabelFactory;
-import worldfoodgame.gui.hud.infopanel.SingleCountryHandeler;
+import worldfoodgame.gui.hud.infopanel.CountryDataHandler;
+import worldfoodgame.gui.hud.infopanel.GroupCountryHandler;
+import worldfoodgame.model.EnumContinentNames;
 import worldfoodgame.model.Player;
 import worldfoodgame.model.Country;
+import worldfoodgame.model.Continent;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,9 +31,10 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
   private static final Dimension BUTTON_DIM = new Dimension(620, 100);
   private Player player;
   private Collection<Country> countries; //Soon to be continents
+  private Collection<Continent> continents;
   private LinkedList<ContinentState> savedStates;
   private double savedImportBudget;
-  private ArrayList<SingleCountryHandeler> handlers = new ArrayList<>();
+  private ArrayList<CountryDataHandler> handlers = new ArrayList<>();
   private ArrayList<LabelFactory> labelFactories = new ArrayList<>();
   private ArrayList<ContinentPanel> continentPanels = new ArrayList<>();
   private ContinentTabPanel continentTabPanel;
@@ -38,55 +42,57 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
   private TradeBar tradeBar;
   private ButtonPanel buttonPanel;
 
-  public TradeAndImportFrame(Player player, Collection<Country> countries, int year)
+  public TradeAndImportFrame(Player player, ArrayList<Continent> continents, int year)
   {
     this.player = player;
-    this.countries = countries;
+    this.continents = continents;
     savedImportBudget = player.getImportBudget();
     continentTabPanel = new ContinentTabPanel(countries, handlers, CONT_DIM);
     playerPanel = new PlayerPanel(player, PLAYER_DIM, this);
     tradeBar = new TradeBar(TRADE_DIM, this);
     buttonPanel = new ButtonPanel(BUTTON_DIM, this);
-    for (Country c : countries)
+    GroupCountryHandler tempGH;
+    LabelFactory temp;
+    for (Continent c : continents)
     {
-      SingleCountryHandeler tempSH = new SingleCountryHandeler(c, year);
-      LabelFactory temp = new LabelFactory(tempSH);
-      handlers.add(tempSH);
+      tempGH = new GroupCountryHandler(c.getCountries());
+      temp = new LabelFactory(tempGH);
+      handlers.add(tempGH);
       labelFactories.add(temp);
-      if (c == player.getCountry())
+      if (c == player.getContinent())
       {
         //System.out.println("Setting player's country.");
         playerPanel.setLabelFactory(temp);
       }
       else
       {
-        continentPanels.add(new ContinentPanel(c, tempSH, temp, this));
+        continentPanels.add(new ContinentPanel(c, temp, this));
       }
     }
-    saveInitialStates();
+    saveInitialStates(year);
     setLayout(new GridLayout(3, 0));
     add(continentTabPanel);
     for (ContinentPanel cP : continentPanels)
     {
-      continentTabPanel.addTab(cP.getCountry().getName(), cP);
+      continentTabPanel.addTab(cP.getContinent().getName().toString(), cP);
     }
     add(tradeBar);
     add(playerPanel);
     add(buttonPanel);
   }
 
-  private void saveInitialStates()
+  private void saveInitialStates(int year)
   {
     savedStates = new LinkedList<>();
-    for (SingleCountryHandeler cH : handlers)
+    for (Continent c : continents)
     {
-      double[] tempActual = new double[5];
-      tempActual[0] = cH.getProduction(EnumCropType.CORN);
-      tempActual[1] = cH.getProduction(EnumCropType.WHEAT);
-      tempActual[2] = cH.getProduction(EnumCropType.SOY);
-      tempActual[3] = cH.getProduction(EnumCropType.RICE);
-      tempActual[4] = cH.getProduction(EnumCropType.OTHER_CROPS);
-      savedStates.add(new ContinentState(cH.getName(), tempActual));
+      double[] tempActual = new double [5];
+      tempActual[0] = c.getCropProduction(year, EnumCropType.CORN);
+      tempActual[1] = c.getCropProduction(year, EnumCropType.WHEAT);
+      tempActual[2] = c.getCropProduction(year, EnumCropType.SOY);
+      tempActual[3] = c.getCropProduction(year, EnumCropType.RICE);
+      tempActual[4] = c.getCropProduction(year, EnumCropType.OTHER_CROPS);
+      savedStates.add(new ContinentState(c.getName(), tempActual));
     }
     /* This uses getNetCropAvailable. Is this wrong?
     for (Country cH : countries)
@@ -134,10 +140,10 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
 
   private class ContinentState
   {
-    private String name;
+    private EnumContinentNames name;
     private double [] actualCrops;
 
-    public ContinentState(String name, double [] tempActual)
+    public ContinentState(EnumContinentNames name, double [] tempActual)
     {
       this.name = name;
       actualCrops = tempActual;
