@@ -4,6 +4,7 @@ import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.gui.hud.infopanel.GraphLabel;
 import worldfoodgame.gui.hud.infopanel.LabelFactory;
+import worldfoodgame.model.Continent;
 import worldfoodgame.model.World;
 
 import javax.swing.*;
@@ -34,14 +35,27 @@ public class TradeBar extends JPanel implements ActionListener
   private JPanel tradeButtonPanel = new JPanel();
   private JPanel playerPanel = new JPanel();
   private JPanel contPanel = new JPanel();
+  private JLabel contName = new JLabel();
   private TitledBorder border;
+  private boolean isTrade = true;
+  private Continent continent;
 
-  public TradeBar (Dimension dimension, TradeAndImportFrame parent)
+  public TradeBar (Dimension dimension, TradeAndImportFrame parent, boolean isTrade)
   {
     //setPreferredSize(dimension);
+    this.isTrade = isTrade;
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
     setLayout(new BorderLayout());
-    border = BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, ColorsAndFonts.GUI_TEXT_COLOR.darker()), "Propose A Trade");
+    if (isTrade)
+    {
+      border = BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, ColorsAndFonts.GUI_TEXT_COLOR.darker()), "Propose A Trade");
+      makeTrade.setText("Trade These Amounts");
+    }
+    else
+    {
+      border = BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, ColorsAndFonts.GUI_TEXT_COLOR.darker()), "Prepare A Donation");
+      makeTrade.setText("Make This Donation To");
+    }
     border.setTitleJustification(TitledBorder.CENTER);
     border.setTitleFont(ColorsAndFonts.HUD_TITLE);
     border.setTitleColor(ColorsAndFonts.OCEANS);
@@ -77,6 +91,8 @@ public class TradeBar extends JPanel implements ActionListener
       contGL = contLF.getTradeContLabel(contCrop, this, currentLimit);
     }
     playerGL = playerLF.getTradePlayLabel(crop, this, currentLimit);
+    playerGL.setIncrease("Increase");
+    playerGL.setDecrease("Decrease");
     currentTrade = 0;
     redraw();
   }
@@ -103,9 +119,20 @@ public class TradeBar extends JPanel implements ActionListener
     if (hasPlayer)
     {
       playerGL = playerLF.getTradePlayLabel(playerCrop, this, currentLimit);
+      playerGL.setIncrease("Increase");
+      playerGL.setDecrease("Decrease");
     }
     contGL = contLF.getTradeContLabel(crop, this, currentLimit);
     currentTrade = 0;
+    redraw();
+  }
+
+  public void setContinent(Continent continent)
+  {
+    this.continent = continent;
+    contName.setText(continent.getContName());
+    contName.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+    contName.setBorder(BorderFactory.createLineBorder(ColorsAndFonts.OCEANS));
     redraw();
   }
 
@@ -125,6 +152,10 @@ public class TradeBar extends JPanel implements ActionListener
     {
       playerPanel.add(playerGL);
     }
+    if (!isTrade && continent != null)
+    {
+      contPanel.add(contName);
+    }
     add(tradeButtonPanel, BorderLayout.CENTER);
     tradeButtonPanel.add(makeTrade);
     contPanel.repaint();
@@ -136,20 +167,24 @@ public class TradeBar extends JPanel implements ActionListener
 
   public void setCurrentTrade(double input)
   {
+    double temp = 0;
     if (input < 0)
     {
       currentTrade = 0;
-      contGL.setValue(0);
     }
     else if (input > currentLimit)
     {
       currentTrade = currentLimit;
-      contGL.setValue(currentLimit);
+      temp = currentLimit;
     }
     else
     {
       currentTrade = input;
-      contGL.setValue(input);
+      temp = input;
+    }
+    if (isTrade && hasContinent)
+    {
+      contGL.setValue(temp);
     }
   }
 
@@ -161,7 +196,7 @@ public class TradeBar extends JPanel implements ActionListener
   @Override
   public void actionPerformed(ActionEvent e)
   {
-    if (hasPlayer && hasContinent && e.getSource() == makeTrade)
+    if (isTrade && hasPlayer && hasContinent && e.getSource() == makeTrade)
     {
       parent.trade(contLF.getContinent(), contCrop, playerCrop);
 
@@ -182,6 +217,18 @@ public class TradeBar extends JPanel implements ActionListener
       currentTrade = 0;
       playerGL = playerLF.getTradePlayLabel(playerCrop, this, currentLimit);
       contGL = contLF.getTradeContLabel(contCrop, this, currentLimit);
+      playerGL.setIncrease("Increase");
+      playerGL.setDecrease("Decrease");
+      redraw();
+    }
+    else if (!isTrade && hasPlayer && continent != null && e.getSource() == makeTrade)
+    {
+      parent.donate(continent, playerCrop);
+      currentTrade = 0;
+      currentLimit = playerLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, playerCrop);
+      playerGL = playerLF.getTradePlayLabel(playerCrop, this, currentLimit);
+      playerGL.setIncrease("Increase");
+      playerGL.setDecrease("Decrease");
       redraw();
     }
   }

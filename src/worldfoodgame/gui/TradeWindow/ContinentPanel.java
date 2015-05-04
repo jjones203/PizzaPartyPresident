@@ -18,13 +18,15 @@ public class ContinentPanel extends JPanel
   private Continent continent;
   private SingleCountryHandeler handler; //do I need this?
   private LabelFactory labelFactory;
-  public final TradeAndImportFrame parent;
+  private final TradeAndImportFrame parent;
+  private boolean isTrade = true;
 
-  public ContinentPanel (Continent continent, LabelFactory labelFactory, TradeAndImportFrame parent)
+  public ContinentPanel (Continent continent, LabelFactory labelFactory, TradeAndImportFrame parent, boolean isTrade)
   {
     this.continent = continent;
     this.labelFactory = labelFactory;
     this.parent = parent;
+    this.isTrade = isTrade;
     labelFactory.setContinent(continent);
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
     redraw();
@@ -57,6 +59,7 @@ public class ContinentPanel extends JPanel
     {
       TradeGraphLabel temp = labelFactory.getTradeProdLabel(crop);
       temp.setExternalPanel(this);
+      temp.setControl(isTrade);
       cropPanel.add(temp);
     }
 
