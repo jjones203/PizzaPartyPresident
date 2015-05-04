@@ -29,6 +29,7 @@ public class InfoPanel extends JPanel implements Observer
   private LabelFactory labelFactory;
   private TabbedPanel OuterTabbedPanel;
   private DemographicPanel demographicPanel;
+  private TierPanel tierPanel;
   private LandPanel landPanel;
   private Player player;
 
@@ -76,6 +77,9 @@ public class InfoPanel extends JPanel implements Observer
 
     OuterTabbedPanel.addTab("crops", innerTabbedPanel);
     OuterTabbedPanel.addTab("overlays", new OverlayPanel(worldPresenter));
+    
+    tierPanel = new TierPanel(labelFactory,worldPresenter);
+    OuterTabbedPanel.addTab("Planning Points",tierPanel);
 
     add(new ProgressControlPanel(worldPresenter, this), BorderLayout.NORTH);
   }
@@ -133,6 +137,9 @@ public class InfoPanel extends JPanel implements Observer
 
     demographicPanel.setLabelFactory(labelFactory);
     demographicPanel.redraw();
+    
+    tierPanel.setLabelFactory(labelFactory);
+    tierPanel.redraw();
 
     for (EnumCropType type : EnumCropType.values())
     {

@@ -26,6 +26,6 @@ public interface ContinentShipData
   MapPoint ASIA_SHIP_POINT = new MapPoint(39.94, 116.41);
   String   ASIA_SHIP_CITY  = "Beijing";
 
-  MapPoint MIDDLE_EAST_SHIP_POINT = new MapPoint(41.02, 28.98);
-  String MIDDLE_EAST_SHIP_CITY = "Istanbul";
+  MapPoint MIDDLE_EAST_SHIP_POINT = new MapPoint(35.69, 51.42);
+  String MIDDLE_EAST_SHIP_CITY = "Tehran";
 }
