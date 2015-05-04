@@ -460,7 +460,7 @@ public class WorldPresenter extends Observable
     System.out.println("AI has theoreticall traded..");
     
     System.out.println("User can donate food now");
-    //User donate panel goes here
+    commenceDonating();
     System.out.println("User finished donating food");
     
     System.out.println("Planning points allocation begins");   
@@ -534,7 +534,7 @@ public class WorldPresenter extends Observable
 
   private void commencePlayerTrading()
   {
-    JFrame trade = new TradeAndImportFrame(player, world.getContinents(), getYear());
+    JFrame trade = new TradeAndImportFrame(player, world.getContinents(), getYear(), true);
     trade.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     trade.pack();
     trade.setResizable(false);
@@ -546,6 +546,15 @@ public class WorldPresenter extends Observable
     Continent c = player.getContinent();
     int thisYearsPoints = c.calculatePlanningPoints();
     new PlanningPointsAllocationPanel(world.getContinents(),thisYearsPoints);    
+  }
+
+  private void commenceDonating()
+  {
+    JFrame donate = new TradeAndImportFrame(player, world.getContinents(), getYear(), false);
+    donate.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    donate.pack();
+    donate.setResizable(false);
+    donate.setVisible(true);
   }
   
   /**

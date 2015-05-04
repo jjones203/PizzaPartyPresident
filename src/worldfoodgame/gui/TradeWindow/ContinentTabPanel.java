@@ -33,13 +33,18 @@ public class ContinentTabPanel extends JPanel
   private HashMap<Tab, ContinentPanel> tabmap;
   private float alpha;
   private Tab currentTab;
+  private boolean isTrade = true;
+  private TradeAndImportFrame parent;
 
-  public ContinentTabPanel(Collection<Country> countries, ArrayList<CountryDataHandler> handlers, Dimension dimension)
+  public ContinentTabPanel(Collection<Country> countries, ArrayList<CountryDataHandler> handlers,
+                           Dimension dimension, boolean isTrade, TradeAndImportFrame parent)
   {
     //init
     alpha = 0;
     tabmap = new HashMap<>();
     tabpabel = new JPanel();
+    this.isTrade = isTrade;
+    this.parent = parent;
     contentArea = getContentPanel();
 
     //config
@@ -145,6 +150,10 @@ public class ContinentTabPanel extends JPanel
           getRootPane().revalidate();
           getRootPane().repaint();
           tabmap.get(Tab.this).redraw();
+          if (!isTrade)
+          {
+            parent.newContinent(tabmap.get(Tab.this).getContinent());
+          }
         }
 
         @Override
