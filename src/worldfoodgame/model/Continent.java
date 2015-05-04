@@ -1094,29 +1094,30 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public double getPlanningPointsFactor(PlanningPointCategory category)
   {
     PlanningPointsLevel level=null;
+    double factor = 0;
     switch(category)
     {
       case GMOResistance:
         level=PlanningPointsLevel.pointsToLevel(GMOPlanningPoints);
-        PlanningPointsLevel.getGMOResistance(level);
+        factor=PlanningPointsLevel.getGMOResistance(level);
         break;
       case WaterEfficiency:
         level=PlanningPointsLevel.pointsToLevel(waterEff);
-        PlanningPointsLevel.getWaterEfficiency(level);
+        factor=PlanningPointsLevel.getWaterEfficiency(level);
         break;
       case YieldEffeciency:
         level=PlanningPointsLevel.pointsToLevel(yieldEff);
-        PlanningPointsLevel.getYieldEfficiency(level);
+        factor=PlanningPointsLevel.getYieldEfficiency(level);
         break;
       case TradeEfficiency:
         level=PlanningPointsLevel.pointsToLevel(tradeEff);
-        PlanningPointsLevel.getTradeEfficiency(level);
+        factor=PlanningPointsLevel.getTradeEfficiency(level);
         break;
       default:
         System.out.println(category.toString()+" not recgnized");
         break;
     }
-    return 0;
+    return factor;
   }
   /********************************/
   /** End Planning Points        **/

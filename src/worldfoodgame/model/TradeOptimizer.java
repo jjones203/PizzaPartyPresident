@@ -30,7 +30,7 @@ public class TradeOptimizer
 {
   private final int year;
   private final Collection<Continent> continents;
-  private static final boolean DEBUG = false;
+  private static final boolean DEBUG = true;
   private final List<TradePair>[] allTrades = new ArrayList[]
                                                 {new ArrayList(), new ArrayList(),
                                                  new ArrayList(), new ArrayList(),
@@ -38,7 +38,6 @@ public class TradeOptimizer
   };
 
   private List<SingleCropTrader> traders;
-
   /**
    Construct a new TradeOptimizer with the set of continents to trade between.
 
@@ -51,7 +50,10 @@ public class TradeOptimizer
   {
     this.year = year;
     this.continents = continents;
-    System.out.println("Trade Optimizer initialized.");
+    if(DEBUG)
+    {
+      System.out.println("Trade Optimizer initialized.");
+    }
   }
 
   /**
@@ -61,13 +63,19 @@ public class TradeOptimizer
    */
   public void optimizeAndImplementTrades()
   {
-    System.out.println("Entering method optimizeAndImplementTrades()");
+    if(DEBUG)
+    {
+      System.out.println("Entering method optimizeAndImplementTrades()");
+    }
     traders = new ArrayList<>();
     for(EnumCropType crop : EnumCropType.values())
     {
       traders.add(new SingleCropTrader(crop));
     }
-    System.out.println("Starting for loop to kick trader.start()...");
+    if(DEBUG)
+    {
+      System.out.println("Starting for loop to kick trader.start()...");
+    }
     for(SingleCropTrader trader : traders) trader.start();
   }
 
@@ -215,7 +223,6 @@ public class TradeOptimizer
     public void run()
     {
       tradeDeterministic();
-//      tradeProbablistic();
       isDone = true;
     }
 
