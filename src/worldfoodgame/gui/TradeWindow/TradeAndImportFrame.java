@@ -39,6 +39,7 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
   private PlayerPanel playerPanel;
   private TradeBar tradeBar;
   private ButtonPanel buttonPanel;
+  private JPanel mainPanel;
 
   public TradeAndImportFrame(Player player, ArrayList<Continent> continents, int year)
   {
@@ -68,16 +69,19 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
       }
     }
     saveInitialStates(year - 1);
-    //setLayout(new GridLayout(3, 0));
-    setLayout(new BorderLayout());
-    add(continentTabPanel, BorderLayout.WEST);
+    //setLayout(new GridLayout(0, 3));
+    //setLayout(new BorderLayout());
+    mainPanel = new JPanel();
+    add(mainPanel);
+    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    mainPanel.add(continentTabPanel);
     for (ContinentPanel cP : continentPanels)
     {
       continentTabPanel.addTab(cP.getContinent().getName().toString(), cP);
     }
-    add(tradeBar, BorderLayout.CENTER);
-    add(playerPanel, BorderLayout.EAST);
-    add(buttonPanel, BorderLayout.SOUTH);
+    mainPanel.add(tradeBar);
+    mainPanel.add(playerPanel);
+    mainPanel.add(buttonPanel);
   }
 
   private void saveInitialStates(int year)
@@ -93,17 +97,6 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
       tempActual[4] = c.getCropProduction(year, EnumCropType.OTHER_CROPS);
       savedStates.add(new ContinentState(c, tempActual));
     }
-    /* This uses getNetCropAvailable. Is this wrong?
-    for (Country cH : countries)
-    {
-      double [] tempActual = new double [5];
-      tempActual[0] = cH.getNetCropAvailable(year, EnumCropType.CORN);
-      tempActual[1] = cH.getNetCropAvailable(year, EnumCropType.WHEAT);
-      tempActual[2] = cH.getNetCropAvailable(year, EnumCropType.SOY);
-      tempActual[3] = cH.getNetCropAvailable(year, EnumCropType.RICE);
-      tempActual[4] = cH.getNetCropAvailable(year, EnumCropType.OTHER_CROPS);
-      savedStates.add(new ContinentState(c.getName(), tempActual));
-    }*/
   }
 
   public void reset()

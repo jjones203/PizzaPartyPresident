@@ -171,11 +171,11 @@ public class PieChart extends JPanel
           needTotals[4] = needTotals[4] + cont.getTotalCropNeed(year, EnumCropType.OTHER_CROPS);
           actualTotals[4] = actualTotals[4] + cont.getCropProduction(year, EnumCropType.OTHER_CROPS);
         }
-        slices.add(new CropSlice(needTotals[0], actualTotals[0], EnumCropType.CORN, Color.BLUE));
-        slices.add(new CropSlice(needTotals[1], actualTotals[1], EnumCropType.WHEAT, Color.GREEN));
-        slices.add(new CropSlice(needTotals[2], actualTotals[2], EnumCropType.SOY, Color.YELLOW));
-        slices.add(new CropSlice(needTotals[3], actualTotals[3], EnumCropType.RICE, Color.RED));
-        slices.add(new CropSlice(needTotals[4], actualTotals[4], EnumCropType.OTHER_CROPS, Color.WHITE));
+        slices.add(new CropSlice(needTotals[0], actualTotals[0], EnumCropType.CORN, ColorsAndFonts.CORN_COLOR));
+        slices.add(new CropSlice(needTotals[1], actualTotals[1], EnumCropType.WHEAT, ColorsAndFonts.WHEAT_COLOR));
+        slices.add(new CropSlice(needTotals[2], actualTotals[2], EnumCropType.SOY, ColorsAndFonts.SOY_COLOR));
+        slices.add(new CropSlice(needTotals[3], actualTotals[3], EnumCropType.RICE, ColorsAndFonts.RICE_COLOR));
+        slices.add(new CropSlice(needTotals[4], actualTotals[4], EnumCropType.OTHER_CROPS, ColorsAndFonts.OTHER_CROP_COLOR));
         double needTotal = 0;
         double actualTotal = 0;
         for (int i = 0; i < 5; i++)
