@@ -43,6 +43,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   protected double continentLandTileNum;
 
   protected long[] population = new long[YEARS_OF_SIM];       //in people
+  protected double[] waterUsed = new double[YEARS_OF_SIM];
   protected double[] undernourish = new double[YEARS_OF_SIM];  // percentage of population. 0.50 is 50%.
 
   protected double[][] conventionalYield = new double[EnumCropType.SIZE][YEARS_OF_SIM]; //metric tons per square kilometer
@@ -68,6 +69,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
   protected double approvalRating; 
   protected double diplomacyRating;
+  protected double greenRating;
 
   //planning points
   private int GMOPlanningPoints=0;
@@ -194,7 +196,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     countriesUndernourishedTotal += country.getUndernourished(START_YEAR);
 
     // calculate average rainfall over the country
-/*
+    /*
     private double calcRainfall()
     {
       double rain = 0.0;
@@ -206,14 +208,14 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
       return (rain / tileNum) * GAL_CM_CUBED;
     }
-*/
+     */
 
   }
 
   /**
    * Initialize fields that depend on average of all countries' values
    */
-  public void initializeData()
+  public void initializeData(World world)
   {
     /*System.out.println("In continent.initializeData, name = "+toString()+" pop = "+getPopulation(START_YEAR));
     System.out.println("In continent.initializeData, name = "+toString()+" arable = "+getArableLand(START_YEAR));*/
@@ -254,10 +256,11 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
     // set undernourished value for START_YEAR
     setUndernourished(START_YEAR, countriesUndernourishedTotal/numCountries);
+    calculateGreenRating(START_YEAR);
     calculateApprovalRating(START_YEAR); 
-    calculateDiplomacyRating(START_YEAR);
+    calculateDiplomacyRating(START_YEAR, world);
   }
- 
+
 
   public EnumContinentNames getName()
   {
@@ -337,6 +340,16 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double undernourished = unmetNeed/ANNUAL_TONS_PER_PERSON;
     double percent = undernourished/(getPopulation(year));
     setUndernourished(year,percent);
+  }
+
+  public double getWaterUsage(int year)
+  {
+    return waterUsed[year - START_YEAR];
+  }
+
+  public void setWaterUsage(int year, double gallonsWater)
+  {
+    waterUsed[year - START_YEAR] = gallonsWater;
   }
 
   public double getPizzaPreference(EnumCropType pizzaType)
@@ -638,71 +651,71 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double delta = kilomsq - currCropLand;
     double valueToSet;
   }
-  
-   /**
-    * Set cultivation method %; use when initializing
-    * @param method     cultivation method
-    * @param percentage % land cultivated by method
-    */
-   public void setMethodPercentage(EnumGrowMethod method, double percentage)
-   {
-     if (percentage >= 0 && percentage <= 1)
-     {
-       for (int i = 0; i < (YEARS_OF_SIM); i++)
-       {
-         cultivationMethod[method.ordinal()][i] = percentage;
-       }
-     }
-     else
-     {
-       if (VERBOSE)
-       {
-         System.err.println("Invalid argument for Continent.setMethodPercentage method");
-       }
-     }
-   }
-   
-   public void updateMethodPercentage(int year, EnumGrowMethod method, double percentage)
-   {
-     // what % of land under other cultivation methods, this method
-     double sumOtherMethods = 0;
-     double currentThisMethod = 0;
-     for (EnumGrowMethod growMethod:EnumGrowMethod.values())
-     {
-       if (growMethod == method) currentThisMethod =  getMethodPercentage(year,growMethod);
-       else sumOtherMethods += getMethodPercentage(year,growMethod);
-     }
-     double delta = percentage - currentThisMethod;
-     double maxPossible;
-     // GMO research affects how much GMO you can plant
-     if (method == EnumGrowMethod.GMO)
-     {  
-       double limit = getPlanningPointsFactor(PlanningPointCategory.GMOResistance); 
-       maxPossible = Math.min(limit, 1 - sumOtherMethods);
-     }
-     else maxPossible = 1 - sumOtherMethods;
-     double valueToSet;
-     
-     // if trying to decrease beyond 0, set to 0
-     if ((currentThisMethod + delta) < 0)
-     {
-       valueToSet = 0;
-     }
-     // else if trying to increase by amount greater than maxPossible, set to maxPossible
-     else if ((currentThisMethod + delta) > maxPossible)
-     {
-       valueToSet = maxPossible;
-     }
-     // else set to current + delta
-     else
-     {
-       valueToSet = currentThisMethod + delta;
-     }
-     for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
-     {
-       cultivationMethod[method.ordinal()][i] = valueToSet;
-     }
-   }
+
+  /**
+   * Set cultivation method %; use when initializing
+   * @param method     cultivation method
+   * @param percentage % land cultivated by method
+   */
+  public void setMethodPercentage(EnumGrowMethod method, double percentage)
+  {
+    if (percentage >= 0 && percentage <= 1)
+    {
+      for (int i = 0; i < (YEARS_OF_SIM); i++)
+      {
+        cultivationMethod[method.ordinal()][i] = percentage;
+      }
+    }
+    else
+    {
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Continent.setMethodPercentage method");
+      }
+    }
+  }
+
+  public void updateMethodPercentage(int year, EnumGrowMethod method, double percentage)
+  {
+    // what % of land under other cultivation methods, this method
+    double sumOtherMethods = 0;
+    double currentThisMethod = 0;
+    for (EnumGrowMethod growMethod:EnumGrowMethod.values())
+    {
+      if (growMethod == method) currentThisMethod =  getMethodPercentage(year,growMethod);
+      else sumOtherMethods += getMethodPercentage(year,growMethod);
+    }
+    double delta = percentage - currentThisMethod;
+    double maxPossible;
+    // GMO research affects how much GMO you can plant
+    if (method == EnumGrowMethod.GMO)
+    {  
+      double limit = getPlanningPointsFactor(PlanningPointCategory.GMOResistance); 
+      maxPossible = Math.min(limit, 1 - sumOtherMethods);
+    }
+    else maxPossible = 1 - sumOtherMethods;
+    double valueToSet;
+
+    // if trying to decrease beyond 0, set to 0
+    if ((currentThisMethod + delta) < 0)
+    {
+      valueToSet = 0;
+    }
+    // else if trying to increase by amount greater than maxPossible, set to maxPossible
+    else if ((currentThisMethod + delta) > maxPossible)
+    {
+      valueToSet = maxPossible;
+    }
+    // else set to current + delta
+    else
+    {
+      valueToSet = currentThisMethod + delta;
+    }
+    for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
+    {
+      cultivationMethod[method.ordinal()][i] = valueToSet;
+    }
+  }
 
   /**
    * Returns conventional crop yield; 
@@ -790,7 +803,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     return cultivationMethod[method.ordinal()][year - START_YEAR];
   }
 
-  
+
   public boolean contains(Country country)
   {
     /*for (Country c : countries)
@@ -1103,7 +1116,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    **/
   public void calculateApprovalRating(int year)
   {
-    this.approvalRating = 1 - (.5*undernourish[year - START_YEAR] + .5*(areaDeforested[year - START_YEAR]/landTotal));
+    this.approvalRating = 1 - .5*undernourish[year - START_YEAR] + .5*greenRating;
+    
+    if (this.approvalRating>1)
+    {
+      this.approvalRating = 1;
+    }
   }
 
 
@@ -1115,27 +1133,65 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     return diplomacyRating;
   }
 
+
   /**
    * @param diplomacyRating the diplomacyRating to set
    */
-  public void calculateDiplomacyRating(int year)
+  public void calculateDiplomacyRating(int year, World world)
   {
-    
-    this.diplomacyRating  = 1 - (.5*undernourish[year - START_YEAR] + .5*(areaDeforested[year - START_YEAR]/landTotal));
-  }
-  /*
-   public static void main(String[] args)
-   {
-     Continent testContinent = new Continent(EnumContinentNames.AFRICA);
-     testContinent.initializePizzaPreference();
-     for (EnumCropType crop:EnumCropType.values())
-     {
-       double percent = testContinent.getPizzaPreference(crop);
-       System.out.println("For "+crop+" "+percent);
-     }
-   }*/
+    double worldHunger = world.getWorldHungerPercent();
+    double hungerFactor = 0;
 
-  
+    if (worldHunger > getUndernourished(year))
+    {
+      hungerFactor = worldHunger -  getUndernourished(year);
+    }
+
+    this.diplomacyRating  = 1 - .5*hungerFactor + .5*greenRating;
+    
+    if (this.diplomacyRating>1)
+    {
+      this.diplomacyRating = 1;
+    }
+  }
+
+
+  public void calculateGreenRating(int year)
+  {
+    this.greenRating  = 1 - (areaDeforested[year - START_YEAR]/landTotal);
+    System.out.println("Green rating is "+greenRating);
+  }
+
+
+  /**
+   * @return the greenRating
+   */
+  public double getGreenRating()
+  {
+    return greenRating;
+  }
+
+  // Yearly rating update
+  public void updateRatings(int year, World world)
+  {
+    calculateGreenRating(year);
+    calculateDiplomacyRating(year,world);
+    calculateApprovalRating(year); 
+  }
+
+  /*
+  public static void main(String[] args)
+  {
+    Continent testContinent = new Continent(EnumContinentNames.AFRICA);
+    testContinent.initializePizzaPreference();
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      double percent = testContinent.getPizzaPreference(crop);
+      System.out.println("For "+crop+" "+percent);
+    }
+  }*/
+
+
   /**
    * Class for sorting land tiles by longitude
    * (unsorted, they are grouped by country)
@@ -1151,6 +1207,6 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
       else return 0;
     } 
   }
-  
- }
+
+}
 

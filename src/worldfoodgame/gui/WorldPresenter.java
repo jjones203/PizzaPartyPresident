@@ -472,7 +472,7 @@ public class WorldPresenter extends Observable
     System.out.println("Planning points allocation ends");
     System.out.println("Finished the player's turn ");
     System.out.println("PS these print statments are in WorldPresenter stepWorld()\n");
-    //TradingRouteOverlay.updateTrades(world.getTrades());
+    TradingRouteOverlay.updateTrades(world.getTrades());
     setChanged();
     notifyObservers();
   }

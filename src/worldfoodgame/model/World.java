@@ -30,7 +30,7 @@ public class World extends AbstractScenario
   private TileManager tileManager;
   private Calendar currentDate;
   private List<TradeOptimizer.TradePair>[] lastTrades;
- // private List<TradingOptimizer.TradePair>[] lastTrades;
+  // private List<TradingOptimizer.TradePair>[] lastTrades;
   private boolean DEBUG = true;
 
   private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
@@ -64,7 +64,7 @@ public class World extends AbstractScenario
     {
       country.setOtherCropsData();
     }
-    
+
     theOneWorld = new World(world, countries, cal);
     theOneWorld.populateContinents();
     theOneWorld.tileManager = allTheLand;
@@ -227,9 +227,9 @@ public class World extends AbstractScenario
     start = System.currentTimeMillis();
 
     if (DEBUG) System.out.println("Planting tiles...");
-    
+
     rollCatastropheDie(continents); // planting and harvesting occurs in here.
-    
+
     if (DEBUG) System.out.printf("tiles planted in %dms%n", System.currentTimeMillis() - start);
     if (DEBUG) System.out.println("Date is now " + getCurrentYear());
 
@@ -241,13 +241,13 @@ public class World extends AbstractScenario
     if (DEBUG) System.out.printf("Done shipping and receiving in: %dms%n", System.currentTimeMillis() - start);
 
     adjustHungry();  // implemented    
-    
+    adjustRatings();
     start = System.currentTimeMillis();
 
     if (DEBUG) System.out.println("Mutating country demographics...");
     if (DEBUG) System.out.printf("country demographics mutated in %dms%n", System.currentTimeMillis() - start);
     if (DEBUG) System.out.println("year stepping done");
-    
+
     //getContinents().get(0).testGetterMethods(AbstractScenario.START_YEAR); // for testing
   }
 
@@ -257,14 +257,14 @@ public class World extends AbstractScenario
   private void rollCatastropheDie(Collection<Continent> continents)
   {
     if (DEBUG) System.out.println("Rolling catastrophe die...");
-    
+
     int year = getCurrentYear();
-    
+
     Random ran = new Random();
     int die = ran.nextInt(100)+1;
 
     if (DEBUG) System.out.println("Die says "+die);    
-       
+
     if (die>0 && die<11) // 10% chance of drought catastrophe
     {
       Catastrophe Drought = new Drought(continents, year);
@@ -306,7 +306,17 @@ public class World extends AbstractScenario
     int year = getCurrentYear();
     for (Continent continent:continents)
     {
-      continent.getUndernourished(year);
+      continent.updateUndernourished(year);
+    }
+  }
+
+  //changed from country to continent
+  private void adjustRatings()
+  {
+    int year = getCurrentYear();
+    for (Continent continent:continents)
+    {
+      continent.updateRatings(year,this);
     }
   }
 
@@ -433,12 +443,12 @@ public class World extends AbstractScenario
     }
     return null;
   }
-  
+
   public ArrayList<Continent> getContinents()
   {
     return continents;
   }
-  
+
   private void populateContinents()
   {
     for (EnumContinentNames continentName:EnumContinentNames.values())
@@ -453,12 +463,12 @@ public class World extends AbstractScenario
           country.setContinent(continent);
         }
       }
-      continent.initializeData();
+      continent.initializeData(this);
       ContinentCropAllocator allocator = new ContinentCropAllocator(START_YEAR, continent);
       allocator.allocateCrops();
     }
   } 
-  
+
   public void initializeNonPlayerContinents(Player player)
   {
     EnumContinentNames playerContinent = player.getContinent().getName();
@@ -469,8 +479,8 @@ public class World extends AbstractScenario
         continent.initializeNonPlayerLandUse();
       }
     }
-    
+
     // getContinents().get(0).testGetterMethods(AbstractScenario.START_YEAR); // for testing
   }
-  
+
 }

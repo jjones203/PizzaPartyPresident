@@ -162,7 +162,7 @@ public class TradeOptimizer
   private class SingleCropTrader extends Thread
   {
     private boolean isDone = false;
-    private static final int TRIALS = 50;
+    private static final int TRIALS = 6; //number of times the optimization will run
     private final EnumCropType crop;
     private final List<TradePair> pairs = new ArrayList<>();
     private final TradePairList master;
@@ -248,10 +248,12 @@ public class TradeOptimizer
         /* switch the ordering scheme every loop */
         if (i % 2 == 0)
         {
+          //tmp.shuffleList(importerMap);
           tmp.shuffleOnExporters();
         }
         else
         {
+          //tmp.shuffleList(exporterMap);
           tmp.shuffleOnImporters();
         }
 
@@ -389,26 +391,33 @@ public class TradeOptimizer
       return list;
     }
 
-    /* sort this list based first on importer Eculidean distance from a randomly
-     selected point and then on the efficiency (descending) between the importer
+    /* sort this list based first on importer Eculidean distance between the importer
+     and exporter and then on the efficiency (descending) between the importer
      and exporter in each TradePair */
+    //private void shuffleList(HashMap<Continent, Double> map)
     private void shuffleOnImporters()
     {
+      Collections.shuffle(Arrays.asList(importerMap));
+/*
       final MapPoint pt = randomMapPoint();
       Collections.sort(this, new Comparator<TradePair>()
       {
         @Override
         public int compare(TradePair o1, TradePair o2)
         {
-          /* if the importer are the same object, sort based on efficiency */
+          */
+/* if the importer are the same object, sort based on efficiency *//*
+
           if(o1.importer == o2.importer)
           {
             double ef1 = o1.efficiency;
             double ef2 = o2.efficiency;
             return ef1 > ef2? 1 : ef1 < ef2 ? -1 : 0;
           }
-          /* otherwise sort based on Euclidean distance between the importers
-            and the randomly selected point */
+          */
+/* otherwise sort based on Euclidean distance between the importers
+            and the randomly selected point *//*
+
           else
           {
             double d1 = pt.distanceSq(o1.importer.getCapitolLocation());
@@ -417,6 +426,7 @@ public class TradeOptimizer
           }
         }
       });
+*/
     }
 
     /* sort this list based first on exporter Eculidean distance from a randomly
@@ -424,21 +434,28 @@ public class TradeOptimizer
      and exporter in each TradePair */
     private void shuffleOnExporters()
     {
+      Collections.shuffle(Arrays.asList(exporterMap));
+
+/*
       final MapPoint pt = randomMapPoint();
       Collections.sort(this, new Comparator<TradePair>()
       {
         @Override
         public int compare(TradePair o1, TradePair o2)
         {
-          /* if the exporters are the same object, sort based on efficiency */
+          */
+/* if the exporters are the same object, sort based on efficiency *//*
+
           if(o1.exporter == o2.exporter)
           {
             double ef1 = o1.efficiency;
             double ef2 = o2.efficiency;
             return ef1 > ef2? 1 : ef1 < ef2 ? -1 : 0;
           }
-          /* otherwise sort based on Euclidean distance between the importers
-            and the randomly selected point */
+          */
+/* otherwise sort based on Euclidean distance between the importers
+            and the randomly selected point *//*
+
           else
           {
             double d1 = pt.distanceSq(o1.exporter.getCapitolLocation());
@@ -447,6 +464,7 @@ public class TradeOptimizer
           }
         }
       });
+*/
     }
 
     /* make a random MapPoint somewhere in the range of acceptable Lon and Lat
