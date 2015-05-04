@@ -140,11 +140,12 @@ public class RegionViewFactory
     public static Overlay[] getRasterOverlays()
     {
       return new Overlay[]{
-                            PRECIPITATION,
+                            /*PRECIPITATION,
                             MAX_TMP,
                             MIN_TMP,
         DAY_TEMP_AVE,
-        NIGHT_AVE_TMP,
+        NIGHT_AVE_TMP,*/
+          // only interested in crop raster for milestone 3
         CROP_RASTER};
     }
 
@@ -155,11 +156,12 @@ public class RegionViewFactory
     public static Overlay[] getDemographicOverlays()
     {
       return new Overlay[]{
-        HAPPINESS,
+        
+        //HAPPINESS,
         POPULATION,
-        MORTALITY,
+        //MORTALITY,
         MALNUTRITION,
-        CAPITAL,
+        //CAPITAL,
         TRADING};
     }
 
@@ -185,6 +187,13 @@ public class RegionViewFactory
         WHEAT,
         OTHER_CROPS};
 */
+      
     }
+  
+  public String toString()
+  {
+    if (name() == "CROP_RASTER") return "PLANTING";
+    else return name();
   }
+ }
 }

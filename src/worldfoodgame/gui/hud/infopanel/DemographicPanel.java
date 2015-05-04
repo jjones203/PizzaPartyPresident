@@ -86,9 +86,10 @@ public class DemographicPanel extends JPanel
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
     panel.add(labelFactory.getPopulationLabel());
-    panel.add(labelFactory.getMedianAge());
+    // get rid of irrelevant stuff
+    /*panel.add(labelFactory.getMedianAge());
     panel.add(labelFactory.getBirthRate());
-    panel.add(labelFactory.getMortalityRate());
+    panel.add(labelFactory.getMortalityRate());*/
     panel.add(labelFactory.getMalnurished());
 
     return panel;
