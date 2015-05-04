@@ -16,12 +16,19 @@ public class ButtonPanel extends JPanel implements ActionListener
   private JButton reset = new JButton("Reset All Trades");
   private JButton cont = new JButton("Done Trading");
   private Dimension dim = new Dimension(120, 35);
+  private boolean isTrade = true;
   //This isn't important right now.
   //private JRadioButton units = new JRadioButton();
 
-  public ButtonPanel (Dimension dimension, TradeAndImportFrame parent)
+  public ButtonPanel (Dimension dimension, TradeAndImportFrame parent, boolean isTrade)
   {
     this.parent = parent;
+    this.isTrade = isTrade;
+    if (!isTrade)
+    {
+      reset.setText("Reset Donations");
+      cont.setText("Stop Donating");
+    }
     setPreferredSize(dimension);
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
     setLayout(new FlowLayout());

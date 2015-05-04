@@ -26,6 +26,9 @@ public class GraphLabel extends JPanel
   private double value;
   private DecimalFormat formatter;
   private JLabel valueLabel;
+  private String increase = "+";
+  private String decrease = "-";
+  private String label;
 
   /**
    * Create a new Graph Label object. Used to display country data and control
@@ -80,6 +83,7 @@ public class GraphLabel extends JPanel
                      double limit, double step,
                      Color barColor, boolean isController, DecimalFormat formatter)
   {
+    this.label = label;
     this.value = value;
     this.barColor = barColor;
     this.formatter = formatter;
@@ -158,12 +162,32 @@ public class GraphLabel extends JPanel
     text.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     text.setFont(labelTypeFace);
 
-    if (isController) tempPanel.add(makeControl("-", -STEP));
+    if (isController) tempPanel.add(makeControl(decrease, -STEP));
     tempPanel.add(text);
     tempPanel.add(valueLabel);
-    if (isController) tempPanel.add(makeControl("+", STEP));
+    if (isController) tempPanel.add(makeControl(increase, STEP));
 
     return tempPanel;
+  }
+
+  public void setIncrease(String input)
+  {
+    increase = input;
+    redraw();
+  }
+
+  public void setDecrease(String input)
+  {
+    decrease = input;
+    redraw();
+  }
+
+  private void redraw()
+  {
+    removeAll();
+    add(getControlPanel(label), BorderLayout.NORTH);
+    add(getBar(), BorderLayout.CENTER);
+    validate();
   }
 
   /* encapsulated the control interface logic */
@@ -171,7 +195,7 @@ public class GraphLabel extends JPanel
   {
     final JLabel control = new JLabel(sign);
     control.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
-    control.setFont(labelTypeFace);
+    control.setFont(ColorsAndFonts.SELECT_FONT);
 
     /* this timer is turned on and off by pressing the controll buttons */
     control.addMouseListener(new MouseAdapter()

@@ -16,9 +16,8 @@ import java.util.*;
 import java.awt.event.WindowEvent;
 
 /**
- * Created by Tim on 4/24/15. Needs a english/metric, reset, and continue button.
- * Needs 6 tabs with pictures and gradient colors for either deficient or surplus,
- * so the more green, the higher the surplus.
+ * Created by Tim on 4/24/15. Contains functionality for both Trading and Donating.
+ * It's a super frame!
  */
 
 public class TradeAndImportFrame extends JFrame implements ActionListener
@@ -40,16 +39,18 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
   private TradeBar tradeBar;
   private ButtonPanel buttonPanel;
   private JPanel mainPanel;
+  private boolean isTrade = true;
 
-  public TradeAndImportFrame(Player player, ArrayList<Continent> continents, int year)
+  public TradeAndImportFrame(Player player, ArrayList<Continent> continents, int year, boolean isTrade)
   {
     this.player = player;
     this.continents = continents;
+    this.isTrade = isTrade;
     savedImportBudget = player.getImportBudget();
-    continentTabPanel = new ContinentTabPanel(countries, handlers, CONT_DIM);
+    continentTabPanel = new ContinentTabPanel(countries, handlers, CONT_DIM, isTrade, this);
     playerPanel = new PlayerPanel(player, PLAYER_DIM, this);
-    tradeBar = new TradeBar(TRADE_DIM, this);
-    buttonPanel = new ButtonPanel(BUTTON_DIM, this);
+    tradeBar = new TradeBar(TRADE_DIM, this, isTrade);
+    buttonPanel = new ButtonPanel(BUTTON_DIM, this, isTrade);
     GroupCountryHandler tempGH;
     LabelFactory temp;
     for (Continent c : continents)
@@ -64,13 +65,20 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
       }
       else
       {
-        continentPanels.add(new ContinentPanel(c, temp, this));
+        continentPanels.add(new ContinentPanel(c, temp, this, isTrade));
       }
     }
     saveInitialStates(year - 1);
     mainPanel = new JPanel();
     add(mainPanel);
-    setTitle("Trade Window");
+    if (isTrade)
+    {
+      setTitle("Trade Window");
+    }
+    else
+    {
+      setTitle("Donate Window");
+    }
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
     mainPanel.add(playerPanel);
     mainPanel.add(tradeBar);
@@ -150,9 +158,34 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
     tradeBar.setContinentBar(lf, crop);
   }
 
-  public void updateUnits()
+  public void newContinent(Continent continent)
   {
+    tradeBar.setContinent(continent);
+  }
 
+  public void donate(Continent continent, EnumCropType crop)
+  {
+    int year = World.getWorld().getCurrentYear() - 1;
+    double temp = 0;
+    temp = player.getContinent().getCropProduction(year, crop) - tradeBar.getCurrentTrade();
+    if (temp < 0)
+    {
+      System.out.println("Trying to set player crop prod to less than 0...");
+      temp = 0;
+    }
+    player.getContinent().setCropProduction(year, crop, temp);
+    temp = continent.getCropProduction(year, crop) + tradeBar.getCurrentTrade();
+    if (temp < 0)
+    {
+      System.out.println("Trying to set continent crop prod to less than 0...");
+      temp = 0;
+    }
+    continent.setCropProduction(year, crop, temp);
+    for (ContinentPanel cP : continentPanels)
+    {
+      cP.redraw();
+    }
+    playerPanel.redraw();
   }
 
   public void endTrading()

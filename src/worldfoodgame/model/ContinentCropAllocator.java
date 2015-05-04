@@ -87,6 +87,13 @@ public class ContinentCropAllocator
     double gmoPercent = continent.getMethodPercentage(year, EnumGrowMethod.GMO);
     double orgPercent = continent.getMethodPercentage(year, EnumGrowMethod.ORGANIC);
     
+    // if method percentages don't total 1 during planting, adjust them
+    if (convPercent + gmoPercent + orgPercent < 1)
+    {
+      convPercent = 1 - (gmoPercent + orgPercent);
+      continent.updateMethodPercentage(year, EnumGrowMethod.CONVENTIONAL, convPercent);
+    }
+      
     for (EnumCropType crop:EnumCropType.values())
     {
       double convYield = continent.getCropYield(year, crop, EnumGrowMethod.CONVENTIONAL);

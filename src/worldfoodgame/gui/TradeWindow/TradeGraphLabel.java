@@ -31,7 +31,9 @@ public class TradeGraphLabel extends JPanel
   private EnumCropType crop;
   private PlayerPanel outerPlayer;
   private ContinentPanel outerContinent;
+  private String label;
   private boolean continent = true;
+  private boolean isControl = true;
 
   /**
    * Create a new Graph Label object. Used to display country data and control
@@ -86,6 +88,7 @@ public class TradeGraphLabel extends JPanel
                      double limit, double step, Color surplusBarColor,
                      Color deficientBarColor, boolean isController, DecimalFormat formatter, EnumCropType crop)
   {
+    this.label = label;
     this.value = value;
     this.deficientBarColor = deficientBarColor;
     this.surplusBarColor = surplusBarColor;
@@ -159,6 +162,20 @@ public class TradeGraphLabel extends JPanel
     valueLabel.setText(formatter.format(value));
   }
 
+  public void setControl(boolean input)
+  {
+    isControl = input;
+    redraw();
+  }
+
+  private void redraw()
+  {
+    removeAll();
+    add(getControlPanel(label), BorderLayout.NORTH);
+    add(getBar(), BorderLayout.CENTER);
+    validate();
+  }
+
   /* sets up and returns the label and possible controls */
   private JPanel getControlPanel(String label)
   {
@@ -172,7 +189,10 @@ public class TradeGraphLabel extends JPanel
 
     tempPanel.add(text);
     tempPanel.add(valueLabel);
-    tempPanel.add(makeControl("(Select)"));
+    if (isControl)
+    {
+      tempPanel.add(makeControl("(Select)"));
+    }
 
     return tempPanel;
   }
