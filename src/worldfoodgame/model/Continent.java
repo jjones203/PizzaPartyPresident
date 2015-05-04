@@ -208,6 +208,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    */
   public void initializeData()
   {
+    System.out.println("In continent.initializeData, name = "+toString()+" pop = "+getPopulation(START_YEAR));
+    
     setInitialPlanningPoints();
     // calculate yields
     for (EnumCropType crop:EnumCropType.values())

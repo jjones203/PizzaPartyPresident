@@ -97,7 +97,7 @@ public class ContinentCropAllocator
       // adjust for continent's yield efficiency
       double adjYieldPerTile = yieldPerTile * (1 + continent.getPlanningPointsFactor(PlanningPointCategory.YieldEffeciency)/10);
       double production = yieldPerTile * getTilesNeeded(crop);
-      System.out.println(continent.getName()+" has a production of "+production+"of"+crop);
+      //System.out.println(continent.getName()+" has a production of "+production+"of"+crop);
       continent.setCropProduction(year, crop, production);
     }
   }
