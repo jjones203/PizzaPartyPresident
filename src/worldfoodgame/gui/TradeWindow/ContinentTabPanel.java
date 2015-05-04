@@ -153,7 +153,7 @@ public class ContinentTabPanel extends JPanel
           if (Tab.this != currentTab)
           {
             super.mouseEntered(e);
-            Tab.this.setForeground(ColorsAndFonts.OCEANS.darker());
+            Tab.this.setForeground(ColorsAndFonts.OCEANS.brighter());
           }
         }
 

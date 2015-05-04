@@ -127,6 +127,10 @@ public class TradeBar extends JPanel implements ActionListener
     }
     add(tradeButtonPanel, BorderLayout.CENTER);
     tradeButtonPanel.add(makeTrade);
+    contPanel.repaint();
+    playerPanel.repaint();
+    contPanel.revalidate();
+    playerPanel.revalidate();
     validate();
   }
 

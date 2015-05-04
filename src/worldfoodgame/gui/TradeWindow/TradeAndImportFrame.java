@@ -70,6 +70,7 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
     saveInitialStates(year - 1);
     mainPanel = new JPanel();
     add(mainPanel);
+    setTitle("Trade Window");
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
     mainPanel.add(playerPanel);
     mainPanel.add(tradeBar);
