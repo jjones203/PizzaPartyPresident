@@ -7,6 +7,8 @@ import worldfoodgame.gui.hud.infopanel.LabelFactory;
 import worldfoodgame.model.World;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.BorderFactory;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +18,7 @@ import java.awt.event.ActionListener;
  */
 public class TradeBar extends JPanel implements ActionListener
 {
-  private JButton makeTrade = new JButton("Trade");
+  private JButton makeTrade = new JButton("Make Trade");
   private final TradeAndImportFrame parent;
   private GraphLabel playerGL;
   private GraphLabel contGL;
@@ -28,17 +30,22 @@ public class TradeBar extends JPanel implements ActionListener
   private double currentLimit = 0;
   private boolean hasContinent = false;
   private boolean hasPlayer = false;
-  public static final Color ROLLOVER_C = Color.WHITE;
-  public static final Color SELECTED_C = Color.RED.darker();
-  public static final Color TEXT_DEFAULT_COLOR = ColorsAndFonts.GUI_TEXT_COLOR;
-  public static final Color BACKGROUND_COLOR = ColorsAndFonts.GUI_BACKGROUND;
-  public static final Font TAB_FONT = ColorsAndFonts.GUI_FONT;
+  private JPanel tradeButtonPanel = new JPanel();
+  private JPanel playerPanel = new JPanel();
+  private JPanel contPanel = new JPanel();
 
   public TradeBar (Dimension dimension, TradeAndImportFrame parent)
   {
-    setPreferredSize(dimension);
+    //setPreferredSize(dimension);
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
     setLayout(new BorderLayout());
+    setBorder(BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, ColorsAndFonts.GUI_TEXT_COLOR.darker()), "Propose A Trade"));
+    tradeButtonPanel.setPreferredSize(new Dimension(100, 50));
+    playerPanel.setPreferredSize(new Dimension(180, 50));
+    contPanel.setPreferredSize(new Dimension(180, 50));
+    tradeButtonPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    playerPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    contPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     this.parent = parent;
     makeTrade.addActionListener(this);
     redraw();
@@ -49,6 +56,11 @@ public class TradeBar extends JPanel implements ActionListener
     this.playerLF = playerLF;
     playerCrop = crop;
     hasPlayer = true;
+    double temp = playerLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, playerCrop);
+    if (temp < currentLimit)
+    {
+      currentLimit = temp;
+    }
     if (hasContinent)
     {
       contGL = contLF.getTradeContLabel(contCrop, this, currentLimit);
@@ -69,6 +81,14 @@ public class TradeBar extends JPanel implements ActionListener
     {
       currentLimit = 0;
     }
+    else if (hasPlayer)
+    {
+      double temp = playerLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, playerCrop);
+      if (temp < currentLimit)
+      {
+        currentLimit = temp;
+      }
+    }
     if (hasPlayer)
     {
       playerGL = playerLF.getTradePlayLabel(playerCrop, this, currentLimit);
@@ -80,16 +100,22 @@ public class TradeBar extends JPanel implements ActionListener
 
   public void redraw ()
   {
+    playerPanel.removeAll();
+    contPanel.removeAll();
+    tradeButtonPanel.removeAll();
     removeAll();
     if (hasPlayer)
     {
-      add(playerGL, BorderLayout.EAST);
+      add(playerPanel, BorderLayout.SOUTH);
+      playerPanel.add(playerGL);
     }
     if (hasContinent)
     {
-      add(contGL, BorderLayout.WEST);
+      add(contPanel, BorderLayout.NORTH);
+      contPanel.add(contGL);
     }
-    add(makeTrade, BorderLayout.CENTER);
+    add(tradeButtonPanel, BorderLayout.CENTER);
+    tradeButtonPanel.add(makeTrade);
     validate();
   }
 
@@ -129,6 +155,14 @@ public class TradeBar extends JPanel implements ActionListener
       if (currentLimit < 0)
       {
         currentLimit = 0;
+      }
+      else
+      {
+        double temp = playerLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, playerCrop);
+        if (temp < currentLimit)
+        {
+          currentLimit = temp;
+        }
       }
       playerGL = playerLF.getTradePlayLabel(playerCrop, this, currentLimit);
       contGL = contLF.getTradeContLabel(contCrop, this, currentLimit);

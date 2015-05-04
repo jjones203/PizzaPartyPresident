@@ -357,11 +357,16 @@ public class LabelFactory
 
     return foodControll;
   }
-/*
-  public GraphLabel getWaterLabel()
+
+  /*public GraphLabel getWaterLabel()
   {
+    double val = 0;
+    if (continent != null)
+    {
+      val = continent.getWaterAllowance() + continent
+    }
     final GraphLabel waterControll = new GraphLabel(
-            "Water Allowance Remaining",
+            "Water Remaining",
             continent.getWaterAllowance()
     )
   }*/
