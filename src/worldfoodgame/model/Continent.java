@@ -898,21 +898,21 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    
    private void initializePizzaPreference()
    {
-     //System.out.println("In Continent.initializePizzaPreference "+this.toString());
      ArrayList<EnumCropType> cropsToSet = new ArrayList<EnumCropType>();
      cropsToSet.addAll(Arrays.asList(EnumCropType.values()));
-     double limit = 1;
+     // random % for each crop, with minimum of 5%
+     double limit = 0.75;
      double sumPercents = 0;
      while (cropsToSet.size() > 1)
      {
        Collections.shuffle(cropsToSet);
        EnumCropType crop = cropsToSet.get(0);
        double percent = Math.random()*limit;
+       percent = Math.max(percent, 0.05);
        setPizzaPreference(crop,percent);
        sumPercents += percent;
-       limit = 1 - sumPercents;
+       limit = 0.75 - sumPercents;
        cropsToSet.remove(0);
-       //System.out.println(crop+" percent "+percent+" sumPercents "+sumPercents+" limit "+limit);
      }
      EnumCropType crop = cropsToSet.get(0);
      double remainingPercent = 1 - sumPercents;
@@ -1092,29 +1092,30 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public double getPlanningPointsFactor(PlanningPointCategory category)
   {
     PlanningPointsLevel level=null;
+    double factor = 0;
     switch(category)
     {
       case GMOResistance:
         level=PlanningPointsLevel.pointsToLevel(GMOPlanningPoints);
-        PlanningPointsLevel.getGMOResistance(level);
+        factor=PlanningPointsLevel.getGMOResistance(level);
         break;
       case WaterEfficiency:
         level=PlanningPointsLevel.pointsToLevel(waterEff);
-        PlanningPointsLevel.getWaterEfficiency(level);
+        factor=PlanningPointsLevel.getWaterEfficiency(level);
         break;
       case YieldEffeciency:
         level=PlanningPointsLevel.pointsToLevel(yieldEff);
-        PlanningPointsLevel.getYieldEfficiency(level);
+        factor=PlanningPointsLevel.getYieldEfficiency(level);
         break;
       case TradeEfficiency:
         level=PlanningPointsLevel.pointsToLevel(tradeEff);
-        PlanningPointsLevel.getTradeEfficiency(level);
+        factor=PlanningPointsLevel.getTradeEfficiency(level);
         break;
       default:
         System.out.println(category.toString()+" not recgnized");
         break;
     }
-    return 0;
+    return factor;
   }
   /********************************/
   /** End Planning Points        **/
