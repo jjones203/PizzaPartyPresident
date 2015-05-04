@@ -160,7 +160,6 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     numCountries++;
     // add population and arable land
     double arableLand = country.getArableLand(START_YEAR);
-    
     for (int i = 0; i < YEARS_OF_SIM; i++)
     {
       population[i] += country.getPopulation(i+START_YEAR);   // population projections are different for each year, so i+START_YEAR
@@ -203,12 +202,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     continentRainfall += (rain * GAL_CM_CUBED);
     avgRainfall = (rain / continentLandTileNum) * GAL_CM_CUBED;
 
-    waterAllowance += country.getWaterAllowance() / 5;
+    waterAllowance += country.getWaterAllowance();
 
     if(DEBUG)
     {
-    System.out.println("Avg rainfall is: " + avgRainfall + "gals per land tile."
-                       + "\nCrop water allowance is: " + waterAllowance + "gallons.");
+      System.out.println("Avg rainfall is: " + avgRainfall + "gals per land tile."
+          + "\nCrop water allowance is: " + waterAllowance + "gallons.");
       System.out.println("Total rain for the continent is: " + continentRainfall + " gallons.");
     }
 
@@ -231,8 +230,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   {
     if(DEBUG)
     {
-    System.out.println("In continent.initializeData, name = "+toString()+" pop = "+getPopulation(START_YEAR));
-    System.out.println("In continent.initializeData, name = "+toString()+" arable = "+getArableLand(START_YEAR));
+      System.out.println("In continent.initializeData, name = "+toString()+" pop = "+getPopulation(START_YEAR));
+      System.out.println("In continent.initializeData, name = "+toString()+" arable = "+getArableLand(START_YEAR));
     }
 
     setInitialPlanningPoints();
@@ -274,6 +273,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
     // set undernourished value for START_YEAR
     setUndernourished(START_YEAR, countriesUndernourishedTotal/numCountries);
+    setWaterAllowance(waterAllowance/25);
+    System.out.println("The water allowance is "+waterAllowance);
     calculateGreenRating(START_YEAR);
     calculateApprovalRating(START_YEAR); 
     calculateDiplomacyRating(START_YEAR, world);
@@ -492,7 +493,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    * This method allows either the continent initialization or an outside class to
    * set or modify the continent's water allowance.  For instance, game designers
    * could use this method to reflect the "discovery" of new fresh water supplies
-   * for the comntinent, such as desalinization, or mining asteroids...
+   * for the continent, such as desalinization, or mining asteroids...
    * @param waterAllowance the amount of water in gallons.
    */
   public void setWaterAllowance(double waterAllowance)
@@ -758,7 +759,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double currCropLand = getCropLand(year, crop);
     double delta = kilomsq - currCropLand;
     double limit = waterAllowance + continentRainfall - waterUsed[year - START_YEAR];
+
+    double factor = this.getPlanningPointsFactor(PlanningPointCategory.WaterEfficiency);
+    limit = limit*factor;
+    System.out.println("FACTOR IS ........................."+factor);
     limit = limit / crop.waterUse;
+
     double valueToSet;
     double waterValue;
     if ((currCropLand + delta) < 0)
@@ -1105,7 +1111,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     points = (int) (50*(approvalRating + diplomacyRating));
     return points;
   }
-    
+
   @Override
   /**
    * called once on initialization
@@ -1283,7 +1289,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public void calculateApprovalRating(int year)
   {
     this.approvalRating = 1 - .5*undernourish[year - START_YEAR] + .5*greenRating;
-    
+
     if (this.approvalRating>1)
     {
       this.approvalRating = 1;
@@ -1316,7 +1322,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     }
 
     this.diplomacyRating  = 1 - .5*hungerFactor + .5*greenRating;
-    
+
     if (this.diplomacyRating>1)
     {
       this.diplomacyRating = 1;
@@ -1327,7 +1333,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public void calculateGreenRating(int year)
   {
     this.greenRating  = 1 - (areaDeforested[year - START_YEAR]/landTotal);
-//    System.out.println("Green rating is "+greenRating);
+    //    System.out.println("Green rating is "+greenRating);
   }
 
 
