@@ -173,9 +173,9 @@ public class World extends AbstractScenario
     {
       hungryPeople += continent.getUndernourished(year)*continent.getPopulation(year);
     }
-    System.out.println("THE UNDERNOURISHED OR HUNGRY IS "+hungryPeople);
+//    System.out.println("THE UNDERNOURISHED OR HUNGRY IS "+hungryPeople);
     double percentHungry = hungryPeople/(getWorldPopulationMil() * 1000000);
-    System.out.println("THE UNDERNOURISHED OR HUNGRY PERCENT IS "+percentHungry);
+//    System.out.println("THE UNDERNOURISHED OR HUNGRY PERCENT IS "+percentHungry);
     return percentHungry;
   }
 
@@ -324,11 +324,15 @@ public class World extends AbstractScenario
     deficits by crop through the TradingOptimizer. */
   private void shipAndReceive()
   {
+    System.out.println("Entering the shipAndReceive() method in World.java");
     TradeOptimizer optimizer = new TradeOptimizer(continents, getCurrentYear());
     //TradingOptimizer optimizer = new TradingOptimizer(politicalWorld, getCurrentYear());
     optimizer.optimizeAndImplementTrades();
-    while(!optimizer.doneTrading());
-    lastTrades = optimizer.getAllTrades();
+   // while(!optimizer.doneTrading());
+    while(!optimizer.doneTrading())
+    {
+      lastTrades = optimizer.getAllTrades();
+    }
   }
 
 
