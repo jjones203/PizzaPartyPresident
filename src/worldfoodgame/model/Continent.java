@@ -68,6 +68,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
   protected double approvalRating; 
   protected double diplomacyRating;
+  protected double greenRating;
 
   //planning points
   private int GMOPlanningPoints=0;
@@ -178,7 +179,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
     waterAllowance += country.getWaterAllowance();
     System.out.println("Avg rainfall is: " + avgRainfall + "gals per land tile."
-                       + "\nCrop water allowance is: " + waterAllowance + "gallons.");
+        + "\nCrop water allowance is: " + waterAllowance + "gallons.");
     landTotal += country.getLandTotal(START_YEAR);
     waterAllowance -=  avgRainfall;
     System.out.println("\tAdjusted water allowance is: " + waterAllowance);
@@ -187,7 +188,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     countriesUndernourishedTotal += country.getUndernourished(START_YEAR);
 
     // calculate average rainfall over the country
-/*
+    /*
     private double calcRainfall()
     {
       double rain = 0.0;
@@ -199,14 +200,14 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
       return (rain / tileNum) * GAL_CM_CUBED;
     }
-*/
+     */
 
   }
 
   /**
    * Initialize fields that depend on average of all countries' values
    */
-  public void initializeData()
+  public void initializeData(World world)
   {
     setInitialPlanningPoints();
     // calculate yields
@@ -244,10 +245,11 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
     // set undernourished value for START_YEAR
     setUndernourished(START_YEAR, countriesUndernourishedTotal/numCountries);
+    calculateGreenRating(START_YEAR);
     calculateApprovalRating(START_YEAR); 
-    calculateDiplomacyRating(START_YEAR);
+    calculateDiplomacyRating(START_YEAR, world);
   }
- 
+
 
   public EnumContinentNames getName()
   {
@@ -626,71 +628,71 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double delta = kilomsq - currCropLand;
     double valueToSet;
   }
-  
-   /**
-    * Set cultivation method %; use when initializing
-    * @param method     cultivation method
-    * @param percentage % land cultivated by method
-    */
-   public void setMethodPercentage(EnumGrowMethod method, double percentage)
-   {
-     if (percentage >= 0 && percentage <= 1)
-     {
-       for (int i = 0; i < (YEARS_OF_SIM); i++)
-       {
-         cultivationMethod[method.ordinal()][i] = percentage;
-       }
-     }
-     else
-     {
-       if (VERBOSE)
-       {
-         System.err.println("Invalid argument for Continent.setMethodPercentage method");
-       }
-     }
-   }
-   
-   public void updateMethodPercentage(int year, EnumGrowMethod method, double percentage)
-   {
-     // what % of land under other cultivation methods, this method
-     double sumOtherMethods = 0;
-     double currentThisMethod = 0;
-     for (EnumGrowMethod growMethod:EnumGrowMethod.values())
-     {
-       if (growMethod == method) currentThisMethod =  getMethodPercentage(year,growMethod);
-       else sumOtherMethods += getMethodPercentage(year,growMethod);
-     }
-     double delta = percentage - currentThisMethod;
-     double maxPossible;
-     // GMO research affects how much GMO you can plant
-     if (method == EnumGrowMethod.GMO)
-     {  
-       double limit = getPlanningPointsFactor(PlanningPointCategory.GMOResistance); 
-       maxPossible = Math.min(limit, 1 - sumOtherMethods);
-     }
-     else maxPossible = 1 - sumOtherMethods;
-     double valueToSet;
-     
-     // if trying to decrease beyond 0, set to 0
-     if ((currentThisMethod + delta) < 0)
-     {
-       valueToSet = 0;
-     }
-     // else if trying to increase by amount greater than maxPossible, set to maxPossible
-     else if ((currentThisMethod + delta) > maxPossible)
-     {
-       valueToSet = maxPossible;
-     }
-     // else set to current + delta
-     else
-     {
-       valueToSet = currentThisMethod + delta;
-     }
-     for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
-     {
-       cultivationMethod[method.ordinal()][i] = valueToSet;
-     }
-   }
+
+  /**
+   * Set cultivation method %; use when initializing
+   * @param method     cultivation method
+   * @param percentage % land cultivated by method
+   */
+  public void setMethodPercentage(EnumGrowMethod method, double percentage)
+  {
+    if (percentage >= 0 && percentage <= 1)
+    {
+      for (int i = 0; i < (YEARS_OF_SIM); i++)
+      {
+        cultivationMethod[method.ordinal()][i] = percentage;
+      }
+    }
+    else
+    {
+      if (VERBOSE)
+      {
+        System.err.println("Invalid argument for Continent.setMethodPercentage method");
+      }
+    }
+  }
+
+  public void updateMethodPercentage(int year, EnumGrowMethod method, double percentage)
+  {
+    // what % of land under other cultivation methods, this method
+    double sumOtherMethods = 0;
+    double currentThisMethod = 0;
+    for (EnumGrowMethod growMethod:EnumGrowMethod.values())
+    {
+      if (growMethod == method) currentThisMethod =  getMethodPercentage(year,growMethod);
+      else sumOtherMethods += getMethodPercentage(year,growMethod);
+    }
+    double delta = percentage - currentThisMethod;
+    double maxPossible;
+    // GMO research affects how much GMO you can plant
+    if (method == EnumGrowMethod.GMO)
+    {  
+      double limit = getPlanningPointsFactor(PlanningPointCategory.GMOResistance); 
+      maxPossible = Math.min(limit, 1 - sumOtherMethods);
+    }
+    else maxPossible = 1 - sumOtherMethods;
+    double valueToSet;
+
+    // if trying to decrease beyond 0, set to 0
+    if ((currentThisMethod + delta) < 0)
+    {
+      valueToSet = 0;
+    }
+    // else if trying to increase by amount greater than maxPossible, set to maxPossible
+    else if ((currentThisMethod + delta) > maxPossible)
+    {
+      valueToSet = maxPossible;
+    }
+    // else set to current + delta
+    else
+    {
+      valueToSet = currentThisMethod + delta;
+    }
+    for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
+    {
+      cultivationMethod[method.ordinal()][i] = valueToSet;
+    }
+  }
 
   /**
    * Returns conventional crop yield; 
@@ -778,7 +780,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     return cultivationMethod[method.ordinal()][year - START_YEAR];
   }
 
-  
+
   public boolean contains(Country country)
   {
     /*for (Country c : countries)
@@ -790,128 +792,128 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
      }
      return false;*/
 
-     return countries.contains(country);
-   }
-   
-   private void initializeYield(EnumCropType crop, double startYield)
-   {
-     // assign calculated yield for year 0 to conventional; adjust for gmo and organic
-     setCropYield(START_YEAR, crop, EnumGrowMethod.CONVENTIONAL, startYield);
-     setCropYield(START_YEAR, crop, EnumGrowMethod.GMO, startYield * GMO_YIELD_PERCENT);
-     setCropYield(START_YEAR, crop, EnumGrowMethod.ORGANIC, startYield * ORGANIC_YIELD_PERCENT);
-     
-     // set remaining years' yield to decline to account for climate change
-     for (EnumGrowMethod method:EnumGrowMethod.values())
-     {
-       for (int year = START_YEAR + 1; year < START_YEAR + YEARS_OF_SIM; year++)
-       {
-         double priorYield = getCropYield(year-1, crop, method);
-         double adjustedYield = priorYield * (1 - ANNUAL_YIELD_DECLINE);
-         setCropYield(year, crop, method, adjustedYield);
-       }
-     }
-   }
-   
-   private void initializePizzaPreference()
-   {
-     ArrayList<EnumCropType> cropsToSet = new ArrayList<EnumCropType>();
-     cropsToSet.addAll(Arrays.asList(EnumCropType.values()));
-     double limit = 1;
-     double sumPercents = 0;
-     while (cropsToSet.size() > 1)
-     {
-       Collections.shuffle(cropsToSet);
-       EnumCropType crop = cropsToSet.get(0);
-       double percent = Math.random()*limit;
-       setPizzaPreference(crop,percent);
-       limit = percent;
-       sumPercents += percent;
-       cropsToSet.remove(0);
-     }
-     EnumCropType crop = cropsToSet.get(0);
-     double remainingPercent = 1 - sumPercents;
-     setPizzaPreference(crop,remainingPercent);
-     cropsToSet.clear();
-   }
-   
-   private void initializeTotalCropNeed()
-   {
-     for (EnumCropType crop:EnumCropType.values())
-     {
-       double percentPrefer = getPizzaPreference(crop);
-       for (int year = START_YEAR; year < (START_YEAR+YEARS_OF_SIM); year++)
-       {
-         double population = getPopulation(year);
-         double need = population * percentPrefer * ANNUAL_TONS_PER_PERSON;
-         setTotalCropNeed(year, crop, need);
-       }
-     }
-   }
-  
-   /* populate cropLand array so values don't go to 0 after START_YEAR */ 
-   private void initializeLandUse()
-   {
-     for (EnumCropType crop:EnumCropType.values())
-     {
-       double cropLand = getCropLand(START_YEAR, crop);
-       for (int year = START_YEAR + 1; year < START_YEAR + YEARS_OF_SIM; year++)
-       {
-         setCropLand(crop, cropLand);
-       }
-     }
-   }
-   
-   /* 
-    * for non-player continents, plant all arable land; divide according to
-    * pizza preferences
-    */
-   public void initializeNonPlayerLandUse()
-   {
-     double arableLand = getArableLand(START_YEAR);
-     for (EnumCropType crop:EnumCropType.values())
-     {
-       double percent = getPizzaPreference(crop);
-       setCropLand(crop, percent * arableLand);
-     }
-   }
-   
-   
-   private void initializeTiles()
-   {
-     Collections.sort(landTiles, new LonComparator()); 
-     int numArableTiles = (int) getArableLand(START_YEAR)/100;
-     
-     for (int i = 0; i < numArableTiles; i++)
-     {
-       LandTile tile = landTiles.get(i);
-       tile.setArable(true);
-     }
-   }
-   
-   private void addToCropLand(int year, EnumCropType crop, double area)
-   {
-     landCrop[crop.ordinal()][year-START_YEAR] += area;
-   }
-   
-   private void addToCropProduction(int year, EnumCropType crop, double production)
-   {
-     cropProduction[crop.ordinal()][year-START_YEAR] += production;
-   }
-   
-   private void addToCropImports(int year, EnumCropType crop, double imports)
-   {
-     cropImport[crop.ordinal()][year-START_YEAR] += imports;
-   }
-   
-   private void addToCropExports(int year, EnumCropType crop, double exports)
-   {
-     cropExport[crop.ordinal()][year-START_YEAR] += exports;
-   }
-   
-   
-   /********************************/
-   /** Start Planning Points      **/
-   /********************************/
+    return countries.contains(country);
+  }
+
+  private void initializeYield(EnumCropType crop, double startYield)
+  {
+    // assign calculated yield for year 0 to conventional; adjust for gmo and organic
+    setCropYield(START_YEAR, crop, EnumGrowMethod.CONVENTIONAL, startYield);
+    setCropYield(START_YEAR, crop, EnumGrowMethod.GMO, startYield * GMO_YIELD_PERCENT);
+    setCropYield(START_YEAR, crop, EnumGrowMethod.ORGANIC, startYield * ORGANIC_YIELD_PERCENT);
+
+    // set remaining years' yield to decline to account for climate change
+    for (EnumGrowMethod method:EnumGrowMethod.values())
+    {
+      for (int year = START_YEAR + 1; year < START_YEAR + YEARS_OF_SIM; year++)
+      {
+        double priorYield = getCropYield(year-1, crop, method);
+        double adjustedYield = priorYield * (1 - ANNUAL_YIELD_DECLINE);
+        setCropYield(year, crop, method, adjustedYield);
+      }
+    }
+  }
+
+  private void initializePizzaPreference()
+  {
+    ArrayList<EnumCropType> cropsToSet = new ArrayList<EnumCropType>();
+    cropsToSet.addAll(Arrays.asList(EnumCropType.values()));
+    double limit = 1;
+    double sumPercents = 0;
+    while (cropsToSet.size() > 1)
+    {
+      Collections.shuffle(cropsToSet);
+      EnumCropType crop = cropsToSet.get(0);
+      double percent = Math.random()*limit;
+      setPizzaPreference(crop,percent);
+      limit = percent;
+      sumPercents += percent;
+      cropsToSet.remove(0);
+    }
+    EnumCropType crop = cropsToSet.get(0);
+    double remainingPercent = 1 - sumPercents;
+    setPizzaPreference(crop,remainingPercent);
+    cropsToSet.clear();
+  }
+
+  private void initializeTotalCropNeed()
+  {
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      double percentPrefer = getPizzaPreference(crop);
+      for (int year = START_YEAR; year < (START_YEAR+YEARS_OF_SIM); year++)
+      {
+        double population = getPopulation(year);
+        double need = population * percentPrefer * ANNUAL_TONS_PER_PERSON;
+        setTotalCropNeed(year, crop, need);
+      }
+    }
+  }
+
+  /* populate cropLand array so values don't go to 0 after START_YEAR */ 
+  private void initializeLandUse()
+  {
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      double cropLand = getCropLand(START_YEAR, crop);
+      for (int year = START_YEAR + 1; year < START_YEAR + YEARS_OF_SIM; year++)
+      {
+        setCropLand(crop, cropLand);
+      }
+    }
+  }
+
+  /* 
+   * for non-player continents, plant all arable land; divide according to
+   * pizza preferences
+   */
+  public void initializeNonPlayerLandUse()
+  {
+    double arableLand = getArableLand(START_YEAR);
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      double percent = getPizzaPreference(crop);
+      setCropLand(crop, percent * arableLand);
+    }
+  }
+
+
+  private void initializeTiles()
+  {
+    Collections.sort(landTiles, new LonComparator()); 
+    int numArableTiles = (int) getArableLand(START_YEAR)/100;
+
+    for (int i = 0; i < numArableTiles; i++)
+    {
+      LandTile tile = landTiles.get(i);
+      tile.setArable(true);
+    }
+  }
+
+  private void addToCropLand(int year, EnumCropType crop, double area)
+  {
+    landCrop[crop.ordinal()][year-START_YEAR] += area;
+  }
+
+  private void addToCropProduction(int year, EnumCropType crop, double production)
+  {
+    cropProduction[crop.ordinal()][year-START_YEAR] += production;
+  }
+
+  private void addToCropImports(int year, EnumCropType crop, double imports)
+  {
+    cropImport[crop.ordinal()][year-START_YEAR] += imports;
+  }
+
+  private void addToCropExports(int year, EnumCropType crop, double exports)
+  {
+    cropExport[crop.ordinal()][year-START_YEAR] += exports;
+  }
+
+
+  /********************************/
+  /** Start Planning Points      **/
+  /********************************/
 
   @Override
   /**
@@ -1084,7 +1086,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    **/
   public void calculateApprovalRating(int year)
   {
-    this.approvalRating = 1 - (.5*undernourish[year - START_YEAR] + .5*(areaDeforested[year - START_YEAR]/landTotal));
+    this.approvalRating = 1 - .5*undernourish[year - START_YEAR] + .5*greenRating;
+    
+    if (this.approvalRating>1)
+    {
+      this.approvalRating = 1;
+    }
   }
 
 
@@ -1096,27 +1103,65 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     return diplomacyRating;
   }
 
+
   /**
    * @param diplomacyRating the diplomacyRating to set
    */
-  public void calculateDiplomacyRating(int year)
+  public void calculateDiplomacyRating(int year, World world)
   {
-    
-    this.diplomacyRating  = 1 - (.5*undernourish[year - START_YEAR] + .5*(areaDeforested[year - START_YEAR]/landTotal));
-  }
-  /*
-   public static void main(String[] args)
-   {
-     Continent testContinent = new Continent(EnumContinentNames.AFRICA);
-     testContinent.initializePizzaPreference();
-     for (EnumCropType crop:EnumCropType.values())
-     {
-       double percent = testContinent.getPizzaPreference(crop);
-       System.out.println("For "+crop+" "+percent);
-     }
-   }*/
+    double worldHunger = world.getWorldHungerPercent();
+    double hungerFactor = 0;
 
-  
+    if (worldHunger > getUndernourished(year))
+    {
+      hungerFactor = worldHunger -  getUndernourished(year);
+    }
+
+    this.diplomacyRating  = 1 - .5*hungerFactor + .5*greenRating;
+    
+    if (this.diplomacyRating>1)
+    {
+      this.diplomacyRating = 1;
+    }
+  }
+
+
+  public void calculateGreenRating(int year)
+  {
+    this.greenRating  = 1 - (areaDeforested[year - START_YEAR]/landTotal);
+    System.out.println("Green rating is "+greenRating);
+  }
+
+
+  /**
+   * @return the greenRating
+   */
+  public double getGreenRating()
+  {
+    return greenRating;
+  }
+
+  // Yearly rating update
+  public void updateRatings(int year, World world)
+  {
+    calculateGreenRating(year);
+    calculateDiplomacyRating(year,world);
+    calculateApprovalRating(year); 
+  }
+
+  /*
+  public static void main(String[] args)
+  {
+    Continent testContinent = new Continent(EnumContinentNames.AFRICA);
+    testContinent.initializePizzaPreference();
+    for (EnumCropType crop:EnumCropType.values())
+    {
+      double percent = testContinent.getPizzaPreference(crop);
+      System.out.println("For "+crop+" "+percent);
+    }
+  }*/
+
+
   /**
    * Class for sorting land tiles by longitude
    * (unsorted, they are grouped by country)
@@ -1132,6 +1177,6 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
       else return 0;
     } 
   }
-  
- }
+
+}
 
