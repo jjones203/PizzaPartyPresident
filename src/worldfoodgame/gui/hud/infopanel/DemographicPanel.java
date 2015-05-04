@@ -2,6 +2,7 @@ package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.model.Continent;
+import worldfoodgame.model.EnumContinentNames;
 
 import javax.swing.*;
 
@@ -53,25 +54,30 @@ public class DemographicPanel extends JPanel
 
     panel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
-    BufferedImage smile = labelFactory.getApprovalRating();
-    
-    if(smile != null)
+    BufferedImage smileA = labelFactory.getApprovalRating();
+    BufferedImage smileB = labelFactory.getDiplomacyRating();
+
+    Continent c = labelFactory.getContinent();
+
+    if(c != null)
     {
-      JLabel pic = new JLabel(new ImageIcon(smile));
-      panel.add(pic);
-    }   
-    else
-    {
-      System.out.println("Approval image is NULL");
+      EnumContinentNames name = c.getName();
+
+      if(name.equals(EnumContinentNames.N_AMERICA))
+      {
+        JLabel picA = new JLabel(new ImageIcon(smileA));
+        JLabel picB = new JLabel(new ImageIcon(smileB));
+
+        panel.add(picA);
+        panel.add(labelFactory.getApprovalBar());
+        panel.add(picB);
+        panel.add(labelFactory.getDiplomacyBar());
+      }
     }
 
-    JLabel label = new JLabel("The Pizza President's Approval Rating");
-    label.setFont(ColorsAndFonts.GUI_FONT);
-    panel.add(labelFactory.getApprovalBar());
-    
     return panel;
   }  
-  
+
   private JPanel getDemoPanel()
   {
     JPanel panel = new JPanel();
