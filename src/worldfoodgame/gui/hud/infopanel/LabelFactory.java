@@ -40,6 +40,11 @@ public class LabelFactory
     this.dataHandler = dataHandler;
     this.updates = new ArrayList<>();
   }
+  
+  public CountryDataHandler getDataHandler()
+  {
+    return dataHandler;
+  }
 
   public void setContinent(Continent continent)
   {
