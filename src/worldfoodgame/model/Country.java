@@ -34,7 +34,7 @@ public class Country extends AbstractCountry
   protected double               waterAllowance;
   private   Continent            continent;
 
-  protected final double WATER_CUSHION = 0.2;
+  protected final double WATER_CUSHION = 0.05;
 
   /**
    * Country constructor
@@ -45,6 +45,7 @@ public class Country extends AbstractCountry
   {
     this.name = name;
     this.landTiles = new ArrayList<>();
+    waterAllowance = 0.0;
   }
 
   /**
