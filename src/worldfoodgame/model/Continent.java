@@ -668,7 +668,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     {
       valueToSet = 0;
       //decreasing water usage since currCropLand + delta should be negative
-      waterValue = waterUsed[year -START_YEAR] + (currCropLand + delta)*crop.waterUse;
+      waterValue = waterUsed[year - START_YEAR] + (currCropLand + delta)*crop.waterUse;
     }
     else if (delta > limit)
     {
@@ -688,7 +688,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
     {
       landCrop[crop.ordinal()][i] = valueToSet;
-      setWaterUsage(i, waterValue);
+      setWaterUsage(i + START_YEAR, waterValue);
     }
   }
 
