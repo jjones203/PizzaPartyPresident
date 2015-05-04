@@ -163,19 +163,20 @@ public class World extends AbstractScenario
 
 
   /**
-   * @return percent of world's population that is happy at current world time
+   * @return percent of world's population that is hungry at current world time
    */
-  public double getWorldHappinessPercent()
+  public double getWorldHungerPercent()
   {
-    double unhappyPeople = 0;
+    double hungryPeople = 0;
     int year = getCurrentYear();
-    for (Country country : politicalWorld)
+    for (Continent continent : continents)
     {
-      unhappyPeople += country.getUnhappyPeople(year);
+      hungryPeople += continent.getUndernourished(year)*continent.getPopulation(year);
     }
-    double percentUnhappy = unhappyPeople/(getWorldPopulationMil() * 1000000);
-    double percentHappy = 1 - percentUnhappy;
-    return percentHappy;
+    System.out.println("THE UNDERNOURISHED OR HUNGRY IS "+hungryPeople);
+    double percentHungry = hungryPeople/(getWorldPopulationMil() * 1000000);
+    System.out.println("THE UNDERNOURISHED OR HUNGRY PERCENT IS "+percentHungry);
+    return percentHungry;
   }
 
   /**
@@ -238,7 +239,7 @@ public class World extends AbstractScenario
     shipAndReceive();
     if (DEBUG) System.out.printf("Done shipping and receiving in: %dms%n", System.currentTimeMillis() - start);
 
-    adjustUndernourished();  // implemented    
+    adjustHungry();  // implemented    
     
     start = System.currentTimeMillis();
 
@@ -260,7 +261,7 @@ public class World extends AbstractScenario
     
     Random ran = new Random();
     int die = ran.nextInt(100)+1;
-    die =1;
+
     if (DEBUG) System.out.println("Die says "+die);    
        
     if (die>0 && die<11) // 10% chance of drought catastrophe
@@ -299,12 +300,12 @@ public class World extends AbstractScenario
   }
 
   // changed from country to continent
-  private void adjustUndernourished()
+  private void adjustHungry()
   {
     int year = getCurrentYear();
     for (Continent continent:continents)
     {
-      continent.updateUndernourished(year);
+      continent.getUndernourished(year);
     }
   }
 

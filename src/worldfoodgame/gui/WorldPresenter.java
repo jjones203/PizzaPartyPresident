@@ -508,12 +508,12 @@ public class WorldPresenter extends Observable
 
 
   /**
-   * returns the percentage of happy people in the world.
+   * returns the percentage of hungry people in the world.
    * @return
    */
-  public double getHappinessP()
+  public double getHungryPercent()
   {
-    return world.getWorldHappinessPercent();
+    return world.getWorldHungerPercent();
   }
 
   public MapConverter getConverter()

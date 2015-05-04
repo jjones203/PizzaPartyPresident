@@ -4,11 +4,21 @@ import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumGrowMethod;
 import worldfoodgame.gui.TradeWindow.TradeGraphLabel;
 import worldfoodgame.model.Continent;
+import worldfoodgame.model.Country;
 import worldfoodgame.model.World;
 import worldfoodgame.gui.TradeWindow.TradeBar;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.imageio.ImageIO;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by winston on 3/17/15.
@@ -23,6 +33,7 @@ public class LabelFactory
   private Collection<Runnable> updates;
   private CountryDataHandler dataHandler;
   private Continent continent;
+  private BufferedImage image;
 
   public LabelFactory(CountryDataHandler dataHandler)
   {
@@ -48,10 +59,10 @@ public class LabelFactory
   public GraphLabel getPopulationLabel()
   {
     final GraphLabel population = new GraphLabel(
-      "Population",
-      dataHandler.getPopulation() / 1_000_000.0,
-      dataHandler.getPopulation() / 1_000_000.0,
-      "#,###.00 million");
+        "Population",
+        dataHandler.getPopulation() / 1_000_000.0,
+        dataHandler.getPopulation() / 1_000_000.0,
+        "#,###.00 million");
 
     updates.add(new Runnable()
     {
@@ -68,10 +79,10 @@ public class LabelFactory
   public GraphLabel getMedianAge()
   {
     final GraphLabel medianAge = new GraphLabel(
-      "Median Age",
-      dataHandler.getMedianAge(),
-      120,
-      "# yrs");
+        "Median Age",
+        dataHandler.getMedianAge(),
+        120,
+        "# yrs");
 
     updates.add(new Runnable()
     {
@@ -88,11 +99,11 @@ public class LabelFactory
   public GraphLabel getBirthRate()
   {
     final GraphLabel birthRate = new GraphLabel(
-      "Birth Rate",
-      dataHandler.getBirthRate(),
-      100,
-      "# per thousand"
-    );
+        "Birth Rate",
+        dataHandler.getBirthRate(),
+        100,
+        "# per thousand"
+        );
 
     updates.add(new Runnable()
     {
@@ -109,11 +120,11 @@ public class LabelFactory
   public GraphLabel getMortalityRate()
   {
     final GraphLabel mortalityRate = new GraphLabel(
-      "Mortality Rate",
-      dataHandler.getMortalityRate(),
-      100,
-      "# per thousand"
-    );
+        "Mortality Rate",
+        dataHandler.getMortalityRate(),
+        100,
+        "# per thousand"
+        );
 
     updates.add(new Runnable()
     {
@@ -131,29 +142,29 @@ public class LabelFactory
   public GraphLabel getTotalLand()
   {
     return new GraphLabel(
-      "Total Land",
-      dataHandler.getLandTotal(),
-      dataHandler.getLandTotal(),
-      "#,###,### " + dataHandler.landUnite() + " sq");
+        "Total Land",
+        dataHandler.getLandTotal(),
+        dataHandler.getLandTotal(),
+        "#,###,### " + dataHandler.landUnite() + " sq");
   }
 
   public GraphLabel getArableLand()
   {
     return new GraphLabel(
-      "Arable Land",
-      dataHandler.getArable(),
-      dataHandler.getLandTotal(),
-      "#,###,### " + dataHandler.landUnite() + " sq");
+        "Arable Land",
+        dataHandler.getArable(),
+        dataHandler.getLandTotal(),
+        "#,###,### " + dataHandler.landUnite() + " sq");
   }
 
   public GraphLabel getProductionLabel(final EnumCropType type)
   {
     final GraphLabel productionLabel = new GraphLabel(
-      "Prod",
-      dataHandler.getProduction(type),
-      dataHandler.getNeed(type),
-      "#,###,### tons"
-    );
+        "Prod",
+        dataHandler.getProduction(type),
+        dataHandler.getNeed(type),
+        "#,###,### tons"
+        );
 
     updates.add(new Runnable()
     {
@@ -170,11 +181,11 @@ public class LabelFactory
   public GraphLabel getNeedLabel(final EnumCropType type)
   {
     final GraphLabel needLabel = new GraphLabel(
-      "Need",
-      dataHandler.getNeed(type),
-      dataHandler.getNeed(type),
-      "#,###,### tons"
-    );
+        "Need",
+        dataHandler.getNeed(type),
+        dataHandler.getNeed(type),
+        "#,###,### tons"
+        );
 
     updates.add(new Runnable()
     {
@@ -202,11 +213,11 @@ public class LabelFactory
     if (val < 0) val = 0;
 
     final GraphLabel methodControll = new GraphLabel(
-            grow.toString(),
-            val,
-            1,
-            "% 00.0",
-            null);
+        grow.toString(),
+        val,
+        1,
+        "% 00.0",
+        null);
 
     methodControll.setEffectRunnable(new Runnable()
     {
@@ -258,10 +269,10 @@ public class LabelFactory
     if (val < 0) val = 0;
 
     final GraphLabel methodControll = new GraphLabel(
-            grow.toString(),
-            val,
-            1,
-            "% 00.0");
+        grow.toString(),
+        val,
+        1,
+        "% 00.0");
 
     updates.add(new Runnable()
     {
@@ -289,11 +300,11 @@ public class LabelFactory
     else val = dataHandler.getCropLand(type) / dataHandler.getArable();
 
     final GraphLabel foodControll = new GraphLabel(
-      type.toString() + " land",
-      val,
-      1,
-      "% 00.0",
-      null);
+        type.toString() + " land",
+        val,
+        1,
+        "% 00.0",
+        null);
 
     foodControll.setEffectRunnable(new Runnable()
     {
@@ -321,10 +332,10 @@ public class LabelFactory
   public GraphLabel getOpenLandLabel()
   {
     final GraphLabel openLandLabel = new GraphLabel(
-      "Open Land",
-      dataHandler.getOpenLand(),
-      dataHandler.getArable(),
-      "#,###,### " + dataHandler.landUnite() + " sq");
+        "Open Land",
+        dataHandler.getOpenLand(),
+        dataHandler.getArable(),
+        "#,###,### " + dataHandler.landUnite() + " sq");
 
     updates.add(new Runnable()
     {
@@ -341,10 +352,10 @@ public class LabelFactory
   public GraphLabel getStaticLandLabel(final EnumCropType type)
   {
     final GraphLabel foodControll = new GraphLabel(
-            type.toString() + " land",
-            dataHandler.getCropLand(type),
-            dataHandler.getArable(),
-            "#,###,### " + "sq");
+        type.toString() + " land",
+        dataHandler.getCropLand(type),
+        dataHandler.getArable(),
+        "#,###,### " + "sq");
 
     updates.add(new Runnable()
     {
@@ -357,7 +368,7 @@ public class LabelFactory
 
     return foodControll;
   }
-/*
+  /*
   public GraphLabel getWaterLabel()
   {
     final GraphLabel waterControll = new GraphLabel(
@@ -369,10 +380,10 @@ public class LabelFactory
   public GraphLabel getExportedLabel(final EnumCropType type)
   {
     final GraphLabel exports = new GraphLabel(
-      "Exported",
-      dataHandler.getExports(type),
-      dataHandler.getNeed(type),
-      "#,###,### tons");
+        "Exported",
+        dataHandler.getExports(type),
+        dataHandler.getNeed(type),
+        "#,###,### tons");
 
     updates.add(new Runnable()
     {
@@ -389,10 +400,10 @@ public class LabelFactory
   public GraphLabel getImportedLabel(final EnumCropType type)
   {
     final GraphLabel imported = new GraphLabel(
-      "Imported",
-      dataHandler.getImports(type),
-      dataHandler.getNeed(type),
-      "#,###,### tons");
+        "Imported",
+        dataHandler.getImports(type),
+        dataHandler.getNeed(type),
+        "#,###,### tons");
 
     updates.add(new Runnable()
     {
@@ -409,11 +420,11 @@ public class LabelFactory
   public GraphLabel getMalnurished()
   {
     final GraphLabel malnurishedLab = new GraphLabel(
-      "Malnourished",
-      dataHandler.getUndernourished(),
-      1,
-      "% 00.0"
-    );
+        "Malnourished",
+        dataHandler.getUndernourished(),
+        1,
+        "% 00.0"
+        );
 
     updates.add(new Runnable()
     {
@@ -429,11 +440,11 @@ public class LabelFactory
   public GraphLabel getTradePlayLabel(final EnumCropType type, final TradeBar trade, double limit)
   {
     final GraphLabel foodPlayControl = new GraphLabel(
-            type.toString(),
-            0,
-            limit,
-            "#,###,### tons",
-            null);
+        type.toString(),
+        0,
+        limit,
+        "#,###,### tons",
+        null);
 
     foodPlayControl.setEffectRunnable(new Runnable()
     {
@@ -460,10 +471,10 @@ public class LabelFactory
   public GraphLabel getTradeContLabel(final EnumCropType type, final TradeBar trade, double limit)
   {
     final GraphLabel foodControl = new GraphLabel(
-            type.toString(),
-            0,
-            limit,
-            "#,###,### tons");
+        type.toString(),
+        0,
+        limit,
+        "#,###,### tons");
 
     updates.add(new Runnable()
     {
@@ -480,11 +491,11 @@ public class LabelFactory
   public TradeGraphLabel getTradeProdLabel(final EnumCropType type)
   {
     final TradeGraphLabel prodLabel = new TradeGraphLabel(
-            type.toString(),
-            continent.getCropProduction(World.getWorld().getCurrentYear()-1, type),
-            continent.getTotalCropNeed(World.getWorld().getCurrentYear()-1, type),
-            "#,###,### tons", type
-    );
+        type.toString(),
+        continent.getCropProduction(World.getWorld().getCurrentYear()-1, type),
+        continent.getTotalCropNeed(World.getWorld().getCurrentYear()-1, type),
+        "#,###,### tons", type
+        );
 
     updates.add(new Runnable()
     {
@@ -497,4 +508,118 @@ public class LabelFactory
 
     return prodLabel;
   }
+
+  public GraphLabel getApprovalBar()
+  {
+    final GraphLabel approvalLab;
+    if (continent != null)
+    {
+      double rating = continent.getApprovalRating();
+      approvalLab = new GraphLabel("Your Approval Rating",rating, 1,"% 00.0");
+    }
+    else
+    {
+      approvalLab = new GraphLabel("Your Approval Rating", .5, 1,"% 00.0");
+    }
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        approvalLab.setValue(continent.getApprovalRating());
+      }
+    });
+    return approvalLab;
+  }
+
+  
+  public GraphLabel getDiplomacyBar()
+  {
+    final GraphLabel diploLab;
+    if (continent != null)
+    {
+      double rating = continent.getDiplomacyRating();
+      diploLab = new GraphLabel("Your Diplomacy Rating",rating,1, "% 00.0" );
+    }
+    else
+    {
+      diploLab = new GraphLabel("Your Diplomacy Rating", .5, 1,"% 00.0");
+    }
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        diploLab.setValue(continent.getDiplomacyRating());
+      }
+    });
+    return diploLab;
+  }
+
+  
+  public BufferedImage getApprovalRating()
+  {
+    if(continent != null)
+    {
+      double rating = continent.getApprovalRating();
+      String face = determineFace(rating);
+      image = loadImage(face);
+    }
+    return image;
+  }
+
+  public BufferedImage getDiplomacyRating()
+  {
+    if(continent != null)
+    {
+      double rating = continent.getApprovalRating();
+      String face = determineFace(rating);
+      image = loadImage(face);
+    }
+    return image;
+  }
+  
+  private String determineFace(double rating)
+  {
+    String expression = "okay.png";
+
+    if (rating<.21)
+    {
+      expression = "distress.png";
+    }
+    else if(rating>.2 && rating<.41)
+    {
+      expression = "upset.png";
+    }
+    else if(rating>.4 && rating<.61)
+    {
+      expression = "okay.png";
+    }
+    else if(rating>.6 && rating<.81)
+    {
+      expression = "good.png";
+    }
+    else if(rating>.8)
+    {
+      expression = "excellent.png";
+    }
+    return expression;
+  }
+  
+  
+  private BufferedImage loadImage(String face)
+  {
+    try
+    {
+      String fileLocation = "resources/ratings/"+face;
+      image = ImageIO.read(new File(fileLocation));
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    return image;
+  }
+  
 }

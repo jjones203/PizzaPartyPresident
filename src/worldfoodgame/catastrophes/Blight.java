@@ -85,13 +85,13 @@ public class Blight extends Catastrophe
       double gmoYield = continent.getCropYield(year, crop, EnumGrowMethod.GMO);
       double orgYield = continent.getCropYield(year, crop, EnumGrowMethod.ORGANIC);
 
-      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/2000);
-      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/1000);
-      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/3000);
+      continent.setCropYield(year, crop, EnumGrowMethod.CONVENTIONAL, convYield/2*convYield);
+      continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/gmoYield);
+      continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/3*orgYield);
 
-       System.out.println(crop+" has a conventional yield of "+convYield/2000);
-       System.out.println(crop+" has a GMO yield of "+gmoYield/1000);
-       System.out.println(crop+" has a organic yield of "+orgYield/3000);
+       System.out.println(crop+" has a conventional yield of "+convYield/2*convYield);
+       System.out.println(crop+" has a GMO yield of "+gmoYield/gmoYield);
+       System.out.println(crop+" has a organic yield of "+orgYield/3*orgYield);
     }
   }
 

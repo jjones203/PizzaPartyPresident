@@ -126,7 +126,7 @@ public abstract class CountryDataHandler
   /**
    Create a CountryDataHandler to handle the data of the List of countries
    passed to it.
-   
+
    @param activeCountries List of countries the Handler is need for
    @param year            year the Handler will be managing
    @return      A CountryDataHandler with accessors to data from the countries given
@@ -173,7 +173,7 @@ public abstract class CountryDataHandler
   public abstract void setLand(EnumCropType type, double p);
   public abstract double getNeed(EnumCropType type);
   public abstract double getOpenLand();
-
+  
   public String landUnite()
   {
     return activeConverter.getDisplayLabel();
@@ -248,6 +248,7 @@ public abstract class CountryDataHandler
       return displayLabel;
     }
   }
+
 }
 
 

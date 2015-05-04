@@ -116,4 +116,5 @@ public class SingleCountryHandeler extends CountryDataHandler
   {
     return activeConverter.convert2Display(country.getArableLandUnused(year));
   }
+
 }
