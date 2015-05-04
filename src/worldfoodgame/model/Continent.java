@@ -42,6 +42,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   protected double GAL_CM_CUBED = 2641.720524;
   protected double continentLandTileNum;
 
+  protected double[] waterUsed = new double[YEARS_OF_SIM];
   protected int[] population = new int[YEARS_OF_SIM];       //in people
   protected double[] undernourish = new double[YEARS_OF_SIM];  // percentage of population. 0.50 is 50%.
 
@@ -327,6 +328,16 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double undernourished = unmetNeed/ANNUAL_TONS_PER_PERSON;
     double percent = undernourished/(getPopulation(year));
     setUndernourished(year,percent);
+  }
+
+  public double getWaterUsage(int year)
+  {
+    return waterUsed[year - START_YEAR];
+  }
+
+  public void setWaterUsage(int year, double gallonsWater)
+  {
+    waterUsed[year - START_YEAR] = gallonsWater;
   }
 
   public double getPizzaPreference(EnumCropType pizzaType)
