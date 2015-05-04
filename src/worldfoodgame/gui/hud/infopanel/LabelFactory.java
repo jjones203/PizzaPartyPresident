@@ -295,9 +295,12 @@ public class LabelFactory
 
   public GraphLabel getLandLabel(final EnumCropType type)
   {
-    double val;
-    if (dataHandler.getArable()<= 0) val = 0;
-    else val = dataHandler.getCropLand(type) / dataHandler.getArable();
+    double val = 0;
+    int year = World.getWorld().getCurrentYear();
+    if (continent != null && continent.getArableLand(year)<= 0)
+    {
+      val = continent.getCropLand(year, type) / continent.getArableLand(year);
+    }
 
     final GraphLabel foodControll = new GraphLabel(
         type.toString() + " land",
@@ -311,7 +314,11 @@ public class LabelFactory
       @Override
       public void run()
       {
-        dataHandler.setLand(type, foodControll.getValue() * dataHandler.getArable());
+        if (continent != null)
+        {
+          int year = World.getWorld().getCurrentYear();
+          continent.updateCropLand(year, type, foodControll.getValue() * continent.getArableLand(year));
+        }
         updateLabels();
       }
     });
@@ -322,7 +329,11 @@ public class LabelFactory
       @Override
       public void run()
       {
-        foodControll.setValue(dataHandler.getCropLand(type) / dataHandler.getArable());
+        if (continent != null)
+        {
+          int year = World.getWorld().getCurrentYear();
+          foodControll.setValue(continent.getCropLand(year, type) / continent.getArableLand(year));
+        }
       }
     });
 
@@ -369,18 +380,19 @@ public class LabelFactory
     return foodControll;
   }
 
-
   public GraphLabel getWaterLabel()
   {
     double val = 0;
+    double limit = 0;
     if (continent != null)
     {
-      val = continent.getWaterAllowance() + continent.getRainfall();
+      limit = continent.getWaterAllowance() + continent.getRainfall();
+      val = limit - continent.getWaterUsage(World.getWorld().getCurrentYear());
     }
     final GraphLabel waterControll = new GraphLabel(
             "Water Remaining",
             val,
-            val,
+            limit,
             "#,###,### gallons");
 
     updates.add(new Runnable()
@@ -394,7 +406,8 @@ public class LabelFactory
         }
         else
         {
-          waterControll.setValue(continent.getWaterAllowance() + continent.getRainfall());
+          waterControll.setValue(continent.getWaterAllowance() + continent.getRainfall()
+                  - continent.getWaterUsage(World.getWorld().getCurrentYear()));
         }
       }
     });

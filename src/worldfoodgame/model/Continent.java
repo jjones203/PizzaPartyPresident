@@ -339,7 +339,18 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
   public void setWaterUsage(int year, double gallonsWater)
   {
-    waterUsed[year - START_YEAR] = gallonsWater;
+    if (gallonsWater < 0)
+    {
+      waterUsed[year - START_YEAR] = 0;
+    }
+    else if (gallonsWater < (waterAllowance + continentRainfall))
+    {
+      waterUsed[year - START_YEAR] = gallonsWater;
+    }
+    else
+    {
+      waterUsed[year - START_YEAR] = waterAllowance + continentRainfall;
+    }
   }
 
   public double getPizzaPreference(EnumCropType pizzaType)
@@ -637,7 +648,27 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double unused = getArableLandUnused(year);
     double currCropLand = getCropLand(year, crop);
     double delta = kilomsq - currCropLand;
+    double limit = waterAllowance + continentRainfall - waterUsed[year - START_YEAR];
+    limit = limit / crop.waterUse;
     double valueToSet;
+    double waterValue;
+    if (delta > limit)
+    {
+      valueToSet = limit + currCropLand;
+      waterValue = waterAllowance + continentRainfall;
+    }
+    else if (delta > unused)
+    {
+      valueToSet = unused + currCropLand;
+      waterValue = valueToSet * crop.waterUse;
+    }
+    else
+    {
+      valueToSet = kilomsq;
+      waterValue = valueToSet * crop.waterUse;
+    }
+    landCrop[crop.ordinal()][year - START_YEAR] = valueToSet;
+    setWaterUsage(year, waterValue);
   }
 
   /**
