@@ -20,6 +20,12 @@ import worldfoodgame.planningpoints.PlanningPointsLevel;
 /**
  * @author jessica
  * @version 4/26/15
+ * Modified by Ken Kressin to add Water Allowance information and methods used
+ * by the computer trading optimizer.
+ *
+ * This class is designed to build and maintain the continents used in the game,
+ * by aggregating the data and methods for all the countries encompassed by the
+ * continent.
  */
 public class Continent implements CropClimateData, PlanningPointsInteractableRegion
 {
@@ -83,6 +89,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   private double countriesGmoTotal = 0;
   private double countriesUndernourishedTotal = 0;
 
+  private boolean DEBUG = false;
+
 
   /**
    * Continent constructor
@@ -132,7 +140,6 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     numCountries = 0;
     startAreaPlanted = 0;
     landTiles = new ArrayList<>();
-    //shipPoint = continentShipPoint.shipPoint;
   }
 
   public Color getColor()
@@ -142,7 +149,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
   /**
    * Add country to continent's country list and its data to continent totals
-   * @param country
+   * @param country the Country object being processed.
    */
   public void addCountry(Country country)
   {
@@ -170,7 +177,10 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
       double cropProduced = country.getCropProduction(START_YEAR, crop);
       addToCropProduction(START_YEAR, crop, cropProduced);
-      //System.out.println("Amount of " + crop.name + " produced is: " + cropProduced);
+      if(DEBUG)
+      {
+        System.out.println("Amount of " + crop.name + " produced is: " + cropProduced);
+      }
 
       double cropImported = country.getCropImport(START_YEAR, crop);
       addToCropImports(START_YEAR, crop, cropImported);
@@ -196,31 +206,23 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     avgRainfall = (rain / continentLandTileNum) * GAL_CM_CUBED;
 
     waterAllowance += country.getWaterAllowance();
-    /*
+
+    if(DEBUG)
+    {
     System.out.println("Avg rainfall is: " + avgRainfall + "gals per land tile."
-                       + "\nCrop water allowance is: " + waterAllowance + "gallons.");*/
+                       + "\nCrop water allowance is: " + waterAllowance + "gallons.");
+    }
+
     landTotal += country.getLandTotal(START_YEAR);
     waterAllowance -=  avgRainfall;
-    //System.out.println("\tAdjusted water allowance is: " + waterAllowance);
+    if(DEBUG)
+    {
+      System.out.println("\tAdjusted water allowance is: " + waterAllowance);
+    }
+
     countriesOrganicTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.ORGANIC);
     countriesGmoTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.GMO);
     countriesUndernourishedTotal += country.getUndernourished(START_YEAR);
-
-    // calculate average rainfall over the country
-    /*
-    private double calcRainfall()
-    {
-      double rain = 0.0;
-      int tileNum = landTiles.size();
-      for(LandTile tile: landTiles)
-      {
-        rain += (double)tile.getRainfall();
-      }
-
-      return (rain / tileNum) * GAL_CM_CUBED;
-    }
-     */
-
   }
 
   /**
@@ -228,9 +230,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    */
   public void initializeData(World world)
   {
-    /*System.out.println("In continent.initializeData, name = "+toString()+" pop = "+getPopulation(START_YEAR));
-    System.out.println("In continent.initializeData, name = "+toString()+" arable = "+getArableLand(START_YEAR));*/
-    
+    if(DEBUG)
+    {
+    System.out.println("In continent.initializeData, name = "+toString()+" pop = "+getPopulation(START_YEAR));
+    System.out.println("In continent.initializeData, name = "+toString()+" arable = "+getArableLand(START_YEAR));
+    }
+
     setInitialPlanningPoints();
     // calculate yields
     for (EnumCropType crop:EnumCropType.values())
@@ -245,8 +250,11 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     initializeTotalCropNeed();
     initializeLandUse();
     initializeTiles();
-    //System.out.println("For continent: " + this.getName() + ", the water allowance is: " + this.getWaterAllowance());
 
+    if(DEBUG)
+    {
+      System.out.println("For continent: " + this.getName() + ", the water allowance is: " + this.getWaterAllowance());
+    }
     // set continent fields using average of country values
     // set percentages for gmo, organic, conventional for START_YEAR
     double organicAvg = countriesOrganicTotal/numCountries;
@@ -419,7 +427,11 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   }
 
   /**
-   * @param waterAllowance the waterAllowance to set
+   * This method allows either the continent initialization or an outside class to
+   * set or modify the continent's water allowance.  For instance, game designers
+   * could use this method to reflect the "discovery" of new fresh water supplies
+   * for the comntinent, such as desalinization, or mining asteroids...
+   * @param waterAllowance the amount of water in gallons.
    */
   public void setWaterAllowance(double waterAllowance)
   {
@@ -428,6 +440,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
   /**
    * Allows the gui to pull the continent's annual rainfall, to use in planting crops.
+   * This amount is part of the continent's annual water allowance, and can change
+   * for droughts or floods.
    * @return  The total gallons of water provided to the continent annually.
    */
   public double getRainfall()
@@ -541,14 +555,16 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
   /**
    * Designed to pull the MapPoint location of the shipping city defined in
-   * ContinentShipData, using EnumContinentShipPoints to get it.  This method is
-   * used in the trading optimizer, "worldfoodgame.model.TradeOptimizer.java"
-   * @return A MapPoint object holding the latitude and longitude of the continent's
+   * ContinentShipData. shipPoint is set when the specific continent is initialized
+   * by pulling the lat and long from enumContinentShipPoints.
+   *
+   * This method is used in the trading optimizer, "worldfoodgame.model.TradeOptimizer.java"
+   * as well as in tradingRoutOverlay.
+   * @return A MapPoint object holding the longitude and latitude of the continent's
    *         shipping city.
    */
   public MapPoint getCapitolLocation()
   {
-    //this.shipPoint = name.shipPoint;
     return shipPoint;
   }
 
@@ -857,15 +873,6 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
   public boolean contains(Country country)
   {
-    /*for (Country c : countries)
-     {
-       if (c == country)
-       {
-         return true;
-       }
-     }
-     return false;*/
-
      return countries.contains(country);
    }
    
