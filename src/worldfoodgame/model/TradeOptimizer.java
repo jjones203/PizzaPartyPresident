@@ -21,9 +21,8 @@ import static worldfoodgame.planningpoints.PlanningPointCategory.TradeEfficiency
  (in this case, the fractional knapsack) with a set of shared resources to place
  in that knapsack, and run them in an arbitrary order until the resources to
  place have been exhausted.
- This is a fairly naive solution, and due to the size of the data set, cannot
- be tightened efficiently (e.g. solving the knapsack problems in order of greatest
- outcome).  To mitigate the odds of a sub-optimal solution, the algorithm is
+
+ To mitigate the odds of a sub-optimal solution, the algorithm is
  threaded for each crop to be traded and run multiple times, the best result of
  which is the actual implemented set of trades.
  */
@@ -115,7 +114,6 @@ public class TradeOptimizer
     private static double calcEfficiency(Continent c1, Continent c2)
     {
       return Math.min(c1.getPlanningPointsFactor(TradeEfficiency), c2.getPlanningPointsFactor(TradeEfficiency));
-      //return 1 - c1.getShippingDistance(c2.getCapitolLocation()) / 20_000d;
     }
 
     /* implement a trade between this pair, given a crop and year to trade in.
@@ -251,12 +249,10 @@ public class TradeOptimizer
         /* switch the ordering scheme every loop */
         if (i % 2 == 0)
         {
-          //tmp.shuffleList(importerMap);
           tmp.shuffleOnExporters();
         }
         else
         {
-          //tmp.shuffleList(exporterMap);
           tmp.shuffleOnImporters();
         }
 
@@ -394,93 +390,17 @@ public class TradeOptimizer
       return list;
     }
 
-    /* sort this list based first on importer Eculidean distance between the importer
-     and exporter and then on the efficiency (descending) between the importer
-     and exporter in each TradePair */
-    //private void shuffleList(HashMap<Continent, Double> map)
     private void shuffleOnImporters()
     {
       Collections.shuffle(Arrays.asList(importerMap));
       System.out.println("Shuffled importerMap: " + importerMap.toString());
-/*
-      final MapPoint pt = randomMapPoint();
-      Collections.sort(this, new Comparator<TradePair>()
-      {
-        @Override
-        public int compare(TradePair o1, TradePair o2)
-        {
-          */
-/* if the importer are the same object, sort based on efficiency *//*
-
-          if(o1.importer == o2.importer)
-          {
-            double ef1 = o1.efficiency;
-            double ef2 = o2.efficiency;
-            return ef1 > ef2? 1 : ef1 < ef2 ? -1 : 0;
-          }
-          */
-/* otherwise sort based on Euclidean distance between the importers
-            and the randomly selected point *//*
-
-          else
-          {
-            double d1 = pt.distanceSq(o1.importer.getCapitolLocation());
-            double d2 = pt.distanceSq(o2.importer.getCapitolLocation());
-            return d1 > d2 ? 1 : d1 < d2 ? -1 : 0;
-          }
-        }
-      });
-*/
     }
 
-    /* sort this list based first on exporter Eculidean distance from a randomly
-     selected point and then on the efficiency (descending) between the importer
-     and exporter in each TradePair */
     private void shuffleOnExporters()
     {
       Collections.shuffle(Arrays.asList(exporterMap));
       System.out.println("Shuffled exporterMap: " + exporterMap.toString());
 
-/*
-      final MapPoint pt = randomMapPoint();
-      Collections.sort(this, new Comparator<TradePair>()
-      {
-        @Override
-        public int compare(TradePair o1, TradePair o2)
-        {
-          */
-/* if the exporters are the same object, sort based on efficiency *//*
-
-          if(o1.exporter == o2.exporter)
-          {
-            double ef1 = o1.efficiency;
-            double ef2 = o2.efficiency;
-            return ef1 > ef2? 1 : ef1 < ef2 ? -1 : 0;
-          }
-          */
-/* otherwise sort based on Euclidean distance between the importers
-            and the randomly selected point *//*
-
-          else
-          {
-            double d1 = pt.distanceSq(o1.exporter.getCapitolLocation());
-            double d2 = pt.distanceSq(o2.exporter.getCapitolLocation());
-            return d1 > d2 ? 1 : d1 < d2 ? -1 : 0;
-          }
-        }
-      });
-*/
-    }
-
-    /* make a random MapPoint somewhere in the range of acceptable Lon and Lat
-      values */
-    private MapPoint randomMapPoint()
-    {
-      double lat = (Math.random() - 0.5) * 360;
-      double lon = (Math.random() - 0.5) * 180;
-      return new MapPoint(lon, lat);
     }
   }
-
-
 }
