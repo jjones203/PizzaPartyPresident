@@ -72,6 +72,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   protected double greenRating;
 
   //planning points
+  private boolean isRealistic = true;
   private int GMOPlanningPoints=0;
   private int waterEff=0;
   private int yieldEff=0;
@@ -926,6 +927,13 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   /** Start Planning Points      **/
   /********************************/
 
+  public int calculatePlanningPoints()
+  {
+    int points = 0;
+    points = (int) (50*(approvalRating + diplomacyRating));
+    return points;
+  }
+    
   @Override
   /**
    * called once on initialization
