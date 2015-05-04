@@ -8,24 +8,24 @@ package worldfoodgame.model;
  */
 public interface ContinentShipData
 {
-  MapPoint N_AMERICA_SHIP_POINT = new MapPoint(29.25, -90.07);
+  MapPoint N_AMERICA_SHIP_POINT = new MapPoint(-90.07, 29.25);
   String   N_AMERICA_SHIP_CITY  = "New Orleans";
 
-  MapPoint S_AMERICA_SHIP_POINT = new MapPoint(-34.604, -58.382);
+  MapPoint S_AMERICA_SHIP_POINT = new MapPoint(-58.382, -34.604);
   String   S_AMERICA_SHIP_CITY  = "Buenos Aires";
 
-  MapPoint EUROPE_SHIP_POINT = new MapPoint(51.50, -0.14);
+  MapPoint EUROPE_SHIP_POINT = new MapPoint(-0.14, 51.50);
   String   EUROPE_SHIP_CITY  = "London";
 
-  MapPoint AFRICA_SHIP_POINT = new MapPoint(30.04, 31.23);
+  MapPoint AFRICA_SHIP_POINT = new MapPoint(31.23, 30.04);
   String   AFRICA_SHIP_CITY  = "Cairo";
 
-  MapPoint OCEANIA_SHIP_POINT = new MapPoint(-33.86, 151.21);
+  MapPoint OCEANIA_SHIP_POINT = new MapPoint(151.21, -33.86);
   String   OCEANIA_SHIP_CITY  = "Sydney";
 
-  MapPoint ASIA_SHIP_POINT = new MapPoint(39.94, 116.41);
+  MapPoint ASIA_SHIP_POINT = new MapPoint(116.41, 39.94);
   String   ASIA_SHIP_CITY  = "Beijing";
 
-  MapPoint MIDDLE_EAST_SHIP_POINT = new MapPoint(35.69, 51.42);
+  MapPoint MIDDLE_EAST_SHIP_POINT = new MapPoint(51.42, 35.69);
   String MIDDLE_EAST_SHIP_CITY = "Tehran";
 }
