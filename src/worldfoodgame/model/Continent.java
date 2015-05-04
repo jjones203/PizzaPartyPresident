@@ -650,6 +650,27 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double currCropLand = getCropLand(year, crop);
     double delta = kilomsq - currCropLand;
     double valueToSet;
+    
+    // if trying to decrease beyond 0, set to 0
+    if ((currCropLand + delta) < 0)
+    {
+      valueToSet = 0;
+    }
+    // else if trying to increase by amount greater than available, set to current + available
+    else if (delta > unused)
+    {
+      valueToSet = currCropLand + unused;
+    }
+    // else set to curr + delta
+    else
+    {
+      valueToSet = currCropLand + delta;
+    }
+    for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
+    {
+      landCrop[crop.ordinal()][i] = valueToSet;
+    }
+    
   }
 
   /**

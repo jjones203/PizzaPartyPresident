@@ -121,7 +121,7 @@ public class InfoPanel extends JPanel implements Observer
     labelFactory = new LabelFactory(dataHandler);
     if(continentArrayList.size() == 1)
     {
-      System.out.println("In InfoPanel.update continent is "+continentArrayList.get(0).toString());
+      //System.out.println("In InfoPanel.update continent is "+continentArrayList.get(0).toString());
       labelFactory.setContinent(continentArrayList.get(0));
       if (continentArrayList.get(0) == player.getContinent())
       {

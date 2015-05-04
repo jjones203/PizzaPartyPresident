@@ -1,6 +1,7 @@
 package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.common.EnumCropType;
+import worldfoodgame.gui.hud.infopanel.CountryDataHandler.DISPLAY_UNIT;
 import worldfoodgame.model.Continent;
 import worldfoodgame.model.World;
 
@@ -12,6 +13,8 @@ public class ContinentDataHandler extends CountryDataHandler
 {
   private Continent continent;
   private int year;
+  
+  public static DISPLAY_UNIT activeConverter = DISPLAY_UNIT.METRIC;
   
   public ContinentDataHandler(Continent continent, int year)
   {
@@ -108,7 +111,9 @@ public class ContinentDataHandler extends CountryDataHandler
   @Override
   public void setLand(EnumCropType type, double kilom)
   {
+    //System.out.println("In ContinentDataHandler.setLand");
     double val = activeConverter.convert2ModelSpace(kilom);
+    //System.out.println("In ContinentDataHandler.setLand val is "+val);
     continent.updateCropLand(year, type, val);
   }
 
