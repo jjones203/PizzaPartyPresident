@@ -84,7 +84,8 @@ public class CropPanel extends JPanel
     landUse.setLayout(new BoxLayout(landUse, BoxLayout.Y_AXIS));
     if (hasPlayer)
     {
-      landUse.add(labelFactory.getStaticLandLabel(type));
+      //landUse.add(labelFactory.getStaticLandLabel(type));
+      landUse.add(labelFactory.getLandLabel(type));
       landUse.add(labelFactory.getGrowMethodLabel(EnumGrowMethod.CONVENTIONAL));
       landUse.add(labelFactory.getGrowMethodLabel(EnumGrowMethod.GMO));
       landUse.add(labelFactory.getGrowMethodLabel(EnumGrowMethod.ORGANIC));
