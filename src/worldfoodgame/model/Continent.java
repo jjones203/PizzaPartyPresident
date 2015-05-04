@@ -688,7 +688,11 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double currCropLand = getCropLand(year, crop);
     double delta = kilomsq - currCropLand;
     double limit = waterAllowance + continentRainfall - waterUsed[year - START_YEAR];
+  
+    double factor = this.getPlanningPointsFactor(PlanningPointCategory.WaterEfficiency);
+    limit = limit*factor;
     limit = limit / crop.waterUse;
+    
     double valueToSet;
     double waterValue;
     if ((currCropLand + delta) < 0)
