@@ -369,19 +369,38 @@ public class LabelFactory
     return foodControll;
   }
 
-  /*
+
   public GraphLabel getWaterLabel()
   {
     double val = 0;
     if (continent != null)
     {
-      val = continent.getWaterAllowance() + continent
+      val = continent.getWaterAllowance() + continent.getRainfall();
     }
     final GraphLabel waterControll = new GraphLabel(
             "Water Remaining",
-            continent.getWaterAllowance()
-    )
-  }*/
+            val,
+            val,
+            "#,###,### gallons");
+
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        if (continent == null)
+        {
+          waterControll.setValue(0);
+        }
+        else
+        {
+          waterControll.setValue(continent.getWaterAllowance() + continent.getRainfall());
+        }
+      }
+    });
+
+    return waterControll;
+  }
 
   public GraphLabel getExportedLabel(final EnumCropType type)
   {
