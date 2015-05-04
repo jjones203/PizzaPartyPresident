@@ -33,7 +33,6 @@ class CropRasterLook extends RasterViz
     Graphics2D g2d = image.createGraphics();
     g2d.translate(IMG_WIDTH / 2, IMG_HEIGHT / 2);
 
-    //for (LandTile tile : World.getWorld().getAllCountrifiedTiles())
     for (Continent cont:World.getWorld().getContinents())
     {
       Collection<LandTile> tiles = cont.getLandTiles(); 
@@ -42,6 +41,10 @@ class CropRasterLook extends RasterViz
         if (tile.isArable() == false)
         {
           g2d.setColor(ColorsAndFonts.NONARABLE_COLOR);
+        }
+        else if (tile.isForested())
+        {
+          g2d.setColor(ColorsAndFonts.FORESTED_COLOR);
         }
         else if (tile.getCurrentCrop() == null)
         {
