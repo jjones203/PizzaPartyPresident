@@ -162,14 +162,18 @@ public class MapPane extends JPanel
       boolean isPrimaryAndActive = region.isActive()
         && region.isPrimaryRegion() && singularSelection;
 
+      // don't draw flags and names anymore
+      /*
       if (visibleRaio < NAME_VIS_SCALE || isPrimaryAndActive)
       {
         RegionNameDraw.draw(g2, region);
       }
+      
+      
       if (visibleRaio < FLAG_VIS_SCALE || isPrimaryAndActive)
       {
         RegionFlagDraw.draw(g2, region);
-      }
+      }*/
     }
 
 
