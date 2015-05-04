@@ -89,7 +89,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   private double countriesGmoTotal = 0;
   private double countriesUndernourishedTotal = 0;
 
-  private boolean DEBUG = false;
+  private boolean DEBUG = true;
 
 
   /**
@@ -205,16 +205,17 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     continentRainfall += (rain * GAL_CM_CUBED);
     avgRainfall = (rain / continentLandTileNum) * GAL_CM_CUBED;
 
-    waterAllowance += country.getWaterAllowance();
+    waterAllowance += country.getWaterAllowance() / 5;
 
     if(DEBUG)
     {
     System.out.println("Avg rainfall is: " + avgRainfall + "gals per land tile."
                        + "\nCrop water allowance is: " + waterAllowance + "gallons.");
+      System.out.println("Total rain for the continent is: " + continentRainfall + " gallons.");
     }
 
     landTotal += country.getLandTotal(START_YEAR);
-    waterAllowance -=  avgRainfall;
+    waterAllowance -= continentRainfall;
     if(DEBUG)
     {
       System.out.println("\tAdjusted water allowance is: " + waterAllowance);
