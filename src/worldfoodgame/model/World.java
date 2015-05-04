@@ -173,6 +173,7 @@ public class World extends AbstractScenario
     {
       hungryPeople += continent.getUndernourished(year)*continent.getPopulation(year);
     }
+
 //    System.out.println("THE UNDERNOURISHED OR HUNGRY IS "+hungryPeople);
     double percentHungry = hungryPeople/(getWorldPopulationMil() * 1000000);
 //    System.out.println("THE UNDERNOURISHED OR HUNGRY PERCENT IS "+percentHungry);

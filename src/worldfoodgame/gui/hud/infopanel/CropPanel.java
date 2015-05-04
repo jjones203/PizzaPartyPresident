@@ -82,9 +82,13 @@ public class CropPanel extends JPanel
     JPanel landUse = new JPanel();
     landUse.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     landUse.setLayout(new BoxLayout(landUse, BoxLayout.Y_AXIS));
+    /*System.out.println("In CropPanel");
+    CountryDataHandler dh = labelFactory.getDataHandler();
+    System.out.println("Is datahandler ContinentDataHandler? "+(dh instanceof ContinentDataHandler));*/
     if (hasPlayer)
     {
-      landUse.add(labelFactory.getStaticLandLabel(type));
+      //landUse.add(labelFactory.getStaticLandLabel(type));
+      landUse.add(labelFactory.getLandLabel(type));
       landUse.add(labelFactory.getGrowMethodLabel(EnumGrowMethod.CONVENTIONAL));
       landUse.add(labelFactory.getGrowMethodLabel(EnumGrowMethod.GMO));
       landUse.add(labelFactory.getGrowMethodLabel(EnumGrowMethod.ORGANIC));

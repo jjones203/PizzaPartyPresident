@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.model.Continent;
@@ -24,7 +25,7 @@ import worldfoodgame.model.Region;
  *have for allocating planning points at the end of each
  *harvest/year. This works closely in conjunction with the
  *PlanningPointsData class which has static members to
- *communicate to alll GUI components
+ *communicate to all GUI components
  */
 public class PlanningPointsAllocationPanel extends JPanel
 {
@@ -74,7 +75,7 @@ public class PlanningPointsAllocationPanel extends JPanel
     PlanningPointsFooterPanel footer = new PlanningPointsFooterPanel(FRAME);
     bgPanel.add(footer);
     
-    
+    FRAME.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     FRAME.setContentPane(bgPanel);
     FRAME.pack();
     FRAME.setVisible(true);
@@ -206,7 +207,7 @@ public class PlanningPointsAllocationPanel extends JPanel
         tradeEff=numPoints;
       break;
       default:
-        System.out.println(category.toString()+" not recgnized");
+        System.out.println(category.toString()+" not recognized");
       break;
     }
   }

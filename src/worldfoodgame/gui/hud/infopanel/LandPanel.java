@@ -85,6 +85,7 @@ public class LandPanel extends JPanel
     overView.add(labelFactory.getTotalLand());
     overView.add(labelFactory.getArableLand());
     overView.add(labelFactory.getOpenLandLabel());
+    overView.add(labelFactory.getWaterLabel());
     return overView;
   }
 

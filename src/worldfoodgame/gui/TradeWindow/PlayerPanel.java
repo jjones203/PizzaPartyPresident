@@ -7,6 +7,7 @@ import worldfoodgame.gui.hud.infopanel.SingleCountryHandeler;
 import worldfoodgame.model.Player;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,12 +20,8 @@ public class PlayerPanel extends JPanel
   private Player player;
   private SingleCountryHandeler handler;
   private LabelFactory labelFactory;
-  public final TradeAndImportFrame parent;
-  public static final Color ROLLOVER_C = Color.WHITE;
-  public static final Color SELECTED_C = Color.RED.darker();
-  public static final Color TEXT_DEFAULT_COLOR = ColorsAndFonts.GUI_TEXT_COLOR;
-  public static final Color BACKGROUND_COLOR = ColorsAndFonts.GUI_BACKGROUND;
-  public static final Font TAB_FONT = ColorsAndFonts.GUI_FONT;
+  private final TradeAndImportFrame parent;
+  private TitledBorder border;
 
   public PlayerPanel(Player player, Dimension dimension, TradeAndImportFrame parent)
   {
@@ -32,6 +29,12 @@ public class PlayerPanel extends JPanel
     this.parent = parent;
     setPreferredSize(dimension);
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
+    border = BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, ColorsAndFonts.GUI_TEXT_COLOR.darker()),
+            player.getContinent().getContName());
+    border.setTitleJustification(TitledBorder.CENTER);
+    border.setTitleFont(ColorsAndFonts.HUD_TITLE);
+    border.setTitleColor(ColorsAndFonts.OCEANS);
+    setBorder(border);
     setLayout(new FlowLayout());
   }
 

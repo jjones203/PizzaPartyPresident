@@ -47,11 +47,11 @@ public class ContinentTabPanel extends JPanel
     vPadding = 0;
     hPadding = 7;
 
-    //setPreferredSize(dimension);
+    setPreferredSize(dimension);
     setLayout(new BorderLayout());
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
 
-    tabpabel.setLayout(new FlowLayout(FlowLayout.LEFT));
+    tabpabel.setLayout(new FlowLayout(FlowLayout.CENTER));
     tabpabel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     tabpabel.setBorder(ColorsAndFonts.HEADING_UNDERLINE);
 
@@ -115,7 +115,8 @@ public class ContinentTabPanel extends JPanel
     public Tab(String text)
     {
       super(text);
-      this.setForeground(TEXT_DEFAULT_COLOR);
+      //this.setForeground(TEXT_DEFAULT_COLOR);
+      this.setForeground(ColorsAndFonts.OCEANS);
       this.setBackground(BACKGROUND_COLOR);
       this.setFont(TAB_FONT.deriveFont(fontSize));
       this.setBorder(new EmptyBorder(vPadding, hPadding, vPadding, hPadding));
@@ -135,7 +136,8 @@ public class ContinentTabPanel extends JPanel
           alpha = 0;
           currentTab = Tab.this;
 
-          setForeground(SELECTED_C);
+          //setForeground(SELECTED_C);
+          setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
 
           contentArea.removeAll();
           contentArea.add(tabmap.get(Tab.this));
@@ -151,7 +153,7 @@ public class ContinentTabPanel extends JPanel
           if (Tab.this != currentTab)
           {
             super.mouseEntered(e);
-            Tab.this.setForeground(ROLLOVER_C);
+            Tab.this.setForeground(ColorsAndFonts.OCEANS.brighter());
           }
         }
 
@@ -161,7 +163,7 @@ public class ContinentTabPanel extends JPanel
           if (Tab.this != currentTab)
           {
             super.mouseEntered(e);
-            Tab.this.setForeground(TEXT_DEFAULT_COLOR);
+            Tab.this.setForeground(ColorsAndFonts.OCEANS);
           }
         }
       });
@@ -170,7 +172,7 @@ public class ContinentTabPanel extends JPanel
     /* changes there graphical representation */
     private void deselect()
     {
-      Tab.this.setForeground(TEXT_DEFAULT_COLOR);
+      Tab.this.setForeground(ColorsAndFonts.OCEANS);
     }
   }
 }
