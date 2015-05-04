@@ -95,33 +95,43 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     {
       case N_AMERICA:
         color = ColorsAndFonts.N_AMERICA;
+        shipPoint = continentShipPoint.N_AMERICA_SHIP_POINT;
         break;
       case S_AMERICA:
         color = ColorsAndFonts.S_AMERICA;
+        shipPoint = continentShipPoint.S_AMERICA_SHIP_POINT;
         break;
       case AFRICA:
         color = ColorsAndFonts.AFRICA;
+        shipPoint = continentShipPoint.AFRICA_SHIP_POINT;
         break;
       case ASIA:
         color = ColorsAndFonts.ASIA;
+        shipPoint = continentShipPoint.ASIA_SHIP_POINT;
         break;
       case EUROPE:
         color = ColorsAndFonts.EUROPE;
+        shipPoint = continentShipPoint.EUROPE_SHIP_POINT;
         break;
       case MIDDLE_EAST:
         color = ColorsAndFonts.M_EAST;
+        shipPoint = continentShipPoint.MIDDLE_EAST_SHIP_POINT;
         break;
       case OCEANIA:
         color = ColorsAndFonts.OCEANIA;
+        shipPoint = continentShipPoint.OCEANIA_SHIP_POINT;
         break;
       default:
         color = ColorsAndFonts.PASSIVE_REGION;
+
         break;
     }
+
     countries = new ArrayList<>();
     numCountries = 0;
     startAreaPlanted = 0;
     landTiles = new ArrayList<>();
+    //shipPoint = continentShipPoint.shipPoint;
   }
 
   public Color getColor()
@@ -179,11 +189,13 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     avgRainfall = (rain / continentLandTileNum) * GAL_CM_CUBED;
 
     waterAllowance += country.getWaterAllowance();
+/*
     System.out.println("Avg rainfall is: " + avgRainfall + "gals per land tile."
         + "\nCrop water allowance is: " + waterAllowance + "gallons.");
+*/
     landTotal += country.getLandTotal(START_YEAR);
     waterAllowance -=  avgRainfall;
-    System.out.println("\tAdjusted water allowance is: " + waterAllowance);
+//    System.out.println("\tAdjusted water allowance is: " + waterAllowance);
     countriesOrganicTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.ORGANIC);
     countriesGmoTotal += country.getMethodPercentage(START_YEAR, EnumGrowMethod.GMO);
     countriesUndernourishedTotal += country.getUndernourished(START_YEAR);
@@ -516,7 +528,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    */
   public MapPoint getCapitolLocation()
   {
-    shipPoint = continentShipPoint.shipPoint;
+    //this.shipPoint = name.shipPoint;
     return shipPoint;
   }
 
@@ -1116,7 +1128,9 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
 
   /**
-   * @param diplomacyRating the diplomacyRating to set
+   *
+   * @param year
+   * @param world
    */
   public void calculateDiplomacyRating(int year, World world)
   {
@@ -1140,7 +1154,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public void calculateGreenRating(int year)
   {
     this.greenRating  = 1 - (areaDeforested[year - START_YEAR]/landTotal);
-    System.out.println("Green rating is "+greenRating);
+//    System.out.println("Green rating is "+greenRating);
   }
 
 
