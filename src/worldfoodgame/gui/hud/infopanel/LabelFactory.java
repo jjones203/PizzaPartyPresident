@@ -213,11 +213,11 @@ public class LabelFactory
     if (val < 0) val = 0;
 
     final GraphLabel methodControll = new GraphLabel(
-            grow.toString(),
-            val,
-            1,
-            "% 00.0",
-            null);
+        grow.toString(),
+        val,
+        1,
+        "% 00.0",
+        null);
 
     methodControll.setEffectRunnable(new Runnable()
     {
@@ -269,10 +269,10 @@ public class LabelFactory
     if (val < 0) val = 0;
 
     final GraphLabel methodControll = new GraphLabel(
-            grow.toString(),
-            val,
-            1,
-            "% 00.0");
+        grow.toString(),
+        val,
+        1,
+        "% 00.0");
 
     updates.add(new Runnable()
     {
@@ -352,10 +352,10 @@ public class LabelFactory
   public GraphLabel getStaticLandLabel(final EnumCropType type)
   {
     final GraphLabel foodControll = new GraphLabel(
-            type.toString() + " land",
-            dataHandler.getCropLand(type),
-            dataHandler.getArable(),
-            "#,###,### " + "sq");
+        type.toString() + " land",
+        dataHandler.getCropLand(type),
+        dataHandler.getArable(),
+        "#,###,### " + "sq");
 
     updates.add(new Runnable()
     {
@@ -368,7 +368,7 @@ public class LabelFactory
 
     return foodControll;
   }
-/*
+  /*
   public GraphLabel getWaterLabel()
   {
     final GraphLabel waterControll = new GraphLabel(
@@ -514,21 +514,12 @@ public class LabelFactory
     final GraphLabel approvalLab;
     if (continent != null)
     {
-      approvalLab = new GraphLabel(
-          " The Pizza President's Approval Rating",
-          continent.getApprovalRating(),
-          1,
-          "% 00.0"
-          );
+      double rating = continent.getApprovalRating();
+      approvalLab = new GraphLabel("Your Approval Rating",rating, 1,"% 00.0");
     }
     else
     {
-      approvalLab = new GraphLabel(
-          " The Pizza President's Approval Rating",
-          .5,
-          1,
-          "% 00.0"
-          );
+      approvalLab = new GraphLabel("Your Approval Rating", .5, 1,"% 00.0");
     }
 
     updates.add(new Runnable()
@@ -542,42 +533,83 @@ public class LabelFactory
     return approvalLab;
   }
 
+  
+  public GraphLabel getDiplomacyBar()
+  {
+    final GraphLabel diploLab;
+    if (continent != null)
+    {
+      double rating = continent.getDiplomacyRating();
+      diploLab = new GraphLabel("Your Diplomacy Rating",rating,1, "% 00.0" );
+    }
+    else
+    {
+      diploLab = new GraphLabel("Your Diplomacy Rating", .5, 1,"% 00.0");
+    }
+    updates.add(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        diploLab.setValue(continent.getDiplomacyRating());
+      }
+    });
+    return diploLab;
+  }
+
+  
   public BufferedImage getApprovalRating()
   {
-    String face = "okay.png";
-
     if(continent != null)
     {
-      System.out.println(continent);
-
       double rating = continent.getApprovalRating();
-
-      if (rating<.21)
-      {
-        face = "distress.png";
-        System.out.println("distress");
-      }
-      else if(rating>.2 && rating<.41)
-      {
-        face = "upset.png";
-        System.out.println("upset");
-      }
-      else if(rating>.4 && rating<.61)
-      {
-        face = "okay.png";
-        System.out.println("okay");
-      }
-      else if(rating>.6 && rating<.81)
-      {
-        face = "good.png";
-        System.out.println("good");
-      }
-      else if(rating>.8)
-      {
-        face = "excellent.png";
-        System.out.println("excellent");
-      }
+      String face = determineFace(rating);
+      image = loadImage(face);
     }
+    return image;
+  }
+
+  public BufferedImage getDiplomacyRating()
+  {
+    if(continent != null)
+    {
+      double rating = continent.getApprovalRating();
+      String face = determineFace(rating);
+      image = loadImage(face);
+    }
+    return image;
+  }
+  
+  private String determineFace(double rating)
+  {
+    String expression = "okay.png";
+
+    if (rating<.21)
+    {
+      expression = "distress.png";
+    }
+    else if(rating>.2 && rating<.41)
+    {
+      expression = "upset.png";
+    }
+    else if(rating>.4 && rating<.61)
+    {
+      expression = "okay.png";
+    }
+    else if(rating>.6 && rating<.81)
+    {
+      expression = "good.png";
+    }
+    else if(rating>.8)
+    {
+      expression = "excellent.png";
+    }
+    return expression;
+  }
+  
+  
+  private BufferedImage loadImage(String face)
+  {
     try
     {
       String fileLocation = "resources/ratings/"+face;
@@ -587,7 +619,7 @@ public class LabelFactory
     {
       e.printStackTrace();
     }
-
     return image;
   }
+  
 }
