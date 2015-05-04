@@ -29,7 +29,8 @@ public class World extends AbstractScenario
   private Collection<Country> politicalWorld;
   private TileManager tileManager;
   private Calendar currentDate;
-  private List<TradingOptimizer.TradePair>[] lastTrades;
+  private List<TradeOptimizer.TradePair>[] lastTrades;
+ // private List<TradingOptimizer.TradePair>[] lastTrades;
   private boolean DEBUG = true;
 
   private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
@@ -162,19 +163,20 @@ public class World extends AbstractScenario
 
 
   /**
-   * @return percent of world's population that is happy at current world time
+   * @return percent of world's population that is hungry at current world time
    */
-  public double getWorldHappinessPercent()
+  public double getWorldHungerPercent()
   {
-    double unhappyPeople = 0;
+    double hungryPeople = 0;
     int year = getCurrentYear();
-    for (Country country : politicalWorld)
+    for (Continent continent : continents)
     {
-      unhappyPeople += country.getUnhappyPeople(year);
+      hungryPeople += continent.getUndernourished(year)*continent.getPopulation(year);
     }
-    double percentUnhappy = unhappyPeople/(getWorldPopulationMil() * 1000000);
-    double percentHappy = 1 - percentUnhappy;
-    return percentHappy;
+    System.out.println("THE UNDERNOURISHED OR HUNGRY IS "+hungryPeople);
+    double percentHungry = hungryPeople/(getWorldPopulationMil() * 1000000);
+    System.out.println("THE UNDERNOURISHED OR HUNGRY PERCENT IS "+percentHungry);
+    return percentHungry;
   }
 
   /**
@@ -237,7 +239,7 @@ public class World extends AbstractScenario
     shipAndReceive();
     if (DEBUG) System.out.printf("Done shipping and receiving in: %dms%n", System.currentTimeMillis() - start);
 
-    adjustUndernourished();  // implemented    
+    adjustHungry();  // implemented    
     
     start = System.currentTimeMillis();
 
@@ -259,7 +261,7 @@ public class World extends AbstractScenario
     
     Random ran = new Random();
     int die = ran.nextInt(100)+1;
-    die =1;
+
     if (DEBUG) System.out.println("Die says "+die);    
        
     if (die>0 && die<11) // 10% chance of drought catastrophe
@@ -298,12 +300,12 @@ public class World extends AbstractScenario
   }
 
   // changed from country to continent
-  private void adjustUndernourished()
+  private void adjustHungry()
   {
     int year = getCurrentYear();
     for (Continent continent:continents)
     {
-      continent.updateUndernourished(year);
+      continent.getUndernourished(year);
     }
   }
 
@@ -312,7 +314,8 @@ public class World extends AbstractScenario
     deficits by crop through the TradingOptimizer. */
   private void shipAndReceive()
   {
-    TradingOptimizer optimizer = new TradingOptimizer(politicalWorld, getCurrentYear());
+    TradeOptimizer optimizer = new TradeOptimizer(continents, getCurrentYear());
+    //TradingOptimizer optimizer = new TradingOptimizer(politicalWorld, getCurrentYear());
     optimizer.optimizeAndImplementTrades();
     while(!optimizer.doneTrading());
     lastTrades = optimizer.getAllTrades();
@@ -413,7 +416,7 @@ public class World extends AbstractScenario
   }
 
 
-  public List<TradingOptimizer.TradePair>[] getTrades()
+  public List<TradeOptimizer.TradePair>[] getTrades()
   {
     return lastTrades;
   }

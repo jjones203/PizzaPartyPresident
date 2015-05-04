@@ -1,9 +1,13 @@
 package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.gui.ColorsAndFonts;
+import worldfoodgame.model.Continent;
+import worldfoodgame.model.EnumContinentNames;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by winston on 3/17/15.
@@ -20,7 +24,6 @@ public class DemographicPanel extends JPanel
     this.labelFactory = labelFactory;
     this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     this.setLayout(new GridLayout(0, 3));
-
 
     redraw();
   }
@@ -41,12 +44,44 @@ public class DemographicPanel extends JPanel
   {
     this.removeAll();
     this.add(getDemoPanel());
+    this.add(getRatingPanel());
     this.validate();
   }
+
+  private JPanel getRatingPanel()
+  {
+    JPanel panel = new JPanel();
+
+    panel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
+
+    BufferedImage smileA = labelFactory.getApprovalRating();
+    BufferedImage smileB = labelFactory.getDiplomacyRating();
+
+    Continent c = labelFactory.getContinent();
+
+    if(c != null)
+    {
+      EnumContinentNames name = c.getName();
+
+      if(name.equals(EnumContinentNames.N_AMERICA))
+      {
+        JLabel picA = new JLabel(new ImageIcon(smileA));
+        JLabel picB = new JLabel(new ImageIcon(smileB));
+
+        panel.add(picA);
+        panel.add(labelFactory.getApprovalBar());
+        panel.add(picB);
+        panel.add(labelFactory.getDiplomacyBar());
+      }
+    }
+
+    return panel;
+  }  
 
   private JPanel getDemoPanel()
   {
     JPanel panel = new JPanel();
+
     panel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 

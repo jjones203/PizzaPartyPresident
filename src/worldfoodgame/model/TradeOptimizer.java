@@ -96,7 +96,7 @@ public class TradeOptimizer
     {
       this.exporter = exporter;
       this.importer = importer;
-      this.efficiency = calcEfficiency(exporter, importer);
+      this.efficiency = 1 - calcEfficiency(exporter, importer);
     }
 
     private TradePair(TradePair t)
@@ -180,7 +180,7 @@ public class TradeOptimizer
       double net = 0;
 
       /* Divide the continents in the parent class into importers and exporters
-      based on the crop surplus for each country */
+      based on the crop surplus for each continent */
       for(Continent c : continents)
       {
         double surplus = c.getSurplus(year, crop);
