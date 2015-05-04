@@ -104,7 +104,7 @@ public enum PlanningPointsLevel
    * Think of this in terms of water technology. A country
    * with a low tier in water technology may have very limited
    * irrigation techniques, while one with more efficiency 
-   * may have futuristic de-salinzation plants
+   * may have futuristic de-salinization plants
    * 
    * @param level is a region's current tier for WaterEffeciency
    * @return a double inclusive [0 1] representing WaterEffeciency

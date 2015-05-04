@@ -450,26 +450,23 @@ public class WorldPresenter extends Observable
   public void stepWorld()
   {
     world.stepWorld();
+    
     System.out.println("Starting Player's Turn \n");
-    JFrame trade = new TradeAndImportFrame(player, world.getContinents(), getYear());
-    trade.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    trade.pack();
-    trade.setResizable(false);
-    trade.setVisible(true);
+    commencePlayerTrading();    
     System.out.println("Finishing user trading, about to let AI trade.");
     
     System.out.println("AI starts trading");
     //AI trade goes here
     System.out.println("AI has theoreticall traded..");
+    
     System.out.println("User can donate food now");
     //User donate panel goes here
     System.out.println("User finished donating food");
-    System.out.println("Planning points allocation begins");
     
-    int randomYearlyPoints = (int)(Math.random()*PlanningPointConstants.MAX_POINTS_PER_YEAR);
-    new PlanningPointsAllocationPanel(world.getContinents(),randomYearlyPoints);
-    
+    System.out.println("Planning points allocation begins");   
+    commencePlanningPointAllocation();
     System.out.println("Planning points allocation ends");
+    
     System.out.println("Finished the player's turn ");
     System.out.println("PS these print statments are in WorldPresenter stepWorld()\n");
     TradingRouteOverlay.updateTrades(world.getTrades());
@@ -535,6 +532,22 @@ public class WorldPresenter extends Observable
     return new ArrayList<>(world.getRelevantContinents(new ArrayList<>(getActiveCountries())));
   }
 
+  private void commencePlayerTrading()
+  {
+    JFrame trade = new TradeAndImportFrame(player, world.getContinents(), getYear());
+    trade.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    trade.pack();
+    trade.setResizable(false);
+    trade.setVisible(true);
+  }
+  
+  private void commencePlanningPointAllocation()
+  {
+    Continent c = player.getContinent();
+    int thisYearsPoints = c.calculatePlanningPoints();
+    new PlanningPointsAllocationPanel(world.getContinents(),thisYearsPoints);    
+  }
+  
   /**
    * Private class  that manages and the active/passive state of the region.
    * also deals the marking changes
