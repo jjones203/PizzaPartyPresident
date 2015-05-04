@@ -1,6 +1,7 @@
 package worldfoodgame.gui.hud.infopanel;
 
 import worldfoodgame.common.EnumCropType;
+import worldfoodgame.model.Continent;
 import worldfoodgame.model.Country;
 
 import java.util.List;
@@ -141,6 +142,11 @@ public abstract class CountryDataHandler
     {
       return summationData(activeCountries, year);
     }
+  }
+  
+  public static CountryDataHandler getData(Continent continent, int year)
+  {
+    return new ContinentDataHandler(continent, year);
   }
 
   /* given a country and a year, extracts a data handler */

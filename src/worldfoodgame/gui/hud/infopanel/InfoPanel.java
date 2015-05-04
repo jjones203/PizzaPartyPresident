@@ -89,6 +89,8 @@ public class InfoPanel extends JPanel implements Observer
   {
     ArrayList<Continent> continentArrayList = worldPresenter.getActiveCont();
     ArrayList<Country> activeCountries = new ArrayList<>();
+    
+    
     for (Continent cont : continentArrayList)
     {
       activeCountries.addAll(cont.getCountries());
@@ -101,13 +103,15 @@ public class InfoPanel extends JPanel implements Observer
     }
     else if (continentArrayList.size() == 1)
     {
-      dataHandler = CountryDataHandler.getData(activeCountries, worldPresenter.getYear());
+      //dataHandler = CountryDataHandler.getData(activeCountries, worldPresenter.getYear());  //try replacing this w/line below
+      dataHandler = CountryDataHandler.getData(continentArrayList.get(0), worldPresenter.getYear());
       pieChart.setTitle(continentArrayList.get(0).getName().toString());
     }
     else
     {
-      dataHandler = CountryDataHandler.getData(activeCountries, worldPresenter.getYear());
+      //dataHandler = CountryDataHandler.getData(activeCountries, worldPresenter.getYear());
       //viewBox.setTitle(dataHandler.getName());
+      dataHandler = CountryDataHandler.getData(continentArrayList.get(0), worldPresenter.getYear());
       pieChart.setTitle(dataHandler.getName());
     }
 
@@ -117,6 +121,7 @@ public class InfoPanel extends JPanel implements Observer
     labelFactory = new LabelFactory(dataHandler);
     if(continentArrayList.size() == 1)
     {
+      //System.out.println("In InfoPanel.update continent is "+continentArrayList.get(0).toString());
       labelFactory.setContinent(continentArrayList.get(0));
       if (continentArrayList.get(0) == player.getContinent())
       {
