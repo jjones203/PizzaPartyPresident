@@ -47,6 +47,7 @@ public interface ColorsAndFonts
   Font HUD_TITLE   = new Font("SansSerif", Font.PLAIN, 14);
   Font NAME_VIEW   = new Font("SansSerif", Font.PLAIN, 12);
   Font SELECT_FONT = new Font("Dialog", Font.ITALIC, 11);
+  Font BUTTON_FONT = new Font("Dialog", Font.ITALIC, 14);
 
   Color MINI_BOX_REGION = new Color(222, 183, 106);
   

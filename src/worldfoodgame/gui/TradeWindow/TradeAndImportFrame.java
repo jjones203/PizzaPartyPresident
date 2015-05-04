@@ -60,7 +60,6 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
       labelFactories.add(temp);
       if (c == player.getContinent())
       {
-        //System.out.println("Setting player's country.");
         playerPanel.setLabelFactory(temp);
       }
       else
@@ -69,18 +68,16 @@ public class TradeAndImportFrame extends JFrame implements ActionListener
       }
     }
     saveInitialStates(year - 1);
-    //setLayout(new GridLayout(0, 3));
-    //setLayout(new BorderLayout());
     mainPanel = new JPanel();
     add(mainPanel);
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    mainPanel.add(playerPanel);
+    mainPanel.add(tradeBar);
     mainPanel.add(continentTabPanel);
     for (ContinentPanel cP : continentPanels)
     {
       continentTabPanel.addTab(cP.getContinent().getName().toString(), cP);
     }
-    mainPanel.add(tradeBar);
-    mainPanel.add(playerPanel);
     mainPanel.add(buttonPanel);
   }
 

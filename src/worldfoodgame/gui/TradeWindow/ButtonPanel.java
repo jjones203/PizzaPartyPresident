@@ -2,6 +2,7 @@ package worldfoodgame.gui.TradeWindow;
 import worldfoodgame.gui.ColorsAndFonts;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,7 @@ public class ButtonPanel extends JPanel implements ActionListener
   private final TradeAndImportFrame parent;
   private JButton reset = new JButton("Reset All Trades");
   private JButton cont = new JButton("Done Trading");
+  private Dimension dim = new Dimension(120, 35);
   //This isn't important right now.
   //private JRadioButton units = new JRadioButton();
 
@@ -26,7 +28,17 @@ public class ButtonPanel extends JPanel implements ActionListener
     add(reset);
     add(cont);
     reset.addActionListener(this);
+    reset.setFont(ColorsAndFonts.BUTTON_FONT);
+    reset.setPreferredSize(dim);
+    reset.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+    reset.setBackground(ColorsAndFonts.REGION_NAME_FONT_C);
+    reset.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
     cont.addActionListener(this);
+    cont.setFont(ColorsAndFonts.BUTTON_FONT);
+    cont.setPreferredSize(dim);
+    cont.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+    cont.setBackground(ColorsAndFonts.REGION_NAME_FONT_C);
+    cont.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
   }
 
   @Override

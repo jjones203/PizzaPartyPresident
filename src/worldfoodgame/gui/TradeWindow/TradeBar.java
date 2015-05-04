@@ -7,6 +7,7 @@ import worldfoodgame.gui.hud.infopanel.LabelFactory;
 import worldfoodgame.model.World;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.BorderFactory;
 import java.awt.*;
@@ -18,7 +19,7 @@ import java.awt.event.ActionListener;
  */
 public class TradeBar extends JPanel implements ActionListener
 {
-  private JButton makeTrade = new JButton("Make Trade");
+  private JButton makeTrade = new JButton("Trade These Amounts");
   private final TradeAndImportFrame parent;
   private GraphLabel playerGL;
   private GraphLabel contGL;
@@ -33,21 +34,31 @@ public class TradeBar extends JPanel implements ActionListener
   private JPanel tradeButtonPanel = new JPanel();
   private JPanel playerPanel = new JPanel();
   private JPanel contPanel = new JPanel();
+  private TitledBorder border;
 
   public TradeBar (Dimension dimension, TradeAndImportFrame parent)
   {
     //setPreferredSize(dimension);
     setBackground(ColorsAndFonts.GUI_BACKGROUND);
     setLayout(new BorderLayout());
-    setBorder(BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, ColorsAndFonts.GUI_TEXT_COLOR.darker()), "Propose A Trade"));
-    tradeButtonPanel.setPreferredSize(new Dimension(100, 50));
+    border = BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, ColorsAndFonts.GUI_TEXT_COLOR.darker()), "Propose A Trade");
+    border.setTitleJustification(TitledBorder.CENTER);
+    border.setTitleFont(ColorsAndFonts.HUD_TITLE);
+    border.setTitleColor(ColorsAndFonts.OCEANS);
+    setBorder(border);
+    tradeButtonPanel.setPreferredSize(new Dimension(300, 50));
     playerPanel.setPreferredSize(new Dimension(180, 50));
-    contPanel.setPreferredSize(new Dimension(180, 50));
+    contPanel.setPreferredSize(new Dimension(300, 50));
     tradeButtonPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     playerPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     contPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     this.parent = parent;
     makeTrade.addActionListener(this);
+    makeTrade.setFont(ColorsAndFonts.BUTTON_FONT);
+    makeTrade.setPreferredSize(new Dimension(180, 25));
+    makeTrade.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+    makeTrade.setBackground(ColorsAndFonts.REGION_NAME_FONT_C);
+    makeTrade.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
     redraw();
   }
 
@@ -104,15 +115,15 @@ public class TradeBar extends JPanel implements ActionListener
     contPanel.removeAll();
     tradeButtonPanel.removeAll();
     removeAll();
-    if (hasPlayer)
-    {
-      add(playerPanel, BorderLayout.SOUTH);
-      playerPanel.add(playerGL);
-    }
+    add(contPanel, BorderLayout.SOUTH);
+    add(playerPanel, BorderLayout.NORTH);
     if (hasContinent)
     {
-      add(contPanel, BorderLayout.NORTH);
       contPanel.add(contGL);
+    }
+    if (hasPlayer)
+    {
+      playerPanel.add(playerGL);
     }
     add(tradeButtonPanel, BorderLayout.CENTER);
     tradeButtonPanel.add(makeTrade);
@@ -164,9 +175,9 @@ public class TradeBar extends JPanel implements ActionListener
           currentLimit = temp;
         }
       }
+      currentTrade = 0;
       playerGL = playerLF.getTradePlayLabel(playerCrop, this, currentLimit);
       contGL = contLF.getTradeContLabel(contCrop, this, currentLimit);
-      currentTrade = 0;
       redraw();
     }
   }
