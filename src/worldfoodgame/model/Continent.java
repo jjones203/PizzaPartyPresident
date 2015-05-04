@@ -897,21 +897,21 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    
    private void initializePizzaPreference()
    {
-     //System.out.println("In Continent.initializePizzaPreference "+this.toString());
      ArrayList<EnumCropType> cropsToSet = new ArrayList<EnumCropType>();
      cropsToSet.addAll(Arrays.asList(EnumCropType.values()));
-     double limit = 1;
+     // random % for each crop, with minimum of 5%
+     double limit = 0.75;
      double sumPercents = 0;
      while (cropsToSet.size() > 1)
      {
        Collections.shuffle(cropsToSet);
        EnumCropType crop = cropsToSet.get(0);
        double percent = Math.random()*limit;
+       percent = Math.max(percent, 0.05);
        setPizzaPreference(crop,percent);
        sumPercents += percent;
-       limit = 1 - sumPercents;
+       limit = 0.75 - sumPercents;
        cropsToSet.remove(0);
-       //System.out.println(crop+" percent "+percent+" sumPercents "+sumPercents+" limit "+limit);
      }
      EnumCropType crop = cropsToSet.get(0);
      double remainingPercent = 1 - sumPercents;
