@@ -52,6 +52,7 @@ public class TradeOptimizer
   {
     this.year = year;
     this.continents = continents;
+    System.out.println("Trade Optimizer initialized.");
   }
 
   /**
@@ -61,11 +62,13 @@ public class TradeOptimizer
    */
   public void optimizeAndImplementTrades()
   {
+    System.out.println("Entering method optimizeAndImplementTrades()");
     traders = new ArrayList<>();
     for(EnumCropType crop : EnumCropType.values())
     {
       traders.add(new SingleCropTrader(crop));
     }
+    System.out.println("Starting for loop to kick trader.start()...");
     for(SingleCropTrader trader : traders) trader.start();
   }
 
@@ -398,6 +401,7 @@ public class TradeOptimizer
     private void shuffleOnImporters()
     {
       Collections.shuffle(Arrays.asList(importerMap));
+      System.out.println("Shuffled importerMap: " + importerMap.toString());
 /*
       final MapPoint pt = randomMapPoint();
       Collections.sort(this, new Comparator<TradePair>()
@@ -435,6 +439,7 @@ public class TradeOptimizer
     private void shuffleOnExporters()
     {
       Collections.shuffle(Arrays.asList(exporterMap));
+      System.out.println("Shuffled exporterMap: " + exporterMap.toString());
 
 /*
       final MapPoint pt = randomMapPoint();
