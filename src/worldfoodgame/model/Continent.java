@@ -205,7 +205,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     continentRainfall += (rain * GAL_CM_CUBED);
     avgRainfall = (rain / continentLandTileNum) * GAL_CM_CUBED;
 
-    waterAllowance += country.getWaterAllowance() / 5;
+    waterAllowance += country.getWaterAllowance();
 
     if(DEBUG)
     {
@@ -691,7 +691,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double limit = waterAllowance + continentRainfall - waterUsed[year - START_YEAR];
   
     double factor = this.getPlanningPointsFactor(PlanningPointCategory.WaterEfficiency);
-    limit = limit*factor;
+ //   limit = limit*factor;
+    System.out.println("FACTOR IS ........................."+factor);
     limit = limit / crop.waterUse;
     
     double valueToSet;
