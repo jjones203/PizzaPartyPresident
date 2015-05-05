@@ -13,13 +13,23 @@ import javax.swing.border.EmptyBorder;
 
 import worldfoodgame.gui.ColorsAndFonts;
 import worldfoodgame.model.Continent;
-
+/**
+ * 
+ * @author Stephen Stromberg
+ * 
+ * Used in infoPanel to display planning points
+ * of a country.
+ *
+ */
 public class PlanningPointCategoryAndIconPanel extends JPanel
 {
   private int IconSize = 50;
-  public PlanningPointCategoryAndIconPanel(Continent continent, PlanningPointCategory category)
+  public PlanningPointCategoryAndIconPanel(Continent continent, 
+      PlanningPointCategory category)
   {
-    PlanningPointsLevel currentLevel= PlanningPointsLevel.pointsToLevel(continent.getPlanningPointsInCategory(category));
+    PlanningPointsLevel currentLevel= 
+        PlanningPointsLevel.pointsToLevel(
+            continent.getPlanningPointsInCategory(category));
     
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
@@ -27,7 +37,8 @@ public class PlanningPointCategoryAndIconPanel extends JPanel
     
     JLabel tierGraphic = new JLabel();
     JLabel categoryDescription = new JLabel(category.toString());
-    tierGraphic.setIcon(new ImageIcon(PlanningPointsLevel.levelToIcon(currentLevel).getScaledInstance(IconSize,IconSize,Image.SCALE_SMOOTH)));
+    tierGraphic.setIcon(new ImageIcon(PlanningPointsLevel.levelToIcon(
+      currentLevel).getScaledInstance(IconSize,IconSize,Image.SCALE_SMOOTH)));
     categoryDescription.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
 
     
@@ -41,9 +52,11 @@ public class PlanningPointCategoryAndIconPanel extends JPanel
     this.add(tierGraphic);
     categoryDescription.setHorizontalAlignment(SwingConstants.CENTER);
     tierGraphic.setHorizontalAlignment(SwingConstants.CENTER);
-    tierGraphic.setBorder(BorderFactory.createEmptyBorder(0, IconSize/4, 0, IconSize/4));
+    tierGraphic.setBorder(BorderFactory.createEmptyBorder(
+        0, IconSize/4, 0, IconSize/4));
     tierGraphic.setToolTipText(PlanningPointsData.getToolTipText(category));
-    categoryDescription.setToolTipText(PlanningPointsData.getToolTipText(category));
+    categoryDescription.setToolTipText(
+        PlanningPointsData.getToolTipText(category));
   }
   
 

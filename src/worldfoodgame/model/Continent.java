@@ -1178,6 +1178,11 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    /** Start Planning Points      **/
    /********************************/
 
+   /**
+    * This should go into the player class
+    * 
+    * @return points to invest next year
+    */
   public int calculatePlanningPoints()
   {
     int points = 0;

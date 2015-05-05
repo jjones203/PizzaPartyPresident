@@ -46,7 +46,8 @@ public class PlanningPointsAllocationPanel extends JPanel
   )
   {
     FRAME = frame;
-    this.allRegions = new ArrayList<PlanningPointsInteractableRegion>(otherRegions);
+    this.allRegions = 
+        new ArrayList<PlanningPointsInteractableRegion>(otherRegions);
     PlanningPointsData.initData(allRegions, playerPlanningPoints);
     buildGUI();
   }
@@ -60,22 +61,27 @@ public class PlanningPointsAllocationPanel extends JPanel
     JPanel bgPanel = new JPanel();
     bgPanel.setLayout(new BoxLayout(bgPanel, BoxLayout.Y_AXIS));
     bgPanel.setBackground(ColorsAndFonts.GUI_BACKGROUND);
-    bgPanel.setPreferredSize(new Dimension(PlanningPointConstants.WINDOW_WIDTH,PlanningPointConstants.WINDOW_HEIGHT));
+    bgPanel.setPreferredSize(new Dimension(
+        PlanningPointConstants.WINDOW_WIDTH,
+        PlanningPointConstants.WINDOW_HEIGHT));
     bgPanel.setFocusable(true);
     
     PlanningPointsHeaderPanel header = new PlanningPointsHeaderPanel();
     bgPanel.add(header);
     
-    PlanningPointContinentSelector selector = new PlanningPointContinentSelector(allRegions);
+    PlanningPointContinentSelector selector =
+        new PlanningPointContinentSelector(allRegions);
     bgPanel.add(selector);
     
     for(PlanningPointCategory category: PlanningPointCategory.values())
     {
-      PlanningPointsInvestmentPanel investment = new PlanningPointsInvestmentPanel(category);
+      PlanningPointsInvestmentPanel investment = 
+          new PlanningPointsInvestmentPanel(category);
       bgPanel.add(investment);
     }
     
-    PlanningPointsFooterPanel footer = new PlanningPointsFooterPanel(FRAME, this);
+    PlanningPointsFooterPanel footer = 
+        new PlanningPointsFooterPanel(FRAME, this);
     bgPanel.add(footer);
     
     FRAME.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
