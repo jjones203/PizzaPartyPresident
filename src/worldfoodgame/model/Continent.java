@@ -77,6 +77,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   protected double approvalRating; 
   protected double diplomacyRating;
   protected double greenRating;
+  protected double overAllPlanningPointRating;
 
   //planning points
   private int GMOPlanningPoints=0;
@@ -1187,6 +1188,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   {
     int points = 0;
     points = (int) (50*(approvalRating + diplomacyRating));
+    points=(int)(100*overAllPlanningPointRating);
     // points = (int) (PlanningPointConstants.MAX_POINTS_PER_YEAR*diplomacyRating);
 
     return points;
@@ -1497,8 +1499,9 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public void updateRatings(int year, World world)
   {
     calculateGreenRating(year);
-    calculateDiplomacyRating(year,world);
-    calculateApprovalRating(year); 
+    calculateDiplomacyRating(year, world);
+    calculateApprovalRating(year);
+    overAllPlanningPointRating=1-this.getUndernourished(year);
   }
 
 
