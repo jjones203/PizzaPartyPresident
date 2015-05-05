@@ -44,7 +44,7 @@ public class WorldPresenter extends Observable implements WindowListener
   private ActiveRegionList activeRegions;
   private ArrayList<Continent> activeContinents; //Deprecated
   private ArrayList<GUIContinent> GUIContinents = new ArrayList<>();
-  private Continent activeContinent;
+  private GUIContinent activeContinent;
   private World world;
   private boolean activelyDraging;
   private RegionViewFactory regionViewFactory;
@@ -232,18 +232,31 @@ public class WorldPresenter extends Observable implements WindowListener
     {
       if (guir.contains(x, y))
       {
-        if (activeRegions.contains(guir))
+        //if (activeRegions.contains(guir))
+        if (activeContinent == guir.getGUIContinent())
         {
+          if (activeContinent != null)
+          {
+            activeContinent.setActive(false);
+            activeContinent = null;
+          }
           //activeRegions.remove(guir);
-          activeContinents.remove(guir.getCountry().getContinent());
+          /*activeContinents.remove(guir.getCountry().getContinent());
           for (GUIRegion gR : contMap.get(guir.getCountry().getContinent()))
           {
             activeRegions.add(gR);
-          }
+          }*/
           //setActiveByContinent(camera);
         }
         else
         {
+          if (activeContinent != null)
+          {
+            activeContinent.setActive(false);
+          }
+          activeContinent = guir.getGUIContinent();
+          activeContinent.setActive(true);
+          /*
           activeRegions.clear();
           activeContinents.clear();
           //activeRegions.add(guir);
@@ -251,14 +264,23 @@ public class WorldPresenter extends Observable implements WindowListener
           for (GUIRegion gR : contMap.get(guir.getCountry().getContinent()))
           {
             activeRegions.add(gR);
-          }
+          }*/
           //setActiveByContinent(camera);
         }
+        setChanged();
+        notifyObservers();
         return; //for early loop termination.
       }
     }
-    activeRegions.clear(); // deselects all regions when mouse click on ocean.
-    activeContinents.clear();
+    //activeRegions.clear(); // deselects all regions when mouse click on ocean.
+    //activeContinents.clear();
+    if (activeContinent != null)
+    {
+      activeContinent.setActive(false);
+      activeContinent = null;
+    }
+    setChanged();
+    notifyObservers();
   }
 
   /**
@@ -287,6 +309,7 @@ public class WorldPresenter extends Observable implements WindowListener
           {
             activeRegions.remove(gR);
           }
+
           //setActiveByContinent(camera);
         }
         else
@@ -441,6 +464,7 @@ public class WorldPresenter extends Observable implements WindowListener
 
   public List<GUIRegion> getActiveRegions()
   {
+    /*
     if (activeRegions.isEmpty())
     {
       return null;
@@ -448,7 +472,12 @@ public class WorldPresenter extends Observable implements WindowListener
     else
     {
       return activeRegions.getList();
+    }*/
+    if (activeContinent != null)
+    {
+      return activeContinent.getGUIRegions();
     }
+    return null;
   }
 
   private void setActiveByContinent(Camera camera)
@@ -535,7 +564,13 @@ public class WorldPresenter extends Observable implements WindowListener
 
   public ArrayList<Continent> getActiveCont()
   {
-    return new ArrayList<>(world.getRelevantContinents(new ArrayList<>(getActiveCountries())));
+    //return new ArrayList<>(world.getRelevantContinents(new ArrayList<>(getActiveCountries())));
+    ArrayList temp = new ArrayList();
+    if (activeContinent != null)
+    {
+      temp.add(activeContinent.getContinent());
+    }
+    return temp;
   }
 
   private void commencePlayerTrading()
