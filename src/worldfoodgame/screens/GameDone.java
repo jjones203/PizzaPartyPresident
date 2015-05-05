@@ -15,6 +15,10 @@ import java.io.IOException;
  * conditions.  When either the year 2050 is hit, or when the player loses
  * (which is a future implementation), this set of screens should display.
  *
+ * GameDone is the overall JFrame.  Background is the bufferedImage for the
+ * background pane.  InfoPanel is the JPanel holding most of the ending game
+ * information.
+ *
  */
 public class GameDone extends JFrame
 {
