@@ -17,13 +17,18 @@ public class GameDone extends JFrame
   BufferedImage backgroundImage;
 
   JButton OK            = new JButton("OK");
-  JLabel  population    = new JLabel("Final World Population: ");
-  JLabel  hunger        = new JLabel("Hungry people today: ");
-  JLabel  green         = new JLabel("Your final 'green' rating: ");
+  JLabel finished = new JLabel("Game Over");
+  JLabel  population    = new JLabel();
+  JLabel  hunger        = new JLabel();
+  JLabel  green         = new JLabel();
   JLabel  ratingLabel   = new JLabel();
   JLabel  messageLabel1 = new JLabel();
   JLabel  messageLabel2 = new JLabel();
 
+
+  private String popText = "Final World Population: ";
+  private String hungerText = "Hungry people today: ";
+  private String greenText = "Your final 'green' rating: ";
 
   private String[] rating = {
                               "Outstanding!",
@@ -34,13 +39,23 @@ public class GameDone extends JFrame
                               "Oops!  Not good."};
 
   private String[] endMessage = {"You fed everyone!  The world is a better place!",
-                                 "Most of the world is fed and happy, and a nice place to live.",
-                                 "You managed to keep the world satified, and fed.  The world survived.",
+                                 "Most of the world is fed and happy, and a nice"
+                                 + " place to live.",
+                                 "You managed to keep the world satified, and fed."
+                                 + "  The world survived.",
                                  "there is still work to do...",
                                  "Unfortunately, the world didn't survive."};
   private String   nextTime   = "Better luck next time...";
 
+  public GameDone()
+  {
+    setup();
+  }
 
+  private void setup()
+  {
+
+  }
   public void paintComponent(Graphics g)
   {
 
