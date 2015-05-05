@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import worldfoodgame.gui.ColorsAndFonts;
+
 /**
  * 
  * @author Stephen Stromberg 4/29/15
@@ -25,7 +27,7 @@ public class PlanningPointsHeaderPanel extends JPanel
   PlanningPointsHeaderPanel()
   {
     this.setLayout(new GridLayout(0, 2));
-    this.setBackground(Color.LIGHT_GRAY);
+    this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     this.setBorder(new EmptyBorder(10, 10, 10, 10) );
     title=new JLabel();
     title.setHorizontalAlignment(SwingConstants.RIGHT);

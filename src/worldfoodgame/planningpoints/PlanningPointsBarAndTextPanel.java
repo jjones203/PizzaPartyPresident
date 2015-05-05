@@ -43,9 +43,9 @@ public class PlanningPointsBarAndTextPanel extends JPanel
     container=new JPanel();
     pointsInvested = new JLabel();
     decreaseInvestment = 
-        new InteractableLable(" - ",this,false,60,Color.WHITE,Color.RED);
+        new InteractableLable(" - ",this,false,30,Color.WHITE,Color.RED);
     increaseInvestment = 
-        new InteractableLable(" + ",this,true,60,Color.WHITE,Color.RED);
+        new InteractableLable(" + ",this,true,30,Color.WHITE,Color.RED);
     investmentBar = 
         new PlanningPointsInvestmentBar(
             category,pointsInvested,startTier,endTier);

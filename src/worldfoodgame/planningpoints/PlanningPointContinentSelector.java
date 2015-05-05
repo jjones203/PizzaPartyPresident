@@ -35,7 +35,7 @@ public class PlanningPointContinentSelector extends JPanel
     this.regions=regions;
     
     this.setLayout(new GridLayout(1, 3));
-    this.setBackground(Color.LIGHT_GRAY);
+    this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     
     previous=new InteractableLable(
         "Previous",this,false,200,Color.WHITE,Color.BLUE);
