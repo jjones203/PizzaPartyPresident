@@ -10,7 +10,8 @@ import worldfoodgame.gui.hud.infopanel.SingleCountryHandeler;
 import worldfoodgame.model.Country;
 import worldfoodgame.model.Continent;
 /**
- * Created by Tim on 4/25/15.
+ * Created by Tim on 4/25/15. Panel for a continent to choose crops
+ * to trade.
  */
 public class ContinentPanel extends JPanel
 {
@@ -21,6 +22,13 @@ public class ContinentPanel extends JPanel
   private final TradeAndImportFrame parent;
   private boolean isTrade = true;
 
+  /**
+   * Constructor sets variables
+   * @param continent     Continent for this panel
+   * @param labelFactory  Label factory for the continent
+   * @param parent        Outer frame
+   * @param isTrade       Whether trading or donating
+   */
   public ContinentPanel (Continent continent, LabelFactory labelFactory, TradeAndImportFrame parent, boolean isTrade)
   {
     this.continent = continent;
@@ -32,16 +40,27 @@ public class ContinentPanel extends JPanel
     redraw();
   }
 
+  /**
+   * @return  The continent of this panel
+   */
   public Continent getContinent()
   {
     return continent;
   }
 
+  /**
+   * Called by one of the crop labels to give the trade bar
+   * a new crop label
+   * @param crop  Crop to be passed along
+   */
   public void chooseCrop(EnumCropType crop)
   {
     parent.newContinentCrop(labelFactory, crop);
   }
 
+  /**
+   * Redraws the panel
+   */
   public void redraw()
   {
     this.removeAll();

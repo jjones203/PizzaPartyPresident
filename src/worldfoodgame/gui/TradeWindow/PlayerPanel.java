@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Tim on 4/24/15.
+ * Created by Tim on 4/24/15. The panel for displaying the crops for a player's continent.
  */
 public class PlayerPanel extends JPanel
 {
@@ -23,6 +23,12 @@ public class PlayerPanel extends JPanel
   private final TradeAndImportFrame parent;
   private TitledBorder border;
 
+  /**
+   * Constructor sets up the panel and displays crop bars.
+   * @param player
+   * @param dimension
+   * @param parent
+   */
   public PlayerPanel(Player player, Dimension dimension, TradeAndImportFrame parent)
   {
     this.player = player;
@@ -38,6 +44,10 @@ public class PlayerPanel extends JPanel
     setLayout(new FlowLayout());
   }
 
+  /**
+   * Sets the label factory for the panel.
+   * @param labelFactory  Appropriate label factory
+   */
   public void setLabelFactory(LabelFactory labelFactory)
   {
     this.labelFactory = labelFactory;
@@ -45,16 +55,18 @@ public class PlayerPanel extends JPanel
     redraw();
   }
 
+  /**
+   * Called by a crop label to give the trade bar a label.
+   * @param crop  Crop to trade
+   */
   public void chooseCrop(EnumCropType crop)
   {
     parent.newPlayerCrop(labelFactory, crop);
   }
 
-  public void chooseCrop()
-  {
-
-  }
-
+  /**
+   * Redraw the panel.
+   */
   public void redraw()
   {
     this.removeAll();

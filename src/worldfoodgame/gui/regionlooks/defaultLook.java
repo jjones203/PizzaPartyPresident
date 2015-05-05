@@ -31,7 +31,7 @@ class DefaultLook implements RegionView
     //Color outLine;
     Color fill;
 
-    if (gRegion.isActive())
+    if (gRegion.getGUIContinent().isActive())
     {
       //outLine = ColorsAndFonts.ACTIVE_REGION_OUTLINE;
       //fill = ColorsAndFonts.ACTIVE_REGION;

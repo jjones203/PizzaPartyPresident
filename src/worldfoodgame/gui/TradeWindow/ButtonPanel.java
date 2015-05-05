@@ -8,7 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Tim on 4/24/15.
+ * Created by Tim on 4/24/15. The bottom button panel that resets
+ * trades/donations and ends the window.
  */
 public class ButtonPanel extends JPanel implements ActionListener
 {
@@ -20,6 +21,12 @@ public class ButtonPanel extends JPanel implements ActionListener
   //This isn't important right now.
   //private JRadioButton units = new JRadioButton();
 
+  /**
+   * Constructor sets up the buttons.
+   * @param dimension The panel's dimensions
+   * @param parent    The frame holds this panel
+   * @param isTrade   Whether the panel should be in trading or donating mode
+   */
   public ButtonPanel (Dimension dimension, TradeAndImportFrame parent, boolean isTrade)
   {
     this.parent = parent;
@@ -48,6 +55,11 @@ public class ButtonPanel extends JPanel implements ActionListener
     cont.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
   }
 
+  /**
+   * Calls the correct methods in the outer frame
+   * for resettind and closing.
+   * @param e The button press action
+   */
   @Override
   public void actionPerformed(ActionEvent e)
   {

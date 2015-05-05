@@ -141,15 +141,6 @@ public class GraphLabel extends JPanel
     valueLabel.setText(formatter.format(value));
   }
 
-  public void setLimit(double limit)
-  {
-    this.LIMIT = limit;
-  }
-
-  public double getLimit()
-  {
-    return LIMIT;
-  }
 
   /* sets up and returns the label and possible controls */
   private JPanel getControlPanel(String label)
@@ -170,12 +161,20 @@ public class GraphLabel extends JPanel
     return tempPanel;
   }
 
+  /**
+   * Set String to place on right side of the label
+   * @param input String to display
+   */
   public void setIncrease(String input)
   {
     increase = input;
     redraw();
   }
 
+  /**
+   * Set String to place on left side of the label
+   * @param input String to display
+   */
   public void setDecrease(String input)
   {
     decrease = input;

@@ -23,6 +23,7 @@ public class GUIRegion
   private boolean isActive;
   private RegionView look;
   private Polygon poly;
+  private GUIContinent GUIContinent;
 
   private Boolean isPrimaryRegion;
 
@@ -44,6 +45,16 @@ public class GUIRegion
       isPrimaryRegion = getPoly().getBounds().contains(point);
     }
     return isPrimaryRegion;
+  }
+
+  public GUIContinent getGUIContinent()
+  {
+    return GUIContinent;
+  }
+
+  public void setGUIContinent(GUIContinent GUIContinent)
+  {
+    this.GUIContinent = GUIContinent;
   }
 
   public boolean isActive()

@@ -14,13 +14,10 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 /**
- * Created by Tim on 4/24/15.
+ * Created by Tim on 4/24/15. Similar to TabbedPanel
  */
 public class ContinentTabPanel extends JPanel
 {
-  public static final Color ROLLOVER_C = Color.WHITE;
-  public static final Color SELECTED_C = Color.RED.darker();
-  public static final Color TEXT_DEFAULT_COLOR = ColorsAndFonts.GUI_TEXT_COLOR;
   public static final Color BACKGROUND_COLOR = ColorsAndFonts.GUI_BACKGROUND;
   public static final Font TAB_FONT = ColorsAndFonts.GUI_FONT;
   private static final float ALPHA_STEP = 0.1f;
@@ -36,8 +33,13 @@ public class ContinentTabPanel extends JPanel
   private boolean isTrade = true;
   private TradeAndImportFrame parent;
 
-  public ContinentTabPanel(Collection<Country> countries, ArrayList<CountryDataHandler> handlers,
-                           Dimension dimension, boolean isTrade, TradeAndImportFrame parent)
+  /**
+   * Constructor sets up the tab label and the content area for each tab
+   * @param dimension Dimension of panel
+   * @param isTrade   Whether trading or donating
+   * @param parent    Outer frame
+   */
+  public ContinentTabPanel(Dimension dimension, boolean isTrade, TradeAndImportFrame parent)
   {
     //init
     alpha = 0;

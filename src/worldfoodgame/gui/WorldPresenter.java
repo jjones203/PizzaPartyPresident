@@ -14,6 +14,8 @@ import worldfoodgame.planningpoints.PlanningPointConstants;
 import worldfoodgame.planningpoints.PlanningPointsAllocationPanel;
 
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
@@ -30,7 +32,7 @@ import static worldfoodgame.gui.Camera.CAM_DISTANCE;
  * <p/>
  * Manages how the regions are displayed and rendered.
  */
-public class WorldPresenter extends Observable
+public class WorldPresenter extends Observable implements WindowListener
 {
   private boolean DEBUG = false;
   private CAM_DISTANCE lastDistance;
@@ -40,13 +42,17 @@ public class WorldPresenter extends Observable
 
   private Collection<GUIRegion> backgroundRegions;
   private ActiveRegionList activeRegions;
-  private ArrayList<Continent> activeContinents;
+  private ArrayList<Continent> activeContinents; //Deprecated
+  private ArrayList<GUIContinent> GUIContinents = new ArrayList<>();
+  private GUIContinent activeContinent;
   private World world;
   private boolean activelyDraging;
   private RegionViewFactory regionViewFactory;
   private Player player;
   private HashMap<Continent, ArrayList<GUIRegion>> contMap;
-
+  private TradeAndImportFrame trade;
+  private TradeAndImportFrame donate;
+  private JFrame PPframe;
 
   /**
    * Class constructor. Expects a reference to both a map converter, and a
@@ -74,7 +80,8 @@ public class WorldPresenter extends Observable
     this.activeRegions = new ActiveRegionList();
     activeContinents = new ArrayList<>();
     contMap = new HashMap<>();
-    setContinentMap();
+    //setContinentMap();
+    setGUIContinents();
   }
 
   private void setContinentMap()
@@ -91,6 +98,23 @@ public class WorldPresenter extends Observable
         }
       }
       contMap.put(c, temp);
+    }
+  }
+
+  private void setGUIContinents()
+  {
+    ArrayList<GUIRegion> temp;
+    for (Continent c : world.getContinents())
+    {
+      temp = new ArrayList<>();
+      for (GUIRegion r : modelRegions)
+      {
+        if (r.getCountry().getContinent() == c)
+        {
+          temp.add(r);
+        }
+      }
+      GUIContinents.add(new GUIContinent(temp, c));
     }
   }
 
@@ -208,18 +232,31 @@ public class WorldPresenter extends Observable
     {
       if (guir.contains(x, y))
       {
-        if (activeRegions.contains(guir))
+        //if (activeRegions.contains(guir))
+        if (activeContinent == guir.getGUIContinent())
         {
+          if (activeContinent != null)
+          {
+            activeContinent.setActive(false);
+            activeContinent = null;
+          }
           //activeRegions.remove(guir);
-          activeContinents.remove(guir.getCountry().getContinent());
+          /*activeContinents.remove(guir.getCountry().getContinent());
           for (GUIRegion gR : contMap.get(guir.getCountry().getContinent()))
           {
             activeRegions.add(gR);
-          }
+          }*/
           //setActiveByContinent(camera);
         }
         else
         {
+          if (activeContinent != null)
+          {
+            activeContinent.setActive(false);
+          }
+          activeContinent = guir.getGUIContinent();
+          activeContinent.setActive(true);
+          /*
           activeRegions.clear();
           activeContinents.clear();
           //activeRegions.add(guir);
@@ -227,14 +264,23 @@ public class WorldPresenter extends Observable
           for (GUIRegion gR : contMap.get(guir.getCountry().getContinent()))
           {
             activeRegions.add(gR);
-          }
+          }*/
           //setActiveByContinent(camera);
         }
+        setChanged();
+        notifyObservers();
         return; //for early loop termination.
       }
     }
-    activeRegions.clear(); // deselects all regions when mouse click on ocean.
-    activeContinents.clear();
+    //activeRegions.clear(); // deselects all regions when mouse click on ocean.
+    //activeContinents.clear();
+    if (activeContinent != null)
+    {
+      activeContinent.setActive(false);
+      activeContinent = null;
+    }
+    setChanged();
+    notifyObservers();
   }
 
   /**
@@ -263,6 +309,7 @@ public class WorldPresenter extends Observable
           {
             activeRegions.remove(gR);
           }
+
           //setActiveByContinent(camera);
         }
         else
@@ -417,6 +464,7 @@ public class WorldPresenter extends Observable
 
   public List<GUIRegion> getActiveRegions()
   {
+    /*
     if (activeRegions.isEmpty())
     {
       return null;
@@ -424,7 +472,12 @@ public class WorldPresenter extends Observable
     else
     {
       return activeRegions.getList();
+    }*/
+    if (activeContinent != null)
+    {
+      return activeContinent.getGUIRegions();
     }
+    return null;
   }
 
   private void setActiveByContinent(Camera camera)
@@ -452,26 +505,8 @@ public class WorldPresenter extends Observable
     world.stepWorld();
     
     System.out.println("Starting Player's Turn \n");
-    commencePlayerTrading();    
-    System.out.println("Finishing user trading, about to let AI trade.");
-    
-    System.out.println("AI starts trading");
-    //AI trade goes here
-    System.out.println("AI has theoreticall traded..");
-    
-    System.out.println("User can donate food now");
-    commenceDonating();
-    System.out.println("User finished donating food");
-    
-    System.out.println("Planning points allocation begins");   
-    commencePlanningPointAllocation();
-    System.out.println("Planning points allocation ends");
-    
-    System.out.println("Finished the player's turn ");
-    System.out.println("PS these print statments are in WorldPresenter stepWorld()\n");
-    TradingRouteOverlay.updateTrades(world.getTrades());
-    setChanged();
-    notifyObservers();
+    commencePlayerTrading();
+
   }
 
   public Date getWorldDate()
@@ -529,34 +564,135 @@ public class WorldPresenter extends Observable
 
   public ArrayList<Continent> getActiveCont()
   {
-    return new ArrayList<>(world.getRelevantContinents(new ArrayList<>(getActiveCountries())));
+    //return new ArrayList<>(world.getRelevantContinents(new ArrayList<>(getActiveCountries())));
+    ArrayList temp = new ArrayList();
+    if (activeContinent != null)
+    {
+      temp.add(activeContinent.getContinent());
+    }
+    return temp;
   }
 
   private void commencePlayerTrading()
   {
-    JFrame trade = new TradeAndImportFrame(player, world.getContinents(), getYear(), true);
+    trade = new TradeAndImportFrame(player, world.getContinents(), getYear(), true);
     trade.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     trade.pack();
     trade.setResizable(false);
     trade.setVisible(true);
+    trade.addWindowListener(this);
   }
   
   private void commencePlanningPointAllocation()
   {
     Continent c = player.getContinent();
     int thisYearsPoints = c.calculatePlanningPoints();
-    new PlanningPointsAllocationPanel(world.getContinents(),thisYearsPoints);    
+    PPframe = new JFrame("Planning Points Allocation");
+    new PlanningPointsAllocationPanel(world.getContinents(),thisYearsPoints,PPframe);
+    PPframe.addWindowListener(this);
   }
 
   private void commenceDonating()
   {
-    JFrame donate = new TradeAndImportFrame(player, world.getContinents(), getYear(), false);
+    donate = new TradeAndImportFrame(player, world.getContinents(), getYear(), false);
     donate.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     donate.pack();
     donate.setResizable(false);
     donate.setVisible(true);
+    donate.addWindowListener(this);
   }
-  
+
+  /**
+   * Steps to next window of the turn.
+   * @param e One of the windows closing.
+   */
+  @Override
+  public void windowClosing(WindowEvent e)
+  {
+    if (e.getSource() == trade)
+    {
+      System.out.println("Finishing user trading, about to let AI trade.");
+
+      System.out.println("AI starts trading");
+      TradingRouteOverlay.updateTrades(world.getTrades());
+      System.out.println("AI has theoreticall traded..");
+
+      System.out.println("User can donate food now");
+      commenceDonating();
+    }
+    else if (e.getSource() == donate)
+    {
+      System.out.println("User finished donating food");
+
+      System.out.println("Planning points allocation begins");
+      commencePlanningPointAllocation();
+    }
+    else if (e.getSource() == PPframe)
+    {
+      System.out.println("Planning points allocation ends");
+
+      System.out.println("Finished the player's turn ");
+      System.out.println("PS these print statments are in WorldPresenter stepWorld()\n");
+
+      setChanged();
+      notifyObservers();
+    }
+  }
+
+  /**
+   * Does nothing.
+   * @param e An unused window event
+   */
+  @Override
+  public void windowOpened(WindowEvent e)
+  {
+  }
+
+  /**
+   * Does nothing.
+   * @param e An unused window event
+   */
+  @Override
+  public void windowClosed(WindowEvent e)
+  {
+  }
+
+  /**
+   * Does nothing.
+   * @param e An unused window event
+   */
+  @Override
+  public void windowIconified(WindowEvent e)
+  {
+  }
+
+  /**
+   * Does nothing.
+   * @param e An unused window event
+   */
+  @Override
+  public void windowDeiconified(WindowEvent e)
+  {
+  }
+
+  /**
+   * Does nothing.
+   * @param e An unused window event
+   */
+  @Override
+  public void windowActivated(WindowEvent e)
+  {
+  }
+
+  /**
+   * Does nothing.
+   * @param e An unused window event
+   */
+  @Override
+  public void windowDeactivated(WindowEvent e)
+  {
+  }
+
   /**
    * Private class  that manages and the active/passive state of the region.
    * also deals the marking changes

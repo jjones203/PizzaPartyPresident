@@ -25,31 +25,35 @@ import java.util.*;
 /**
  * Created by Tim on 4/24/15.
  * Edited by Stephen 5/4/15 
+ * 
+ * This is the pie chart.
+ * 
  */
 public class PieChart extends JPanel
 {
-  private final static Color BORDER_COL = ColorsAndFonts.GUI_TEXT_COLOR.darker();
-  private final static Font TITLE_FONT = ColorsAndFonts.HUD_TITLE;
-  private final static Color GUI_BACKGROUND = ColorsAndFonts.GUI_BACKGROUND;
-  private final static Color FOREGROUND_COL = ColorsAndFonts.GUI_TEXT_COLOR;
-  private final static RenderingHints rh = new RenderingHints(
+  private final static Color BORDER_COL = 
+      ColorsAndFonts.GUI_TEXT_COLOR.darker();
+  private final static Font TITLE_FONT = 
+      ColorsAndFonts.HUD_TITLE;
+  private final static Color GUI_BACKGROUND = 
+      ColorsAndFonts.GUI_BACKGROUND;
+  private final static Color FOREGROUND_COL =
+      ColorsAndFonts.GUI_TEXT_COLOR;
+  private final static RenderingHints rh =
+      new RenderingHints(
           RenderingHints.KEY_ANTIALIASING,
           RenderingHints.VALUE_ANTIALIAS_ON
   );
 
-  private boolean isHovered;
   private int year = 2014;
 
   public static final EmptyBorder PADDING_BORDER = new EmptyBorder(5, 5, 5, 5);
   private JLabel titleLabel;
   private JPanel regionViewer;
-  private float alpha;
   private java.util.List<GUIRegion> regions = new ArrayList<>();
 
   public PieChart(String name)
   {
-    // init
-    this.alpha = 0.0f;
     this.titleLabel = new JLabel(name);
     this.regionViewer = getRegionView();
 
@@ -65,21 +69,6 @@ public class PieChart extends JPanel
             PADDING_BORDER));
 
     regionViewer.setBorder(PADDING_BORDER);
-    regionViewer.addMouseListener(new MouseAdapter()
-    {
-      @Override
-      public void mouseEntered(MouseEvent e)
-      {
-        isHovered = true;
-      }
-
-      @Override
-      public void mouseExited(MouseEvent e)
-      {
-        isHovered = false;
-      }
-    });
-
 
     // wire-up
     this.add(titleLabel, BorderLayout.NORTH);
@@ -87,11 +76,19 @@ public class PieChart extends JPanel
 
   }
 
+  /**
+   *  
+   * @param name of chart
+   */
   public void setTitle(String name)
   {
     titleLabel.setText(name);
   }
 
+  /**
+   * 
+   * @return name of chart
+   */
   public String getTitle()
   {
     return titleLabel.getText();
@@ -111,15 +108,6 @@ public class PieChart extends JPanel
     return new PiePanel();
   }
 
-  /**
-   * Set level of transparency for the displayed regions. Can be used to
-   * controls animation starting opacity.
-   * @param x float between 0 and 1. 0 => completely translucent, 1 => Opaque.
-   */
-  public void setAlph(float x)
-  {
-    alpha = x;
-  }
 
   /**
    * Collection of Gui regions to draw in the mini Display box.
@@ -130,6 +118,18 @@ public class PieChart extends JPanel
     this.regions = regions;
   }
   
+  /**
+   * 
+   * @author Tim
+   * Edited by: Stephen
+   * 
+   * Class for drawing the pie chart.
+   * It makes use of a behind the scenes
+   * buffered image for looking up colors
+   * on a mouse over to set the 
+   * tooltip text
+   *
+   */
   private class PiePanel extends JPanel implements MouseListener, ActionListener
   {
     private BufferedImage lookUpImage;
@@ -231,11 +231,12 @@ public class PieChart extends JPanel
       int startAngle = 0;
       int arcAngle = 0;
       double percent=0;
+      
+      // in pairs for buffer image and actual user displayed JPanel
       for (CropSlice cs : slices)
       {
         percent = cs.actual/cs.needed;
         percent = Math.min(1,percent);
-        
 
         startAngle = (int) (currentValue * 360 / needTotal);
         arcAngle = (int) (cs.needed * 360 / needTotal);
@@ -243,14 +244,19 @@ public class PieChart extends JPanel
         g2d.setColor(cs.needColor);
         g2dLookUp.setColor(cs.needColor);
           
-
-        g2d.fillArc(inset+(int)(boxWCenter-boxW/2), inset+(int)(boxHCenter-boxH/2), (int) boxW, (int) boxH, startAngle, arcAngle);
-        g2dLookUp.fillArc(inset+(int)(boxWCenter-boxW/2), inset+(int)(boxHCenter-boxH/2), (int) boxW, (int) boxH, startAngle, arcAngle);
-       // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+        g2d.fillArc(inset+(int)(boxWCenter-boxW/2), 
+            inset+(int)(boxHCenter-boxH/2), (int) boxW, (int) boxH, startAngle, arcAngle);
+        g2dLookUp.fillArc(inset+(int)(boxWCenter-boxW/2),
+            inset+(int)(boxHCenter-boxH/2), (int) boxW, (int) boxH, startAngle, arcAngle);
+        
         g2d.setColor(cs.actualColor);
         g2dLookUp.setColor(cs.actualColor);
-        g2d.fillArc(inset+(int)(boxWCenter-percent*boxW/2), inset+(int)(boxHCenter-percent*boxH/2), (int) (boxW*percent), (int) (boxH*percent), startAngle, arcAngle);
-        g2dLookUp.fillArc(inset+(int)(boxWCenter-percent*boxW/2), inset+(int)(boxHCenter-percent*boxH/2), (int) (boxW*percent), (int) (boxH*percent), startAngle, arcAngle);
+        
+        g2d.fillArc(inset+(int)(boxWCenter-percent*boxW/2),
+            inset+(int)(boxHCenter-percent*boxH/2), (int) (boxW*percent), (int) (boxH*percent), startAngle, arcAngle);
+        g2dLookUp.fillArc(inset+(int)(boxWCenter-percent*boxW/2),
+            inset+(int)(boxHCenter-percent*boxH/2), (int) (boxW*percent), (int) (boxH*percent), startAngle, arcAngle);
+        
         currentValue += cs.needed;
       }
     }
@@ -301,7 +307,8 @@ public class PieChart extends JPanel
       
       try
       {
-        color = new Color(lookUpImage.getRGB(this.getMousePosition().x, this.getMousePosition().y));
+        color = new Color(lookUpImage.getRGB(
+            this.getMousePosition().x, this.getMousePosition().y));
       }
       catch (Exception e){}
       
@@ -309,32 +316,37 @@ public class PieChart extends JPanel
       double needAmt=0;
       double actualAmt=0;
       double excess=0;
-      //System.out.println("r "+color.red+" g "+color.getGreen()+" b "+color.getBlue()+" A "+color.getAlpha());
-      if (color.equals(ColorsAndFonts.N_PIE_TOMATOES_COLOR)||color.equals(ColorsAndFonts.A_PIE_TOMATOES_COLOR))
+
+      if (color.equals(ColorsAndFonts.N_PIE_TOMATOES_COLOR)||
+          color.equals(ColorsAndFonts.A_PIE_TOMATOES_COLOR))
       {
         cropType="Tomatoes";
         needAmt=needTotals[1];
         actualAmt=actualTotals[1];
       }
-      else if (color.equals(ColorsAndFonts.N_PIE_PINEAPPLE_COLOR)||color.equals(ColorsAndFonts.A_PIE_PINEAPPLE_COLOR))
+      else if (color.equals(ColorsAndFonts.N_PIE_PINEAPPLE_COLOR)||
+          color.equals(ColorsAndFonts.A_PIE_PINEAPPLE_COLOR))
       {
         needAmt=needTotals[3];
         actualAmt=actualTotals[3];
         cropType="Pineapple";
       }
-      else if (color.equals(ColorsAndFonts.N_PIE_PEPPERS_COLOR)||color.equals(ColorsAndFonts.A_PIE_PEPPERS_COLOR))
+      else if (color.equals(ColorsAndFonts.N_PIE_PEPPERS_COLOR)||
+          color.equals(ColorsAndFonts.A_PIE_PEPPERS_COLOR))
       {
         cropType="Peppers";
         needAmt=needTotals[0];
         actualAmt=actualTotals[0];
       }
-      else if (color.equals(ColorsAndFonts.N_PIE_PEPPERONI_COLOR)||color.equals(ColorsAndFonts.A_PIE_PEPPERONI_COLOR))
+      else if (color.equals(ColorsAndFonts.N_PIE_PEPPERONI_COLOR)||
+          color.equals(ColorsAndFonts.A_PIE_PEPPERONI_COLOR))
       {
         cropType="Pepperoni";
         needAmt=needTotals[4];
         actualAmt=actualTotals[4];
       }
-      else if (color.equals(ColorsAndFonts.N_PIE_MUSHROOMS_COLOR)||color.equals(ColorsAndFonts.A_PIE_MUSHROOMS_COLOR))
+      else if (color.equals(ColorsAndFonts.N_PIE_MUSHROOMS_COLOR)||
+          color.equals(ColorsAndFonts.A_PIE_MUSHROOMS_COLOR))
       {
         cropType="Mushrooms";
         needAmt=needTotals[2];
@@ -366,6 +378,11 @@ public class PieChart extends JPanel
     }
   }
 
+  /**
+   * 
+   * @author Tim
+   *
+   */
   private class CropSlice
   {
     double needed;
@@ -374,7 +391,8 @@ public class PieChart extends JPanel
     Color actualColor;
     Color needColor;
 
-    public CropSlice(double needed, double actual, EnumCropType name, Color actualColor,Color needColor)
+    public CropSlice(double needed, double actual, 
+        EnumCropType name, Color actualColor,Color needColor)
     {
       this.needed = needed;
       this.actual = actual;

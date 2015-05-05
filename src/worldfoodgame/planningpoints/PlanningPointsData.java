@@ -258,8 +258,9 @@ public class PlanningPointsData
       description="Increases yield from all crops";
       break;
     case TradeEfficiency:
-      description="Increases priority of "
-          + "shipping to an area during optimization";
+      description="Decreases decay on shipped goods while"
+          + "increases favorability for goods during"
+          + "excess goods redistribution by the computer";
       break;
     default: //this should never happen
       description="Something Broke. Blame David or Winston";

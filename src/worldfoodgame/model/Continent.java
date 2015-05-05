@@ -1178,10 +1178,17 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    /** Start Planning Points      **/
    /********************************/
 
+   /**
+    * This should go into the player class
+    * 
+    * @return points to invest next year
+    */
   public int calculatePlanningPoints()
   {
     int points = 0;
-    points = (int) (50*(approvalRating + diplomacyRating));
+    //points = (int) (50*(approvalRating + diplomacyRating));
+    points = (int) (PlanningPointConstants.MAX_POINTS_PER_YEAR*diplomacyRating);
+    
     return points;
   }
 
@@ -1417,6 +1424,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public void calculateApprovalRating(int year)
   {
     this.approvalRating = 1 - .5*undernourish[year - START_YEAR] + .5*greenRating;
+    //System.out.println(undernourish[year - START_YEAR]+"    "+greenRating);
 
     if (this.approvalRating>1)
     {
@@ -1441,15 +1449,17 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    */
   public void calculateDiplomacyRating(int year, World world)
   {
-    double worldHunger = world.getWorldHungerPercent();
-    double hungerFactor = 0;
+    //double worldHunger = world.getWorldHungerPercent();
+    //double hungerFactor = 0;
 
-    if (worldHunger > getUndernourished(year))
-    {
-      hungerFactor = worldHunger -  getUndernourished(year);
-    }
+    //if (worldHunger > getUndernourished(year))
+    //{
+    //  hungerFactor = worldHunger -  getUndernourished(year);
+    //}
 
-    this.diplomacyRating  = 1 - .5*hungerFactor + .5*greenRating;
+    //this.diplomacyRating  = 1 - .5*hungerFactor + .5*greenRating;
+    
+    this.diplomacyRating  = 1 - this.getUndernourished(year);
 
     if (this.diplomacyRating>1)
     {
@@ -1461,7 +1471,6 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public void calculateGreenRating(int year)
   {
     this.greenRating  = 1 - (areaDeforested[year - START_YEAR]/landTotal);
-    //    System.out.println("Green rating is "+greenRating);
   }
 
 

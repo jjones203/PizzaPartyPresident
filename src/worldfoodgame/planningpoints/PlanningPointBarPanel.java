@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import worldfoodgame.gui.ColorsAndFonts;
+
 /**
  * 
  * @author Stephen Stromberg on 4/29/15
@@ -30,10 +32,11 @@ public class PlanningPointBarPanel extends JPanel implements ActionListener
   
   PlanningPointBarPanel(JLabel pointsRemaining)
   {
-    this.setBackground(Color.LIGHT_GRAY);
+    this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
     this.pointsRemaining=pointsRemaining;
     timer = new Timer(10,this);
     timer.start();
+    pointsRemaining.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
   }
  
   /**
@@ -72,7 +75,7 @@ public class PlanningPointBarPanel extends JPanel implements ActionListener
   {
     pointsRemaining.setText("Planning Points Remaining: "
         +PlanningPointsData.getPlanningPointsAvalable()
-        +"/"+PlanningPointConstants.MAX_POINTS_PER_YEAR);
+        +"/"+PlanningPointConstants.MAX_POINTS_PER_YEAR+" ");
     this.repaint();
     if(!PlanningPointsData.getRunning()) timer.stop();
   }
