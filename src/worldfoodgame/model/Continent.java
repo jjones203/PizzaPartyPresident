@@ -765,9 +765,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     // GMO research affects how much GMO you can plant
     if (method == EnumGrowMethod.GMO)
     {  
-      double limit = 1.5;
-      limit = getPlanningPointsFactor(PlanningPointCategory.GMOResistance); 
-      System.out.println("In Continent.updateMethodPercentage GMO limit is "+limit);
+      double limit = getPlanningPointsFactor(PlanningPointCategory.GMOResistance); 
       maxPossible = Math.min(limit, 1 - sumOtherMethods);
     }
     else maxPossible = 1 - sumOtherMethods;

@@ -14,6 +14,7 @@ import worldfoodgame.model.TileManager;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
 import worldfoodgame.model.Player;
+import worldfoodgame.screens.StartScreen;
 
 import javax.swing.*;
 
@@ -50,13 +51,13 @@ public class Game
    */
   public Game()
   {    
-    init();
+    initGame();
   }
 
   /**
    * set it ALL up.
    */
-  private void init()
+  private void initGame()
   {
     Collection<Region> background = KMLParser.getRegionsFromFile(BG_DATA_PATH);
     Collection<Region> modelRegions = new CountryXMLparser().getRegionList();
@@ -93,6 +94,14 @@ public class Game
 
     worldFeedPanel = new WorldFeedPanel(worldPresenter);
     worldPresenter.addObserver(worldFeedPanel);
+
+    StartScreen start = new StartScreen();
+    
+    while(start.userNotReady)
+    {
+      
+    }
+    
 
     initFrame();
     setupControlls();
