@@ -1429,7 +1429,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     }
     else
     {
-      this.approvalRating = 1 - .75*getUndernourished(year);
+      this.approvalRating = 1 - getUndernourished(year);
     }
     //System.out.println(undernourish[year - START_YEAR]+"    "+greenRating);
 

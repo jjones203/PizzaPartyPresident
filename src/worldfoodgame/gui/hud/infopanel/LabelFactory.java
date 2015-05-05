@@ -651,11 +651,11 @@ public class LabelFactory
     }
     else if(rating>.2 && rating<.41)
     {
-      expression = "upset.png";
+      expression = "distress.png";
     }
     else if(rating>.4 && rating<.61)
     {
-      expression = "okay.png";
+      expression = "upset.png";
     }
     else if(rating>.6 && rating<.81)
     {
