@@ -4,7 +4,7 @@ package worldfoodgame.model;
 /**
  * Place for storing data on crops' growing conditions, etc.
  * @author jessica
- *
+ *Edited by Ken Kressin - adding crop water use data.
  * Added data on water usage per crop (number of gallons per square km)
  */
 public interface CropClimateData

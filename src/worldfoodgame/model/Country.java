@@ -17,6 +17,7 @@ import java.util.List;
  * fields.
  * Created by winston on 3/9/15.
  * Edited by Jessica on 3/14/15: getName, setLandTotal, methodPercentage methods
+ * Edited by Ken on 4/26/15: waterAllowance methods
  *
  * @version 22-Mar-2015
  */
