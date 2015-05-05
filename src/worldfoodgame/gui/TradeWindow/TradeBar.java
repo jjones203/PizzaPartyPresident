@@ -102,6 +102,10 @@ public class TradeBar extends JPanel implements ActionListener
     {
       contGL = contLF.getTradeContLabel(contCrop, this, currentLimit);
     }
+    if (!isTrade)
+    {
+      currentLimit = playerLF.getContinent().getCropProduction(World.getWorld().getCurrentYear() - 1, playerCrop);
+    }
     playerGL = playerLF.getTradePlayLabel(crop, this, currentLimit);
     playerGL.setIncrease("Increase");
     playerGL.setDecrease("Decrease");
