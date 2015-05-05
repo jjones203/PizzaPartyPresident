@@ -52,7 +52,7 @@ public class TradeOptimizer
   {
     this.year = year;
     /*
-     * We need to remove North America from the computer-traded continents.
+     * We need to remove the player continent from the computer-traded continents.
      * To do this, we use an iterator to copy the passed in continents collection
      * to a HashMap, then put the values of the HashMap into a new ArrayList
      * and use this list in the optimizer.  This preserves the original
