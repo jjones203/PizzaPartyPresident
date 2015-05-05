@@ -53,13 +53,7 @@ public class StartScreen extends JFrame
   {    
     init();
   }
-
-  //    @Override
-  //    protected void paintComponent(Graphics g) {
-  //        super.paintComponent(g); // paint the background image and scale it to fill the entire space
-  //        g.drawImage(/*....*/);
-  //    }
-
+  
   private void init()
   {
     UIManager.put("Panel.background", Color.WHITE);

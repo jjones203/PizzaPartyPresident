@@ -321,8 +321,8 @@ public class World extends AbstractScenario
   }
 
   /*
-    implements the benevolent trading between countries with surpluses and
-    deficits by crop through the TradingOptimizer. */
+    implements the benevolent trading between continents with surpluses and
+    deficits by crop through the TradeOptimizer. */
   private void shipAndReceive()
   {
     System.out.println("Entering the shipAndReceive() method in World.java");

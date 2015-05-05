@@ -23,6 +23,7 @@ import java.util.*;
 
 /**
  * Created by Tim on 4/24/15.
+ * Edited by Stephen 5/4/15 
  */
 public class PieChart extends JPanel
 {
@@ -341,18 +342,18 @@ public class PieChart extends JPanel
       if(excess>=0)
       {
       tooltip=String.format("<html>%s<br>" +
-          "Need: %8.2f Tons<br>" +
-          "Actual: %8.2f Tons <br>"+
-          "Surplus!: %8.2f Tons <br>"+
+          "Need: %8.0f Tons<br>" +
+          "Actual: %8.0f Tons <br>"+
+          "Surplus!: %8.0f Tons <br>"+
           "</html>",
           cropType,needAmt,actualAmt,excess);
       }
       else
       {
         tooltip=String.format("<html>%s<br>" +
-            "need: %8.2f Tons<br>" +
-            "actual: %8.2f Tons <br>"+
-            "Defecit: %8.2f Tons <br>"+
+            "Need: %8.0f Tons<br>" +
+            "Actual: %8.0f Tons <br>"+
+            "Defecit: %8.0f Tons <br>"+
             "</html>",
             cropType,needAmt,actualAmt,excess);
       }

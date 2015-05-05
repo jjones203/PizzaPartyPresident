@@ -302,7 +302,7 @@ public class LabelFactory
   {
     double val = 0;
     int year = World.getWorld().getCurrentYear();
-    if (continent != null && continent.getArableLand(year)<= 0)
+    if (continent != null && continent.getArableLand(year) >= 0)
     {
       val = continent.getCropLand(year, type) / continent.getArableLand(year);
     }
@@ -395,7 +395,7 @@ public class LabelFactory
       val = limit - continent.getWaterUsage(World.getWorld().getCurrentYear());
     }
     final GraphLabel waterControll = new GraphLabel(
-            "Water Remaining",
+            "Water Left",
             val,
             limit,
             "#,###,### gallons");

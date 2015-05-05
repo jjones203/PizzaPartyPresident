@@ -773,10 +773,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double currCropLand = getCropLand(year, crop);
     double delta = kilomsq - currCropLand;
     double limit = waterAllowance + continentRainfall - waterUsed[year - START_YEAR];
-
     double factor = this.getPlanningPointsFactor(PlanningPointCategory.WaterEfficiency);
     limit = limit*factor;
-    System.out.println("FACTOR IS ........................."+factor);
     limit = limit / crop.waterUse;
 
     double valueToSet;
@@ -784,8 +782,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     if ((currCropLand + delta) < 0)
     {
       valueToSet = 0;
-      //decreasing water usage since currCropLand + delta should be negative
-      waterValue = waterUsed[year - START_YEAR] + (currCropLand + delta)*crop.waterUse;
+      waterValue = waterUsed[year - START_YEAR] - (currCropLand * crop.waterUse);
     }
     else if (delta > limit)
     {
@@ -795,12 +792,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     else if (delta > unused)
     {
       valueToSet = unused + currCropLand;
-      waterValue = valueToSet * crop.waterUse;
+      waterValue = waterUsed[year - START_YEAR] + (unused * crop.waterUse);
     }
     else
     {
       valueToSet = kilomsq;
-      waterValue = valueToSet * crop.waterUse;
+      waterValue = waterUsed[year - START_YEAR] + (delta * crop.waterUse);
     }
     for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
     {
@@ -1194,10 +1191,65 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    */
   public void setInitialPlanningPoints()
   {
-    GMOPlanningPoints=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
-    waterEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
-    yieldEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
-    tradeEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+    if(this.getName()==EnumContinentNames.N_AMERICA)
+    {
+      GMOPlanningPoints=(int)(PlanningPointConstants.MAX_POINTS*.6);
+      waterEff=(int)(PlanningPointConstants.MAX_POINTS*.6);
+      yieldEff=(int)(PlanningPointConstants.MAX_POINTS*.6);
+      tradeEff=(int)(PlanningPointConstants.MAX_POINTS*.6);
+      
+    } 
+    else if(this.getName()==EnumContinentNames.AFRICA)
+    {
+      GMOPlanningPoints=(int)(PlanningPointConstants.MAX_POINTS*.1);
+      waterEff=(int)(PlanningPointConstants.MAX_POINTS*.2);
+      yieldEff=(int)(PlanningPointConstants.MAX_POINTS*.3);
+      tradeEff=(int)(PlanningPointConstants.MAX_POINTS*.25);
+      
+    } 
+    else if(this.getName()==EnumContinentNames.ASIA)
+    {
+      GMOPlanningPoints=(int)(PlanningPointConstants.MAX_POINTS*.55);
+      waterEff=(int)(PlanningPointConstants.MAX_POINTS*.4);
+      yieldEff=(int)(PlanningPointConstants.MAX_POINTS*.45);
+      tradeEff=(int)(PlanningPointConstants.MAX_POINTS*.50);
+    } 
+    else if(this.getName()==EnumContinentNames.EUROPE)
+    {
+      GMOPlanningPoints=(int)(PlanningPointConstants.MAX_POINTS*.2);
+      waterEff=(int)(PlanningPointConstants.MAX_POINTS*.5);
+      yieldEff=(int)(PlanningPointConstants.MAX_POINTS*.7);
+      tradeEff=(int)(PlanningPointConstants.MAX_POINTS*.8);
+    } 
+    else if(this.getName()==EnumContinentNames.MIDDLE_EAST)
+    {
+      GMOPlanningPoints=(int)(PlanningPointConstants.MAX_POINTS*.25);
+      waterEff=(int)(PlanningPointConstants.MAX_POINTS*.33);
+      yieldEff=(int)(PlanningPointConstants.MAX_POINTS*.45);
+      tradeEff=(int)(PlanningPointConstants.MAX_POINTS*.55);
+    } 
+    else if(this.getName()==EnumContinentNames.OCEANIA)
+    {
+      GMOPlanningPoints=(int)(PlanningPointConstants.MAX_POINTS*.3);
+      waterEff=(int)(PlanningPointConstants.MAX_POINTS*.7);
+      yieldEff=(int)(PlanningPointConstants.MAX_POINTS*.5);
+      tradeEff=(int)(PlanningPointConstants.MAX_POINTS*.66);
+    }
+    else if(this.getName()==EnumContinentNames.S_AMERICA)
+    {
+      GMOPlanningPoints=(int)(PlanningPointConstants.MAX_POINTS*.54);
+      waterEff=(int)(PlanningPointConstants.MAX_POINTS*.45);
+      yieldEff=(int)(PlanningPointConstants.MAX_POINTS*.33);
+      tradeEff=(int)(PlanningPointConstants.MAX_POINTS*.66);
+    }
+    else
+    {
+      GMOPlanningPoints=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+      waterEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+      yieldEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+      tradeEff=(int)(Math.random()*PlanningPointConstants.MAX_POINTS);
+      //System.out.println("Initiate planning points not recognized for continent");
+    }
   }
 
   @Override
