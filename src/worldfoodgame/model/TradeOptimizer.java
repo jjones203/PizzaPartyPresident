@@ -10,7 +10,7 @@ import static worldfoodgame.planningpoints.PlanningPointCategory.TradeEfficiency
  @author david
  created: 2015-04-05
  Modified by Ken Kressin for Milestone 3.
- description: 
+ Description:
  TradeOptimizer casts the import-export problem as something akin to the
  Generalized Assignment Problem, wherein either the importers or exporters
  may be conceptualized as the bins or knapsacks.
@@ -26,25 +26,23 @@ import static worldfoodgame.planningpoints.PlanningPointCategory.TradeEfficiency
  threaded for each crop to be traded and run multiple times, the best result of
  which is the actual implemented set of trades.
  */
+@SuppressWarnings("unchecked")
 public class TradeOptimizer
 {
   private final int year;
   private final Collection<Continent> continents;
   private static final boolean DEBUG = true;
   private final List<TradePair>[] allTrades = new ArrayList[]
-                                                {new ArrayList(), new ArrayList(),
-                                                 new ArrayList(), new ArrayList(),
-                                                 new ArrayList()
-  };
+                                                {new ArrayList<>(), new ArrayList<>(),
+                                                 new ArrayList<>(), new ArrayList<>(),
+                                                 new ArrayList<>()};
 
   private List<SingleCropTrader> traders;
   /**
    Construct a new TradeOptimizer with the set of continents to trade between.
 
-   @param continents
-   Collection of Countries to trade between
-   @param year
-   year to calculate trades for
+   @param continents   Collection of Continents to trade between
+   @param year         year to calculate trades for
    */
   public TradeOptimizer(Collection<Continent> continents, int year)
   {
@@ -79,6 +77,11 @@ public class TradeOptimizer
     for(SingleCropTrader trader : traders) trader.start();
   }
 
+  /**
+   * Checks to see if all trading threads are done.
+   * @return a boolean indicating whether the SingleCropTrader() threads are all
+   * complete.  If any of the threads are still working, this will return false.
+   */
   public boolean doneTrading()
   {
     for(SingleCropTrader t : traders) if (!t.isDone()) return false;
@@ -396,7 +399,11 @@ public class TradeOptimizer
       }
       return list;
     }
-
+    /*
+     * Both shuffleOnImporters() and shuffleOnExporters() methosds are designed to
+     * randomly re-order the import and export lists to allow the optimization
+     * algorithm to try different solutions.
+     */
     private void shuffleOnImporters()
     {
       Collections.shuffle(Arrays.asList(importerMap));

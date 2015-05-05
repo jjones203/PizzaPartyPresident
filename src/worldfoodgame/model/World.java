@@ -327,9 +327,7 @@ public class World extends AbstractScenario
   {
     System.out.println("Entering the shipAndReceive() method in World.java");
     TradeOptimizer optimizer = new TradeOptimizer(continents, getCurrentYear());
-    //TradingOptimizer optimizer = new TradingOptimizer(politicalWorld, getCurrentYear());
     optimizer.optimizeAndImplementTrades();
-   // while(!optimizer.doneTrading());
     while(!optimizer.doneTrading())
     {
       lastTrades = optimizer.getAllTrades();
@@ -342,6 +340,11 @@ public class World extends AbstractScenario
     int year = getCurrentYear();
     for (Continent continent:continents)
     {
+      // if not player, ai needs to do planting
+      if (continent.isPlayer() == false)
+      {
+        continent.aiPlanting(year);
+      }
       ContinentCropAllocator allocator = new ContinentCropAllocator(year,continent);
       allocator.allocateCrops();
     }
@@ -472,19 +475,5 @@ public class World extends AbstractScenario
       allocator.allocateCrops();
     }
   } 
-
-  public void initializeNonPlayerContinents(Player player)
-  {
-    EnumContinentNames playerContinent = player.getContinent().getName();
-    for (Continent continent:continents)
-    {
-      if (continent.getName() != playerContinent)
-      {
-        continent.initializeNonPlayerLandUse();
-      }
-    }
-
-    // getContinents().get(0).testGetterMethods(AbstractScenario.START_YEAR); // for testing
-  }
 
 }

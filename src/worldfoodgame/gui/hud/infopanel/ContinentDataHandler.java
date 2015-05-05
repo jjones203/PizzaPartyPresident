@@ -6,6 +6,8 @@ import worldfoodgame.model.Continent;
 import worldfoodgame.model.World;
 
 /**
+ * ContinentDataHandler is similar to SingleCountryHandler but calls
+ * methods from Continent class instead.
  * @author jessica
  * @version May 3, 2015
  */
@@ -111,9 +113,7 @@ public class ContinentDataHandler extends CountryDataHandler
   @Override
   public void setLand(EnumCropType type, double kilom)
   {
-    //System.out.println("In ContinentDataHandler.setLand");
     double val = activeConverter.convert2ModelSpace(kilom);
-    //System.out.println("In ContinentDataHandler.setLand val is "+val);
     continent.updateCropLand(year, type, val);
   }
 

@@ -9,20 +9,30 @@ import worldfoodgame.common.EnumCropType;
 import worldfoodgame.common.EnumGrowMethod;
 import worldfoodgame.planningpoints.PlanningPointCategory;
 
+/**
+ * Assigns crops to tiles during year-stepping. Also calculates and updates deforestation.
+ * @author jessica
+ */
 public class ContinentCropAllocator
 {
   private int year;
   private Continent continent;
-  private boolean occurCatastrophe = false;
   private double[] areaToPlant = new double[EnumCropType.SIZE];
   private int[] tilesNeeded = new int[EnumCropType.SIZE];
   
+  /**
+   * @param year        year of planting
+   * @param continent   continent to plant
+   */
   ContinentCropAllocator(int year, Continent continent)
   {
     this.year = year;
     this.continent = continent;
   }
   
+  /**
+   * Plants and harvests continent
+   */
   public void allocateCrops()
   {
     calculateTilesNeeded();
@@ -31,10 +41,6 @@ public class ContinentCropAllocator
     updateDeforestation();
   }
   
-  public void setOccurCatastrope(boolean occurCatastrophe)
-  {
-    this.occurCatastrophe = occurCatastrophe;
-  }
   
   private void calculateTilesNeeded()
   {
@@ -68,6 +74,8 @@ public class ContinentCropAllocator
         if (tile.isArable())
         {
           tile.setCurrCrop(crop);
+          // if tile we are planting in was previously forested, set it to deforested
+          if (tile.isForested()) tile.setForested(false);
           tilesToPlant--;
         }
       }

@@ -36,6 +36,7 @@ public class LandTile
   private MapPoint center;
   private EnumCropType currCrop;
   private boolean arable;
+  private boolean forested;
 
   /**
    Constructor used for initial creation of data set
@@ -299,6 +300,23 @@ public class LandTile
   public void setArable(boolean arable)
   {
     this.arable = arable;
+  }
+  
+  
+  /**
+   * @return if forested
+   */
+  public boolean isForested()
+  {
+    return forested;
+  }
+
+  /**
+   * @param forested  boolean to set
+   */
+  public void setForested(boolean forested)
+  {
+    this.forested = forested;
   }
 
   /**
