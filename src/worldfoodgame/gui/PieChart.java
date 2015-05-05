@@ -1,4 +1,4 @@
-package worldfoodgame.gui.hud;
+package worldfoodgame.gui;
 
 import worldfoodgame.common.EnumCropType;
 import worldfoodgame.gui.ColorsAndFonts;
