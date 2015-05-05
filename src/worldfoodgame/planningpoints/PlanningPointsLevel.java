@@ -24,7 +24,6 @@ public enum PlanningPointsLevel
   Tier1, Tier2, Tier3,Tier4,Tier5;
   //tier 5 is highest
   
-  
   /**
    * Think of this in terms of how resistant the population
    * is to GMO practices. While this is not necessarily bad, 
@@ -222,6 +221,8 @@ public enum PlanningPointsLevel
     }
     return image;
   }
+  
+  
   
   
 }
