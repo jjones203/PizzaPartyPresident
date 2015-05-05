@@ -27,10 +27,8 @@ public class TradeAndImportFrame extends JFrame
   private static final Dimension TRADE_DIM = new Dimension(620, 150);
   private static final Dimension BUTTON_DIM = new Dimension(620, 100);
   private Player player;
-  private Collection<Country> countries; //Soon to be continents
   private Collection<Continent> continents;
   private LinkedList<ContinentState> savedStates;
-  private double savedImportBudget;
   private ArrayList<CountryDataHandler> handlers = new ArrayList<>();
   private ArrayList<LabelFactory> labelFactories = new ArrayList<>();
   private ArrayList<ContinentPanel> continentPanels = new ArrayList<>();
@@ -54,8 +52,7 @@ public class TradeAndImportFrame extends JFrame
     this.player = player;
     this.continents = continents;
     this.isTrade = isTrade;
-    savedImportBudget = player.getImportBudget();
-    continentTabPanel = new ContinentTabPanel(countries, handlers, CONT_DIM, isTrade, this);
+    continentTabPanel = new ContinentTabPanel(CONT_DIM, isTrade, this);
     playerPanel = new PlayerPanel(player, PLAYER_DIM, this);
     tradeBar = new TradeBar(TRADE_DIM, this, isTrade);
     buttonPanel = new ButtonPanel(BUTTON_DIM, this, isTrade);
@@ -143,20 +140,18 @@ public class TradeAndImportFrame extends JFrame
     temp = player.getContinent().getCropProduction(year, playerCrop) - tradeBar.getCurrentTrade();
     if (temp < 0)
     {
-      System.out.println("Trying to set player crop prod to less than 0...");
       temp = 0;
     }
     player.getContinent().setCropProduction(year, playerCrop, temp);
-    temp = player.getContinent().getCropProduction(year, contCrop) + tradeBar.getCurrentTrade();
-    player.getContinent().setCropProduction(year, contCrop,
-            player.getContinent().getPlanningPointsFactor(PlanningPointCategory.TradeEfficiency) * temp);
-    temp = continent.getCropProduction(year, playerCrop) + tradeBar.getCurrentTrade();
-    continent.setCropProduction(year, playerCrop,
-            continent.getPlanningPointsFactor(PlanningPointCategory.TradeEfficiency) * temp);
+    temp = player.getContinent().getCropProduction(year, contCrop)
+            + (player.getContinent().getPlanningPointsFactor(PlanningPointCategory.TradeEfficiency) * tradeBar.getCurrentTrade());
+    player.getContinent().setCropProduction(year, contCrop, temp);
+    temp = continent.getCropProduction(year, playerCrop)
+            + (continent.getPlanningPointsFactor(PlanningPointCategory.TradeEfficiency) * tradeBar.getCurrentTrade());
+    continent.setCropProduction(year, playerCrop, temp);
     temp = continent.getCropProduction(year, contCrop) - tradeBar.getCurrentTrade();
     if (temp < 0)
     {
-      System.out.println("Trying to set continent crop prod to less than 0...");
       temp = 0;
     }
     continent.setCropProduction(year, contCrop, temp);
@@ -208,18 +203,16 @@ public class TradeAndImportFrame extends JFrame
     temp = player.getContinent().getCropProduction(year, crop) - tradeBar.getCurrentTrade();
     if (temp < 0)
     {
-      System.out.println("Trying to set player crop prod to less than 0...");
       temp = 0;
     }
     player.getContinent().setCropProduction(year, crop, temp);
-    temp = continent.getCropProduction(year, crop) + tradeBar.getCurrentTrade();
+    temp = continent.getCropProduction(year, crop)
+            + (continent.getPlanningPointsFactor(PlanningPointCategory.TradeEfficiency) * tradeBar.getCurrentTrade());
     if (temp < 0)
     {
-      System.out.println("Trying to set continent crop prod to less than 0...");
       temp = 0;
     }
-    continent.setCropProduction(year, crop,
-            continent.getPlanningPointsFactor(PlanningPointCategory.TradeEfficiency) * temp);
+    continent.setCropProduction(year, crop, temp);
     for (ContinentPanel cP : continentPanels)
     {
       cP.redraw();

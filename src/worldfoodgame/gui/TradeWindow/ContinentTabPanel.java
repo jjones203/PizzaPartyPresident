@@ -35,14 +35,11 @@ public class ContinentTabPanel extends JPanel
 
   /**
    * Constructor sets up the tab label and the content area for each tab
-   * @param countries Deprecated countries
-   * @param handlers  Deprecated country handlers
    * @param dimension Dimension of panel
    * @param isTrade   Whether trading or donating
    * @param parent    Outer frame
    */
-  public ContinentTabPanel(Collection<Country> countries, ArrayList<CountryDataHandler> handlers,
-                           Dimension dimension, boolean isTrade, TradeAndImportFrame parent)
+  public ContinentTabPanel(Dimension dimension, boolean isTrade, TradeAndImportFrame parent)
   {
     //init
     alpha = 0;
