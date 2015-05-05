@@ -32,20 +32,25 @@ public class InfoPanel extends JPanel implements Observer
   private TierPanel tierPanel;
   private LandPanel landPanel;
   private Player player;
+  private int year;
 
   //private MiniViewBox viewBox;
   private PieChart pieChart;
 
   private TabbedPanel innerTabbedPanel;
   private HashMap<EnumCropType, CropPanel> cropPanels;
+  
 
   public InfoPanel(WorldPresenter worldPresenter, Player player)
   {
     this.player = player;
     this.dataHandler = CountryDataHandler.getNullData();
     this.worldPresenter = worldPresenter;
-    this.labelFactory = new LabelFactory(dataHandler);
+   this.year = worldPresenter.getYear();
+    
+    this.labelFactory = new LabelFactory(dataHandler, year);
     worldPresenter.addObserver(this);
+   
 
     setLayout(new BorderLayout());
     //viewBox = new MiniViewBox(" ");
@@ -77,7 +82,7 @@ public class InfoPanel extends JPanel implements Observer
 
     OuterTabbedPanel.addTab("crops", innerTabbedPanel);
     OuterTabbedPanel.addTab("overlays", new OverlayPanel(worldPresenter));
-    
+
     tierPanel = new TierPanel(labelFactory,worldPresenter);
     OuterTabbedPanel.addTab("planning points",tierPanel);
 
@@ -89,8 +94,8 @@ public class InfoPanel extends JPanel implements Observer
   {
     ArrayList<Continent> continentArrayList = worldPresenter.getActiveCont();
     ArrayList<Country> activeCountries = new ArrayList<>();
-    
-    
+
+
     for (Continent cont : continentArrayList)
     {
       activeCountries.addAll(cont.getCountries());
@@ -118,7 +123,7 @@ public class InfoPanel extends JPanel implements Observer
     //viewBox.setDrawableRegions(worldPresenter.getActiveRegions());
     pieChart.setRegions(worldPresenter.getActiveRegions());
 
-    labelFactory = new LabelFactory(dataHandler);
+    labelFactory = new LabelFactory(dataHandler,year);
     if(continentArrayList.size() == 1)
     {
       //System.out.println("In InfoPanel.update continent is "+continentArrayList.get(0).toString());
@@ -142,7 +147,7 @@ public class InfoPanel extends JPanel implements Observer
 
     demographicPanel.setLabelFactory(labelFactory);
     demographicPanel.redraw();
-    
+
     tierPanel.setLabelFactory(labelFactory);
     tierPanel.redraw();
 

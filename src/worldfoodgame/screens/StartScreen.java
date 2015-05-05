@@ -91,9 +91,13 @@ public class StartScreen extends JFrame
 
     start.setBorder(null);
     start.setContentAreaFilled(false);
+    start.setBorderPainted(false);  
+    start.setMargin(new Insets(0, 0, 0, 0));
     
     quit.setBorder(null);
-    quit.setContentAreaFilled(false);
+    quit.setContentAreaFilled(false);    
+    quit.setBorderPainted(false);  
+    quit.setMargin(new Insets(0, 0, 0, 0));
     
     start.setIcon(new ImageIcon("resources/imgs/startButton.png"));
     quit.setIcon(new ImageIcon("resources/imgs/quitButton.png"));

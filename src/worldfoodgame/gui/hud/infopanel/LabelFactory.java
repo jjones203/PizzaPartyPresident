@@ -34,13 +34,15 @@ public class LabelFactory
   private CountryDataHandler dataHandler;
   private Continent continent;
   private BufferedImage image;
+  private int year;
 
-  public LabelFactory(CountryDataHandler dataHandler)
+  public LabelFactory(CountryDataHandler dataHandler, int year)
   {
     this.dataHandler = dataHandler;
     this.updates = new ArrayList<>();
+    this.year = year;
   }
-  
+
   public CountryDataHandler getDataHandler()
   {
     return dataHandler;
@@ -395,10 +397,10 @@ public class LabelFactory
       val = limit - continent.getWaterUsage(World.getWorld().getCurrentYear());
     }
     final GraphLabel waterControll = new GraphLabel(
-            "Water Left",
-            val,
-            limit,
-            "#,###,### gallons");
+        "Water Left",
+        val,
+        limit,
+        "#,###,### gallons");
 
     updates.add(new Runnable()
     {
@@ -412,7 +414,7 @@ public class LabelFactory
         else
         {
           waterControll.setValue(continent.getWaterAllowance() + continent.getRainfall()
-                  - continent.getWaterUsage(World.getWorld().getCurrentYear()));
+              - continent.getWaterUsage(World.getWorld().getCurrentYear()));
         }
       }
     });
@@ -462,21 +464,37 @@ public class LabelFactory
 
   public GraphLabel getMalnurished()
   {
-    final GraphLabel malnurishedLab = new GraphLabel(
-        "Malnourished",
-        dataHandler.getUndernourished(),
-        1,
-        "% 00.0"
-        );
-
-    updates.add(new Runnable()
+    final GraphLabel malnurishedLab;
+    if (continent != null)
     {
-      @Override
-      public void run()
-      {
-        malnurishedLab.setValue(dataHandler.getUndernourished());
-      }
-    });
+     malnurishedLab = new GraphLabel(
+
+          "Malnourished",
+          continent.getUndernourished(year),
+          1,
+          "% 00.0"
+          );
+     
+     updates.add(new Runnable()
+     {
+       @Override
+       public void run()
+       {
+         malnurishedLab.setValue(continent.getUndernourished(year));
+       }
+     });
+    }
+    else
+    {
+      malnurishedLab = new GraphLabel(
+
+          "Malnourished",
+          0,
+          1,
+          "% 00.0"
+          );
+    }
+
     return malnurishedLab;
   }
 
@@ -576,7 +594,7 @@ public class LabelFactory
     return approvalLab;
   }
 
-  
+
   public GraphLabel getDiplomacyBar()
   {
     final GraphLabel diploLab;
@@ -600,7 +618,7 @@ public class LabelFactory
     return diploLab;
   }
 
-  
+
   public BufferedImage getApprovalRating()
   {
     if(continent != null)
@@ -622,7 +640,7 @@ public class LabelFactory
     }
     return image;
   }
-  
+
   private String determineFace(double rating)
   {
     String expression = "okay.png";
@@ -647,12 +665,12 @@ public class LabelFactory
     {
       expression = "excellent.png";
     }
-    
+
     System.out.println("The ratings are "+rating);
     return expression;
   }
-  
-  
+
+
   private BufferedImage loadImage(String face)
   {
     try
@@ -666,5 +684,5 @@ public class LabelFactory
     }
     return image;
   }
-  
+
 }
