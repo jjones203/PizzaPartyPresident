@@ -1449,15 +1449,15 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    */
   public void calculateDiplomacyRating(int year, World world)
   {
-    //double worldHunger = world.getWorldHungerPercent();
-    //double hungerFactor = 0;
-
-    //if (worldHunger > getUndernourished(year))
-    //{
-    //  hungerFactor = worldHunger -  getUndernourished(year);
-    //}
-
-    //this.diplomacyRating  = 1 - .5*hungerFactor + .5*greenRating;
+//    double worldHunger = world.getWorldHungerPercent();
+//    double hungerFactor = 0;
+//
+//    if (worldHunger > getUndernourished(year))
+//    {
+//      hungerFactor = worldHunger -  getUndernourished(year);
+//    }
+//
+//    this.diplomacyRating  = 1 - .5*hungerFactor + .5*greenRating;
     
     this.diplomacyRating  = 1 - this.getUndernourished(year);
 

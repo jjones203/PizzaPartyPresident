@@ -1,3 +1,5 @@
+package worldfoodgame.screens;
+
 import worldfoodgame.IO.CountryCSVLoader;
 import worldfoodgame.IO.CropZoneDataIO;
 import worldfoodgame.IO.XMLparsers.CountryXMLparser;
@@ -49,18 +51,16 @@ public class Game
   /**
    * Constructor for game, handles all init logic.
    */
-  public Game()
+  public Game(int response)
   {    
-    initGame();
+    initGame(response);
   }
 
   /**
    * set it ALL up.
    */
-  private void initGame()
-  {
-    StartScreen start = new StartScreen();
-    
+  private void initGame(int response)
+  {  
     Collection<Region> background = KMLParser.getRegionsFromFile(BG_DATA_PATH);
     Collection<Region> modelRegions = new CountryXMLparser().getRegionList();
 
@@ -83,7 +83,8 @@ public class Game
 
     tileManager.setWorld(world);   
  
-    Player player = new Player (world.getContinents().get(start.response));    // added player variable for initializing non-player continents
+    Player player = new Player (world.getContinents().get(response));    // added player variable for initializing non-player continents
+    
     //world.initializeNonPlayerContinents(player);
     worldPresenter = new WorldPresenter(converter, world, player);
     worldPresenter.setBackgroundRegions(background);
@@ -96,7 +97,7 @@ public class Game
 
     worldFeedPanel = new WorldFeedPanel(worldPresenter);
     worldPresenter.addObserver(worldFeedPanel);      
-
+  
     initFrame();
     setupControlls();
   }
@@ -168,14 +169,4 @@ public class Game
     frame.setResizable(false);
   }
 
-
-  //*******
-  // MAIN *
-  //*******
-  public static void main(String[] args)
-  {
-    Game gameManager = new Game();
-    gameManager.show();
-    gameManager.start();
-  }
 }

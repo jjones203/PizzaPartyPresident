@@ -29,6 +29,7 @@ import javax.swing.plaf.ColorUIResource;
 
 public class StartScreen extends JFrame
 {
+  private Game gameManager;
   public boolean userNotReady = true;
   public int response;
 
@@ -53,7 +54,7 @@ public class StartScreen extends JFrame
   {    
     init();
   }
-
+  
   private void init()
   {
     UIManager.put("Panel.background", Color.WHITE);
@@ -146,7 +147,10 @@ public class StartScreen extends JFrame
             JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
             new ImageIcon("resources/imgs/balloons.png"), options, options[0]);
 
-        userNotReady = false;
+        gameManager = new Game(response);        
+        gameManager.show();
+        gameManager.start();
+        
         dispose();
       }
     });      
@@ -175,4 +179,14 @@ public class StartScreen extends JFrame
     //    fifthLine.setText("term (year 2050) while preserving our Earth. Are you up for the challenge?");
     //    fifthLine.setBounds(300, 300, 100, 100);
   }
+  
+  
+  //*******
+  // MAIN *
+  //*******
+  public static void main(String[] args)
+  {
+    StartScreen start = new StartScreen();
+  }
+
 }
