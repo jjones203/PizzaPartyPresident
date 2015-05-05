@@ -79,7 +79,7 @@ public class InfoPanel extends JPanel implements Observer
     OuterTabbedPanel.addTab("overlays", new OverlayPanel(worldPresenter));
     
     tierPanel = new TierPanel(labelFactory,worldPresenter);
-    OuterTabbedPanel.addTab("Planning Points",tierPanel);
+    OuterTabbedPanel.addTab("planning points",tierPanel);
 
     add(new ProgressControlPanel(worldPresenter, this), BorderLayout.NORTH);
   }
