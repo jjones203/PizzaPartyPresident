@@ -40,7 +40,8 @@ public class ProgressControlPanel extends JPanel implements Observer
   private InfoPanel infoPanel;
 
   private SingleClickButton
-    nextYear, run, pause;
+    nextYear;
+    //nextYear, run, pause;
   private NumericalLabel
     currentYear, yearRemaining, population, hungry;
 
@@ -101,17 +102,17 @@ public class ProgressControlPanel extends JPanel implements Observer
   {
     if(running)
     {
-      run.setText("running");
-      run.setForeground(ColorsAndFonts.GUI_TEXT_HIGHLIGHT);
-      pause.setText("pause");
-      pause.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+      //run.setText("running");
+      //run.setForeground(ColorsAndFonts.GUI_TEXT_HIGHLIGHT);
+      //pause.setText("pause");
+      //pause.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     }
     else
     {
-      run.setText("run");
-      run.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
-      pause.setText("paused");
-      pause.setForeground(ColorsAndFonts.GUI_TEXT_HIGHLIGHT);
+      //run.setText("run");
+      //run.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
+      //pause.setText("paused");
+      //pause.setForeground(ColorsAndFonts.GUI_TEXT_HIGHLIGHT);
     }
   }
 
@@ -140,13 +141,13 @@ public class ProgressControlPanel extends JPanel implements Observer
     nextYear.setAction(nextAction);
     controls.add(nextYear);
 
-    run = new SingleClickButton("run");
-    run.setAction(runGameAction);
-    controls.add(run);
+    //run = new SingleClickButton("run");
+    //run.setAction(runGameAction);
+    //controls.add(run);
 
-    pause = new SingleClickButton("pause");
-    pause.setAction(pauseGameAction);
-    controls.add(pause);
+    //pause = new SingleClickButton("pause");
+    //pause.setAction(pauseGameAction);
+    //controls.add(pause);
 
     updateLabels();
 
