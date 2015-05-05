@@ -19,6 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.*;
 
 /**
@@ -131,6 +132,8 @@ public class PieChart extends JPanel
   
   private class PiePanel extends JPanel implements MouseListener, ActionListener
   {
+    private BufferedImage lookUpImage;
+    
     private int inset;
 
     private double boxW;
@@ -168,7 +171,7 @@ public class PieChart extends JPanel
       /* logical short circuiting not reliable here? */
       if (regions == null) return;
       if (regions.isEmpty()) return;
-      
+      lookUpImage = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
       inset = 5;
       boxW = getWidth() - 2 * inset;
       boxH = getHeight() - 2 * inset;
@@ -220,6 +223,9 @@ public class PieChart extends JPanel
       
       Graphics2D g2d = (Graphics2D) g;
       g2d.setRenderingHints(rh);
+      
+      Graphics2D g2dLookUp = lookUpImage.createGraphics();
+      g2dLookUp.setRenderingHints(rh);
 
       double currentValue = 0.0D;
       int startAngle = 0;
@@ -229,16 +235,22 @@ public class PieChart extends JPanel
       {
         percent = cs.actual/cs.needed;
         percent = Math.min(1,percent);
+        
 
         startAngle = (int) (currentValue * 360 / needTotal);
         arcAngle = (int) (cs.needed * 360 / needTotal);
+        
         g2d.setColor(cs.needColor);
+        g2dLookUp.setColor(cs.needColor);
           
 
         g2d.fillArc(inset+(int)(boxWCenter-boxW/2), inset+(int)(boxHCenter-boxH/2), (int) boxW, (int) boxH, startAngle, arcAngle);
+        g2dLookUp.fillArc(inset+(int)(boxWCenter-boxW/2), inset+(int)(boxHCenter-boxH/2), (int) boxW, (int) boxH, startAngle, arcAngle);
        // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
         g2d.setColor(cs.actualColor);
+        g2dLookUp.setColor(cs.actualColor);
         g2d.fillArc(inset+(int)(boxWCenter-percent*boxW/2), inset+(int)(boxHCenter-percent*boxH/2), (int) (boxW*percent), (int) (boxH*percent), startAngle, arcAngle);
+        g2dLookUp.fillArc(inset+(int)(boxWCenter-percent*boxW/2), inset+(int)(boxHCenter-percent*boxH/2), (int) (boxW*percent), (int) (boxH*percent), startAngle, arcAngle);
         currentValue += cs.needed;
       }
     }
@@ -279,32 +291,25 @@ public class PieChart extends JPanel
     @Override
     public void actionPerformed(ActionEvent arg0)
     {
-      if(arg0.getSource()==timer) setMouseTooltip();
+      if(arg0.getSource()==timer) setMouseTooltip();  
+      
     }
 
     private void setMouseTooltip()
     {
+      Color color = Color.red;
       
-      Point coord;
-      Robot robot = null;
-      try 
+      try
       {
-         robot = new Robot();
-       
-      } catch (AWTException e) 
-      {
-         e.printStackTrace();
+        color = new Color(lookUpImage.getRGB(this.getMousePosition().x, this.getMousePosition().y));
       }
-      Color color = null;
-
-      coord = MouseInfo.getPointerInfo().getLocation();
-      color = robot.getPixelColor(coord.x, coord.y);
+      catch (Exception e){}
       
       String cropType="";
       double needAmt=0;
       double actualAmt=0;
       double excess=0;
-      
+      //System.out.println("r "+color.red+" g "+color.getGreen()+" b "+color.getBlue()+" A "+color.getAlpha());
       if (color.equals(ColorsAndFonts.N_PIE_TOMATOES_COLOR)||color.equals(ColorsAndFonts.A_PIE_TOMATOES_COLOR))
       {
         cropType="Tomatoes";
