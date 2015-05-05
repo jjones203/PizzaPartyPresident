@@ -8,6 +8,7 @@ import worldfoodgame.gui.hud.infopanel.LabelFactory;
 import worldfoodgame.gui.hud.infopanel.CountryDataHandler;
 import worldfoodgame.gui.hud.infopanel.GroupCountryHandler;
 import worldfoodgame.model.*;
+import worldfoodgame.planningpoints.PlanningPointCategory;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -146,10 +147,12 @@ public class TradeAndImportFrame extends JFrame
       temp = 0;
     }
     player.getContinent().setCropProduction(year, playerCrop, temp);
+    temp = player.getContinent().getCropProduction(year, contCrop) + tradeBar.getCurrentTrade();
     player.getContinent().setCropProduction(year, contCrop,
-            player.getContinent().getCropProduction(year, contCrop) + tradeBar.getCurrentTrade());
+            player.getContinent().getPlanningPointsFactor(PlanningPointCategory.TradeEfficiency) * temp);
+    temp = continent.getCropProduction(year, playerCrop) + tradeBar.getCurrentTrade();
     continent.setCropProduction(year, playerCrop,
-            continent.getCropProduction(year, playerCrop) + tradeBar.getCurrentTrade());
+            continent.getPlanningPointsFactor(PlanningPointCategory.TradeEfficiency) * temp);
     temp = continent.getCropProduction(year, contCrop) - tradeBar.getCurrentTrade();
     if (temp < 0)
     {
@@ -215,7 +218,8 @@ public class TradeAndImportFrame extends JFrame
       System.out.println("Trying to set continent crop prod to less than 0...");
       temp = 0;
     }
-    continent.setCropProduction(year, crop, temp);
+    continent.setCropProduction(year, crop,
+            continent.getPlanningPointsFactor(PlanningPointCategory.TradeEfficiency) * temp);
     for (ContinentPanel cP : continentPanels)
     {
       cP.redraw();
