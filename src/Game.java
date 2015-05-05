@@ -80,9 +80,11 @@ public class Game
     MapConverter converter = new EquirectangularConverter();
 
     tileManager.setWorld(world);
-
-    Player player = new Player (world.getContinents().get(0));
-    player.getContinent().setPlayer(true);
+    
+    StartScreen start = new StartScreen();
+ 
+    Player player = new Player (world.getContinents().get(start.response));    // added player variable for initializing non-player continents
+    //world.initializeNonPlayerContinents(player);
     worldPresenter = new WorldPresenter(converter, world, player);
     worldPresenter.setBackgroundRegions(background);
 
@@ -93,15 +95,7 @@ public class Game
     infoPanel = new InfoPanel(worldPresenter, player);
 
     worldFeedPanel = new WorldFeedPanel(worldPresenter);
-    worldPresenter.addObserver(worldFeedPanel);
-
-    StartScreen start = new StartScreen();
-    
-    while(start.userNotReady)
-    {
-      
-    }
-    
+    worldPresenter.addObserver(worldFeedPanel);      
 
     initFrame();
     setupControlls();
@@ -180,8 +174,9 @@ public class Game
   //*******
   public static void main(String[] args)
   {
-    Game gameManager = new Game();
-    gameManager.show();
-    gameManager.start();
+    StartScreen start = new StartScreen();
+//    Game gameManager = new Game();
+//    gameManager.show();
+//    gameManager.start();
   }
 }
