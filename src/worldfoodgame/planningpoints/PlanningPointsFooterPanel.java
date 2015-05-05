@@ -26,7 +26,8 @@ public class PlanningPointsFooterPanel extends JPanel
   private JFrame mainReference;
   PlanningPointsAllocationPanel parent;
   
-  PlanningPointsFooterPanel(JFrame investmentPanel, final PlanningPointsAllocationPanel parent)
+  PlanningPointsFooterPanel(JFrame investmentPanel, 
+      final PlanningPointsAllocationPanel parent)
   {
     this.parent = parent;
     mainReference=investmentPanel;
@@ -46,7 +47,8 @@ public class PlanningPointsFooterPanel extends JPanel
     investButton.setFont(ColorsAndFonts.BUTTON_FONT);
     investButton.setForeground(ColorsAndFonts.GUI_TEXT_COLOR);
     investButton.setBackground(ColorsAndFonts.REGION_NAME_FONT_C);
-    investButton.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+    investButton.setBorder(
+        BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
     add(investButton);
   }
 

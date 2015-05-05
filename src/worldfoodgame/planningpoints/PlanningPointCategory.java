@@ -15,6 +15,7 @@ public enum PlanningPointCategory
   
   /**
    * Cause toString is important for
+   * da user
    * 
    */
   public String toString()
