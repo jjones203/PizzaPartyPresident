@@ -327,9 +327,7 @@ public class World extends AbstractScenario
   {
     System.out.println("Entering the shipAndReceive() method in World.java");
     TradeOptimizer optimizer = new TradeOptimizer(continents, getCurrentYear());
-    //TradingOptimizer optimizer = new TradingOptimizer(politicalWorld, getCurrentYear());
     optimizer.optimizeAndImplementTrades();
-   // while(!optimizer.doneTrading());
     while(!optimizer.doneTrading())
     {
       lastTrades = optimizer.getAllTrades();
