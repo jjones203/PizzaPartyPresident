@@ -647,6 +647,8 @@ public class LabelFactory
     {
       expression = "excellent.png";
     }
+    
+    System.out.println("The ratings are "+rating);
     return expression;
   }
   

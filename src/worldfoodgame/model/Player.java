@@ -19,6 +19,7 @@ public class Player
   public Player (Continent continent)
   {
     this.continent = continent;
+    continent.setPlayer(true);
     importBudget = 4000000000.0D;
   }
 

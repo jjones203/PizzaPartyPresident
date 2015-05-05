@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -52,7 +53,7 @@ public class StartScreen extends JFrame
   {    
     init();
   }
-  
+
   private void init()
   {
     UIManager.put("Panel.background", Color.WHITE);
@@ -68,10 +69,9 @@ public class StartScreen extends JFrame
     setMinimumSize(new Dimension(750,500));
     setMaximumSize(new Dimension(750,500));
 
-    setLayout(new BorderLayout());
-    //   add(imagePanel, BorderLayout.WEST);
+    setLayout(new BorderLayout()); 
+    
     imagePanel.add(midPanel, BorderLayout.CENTER);
-    //  add(imagePanel, BorderLayout.EAST);
 
     midPanel.setLayout(new GridLayout(3,1));
 
@@ -88,17 +88,22 @@ public class StartScreen extends JFrame
     directionsPanel.add(fourthLine);
     directionsPanel.add(fifthLine);
 
-    //start.set
+    start.setBorder(null);
+    start.setContentAreaFilled(false);
+    
+    quit.setBorder(null);
+    quit.setContentAreaFilled(false);
+    
     start.setIcon(new ImageIcon("resources/imgs/startButton.png"));
     quit.setIcon(new ImageIcon("resources/imgs/quitButton.png"));
-    
+
     menuPanel.add(start);
     menuPanel.add(quit);
 
     add(imagePanel);
     addActionListeners();
 
-    //setTitle("Pizza Party President!");  
+    setTitle("Pizza Party President!");  
 
     setResizable(false);
     setVisible(true);
@@ -127,7 +132,7 @@ public class StartScreen extends JFrame
       public void actionPerformed(ActionEvent e)
       {
         setVisible(false);
-        
+
         String[] options = new String[] {"North America", "South America", "Europe", "Africa", "Oceania", "Asia", "Middle East"};
 
         response = JOptionPane.showOptionDialog(null, " Congratulations! You've been elected Pizza Party President for your region.\n"+
@@ -140,7 +145,7 @@ public class StartScreen extends JFrame
             "Choose Your Player",
             JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
             new ImageIcon("resources/imgs/balloons.png"), options, options[0]);
-        
+
         userNotReady = false;
         dispose();
       }

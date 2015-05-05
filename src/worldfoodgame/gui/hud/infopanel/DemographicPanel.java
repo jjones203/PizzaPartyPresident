@@ -61,9 +61,7 @@ public class DemographicPanel extends JPanel
 
     if(c != null)
     {
-      EnumContinentNames name = c.getName();
-
-      if(name.equals(EnumContinentNames.N_AMERICA))
+      if(c.isPlayer())
       {
         JLabel picA = new JLabel(new ImageIcon(smileA));
         JLabel picB = new JLabel(new ImageIcon(smileB));
