@@ -14,6 +14,11 @@ public class GUIContinent
   private boolean isActive = false;
   private Continent continent;
 
+  /**
+   * Constructor sets the list of GUIRegions for this continent.
+   * @param regions   Appropriate regions.
+   * @param continent Continent this GUIContinent represents
+   */
   public GUIContinent(ArrayList<GUIRegion> regions, Continent continent)
   {
     guiRegions = regions;
@@ -24,21 +29,34 @@ public class GUIContinent
     }
   }
 
+  /**
+   * Sets the GUIContinent as selected or not
+   * @param input
+   */
   public void setActive(boolean input)
   {
     isActive = input;
   }
 
+  /**
+   * @return  Is selected
+   */
   public boolean isActive()
   {
     return isActive;
   }
 
+  /**
+   * @return  GUIRegions in this continent
+   */
   public ArrayList<GUIRegion> getGUIRegions()
   {
     return guiRegions;
   }
 
+  /**
+   * @return Continent this GUIContinent represents
+   */
   public Continent getContinent()
   {
     return continent;
