@@ -41,7 +41,7 @@ public interface CropClimateData
   int SOY_MIN_RAIN = 45;
   double SOY_WATER_USE = 140965608;
   
-  double ANNUAL_TONS_PER_PERSON = 25;  // same for each ingredient
+  double ANNUAL_TONS_PER_PERSON = 5;  // same for each ingredient
 
   double CONVENTIONAL_YIELD_PERCENT = 1;
   double ORGANIC_YIELD_PERCENT = 0.8;             // organic cultivation produces 80% as much as conventional
