@@ -14,6 +14,7 @@ import worldfoodgame.model.TileManager;
 import worldfoodgame.model.Region;
 import worldfoodgame.model.World;
 import worldfoodgame.model.Player;
+import worldfoodgame.screens.StartScreen;
 
 import javax.swing.*;
 
@@ -50,14 +51,16 @@ public class Game
    */
   public Game()
   {    
-    init();
+    initGame();
   }
 
   /**
    * set it ALL up.
    */
-  private void init()
+  private void initGame()
   {
+    StartScreen start = new StartScreen();
+    
     Collection<Region> background = KMLParser.getRegionsFromFile(BG_DATA_PATH);
     Collection<Region> modelRegions = new CountryXMLparser().getRegionList();
 
@@ -78,10 +81,10 @@ public class Game
     World world = World.getWorld();
     MapConverter converter = new EquirectangularConverter();
 
-    tileManager.setWorld(world);
-
-    Player player = new Player (world.getContinents().get(0));
-    player.getContinent().setPlayer(true);
+    tileManager.setWorld(world);   
+ 
+    Player player = new Player (world.getContinents().get(start.response));    // added player variable for initializing non-player continents
+    //world.initializeNonPlayerContinents(player);
     worldPresenter = new WorldPresenter(converter, world, player);
     worldPresenter.setBackgroundRegions(background);
 
@@ -92,7 +95,7 @@ public class Game
     infoPanel = new InfoPanel(worldPresenter, player);
 
     worldFeedPanel = new WorldFeedPanel(worldPresenter);
-    worldPresenter.addObserver(worldFeedPanel);
+    worldPresenter.addObserver(worldFeedPanel);      
 
     initFrame();
     setupControlls();
