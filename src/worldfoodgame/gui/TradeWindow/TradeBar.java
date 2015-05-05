@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Tim on 4/24/15.
+ * Created by Tim on 4/24/15. The JPanel responsible for exchanging crops.
  */
 public class TradeBar extends JPanel implements ActionListener
 {
@@ -40,6 +40,13 @@ public class TradeBar extends JPanel implements ActionListener
   private boolean isTrade = true;
   private Continent continent;
 
+  /**
+   * Constructor sets the dimensions, the outer panel and whether the trade bar
+   * should function as trade or donating
+   * @param dimension
+   * @param parent
+   * @param isTrade
+   */
   public TradeBar (Dimension dimension, TradeAndImportFrame parent, boolean isTrade)
   {
     //setPreferredSize(dimension);
@@ -76,6 +83,11 @@ public class TradeBar extends JPanel implements ActionListener
     redraw();
   }
 
+  /**
+   * Sets the player label and the limit based on the limit of the current limits
+   * @param playerLF  Appropriate label factory for the player's continent
+   * @param crop      Crop to be traded
+   */
   public void setPlayerBar(LabelFactory playerLF, EnumCropType crop)
   {
     this.playerLF = playerLF;
@@ -97,6 +109,11 @@ public class TradeBar extends JPanel implements ActionListener
     redraw();
   }
 
+  /**
+   * Sets continent label to trade with (trading only)
+   * @param contLF  Appropriate label factory for chose continent
+   * @param crop    Crop to be traded
+   */
   public void setContinentBar(LabelFactory contLF, EnumCropType crop)
   {
     this.contLF = contLF;
@@ -127,6 +144,10 @@ public class TradeBar extends JPanel implements ActionListener
     redraw();
   }
 
+  /**
+   * Sets the continent to donate to (if donating only)
+   * @param continent Continent to donate to
+   */
   public void setContinent(Continent continent)
   {
     this.continent = continent;
@@ -136,6 +157,9 @@ public class TradeBar extends JPanel implements ActionListener
     redraw();
   }
 
+  /**
+   * Redraws all the labels and buttons.
+   */
   public void redraw ()
   {
     playerPanel.removeAll();
@@ -165,6 +189,10 @@ public class TradeBar extends JPanel implements ActionListener
     validate();
   }
 
+  /**
+   * Set the current amount proposed for a trade/donation.
+   * @param input current proposition.
+   */
   public void setCurrentTrade(double input)
   {
     double temp = 0;
@@ -188,11 +216,20 @@ public class TradeBar extends JPanel implements ActionListener
     }
   }
 
+  /**
+   * Get the current amount proposed for a trade/donation.
+   * @return  current proposition.
+   */
   public double getCurrentTrade()
   {
     return currentTrade;
   }
 
+  /**
+   * Calls the trade or donate buttons and resets the labels and adjusts the limits
+   * after trading and donating
+   * @param e The button press event
+   */
   @Override
   public void actionPerformed(ActionEvent e)
   {

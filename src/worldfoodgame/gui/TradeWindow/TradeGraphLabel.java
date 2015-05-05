@@ -115,6 +115,10 @@ public class TradeGraphLabel extends JPanel
     add(getBar(), BorderLayout.CENTER);
   }
 
+  /**
+   * Sets the player panel that the label is in, if needed.
+   * @param outer Outer panel
+   */
   public void setExternalPanel(PlayerPanel outer)
   {
     outerPlayer = outer;
@@ -122,6 +126,10 @@ public class TradeGraphLabel extends JPanel
     continent = false;
   }
 
+  /**
+   * Sets the continent panel that the label is in, if needed
+   * @param outer Outer panel
+   */
   public void setExternalPanel(ContinentPanel outer)
   {
     outerContinent = outer;
@@ -162,6 +170,11 @@ public class TradeGraphLabel extends JPanel
     valueLabel.setText(formatter.format(value));
   }
 
+  /**
+   * Sets whether the label should have a select
+   * button.
+   * @param input
+   */
   public void setControl(boolean input)
   {
     isControl = input;

@@ -11,20 +11,29 @@ public class Player
 {
   private Continent continent;
   private double importBudget; //double?
-  private int planningPoints;
 
+  /**
+   * Constructor sets the player's continent
+   * @param continent player's continent
+   */
   public Player (Continent continent)
   {
     this.continent = continent;
-    planningPoints = 0;
     importBudget = 4000000000.0D;
   }
 
+  /**
+   * Unused function.
+   * @return  The player's import budget.
+   */
   public double getImportBudget()
   {
     return importBudget;
   }
 
+  /**
+   * @return  The player's continent
+   */
   public Continent getContinent()
   {
     return continent;
