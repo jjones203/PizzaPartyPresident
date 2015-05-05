@@ -340,6 +340,11 @@ public class World extends AbstractScenario
     int year = getCurrentYear();
     for (Continent continent:continents)
     {
+      // if not player, ai needs to do planting
+      if (continent.isPlayer() == false)
+      {
+        continent.aiPlanting(year);
+      }
       ContinentCropAllocator allocator = new ContinentCropAllocator(year,continent);
       allocator.allocateCrops();
     }
@@ -471,6 +476,10 @@ public class World extends AbstractScenario
     }
   } 
 
+  /**
+   * 
+   * @param player
+   */
   public void initializeNonPlayerContinents(Player player)
   {
     EnumContinentNames playerContinent = player.getContinent().getName();
@@ -482,7 +491,7 @@ public class World extends AbstractScenario
       }
     }
 
-    // getContinents().get(0).testGetterMethods(AbstractScenario.START_YEAR); // for testing
+    
   }
 
 }

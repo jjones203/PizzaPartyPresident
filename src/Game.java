@@ -81,7 +81,8 @@ public class Game
     tileManager.setWorld(world);
 
     Player player = new Player (world.getContinents().get(0));    // added player variable for initializing non-player continents
-    world.initializeNonPlayerContinents(player);
+    player.getContinent().setPlayer(true);
+    //world.initializeNonPlayerContinents(player);
     worldPresenter = new WorldPresenter(converter, world, player);
     worldPresenter.setBackgroundRegions(background);
 
