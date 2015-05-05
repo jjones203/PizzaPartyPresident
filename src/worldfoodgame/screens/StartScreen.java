@@ -25,7 +25,6 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.plaf.ColorUIResource;
 
-import com.sun.glass.events.WindowEvent;
 
 public class StartScreen extends JFrame
 {
