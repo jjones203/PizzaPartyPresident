@@ -89,6 +89,7 @@ public class StartScreen extends JFrame
     directionsPanel.add(fourthLine);
     directionsPanel.add(fifthLine);
 
+    //start.set
     start.setIcon(new ImageIcon("resources/imgs/startButton.png"));
     quit.setIcon(new ImageIcon("resources/imgs/quitButton.png"));
     
@@ -138,7 +139,7 @@ public class StartScreen extends JFrame
             " \n All this while preserving our Earth.\n \n No hunger? A green scene?"+
             " Sounds like a reason to party!\n Are you up for the challenge?\n \n Choose the region you'd like to serve.",
             "Choose Your Player",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
             new ImageIcon("resources/imgs/balloons.png"), options, options[0]);
         
         userNotReady = false;
