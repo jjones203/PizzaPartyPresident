@@ -1,6 +1,7 @@
-# CS 351 World Food Game - second phase
+# CS 351 World Food Game - third phase - "Pizza World"
 by 
-Jessica Jones, Winston Riley, and David Ringo
+Jessica Jones, Valarie Sheffey, Tim Chavez, Stephen Stromberg, Ken Kressin
+Initial map and game framework by:  Winston Riley, and David Ringo
 
 ## Building
 find the following files `make.sh` and `run.sh` and...
@@ -11,17 +12,20 @@ find the following files `make.sh` and `run.sh` and...
 
 
 ##Controls
+* Use mouse to click on continents, panels and panel controls
+* On display panels, clicking on plus/minus (+ / -), or (select),
+* or country names in the planning, trading and donating panels
+* will select actions
+
 ### Navigation
-* arrow keys pan around the globe
-* shift + up arrow or down arrow zooms in and out respectively
-* control clicking on a point on the map centers the camera at that point.
+* Use the mouse, or trackpad to scroll around the world
+* If you have trackpad multi-touch capability, you can scroll using multitouch
+* according to your system.
 * mouse scroll wheel also zooms in and out
 
 ### Time
-The game time mechanism can be controlled via buttons on the control panel 
+The game time mechanism can be controlled via the "next button on the control panel 
 * "next" will step the game forward one year
-* "run" will cause the game to start stepping at roughly one year every thirty seconds
-* "pause" will pause the game if it is currently running
 
 ### Inspecting
 * clicking on a country will select that country for display and modification
