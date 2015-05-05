@@ -2,6 +2,7 @@ package worldfoodgame.gui;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+
 import java.awt.*;
 
 /**
@@ -64,8 +65,9 @@ public interface ColorsAndFonts
   Color MUSHROOMS_COLOR = new Color(237, 221, 187, 220);
   Color PEPPERONI_COLOR = new Color(204, 78, 29, 220);
   Color PINEAPPLE_COLOR = new Color(239, 255, 94, 220);
-  Color UNPLANTED_COLOR = new Color(255, 255, 153, 220);
+  Color UNPLANTED_COLOR = new Color(255, 255, 255, 220);
   Color NONARABLE_COLOR = new Color(160, 160, 160, 220);
+  Color FORESTED_COLOR = new Color(0,51,0,220);
   
   Color N_PIE_PEPPERS_COLOR   = new Color(18, 115, 43, 255);
   Color N_PIE_TOMATOES_COLOR  = new Color(158, 24, 24, 255);
