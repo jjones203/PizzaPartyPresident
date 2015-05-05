@@ -1,7 +1,7 @@
 package worldfoodgame.common;
 
 import worldfoodgame.model.CropClimateData;
-
+// Added water use variables to the class, and changed the constructors accordingly
 public enum EnumCropType implements CropClimateData
 {
   WHEAT("tomatoes", WHEAT_MAX_TEMP, WHEAT_MIN_TEMP, WHEAT_DAY_TEMP, WHEAT_NIGHT_TEMP, WHEAT_MAX_RAIN, WHEAT_MIN_RAIN, WHEAT_WATER_USE),
