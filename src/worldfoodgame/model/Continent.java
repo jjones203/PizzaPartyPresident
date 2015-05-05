@@ -773,10 +773,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double currCropLand = getCropLand(year, crop);
     double delta = kilomsq - currCropLand;
     double limit = waterAllowance + continentRainfall - waterUsed[year - START_YEAR];
-
     double factor = this.getPlanningPointsFactor(PlanningPointCategory.WaterEfficiency);
     limit = limit*factor;
-    System.out.println("FACTOR IS ........................."+factor);
     limit = limit / crop.waterUse;
 
     double valueToSet;
@@ -784,8 +782,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     if ((currCropLand + delta) < 0)
     {
       valueToSet = 0;
-      //decreasing water usage since currCropLand + delta should be negative
-      waterValue = waterUsed[year - START_YEAR] + (currCropLand + delta)*crop.waterUse;
+      waterValue = waterUsed[year - START_YEAR] - (currCropLand * crop.waterUse);
     }
     else if (delta > limit)
     {
@@ -795,12 +792,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     else if (delta > unused)
     {
       valueToSet = unused + currCropLand;
-      waterValue = valueToSet * crop.waterUse;
+      waterValue = waterUsed[year - START_YEAR] + (unused * crop.waterUse);
     }
     else
     {
       valueToSet = kilomsq;
-      waterValue = valueToSet * crop.waterUse;
+      waterValue = waterUsed[year - START_YEAR] + (delta * crop.waterUse);
     }
     for (int i = year - START_YEAR; i < YEARS_OF_SIM; i++)
     {
