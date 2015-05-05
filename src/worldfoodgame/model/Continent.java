@@ -41,6 +41,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   private int numCountries;
   private List<LandTile> landTiles;
   private Color color;
+  private boolean isPlayer;
 
   protected double waterAllowance;
   protected double avgRainfall;
@@ -148,6 +149,22 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   public Color getColor()
   {
     return color;
+  }
+
+  /**
+   * @return whether is Player's continent
+   */
+  public boolean isPlayer()
+  {
+    return isPlayer;
+  }
+
+  /**
+   * @param isPlayer value for isPlayer
+   */
+  public void setPlayer(boolean isPlayer)
+  {
+    this.isPlayer = isPlayer;
   }
 
   /**
@@ -358,10 +375,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double deficitTons = 0;
     for (EnumCropType crop:EnumCropType.values())
     {
-      double produced = getCropProduction(year, crop);
-      double imported = getCropImport(year, crop);
-      double exported = getCropExport(year, crop);
-      double totalAvail = produced + imported - exported;
+      double totalAvail = getNetCropAvailable(year, crop);
       double need = getTotalCropNeed(year, crop);
       double difference = totalAvail - need;
       // if more tons available than needed, there is surplus
@@ -441,10 +455,10 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
   /**
    * @param year    year in question
-   * @param crop    crop type
+   * @param crop    crop in question
    * @return        continent's total tons needed
    */
-  public double getTotalCropNeed(int year, EnumCropType crop)
+  public double getTotalCropNeed(int year,  EnumCropType crop)
   {
     return totalCropNeed[crop.ordinal()][year - START_YEAR];
   }
@@ -724,15 +738,15 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
 
   /**
-   * Set crop land value; use this method when initializing
+   * Set crop land value
    * @param crop    crop in question
    * @param kilomsq area to set
    */
-  private void setCropLand(EnumCropType crop, double kilomsq)
+  private void setCropLand(int year, EnumCropType crop, double kilomsq)
   {
     if (kilomsq >= 0 && kilomsq <= getArableLand(START_YEAR))
     {
-      for (int i = 0; i < (YEARS_OF_SIM); i++)
+      for (int i = year - START_YEAR; i < (YEARS_OF_SIM); i++)
       {
         landCrop[crop.ordinal()][i] = kilomsq;
       }
@@ -794,7 +808,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
       setWaterUsage(i + START_YEAR, waterValue);
     }
   }
-
+  
+  
   /**
    * Set cultivation method %; use when initializing
    * @param method     cultivation method
@@ -1037,7 +1052,10 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
      for (EnumCropType crop:EnumCropType.values())
      {
        double cropLand = getCropLand(START_YEAR, crop);
-       setCropLand(crop, cropLand);
+       for (int year = START_YEAR + 1; year < START_YEAR + YEARS_OF_SIM; year++)
+       {
+         setCropLand(year, crop, cropLand);
+       }
      }
      
    }
@@ -1060,6 +1078,57 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
        {
          landCrop[crop.ordinal()][i] = areaToPlant;
        }
+     }
+   }
+   
+   public void aiPlanting(int year)
+   {
+     System.out.println("ai planting for "+this.toString());
+     double landUnused = getArableLandUnused(year);
+     for (EnumCropType crop:EnumCropType.values())
+     {
+       // look at last year's values
+       double need = getTotalCropNeed(year - 1, crop);
+       double avail = getNetCropAvailable(year - 1, crop);
+       double percentUnmet = (need - avail)/need;
+       double areaPlanted = getCropLand(year - 1, crop);
+       System.out.println("crop ="+crop+" need="+need+" avail="+avail+" %unmet="+percentUnmet);
+       
+       // if we didn't plant enough last year, increase by proportion of unmet need (if possible)
+       if (percentUnmet > 0)
+       {
+         double landIncrease = areaPlanted * percentUnmet;
+         if (landIncrease < landUnused)
+         {
+           setCropLand(year, crop, areaPlanted + landIncrease);
+           landUnused -= landIncrease;
+         }
+         else
+         {
+           setCropLand(year, crop, areaPlanted + landUnused);
+           landUnused = 0;
+         }
+       }
+       // if we planted too much, increase by proportion of surplus
+       else if (percentUnmet < 0)
+       {
+         if (percentUnmet < -1) percentUnmet = -0.95;
+         double landDecrease = -(areaPlanted * percentUnmet);
+         setCropLand(year, crop, areaPlanted - landDecrease);
+         landUnused += landDecrease;
+       }
+       // if we met need exactly, plant same amount
+       else
+       {
+         setCropLand(year, crop, areaPlanted);
+       }
+     }
+     // if people were hungry, try to grow more GMO stuff (if possible)
+     double hungryPercent = getUndernourished(year-1);
+     if (hungryPercent > 0)
+     {
+       double gmoPercent = getMethodPercentage(year-1, EnumGrowMethod.GMO);
+       updateMethodPercentage(year, EnumGrowMethod.GMO, gmoPercent + hungryPercent);
      }
    }
    
