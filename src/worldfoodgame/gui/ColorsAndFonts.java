@@ -64,9 +64,22 @@ public interface ColorsAndFonts
   Color MUSHROOMS_COLOR = new Color(237, 221, 187, 220);
   Color PEPPERONI_COLOR = new Color(204, 78, 29, 220);
   Color PINEAPPLE_COLOR = new Color(239, 255, 94, 220);
-  Color UNPLANTED_COLOR = new Color(255, 255, 255, 220);
+  Color UNPLANTED_COLOR = new Color(255, 255, 153, 220);
   Color NONARABLE_COLOR = new Color(160, 160, 160, 220);
-  Color FORESTED_COLOR = new Color(0, 51, 0, 220);
+  
+  Color N_PIE_PEPPERS_COLOR   = new Color(18, 115, 43, 255);
+  Color N_PIE_TOMATOES_COLOR  = new Color(158, 24, 24, 255);
+  Color N_PIE_MUSHROOMS_COLOR = new Color(128, 119, 101, 255);
+  Color N_PIE_PEPPERONI_COLOR = new Color(158, 59, 21, 255);
+  Color N_PIE_PINEAPPLE_COLOR = new Color(168, 181, 51, 255);
+  
+  Color A_PIE_PEPPERS_COLOR   = new Color(24, 199, 68, 255);
+  Color A_PIE_TOMATOES_COLOR  = new Color(247, 32, 32, 255);
+  Color A_PIE_MUSHROOMS_COLOR = new Color(237, 221, 187, 255);
+  Color A_PIE_PEPPERONI_COLOR = new Color(204, 78, 29, 255);
+  Color A_PIE_PINEAPPLE_COLOR = new Color(239, 255, 94, 255);
+
+  
 
   // adjust color settings for new crops
   Color WHEAT_COLOR      = TOMATOES_COLOR;
