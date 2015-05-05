@@ -290,7 +290,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
     // set undernourished value for START_YEAR
     setUndernourished(START_YEAR, countriesUndernourishedTotal/numCountries);
-    setWaterAllowance(waterAllowance/25);
+    setWaterAllowance(waterAllowance);
     System.out.println("The water allowance is "+waterAllowance);
     calculateGreenRating(START_YEAR);
     calculateApprovalRating(START_YEAR); 
