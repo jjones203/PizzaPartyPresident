@@ -62,7 +62,7 @@ public class TradeOptimizer
     while (iter.hasNext())
     {
       Continent c = iter.next();
-      if (!c.getContName().equalsIgnoreCase("north america"))
+      if (!c.isPlayer())
       {
         continentMap.put(c.getContName(), c);
       }
