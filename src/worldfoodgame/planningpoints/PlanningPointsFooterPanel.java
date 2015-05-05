@@ -22,9 +22,11 @@ public class PlanningPointsFooterPanel extends JPanel
 {
   private JButton investButton;
   private JFrame mainReference;
+  PlanningPointsAllocationPanel parent;
   
-  PlanningPointsFooterPanel(JFrame investmentPanel)
+  PlanningPointsFooterPanel(JFrame investmentPanel, final PlanningPointsAllocationPanel parent)
   {
+    this.parent = parent;
     mainReference=investmentPanel;
     investButton = new JButton("Invest");
     this.setBackground(ColorsAndFonts.GUI_BACKGROUND);
@@ -35,7 +37,7 @@ public class PlanningPointsFooterPanel extends JPanel
       {
         PlanningPointsData.submitInvestment();
         PlanningPointsData.stopRunning();
-        mainReference.dispose();
+        parent.closeInvesting();
       }
     });
     investButton.setPreferredSize(new Dimension(100,50));

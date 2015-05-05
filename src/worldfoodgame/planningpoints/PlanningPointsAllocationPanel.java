@@ -3,6 +3,7 @@ package worldfoodgame.planningpoints;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,7 +31,7 @@ import worldfoodgame.model.Region;
 public class PlanningPointsAllocationPanel extends JPanel
 {
   private List<PlanningPointsInteractableRegion> allRegions;
-  private final JFrame FRAME = new JFrame("Planning Points Allocation");
+  private JFrame FRAME;
   
   /**
    * 
@@ -40,9 +41,11 @@ public class PlanningPointsAllocationPanel extends JPanel
   public PlanningPointsAllocationPanel
   (
       Collection<Continent> otherRegions,
-      int playerPlanningPoints
+      int playerPlanningPoints,
+      JFrame frame
   )
   {
+    FRAME = frame;
     this.allRegions = new ArrayList<PlanningPointsInteractableRegion>(otherRegions);
     PlanningPointsData.initData(allRegions, playerPlanningPoints);
     buildGUI();
@@ -72,13 +75,18 @@ public class PlanningPointsAllocationPanel extends JPanel
       bgPanel.add(investment);
     }
     
-    PlanningPointsFooterPanel footer = new PlanningPointsFooterPanel(FRAME);
+    PlanningPointsFooterPanel footer = new PlanningPointsFooterPanel(FRAME, this);
     bgPanel.add(footer);
     
     FRAME.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     FRAME.setContentPane(bgPanel);
     FRAME.pack();
     FRAME.setVisible(true);
+  }
+
+  public void closeInvesting()
+  {
+    FRAME.dispatchEvent(new WindowEvent(FRAME, WindowEvent.WINDOW_CLOSING));
   }
 }
   /**
