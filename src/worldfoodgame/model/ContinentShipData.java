@@ -4,7 +4,8 @@ package worldfoodgame.model;
  * Created by Ken Kressin on 2/5/15.
  * Description:  Data class for storing continent shipping points and cities.
  * This class will be hooked to EnumContinentNames to lock this data to the
- * continent names.
+ * continent names.  These shipping points will be used to show trading routes
+ * for computer trading.
  */
 public interface ContinentShipData
 {
