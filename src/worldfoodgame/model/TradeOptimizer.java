@@ -30,14 +30,18 @@ import static worldfoodgame.planningpoints.PlanningPointCategory.TradeEfficiency
 public class TradeOptimizer
 {
   private final int year;
-  private final Collection<Continent> continents;
-  private static final boolean DEBUG = true;
-  private final List<TradePair>[] allTrades = new ArrayList[]
-                                                {new ArrayList<>(), new ArrayList<>(),
-                                                 new ArrayList<>(), new ArrayList<>(),
-                                                 new ArrayList<>()};
+  private              Map<String, Continent> continentMap = new LinkedHashMap<>();
+  private              Collection<Continent> cont = new ArrayList<>();
+  private static final boolean                DEBUG        = true;
+  private final        List<TradePair>[]      allTrades    = new ArrayList[]
+                                                               {
+                                                                 new ArrayList<>(), new ArrayList<>(),
+                                                                 new ArrayList<>(), new ArrayList<>(),
+                                                                 new ArrayList<>()
+                                                               };
 
   private List<SingleCropTrader> traders;
+
   /**
    Construct a new TradeOptimizer with the set of continents to trade between.
 
@@ -47,8 +51,25 @@ public class TradeOptimizer
   public TradeOptimizer(Collection<Continent> continents, int year)
   {
     this.year = year;
-    this.continents = continents;
-    if(DEBUG)
+    /*
+     * We need to remove North America from the computer-traded continents.
+     * To do this, we use an iterator to copy the passed in continents collection
+     * to a HashMap, then put the values of the HashMap into a new ArrayList
+     * and use this list in the optimizer.  This preserves the original
+     * collection, which the rest of the game depends on.  Ken
+     */
+    Iterator<Continent> iter = continents.iterator();
+    while (iter.hasNext())
+    {
+      Continent c = iter.next();
+      if (!c.getContName().equalsIgnoreCase("north america"))
+      {
+        continentMap.put(c.getContName(), c);
+      }
+    }
+    cont.addAll(continentMap.values());
+
+    if (DEBUG)
     {
       System.out.println("Trade Optimizer initialized.");
     }
@@ -61,7 +82,7 @@ public class TradeOptimizer
    */
   public void optimizeAndImplementTrades()
   {
-    if(DEBUG)
+    if (DEBUG)
     {
       System.out.println("Entering method optimizeAndImplementTrades()");
     }
@@ -124,6 +145,11 @@ public class TradeOptimizer
       Trading Efficiency numbers.*/
     private static double calcEfficiency(Continent c1, Continent c2)
     {
+      if(DEBUG)
+      {
+        System.out.println("Trade efficiency of " + c1.getContName() + ": " + c1.getPlanningPointsFactor(TradeEfficiency));
+        System.out.println("Trade efficiency of " + c2.getContName() + ": " + c2.getPlanningPointsFactor(TradeEfficiency));
+      }
       return Math.min(c1.getPlanningPointsFactor(TradeEfficiency), c2.getPlanningPointsFactor(TradeEfficiency));
     }
 
@@ -193,7 +219,7 @@ public class TradeOptimizer
 
       /* Divide the continents in the parent class into importers and exporters
       based on the crop surplus for each continent */
-      for(Continent c : continents)
+      for(Continent c : cont)
       {
         double surplus = c.getSurplus(year, crop);
         net += surplus;
@@ -212,7 +238,7 @@ public class TradeOptimizer
 
       /* create the master list used to instantiate all the temporary lists
       during the multiple runs of the algorithm */
-      master = new TradePairList(pairs, continents, crop, year);
+      master = new TradePairList(pairs, cont, crop, year);
 
       if (DEBUG) System.out.printf("Trader for %s setup:%n" +
                                    "net availability: %.3f tons, importers.size(): %d, exporters.size(): %d%n",
