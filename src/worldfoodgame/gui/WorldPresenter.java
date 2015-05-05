@@ -42,7 +42,9 @@ public class WorldPresenter extends Observable implements WindowListener
 
   private Collection<GUIRegion> backgroundRegions;
   private ActiveRegionList activeRegions;
-  private ArrayList<Continent> activeContinents;
+  private ArrayList<Continent> activeContinents; //Deprecated
+  private ArrayList<GUIContinent> GUIContinents = new ArrayList<>();
+  private Continent activeContinent;
   private World world;
   private boolean activelyDraging;
   private RegionViewFactory regionViewFactory;
@@ -78,7 +80,8 @@ public class WorldPresenter extends Observable implements WindowListener
     this.activeRegions = new ActiveRegionList();
     activeContinents = new ArrayList<>();
     contMap = new HashMap<>();
-    setContinentMap();
+    //setContinentMap();
+    setGUIContinents();
   }
 
   private void setContinentMap()
@@ -95,6 +98,23 @@ public class WorldPresenter extends Observable implements WindowListener
         }
       }
       contMap.put(c, temp);
+    }
+  }
+
+  private void setGUIContinents()
+  {
+    ArrayList<GUIRegion> temp;
+    for (Continent c : world.getContinents())
+    {
+      temp = new ArrayList<>();
+      for (GUIRegion r : modelRegions)
+      {
+        if (r.getCountry().getContinent() == c)
+        {
+          temp.add(r);
+        }
+      }
+      GUIContinents.add(new GUIContinent(temp, c));
     }
   }
 
