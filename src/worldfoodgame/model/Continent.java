@@ -1068,28 +1068,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
   }
 
-  /* 
-   * for non-player continents, plant 70% arable land starting at 2nd year of sim; divide according to
-   * pizza preferences
-   */
-  /*public void initializeNonPlayerLandUse()
-   {
-     //System.out.println("In Continent.initializeNonPlayerLandUse for "+this.toString());
-     double landAvail = getArableLand(START_YEAR) * 0.7;
-     //System.out.println("Arable land is "+landAvail);
-     for (EnumCropType crop:EnumCropType.values())
-     {
-       double percent = getPizzaPreference(crop);
-       double areaToPlant = percent * landAvail;
-       //System.out.println("For "+crop+" percent is "+percent+" area is "+areaToPlant);
-       for (int i = 1; i < (YEARS_OF_SIM); i++)
-       {
-         landCrop[crop.ordinal()][i] = areaToPlant;
-       }
-     }
-   }*/
-
-
+ 
   /**
    * For non-player continents, figures out how much to plant based on unmet need (or excess food)
    * from prior year. If people were undernourished in prior year, tries to proportionally increase % of crops

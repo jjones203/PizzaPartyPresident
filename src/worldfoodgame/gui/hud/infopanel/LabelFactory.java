@@ -476,7 +476,8 @@ public class LabelFactory
         @Override
         public void run()
         {
-          malnurishedLab.setValue(continent.getUndernourished(year));
+          //malnurishedLab.setValue(continent.getUndernourished(year));
+          malnurishedLab.setValue(dataHandler.getUndernourished());
         }
       });
     }
