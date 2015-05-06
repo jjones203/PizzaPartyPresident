@@ -120,9 +120,11 @@ public class LandTile
         "rainfall:%.6fcm<br>" +
         "daily temp range: (%.2f C, %.2f C)<br>" +
         "yearly temp range: (%.2f C, %.2f C)<br>" +
+        "arable: %s<br>"+
+        "forested: %s<br>"+
         "crop: %s</html>",
       center.getLon(), center.getLat(), rainfall,
-      avgNightTemp, avgDayTemp, minAnnualTemp, maxAnnualTemp, currCrop);
+      avgNightTemp, avgDayTemp, minAnnualTemp, maxAnnualTemp, arable, forested, currCrop);
   }
 
   public ByteBuffer toByteBuffer()

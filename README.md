@@ -67,13 +67,13 @@ The other continents plant their toppings using AI methods based on their pizza 
 
 ## OverLays
 ###The overlay tab provides visual references to certain data.
-* Planting: Allows player to view percentage of land used for each topping visually. Green represents open land. Hover over each colored region for an info box with detailed info about its topping.
+* Planting: Allows player to view percentage of land used for each topping visually. Non-arable land is gray; arable forested land is dark green; arable deforested land is dark brown. Hover over a spot on the map for information about that location's status.
 
 * Population: Allows player to view which regions has the highest populations. The darker the region the greater the population. World population increases each year.
 
 * Malnutrition: Allow player to view the malnutrition levels of the continents. The darker the continent the greater the malnutrition.
 
-* Trading: Let’s player see which continents traded, the color of the line represents the topping traded.
+* Trading: Lets player see which continents traded; the color of the line represents the topping traded.
 
 * Toppings – for each topping, allows player to view percentage of that continent dedicated to specified topping. The darker the region, the higher the percentage of land dedicated to the topping
 
@@ -168,26 +168,6 @@ As Pizza Party President, you a responsible for assisting other regions when in 
 * according to your system.
 * mouse scroll wheel also zooms in and out
 
-<<<<<<< HEAD
-### Time
-The game time mechanism can be controlled via the "next button on the control panel 
-* "next" will step the game forward one year
-
-### Inspecting
-* clicking on a continent will select that continent for display and modification
-* holding shift while clicking will add countries to any that are currently selected 
-* holding shift and dragging with the mouse will allow for rectangular selection of countries
-    * known bug: Radio button selection of overlays causes rectangular selection to break  
-    We are comfortable blaming the Swing framework for this 
-
-### Info Panel
-
-use the tabs of the info panel to display information about and control the currently selected countries 
-
-* "demographic" shows country demographic data
-* "land" shows a summary of land usage and provides buttons for modification
-* "crops" shows a more detailed, single-crop oriented view, also with modification controls
-* "overlays" provides an interface for showing different visual data on the map
 
 ### Credits
 text editor for XML editing was build using [RSyntaxTextArea](https://github.com/bobbylight). 
