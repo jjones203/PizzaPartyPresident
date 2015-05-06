@@ -31,7 +31,7 @@ public class World extends AbstractScenario
   private Calendar currentDate;
   private List<TradeOptimizer.TradePair>[] lastTrades;
   // private List<TradingOptimizer.TradePair>[] lastTrades;
-  private boolean DEBUG = true;
+  private boolean DEBUG = false;
 
   private World(Collection<Region> world, Collection<Country> countries, Calendar cal)
   {
@@ -174,9 +174,9 @@ public class World extends AbstractScenario
       hungryPeople += continent.getUndernourished(year)*continent.getPopulation(year);
     }
 
-//    System.out.println("THE UNDERNOURISHED OR HUNGRY IS "+hungryPeople);
+    //    System.out.println("THE UNDERNOURISHED OR HUNGRY IS "+hungryPeople);
     double percentHungry = hungryPeople/(getWorldPopulationMil() * 1000000);
-//    System.out.println("THE UNDERNOURISHED OR HUNGRY PERCENT IS "+percentHungry);
+    //    System.out.println("THE UNDERNOURISHED OR HUNGRY PERCENT IS "+percentHungry);
     return percentHungry;
   }
 
@@ -335,6 +335,8 @@ public class World extends AbstractScenario
   }
 
 
+
+  // AI planting, world crop allocation, and harvesting
   private void plantAndHarvestCrops()
   {
     int year = getCurrentYear();

@@ -47,8 +47,8 @@ public class Blight extends Catastrophe
   // Wipes out a crop entirely and weakens others
   protected void initCatastrophe()
   {  
-    EnumCropType randomCrop = selectRandomCrop();
-    //  System.out.println("The random crop is "+randomCrop);  
+    EnumCropType randomCrop = selectRandomCrop();    
+    //    System.out.println("The random crop is "+randomCrop);  
     weakenCrops();   
     wipeOutCrop(randomCrop);    
   }  
@@ -89,9 +89,9 @@ public class Blight extends Catastrophe
       continent.setCropYield(year, crop, EnumGrowMethod.GMO, gmoYield/gmoYield);
       continent.setCropYield(year, crop, EnumGrowMethod.ORGANIC, orgYield/3*orgYield);
 
-       System.out.println(crop+" has a conventional yield of "+convYield/2*convYield);
-       System.out.println(crop+" has a GMO yield of "+gmoYield/gmoYield);
-       System.out.println(crop+" has a organic yield of "+orgYield/3*orgYield);
+      //       System.out.println(crop+" has a conventional yield of "+convYield/2*convYield);
+      //       System.out.println(crop+" has a GMO yield of "+gmoYield/gmoYield);
+      //       System.out.println(crop+" has a organic yield of "+orgYield/3*orgYield);
     }
   }
 
@@ -104,7 +104,8 @@ public class Blight extends Catastrophe
     EnumCropType[] cropArray = EnumCropType.values();
 
     EnumCropType type = cropArray[cropIndex];
-    //System.out.println("The crop index is "+cropIndex);
+
+    // System.out.println("The crop index is "+cropIndex);
     return type;
   }
 

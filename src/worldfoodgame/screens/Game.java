@@ -166,7 +166,9 @@ public class Game
     frame.add(infoPanel, BorderLayout.SOUTH);
     frame.addKeyListener(mapPane);
     frame.pack();
+    frame.setLocationRelativeTo(null); // centering frame
     frame.setResizable(false);
+    frame.setTitle("Pizza Party President");    
   }
 
 }

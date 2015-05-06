@@ -22,6 +22,10 @@ import worldfoodgame.planningpoints.PlanningPointsLevel;
  * @version 4/26/15
  * Modified by Ken Kressin to add Water Allowance information and methods used
  * by the computer trading optimizer.
+ * 
+ * Modified by Valuable Sheffey to add Ratings information and methods 
+ * 
+ * Modified by Stephen Stromberg to add Planning Point information and methods 
  *
  * This class is designed to build and maintain the continents used in the game,
  * by aggregating the data and methods for all the countries encompassed by the
@@ -90,7 +94,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   private double countriesGmoTotal = 0;
   private double countriesUndernourishedTotal = 0;
 
-  private boolean DEBUG = true;
+  private boolean DEBUG = false;
 
 
   /**
@@ -290,9 +294,9 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
 
     // set undernourished value for START_YEAR
     updateUndernourished(START_YEAR);
-   // setUndernourished(START_YEAR, countriesUndernourishedTotal/numCountries);
+    // setUndernourished(START_YEAR, countriesUndernourishedTotal/numCountries);
     setWaterAllowance(waterAllowance);
-    System.out.println("The water allowance is "+waterAllowance);
+    if(DEBUG)System.out.println("The water allowance is "+waterAllowance);
     calculateGreenRating(START_YEAR);
     calculateApprovalRating(START_YEAR); 
     calculateDiplomacyRating(START_YEAR, world);
@@ -1097,7 +1101,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
       double avail = getNetCropAvailable(year - 1, crop);
       double percentUnmet = (need - avail)/need;
       double areaPlanted = getCropLand(year - 1, crop);
-      System.out.println("crop ="+crop+" need="+need+" avail="+avail+" %unmet="+percentUnmet);
+      if(DEBUG)System.out.println("crop ="+crop+" need="+need+" avail="+avail+" %unmet="+percentUnmet);
 
       // if we didn't plant enough last year, increase by proportion of unmet need (if possible)
       if (percentUnmet > 0)
@@ -1188,7 +1192,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   {
     int points = 0;
     points = (int) (50*(approvalRating + diplomacyRating));
-    points=(int)(100*overAllPlanningPointRating);
+    //points=(int)(100*overAllPlanningPointRating);
     // points = (int) (PlanningPointConstants.MAX_POINTS_PER_YEAR*diplomacyRating);
 
     return points;
@@ -1350,7 +1354,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
         factor=PlanningPointsLevel.getTradeEfficiency(level);
         break;
       default:
-        System.out.println(category.toString()+" not recgnized");
+        System.out.println(category.toString()+" not recognized");
         break;
     }
     return factor;
@@ -1420,20 +1424,24 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   }
 
 
-  /**
-   *@param year   year in question
+  /***************************
+   * Calculates approval rating
+   * @param year   year in question
    **/
   public void calculateApprovalRating(int year)
   {
-    if (getUndernourished(year)>.6)
-    {
-      this.approvalRating = 1 - .75*getUndernourished(year) + .25*greenRating;
-    }
-    else
+    if (getUndernourished(year)>.25)  // True means citizens are too hungry to care about their environmental footprint
     {
       this.approvalRating = 1 - getUndernourished(year);
+    //  if(DEBUG)
+        System.out.println("The approval rating for "+getContName()+" is "+this.approvalRating);
     }
-    //System.out.println(undernourish[year - START_YEAR]+"    "+greenRating);
+    else // Means citizens are comfortable enough to care about their environmental footprint
+    {
+      this.approvalRating = 1 - .75*getUndernourished(year) + .25*greenRating;   
+    //  if(DEBUG)
+        System.out.println("The approval rating for "+getContName()+" is "+this.approvalRating);
+    }
 
     if (this.approvalRating>1)
     {
@@ -1451,17 +1459,17 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   }
 
 
-  /**
-   *
+  /*********************
+   * Calculates diplomacy rating
    * @param year
    * @param world
-   */
+   *******/
   public void calculateDiplomacyRating(int year, World world)
   {
     double worldHunger = world.getWorldHungerPercent();
     double hungerFactor = 0;
 
-    if (worldHunger > getUndernourished(year))
+    if (worldHunger > getUndernourished(year))  // True means world is hungrier than this continent
     {
       hungerFactor = worldHunger -  getUndernourished(year);
     }
@@ -1471,8 +1479,8 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     }
 
     this.diplomacyRating  = 1 - .75*hungerFactor + .25*greenRating;
-
-    //  this.diplomacyRating  = 1 - this.getUndernourished(year);
+    //  if(DEBUG)
+    System.out.println("The diplomacy rating for "+getContName()+" is "+this.diplomacyRating);
 
     if (this.diplomacyRating>1)
     {
@@ -1481,13 +1489,18 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
   }
 
 
+  /****************
+   * Calculates green rating
+   * @param year
+   *****/
   public void calculateGreenRating(int year)
   {
-    this.greenRating  = 1 - (areaDeforested[year - START_YEAR]/landTotal);
+    this.greenRating  = 1 - (areaDeforested[year - START_YEAR]/landTotal); // water not implemented yet
   }
 
 
-  /**
+  /********
+   * Gets green rating
    * @return the greenRating
    */
   public double getGreenRating()
@@ -1495,7 +1508,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     return greenRating;
   }
 
-  // Yearly rating update
+
+  /***************
+   * Yearly ratings update
+   * @param year
+   * @param world
+   ******/
   public void updateRatings(int year, World world)
   {
     calculateGreenRating(year);

@@ -82,7 +82,7 @@ public class TradeAndImportFrame extends JFrame
     }
     else
     {
-      setTitle("Donate Window");
+      setTitle("Foreign Aid Window");
     }
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
     mainPanel.add(playerPanel);

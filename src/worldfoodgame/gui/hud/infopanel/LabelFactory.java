@@ -462,37 +462,28 @@ public class LabelFactory
     return  imported;
   }
 
+  /************************
+   * Returns malnourish rating for continent
+   *****/
   public GraphLabel getMalnurished()
   {
     final GraphLabel malnurishedLab;
     if (continent != null)
     {
-     malnurishedLab = new GraphLabel(
+      malnurishedLab = new GraphLabel("Malnourished", continent.getUndernourished(year), 1, "% 00.0");
 
-          "Malnourished",
-          continent.getUndernourished(year),
-          1,
-          "% 00.0"
-          );
-     
-     updates.add(new Runnable()
-     {
-       @Override
-       public void run()
-       {
-         malnurishedLab.setValue(continent.getUndernourished(year));
-       }
-     });
+      updates.add(new Runnable()
+      {
+        @Override
+        public void run()
+        {
+          malnurishedLab.setValue(continent.getUndernourished(year));
+        }
+      });
     }
     else
     {
-      malnurishedLab = new GraphLabel(
-
-          "Malnourished",
-          0,
-          1,
-          "% 00.0"
-          );
+      malnurishedLab = new GraphLabel("Malnourished", 0, 1, "% 00.0");
     }
 
     return malnurishedLab;
@@ -570,18 +561,16 @@ public class LabelFactory
     return prodLabel;
   }
 
+  
+  /************************
+   * Returns approval bar
+   *****/
   public GraphLabel getApprovalBar()
   {
     final GraphLabel approvalLab;
-    if (continent != null)
-    {
-      double rating = continent.getApprovalRating();
-      approvalLab = new GraphLabel("Your Approval Rating",rating, 1,"% 00.0");
-    }
-    else
-    {
-      approvalLab = new GraphLabel("Your Approval Rating", .5, 1,"% 00.0");
-    }
+
+    double rating = continent.getApprovalRating();
+    approvalLab = new GraphLabel("Your Approval Rating",rating, 1,"% 00.0");
 
     updates.add(new Runnable()
     {
@@ -591,22 +580,20 @@ public class LabelFactory
         approvalLab.setValue(continent.getApprovalRating());
       }
     });
+    
     return approvalLab;
   }
 
-
+  /************************
+   * Returns diplomacy bar
+   *****/
   public GraphLabel getDiplomacyBar()
   {
     final GraphLabel diploLab;
-    if (continent != null)
-    {
-      double rating = continent.getDiplomacyRating();
-      diploLab = new GraphLabel("Your Diplomacy Rating",rating,1, "% 00.0" );
-    }
-    else
-    {
-      diploLab = new GraphLabel("Your Diplomacy Rating", .5, 1,"% 00.0");
-    }
+
+    double rating = continent.getDiplomacyRating();
+    diploLab = new GraphLabel("Your Diplomacy Rating", rating, 1, "% 00.0" );
+
     updates.add(new Runnable()
     {
       @Override
@@ -615,10 +602,15 @@ public class LabelFactory
         diploLab.setValue(continent.getDiplomacyRating());
       }
     });
+
     return diploLab;
   }
 
 
+  /*******************************************
+   * Returns appropriate image that represents
+   * continent's approval rating
+   ***********************************/
   public BufferedImage getApprovalRating()
   {
     if(continent != null)
@@ -630,32 +622,39 @@ public class LabelFactory
     return image;
   }
 
+
+  /*******************************************
+   * Returns appropriate image that represents
+   * continent's diplomacy rating
+   ***********************************/
   public BufferedImage getDiplomacyRating()
   {
     if(continent != null)
     {
-      double rating = continent.getApprovalRating();
+      double rating = continent.getDiplomacyRating();
       String face = determineFace(rating);
       image = loadImage(face);
     }
     return image;
   }
 
+
+  //  Determines appropriate image file based on rating
   private String determineFace(double rating)
   {
     String expression = "okay.png";
 
     if (rating<.21)
     {
-      expression = "distress.png";
+      expression = "distressed.png";
     }
     else if(rating>.2 && rating<.41)
     {
-      expression = "distress.png";
+      expression = "upset.png";
     }
     else if(rating>.4 && rating<.61)
     {
-      expression = "upset.png";
+      expression = "okay.png";
     }
     else if(rating>.6 && rating<.81)
     {
@@ -666,11 +665,12 @@ public class LabelFactory
       expression = "excellent.png";
     }
 
-    System.out.println("The ratings are "+rating);
+    //    System.out.println("The ratings are "+rating);
     return expression;
   }
 
 
+  // Loads rating image
   private BufferedImage loadImage(String face)
   {
     try

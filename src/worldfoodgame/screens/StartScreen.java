@@ -1,11 +1,11 @@
 package worldfoodgame.screens;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,92 +14,98 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.WindowConstants;
 import javax.swing.plaf.ColorUIResource;
 
 
+/***************
+ * Opening screen where player 
+ * chooses continent and games begins
+ * 
+ * @author Valarie
+ ******/
 public class StartScreen extends JFrame
 {
   private Game gameManager;
-  public boolean userNotReady = true;
-  public int response;
+  
+  private JButton start = new JButton();
+  private JButton  quit = new JButton();
 
-  JButton start = new JButton();
-  JButton  quit = new JButton();
+  private BufferedImage backgroundImage;
 
-  BufferedImage backgroundImage;
+  private JPanel messagePanel = new JPanel(); // for holding start message
+  private JPanel imagePanel = new backgroundPanel(); // for holding background image
+  private JPanel menuPanel = new JPanel(); // for holding buttons
+  private JPanel midPanel = new JPanel(); // for holding menu and holding panel
+  private JPanel holdingPanel = new JPanel(); // placeholder panel, takes up space to allow menu panel position
 
-  JPanel directionsPanel = new JPanel();
-  JPanel imagePanel = new backgroundPanel();
-  JPanel menuPanel = new JPanel();
-  JPanel midPanel = new JPanel();
-  JPanel holdingPanel = new JPanel();
-
-  JLabel firstLine = new JLabel();
-  JLabel secondLine = new JLabel();
-  JLabel thirdLine = new JLabel();
-  JLabel fourthLine = new JLabel();
-  JLabel fifthLine = new JLabel();
+  // For adding start message
+  //  JLabel firstLine = new JLabel(); 
+  //  JLabel secondLine = new JLabel();
+  //  JLabel thirdLine = new JLabel();
+  //  JLabel fourthLine = new JLabel();
+  //  JLabel fifthLine = new JLabel();
 
   public StartScreen()
   {    
     init();
   }
-  
+
   private void init()
   {
+    // Set-up option for 'Choose Player' option pane
     UIManager.put("Panel.background", Color.WHITE);
     UIManager.put("OptionPane.background",new ColorUIResource(100,155,61));
-    setStory();
+    setMessage();
 
+    // Sets up panel so background is visible
     imagePanel.setOpaque(true);
     midPanel.setOpaque(false);
-    directionsPanel.setOpaque(false);
+    messagePanel.setOpaque(false);
     menuPanel.setOpaque(false);
     holdingPanel.setOpaque(false);
 
+    // Sets window size
     setMinimumSize(new Dimension(750,500));
     setMaximumSize(new Dimension(750,500));
 
     setLayout(new BorderLayout()); 
-    
+
     imagePanel.add(midPanel, BorderLayout.CENTER);
 
     midPanel.setLayout(new GridLayout(3,1));
 
     midPanel.add(holdingPanel);
-    midPanel.add(directionsPanel);
+    midPanel.add(messagePanel);
     midPanel.add(menuPanel);
 
-
+    // Place-holding panel, allows menu panel to be placed slightly high center
     holdingPanel.setMinimumSize(new Dimension(300,100));
 
-    directionsPanel.add(firstLine);
-    directionsPanel.add(secondLine);
-    directionsPanel.add(thirdLine);
-    directionsPanel.add(fourthLine);
-    directionsPanel.add(fifthLine);
+    // No longer implemented but starting message if needed would be added here
+    //    directionsPanel.add(firstLine);
+    //    directionsPanel.add(secondLine);
+    //    directionsPanel.add(thirdLine);
+    //    directionsPanel.add(fourthLine);
+    //    directionsPanel.add(fifthLine);
 
+    // Set-up start button
     start.setBorder(null);
     start.setContentAreaFilled(false);
     start.setBorderPainted(false);  
     start.setMargin(new Insets(0, 0, 0, 0));
-    
+    start.setIcon(new ImageIcon("resources/imgs/startButton.png"));
+
+    // Set-up quit button
     quit.setBorder(null);
     quit.setContentAreaFilled(false);    
     quit.setBorderPainted(false);  
-    quit.setMargin(new Insets(0, 0, 0, 0));
-    
-    start.setIcon(new ImageIcon("resources/imgs/startButton.png"));
+    quit.setMargin(new Insets(0, 0, 0, 0));  
     quit.setIcon(new ImageIcon("resources/imgs/quitButton.png"));
 
     menuPanel.add(start);
@@ -110,10 +116,13 @@ public class StartScreen extends JFrame
 
     setTitle("Pizza Party President!");  
 
+    setLocationRelativeTo(null); // centering screen
     setResizable(false);
     setVisible(true);
   }
 
+
+  // Panel for background image
   private class backgroundPanel extends JPanel{
     public backgroundPanel(){
       try {
@@ -130,6 +139,7 @@ public class StartScreen extends JFrame
   }
 
 
+  // Adds action listeners to menu buttons, game started here
   private void addActionListeners()
   {
     start.addActionListener(new ActionListener() {
@@ -140,7 +150,7 @@ public class StartScreen extends JFrame
 
         String[] options = new String[] {"North America", "South America", "Europe", "Africa", "Oceania", "Asia", "Middle East"};
 
-        response = JOptionPane.showOptionDialog(null, " Congratulations! You've been elected Pizza Party President for your region.\n"+
+       int response = JOptionPane.showOptionDialog(null, " Congratulations! You've been elected Pizza Party President for your region.\n"+
             " What's your job? Throw a pizza party for every citizen, every day! This is no\n"+
             "easy task, but you’ve promised your citizens that you will be the best \n"+
             "Pizza Party President ever. In fact, not only will you feed your people, but the \n"+
@@ -151,11 +161,11 @@ public class StartScreen extends JFrame
             JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
             new ImageIcon("resources/imgs/balloons.png"), options, options[0]);
 
-        gameManager = new Game(response);        
+        gameManager = new Game(response);       // Begin game  
         gameManager.show();
         gameManager.start();
-        
-        dispose();
+
+        dispose(); // Close start menu
       }
     });      
 
@@ -169,8 +179,9 @@ public class StartScreen extends JFrame
     });      
   }
 
-
-  private void setStory()
+  
+  //Set-up start message
+  private void setMessage()
   {
     //    firstLine.setText("Congratulations! You've been elected Pizza Party President for your region.");
     //    firstLine.setBounds(300, 100, 100, 100);
@@ -183,8 +194,8 @@ public class StartScreen extends JFrame
     //    fifthLine.setText("term (year 2050) while preserving our Earth. Are you up for the challenge?");
     //    fifthLine.setBounds(300, 300, 100, 100);
   }
-  
-  
+
+
   //*******
   // MAIN *
   //*******
