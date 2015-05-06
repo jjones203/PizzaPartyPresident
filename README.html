@@ -304,10 +304,11 @@ sup {
 </style>
 </head>
 <body>
-<h1 id="toc_0">CS 351 World Food Game - second phase</h1>
+<h1 id="toc_0"> CS 351 World Food Game - third phase - "Pizza Party President"</h1>
 
 <p>by <br>
-Jessica Jones, Winston Riley, and David Ringo</p>
+Jessica Jones, Valarie Sheffey, Tim Chavez, Stephen Stromberg, Ken Kressin</p>
+<p> Credit for initial map and game framework to Winston Riley, and David Ringo</p>
 
 <h2 id="toc_1">Building</h2>
 
@@ -315,104 +316,345 @@ Jessica Jones, Winston Riley, and David Ringo</p>
 
 <pre><code class="language-bash">./make.sh &amp;&amp; ./run.sh</code></pre>
 
-<h2 id="toc_2">Controls</h2>
+<h2>
+<a id="user-content-game-goals" class="anchor" href="#game-goals" aria-hidden="true"><span class="octicon octicon-link"></span></a>Game Goals</h2>
 
-<h3 id="toc_3">Navigation</h3>
+<p>Your citizens love to party! As Pizza Party President you must be 
+able to throw a pizza party for your continent every day while keeping 
+the land green. Keep your people happy by feeding them their preferred 
+pizza. Keep your land healthy by reserving water and avoiding increasing
+ the amount of land used for planting. To win, you must finish your term
+ (ends 2050) with a high world green rating and every continent in the 
+world well-feed (0% hunger) with their preferred pizza.</p>
+<h2>
+<a id="user-content-pizza-preferences" class="anchor" href="#pizza-preferences" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pizza Preferences</h2>
+
+<p>Every continent has a particular pizza that it prefers. Click on the 
+continent and view the pizza chart to determine how much of each topping
+ the continent needs. Fully-shaded slices means the need for that 
+topping is satisfied. Partial shading means there’s a deficit. Compare 
+the fully-shaded portion of a slice to the partial shading to determine 
+how severe the deficit. Hover over each slice for an info box for more 
+in depth information.</p>
+
+<h2>
+<a id="user-content-approval-and-diplomacy-ratings" class="anchor" href="#approval-and-diplomacy-ratings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Approval and Diplomacy Ratings</h2>
+
+<p>When the Pizza Party President’s continent is selected, an approval 
+rating and diplomacy rating will display in the demographics tab. 
+Approval rating represents your citizen’s happiness with you. It is 
+calculated based on the continent’s hunger and green rating. Diplomacy 
+rating represents your representation continent’s with other continents.
+ If your continent is well-fed but world hunger is high, your diplomacy 
+rating will drop. Ensure to do beneficial trading and engage in foreign 
+aid to keep your continent in good standing. Approval rating and 
+diplomacy rating determines how much planning points you are granted 
+each year.</p>
+
+<h2>
+<a id="user-content-planting" class="anchor" href="#planting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Planting</h2>
+
+<p>Planting occurs every year. As Pizza Party President, you must 
+determine what percentage of land is to be used to grow each topping. 
+You must also determine the overall percentage of toppings grown using 
+conventional, GMO, and organic methods. GMO results in greater 
+production, but requires research to be enviro-friendly. Organic is 
+enviro-friendly but results in less production. Conventional is 
+in-between.</p>
+
+<p>Use the land tab, to select the percentage of each topping grown. 
+Keep in mind your continent’s pizza preference. Also keep in mind 
+deforestation and water usage.</p>
+
+<h3>
+<a id="user-content-land-tab" class="anchor" href="#land-tab" aria-hidden="true"><span class="octicon octicon-link"></span></a>Land Tab</h3>
+
+<h4>
+<a id="user-content-the-land-tab-displays" class="anchor" href="#the-land-tab-displays" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Land Tab displays:</h4>
 
 <ul>
-<li>arrow keys pan around the globe</li>
-<li>shift + up arrow or down arrow zooms in and out respectively</li>
-<li>control clicking on a point on the map centers the camera at that point.</li>
+<li><p>Total Land: Total land area of the continent</p></li>
+<li><p>Arable Land: Land area of the continent suitable for planting</p></li>
+<li><p>Open Land: Portion of arable Land not being used for planting</p></li>
+<li><p>Water Left: Amount of water your continent’s water allowance still available for planting</p></li>
+</ul>
+
+<p>When planting, avoid deforestation by keeping the open land percentage as high as possible.</p>
+
+<p>When planting, the amount of toppings able to be planted is limited 
+by your water allowance. Each topping requires a certain amount of 
+water. If you run out of water, even if more land is available, you may 
+not plant anymore toppings.</p>
+
+<h3>
+<a id="user-content-crop-tab" class="anchor" href="#crop-tab" aria-hidden="true"><span class="octicon octicon-link"></span></a>Crop Tab</h3>
+
+<h4>
+<a id="user-content-for-each-crop-the-crop-tab-displays" class="anchor" href="#for-each-crop-the-crop-tab-displays" aria-hidden="true"><span class="octicon octicon-link"></span></a>For each crop, the Crop Tab displays:</h4>
+
+<ul>
+<li><p>Prod: tons of this topping produced last year</p></li>
+<li><p>Exported: tons of this topping exported last year</p></li>
+<li><p>Imported: tons of this topping imported last year</p></li>
+<li><p>Need: tons of pepperoni the citizens require each year (subtract 
+need from prod to determine whether year resulted in deficit or surplus,
+ pizza chart provides this info)</p></li>
+<li><p>Land – percentage of arable land dedicated to growing this topping</p></li>
+<li><p>Growth methods – Though listed under each topping tab, these 
+percentages are for all toppings as a whole. They do not vary depending 
+on topping.</p></li>
+</ul>
+
+<p>The other continents plant their toppings using AI methods based on 
+their pizza preferences and how well they met previous year needs.</p>
+
+<h2>
+<a id="user-content-overlays" class="anchor" href="#overlays" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overlays</h2>
+
+<h3>
+<a id="user-content-the-overlay-tab-provides-visual-references-to-certain-data" class="anchor" href="#the-overlay-tab-provides-visual-references-to-certain-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>The overlay tab provides visual references to certain data.</h3>
+
+<ul>
+<li><p>Planting: Allows player to view percentage of land used for each 
+topping visually. Non-arable land is gray; arable forested land is dark 
+green; arable deforested land is dark brown. Hover over a spot on the 
+map for information about that location's status.</p></li>
+<li><p>Population: Allows player to view which regions has the highest 
+populations. The darker the region the greater the population. World 
+population increases each year.</p></li>
+<li><p>Malnutrition: Allow player to view the malnutrition levels of the
+ continents. The darker the continent the greater the malnutrition.</p></li>
+<li><p>Trading: Lets player see which continents traded; the color of the line represents the topping traded.</p></li>
+<li><p>Toppings – for each topping, allows player to view percentage of 
+that continent dedicated to specified topping. The darker the region, 
+the higher the percentage of land dedicated to the topping</p></li>
+<li><p>Units – provides player the ability to switch between US and metric units.</p></li>
+</ul>
+
+<h2>
+<a id="user-content-planning-points" class="anchor" href="#planning-points" aria-hidden="true"><span class="octicon octicon-link"></span></a>Planning Points</h2>
+
+<p>Planning point are points given based on the approval and diplomacy 
+rating of your continent each year. Use these to invest in technology 
+for your region or for other continents.</p>
+
+<h4>
+<a id="user-content-the-areas-for-planning-point-investment-are" class="anchor" href="#the-areas-for-planning-point-investment-are" aria-hidden="true"><span class="octicon octicon-link"></span></a>The areas for planning point investment are:</h4>
+
+<ul>
+<li>GMO Research: The higher the level of research, the more GMOs that continent is allowed to grow</li>
+<li>Water Efficiency: Decreases the amount of water required per crop</li>
+<li>Yield Efficiency: Increases yield per area of land</li>
+<li>Trade Efficiency: Decreases toppings lost during trade, making continent a more attractive candidate for trade</li>
+</ul>
+
+<p>Each continent starts out at a set level for each of these categories.</p>
+
+<p>The Planning Point Allocation window displays each continent’s level 
+of technology and how many point away they are from the next level. Use 
+‘next’ and ‘previous’ at the top of the screen to choose the continent. 
+Planning Points do not carry on to the next year so use them all!</p>
+
+<h2>
+<a id="user-content-catastrophes" class="anchor" href="#catastrophes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Catastrophes</h2>
+
+<p>Every year, there’s a random chance a catastrophe may occur. 
+Catastrophes are events that negatively affect a continent’s yield for 
+that year. The continent and specific event are chosen randomly.</p>
+
+<h2>
+<a id="user-content-trading" class="anchor" href="#trading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Trading</h2>
+
+<p>Trade occurs via the trade window. The continent on the top is your 
+region. Click one of the continents at the bottom of the screen to view 
+its toppings. Each bar represents the tons of the toppings grown that 
+year. If the bar is behind the blue triangle, that continent has a 
+deficit in that topping.</p>
+
+<p>Trading is one-to-one, that is one crop for another. To trade with a 
+continent, go to the toppings under your continent’s name. Press 
+(select) for the topping your continent is going to trade. Then go to 
+the continents on the bottom of the screen. Decide which topping you 
+want and press select. Within the “Propose a Trade” box, use the 
+increase and decrease button to decide the amount of toppings to be 
+traded. When you are satisfied press “Trade these Amounts”. If you wish,
+ continue trading the other toppings. Press “Done Trading” when you are 
+finished. If you want to start over, press “Reset All Trades”.</p>
+
+<p>Note: The other continents will not trade any toppings that are in a 
+deficit. They also will not allow a surplus crop to be traded to the 
+point of deficit. As Pizza Party President, you may allow your 
+continent’s crops to be traded regardless of surplus or deficit status.</p>
+
+<p>IMPORTANT: Any single trade made will be reduced by a factor 
+determined by the continent's Trade Efficiency level. This means that a 
+continent with a Trade Efficiency of level 4 will receive 80% of the 
+crops traded to it (or donated to it).</p>
+
+<p>The other continents trade amongst themselves after your continent finishes trading.</p>
+
+<h2>
+<a id="user-content-foreign-aid-window" class="anchor" href="#foreign-aid-window" aria-hidden="true"><span class="octicon octicon-link"></span></a>Foreign Aid Window</h2>
+
+<p>As Pizza Party President, you a responsible for assisting other 
+regions when in need. After the other continents trade amongst 
+themselves, you will be asked if you want to send donations. The Foreign
+ Aid window works similar to the trade window with the exception that 
+the transfer is one-sided.</p>
+
+<h2>
+<a id="user-content-game-play--a-turn" class="anchor" href="#game-play--a-turn" aria-hidden="true"><span class="octicon octicon-link"></span></a>Game Play – A Turn</h2>
+
+<h3>
+<a id="user-content-game-play-consists-of-a-series-of-turns-each-turn-the-player-should" class="anchor" href="#game-play-consists-of-a-series-of-turns-each-turn-the-player-should" aria-hidden="true"><span class="octicon octicon-link"></span></a>Game play consists of a series of turns. Each turn, the player should:</h3>
+
+<ol>
+<li>Examine each continent’s data</li>
+<li>Adjust percentages of land dedicated to each topping and chose percentages for each growth method</li>
+<li>Press next (other continents will be plant their toppings)</li>
+<li>Trade with other continents (other continents will trade with each other)</li>
+<li>Donate to other continents</li>
+<li>Allocate planning points</li>
+<li>Observe the trade overlay and view each continent’s pizza chart to see the effects of the previous year’s policies</li>
+<li>Start again at 1</li>
+</ol>
+
+<h2>
+<a id="user-content-future-features" class="anchor" href="#future-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Future Features</h2>
+
+<h3>
+<a id="user-content-given-more-time-on-this-project-we-would-like-to-implement" class="anchor" href="#given-more-time-on-this-project-we-would-like-to-implement" aria-hidden="true"><span class="octicon octicon-link"></span></a>Given more time on this project, we would like to implement:</h3>
+
+<ul>
+<li>Global green and continental green rating: Allows user to track the environmental footprint of their decisions</li>
+<li>More Catastrophes: Increased variability for more fun</li>
+<li>Topping Storage and Water Storage: Allows players to plan for droughts or food shortages</li>
+<li>Multiplayer: Allow user to replace AI in making continent decisions</li>
+<li>Climate Change Effects: Currently implemented in this model as a 
+yearly negative effect on yield, but could be done more sophisticatedly 
+(maybe effect incidences of catastrophes)</li>
+<li>Abdication: If your Approval Rating gets too low, you're kicked out of office and the game is over.</li>
+<li>Warfare: If your Diplomacy Rating gets too low, other regions declare war on you.</li>
+<li>Summary Screen: At end of game, show user-friendly statistics in graph format</li>
+</ul>
+
+<h2>
+<a id="user-content-development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h2>
+
+<h3>
+<a id="user-content-this-game-was-developed-following-an-iterative-methodology" class="anchor" href="#this-game-was-developed-following-an-iterative-methodology" aria-hidden="true"><span class="octicon octicon-link"></span></a>This game was developed following an iterative methodology:</h3>
+
+<ul>
+<li>Contacted client for further specifications</li>
+<li>Brainstormed and created game story</li>
+<li>Collaborated with client to ensure story fit specifications</li>
+<li>Determined roles and began programming</li>
+<li>Constant revising of story and modification of roles as better understanding of requirements developed</li>
+<li>Presentation preparation</li>
+<li>Game debug and clean-up</li>
+<li>Submission</li>
+</ul>
+
+<h2>
+<a id="user-content-controls" class="anchor" href="#controls" aria-hidden="true"><span class="octicon octicon-link"></span></a>Controls</h2>
+
+<ul>
+<li>Use mouse to click on continents, panels and panel controls</li>
+<li>In display panels, clicking on plus/minus (+ / -), or (select),</li>
+<li>In trading, donating, or planning point allocation window, click on continent names to display (select) options</li>
+</ul>
+
+<h3>
+<a id="user-content-navigation" class="anchor" href="#navigation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Navigation</h3>
+
+<ul>
+<li>Use the mouse, or trackpad to scroll around the world</li>
+<li>If you have trackpad multi-touch capability, you can scroll using multitouch</li>
+<li>according to your system.</li>
 <li>mouse scroll wheel also zooms in and out</li>
 </ul>
 
-<h3 id="toc_4">Time</h3>
+<h3>
+<a id="user-content-credits" class="anchor" href="#credits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Credits</h3>
 
-<p>The game time mechanism can be controlled via buttons on the control panel <br>
-* <q>next</q> will step the game forward one year<br>
-* <q>run</q> will cause the game to start stepping at roughly one year every thirty seconds<br>
-* <q>pause</q> will pause the game if it is currently running</p>
-
-<h3 id="toc_5">Inspecting</h3>
-
-<ul>
-<li>clicking on a country will select that country for display and modification</li>
-<li>holding shift while clicking will add countries to any that are currently selected </li>
-<li>holding shift and dragging with the mouse will allow for rectangular selection of countries
-
-<ul>
-<li>known bug: Radio button selection of overlays causes rectangluar selection to break<br>
-We are comfortable blaming the Swing framework for this </li>
-</ul></li>
-</ul>
-
-<h3 id="toc_6">Info Panel</h3>
-
-<p>use the tabs of the info panel to display information about and control the currently selected countries </p>
-
-<ul>
-<li><q>demographic</q> shows country demographic data</li>
-<li><q>land</q> shows a summary of land usage and provides buttons for modification</li>
-<li><q>crops</q> shows a more detailed, single-crop oriented view, also with modification controls</li>
-<li><q>overlays</q> provides an interface for showing different visual data on the map</li>
-</ul>
-
-<h2 id="toc_7"></h2>
-
-<h5 id="toc_8">Credits</h5>
-
-<p>text editor for XML editing was build using <a href="https://github.com/bobbylight">RSyntaxTextArea</a>. <br>
-csv parsing is done with the help of the <a href="https://commons.apache.org/proper/commons-csv/">Apache Commons CSV</a> library. <br>
-country border data from <a href="http://www.naturalearthdata.com">Natural Earth</a>. <br>
+<p>text editor for XML editing was build using <a href="https://github.com/bobbylight">RSyntaxTextArea</a>. 
+csv parsing is done with the help of the <a href="https://commons.apache.org/proper/commons-csv/">Apache Commons CSV</a> library. 
+continent border data from <a href="http://www.naturalearthdata.com/">Natural Earth</a>. 
 current and future raw climate data was found at <a href="http://worldclim.org/">WorldClim</a>. </p>
 
-<h5 id="toc_9">initial values for country data underlying our models were found from multiple resources:</h5>
+<h5>
+<a id="user-content-data-underlying-our-models-were-found-from-multiple-resources" class="anchor" href="#data-underlying-our-models-were-found-from-multiple-resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>data underlying our models were found from multiple resources:</h5>
 
 <ul>
-<li><p>population, birth rate, mortality, migration </p>
+<li>initial population 
 
 <ul>
 <li><a href="http://www.prb.org/DataFinder/">Population Reference Bureau</a></li>
-</ul></li>
-<li><p>median age</p>
-
-<ul>
-<li><a href="http://data.un.org/">UN data</a> and <a href="https://www.cia.gov/library/publications/the-world-factbook/">CIA World Factbook</a></li>
-</ul></li>
-<li><p>undernourishment, land dedication, production, imports, and exports</p>
+</ul>
+</li>
+<li>population projections, undernourishment, land dedication, production, imports, and exports
 
 <ul>
 <li><a href="http://faostat3.fao.org/home/">FAOSTAT</a></li>
-</ul></li>
-<li><p>GMO usage</p>
+</ul>
+</li>
+<li>GMO usage
 
 <ul>
 <li><a href="http://www.isaaa.org/resources/publications/briefs/49/executivesummary/default.asp">ISAAA Brief 49-2014</a></li>
-</ul></li>
 </ul>
-
-<h5 id="toc_10">crop preferred ranges were pulled from the following resources:</h5>
+</li>
+<li>yield: changes over time; differences between growing methods
 
 <ul>
-<li><a href="http://www.amazon.com/Fundamentals-Rice-Science-Shouichi-Yoshida/dp/B000NZ7ZS2">Fundamentals of Rice Crop Science</a> by Shouichi Yoshida</li>
-<li>Progress in Upland Rice Research: Proceedings of the 1985 Jakarta Conference. <q>An Overview of Upland Rice in the World</q> by Tran Van Dat.</li>
-<li><a href="http://www.fao.org/docrep/006/y4011e/y4011e06.htm"><q>Wheat growth and physiology</q></a> by E. Acevedo, P. Silva, H. Silva.</li>
-<li><a href="http://www.fao.org/nr/water/cropinfo_wheat.html"><q>Crop Water Information: Wheat</q></a> FAO Land &amp; Water Division</li>
-<li><a href="http://cmsdata.iucn.org/downloads/pk_water_req.pdf"><q>Water requirements of major crops for different agro-climatic zones of Balochistan</q></a> by Muhammad Ashraf and Abdul Majeed</li>
-<li><a href="https://www.extension.purdue.edu/extmedia/nch/nch-40.html"><q>Growing Season Characteristics and Requirements in the Corn Belt</q></a> by Ralph E. Neild and James E. Newman.</li>
-<li><a href="https://www.lsuagcenter.com/NR/rdonlyres/84746337-8BFE-4903-BEB8-420D0D2B7271/82639/InTechSoybean_yield_formation_what_controls_it_and.pdf"><q>Soybean Yield Formation: What Controls It and How It Can Be Improved</q></a>
-by James E. Board and Charanjit S. Kahlon.</li>
-<li><a href="http://www.fao.org/nr/water/cropinfo_soybean.html"><q>Crop Water Information: Soybean</q></a> FAO Land &amp; Water Division </li>
+<li><a href="http://www.theguardian.com/world/2014/mar/19/global-warming-will-cut-crop-harvests-by-2-each-decade-researchers-say">Global warming will cut crop harvests by 2% each decade, researchers say</a></li>
+<li><a href="http://www.scientificamerican.com/article/the-truth-about-genetically-modified-food/">The Truth about Genetically Modified Food</a></li>
+<li><a href="http://blogs.scientificamerican.com/science-sushi/httpblogsscientificamericancomscience-sushi20110718mythbusting-101-organic-farming-conventional-agriculture/">Mythbusting 101: Organic Farming &gt; Conventional Agriculture</a></li>
+</ul>
+</li>
 </ul>
 
-<script type="text/x-mathjax-config">
-if (typeof MathJaxListener !== 'undefined') {
-  MathJax.Hub.Register.StartupHook('End', function () {
-    MathJaxListener.invokeCallbackForKey_('End');
-  });
-}
-</script>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<h5>
+<a id="user-content-crop-preferred-ranges-were-pulled-from-the-following-resources" class="anchor" href="#crop-preferred-ranges-were-pulled-from-the-following-resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>crop preferred ranges were pulled from the following resources:</h5>
+
+<ul>
+<li>
+<a href="http://www.amazon.com/Fundamentals-Rice-Science-Shouichi-Yoshida/dp/B000NZ7ZS2">Fundamentals of Rice Crop Science</a> by Shouichi Yoshida</li>
+<li>Progress in Upland Rice Research: Proceedings of the 1985 Jakarta 
+Conference. "An Overview of Upland Rice in the World" by Tran Van Dat.</li>
+<li>
+<a href="http://www.fao.org/docrep/006/y4011e/y4011e06.htm">"Wheat growth and physiology"</a> by E. Acevedo, P. Silva, H. Silva.</li>
+<li>
+<a href="http://www.fao.org/nr/water/cropinfo_wheat.html">"Crop Water Information: Wheat"</a> FAO Land &amp; Water Division</li>
+<li>
+<a href="http://cmsdata.iucn.org/downloads/pk_water_req.pdf">"Water requirements of major crops for different agro-climatic zones of Balochistan"</a> by Muhammad Ashraf and Abdul Majeed</li>
+<li>
+<a href="https://www.extension.purdue.edu/extmedia/nch/nch-40.html">"Growing Season Characteristics and Requirements in the Corn Belt"</a> by Ralph E. Neild and James E. Newman.</li>
+<li>
+<a href="https://www.lsuagcenter.com/NR/rdonlyres/84746337-8BFE-4903-BEB8-420D0D2B7271/82639/InTechSoybean_yield_formation_what_controls_it_and.pdf">"Soybean Yield Formation: What Controls It and How It Can Be Improved"</a>
+by James E. Board and Charanjit S. Kahlon.</li>
+<li>
+<a href="http://www.fao.org/nr/water/cropinfo_soybean.html">"Crop Water Information: Soybean"</a> FAO Land &amp; Water Division </li>
+</ul>
+
+<h5>
+<a id="user-content-topping-images-courtesy-of" class="anchor" href="#topping-images-courtesy-of" aria-hidden="true"><span class="octicon octicon-link"></span></a>Topping images courtesy of:</h5>
+
+<ul>
+<li>Tomato – <a href="http://cliparts.co/cliparts/pi7/8o9/pi78o9x5T.png">http://cliparts.co/cliparts/pi7/8o9/pi78o9x5T.png</a>
+</li>
+<li>Pineapples – <a href="http://cliparts.co/cliparts/Bcg/KxM/BcgKxMbxi.jpg">http://cliparts.co/cliparts/Bcg/KxM/BcgKxMbxi.jpg</a>
+</li>
+<li>Pepper – <a href="http://cliparts.co/cliparts/8TA/6Rb/8TA6Rbkpc.png">http://cliparts.co/cliparts/8TA/6Rb/8TA6Rbkpc.png</a>
+</li>
+<li>Pepperoni – <a href="http://www.clipartlord.com/wp-content/uploads/2013/05/salami.png">http://www.clipartlord.com/wp-content/uploads/2013/05/salami.png</a>
+</li>
+<li>Mushrooms – <a href="http://www.clker.com/cliparts/h/c/k/x/B/p/mushroom.svg">http://www.clker.com/cliparts/h/c/k/x/B/p/mushroom.svg</a>
+</li>
+</ul>
+</article>
+  </div>
+
 </body>
 
 </html>
