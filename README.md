@@ -65,7 +65,7 @@ The other continents plant their toppings using AI methods based on their pizza 
 
 
 
-## OverLays
+## Overlays
 ###The overlay tab provides visual references to certain data.
 * Planting: Allows player to view percentage of land used for each topping visually. Non-arable land is gray; arable forested land is dark green; arable deforested land is dark brown. Hover over a spot on the map for information about that location's status.
 
