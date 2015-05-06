@@ -61,7 +61,7 @@ public class TradeAndImportFrame extends JFrame
     for (Continent c : continents)
     {
       tempGH = new GroupCountryHandler(c.getCountries());
-      temp = new LabelFactory(tempGH, year);
+      temp = new LabelFactory(tempGH);
       handlers.add(tempGH);
       labelFactories.add(temp);
       if (c == player.getContinent())

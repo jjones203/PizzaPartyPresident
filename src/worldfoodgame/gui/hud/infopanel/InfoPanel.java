@@ -32,7 +32,6 @@ public class InfoPanel extends JPanel implements Observer
   private TierPanel tierPanel;
   private LandPanel landPanel;
   private Player player;
-  private int year;
 
   //private MiniViewBox viewBox;
   private PieChart pieChart;
@@ -46,9 +45,8 @@ public class InfoPanel extends JPanel implements Observer
     this.player = player;
     this.dataHandler = CountryDataHandler.getNullData();
     this.worldPresenter = worldPresenter;
-   this.year = worldPresenter.getYear();
     
-    this.labelFactory = new LabelFactory(dataHandler, year);
+    this.labelFactory = new LabelFactory(dataHandler);
     worldPresenter.addObserver(this);
    
 
@@ -123,7 +121,7 @@ public class InfoPanel extends JPanel implements Observer
     //viewBox.setDrawableRegions(worldPresenter.getActiveRegions());
     pieChart.setRegions(worldPresenter.getActiveRegions());
 
-    labelFactory = new LabelFactory(dataHandler,year);
+    labelFactory = new LabelFactory(dataHandler);
     if(continentArrayList.size() == 1)
     {
       //System.out.println("In InfoPanel.update continent is "+continentArrayList.get(0).toString());

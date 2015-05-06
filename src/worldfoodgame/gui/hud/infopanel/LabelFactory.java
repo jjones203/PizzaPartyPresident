@@ -34,13 +34,11 @@ public class LabelFactory
   private CountryDataHandler dataHandler;
   private Continent continent;
   private BufferedImage image;
-  private int year;
 
-  public LabelFactory(CountryDataHandler dataHandler, int year)
+  public LabelFactory(CountryDataHandler dataHandler)
   {
     this.dataHandler = dataHandler;
     this.updates = new ArrayList<>();
-    this.year = year;
   }
 
   public CountryDataHandler getDataHandler()
@@ -470,6 +468,7 @@ public class LabelFactory
     final GraphLabel malnurishedLab;
     if (continent != null)
     {
+      int year = World.getWorld().getCurrentYear();
       malnurishedLab = new GraphLabel("Malnourished", continent.getUndernourished(year), 1, "% 00.0");
 
       updates.add(new Runnable()

@@ -28,7 +28,7 @@ The game time mechanism can be controlled via the "next button on the control pa
 * "next" will step the game forward one year
 
 ### Inspecting
-* clicking on a country will select that country for display and modification
+* clicking on a continent will select that continent for display and modification
 * holding shift while clicking will add countries to any that are currently selected 
 * holding shift and dragging with the mouse will allow for rectangular selection of countries
     * known bug: Radio button selection of overlays causes rectangluar selection to break  

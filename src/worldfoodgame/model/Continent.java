@@ -406,6 +406,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double undernourished = unmetNeed/ANNUAL_TONS_PER_PERSON;
     double percent = undernourished/(getPopulation(year));
     setUndernourished(year,percent);
+    
+    //Updating country undernourish data
+    for(Country c : countries)
+    {
+      c.setUndernourished(year, percent);
+    }
   }
 
   /**
