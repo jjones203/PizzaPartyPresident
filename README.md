@@ -31,7 +31,7 @@ The game time mechanism can be controlled via the "next button on the control pa
 * clicking on a continent will select that continent for display and modification
 * holding shift while clicking will add countries to any that are currently selected 
 * holding shift and dragging with the mouse will allow for rectangular selection of countries
-    * known bug: Radio button selection of overlays causes rectangluar selection to break  
+    * known bug: Radio button selection of overlays causes rectangular selection to break  
     We are comfortable blaming the Swing framework for this 
 
 ### Info Panel
@@ -51,18 +51,18 @@ csv parsing is done with the help of the [Apache Commons CSV](https://commons.ap
 country border data from [Natural Earth](http://www.naturalearthdata.com). 
 current and future raw climate data was found at [WorldClim](http://worldclim.org/). 
 
-#####initial values for country data underlying our models were found from multiple resources: 
+##### data underlying our models were found from multiple resources: 
 
-* population, birth rate, mortality, migration 
+* initial population 
     * [Population Reference Bureau](http://www.prb.org/DataFinder/)
-
-* median age
-    * [UN data](http://data.un.org/) and [CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/)
-* undernourishment, land dedication, production, imports, and exports
+* population projections, undernourishment, land dedication, production, imports, and exports
     * [FAOSTAT]( http://faostat3.fao.org/home/)
 * GMO usage
     * [ISAAA Brief 49-2014](http://www.isaaa.org/resources/publications/briefs/49/executivesummary/default.asp)
-
+* yield: changes over time; differences between growing methods
+    * [Global warming will cut crop harvests by 2% each decade, researchers say](http://www.theguardian.com/world/2014/mar/19/global-warming-will-cut-crop-harvests-by-2-each-decade-researchers-say)
+    * [The Truth about Genetically Modified Food](http://www.scientificamerican.com/article/the-truth-about-genetically-modified-food/)
+    * [Mythbusting 101: Organic Farming > Conventional Agriculture](http://blogs.scientificamerican.com/science-sushi/httpblogsscientificamericancomscience-sushi20110718mythbusting-101-organic-farming-conventional-agriculture/)
 
 ##### crop preferred ranges were pulled from the following resources:
 
