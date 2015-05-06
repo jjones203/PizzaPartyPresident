@@ -108,6 +108,8 @@ Trading is one-to-one, that is one crop for another. To trade with a continent, 
 
 Note: The other continents will not trade any toppings that are in a deficit. They also will not allow a surplus crop to be traded to the point of deficit. As Pizza Party President, you may allow your continent’s crops to be traded regardless of surplus or deficit status.
 
+IMPORTANT: Any single trade made will be reduced by a factor determined by the continent's Trade Efficiency level. This means that a continent with a Trade Efficiency of level 4 will receive 80% of the crops traded to it (or donated to it).
+
 The other continents trade amongst themselves after your continent finishes trading.
 
 
