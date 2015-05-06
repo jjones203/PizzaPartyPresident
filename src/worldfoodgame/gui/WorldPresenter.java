@@ -504,7 +504,7 @@ public class WorldPresenter extends Observable implements WindowListener
   {
     world.stepWorld();
     
-    System.out.println("Starting Player's Turn \n");
+    if(DEBUG) System.out.println("Starting Player's Turn \n");
     commencePlayerTrading();
 
   }

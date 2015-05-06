@@ -62,7 +62,27 @@ public class CropPanel extends JPanel
     BufferedImage icon = null;
     try
     {
-      icon = ImageIO.read(new File("resources/imgs/wheatLogo.png"));
+      if(type.toString().equals("'shrooms"))
+      {
+        icon = ImageIO.read(new File("resources/imgs/mushroom.png"));
+      }
+      else if(type.toString().equals("tomatoes"))
+      {
+        icon = ImageIO.read(new File("resources/imgs/tomato.png"));
+      }
+      else if(type.toString().equals("pineapples"))
+      {
+        icon = ImageIO.read(new File("resources/imgs/pineapple.png"));
+      }
+      else if(type.toString().equals("peppers"))
+      {
+        icon = ImageIO.read(new File("resources/imgs/pepper.png"));
+      }
+      else
+      {
+        icon = ImageIO.read(new File("resources/imgs/pepperoni.png"));
+      }
+      
       img = new JLabel(new ImageIcon(icon));
     }
     catch (IOException e)
