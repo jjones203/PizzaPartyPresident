@@ -32,7 +32,7 @@ public class TradeOptimizer
   private final int year;
   private              Map<String, Continent> continentMap = new LinkedHashMap<>();
   private              Collection<Continent> cont = new ArrayList<>();
-  private static final boolean                DEBUG        = true;
+  private static final boolean                DEBUG        = false;
   private final        List<TradePair>[]      allTrades    = new ArrayList[]
                                                                {
                                                                  new ArrayList<>(), new ArrayList<>(),

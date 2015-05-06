@@ -406,7 +406,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     double undernourished = unmetNeed/ANNUAL_TONS_PER_PERSON;
     double percent = undernourished/(getPopulation(year));
     setUndernourished(year,percent);
-    
+
     //Updating country undernourish data
     for(Country c : countries)
     {
@@ -1098,7 +1098,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
    */
   public void aiPlanting(int year)
   {
-    System.out.println("ai planting for "+this.toString());
+    if(DEBUG) System.out.println("ai planting for "+this.toString());
     double landUnused = getArableLandUnused(year);
     for (EnumCropType crop:EnumCropType.values())
     {
@@ -1439,14 +1439,12 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     if (getUndernourished(year)>.25)  // True means citizens are too hungry to care about their environmental footprint
     {
       this.approvalRating = 1 - getUndernourished(year);
-    //  if(DEBUG)
-        System.out.println("The approval rating for "+getContName()+" is "+this.approvalRating);
+      if (DEBUG) System.out.println("The approval rating for "+getContName()+" is "+this.approvalRating);
     }
     else // Means citizens are comfortable enough to care about their environmental footprint
     {
       this.approvalRating = 1 - .75*getUndernourished(year) + .25*greenRating;   
-    //  if(DEBUG)
-        System.out.println("The approval rating for "+getContName()+" is "+this.approvalRating);
+      if (DEBUG) System.out.println("The approval rating for "+getContName()+" is "+this.approvalRating);
     }
 
     if (this.approvalRating>1)
@@ -1485,8 +1483,7 @@ public class Continent implements CropClimateData, PlanningPointsInteractableReg
     }
 
     this.diplomacyRating  = 1 - .75*hungerFactor + .25*greenRating;
-    //  if(DEBUG)
-    System.out.println("The diplomacy rating for "+getContName()+" is "+this.diplomacyRating);
+    if (DEBUG) System.out.println("The diplomacy rating for "+getContName()+" is "+this.diplomacyRating);
 
     if (this.diplomacyRating>1)
     {

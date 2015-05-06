@@ -611,28 +611,28 @@ public class WorldPresenter extends Observable implements WindowListener
   {
     if (e.getSource() == trade)
     {
-      System.out.println("Finishing user trading, about to let AI trade.");
+      if(DEBUG) System.out.println("Finishing user trading, about to let AI trade.");
 
-      System.out.println("AI starts trading");
+      if(DEBUG) System.out.println("AI starts trading");
       TradingRouteOverlay.updateTrades(world.getTrades());
-      System.out.println("AI has theoreticall traded..");
+      if(DEBUG) System.out.println("AI has theoreticall traded..");
 
-      System.out.println("User can donate food now");
+      if(DEBUG) System.out.println("User can donate food now");
       commenceDonating();
     }
     else if (e.getSource() == donate)
     {
-      System.out.println("User finished donating food");
+      if(DEBUG) System.out.println("User finished donating food");
 
-      System.out.println("Planning points allocation begins");
+      if(DEBUG) System.out.println("Planning points allocation begins");
       commencePlanningPointAllocation();
     }
     else if (e.getSource() == PPframe)
     {
-      System.out.println("Planning points allocation ends");
+      if(DEBUG) System.out.println("Planning points allocation ends");
 
-      System.out.println("Finished the player's turn ");
-      System.out.println("PS these print statments are in WorldPresenter stepWorld()\n");
+      if(DEBUG) System.out.println("Finished the player's turn ");
+      if(DEBUG) System.out.println("PS these print statments are in WorldPresenter stepWorld()\n");
 
       setChanged();
       notifyObservers();

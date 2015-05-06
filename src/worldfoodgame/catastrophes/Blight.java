@@ -61,7 +61,7 @@ public class Blight extends Catastrophe
     blightStory =  "First it was little things like spots and fading leaves. The farmers of "+continent.getName()+"\n"+ 
         "watched and waited nervously. Then entire toppings just frooze mid-growth. \n"+
         "When the webs if cheese formed, the farmers knew it was over. "+continent.getName()+"'s\n"+ 
-        "disease consel was notified. A blight had occurred. Many toppings will not survive the \n"+
+        "disease counsel was notified. A blight had occurred. Many toppings will not survive the \n"+
         "illness. As families scrap pots for food, citizens turn to the Pizza Party Presidents \n"+
         "of world to see how they will act. What will you do now that the world is watching?";
   }
