@@ -15,12 +15,16 @@ class PopulationView implements RegionView
   public void draw(Graphics g, GUIRegion gRegion)
   {
 
-    int population = gRegion
-      .getCountry()
+    long population = gRegion
+      //.getCountry()
+      .getGUIContinent()
+      .getContinent()
       .getPopulation(World.getWorld().getCurrentYear());
 
-    float popRatio = (float) (population / 500_000_000.0);
-
+    //float popRatio = (float) (population / 500_000_000.0);
+    float popRatio = (float) (population / 8_000_000_000.0);
+    
+    
     Color fillColor;
 
     if (popRatio > 1)

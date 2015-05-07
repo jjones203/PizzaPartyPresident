@@ -14,7 +14,8 @@ class Malnutrition implements RegionView
 {
   private static float HUE = .0555f;
   private static float LUMINOSITY = .7f;
-  private static float SCALE = 2.5f;
+  //private static float SCALE = 2.5f;
+  private static float SCALE = 1.0f;
   private static float OFFSET = 0.01f;
 
   @Override
@@ -22,7 +23,9 @@ class Malnutrition implements RegionView
   {
 
     double malNur = gRegion
-      .getCountry()
+      //.getCountry()
+      .getGUIContinent()
+      .getContinent()
       .getUndernourished(World.getWorld().getCurrentYear());
 
     float nurDx = (float) malNur * SCALE;

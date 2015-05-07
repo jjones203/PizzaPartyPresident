@@ -29,8 +29,11 @@ public class CropView implements RegionView
   {
     int year = World.getWorld().getCurrentYear();
 
-    float ratio = (float) gRegion.getCountry().getCropLand(year, crop)
-                / (float) gRegion.getCountry().getArableLand(year);
+    /*float ratio = (float) gRegion.getCountry().getCropLand(year, crop)
+                / (float) gRegion.getCountry().getArableLand(year);*/
+    
+    float ratio = (float) gRegion.getGUIContinent().getContinent().getCropLand(year, crop)
+        / (float) gRegion.getGUIContinent().getContinent().getArableLand(year);
 
     ratio *= 100;
 
